@@ -78,7 +78,7 @@ const tldrParas = d['agent-tldr'].split(/\n{2,}/).map((p) => p.trim()).filter(Bo
       {twinSlug ? (
         <p set:html={agent
           ? `Prefer the narrative? Read the <a href="${twinPath}">${twinLabel}</a>. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`
-          : `Reading as an agent, or want the claims-indexed version? See the <a href="${twinPath}">${twinLabel}</a> — a claims-indexed restructuring with definitions and falsification conditions, alongside the site's shared <code>llms.txt</code> / <code>agents.txt</code> / JSON-LD infrastructure. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`} />
+          : `Reading as an agent, or want the claims-indexed version? See the <a href="${twinPath}">${twinLabel}</a> — a claims-indexed restructuring with definitions and falsification conditions, alongside the site's shared <a href="/llms.txt"><code>llms.txt</code></a> / <a href="/agents.txt"><code>agents.txt</code></a> / JSON-LD infrastructure. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`} />
       ) : (
         <p set:html={`The Story is human-only by design. The machine-structured argument is the <a href="/thesis-for-agents">Thesis — For Agents</a>; site-wide agent infrastructure lives at <a href="/llms.txt">/llms.txt</a> and <a href="/agents.txt">/agents.txt</a>. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`} />
       )}
