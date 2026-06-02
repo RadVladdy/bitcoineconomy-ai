@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { SITE } from '../lib/site';
+import { siteJsonLd } from '../lib/jsonld';
+
+// Homepage = The Story leads (narrative entry point); the canonical docs sit in
+// a slim rail, grouped "The case" / "The build" to mirror the nav. The Story
+// content is rendered inline, clamped, and expands in place via "Continue
+// reading" — but /the-story remains the canonical page (agents, SEO, .md route).
+const railGroups = [
+  {
+    label: 'The case',
+    docs: [
+      { slug: 'thesis', label: 'Thesis', blurb: 'The four constraints, why the legacy stack fails them, and why Bitcoin + Lightning is the only deployed match.' },
+      { slug: 'independence-doctrine', label: 'Independence Doctrine', blurb: 'Why emergent parallel economies must diverge from incumbents — four historical analogues.' },
+    ],
+  },
+  {
+    label: 'The build',
+    docs: [
+      { slug: 'border-zone', label: 'Border Zone', blurb: 'The interface between the Bitcoin substrate and the incumbent stack: bridges, treasury, compliance.' },
+      { slug: 'stack', label: 'The Stack', blurb: 'The pure-substrate architecture: L1, Lightning, ecash, integration primitives, security.' },
+      { slug: 'field-notes', label: 'Field Notes', blurb: 'The moving record — what shipped, what was measured, what changed, newest first.' },
+      { slug: 'tools', label: 'Tools', blurb: 'Implementation cards for the Bitcoin-substrate agent stack — what each tool is, when to use it, how to start, with verified repos and handles.' },
+    ],
+  },
+];
+const description = "The autonomous AI economy's monetary substrate is Bitcoin — settled on L1, transacted on Lightning and successor L2/L3 layers. The only deployed system whose properties match the constraints autonomous agents operate under.";
+
+const all = await getCollection('surfaces');
+const story = all.find((e) => e.data.slug === 'the-story');
+const { Content: StoryContent } = story ? await render(story) : { Content: null };
+---
+<Base title={SITE.name} description={description} jsonLd={siteJsonLd()} wide={true}>
+  <section class="landing-wrap">
+    <div class="landing">
+      <div class="landing-main">
+        <h1>The autonomous AI economy runs on Bitcoin.</h1>
+        <p class="lede">Autonomous agents need money that is permissionless, censorship-resistant, settles below a cent, and clears at machine tempo. The legacy payment stack can't provide that without ceasing to be itself — so the agent economy forms around a different substrate.</p>
+        <div class="story-lead">
+          <p class="story-kicker">The Story</p>
+          {StoryContent && (
+            <div class="story-body" data-story-body>
+              <StoryContent />
+            </div>
+          )}
+          <button class="cta story-toggle" data-story-toggle aria-expanded="false">Continue reading ↓</button>
+        </div>
+      </div>
+      <aside class="read-next">
+        {railGroups.map((g) => (
+          <div class="rail-group">
+            <p class="rail-group-label">{g.label}</p>
+            {g.docs.map((d) => (
+              <a class="rn-item" href={`/${d.slug}`}><strong>{d.label}</strong><span>{d.blurb}</span></a>
+            ))}
+          </div>
+        ))}
+      </aside>
+    </div>
+    <p class="agent-mini">Built for agents, too — clean <code>.md</code> routes, For-Agents twins, and JSON-LD on every page. <a href="/llms.txt">llms.txt</a> · <a href="/agents.txt">agents.txt</a></p>
+  </section>
+  <script>
+    const btn = document.querySelector('[data-story-toggle]');
+    const body = document.querySelector('[data-story-body]');
+    if (btn && body) {
+      btn.addEventListener('click', () => {
+        body.classList.add('expanded');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.remove();
+      });
+    }
+  </script>
+</Base>

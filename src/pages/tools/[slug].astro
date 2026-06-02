@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { TOOL_LAYERS } from '../../lib/site';
+import { toolJsonLd } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const all = await getCollection('tools');
+  return all.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const layer = TOOL_LAYERS.find((l) => l.key === d.layer);
+const fmt = (date?: Date) => (date ? date.toISOString().slice(0, 10) : null);
+
+// External links row — only render what's verified/present.
+const links = [
+  d.repo && { label: 'Repo', href: d.repo },
+  d.docs && { label: 'Docs', href: d.docs },
+  d.site && { label: 'Site', href: d.site },
+  d.x && { label: `X ${d.x}`, href: `https://x.com/${d.x.replace(/^@/, '')}` },
+  d.nostr && { label: 'Nostr', href: `nostr:${d.nostr}` },
+].filter(Boolean) as { label: string; href: string }[];
+
+const jsonLd = toolJsonLd({
+  slug: d.slug,
+  name: d.name,
+  tagline: d.tagline,
+  'tool-type': d['tool-type'],
+  maintainer: d.maintainer,
+  repo: d.repo,
+  docs: d.docs,
+  site: d.site,
+  'latest-release': d['latest-release'],
+  license: d.license,
+});
+
+const mdPath = `/tools/${d.slug}.md`;
+---
+<Base title={d.name} description={d.tagline} current="tools" canonical={`/tools/${d.slug}`} jsonLd={jsonLd}>
+  <article class="prose tool-page">
+    <p class="tool-eyebrow"><a href="/tools">Tools</a> · {layer?.label ?? d.layer}</p>
+    <h1>{d.name}</h1>
+    <p class="subtitle">{d.tagline}</p>
+
+    <div class="page-meta">
+      <span class="badge">{d['tool-type']}</span>
+      {d.maintainer && <span class="badge">{d.maintainer}</span>}
+      {d['latest-release'] && <span class="badge">{d['latest-release']}{d['release-date'] ? ` · ${d['release-date']}` : ''}</span>}
+      {d.license && <span class="badge">{d.license}</span>}
+      {fmt(d['last-verified']) && <span class="badge">Links verified {fmt(d['last-verified'])}</span>}
+    </div>
+
+    {links.length > 0 && (
+      <div class="tool-links">
+        {links.map((l) => (
+          <a class="tool-link" href={l.href} rel="noopener" target={l.href.startsWith('nostr:') ? undefined : '_blank'}>{l.label}</a>
+        ))}
+      </div>
+    )}
+
+    <Content />
+
+    <aside class="twin-callout">
+      <p set:html={`Where this sits in the architecture: <a href="/stack">The Stack</a>. Raw markdown for this card: <a href="${mdPath}">${mdPath}</a>. Release and version fields move fast — confirm against the repo before you depend on them.`} />
+    </aside>
+  </article>
+</Base>

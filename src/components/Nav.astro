@@ -1,0 +1,27 @@
+---
+import { NAV_GROUPS } from '../lib/site';
+const { current = '' } = Astro.props as { current?: string };
+---
+<header class="site-header">
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-top">
+      <a href="/" class="brand">
+        <img class="brand-mark" src="/images/logo-mark.png" alt="" width="28" height="28" />
+        <span class="brand-word">bitcoineconomy<span class="dot">.</span>ai</span>
+      </a>
+      <a class="nav-fa" href="/agents.txt">For Agents ↗</a>
+    </div>
+    <div class="nav-groups">
+      {NAV_GROUPS.map((group) => (
+        <div class="nav-group">
+          <span class="nav-group-label">{group.label}</span>
+          <div class="nav-links">
+            {group.items.map((s) => (
+              <a href={`/${s.slug}`} aria-current={current === s.slug ? 'page' : undefined}>{s.label}</a>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </nav>
+</header>

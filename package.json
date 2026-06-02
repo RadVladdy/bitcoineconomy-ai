@@ -1,0 +1,21 @@
+{
+  "name": "bitcoineconomy-ai",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "port": "node scripts/port-surfaces.mjs",
+    "predev": "npm run port",
+    "dev": "astro dev",
+    "prebuild": "npm run port",
+    "build": "rm -rf node_modules/.astro .astro && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^6.4.2"
+  }
+}
