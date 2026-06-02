@@ -13,41 +13,59 @@ function fig(svg: string, caption: string, extra = ''): string {
   return `<figure class="diagram">${svg}<figcaption>${caption}</figcaption>${extra}</figure>`;
 }
 
-/* 1 — Six-layer Stack */
+/* 1 — Three-layer Stack + cross-cutting constructs */
 export function stackDiagram(): string {
+  // Three stacked layers, L3 on top down to L1 at the base (the foundation).
   const layers = [
-    { l: 'L1', t: 'Bitcoin settlement &amp; hard reserve', s: 'counterparty-free · slow · absolute', mono: false },
-    { l: 'L2', t: 'Lightning', s: 'machine-tempo payments · sub-cent fees', mono: false },
-    { l: 'L3', t: 'Cashu / Fedimint', s: 'bearer ecash · scoped mint trust', mono: false },
-    { l: '', t: 'Integration primitives', s: 'L402 · NWC · BOLT12 · LNURL · MCP', mono: true },
-    { l: '', t: 'Wallet architectures', s: 'deployed agent patterns', mono: false },
-    { l: '', t: 'Security model', s: 'remote signer · scoped macaroons · treasury policy', mono: false },
+    { l: 'L3', t: 'Cashu / Fedimint', s: 'bearer ecash · scoped mint trust' },
+    { l: 'L2', t: 'Lightning', s: 'machine-tempo payments · sub-cent fees' },
+    { l: 'L1', t: 'Bitcoin settlement &amp; hard reserve', s: 'counterparty-free · slow · absolute' },
   ];
-  const rowH = 64, gap = 12, top = 56, W = 720;
-  const x = 96, w = W - x - 110;
-  const H = top + layers.length * (rowH + gap) + 12;
+  // Cross-cutting constructs — not layers; they run across all three.
+  const cross = [
+    { t: 'Integration primitives', s: 'L402 · NWC · MCP', mono: true },
+    { t: 'Wallet architectures', s: 'deployed agent patterns', mono: false },
+    { t: 'Security model', s: 'remote signer · macaroons', mono: false },
+  ];
+  const W = 720, rowH = 64, gap = 12, top = 58;
+  const x = 96, w = W - x - 96;
+  const axisX = W - 52;
   let rows = '';
   layers.forEach((row, i) => {
     const y = top + i * (rowH + gap);
-    const tx = x + (row.l ? 64 : 22);
     rows += `<rect x="${x}" y="${y}" width="${w}" height="${rowH}" rx="8" fill="#17181a" stroke="#2a2c2f"/>`;
     rows += `<rect x="${x}" y="${y}" width="5" height="${rowH}" rx="2" fill="${C.orange}"/>`;
-    if (row.l) rows += `<text x="${x + 20}" y="${y + rowH/2 + 6}" fill="${C.orange}" font-size="18" font-weight="700" font-family="ui-monospace, monospace">${row.l}</text>`;
-    rows += `<text x="${tx}" y="${y + rowH/2 - 4}" fill="${C.off}" font-size="15" font-weight="600">${row.t}</text>`;
-    rows += `<text x="${tx}" y="${y + rowH/2 + 16}" fill="#9aa0a8" font-size="12"${row.mono ? ' font-family="ui-monospace, monospace"' : ''}>${row.s}</text>`;
+    rows += `<text x="${x + 20}" y="${y + rowH/2 + 6}" fill="${C.orange}" font-size="18" font-weight="700" font-family="ui-monospace, monospace">${row.l}</text>`;
+    rows += `<text x="${x + 64}" y="${y + rowH/2 - 4}" fill="${C.off}" font-size="15" font-weight="600">${row.t}</text>`;
+    rows += `<text x="${x + 64}" y="${y + rowH/2 + 16}" fill="#9aa0a8" font-size="12">${row.s}</text>`;
   });
+  const layersBottom = top + layers.length * (rowH + gap) - gap;
+  const spineMid = (top - 6 + layersBottom + 6) / 2;
+  const bandLabelY = layersBottom + 36;
+  const chipY = bandLabelY + 12, chipH = 58, cgap = 12;
+  const chipW = (w - 2 * cgap) / 3;
+  let chips = '';
+  cross.forEach((c, i) => {
+    const cx = x + i * (chipW + cgap);
+    chips += `<rect x="${cx}" y="${chipY}" width="${chipW}" height="${chipH}" rx="8" fill="#141517" stroke="${C.slate}" stroke-dasharray="4 3"/>`;
+    chips += `<text x="${cx + chipW/2}" y="${chipY + chipH/2 - 4}" text-anchor="middle" fill="${C.off}" font-size="12.5" font-weight="600">${c.t}</text>`;
+    chips += `<text x="${cx + chipW/2}" y="${chipY + chipH/2 + 14}" text-anchor="middle" fill="#9aa0a8" font-size="10"${c.mono ? ' font-family="ui-monospace, monospace"' : ''}>${c.s}</text>`;
+  });
+  const H = chipY + chipH + 16;
   const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="d-stack" preserveAspectRatio="xMidYMid meet">
-<title id="d-stack">Six-layer Bitcoin-substrate stack: L1 Bitcoin settlement, L2 Lightning, L3 Cashu/Fedimint ecash, integration primitives, wallet architectures, and a cross-cutting security model. A spine down the left labelled "settles in Bitcoin" runs through every layer; reserve weight is at the base, operational use toward the top.</title>
+<title id="d-stack">The Bitcoin-substrate stack: three layers — L3 Cashu/Fedimint ecash on top, L2 Lightning in the middle, L1 Bitcoin settlement and hard reserve at the base — plus three cross-cutting constructs that run across all three layers rather than stacking on them: integration primitives, wallet architectures, and a security model. A spine down the left labelled "settles in Bitcoin" runs through the three layers; the right axis runs from operational use at the top to hard reserve at the base.</title>
 <rect width="${W}" height="${H}" fill="${C.bg}" rx="10"/>
-<text x="${W/2}" y="32" text-anchor="middle" fill="${C.off}" font-size="17" font-weight="600">The Stack — six layers</text>
-<line x1="${x-22}" y1="${top-6}" x2="${x-22}" y2="${H-14}" stroke="${C.orange}" stroke-width="3"/>
-<text x="${x-30}" y="${(top+H)/2}" fill="${C.orange}" font-size="11" letter-spacing="1" transform="rotate(-90 ${x-30} ${(top+H)/2})" text-anchor="middle">settles in Bitcoin</text>
+<text x="${W/2}" y="32" text-anchor="middle" fill="${C.off}" font-size="17" font-weight="600">The Stack</text>
+<line x1="${x-22}" y1="${top-6}" x2="${x-22}" y2="${layersBottom+6}" stroke="${C.orange}" stroke-width="3"/>
+<text x="${x-30}" y="${spineMid}" fill="${C.orange}" font-size="11" letter-spacing="1" transform="rotate(-90 ${x-30} ${spineMid})" text-anchor="middle">settles in Bitcoin</text>
 ${rows}
-<text x="${W-80}" y="${top+8}" fill="${C.slate}" font-size="11" text-anchor="middle">operational ↑</text>
-<line x1="${W-80}" y1="${top+18}" x2="${W-80}" y2="${H-30}" stroke="${C.slate}" stroke-width="1.5" stroke-dasharray="3 3"/>
-<text x="${W-80}" y="${H-16}" fill="${C.slate}" font-size="11" text-anchor="middle">reserve ↓</text>
+<text x="${axisX}" y="${top+6}" fill="${C.slate}" font-size="10.5" text-anchor="middle">operational ↑</text>
+<line x1="${axisX}" y1="${top+16}" x2="${axisX}" y2="${layersBottom-18}" stroke="${C.slate}" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="${axisX}" y="${layersBottom-2}" fill="${C.slate}" font-size="10.5" text-anchor="middle">reserve ↓</text>
+<text x="${x}" y="${bandLabelY}" fill="#9aa0a8" font-size="11" font-style="italic">Cross-cutting — runs across all three layers, not stacked on them</text>
+${chips}
 </svg>`;
-  return fig(svg, 'The six-layer stack: Bitcoin L1 settles, Lightning transacts, Cashu/Fedimint carry bearer ecash, and the integration primitives, wallet architectures, and security model run above. Every layer settles in Bitcoin (left spine). Reserve weight is at the base; operational use is toward the top.');
+  return fig(svg, 'The Stack: three layers — Bitcoin L1 settlement and hard reserve at the base, the Lightning Network for machine-tempo payments above it, and Cashu/Fedimint bearer ecash on top — with three cross-cutting constructs (integration primitives, wallet architectures, security model) that run across all three rather than stacking on them. Every layer settles in Bitcoin (left spine); the right axis runs from operational use at the top to hard reserve at the base.');
 }
 
 /* 2 — Two-tier model */
@@ -197,10 +215,10 @@ export function bridgeTaxonomy(): string {
 
 /* 9 — 2026 deployment timeline */
 export function deploymentTimeline(): string {
-  const W = 820, H = 320, x0 = 80, x1 = W - 40;
+  const W = 820, H = 348, x0 = 80, x1 = W - 40;
   const span = x1 - x0;
   const at = (f: number) => x0 + span * f;
-  const orangeLane = 130, slateLane = 216;
+  const orangeLane = 158, slateLane = 244;
   const events = [
     { lane: 'orange', f: 0.10, date: 'Feb 11', label: 'Lightning Labs', sub: 'lightning-agent-tools', mono: true },
     { lane: 'orange', f: 0.46, date: 'Mar 21', label: 'USDT on Lightning', sub: 'Taproot Assets', mono: false },
@@ -225,16 +243,18 @@ export function deploymentTimeline(): string {
     }
   });
   const bpiX = at(0.28);
+  const midGap = (orangeLane + slateLane) / 2;
   const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="d-tl" preserveAspectRatio="xMidYMid meet">
 <title id="d-tl">2026 deployment timeline with two lanes. Bitcoin-substrate lane (orange): Feb 11 Lightning Labs lightning-agent-tools; Mar 21 USDT live on Lightning via Taproot Assets; approximately April Lightspark Grid agent delegation (hybrid). Competing-substrate lane (slate): May 7 AWS AgentCore Payments using x402 and USDC. Shared mid-point marker: March, the BPI study. Two production stacks about 90 days apart, architecturally opposite.</title>
 <rect width="${W}" height="${H}" fill="${C.bg}" rx="10"/>
 <text x="${W/2}" y="26" text-anchor="middle" fill="${C.off}" font-size="17" font-weight="600">2026 deployment timeline</text>
-<text x="${x0}" y="50" fill="${C.orange}" font-size="11" font-weight="600">&#9644; Bitcoin substrate</text>
-<text x="${x0+185}" y="50" fill="${C.slate}" font-size="11" font-weight="600">&#9644; Competing substrate</text>
+<text x="${W/2-14}" y="52" text-anchor="end" fill="${C.orange}" font-size="11" font-weight="600">&#9644; Bitcoin substrate</text>
+<text x="${W/2+14}" y="52" text-anchor="start" fill="${C.slate}" font-size="11" font-weight="600">&#9644; Competing substrate</text>
 <line x1="${x0}" y1="${orangeLane}" x2="${x1}" y2="${orangeLane}" stroke="${C.orange}" stroke-width="2.5"/>
 <line x1="${x0}" y1="${slateLane}" x2="${x1}" y2="${slateLane}" stroke="${C.slate}" stroke-width="2.5"/>
-<line x1="${bpiX}" y1="74" x2="${bpiX}" y2="${slateLane+6}" stroke="#9aa0a8" stroke-width="1" stroke-dasharray="3 4"/>
-<text x="${bpiX}" y="66" text-anchor="middle" fill="#9aa0a8" font-size="11">Mar — BPI study</text>
+<line x1="${bpiX}" y1="${orangeLane-28}" x2="${bpiX}" y2="${slateLane+8}" stroke="#9aa0a8" stroke-width="1" stroke-dasharray="3 4"/>
+<rect x="${bpiX-52}" y="${midGap-11}" width="104" height="16" fill="${C.bg}"/>
+<text x="${bpiX}" y="${midGap+1}" text-anchor="middle" fill="#9aa0a8" font-size="11">Mar — BPI study</text>
 ${g}
 <text x="${W/2}" y="${H-12}" text-anchor="middle" fill="#9aa0a8" font-size="12" font-style="italic">Two production stacks, ~90 days apart, architecturally opposite.</text>
 </svg>`;

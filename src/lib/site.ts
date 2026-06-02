@@ -17,8 +17,8 @@ export const SITE = {
 export const HUMAN_NAV = [
   { slug: 'thesis', label: 'Thesis' },
   { slug: 'independence-doctrine', label: 'Independence Doctrine' },
-  { slug: 'border-zone', label: 'Border Zone' },
   { slug: 'stack', label: 'The Stack' },
+  { slug: 'border-zone', label: 'Border Zone' },
   { slug: 'field-notes', label: 'Field Notes' },
 ];
 
@@ -37,10 +37,10 @@ export const NAV_GROUPS = [
   {
     label: 'The build',
     items: [
-      { slug: 'border-zone', label: 'Border Zone' },
       { slug: 'stack', label: 'The Stack' },
-      { slug: 'field-notes', label: 'Field Notes' },
+      { slug: 'border-zone', label: 'Border Zone' },
       { slug: 'tools', label: 'Tools' },
+      { slug: 'field-notes', label: 'Field Notes' },
     ],
   },
 ];

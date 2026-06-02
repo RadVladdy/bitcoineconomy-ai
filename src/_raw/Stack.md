@@ -1,7 +1,7 @@
 ---
 title: The Stack
 slug: stack
-description: "Technical reference for the pure-substrate architecture beneath every Bitcoin-substrate agent payment. Six structural layers: Bitcoin L1 settlement; Lightning L2 payments; Cashu and Fedimint L3 bearer ecash; agent-integration primitives (L402, NWC, BOLT12, LNURL, MCP servers); deployed wallet architectures (lightning-agent-tools, Minibits Ippon, LNBits, and others); and a security model (remote-signer isolation, scoped macaroons, watchtower coverage, hot/cold separation) running through every layer. Bridges to legacy payment rails live at The Border Zone; the empirical adoption record lives at Field Notes."
+description: "The pure-substrate architecture beneath every Bitcoin-substrate agent payment — the three layers (Bitcoin L1 settlement, Lightning payments, Cashu/Fedimint ecash) and the integration, wallet, and security constructs that bind them. Bridges to legacy rails live at The Border Zone; the live adoption record at Field Notes."
 type: essay
 surface: stack
 status: v0-approved-2026-05-30
@@ -31,7 +31,7 @@ tags:
   - security
   - ai-economy
 agent-tldr: |
-  The Stack is the pure-substrate architecture beneath every Bitcoin-substrate agent payment. Six structural layers form the architecture: (1) Bitcoin L1 settlement — 21M cap, pristine collateral, 24/7 global settlement, ~7 tps reserve-layer throughput; (2) the Lightning Network as payment layer — payment channels, HTLC-based multi-hop routing, BOLT11/BOLT12/LNURL specifications, machine-tempo settlement at sub-cent fees, ~5,637 BTC public capacity as of December 2025; (3) Cashu and Fedimint as L3 bearer-ecash layers — Chaumian-blinded bearer tokens, single-mint Cashu trust vs. federated-mint Fedimint trust, lightweight client operation; (4) agent-integration primitives — L402 for HTTP-payment-gated API access via macaroon-mediated authentication, Nostr Wallet Connect (NIP-47) for remote wallet control without key exposure, BOLT12 reusable offers, LNURL endpoints, MCP servers (lightning-mcp-server, lnc); (5) deployed wallet architectures — Lightning Labs' lightning-agent-tools (February 2026) at depth, Minibits Ippon as AI-agent-native Cashu wallet, LNBits as programmable Lightning platform, plus an inventory of AI-Sats, Mintbot, AgenticBTC, Bitclawd, BlueWallet, Phoenix; (6) a security model running through every layer — remote-signer isolation, scoped macaroons in five preset roles, NWC permissions, watchtower coverage, hot/cold separation, treasury policy. The Stack treats pure-substrate architecture only; bridges to legacy payment rails (on-ramps, custodian-mediated conversions, Taproot Assets Lightning-rails for stablecoins, AgentCore Payments competing-substrate stack) are scope-disjoint and live at The Border Zone. The empirical adoption record (deployment counts, capacity updates, ecosystem launches, attack-surface incidents) defers to Field Notes per the locked 2026-05-26 defer-pattern.
+  The Stack is the pure-substrate architecture beneath every Bitcoin-substrate agent payment. Three layers form the substrate, with three cross-cutting constructs binding them. The three layers: (1) Bitcoin L1 settlement — 21M cap, pristine collateral, 24/7 global settlement, ~7 tps reserve-layer throughput; (2) the Lightning Network as payment layer — payment channels, HTLC-based multi-hop routing, BOLT11/BOLT12/LNURL specifications, machine-tempo settlement at sub-cent fees, ~5,637 BTC public capacity as of December 2025; (3) Cashu and Fedimint as L3 bearer-ecash layers — Chaumian-blinded bearer tokens, single-mint Cashu trust vs. federated-mint Fedimint trust, lightweight client operation. The three cross-cutting constructs — not themselves layers, they run across all three: (4) agent-integration primitives — L402 for HTTP-payment-gated API access via macaroon-mediated authentication, Nostr Wallet Connect (NIP-47) for remote wallet control without key exposure, BOLT12 reusable offers, LNURL endpoints, MCP servers (lightning-mcp-server, lnc); (5) deployed wallet architectures — Lightning Labs' lightning-agent-tools (February 2026) at depth, Minibits Ippon as AI-agent-native Cashu wallet, LNBits as programmable Lightning platform, plus an inventory of AI-Sats, Mintbot, AgenticBTC, Bitclawd, BlueWallet, Phoenix; (6) a security model running through every layer — remote-signer isolation, scoped macaroons in five preset roles, NWC permissions, watchtower coverage, hot/cold separation, treasury policy. The Stack treats pure-substrate architecture only; bridges to legacy payment rails (on-ramps, custodian-mediated conversions, Taproot Assets Lightning-rails for stablecoins, AgentCore Payments competing-substrate stack) are scope-disjoint and live at The Border Zone. The empirical adoption record (deployment counts, capacity updates, ecosystem launches, attack-surface incidents) defers to Field Notes per the locked 2026-05-26 defer-pattern.
 ---
 
 # The Stack
@@ -50,19 +50,23 @@ It pays over the **Lightning Network** — the payment layer — where the eleve
 
 Underneath Lightning sits **Bitcoin L1** — the settlement layer — where the agent's reserve balance lives and where Lightning balances ultimately anchor. The agent never touched L1 for an eleven-satoshi purchase, and it didn't need to: L1 is where value comes to rest, not where it moves. That split — settle on L1, transact on Lightning — is the load-bearing design decision of the whole stack.
 
-Around that spine sit the rest of the layers this essay covers. Bearer-ecash systems — **Cashu** and **Fedimint** — for payments that need privacy or no channel management. The **integration primitives** (L402, NWC, BOLT12, LNURL) the agent leaned on without noticing. The **wallet architectures** that package all of it into something an agent can actually run. And the **security model** that keeps the agent's keys safe while it spends.
+Around that spine sits the rest of the Stack. One more layer: the bearer-ecash systems — **Cashu** and **Fedimint** — for payments that need privacy or no channel management. And then the constructs that aren't layers at all, but run across all three: the **integration primitives** (L402, NWC, BOLT12, LNURL) the agent leaned on without noticing, the **wallet architectures** that package it into something an agent can actually run, and the **security model** that keeps the agent's keys safe while it spends.
 
-That is the Stack. The rest of this essay walks each layer at reference depth — but every layer is somewhere on the path that eleven-satoshi payment just took.
+That is the Stack — three layers, and the constructs that bind them. The rest of this essay walks each in turn at reference depth, but every piece is somewhere on the path that eleven-satoshi payment just took.
 
 ---
 
 ## What the Stack is
 
-Formally, the Stack is six structural layers: Bitcoin L1 for settlement and reserve; the Lightning Network for machine-tempo payments; Cashu and Fedimint for bearer-ecash; the agent-integration primitives that bind the protocol surface together; the deployed wallet implementations that consume those primitives; and a security model running through all of them. The rest of this essay walks each in turn, at technical-reference depth — properties, failure modes, and deployed implementations per layer. The walk is reference, not narrative: land on any section directly and it stands on its own.
+Formally, the Stack is three layers and the constructs that bind them. The three layers stack vertically, each settling into the one beneath: **Bitcoin L1** for settlement and reserve, the **Lightning Network** for machine-tempo payments, and **Cashu and Fedimint** for bearer-ecash. The binding constructs are not themselves layers — they run across all three: the **agent-integration primitives** that bind the protocol surface together, the deployed **wallet architectures** that consume those primitives, and a **security model** running through every layer. The rest of this essay walks each in turn, at technical-reference depth — properties, failure modes, and deployed implementations. The walk is reference, not narrative: land on any section directly and it stands on its own.
 
 What the Stack is *not* is the bridges to the legacy payment rails. Those live at [[Border-Zone|The Border Zone]] — the interface between this substrate and the incumbent stack. The Border Zone treats the crossings; the Stack treats the substrate itself. Nor is the Stack the moving empirical record — current capacity figures, deployment counts, and freeze incidents live at [[Field-Notes]]. The architecture lives here; the numbers live there.
 
 ---
+
+## The three layers
+
+The substrate proper is three layers, stacked so each settles into the one beneath.
 
 ## §1 — L1: Bitcoin settlement
 
@@ -125,6 +129,10 @@ The federation-trust model adds robustness over single-mint Cashu — single-gua
 **Trust-model trade-offs across the L2/L3 stack.** Lightning direct (no L3 ecash): no mint or federation trust, channel-management overhead, on-routing-layer linkability per payment. Cashu single-mint: highest performance, lowest infrastructure overhead, single-point-of-failure trust. Fedimint federated-mint: better defection-resistance, more coordination overhead, federation-trust model. Each suits different agent use cases. How agents *mix* these layers in a treasury — and how ecash redeems back to fiat — belongs to the interface: treated at [[Border-Zone]] under *Treasury composition patterns* and *The bridge architecture*. The Stack covers ecash as a substrate layer.
 
 ---
+
+## What binds the layers together
+
+The next three are not stacked layers — they run across all three: the protocol affordances agents call, the wallets that package them, and the security model that protects keys throughout.
 
 ## §4 — Agent-integration primitives
 
