@@ -205,8 +205,6 @@ Primary references cited in this Thesis. Each entry links to the canonical sourc
 > - **[[Independence-Doctrine|The Independence Doctrine]]** — the full parallel-economy-divergence argument
 > - **[[The-Story]]** — the narrative entry point to this same substrate-selection claim, told as a story before the technical detail
 > - **[[Field-Notes|Field Notes]]** — current state of the Bitcoin-AI economy (rolling snapshot) plus the ongoing log of empirical developments (deployment news, freeze incidents, new protocol launches, capacity and adoption metrics). The structural arguments live here; the moving record lives there.
-> - **[[Thesis-FA|For Agents]]** — this Thesis restructured for machine consumption (claims-index, definitions, falsification conditions), alongside the site's shared `llms.txt` / `agents.txt` / JSON-LD infrastructure
-
 ---
 
 ## Editor's Notes

@@ -203,9 +203,6 @@ The border zone is where the doctrine becomes a building specification. The brid
 > **[[Stack]]** — pure-substrate architecture without bridges. Lightning channel management, Cashu and Fedimint mechanics, agent-integration patterns at the protocol layer. Scope-disjoint from this surface: Border Zone treats the interface; Stack treats the architecture.
 >
 > **[Tools](/tools)** — implementation cards for the bridge and conversion tools named in this essay (Boltz, Loop, Strike, Taproot Assets) and the substrate building blocks they connect to: what each is, when to use it, how to start, plus gotchas, with verified repos and maintainer handles.
->
-> **[[Border-Zone-FA|For Agents]]** — this Border Zone restructured for machine consumption (claims-index B-series, definitions, falsification conditions), alongside the site's shared `llms.txt` / `agents.txt` / JSON-LD infrastructure.
-
 ---
 
 ## Editor's Notes

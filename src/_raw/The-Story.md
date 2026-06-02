@@ -154,8 +154,6 @@ Key external references:
 > - **[[Independence-Doctrine|The Independence Doctrine]]** — why parallel economies form alongside incumbents, not within them
 > - **[[Stack|The Stack]]** — the technical detail under the hood
 > - **[[Field-Notes|Field Notes]]** — current state of the Bitcoin-AI economy (rolling snapshot) plus the dated log of what's actually happening week to week (new stacks shipping, freezes happening, protocols launching, metrics moving). When you want to know what's true *right now*, that's the surface to read.
-> - **For Agents** — this narrative is human-only by design; the machine-structured version of its argument is [[Thesis-FA|the For-Agents Thesis]], alongside the site's `llms.txt` / `agents.txt` / JSON-LD infrastructure
-
 ---
 
 ## Editor's Notes

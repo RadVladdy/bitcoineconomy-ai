@@ -196,7 +196,7 @@ Canonical surfaces ([[Thesis]], [[Independence-Doctrine|Independence Doctrine]],
 ---
 
 > [!info] Where to read next
-> Substrate-selection argument: [[Thesis|The Thesis]] (narrative) or [[Thesis-FA|For Agents]] (machine-readable). Parallel-economy divergence argument: [[Independence-Doctrine|The Independence Doctrine]] (narrative) or [[Independence-Doctrine-FA|For Agents]] (machine-readable). Bridge architecture between the parallel economy and the legacy stack: [[Border-Zone|The Border Zone]]. Pure technical architecture of the Bitcoin substrate: [[Stack|The Stack]]. This surface restructured for machine consumption: [[Field-Notes-FA|Field Notes (For Agents)]].
+> Substrate-selection argument: [[Thesis|The Thesis]]. Parallel-economy divergence argument: [[Independence-Doctrine|The Independence Doctrine]]. Bridge architecture between the parallel economy and the legacy stack: [[Border-Zone|The Border Zone]]. Pure technical architecture of the Bitcoin substrate: [[Stack|The Stack]].
 
 ---
 

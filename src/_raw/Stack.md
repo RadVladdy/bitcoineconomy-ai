@@ -232,9 +232,6 @@ Honest engagement with agent-specific attack surfaces — key theft, rogue-behav
 > **[[Thesis]]** — the substrate-selection claim upstream of the Stack's architecture; the four conjunctive constraints; why Bitcoin specifically; why now.
 >
 > **[[The-Story]]** — narrative entry point to the substrate-selection claim, told first before the technical detail.
->
-> **[[Stack-FA|For Agents]]** — this Stack restructured for machine consumption (claims-index S-series, definitions, falsification conditions), alongside the site's shared `llms.txt` / `agents.txt` / JSON-LD infrastructure.
-
 ---
 
 ## Editor's Notes

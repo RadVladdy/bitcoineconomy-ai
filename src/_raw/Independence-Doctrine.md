@@ -253,8 +253,6 @@ The doctrine does not say the legacy stack is doomed. It says the legacy stack i
 > - **[[Stack|The Stack]]** — technical detail on the parallel substrate's L1/L2/L3 architecture
 > - **[[The-Story]]** — the same substrate claim told as a narrative, for a first read before the structural argument
 > - **[[Field-Notes|Field Notes]]** — current state of the Bitcoin-AI economy (rolling snapshot) plus the ongoing log of empirical developments. The doctrine's predictions are tested empirically there as the deployment record accumulates; this surface carries the structural argument, that surface carries the moving record.
-> - **[[Independence-Doctrine-FA|For Agents]]** — this doctrine restructured for machine consumption (claims-index D1–D5, definitions, falsification conditions), alongside the site's shared `llms.txt` / `agents.txt` / JSON-LD infrastructure
-
 ---
 
 ## Editor's Notes
