@@ -44,7 +44,7 @@ const INSERTS = {
     { afterHeading: "What's already deployed", html: '<div data-diagram="bpi"></div>' },
   ],
   'The-Story.md': [
-    { afterHeading: "Where the walls aren't", html: '<div data-diagram="two-tier"></div>' },
+    { afterText: 'starts looking like deployed agent infrastructure', html: '<div data-diagram="two-tier"></div>' },
   ],
   'Independence-Doctrine.md': [
     { afterHeading: 'The contemporary instance', image: 'independence-doctrine-two-roads.png', alt: 'Two parallel roads running into the distance across a dark plane — one paved in warm Bitcoin-orange (the parallel, sovereign economy), the other in cool slate-grey (the incumbent payment stack). They never merge; they are connected only by a few thin, narrow bridges at intervals, and keep visibly different architectures.', caption: 'Two roads: the sovereign Bitcoin economy (orange) and the incumbent stack (slate) run in parallel, connected only by narrow bridges. The architectures stay distinct.' },
@@ -155,7 +155,9 @@ function insertVisuals(body, file) {
     const block = ins.image
       ? `\n<figure class="surface-fig" data-image="${ins.image}" data-alt="${escAttr(ins.alt)}"${ins.caption ? ` data-caption="${escAttr(ins.caption)}"` : ''}></figure>\n`
       : `\n${ins.html}\n`;
-    out = insertAfterHeading(out, ins.afterHeading, block);
+    out = ins.afterText
+      ? insertAfterParagraph(out, ins.afterText, block)
+      : insertAfterHeading(out, ins.afterHeading, block);
   }
   return out;
 }
@@ -204,6 +206,26 @@ function insertAfterHeading(text, needle, block) {
   while (j < lines.length && lines[j].trim() === '') j++; // skip blanks right after heading
   // advance through the first paragraph block to the next blank line
   while (j < lines.length && lines[j].trim() !== '') j++;
+  lines.splice(j, 0, block);
+  return lines.join('\n');
+}
+
+// Insert `block` immediately after the paragraph that contains `needle`
+// (case-insensitive). Used when the right spot is mid-section, with no heading
+// to anchor to — lands after that paragraph's trailing blank line.
+function insertAfterParagraph(text, needle, block) {
+  const lines = text.split('\n');
+  const low = needle.toLowerCase();
+  let hit = -1;
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].toLowerCase().includes(low)) { hit = i; break; }
+  }
+  if (hit === -1) {
+    console.warn(`  ! paragraph not found for insert: "${needle}" in current file`);
+    return text;
+  }
+  let j = hit;
+  while (j < lines.length && lines[j].trim() !== '') j++; // to end of this paragraph
   lines.splice(j, 0, block);
   return lines.join('\n');
 }
