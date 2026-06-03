@@ -194,7 +194,7 @@ The border zone is where the doctrine becomes a building specification. The brid
 ---
 
 > [!info] Where to read next
-> **[[Field-Notes]]** — current state of the Bitcoin-AI economy (§A rolling snapshot of deployed stacks, empirical record, active developments, live risks) plus the running log (§B reverse-chronological development entries) of border-zone empirical updates: new bridges, freeze incidents, regulatory shifts, capacity changes. Structural arguments live in this surface; empirical tracking lives in Field Notes.
+> **[[Field-Notes]]** — current state of the Bitcoin-AI economy (Part A rolling snapshot of deployed stacks, empirical record, active developments, live risks) plus the running log (Part B reverse-chronological development entries) of border-zone empirical updates: new bridges, freeze incidents, regulatory shifts, capacity changes. Structural arguments live in this surface; empirical tracking lives in Field Notes.
 >
 > **[[Independence-Doctrine]]** — the structural argument for why parallel economies must diverge from incumbents; four historical analogues anchoring the pattern; the doctrine's predictions, of which the Border Zone's deployment evidence is one.
 >

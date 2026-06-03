@@ -68,7 +68,7 @@ What the Stack is *not* is the bridges to the legacy payment rails. Those live a
 
 The substrate proper is three layers, stacked so each settles into the one beneath.
 
-## §1 — L1: Bitcoin settlement
+## 1 — L1: Bitcoin settlement
 
 The settlement layer. Bitcoin L1 is where value ultimately settles and where reserve balances live.
 
@@ -84,7 +84,7 @@ The settlement layer. Bitcoin L1 is where value ultimately settles and where res
 
 ---
 
-## §2 — L2: Lightning
+## 2 — L2: Lightning
 
 The payment layer. Lightning is where agent commerce actually happens at machine tempo.
 
@@ -100,7 +100,7 @@ The payment layer. Lightning is where agent commerce actually happens at machine
 
 **Routing.** Lightning payments traverse multi-hop routes selected by the sending node from its view of the public network topology. Routing fees are paid to intermediate node operators per hop. Multi-Path Payments (MPP) split a payment across multiple routes for higher reliability and larger payment sizes. Trampoline routing offloads route-construction to a trampoline node for memory-constrained clients (mobile wallets, embedded agents).
 
-**Network capacity context.** Lightning public channel capacity reached an all-time high of roughly 5,637 BTC (~$490M) in December 2025, driven by institutional adoption from major exchanges. That figure is a point-in-time snapshot — the current number lives at [[Field-Notes]] under *§A.2 — Empirical record* — but the architectural point holds: mid-2026 Lightning operates at a scale relevant to enterprise and agent-economy use cases.
+**Network capacity context.** Lightning public channel capacity reached an all-time high of roughly 5,637 BTC (~$490M) in December 2025, driven by institutional adoption from major exchanges. That figure is a point-in-time snapshot — the current number lives at [[Field-Notes]] under *Part A.2 — Empirical record* — but the architectural point holds: mid-2026 Lightning operates at a scale relevant to enterprise and agent-economy use cases.
 
 **Watchtowers.** Third-party services that monitor a channel's state on behalf of an offline party. If the counterparty broadcasts a stale channel state attempting to claim more than their entitled balance, the watchtower broadcasts a justice transaction that claims the entire channel for the honest party. Watchtower coverage is the standard insurance against unilateral cheating; agent wallets operating against significant balances should run watchtower coverage either self-hosted or through a third-party provider.
 
@@ -110,7 +110,7 @@ The payment layer. Lightning is where agent commerce actually happens at machine
 
 ---
 
-## §3 — L3: bearer ecash and federated custody
+## 3 — L3: bearer ecash and federated custody
 
 Above Lightning sit the bearer-ecash layers. These exist because some agent commerce needs properties Lightning alone does not provide: lightweight client operation (no channel management at the agent layer); bearer-token privacy (no on-chain or routing-layer linkability per payment); offline-capable transfer between mints.
 
@@ -122,7 +122,7 @@ The single-mint trust model is Cashu's main structural constraint: users trust t
 
 The federation-trust model adds robustness over single-mint Cashu — single-guardian compromise does not break the federation — but adds coordination overhead and depends on the federation's social and operational health. Federation defection (multiple guardians colluding) is the remaining structural failure mode.
 
-**Newer L2/L3 scaling layers.** **Ark** — covenant-based shared-UTXO scaling proposal; trust-minimized; allows multiple users to share a single UTXO via covenant-enforced exit conditions; earlier-stage as of mid-2026. **[Spark](/tools/spark)** — a shared-UTXO, Lightning-compatible L2 built by Lightspark; on mainnet (beta) since May 2025 with multiple operators (Lightspark, Flashnet) and a Q2 2026 roadmap. **[Xverse Agent Wallet](/tools/xverse-agent-wallet)** uses Spark for agent-facing Lightning settlement (see §5). The empirical adoption record defers to [[Field-Notes]] § Active developments.
+**Newer L2/L3 scaling layers.** **Ark** — covenant-based shared-UTXO scaling proposal; trust-minimized; allows multiple users to share a single UTXO via covenant-enforced exit conditions; earlier-stage as of mid-2026. **[Spark](/tools/spark)** — a shared-UTXO, Lightning-compatible L2 built by Lightspark; on mainnet (beta) since May 2025 with multiple operators (Lightspark, Flashnet) and a Q2 2026 roadmap. **[Xverse Agent Wallet](/tools/xverse-agent-wallet)** uses Spark for agent-facing Lightning settlement (see section 5). The empirical adoption record defers to [[Field-Notes]] — Active developments.
 
 **eCash mechanics walk-through.** Blind signatures: the user generates a token serial number; blinds it cryptographically; submits the blinded serial to the mint for signing; the mint signs the blinded serial without learning the underlying serial; the user unblinds the signed token; the unblinded signature is verifiable against the mint's public key without revealing which blinded version was originally signed. Redemption: the user presents the unblinded token at the mint; the mint verifies the signature and adds the serial to its spent-list; the mint releases Lightning balance to the user's chosen destination. Bearer property: an unspent token in transit is equivalent to the value it represents; transferring the token transfers the value; no on-chain or Lightning-routing-layer footprint is created per transfer.
 
@@ -134,7 +134,7 @@ The federation-trust model adds robustness over single-mint Cashu — single-gua
 
 The next three are not stacked layers — they run across all three: the protocol affordances agents call, the wallets that package them, and the security model that protects keys throughout.
 
-## §4 — Agent-integration primitives
+## 4 — Agent-integration primitives
 
 The agent-integration primitives are the protocol-level affordances that let autonomous software interact with the Stack. They are what distinguishes "Bitcoin / Lightning / Cashu deployed for human users" from "Bitcoin / Lightning / Cashu deployed for autonomous agents."
 
@@ -158,7 +158,7 @@ The structural pattern across these primitives is consistent. Agents do not need
 
 ---
 
-## §5 — Wallet architectures for agents
+## 5 — Wallet architectures for agents
 
 Three wallet architectures get depth here because they are the operationally consequential 2026 deployments. Additional projects are inventoried with one-line scope.
 
@@ -180,7 +180,7 @@ The toolkit is open-source; deployed against any LND-compatible backend. lightni
 
 **Other deployed projects** (one-line scope):
 
-- **Xverse Agent Wallet** (Secret Key Labs) — self-custodial agent wallet; pays Lightning invoices over a "Machine Payments Protocol" (HTTP 402 → autonomous invoice payment, no human in the loop); built on the Spark L2 (§3); open-source `xverse-core`.
+- **Xverse Agent Wallet** (Secret Key Labs) — self-custodial agent wallet; pays Lightning invoices over a "Machine Payments Protocol" (HTTP 402 → autonomous invoice payment, no human in the loop); built on the Spark L2 (section 3); open-source `xverse-core`.
 - **[Routstr](/tools/routstr)** — a Bitcoin-powered AI-inference marketplace: a payment-gated reverse proxy in front of OpenAI-compatible LLM APIs, paid per request in Cashu ecash (the token *is* the API key), settling over Lightning, with Nostr-based provider discovery. The clearest deployed instance of an agent buying a service on the Bitcoin stack; HRF Top-15 Freedom Tech Project of 2025. *(Cashu-track: standardizes on Cashu, not Fedimint; bearer-token payment rather than L402/NWC.)*
 - **[PayPerQ (PPQ.AI)](/tools/ppq-ai)** — pay-per-query access to frontier AI models over Lightning / L402; no account required. Another live "agent pays for its own inference" instance.
 - **AI-Sats** — AI-native Lightning wallets; autonomous Bitcoin payments; MCP integrations; self-hosted agent infrastructure.
@@ -200,7 +200,7 @@ Strike-style regulated-custodian wallet architectures (regulated-entity custody 
 
 ---
 
-## §6 — Security model
+## 6 — Security model
 
 The security model runs through every layer of the Stack. Five architectural patterns are operationally significant.
 
@@ -210,13 +210,13 @@ The security model runs through every layer of the Stack. Five architectural pat
 
 **NWC permissions.** The Nostr Wallet Connect permission model parallels macaroons for Nostr-mediated wallet control. NWC connections carry capability lists (which operations the connection authorizes) and budget controls (spending limits per period). The wallet operator can revoke a connection without touching keys. NWC's structural property: the agent holds a revocable, scoped, key-free wallet handle.
 
-**Watchtower coverage.** As described in §2: third-party services that monitor channel state on behalf of an offline party and broadcast justice transactions if the counterparty cheats. Watchtower coverage is the standard insurance against unilateral force-closure attempts; agents operating channels against significant balances should run watchtower coverage either self-hosted or through a third-party provider. Multi-watchtower redundancy is the natural defense against watchtower compromise or downtime.
+**Watchtower coverage.** As described in section 2: third-party services that monitor channel state on behalf of an offline party and broadcast justice transactions if the counterparty cheats. Watchtower coverage is the standard insurance against unilateral force-closure attempts; agents operating channels against significant balances should run watchtower coverage either self-hosted or through a third-party provider. Multi-watchtower redundancy is the natural defense against watchtower compromise or downtime.
 
 **Hot/cold separation.** Operational balances live on Lightning (or in ecash) where they support agent transactions at machine tempo; reserve balances live in self-custody on Bitcoin L1 in cold storage. Compromise of the operational layer limits loss to the operational balance; reserve balances on cold storage are not exposed to operational-layer compromise. Sweeping operational balance back to L1 reserves is a routine treasury operation; the canonical mechanism is Loop Out for Lightning → L1 transfers. Ecash-bearer reserves on Cashu or Fedimint provide additional operational continuity if the Lightning operational layer is disrupted.
 
 **Treasury policy.** Architectural support is one layer; treasury policy is the agent-application-level discipline that uses the support. Spending limits per transaction class; per-counterparty caps; alerting on anomalous activity; audit logging for every protocol-level operation; periodic credential rotation; pre-defined incident-response patterns. The architectural primitives (remote signer, macaroons, watchtowers, hot/cold) enable treasury policy; treasury policy is what an operator implements on top of the primitives.
 
-Honest engagement with agent-specific attack surfaces — key theft, rogue-behavior risk, treasury attacks, Sybil attacks, social-engineering against agent operators — gets fuller operational treatment at [[Field-Notes]] under *§A.4 — Live risk / attack-surface state*. The Stack covers the security-architecture patterns; Field Notes covers the live state.
+Honest engagement with agent-specific attack surfaces — key theft, rogue-behavior risk, treasury attacks, Sybil attacks, social-engineering against agent operators — gets fuller operational treatment at [[Field-Notes]] under *Part A.4 — Live risk / attack-surface state*. The Stack covers the security-architecture patterns; Field Notes covers the live state.
 
 ---
 
@@ -225,7 +225,7 @@ Honest engagement with agent-specific attack surfaces — key theft, rogue-behav
 >
 > **[[Border-Zone]]** — the operational interface between this substrate and the legacy payment stack. Bridges, treasury composition patterns, conversion mechanics, the compliance-at-the-gateway pattern, competing-substrate stacks (AgentCore Payments). Scope-disjoint from this surface: Border Zone treats the interface; Stack treats the architecture.
 >
-> **[[Field-Notes]]** — current state of the Bitcoin-AI economy (§A rolling snapshot of deployed stacks, empirical record, active developments, live risk / attack-surface state) and the reverse-chronological log (§B) of substrate-relevant developments: new protocol releases, ecosystem launches, capacity updates, attack-surface incidents. The structural architecture lives in this surface; the moving record lives at Field Notes.
+> **[[Field-Notes]]** — current state of the Bitcoin-AI economy (Part A rolling snapshot of deployed stacks, empirical record, active developments, live risk / attack-surface state) and the reverse-chronological log (Part B) of substrate-relevant developments: new protocol releases, ecosystem launches, capacity updates, attack-surface incidents. The structural architecture lives in this surface; the moving record lives at Field Notes.
 >
 > **[[Independence-Doctrine]]** — the structural argument for why this substrate exists in parallel rather than within incumbent payment rails; four historical analogues anchoring the divergence pattern.
 >
