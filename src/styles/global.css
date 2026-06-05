@@ -434,12 +434,12 @@ figure.matrix .matrix-title {
 .landing-main .kicker { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; color: var(--fg-soft); margin: 0 0 0.5rem; }
 .landing-main h1 { font-size: 2.6rem; line-height: 1.1; margin: 0 0 0.8rem; }
 .landing-main .lede { font-size: 1.18rem; color: var(--fg-soft); line-height: 1.55; margin: 0 0 0.5rem; }
-.story-lead { margin-top: 1.8rem; border-top: 1px solid var(--rule); padding-top: 1.4rem; }
+.story-lead { margin-top: 1.2rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
 .story-kicker { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; color: var(--orange); margin: 0 0 0.6rem; }
 .story-lead p { color: var(--fg-soft); }
 
 /* Story renders inline, clamped, and expands in place via "Continue reading". */
-.story-body { position: relative; max-height: 15rem; overflow: hidden; }
+.story-body { position: relative; max-height: 9rem; overflow: hidden; }
 .story-body.expanded { max-height: none; }
 .story-body::after {
   content: '';

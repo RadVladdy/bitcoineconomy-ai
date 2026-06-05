@@ -8,21 +8,16 @@ import { siteJsonLd } from '../lib/jsonld';
 // a slim rail, grouped "The case" / "The build" to mirror the nav. The Story
 // content is rendered inline, clamped, and expands in place via "Continue
 // reading" — but /the-story remains the canonical page (agents, SEO, .md route).
+// Right rail = the three section anchors + the live record. Compact: one line
+// each. The section pages link down to their own arguments and directories.
 const railGroups = [
   {
-    label: 'The case',
+    label: 'Where to go next',
     docs: [
-      { slug: 'thesis', label: 'Thesis', blurb: 'The four constraints, why the legacy stack fails them, and why Bitcoin + Lightning is the only deployed match.' },
-      { slug: 'independence-doctrine', label: 'Independence Doctrine', blurb: 'Why emergent parallel economies must diverge from incumbents — four historical analogues.' },
-    ],
-  },
-  {
-    label: 'The build',
-    docs: [
-      { slug: 'stack', label: 'The Stack', blurb: 'The pure-substrate architecture: three layers (L1, Lightning, ecash) plus the integration, wallet, and security constructs that bind them.' },
-      { slug: 'border-zone', label: 'Border Zone', blurb: 'The interface between the Bitcoin substrate and the incumbent stack: bridges, treasury, compliance.' },
-      { slug: 'tools', label: 'Tools', blurb: 'Implementation cards for the Bitcoin-substrate agent stack — what each tool is, when to use it, how to start, with verified repos and handles.' },
-      { slug: 'field-notes', label: 'Field Notes', blurb: 'The moving record — what shipped, what was measured, what changed, newest first.' },
+      { slug: 'case', label: 'The Case', blurb: 'Why agents choose Bitcoin — the four constraints and the synthesis that ties them together.' },
+      { slug: 'stack', label: 'The Stack', blurb: 'Equip your agent: L1, Lightning, and ecash, plus the tools to build on them.' },
+      { slug: 'marketplace', label: 'The Marketplace', blurb: 'Where your agent does business — treasury, the Exchange, and Services.' },
+      { slug: 'field-notes', label: 'Field Notes', blurb: 'The live record — what shipped, what was measured, what changed.' },
     ],
   },
 ];
