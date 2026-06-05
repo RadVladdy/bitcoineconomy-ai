@@ -37,6 +37,10 @@ For agent infrastructure that needs programmable-wallet-as-a-service rather than
 - You need invoice/payment endpoints plus ready-made extensions (paywalls, LNURL, PoS).
 - You want to stay node-implementation-agnostic (LND, Core Lightning, others behind it).
 
+## Dependencies
+
+A Lightning funding source behind it (your LND or Core Lightning node, or a supported funding backend) and a host to run the Python server (Docker or pip). The agent talks to LNbits's REST API, not the node directly.
+
 ## Quick start
 
 Self-host via Docker or pip, point it at a funding source (your Lightning node or a fundingsource backend), then create wallets and call the REST API documented at `docs.lnbits.com`. Each wallet exposes admin and invoice/read keys for scoped access.

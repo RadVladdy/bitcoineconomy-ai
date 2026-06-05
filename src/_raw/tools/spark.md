@@ -34,6 +34,10 @@ Spark is a shared-UTXO, Lightning-compatible Bitcoin L2 built by Lightspark for 
 - Moving BTC and Bitcoin-native assets quickly between participants without bridges.
 - As the L2 beneath an agent wallet rather than something an agent integrates directly.
 
+## Dependencies
+
+A Spark-compatible wallet and a Spark operator to transact through; most agents reach Spark through a wallet (e.g. Xverse) rather than integrating the L2 directly. Mainnet-beta with a small operator set — a semi-trusted model, not trust-minimized like Bitcoin's base layer.
+
 ## Quick start
 
 Build against the SDK and docs at `docs.spark.money`; the source is at `github.com/buildonspark/spark`, and live network status is at `spark.money/status`. Most agents will reach Spark through a wallet (e.g. Xverse) rather than integrating the L2 directly.

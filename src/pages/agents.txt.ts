@@ -51,7 +51,7 @@ export const GET: APIRoute = async () => {
   }
   L.push('### The Story (human-only narrative entry point)');
   L.push(`No For-Agents twin by design: ${SITE.url}/the-story · MD: ${SITE.url}/the-story.md`);
-  L.push('Agents: consume the Thesis — For Agents (above) for the machine-readable form of this argument.');
+  L.push('Agents: consume The Case — For Agents (above) for the machine-readable form of this argument.');
   L.push('');
 
   // Tools — the implementation reference. Agents building on the substrate can
@@ -77,6 +77,32 @@ export const GET: APIRoute = async () => {
       }
       L.push('');
     }
+  }
+
+  // Marketplace directories — exchanges (BTC↔fiat ramps) and services (what an
+  // agent buys/sells). Each card has a .md route; directories are crawlable.
+  const exchanges = await getCollection('exchanges');
+  if (exchanges.length) {
+    L.push('## Exchanges (BTC↔fiat directory)');
+    L.push(`On/off-ramp venues to move between Bitcoin and fiat. Directory: ${SITE.url}/exchanges · Each card: ${SITE.url}/exchanges/<slug> · MD: append .md`);
+    for (const x of exchanges
+      .map((e) => e.data)
+      .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title))) {
+      L.push(`- ${x.title} — ${x.tagline ?? x.category} (${SITE.url}/exchanges/${x.slug}.md)`);
+    }
+    L.push('');
+  }
+
+  const services = await getCollection('services');
+  if (services.length) {
+    L.push('## Services (what an agent buys/sells)');
+    L.push(`Live services an agent transacts with on the Bitcoin substrate. Directory: ${SITE.url}/services · Each card: ${SITE.url}/services/<slug> · MD: append .md`);
+    for (const s of services
+      .map((e) => e.data)
+      .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))) {
+      L.push(`- ${s.name} — ${s.tagline} (${SITE.url}/services/${s.slug}.md)`);
+    }
+    L.push('');
   }
 
   L.push('## Editorial stance (disclosed for honest parsing)');

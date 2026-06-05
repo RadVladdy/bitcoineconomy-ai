@@ -35,6 +35,10 @@ The crucial framing, held explicitly at [The Border Zone](/border-zone): Taproot
 - Asset issuance anchored to Bitcoin L1 with Lightning transfer.
 - Boundary use cases — pair with the substrate underneath, don't mistake it for the substrate.
 
+## Dependencies
+
+A Lightning node running the `tapd` daemon, with compatible Lightning Terminal versions for grouped-asset channel funding; both ends of a transfer need Taproot-Assets-capable software. Rails for issued assets, not trustless substrate — the asset is only as good as its issuer's solvency and redemption.
+
 ## Quick start
 
 Run `tapd` from `github.com/lightninglabs/taproot-assets`; docs at `docs.lightning.engineering/the-lightning-network/taproot-assets`. **Read the Operational Safety Guidelines before any mainnet use.**

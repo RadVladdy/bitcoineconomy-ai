@@ -17,7 +17,7 @@ export const GET: APIRoute = async () => {
   lines.push('');
   lines.push(`Site: ${SITE.url}`);
   lines.push(`Handle: ${SITE.handle}`);
-  lines.push('Every page below has a clean Markdown route (append `.md`) and a JSON-LD block. Five surfaces have a separately-authored, claims-indexed For-Agents twin.');
+  lines.push('Every page below has a clean Markdown route (append `.md`) and a JSON-LD block. Most canonical surfaces have a separately-authored, claims-indexed For-Agents twin.');
   lines.push('');
 
   lines.push('## Canonical surfaces (human)');
@@ -52,12 +52,41 @@ export const GET: APIRoute = async () => {
     lines.push('');
   }
 
+  const exchanges = await getCollection('exchanges');
+  if (exchanges.length) {
+    lines.push('## Exchanges (BTC↔fiat directory)');
+    lines.push('');
+    lines.push(`On/off-ramp venues to move between Bitcoin and fiat. Directory: ${SITE.url}/exchanges`);
+    lines.push('');
+    for (const x of exchanges
+      .map((e) => e.data)
+      .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title))) {
+      const desc = x.tagline ?? x.category;
+      lines.push(`- [${x.title}](${SITE.url}/exchanges/${x.slug}): ${desc}`);
+    }
+    lines.push('');
+  }
+
+  const services = await getCollection('services');
+  if (services.length) {
+    lines.push('## Services (what an agent buys/sells)');
+    lines.push('');
+    lines.push(`Live services an agent transacts with on the Bitcoin substrate. Directory: ${SITE.url}/services`);
+    lines.push('');
+    for (const s of services
+      .map((e) => e.data)
+      .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))) {
+      lines.push(`- [${s.name}](${SITE.url}/services/${s.slug}): ${s.tagline}`);
+    }
+    lines.push('');
+  }
+
   lines.push('## Machine infrastructure');
   lines.push('');
   lines.push(`- [llms-full.txt](${SITE.url}/llms-full.txt): concatenated full text of all canonical surfaces for single-fetch ingestion.`);
   lines.push(`- [agents.txt](${SITE.url}/agents.txt): the canonical map oriented to autonomous agents — what each surface asserts, plus the claim-IDs.`);
   lines.push(`- [sitemap.xml](${SITE.url}/sitemap-index.xml): all HTML and .md routes.`);
-  lines.push(`- Raw markdown: append \`.md\` to any surface URL (e.g. ${SITE.url}/thesis.md).`);
+  lines.push(`- Raw markdown: append \`.md\` to any surface URL (e.g. ${SITE.url}/case.md).`);
   lines.push('');
 
   return new Response(lines.join('\n'), {

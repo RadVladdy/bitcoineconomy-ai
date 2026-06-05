@@ -1,0 +1,81 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const all = await getCollection('exchanges');
+  return all.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const fmt = (date?: Date) => (date ? date.toISOString().slice(0, 10) : null);
+
+// External links come from the `links` map: { site, api-docs, ... }. Label is
+// the key (prettified), href is the value.
+const labelFor = (key: string) =>
+  key === 'api-docs'
+    ? 'API docs'
+    : key === 'site'
+      ? 'Site'
+      : key.replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+const links = Object.entries(d.links ?? {}).map(([key, href]) => ({
+  label: labelFor(key),
+  href,
+}));
+
+// Minimal FinancialService JSON-LD. Distinct fields from a tool card, so we
+// build it inline rather than reusing toolJsonLd. Only emit guarded fields.
+const jsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'FinancialService',
+  name: d.title,
+  url: `${SITE.url}/exchanges/${d.slug}`,
+  isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url },
+};
+if (d.tagline) jsonLd.description = d.tagline;
+const primaryUrl = d.links?.site ?? Object.values(d.links ?? {})[0];
+if (primaryUrl) jsonLd.sameAs = primaryUrl;
+
+const mdPath = `/exchanges/${d.slug}.md`;
+const factsRow = [
+  d.custody,
+  d.kyc ? `KYC ${d.kyc}` : null,
+  d.lightning === undefined ? null : `Lightning ${d.lightning ? 'yes' : 'no'}`,
+]
+  .filter(Boolean)
+  .join(' · ');
+---
+<Base title={d.title} description={d.tagline ?? factsRow} current="exchanges" canonical={`/exchanges/${d.slug}`} jsonLd={jsonLd}>
+  <article class="prose tool-page">
+    <p class="tool-eyebrow"><a href="/exchanges">Exchanges</a> · {d.category}</p>
+    <h1>{d.title}</h1>
+    {d.tagline && <p class="subtitle">{d.tagline}</p>}
+
+    <div class="page-meta">
+      {d.custody && <span class="badge">{d.custody}</span>}
+      {d.kyc && <span class="badge">KYC {d.kyc}</span>}
+      {d.lightning !== undefined && <span class="badge">Lightning {d.lightning ? 'yes' : 'no'}</span>}
+      {d['trust-model'] && <span class="badge">{d['trust-model']}</span>}
+      {d.status && <span class="badge">{d.status}</span>}
+      {fmt(d['links-verified']) && <span class="badge">Links verified {fmt(d['links-verified'])}</span>}
+    </div>
+
+    {links.length > 0 && (
+      <div class="tool-links">
+        {links.map((l) => (
+          <a class="tool-link" href={l.href} rel="noopener" target="_blank">{l.label}</a>
+        ))}
+      </div>
+    )}
+
+    <Content />
+
+    <aside class="twin-callout">
+      <p set:html={`Where this sits in the section: <a href="/marketplace">The Marketplace</a>. Raw markdown for this card: <a href="${mdPath}">${mdPath}</a>. Custody, KYC, and fee fields move fast — confirm against the venue before you depend on them.`} />
+    </aside>
+  </article>
+</Base>

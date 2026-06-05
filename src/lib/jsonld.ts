@@ -86,6 +86,30 @@ interface ToolMeta {
 // and the canonical .md route are emitted when known.
 export function toolJsonLd(m: ToolMeta): object[] {
   const url = `${SITE.url}/tools/${m.slug}`;
+  // 'guide' cards are link-out explainers, not software — TechArticle, not
+  // SoftwareApplication.
+  if (m['tool-type'] === 'guide') {
+    return [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        headline: m.name,
+        name: m.name,
+        description: m.tagline,
+        url,
+        mainEntityOfPage: url,
+        inLanguage: 'en',
+        isAccessibleForFree: true,
+        author: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+        publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+        encoding: {
+          '@type': 'MediaObject',
+          encodingFormat: 'text/markdown',
+          contentUrl: `${url}.md`,
+        },
+      },
+    ];
+  }
   const app: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',

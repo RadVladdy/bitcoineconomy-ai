@@ -10,45 +10,65 @@ export const SITE = {
   tagline: 'The autonomous AI economy runs on Bitcoin.',
 };
 
-// The five canonical docs, in nav order. The Story is the homepage landing
-// (the narrative entry point), not a peer doc, so it is intentionally not in the menu.
-// Kept flat for `current`/label lookup in the surface routes; the menu renders
-// the grouped NAV_GROUPS below.
+// Flat list of canonical human surfaces, for `current`/label lookup in the
+// surface routes. The Story is the homepage landing (narrative entry point), not
+// a peer doc, so it is intentionally not in the menu. Ancillary pages
+// (Why Bitcoin Not a New Coin, The Stablecoin Landscape, About) are reached via
+// in-body + read-next links and the footer, not the menu (sprawl control).
 export const HUMAN_NAV = [
-  { slug: 'thesis', label: 'Thesis' },
+  { slug: 'case', label: 'The Case' },
+  { slug: 'agent-economy', label: 'The Agent Economy' },
+  { slug: 'adoption-asymmetry', label: 'The Adoption Asymmetry' },
   { slug: 'independence-doctrine', label: 'Independence Doctrine' },
+  { slug: 'border-skirmishes', label: 'Border Skirmishes' },
+  { slug: 'convergence', label: 'The Convergence' },
+  { slug: 'why-bitcoin-not-a-new-coin', label: 'Why Bitcoin, Not a New Coin' },
   { slug: 'stack', label: 'The Stack' },
-  { slug: 'border-zone', label: 'Border Zone' },
+  { slug: 'marketplace', label: 'The Marketplace' },
+  { slug: 'exchange', label: 'Exchange' },
+  { slug: 'services', label: 'Services' },
+  { slug: 'stablecoin-landscape', label: 'The Stablecoin Landscape' },
   { slug: 'field-notes', label: 'Field Notes' },
 ];
 
-// Grouped navigation (locked 2026-06-02): two menu groups + the ungrouped Story
-// (the homepage entry). "The case" = the argument; "The build" = the operational
-// surfaces, including the Tools index. Tools is not a `surfaces`-collection slug —
-// it is the /tools index — so its `current` highlight is handled by Nav directly.
+// Grouped navigation — the three-section IA (locked 2026-06-03):
+// Case (why agents choose Bitcoin) · Stack (equip your agent) · Marketplace
+// (exchange & services). Each section's anchor doc leads its group. Ancillary
+// pages get no menu slot (link-only); About lives in the footer; The Story is
+// the homepage. 'tools' is the /tools index, not a surfaces slug — its `current`
+// highlight is handled by Nav directly.
 export const NAV_GROUPS = [
   {
-    label: 'The case',
+    label: 'Case',
     items: [
-      { slug: 'thesis', label: 'Thesis' },
+      { slug: 'case', label: 'The Case' },
+      { slug: 'agent-economy', label: 'The Agent Economy' },
+      { slug: 'adoption-asymmetry', label: 'The Adoption Asymmetry' },
       { slug: 'independence-doctrine', label: 'Independence Doctrine' },
+      { slug: 'border-skirmishes', label: 'Border Skirmishes' },
+      { slug: 'convergence', label: 'The Convergence' },
     ],
   },
   {
-    label: 'The build',
+    label: 'Stack',
     items: [
       { slug: 'stack', label: 'The Stack' },
-      { slug: 'border-zone', label: 'Border Zone' },
       { slug: 'tools', label: 'Tools' },
+    ],
+  },
+  {
+    label: 'Marketplace',
+    items: [
+      { slug: 'marketplace', label: 'The Marketplace' },
+      { slug: 'exchange', label: 'Exchange' },
+      { slug: 'services', label: 'Services' },
       { slug: 'field-notes', label: 'Field Notes' },
     ],
   },
 ];
 
 // Tool-card layer taxonomy. Ordered top-down to mirror The Stack's own section
-// structure: the integration primitives an agent touches first, then the L3
-// ecash layer, the deployed wallets/toolkits, and the live agent services built
-// on top. Each tool card declares one `layer`; the /tools index groups by these.
+// structure. Each tool card declares one `layer`; the /tools index groups by these.
 export const TOOL_LAYERS = [
   {
     key: 'integration',
@@ -73,28 +93,45 @@ export const TOOL_LAYERS = [
   {
     key: 'bridges',
     label: 'Bridges & conversion',
-    blurb: 'The edge where the substrate meets other rails and assets — swaps, on/off-ramps, asset overlays. These live at the boundary; see The Border Zone for the rails-vs-substrate distinction.',
+    blurb: 'The edge where the substrate meets other rails and assets — swaps, on/off-ramps, asset overlays. These live at the boundary; see The Marketplace for the rails-vs-substrate distinction.',
   },
 ] as const;
 
 export type ToolLayerKey = (typeof TOOL_LAYERS)[number]['key'];
 
-// Surface slug -> the For-Agents twin slug (or null for The Story).
+// Surface slug -> the For-Agents twin slug (or null for surfaces with no twin:
+// The Story, The Stablecoin Landscape, About).
 export const TWIN: Record<string, string | null> = {
-  thesis: 'thesis-for-agents',
+  case: 'case-for-agents',
   'the-story': null,
+  'agent-economy': 'agent-economy-for-agents',
+  'adoption-asymmetry': 'adoption-asymmetry-for-agents',
   'independence-doctrine': 'independence-doctrine-for-agents',
-  'border-zone': 'border-zone-for-agents',
+  'border-skirmishes': 'border-skirmishes-for-agents',
+  convergence: 'convergence-for-agents',
+  'why-bitcoin-not-a-new-coin': 'why-bitcoin-not-a-new-coin-for-agents',
   stack: 'stack-for-agents',
+  marketplace: 'marketplace-for-agents',
+  exchange: 'exchange-for-agents',
+  services: 'services-for-agents',
+  'stablecoin-landscape': null,
   'field-notes': 'field-notes-for-agents',
+  about: null,
 };
 
 // FA slug -> its human twin slug.
 export const HUMAN_OF: Record<string, string> = {
-  'thesis-for-agents': 'thesis',
+  'case-for-agents': 'case',
+  'agent-economy-for-agents': 'agent-economy',
+  'adoption-asymmetry-for-agents': 'adoption-asymmetry',
   'independence-doctrine-for-agents': 'independence-doctrine',
-  'border-zone-for-agents': 'border-zone',
+  'border-skirmishes-for-agents': 'border-skirmishes',
+  'convergence-for-agents': 'convergence',
+  'why-bitcoin-not-a-new-coin-for-agents': 'why-bitcoin-not-a-new-coin',
   'stack-for-agents': 'stack',
+  'marketplace-for-agents': 'marketplace',
+  'exchange-for-agents': 'exchange',
+  'services-for-agents': 'services',
   'field-notes-for-agents': 'field-notes',
 };
 

@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../lib/site';
+
+// /exchanges — the BTC↔fiat (and crypto↔BTC) venue directory. Each card is a
+// place an agent (or its operator) converts between Bitcoin and legacy money or
+// other assets. Grouped by `category`, featured-first within each group.
+const all = await getCollection('exchanges');
+const cards = all
+  .map((e) => e.data)
+  .sort(
+    (a, b) =>
+      Number(b.featured) - Number(a.featured) ||
+      a.order - b.order ||
+      a.title.localeCompare(b.title),
+  );
+
+// Group by category, preserving first-seen order (which is already
+// featured-first, then order, then title).
+const groupMap = new Map<string, typeof cards>();
+for (const c of cards) {
+  const key = c.category ?? 'other';
+  if (!groupMap.has(key)) groupMap.set(key, []);
+  groupMap.get(key)!.push(c);
+}
+const groups = Array.from(groupMap, ([key, items]) => ({ key, items }));
+
+const description =
+  'A directory of BTC↔fiat (and crypto↔BTC) venues: where an agent or its operator converts between Bitcoin and legacy money or other assets — custody model, KYC posture, Lightning support, and trust model per card, with verified links. Grouped by category.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Exchanges — BTC↔fiat and crypto↔BTC venues',
+  url: `${SITE.url}/exchanges`,
+  description,
+  isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url },
+};
+---
+<Base title="Exchanges" description={description} current="exchanges" canonical="/exchanges" jsonLd={jsonLd} wide={true}>
+  <div class="tools-intro">
+    <h1>Exchanges</h1>
+    <p class="subtitle">Where Bitcoin meets legacy money — and other assets meet Bitcoin.</p>
+    <p>Each card is a venue for converting between Bitcoin and fiat (or other crypto), read for an agent's needs: custody model, KYC posture, Lightning support, and the trust model that governs your funds while the conversion is in flight. These are the edge of the substrate; the section overview is <a href="/marketplace">The Marketplace</a>, and the narrative surface is <a href="/exchange">Exchange</a>.</p>
+    <p class="tools-agent-note">Building agent flows? Each card has a clean <code>.md</code> route and structured <code>FinancialService</code> JSON-LD. Facts move fast — confirm custody, KYC, and fees against the venue before you depend on them.</p>
+  </div>
+
+  {groups.map((g) => (
+    <section class="tool-layer" aria-label={g.key}>
+      <h2 class="tool-layer-h">{g.key}</h2>
+      <div class="surface-grid">
+        {g.items.map((c) => (
+          <a class="surface-card tool-card" href={`/exchanges/${c.slug}`}>
+            <h3>{c.title}</h3>
+            <p>
+              {[
+                c.custody,
+                c.kyc ? `KYC ${c.kyc}` : null,
+                c.lightning === undefined ? null : `Lightning ${c.lightning ? 'yes' : 'no'}`,
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+            </p>
+            <span class="tool-card-tags">
+              {c.featured && <span class="tool-tag">featured</span>}
+              <span class="tool-tag tool-tag-type">{c.category}</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  {groups.length === 0 && (
+    <p class="tools-empty">Exchange cards are being drafted. Check back shortly.</p>
+  )}
+</Base>
