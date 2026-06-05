@@ -35,12 +35,16 @@ It is the heavier-trust, higher-robustness option at the L3 bearer-ecash layer: 
 - Bearer-ecash deployments that want better defection-resistance than a single mint.
 - Settings where you can stand up and operate a federation of guardians, not just a lone mint.
 
+## Dependencies
+
+A Fedimint client and a federation to join — trust is distributed across its guardians under threshold security rather than a lone operator — plus a Lightning gateway for ecash↔Lightning. Running your own federation means coordinating multiple guardian operators.
+
 ## Quick start
 
 Clone `github.com/fedimint/fedimint` and follow the developer docs at `fedimint.org/docs` to run a federation or build against the modules; the Fedi operator docs cover running guardians in production. Check the repo's releases page for the current version and per-module maturity before deploying.
 
 ## Gotchas
 
-- Trust is **reduced, not eliminated**: a majority-malicious or colluding guardian set can still compromise funds. The model assumes an honest threshold.
+- Trust is **reduced, not eliminated**: a majority-malicious or colluding guardian set can still compromise funds. The model assumes an honest threshold. For how to vet a *specific* federation (solvency proofs, guardian track record, ratings/uptime), see [Evaluating an ecash mint](/tools/evaluating-ecash-mints).
 - Running a federation means coordinating multiple guardian operators; Lightning gateways that bridge ecash ↔ Lightning need their own liquidity.
 - Some features have shipped beta- or Signet-only in recent releases — confirm maturity per module before relying on it.

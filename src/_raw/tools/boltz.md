@@ -36,6 +36,10 @@ A **Border Zone** tool: it crosses between rails. See [The Border Zone](/border-
 - Acquiring inbound Lightning liquidity or sweeping to on-chain via atomic swaps.
 - Programmatic conversion at the edge of an agent treasury.
 
+## Dependencies
+
+Non-custodial wallets on the rails you're swapping between (on-chain Bitcoin, Lightning, and/or Liquid) and a client-side integration of the API; swaps pay network fees plus a provider-set swap fee and need correct refund/timeout handling. No account, no KYC.
+
 ## Quick start
 
 Integrate against the API at `api.docs.boltz.exchange`; the service is powered by `boltz-backend` (`github.com/BoltzExchange/boltz-backend`), which you can also self-host. Follow the docs' common-mistakes guide before going live.

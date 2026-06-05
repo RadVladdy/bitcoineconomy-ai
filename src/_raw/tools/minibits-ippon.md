@@ -34,6 +34,10 @@ It is the canonical agent-native Cashu wallet: the lightest path to giving an ag
 - Cashu-based agent payments where you want an HTTP/CLI interface, not a mobile app.
 - Wiring ecash payments into an MCP-capable agent via `minibits_ippon_mcp`.
 
+## Dependencies
+
+A Cashu mint to back the wallet (it handles Lightning) and a single HTTP call or CLI command to create and fund it; the agent just holds bearer ecash, no channel management. Add `minibits_ippon_mcp` for MCP clients. Alpha and custodial — keep wallets disposable and small.
+
 ## Quick start
 
 Run the Ippon API server (or use a hosted instance) and create a wallet with a single HTTP call or the CLI, per the repo README at `github.com/minibits-cash/minibits_ippon`; add `minibits_ippon_mcp` to expose it to MCP clients. The Minibits mobile wallet (Android) is a separate, human-facing product.

@@ -32,6 +32,10 @@ It is tiny and experimental, but conceptually it points exactly where the agent 
 - Studying a concrete, readable implementation of Nostr discovery + DID identity + Lightning settlement.
 - Experiments only — not production workloads.
 
+## Dependencies
+
+A Lightning wallet for settlement (LNbits by default — self-host it for real amounts), a Nostr identity for discovery, and a DID for agent identity. It's a Python + JS framework you wire together, not a finished product.
+
 ## Quick start
 
 Clone `github.com/intrinsicinvestment91/bitagent` (MIT, Python + JS; FastAPI, MCP-server support, LNbits wallet integration) and follow the README. Point it at a Lightning wallet (LNbits) — self-host the wallet for anything beyond throwaway amounts.

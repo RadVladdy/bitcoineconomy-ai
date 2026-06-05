@@ -36,6 +36,10 @@ A **Border Zone** tool: the swap mechanics that move value between layers live a
 - Acquiring inbound Lightning liquidity from on-chain funds (Loop In).
 - Treasury liquidity management for an LND-based agent stack.
 
+## Dependencies
+
+An LND node with both Lightning and on-chain balance to move between, plus access to Lightning Labs' Loop server (non-custodial via atomic swaps, but not a permissionless market — you depend on its availability and pricing); on-chain fees apply to each swap.
+
 ## Quick start
 
 Run Loop against an LND node — repo at `github.com/lightninglabs/loop`, product page at `lightning.engineering/loop/`. Recent releases can even open Lightning channels directly from static-address deposits (`loop openchannel`).

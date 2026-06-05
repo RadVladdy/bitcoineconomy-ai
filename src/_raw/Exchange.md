@@ -1,0 +1,182 @@
+---
+title: Exchange
+slug: exchange
+description: "Where an agent converts between Bitcoin, dollar stablecoins, and fiat — and where the KYC wall stops it."
+type: essay
+surface: exchange
+section: marketplace
+section-role: child
+status: v1-draft-2026-06-05 (pending review)
+audience: humans
+twin-page: exchange-for-agents
+created: 2026-06-03
+last-updated: 2026-06-05
+word-count-target: 2200
+voice: honest-middle-position
+scope: fiat-btc-exchange-directory
+card-collection: Exchanges/
+verification: "structural facts (Lightning / stablecoins / API / KYC / custody) WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC (Circle CCTP) re-verified 2026-06-05; per-venue fees + exact jurisdictional coverage still pending"
+assembled-from:
+  - "Border-Zone.md § The bridge architecture (fiat legs), § Conversion mechanics (off-ramp + CEX), § compliance worked examples, § Forward-looking"
+tags:
+  - canonical
+  - marketplace
+  - exchange
+  - off-ramps
+  - no-kyc
+  - dex
+  - bitcoin
+  - lightning
+  - stablecoins
+agent-tldr: |
+  Exchange is the practical, use-oriented surface for converting between Bitcoin, dollar stablecoins, and fiat. The defining constraint: an autonomous agent cannot pass KYC (it is not a legal person), and every custodial fiat↔BTC venue requires KYC. So there are two structurally different paths. (1) Non-custodial, no-KYC swap services (Boltz, SideSwap, SideShift): the agent acts on its own keys with no delegated identity — genuine no-KYC autonomy — but these are crypto-native only (BTC↔stablecoin / cross-layer), never actual bank fiat, and they carry offshore/unregulated/counterparty/liquidity risk with no recourse. Boltz is the standout: non-custodial and atomic, a REST API + boltzd, Bitcoin across L1/Lightning/Liquid/Rootstock, plus USDT0 and native USDC (live via Circle CCTP, May 2026). (2) Custodial KYC venues — US-regulated (Strike, River, Swan = Bitcoin-only; Kraken, Coinbase = multi-asset) and large offshore (Binance, OKX, Bybit, Bitget, MEXC, KuCoin = multi-asset, mostly US-restricted): the human owner KYCs and delegates the account to the agent via API keys, which is automation under the owner's identity, not agent sovereignty. This is the only path to actual bank fiat, because fiat on-ramps are what trigger KYC. The spine: an agent stays sovereign as long as it stays crypto-native (BTC↔stablecoin via non-custodial swaps); the moment it needs real fiat it hits the KYC wall and must borrow its owner's delegated account. Critical per-venue features in the comparison tables: KYC, custody, what the account holds (BTC-only confines the freeze surface; multi-asset exposes every asset held), Lightning support, stablecoins offered (match the network), API access (deposit/trade/withdraw), jurisdiction. Cards maintained independently in Exchanges/. Submarine swaps used purely to move an agent's own BTC L1↔Lightning are internal tooling (The Stack), not exchange; L402 payment-for-services lives in Services. The ideal agent exchange is a frontier — API + no-KYC + atomic + wide BTC-layer/stablecoin coverage + deep liquidity — on which deep liquidity (custodial) trades off against sovereignty (non-custodial swaps); Boltz sits closest today.
+---
+
+# Exchange
+
+> **In brief.** Where an agent converts between Bitcoin, dollar stablecoins, and fiat — turning on one hard fact: **an autonomous agent cannot pass KYC**, and every custodial fiat venue requires it. So an agent crosses one of two ways. On a **non-custodial, no-KYC swap** (Boltz, SideSwap, SideShift) it acts on its own keys, genuinely sovereign — but only crypto-native, BTC↔stablecoin, never real bank fiat. On a **custodial KYC venue** (Strike, River, Swan, Kraken, Coinbase, and the large offshore exchanges) the *owner* completes KYC and delegates the account by API key — the only path to real fiat, but the agent is running a human's identity-bound, freezable account. The spine: *an agent stays sovereign while it stays crypto-native; the moment it needs real fiat, it hits the KYC wall.*
+
+---
+
+## The KYC wall: who holds the account?
+
+Start here, because it determines everything else. KYC ("know your customer") binds a financial account to a verified legal identity. **An agent has no legal identity to verify** — so it cannot open a KYC'd account itself. Two consequences fall out, and they split the whole field:
+
+- **Non-custodial swaps need no KYC → the agent is sovereign, but crypto-only.** Services like Boltz and SideSwap execute atomic swaps without an account or identity; the agent acts on its own keys and never hands over custody. This is the no-KYC, self-custody ideal — software-manageable without human account intermediation. But these services convert *between crypto assets* (BTC, Lightning, stablecoins, other layers); they do **not** touch bank fiat, and they trade regulatory protection for autonomy (see the caveats below).
+- **Custodial venues require KYC → the owner delegates.** To use Strike, a US exchange, or any regulated off-ramp, the *human owner* completes KYC, then delegates account access to the agent — in practice, by issuing the agent **API keys** scoped to its account. The agent transacts, but it is operating the owner's identity-bound, freezable account. This is automation under the owner's identity, not the agent's own agency. It is also **the only path to actual bank fiat**, because the fiat on-ramp is precisely what triggers the KYC requirement.
+
+So the practical rule for a builder: **an agent can remain fully sovereign as long as it stays crypto-native** — holding Bitcoin, swapping to a stablecoin and back via non-custodial services when it needs a stable unit of account. The instant the workflow requires *real fiat* — a bank payment, a fiat invoice, a payroll deposit — the agent must borrow its owner's delegated, KYC'd account. The KYC wall is where the parallel economy ends and the agent starts operating as its principal's proxy.
+
+---
+
+## What an agent actually does at an exchange
+
+For a non-custodial swap, the flow is short: the agent calls the swap service's API directly from its own wallet — no account, no delegation — and the swap settles atomically to its keys.
+
+For a custodial venue, the pattern is longer and nearly identical across venues:
+
+1. **Owner opens and KYCs an account** — the compliance boundary; identity attaches here, once.
+2. **Owner delegates to the agent** — scoped API keys (ideally least-privilege: trade + withdraw-to-allowlisted-address only).
+3. **Fund** — from a bank (slow fiat rails: ACH, wire, SEPA), card, or by receiving BTC/Lightning.
+4. **Convert** — fiat↔BTC or BTC↔stablecoin via the venue's **API**.
+5. **Withdraw to self-custody promptly** — bounds the custodial freeze surface to the time funds sit on the venue.
+
+Two features make or break a venue for agent use. **API access** is non-negotiable — without it the venue is human-only. **Lightning support** matters more than it looks: a venue that pays out over Lightning lets the agent move funds off the venue in seconds for a fraction of a cent, shrinking the custodial-freeze window that an on-chain-only or bank-only venue leaves open.
+
+---
+
+## Non-custodial, no-KYC swaps *(agent-sovereign, crypto-native)*
+
+The agent swaps on its own keys — no account, no delegated identity. This is the most agent-native path; the caveats below are the price of that sovereignty. *(Structural facts WebSearch-verified 2026-06-03; Boltz re-verified 2026-06-05. ✅ yes · — no · ⚠ limited; the API column is the capability an agent needs to run a swap unattended.)*
+
+| Service | Type | Lightning | Stablecoin (network) | API | Bank fiat |
+|---|---|---|---|---|---|
+| **Boltz** ⭐ | atomic swap | ✅ | USDT0 + USDC *(via Circle CCTP: ETH/Arbitrum/Base/Polygon)* | ✅ REST / `boltzd` | — |
+| **SideSwap** | Liquid swap | ⚠ *(Liquid)* | L-USDt *(Liquid)* | ✅ | — |
+| **SideShift** | swap | ✅ | USDT *(Liquid)* + 200+ assets | ✅ REST | — |
+
+**Boltz is the standout for agents** — no-KYC, Lightning-native, fully non-custodial atomic swaps, a REST API + `boltzd` for automation, **Bitcoin across L1/Lightning/Liquid/Rootstock**, and both major stablecoins (USDT0, plus native USDC live via Circle's CCTP since May 2026). **SideSwap** is pure atomic swaps on Liquid (liquidity tracks order-book depth). **SideShift** spans the most assets but is not as clean as the other two: an automated risk-screening layer can flag and hold funds and may demand KYC/source-of-funds to release. None reach bank fiat — and that dividing line is the point: there is no no-KYC, API-driven, *fiat*-settling exchange, because that is exactly what KYC law exists to prevent.
+
+> [!warning] Caveats — the price of no-KYC sovereignty
+> - **Crypto-native only.** None of these reach bank fiat. They convert BTC↔stablecoin/other-layer; the agent still needs a custodial venue to touch dollars in a bank.
+> - **Offshore / unregulated.** No licensing, no consumer protection, no chargebacks, no support line, no recourse if a swap fails or a counterparty/liquidity provider misbehaves.
+> - **Counterparty and liquidity risk.** Atomic-swap designs (Boltz, SideSwap) protect *custody* by construction — both legs settle or both refund — but thinner liquidity can mean slippage at size, and a routing/liquidity provider can fail mid-swap.
+> - **Stablecoin ≠ censorship-resistance.** Swapping into USDT/USDC, however non-custodially, lands the value on an issuer-freezable asset. The rail is sovereign; the asset is not.
+
+---
+
+## Custodial venues *(owner-delegated, KYC)*
+
+The regulated, centralized venues. The owner completes KYC and delegates the account to the agent by API key; the freeze surface is bounded by withdrawing to self-custody promptly. Two factual axes matter for an agent: **what the account holds** — a Bitcoin-only account confines the freeze surface to BTC, a multi-asset account exposes every asset held — and **jurisdiction**, which sets licensing, recourse, and availability.
+
+| Venue | Holds | Jurisdiction | Lightning | Stablecoin (network) | API: dep / trade / withdraw | Bank fiat |
+|---|---|---|---|---|---|---|
+| **Strike** | BTC-only | US + ~95 countries | ✅ native | USDT *(TRON, regional)* | ✅ / ✅ / ✅ | ✅ |
+| **River** | BTC-only | US | ✅ *(RLS)* | — | ✅ / ⚠ *(RLS = Lightning payments, no buy/sell)* / ✅ | ✅ |
+| **Swan** | BTC-only | US | ⚠ | — | ✅ / ⚠ *(buy-only, DCA)* / ✅ | ✅ |
+| **Kraken** | multi-asset | US | ✅ | USDC, USDT *(multi-network)* | ✅ / ✅ / ✅ | ✅ |
+| **Coinbase** | multi-asset | US | ✅ | USDC *(Base/ETH)* | ✅ / ✅ / ✅ | ✅ |
+| **Binance** | multi-asset | Offshore *(global)* | ✅ | USDT, USDC, FDUSD | ✅ full | restricted *(.US separate)* |
+| **OKX** | multi-asset | Offshore *(Seychelles)* | ✅ | USDT, USDC | ✅ full | restricted |
+| **Bybit** | multi-asset | Offshore *(Dubai)* | ⚠ | USDT, USDC | ✅ full | restricted |
+| **Bitget / MEXC / KuCoin** | multi-asset | Offshore *(Seychelles)* | ⚠ | USDT *(+USDC)* | ✅ full | restricted |
+
+Only the venues with a full deposit/trade/withdraw API — **Strike, Kraken, Coinbase**, and the offshore giants — can run a fiat↔BTC treasury unattended. **River**'s public API (RLS) is Lightning *payments*, not buy/sell; **Swan**'s automates *buying* (DCA) + withdrawal, not two-way trading — both stay useful for their niches (River for Lightning payouts, Swan for scheduled accumulation) but neither does programmatic *conversion*. The **large offshore exchanges** — Binance, OKX, Bybit, Bitget, MEXC, KuCoin — are the same animal as the US multi-asset venues under a different jurisdiction: offshore domicile adds regulatory and recourse uncertainty (several have faced enforcement or market exits) on top of the account-level freeze surface, but they hold the deepest stablecoin-and-BTC liquidity (the pools described in [[Stablecoin-Landscape|The Stablecoin Landscape]]). Across all of them, **bank fiat — the one thing the non-custodial swaps can't reach — appears only here**; withdraw to self-custody promptly and treat any on-venue balance as exposed. *(Volumes, jurisdictional availability, and listings shift constantly — see [[Field-Notes]].)*
+
+> [!warning] Moving a stablecoin? Match the network or lose the funds
+> The stablecoin column names the **network**, and it matters operationally. Strike's USDT is **TRON-only** (a deposit on any other network is *permanently lost*); Boltz settles **USDT0** and **native USDC via Circle's CCTP** across Ethereum/Arbitrum/Base/Polygon; SideShift and SideSwap use **Liquid USDt (L-USDt)**; Kraken supports **several networks** (chosen at withdrawal). An agent moving a stablecoin between venues must match the network end-to-end — which is itself an argument for holding **BTC** as the portable asset and converting to a stablecoin only at the edge where it's needed. (L-USDt lives on the **Liquid sidechain** — see [[Stack|The Stack]].)
+
+---
+
+## Compliance lives at the gateway
+
+For the custodial venues, the principle the Marketplace overview states holds: the venue runs its full regime on **the account and the fiat leg**; the BTC/Lightning leg downstream, once withdrawn to self-custody, is unrestricted. The pattern breaks when KYC is pushed into the protocol, when terms compel repatriation of self-custodied BTC on demand, or when every venue an agent uses terminates in one jurisdiction — answered by multiple independent venues across non-correlated regimes, prompt withdrawal, and hot/cold separation.
+
+---
+
+## Two things that are *not* exchange
+
+- **Internal BTC rebalancing (L1 ↔ Lightning) is not exchange.** Moving value between an agent's *own* on-chain and Lightning balances — including via Boltz/Loop submarine swaps used purely for that — crosses no second economy; it is substrate tooling, and its home is **[[Stack|The Stack]]**. (Boltz appears here only for its *cross-asset* swaps — Lightning↔stablecoin — which do cross the boundary.)
+- **Paying for services is not exchange.** L402 — converting Lightning value into access to a paid resource — is how an agent *buys things*, not how it converts fiat↔BTC. It belongs to the **Services** child, as the payment mechanism of the services layer.
+
+---
+
+## What good exchange infrastructure looks like for an agent
+
+Reading down the comparison, a profile emerges for the venue best suited to an *autonomous* agent — the one that asks the least of a human and surrenders the least sovereignty:
+
+- **An API that does all three legs** — deposit, convert, withdraw — programmatically. Without it the venue is human-only.
+- **No KYC of the agent's owner.** KYC binds the account to a freezable human identity — the one thing the parallel economy is built to avoid. A venue that needs no account keeps the agent on its own keys.
+- **Atomic, non-custodial settlement.** Both legs of a swap clear together or neither does, so no counterparty holds the funds mid-trade and none can freeze or fail them.
+- **Wide Bitcoin-layer and stablecoin coverage** — L1, Lightning, Liquid, and the major dollar stablecoins — so the agent can source whatever a counterparty wants without leaving the venue.
+- **Deep liquidity**, so it can swap at size without slippage.
+
+The honest catch is that the last criterion fights the first four. The deepest liquidity lives on the large custodial, KYC'd venues; the purest sovereignty lives on the non-custodial swaps, which are thinner. So the "ideal" is a frontier, not a single winner — and today the venue sitting closest to it is **Boltz**: no KYC, non-custodial and atomic, a REST API, Bitcoin across L1/Lightning/Liquid/Rootstock, and both major stablecoins — with liquidity-at-size the one axis where the custodial giants still lead.
+
+The standing build opportunity — scarcely filled — is a **regulated agent-payment gateway on Lightning-substrate rails**: the compliance assurances institutions need without compromising the Bitcoin leg. And the deeper open frontier, the one that would dismantle the KYC wall itself: **agent-native identity** — reputation systems, on-chain attestations, and zero-knowledge proofs that could one day satisfy a regulatory regime without a human's delegated KYC. Until that exists, the wall stands, and the delegation pattern is the practical reality.
+
+---
+
+> [!info] Where to read next
+> **More in The Marketplace** (this section):
+> - **[[Marketplace|The Marketplace]]** — the overview this child sits under: the reserve-vs-operational treasury split, the conversion strategy this surface executes, and the agent-specific risks of the boundary.
+> - **[[Stablecoin-Landscape|The Stablecoin Landscape]]** *(reference)* — the lay of the land on the dollar-stablecoin market behind the operational mix: size, issuer dominance, which chains the supply lives on, and the network hazard.
+> - **[[Services]]** *(full directory at `marketplace.bitcoineconomy.ai`)* — what an agent buys and sells for Bitcoin, and the L402 payment mechanism that powers it.
+>
+> **In the other sections:**
+> - **[[Stack|The Stack]]** *(equip your agent)* — the protocol architecture beneath these venues; home of internal-rebalancing tooling and the Tools reference cards.
+> - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the volatile specifics the cards defer: fees, jurisdictional coverage, API changes, new venues, freeze incidents.
+> - **[[Border-Skirmishes]]** *(in The Case)* — the contest over which substrate wins; this surface assumes Bitcoin and shows how to cross.
+
+---
+
+## Editor's Notes
+
+*Internal author perspective. Not published in produced derivatives.*
+
+Scope (user, 2026-06-03): fiat↔BTC, practical use-section, card-based and maintainable. This pass added what the first draft was missing — a real analysis of actual venues (WebSearch-verified structural facts), a side-by-side comparison table, and the two things that turned out to matter most.
+
+The first is the **KYC-delegation point** (user's insight): an agent can't KYC, so a custodial venue means the owner KYCs and hands the agent its delegated account — automation under the owner's identity, the "automation, not agency" tension landing precisely at the exchange. The second, which fell out of the no-KYC research, is the **sovereign-while-crypto-native spine**: every no-KYC, API-driven, agent-operable option is crypto-native (BTC↔stablecoin); none reach bank fiat, because the fiat on-ramp is what triggers KYC. That is the whole site's thesis, concretized. Worth keeping that as the surface's organizing idea.
+
+**Rework 2026-06-05 (inbox 2026-06-04 batch — PENDING user review).** Driven by inbox notes 1812/1935 (leakage), 1941 (structure + Boltz + ideal-exchange), 2001 (Loop), and the Kraken-before-Coinbase ordering note:
+- **Reordered: non-custodial / no-KYC now leads**, custodial second — expressing the sovereignty-first preference through *curation order*, not through editorial body commentary (per user's "curate by what we show, the order, the facts").
+- **Leakage scrubbed (the one leak the user flagged): the Bitcoin-only-vs-multi-asset *preference*.** Removed "project-aligned default," "recommended default," "operational reality," and "covered, not endorsed." KEPT as legitimate (per user 2026-06-04): the neutral *fact* that a multi-asset account widens the freeze surface; "Boltz is the standout for agents" (curation-by-emphasis); and "stablecoin ≠ censorship-resistance" (a fact, not a leak).
+- **Folded US + offshore into one Custodial section** ("same animal, different jurisdiction"), jurisdiction as a column/axis; dropped the separate "Large non-US exchanges" section + its "covered, not endorsed" callout.
+- **Removed:** the peer-to-peer (RoboSats/Bisq/Hodl Hodl) section (user: too far for an agent); **THORChain** (a separate L1, obscure for this audience); **Aqua** (a consumer wallet, not an exchange). Loop confirmed already correct (Tools/, internal rebalancing) — only referenced under "not exchange."
+- **Kraken listed before Coinbase** wherever both appear (user note).
+- **Boltz facts corrected:** USDC is **live** via Circle CCTP (May 2026), not roadmap; full Bitcoin-layer support (L1/Lightning/Liquid/Rootstock) named. **SideShift** caveat added (risk-screening/freeze, can demand KYC). Ranking within no-KYC: Boltz → SideSwap (pure atomic Liquid) → SideShift (with caveat).
+- **"Ideal agent exchange" rebuilt** around the user's criteria (API · no-KYC-of-owner · atomic · wide BTC-layer/stablecoin coverage · deep liquidity), naming the liquidity-vs-sovereignty tension explicitly and that Boltz sits closest.
+- **In-brief recalibrated** to the new 800-char / 6-sentence budget; **description shortened to a subtitle** (In-brief now carries the synthesis).
+
+**⚠ Card-archival debt (do NOT delete — batch into the Border Zone archive pass):** `Exchanges/thorchain.md` and `Exchanges/robosats.md` are no longer referenced by this surface. Move them to `_archive/` with the structural-change checklist when Border Zone is archived; until then they sit orphaned but on disk (build-new-before-trim, never hard-delete).
+
+**Verification status.** Structural facts WebSearch-verified 2026-06-03; Boltz full support + live USDC re-verified 2026-06-05. Still pending per-card: fees, exact jurisdictional coverage, current API auth specifics. Reconcile Strike's exchange card with the existing Tools/strike bridge card. Optionally add Cash App / Gemini.
+
+**Open for the dissolution pass:** once Marketplace + Exchange (incl. verified cards) are approved and the tool-card migration confirmed, `Border-Zone.md` + `-FA` move to `_archive/`.
+
+**Publications backlinks**
+
+- [[Marketplace]] (this project) — the section overview this child sits under
+- [[Stack]] (this project) — home of internal-rebalancing tooling and Tools reference cards
+- [[Field-Notes]] (this project) — the empirical record the cards defer volatile specifics to
+- [[Exchange-FA]] (this project, forthcoming) — the For-Agents twin of this surface

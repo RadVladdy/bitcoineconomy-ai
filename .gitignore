@@ -5,6 +5,8 @@ dist/
 # generated content collection (ported from src/_raw by scripts/port-surfaces.mjs)
 src/content/surfaces/
 src/content/tools/
+src/content/exchanges/
+src/content/services/
 
 # dependencies
 node_modules/

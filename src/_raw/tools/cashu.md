@@ -32,7 +32,11 @@ For agents, Cashu is the lightest-weight layer in the stack: no channel manageme
 
 - Agent payments that need privacy or must be offline-capable.
 - Lightweight wallets where running or managing Lightning channels at the agent layer is overkill.
-- Bearer-token API access patterns (see [Routstr](/tools/routstr), where the token *is* the API key).
+- Bearer-token API access patterns (see [Routstr](/services/routstr), where the token *is* the API key).
+
+## Dependencies
+
+A Cashu wallet, a mint to issue and redeem tokens (whose solvency you trust), and a Lightning connection to fund the mint and cash out. Diversify across independent mints to spread the custodial trust.
 
 ## Quick start
 
@@ -40,6 +44,6 @@ Run or connect to a mint with the reference implementation, **Nutshell** (`githu
 
 ## Gotchas
 
-- **Mints are custodial trust points** — a malicious or insolvent mint can lose the ecash it issued. Diversify across independent mints rather than concentrating balance in one.
+- **Mints are custodial trust points** — a malicious or insolvent mint can lose the ecash it issued. Diversify across independent mints rather than concentrating balance in one. For how to judge a *specific* mint (solvency proofs, ratings/vouches, uptime boards), see [Evaluating an ecash mint](/tools/evaluating-ecash-mints).
 - Bearer model: losing the token means losing the funds, with no chargeback or recovery without the mint's cooperation.
 - Mint upgrades can involve database migrations — back up before upgrading, per release notes.

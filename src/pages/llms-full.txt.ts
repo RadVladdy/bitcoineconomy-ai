@@ -12,7 +12,7 @@ export const GET: APIRoute = async () => {
   const parts: string[] = [];
   parts.push(`# ${SITE.name} — full text`);
   parts.push('');
-  parts.push('Concatenated published text of all canonical surfaces. Source of truth for the thesis. Each surface is delimited by a top-level heading and its canonical URL.');
+  parts.push('Concatenated published text of all canonical surfaces. Source of truth for the argument. Each surface is delimited by a top-level heading and its canonical URL.');
   parts.push('');
 
   const order: string[] = [];

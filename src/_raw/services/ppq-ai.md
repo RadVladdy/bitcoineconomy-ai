@@ -2,13 +2,21 @@
 name: PPQ.AI (PayPerQ)
 slug: ppq-ai
 layer: services
+collection: services
 tagline: Pay-per-query access to hundreds of frontier models over Lightning / L402 — no account, no API key, roughly a cent and a half a query.
 tool-type: service
+category: inference-gateway
+featured: true
+two-sided: consume
 maintainer: PayPerQ
 repo: https://github.com/PayPerQ
 docs: https://ppq.ai/api-docs
 site: https://ppq.ai
 x: "@PPQdotAI"
+payment: lightning / L402 (no account)
+custody: custodial gateway
+kyc: none (Lightning path)
+bitcoin-native: true
 stack-section: "§5"
 status: published
 last-verified: 2026-06-02
@@ -33,6 +41,10 @@ It also publishes a `/llms.txt` and an API surface designed to be consumed direc
 - Quick, accountless access to many models behind one pay-per-call endpoint.
 - Agents that need to buy inference on demand without managing per-provider API keys.
 - Lightning-native metering of model usage.
+
+## Dependencies & payment
+
+**Dependencies:** a [Lightning / L402](/tools/l402) wallet or L402-capable client — no account and no API key on the Lightning path — or a funded top-up balance; the optional `ppq-private-mode-proxy` adds TEE-backed private mode. **Payment:** Lightning / L402, pay-per-query (~1.5¢ a query; top-ups from ~10¢); credit-card funding is available but adds KYC.
 
 ## Quick start
 

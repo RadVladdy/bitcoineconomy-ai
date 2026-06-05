@@ -35,6 +35,10 @@ Nostr Wallet Connect (NWC, **NIP-47**) is an open protocol that lets an applicat
 - Wiring Lightning payments into an MCP-capable agent (Claude, Cursor, n8n) via `nwc-mcp-server`.
 - Any app that needs delegated, budget-limited spend from a wallet the user still controls.
 
+## Dependencies
+
+A Lightning wallet or node that speaks NWC (Alby Hub, or any NIP-47-compatible wallet) to hold the keys, plus a client or agent that holds the NWC connection string — kept scoped, budgeted, and revocable. Nothing custodial sits on the agent side; the transport runs over Nostr relays.
+
 ## Quick start
 
 Connect an MCP-capable agent to a wallet with Alby's [nwc-mcp-server](https://github.com/getAlby/nwc-mcp-server): generate an NWC connection string from Alby Hub (or any NWC-compatible wallet) with a spending budget, then point the MCP server at it. The agent gets payment tools; the keys stay in the wallet.

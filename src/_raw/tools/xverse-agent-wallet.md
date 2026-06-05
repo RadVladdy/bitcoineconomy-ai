@@ -34,6 +34,10 @@ It's the consumer-grade Xverse wallet's architecture turned toward agents: self-
 - Deployments that want keys on-device (encrypted) rather than delegated to a remote wallet.
 - Settlement over Spark with Lightning interoperability.
 
+## Dependencies
+
+The audited `xverse-core` library and a [Spark](/tools/spark) backend for settlement, plus a funding source; keys stay encrypted on-device (AES-256-GCM) and the agent answers HTTP 402s by paying Lightning invoices itself. Inherits Spark's mainnet-beta operator-trust assumptions.
+
 ## Quick start
 
 Start from the agent-wallet docs at `docs.xverse.app/xverse-agentic-wallet/`; the audited core library is `xverse-core` at `github.com/secretkeylabs/xverse-core`. The agent funds a wallet and then transacts against 402-gated endpoints via the Machine Payments Protocol.

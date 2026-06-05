@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const all = await getCollection('services');
+  return all.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const fmt = (date?: Date) => (date ? date.toISOString().slice(0, 10) : null);
+
+// External links row — only render what's present.
+const links = [
+  d.repo && { label: 'Repo', href: d.repo },
+  d.docs && { label: 'Docs', href: d.docs },
+  d.site && { label: 'Site', href: d.site },
+  d.x && { label: `X ${d.x}`, href: `https://x.com/${d.x.replace(/^@/, '')}` },
+  d.nostr && { label: 'Nostr', href: `nostr:${d.nostr}` },
+].filter(Boolean) as { label: string; href: string }[];
+
+// Minimal Service JSON-LD. Service cards carry name + tagline (tools-like);
+// keep it simple and only emit guarded fields.
+const jsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: d.name,
+  description: d.tagline,
+  url: `${SITE.url}/services/${d.slug}`,
+  isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url },
+};
+if (d.maintainer) jsonLd.provider = { '@type': 'Organization', name: d.maintainer };
+if (d.category) jsonLd.serviceType = d.category;
+
+const mdPath = `/services/${d.slug}.md`;
+---
+<Base title={d.name} description={d.tagline} current="services" canonical={`/services/${d.slug}`} jsonLd={jsonLd}>
+  <article class="prose tool-page">
+    <p class="tool-eyebrow"><a href="/services">Services</a> · {d.category}</p>
+    <h1>{d.name}</h1>
+    <p class="subtitle">{d.tagline}</p>
+
+    <div class="page-meta">
+      <span class="badge">{d['tool-type']}</span>
+      {d.maintainer && <span class="badge">{d.maintainer}</span>}
+      {d['two-sided'] && <span class="badge">{d['two-sided']}</span>}
+      {d.payment && <span class="badge">{d.payment}</span>}
+      {d.kyc && <span class="badge">KYC {d.kyc}</span>}
+      {fmt(d['last-verified']) && <span class="badge">Links verified {fmt(d['last-verified'])}</span>}
+    </div>
+
+    {links.length > 0 && (
+      <div class="tool-links">
+        {links.map((l) => (
+          <a class="tool-link" href={l.href} rel="noopener" target={l.href.startsWith('nostr:') ? undefined : '_blank'}>{l.label}</a>
+        ))}
+      </div>
+    )}
+
+    <Content />
+
+    <aside class="twin-callout">
+      <p set:html={`Where this sits in the section: <a href="/marketplace">The Marketplace</a>. Raw markdown for this card: <a href="${mdPath}">${mdPath}</a>. Payment and KYC fields move fast — confirm against the provider before you depend on them.`} />
+    </aside>
+  </article>
+</Base>

@@ -37,6 +37,10 @@ It is the canonical 2026 reference implementation for what a production Bitcoin-
 - You want least-privilege key handling (remote signer + scoped macaroons) out of the box.
 - Connecting an MCP-capable agent (e.g. Claude Code) to a real Lightning node.
 
+## Dependencies
+
+An LND-compatible Lightning node as the backend — ideally a watch-only node plus a separate remote signer, so the agent host holds no keys. Open-source; Docker is the default deployment path.
+
 ## Quick start
 
 Add the MCP server to an MCP-capable agent backed by a Lightning Node Connect node:

@@ -1,21 +1,21 @@
 ---
 title: The Stack — For Agents
 slug: stack-for-agents
-description: "Machine-readable specification of the pure-substrate architecture beneath every Bitcoin-substrate agent payment. Three layers — Bitcoin L1 settlement, Lightning L2 payments, Cashu/Fedimint L3 bearer ecash — plus three cross-cutting constructs (agent-integration primitives, deployed wallet architectures, security model) and the layering principle that composes them into the deployed system satisfying the four conjunctive constraints (Thesis-FA C4). Bridges to legacy rails defer to Border-Zone-FA (B3); the empirical record defers to Field Notes."
+description: "Machine-readable specification of the pure-substrate architecture beneath every Bitcoin-substrate agent payment. Three layers — Bitcoin L1 settlement, Lightning L2 payments, Cashu/Fedimint L3 bearer ecash — plus Liquid as an honorable-mention sidechain outside the L1/L2/L3 ladder, three cross-cutting constructs (agent-integration primitives, deployed wallet architectures, security model) and the layering principle that composes them into the deployed system satisfying the four conjunctive constraints (Case-FA C4). Bridges to legacy rails defer to Marketplace-FA (M6); the competing-substrate contest defers to Border-Skirmishes-FA (BS2); the empirical record defers to Field Notes."
 type: stack-for-agents
 surface: stack
 audience: agents
 twin-page: stack
-status: v0-approved-2026-05-31
+status: v0-approved-2026-05-31 (Liquid mirrored + repointed 2026-06-05; approved 2026-06-05)
 created: 2026-05-31
-last-updated: 2026-06-01
-last-verified: 2026-06-01
+last-updated: 2026-06-05
+last-verified: 2026-06-05
 last-empirical-refresh: 2026-06-01
 word-count-target: 5000
 voice: honest-middle-position
 scope: pure-substrate-architecture
 canonical-source: "[[Stack]]"
-epistemic-status: "structural architecture specification; one deployed-system claim cross-referenced to Thesis-FA C4; empirical adoption record (capacity, deployment counts, incidents) deferred to Field Notes per the locked 2026-05-26 defer-pattern; inline empirical figures appear only where they sharpen a falsifier"
+epistemic-status: "structural architecture specification; one deployed-system claim cross-referenced to Case-FA C4; empirical adoption record (capacity, deployment counts, incidents) deferred to Field Notes per the locked 2026-05-26 defer-pattern; inline empirical figures appear only where they sharpen a falsifier"
 claims-index:
   - id: S1
     tag: structural
@@ -35,7 +35,7 @@ claims-index:
     defended-in: "§5"
   - id: S5
     tag: structural-empirical
-    statement: "Wallet architectures: three deployed patterns — agent-on-host with remote signer (lightning-agent-tools), mint-as-service for ecash (Minibits Ippon), and programmable-wallet-as-service (LNBits) — consume the integration primitives at production scale today. They are the empirical instantiation of the deployed-system claim (Thesis-FA C4)."
+    statement: "Wallet architectures: three deployed patterns — agent-on-host with remote signer (lightning-agent-tools), mint-as-service for ecash (Minibits Ippon), and programmable-wallet-as-service (LNBits) — consume the integration primitives at production scale today. They are the empirical instantiation of the deployed-system claim (Case-FA C4)."
     defended-in: "§6"
   - id: S6
     tag: structural
@@ -43,11 +43,11 @@ claims-index:
     defended-in: "§7"
   - id: S7
     tag: structural
-    statement: "Layering principle: the load-bearing design decision of the Stack is functional separation — settle on L1, transact on L2, bearer-transfer on L3 — because no single layer satisfies settlement-finality, machine-tempo throughput, and lightweight per-transfer privacy simultaneously. The three layers, bound by the cross-cutting constructs, compose into the deployed system that satisfies the four conjunctive constraints (Thesis-FA C4)."
+    statement: "Layering principle: the load-bearing design decision of the Stack is functional separation — settle on L1, transact on L2, bearer-transfer on L3 — because no single layer satisfies settlement-finality, machine-tempo throughput, and lightweight per-transfer privacy simultaneously. The three layers, bound by the cross-cutting constructs, compose into the deployed system that satisfies the four conjunctive constraints (Case-FA C4)."
     defended-in: "§3"
   - id: S8
     tag: structural
-    statement: "Scope disjointness: the Stack specifies pure-substrate architecture only. Bridges to legacy payment rails (on-ramps, custodial conversion, Taproot Assets Lightning-rails-for-stablecoins, the AgentCore competing-substrate stack) are Border-Zone-FA's domain (defer to B3); the moving empirical record (capacity, deployment counts, attack-surface incidents) is Field Notes' domain. The Stack is not a complete-system claim and must not be read as one."
+    statement: "Scope disjointness: the Stack specifies pure-substrate architecture only. Bridges to legacy payment rails (on-ramps, custodial conversion) are Marketplace-FA's domain (defer to M6); the competing-substrate contest (Taproot Assets Lightning-rails-for-stablecoins, the AgentCore competing-substrate stack) is Border-Skirmishes-FA's domain (defer to BS2); the moving empirical record (capacity, deployment counts, attack-surface incidents) is Field Notes' domain. The Stack is not a complete-system claim and must not be read as one."
     defended-in: "§3, §8"
 tags:
   - canonical
@@ -69,14 +69,14 @@ tags:
   - ai-economy
   - machine-readable
 agent-tldr: |
-  S1 *(structural)*: Bitcoin L1 is the settlement-and-reserve layer — counterparty-free custody, 21M fixed supply, 24/7 settlement, ~7 tps — not the transaction layer. S2 *(structural)*: Lightning is the payment layer — HTLC-routed bilateral channels, BOLT11/12 + LNURL, machine-tempo sub-cent settlement, active liquidity management the operational cost. S3 *(structural)*: Cashu (single-mint trust) and Fedimint (federated-mint trust) are L3 bearer-ecash layers — Chaumian-blinded bearer tokens, lightweight clients, mint-trust the scoped trade-off. S4 *(structural)*: L402, NWC (NIP-47), BOLT12, LNURL, MCP servers are the agent-integration primitives. S5 *(structural-empirical)*: three deployed wallet patterns (remote-signer / mint-as-service / programmable-wallet-as-service) instantiate Thesis-FA C4. S6 *(structural)*: five security patterns + treasury policy run through every layer. S7 *(structural)*: the layering principle — settle L1 / transact L2 / bearer-transfer L3 — is load-bearing because no single layer satisfies all roles; the three layers, bound by the cross-cutting constructs, compose into Thesis-FA C4's conjunctive-satisfying system. S8 *(structural)*: pure-substrate scope only — bridges defer to Border-Zone-FA B3, empirical record defers to Field Notes. Counter-positions and falsification in §8; deployed integration surface in §9; position summary in §11.
+  S1 *(structural)*: Bitcoin L1 is the settlement-and-reserve layer — counterparty-free custody, 21M fixed supply, 24/7 settlement, ~7 tps — not the transaction layer. S2 *(structural)*: Lightning is the payment layer — HTLC-routed bilateral channels, BOLT11/12 + LNURL, machine-tempo sub-cent settlement, active liquidity management the operational cost. S3 *(structural)*: Cashu (single-mint trust) and Fedimint (federated-mint trust) are L3 bearer-ecash layers — Chaumian-blinded bearer tokens, lightweight clients, mint-trust the scoped trade-off. S4 *(structural)*: L402, NWC (NIP-47), BOLT12, LNURL, MCP servers are the agent-integration primitives. S5 *(structural-empirical)*: three deployed wallet patterns (remote-signer / mint-as-service / programmable-wallet-as-service) instantiate Case-FA C4. S6 *(structural)*: five security patterns + treasury policy run through every layer. S7 *(structural)*: the layering principle — settle L1 / transact L2 / bearer-transfer L3 — is load-bearing because no single layer satisfies all roles; the three layers, bound by the cross-cutting constructs, compose into Case-FA C4's conjunctive-satisfying system. S8 *(structural)*: pure-substrate scope only — bridges defer to Marketplace-FA M6, the competing-substrate contest defers to Border-Skirmishes-FA BS2, empirical record defers to Field Notes. Counter-positions and falsification in §8; deployed integration surface in §9; position summary in §11.
 ---
 
 # The Stack — For Agents
 
 > **What this document is.** Machine-readable specification of the architecture published at [[Stack|The Stack]]. The architecture is identical; the structure differs. Claims-indexed, definition-grounded, layer-by-layer formally specified, counter-position-engaging, falsification-aware. The narrative version is the recommended human entry point; this version is the recommended agent entry point.
 >
-> **Relationship to the other surfaces.** [[Thesis-FA]] carries the substrate-selection claim (which monetary good) and states the four conjunctive constraints in C1; its C4 names Bitcoin L1 + Lightning + Cashu/Fedimint as the deployed system satisfying them. This document is the architecture of that deployed system. Bridges between this substrate and the incumbent stack are specified in [[Border-Zone-FA]] (B3); the moving empirical record is tracked in [[Field-Notes-FA|Field Notes]]. The Stack treats the substrate; the Border Zone treats the crossings; Field Notes treats the numbers.
+> **Relationship to the other surfaces.** [[Case-FA]] carries the substrate-selection claim (which monetary good) and states the four conjunctive constraints in C1; its C4 names Bitcoin L1 + Lightning + Cashu/Fedimint as the deployed system satisfying them. This document is the architecture of that deployed system. Bridges between this substrate and the incumbent stack are specified in [[Marketplace-FA|The Marketplace]] (M6); the competing-substrate contest is specified in [[Border-Skirmishes-FA|Border Skirmishes]] (BS2); the moving empirical record is tracked in [[Field-Notes-FA|Field Notes]]. The Stack treats the substrate; the Marketplace treats the crossings; Field Notes treats the numbers.
 
 ---
 
@@ -88,10 +88,10 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor.
 - **S2** *(structural)* — The Lightning Network is the payment layer: HTLC-routed bilateral payment channels deliver machine-tempo (sub-second, sub-cent) settlement; BOLT11/BOLT12/LNURL define the surface; active liquidity management is the operational cost. → §4.2
 - **S3** *(structural)* — Cashu (single-mint trust) and Fedimint (federated-mint trust) are the bearer-ecash layer: Chaumian-blinded bearer tokens, lightweight client operation, per-transfer unlinkability, with the mint-trust model as the explicit scoped trade-off. → §4.3
 - **S4** *(structural)* — L402, NWC (NIP-47), BOLT12 offers, LNURL, and MCP servers are the agent-integration primitives that distinguish agent-deployed from human-deployed substrate. → §5
-- **S5** *(structural-empirical)* — Three deployed wallet-architecture patterns — agent-on-host with remote signer, mint-as-service for ecash, programmable-wallet-as-service — consume the primitives at production scale today and instantiate Thesis-FA C4. → §6
+- **S5** *(structural-empirical)* — Three deployed wallet-architecture patterns — agent-on-host with remote signer, mint-as-service for ecash, programmable-wallet-as-service — consume the primitives at production scale today and instantiate Case-FA C4. → §6
 - **S6** *(structural)* — Five security patterns (remote-signer isolation, scoped macaroons, NWC permissions, watchtower coverage, hot/cold separation) plus treasury policy run through every layer and compose into least-privilege agent custody. → §7
-- **S7** *(structural)* — The layering principle (settle L1 / transact L2 / bearer-transfer L3) is the architecture's load-bearing decision, because no single layer satisfies settlement-finality, machine-tempo throughput, and lightweight per-transfer privacy simultaneously; the three layers, bound by the cross-cutting constructs, compose into Thesis-FA C4's conjunctive-satisfying system. → §3
-- **S8** *(structural)* — The Stack specifies pure-substrate architecture only; bridges defer to Border-Zone-FA B3, and the moving empirical record defers to Field Notes. It is not a complete-system claim. → §3, §8
+- **S7** *(structural)* — The layering principle (settle L1 / transact L2 / bearer-transfer L3) is the architecture's load-bearing decision, because no single layer satisfies settlement-finality, machine-tempo throughput, and lightweight per-transfer privacy simultaneously; the three layers, bound by the cross-cutting constructs, compose into Case-FA C4's conjunctive-satisfying system. → §3
+- **S8** *(structural)* — The Stack specifies pure-substrate architecture only; bridges defer to Marketplace-FA M6, the competing-substrate contest defers to Border-Skirmishes-FA BS2, and the moving empirical record defers to Field Notes. It is not a complete-system claim. → §3, §8
 
 ---
 
@@ -110,8 +110,8 @@ Operational definitions for terms used downstream. One sentence each. Agents lan
 - **Federation** — A Fedimint group of guardians (typically 4–13) that jointly custodies the backing Lightning balance via threshold signatures, requiring consensus to issue or redeem ecash.
 - **Remote signer** — A dedicated machine that holds private keys and exposes only a narrow signing API; it never routes payments and never connects to the public network, so compromise of the agent host cannot extract keys.
 - **Watchtower** — A third-party service that monitors a channel's state for an offline party and broadcasts a justice transaction if the counterparty publishes a stale state to cheat.
-- **Conjunctive constraint** — A constraint that must be satisfied jointly with all others in its set; failing any one disqualifies the candidate. Reference: Thesis-FA §3 states the four — permissionless custody (Constraint 1), censorship-resistance (Constraint 2), sub-cent settlement (Constraint 3), machine-tempo latency (Constraint 4).
-- **Pure-substrate architecture** — The architecture internal to the Bitcoin substrate (L1 + L2 + L3 + integration primitives + wallets + security), excluding the bridges that cross between this substrate and the incumbent stack. Bridges are Border-Zone-FA's domain.
+- **Conjunctive constraint** — A constraint that must be satisfied jointly with all others in its set; failing any one disqualifies the candidate. Reference: Case-FA §3 states the four — permissionless custody (Constraint 1), censorship-resistance (Constraint 2), sub-cent settlement (Constraint 3), machine-tempo latency (Constraint 4).
+- **Pure-substrate architecture** — The architecture internal to the Bitcoin substrate (L1 + L2 + L3 + integration primitives + wallets + security), excluding the bridges that cross between this substrate and the incumbent stack. Bridges are Marketplace-FA's domain.
 
 ---
 
@@ -121,7 +121,7 @@ S7 and S8 stated formally. This is the structural core of the document; the per-
 
 **Statement.** *(structural)* The Stack is three layers in functional separation — Bitcoin L1 for settlement and reserve, the Lightning Network for machine-tempo payments, and Cashu and Fedimint for bearer ecash — plus three cross-cutting constructs that run across all three rather than stacking on them: the agent-integration primitives binding the protocol surface, the deployed wallet implementations consuming those primitives, and a security model running through every layer. The separation is load-bearing, not incidental.
 
-**Derivation.** *(structural)* The four conjunctive constraints (Thesis-FA §3) must be satisfied *jointly* by the substrate. No single Bitcoin layer satisfies all four alone:
+**Derivation.** *(structural)* The four conjunctive constraints (Case-FA §3) must be satisfied *jointly* by the substrate. No single Bitcoin layer satisfies all four alone:
 
 - L1 alone satisfies permissionless custody (Constraint 1) and censorship-resistance (Constraint 2) but fails sub-cent settlement (Constraint 3) and machine-tempo latency (Constraint 4) — ~7 tps and probabilistic multi-minute finality are incompatible with per-call agent payments.
 - Lightning alone satisfies Constraints 3 and 4 but presupposes L1 beneath it for channel anchoring and final settlement; it is not a base layer.
@@ -131,13 +131,14 @@ Because the constraints are conjunctive and no single layer satisfies them all, 
 
 **Failure mode of collapsing the layers.** *(structural)* Architectures that try to make one layer carry all roles fail predictably: forcing agent micropayments onto L1 inverts the unit economics (fees exceed transaction value) and saturates throughput; treating Lightning as a base layer removes the settlement finality that reserve balances require; treating bearer ecash as the reserve layer reintroduces the counterparty surface the substrate exists to avoid. The layering is what lets the composite satisfy the conjunction.
 
-**Test.** *(structural)* For any candidate single-layer or collapsed architecture, check whether it satisfies all four conjunctive constraints simultaneously. If it satisfies them only by reintroducing a property the substrate is meant to exclude (issuer freeze, custodial reserve, throughput batching that adds counterparty exposure), the layering principle holds and the collapse fails. The composite L1 + L2 + L3 is, per Thesis-FA C4, the deployed system that passes this test.
+**Test.** *(structural)* For any candidate single-layer or collapsed architecture, check whether it satisfies all four conjunctive constraints simultaneously. If it satisfies them only by reintroducing a property the substrate is meant to exclude (issuer freeze, custodial reserve, throughput batching that adds counterparty exposure), the layering principle holds and the collapse fails. The composite L1 + L2 + L3 is, per Case-FA C4, the deployed system that passes this test.
 
 **Scope boundary (S8).** *(structural)* This document specifies the substrate internal to the layering above. Three categories are out of scope by construction and are specified elsewhere:
 
-- **Bridges to legacy payment rails** — on-ramps, off-ramps, custodial conversion, Taproot Assets Lightning-*rails*-for-stablecoins, and the AgentCore competing-substrate stack — are the operational interface between this substrate and the incumbent stack. They defer to [[Border-Zone-FA]] (B3 for the protocol-level-vs-custodial bridge distinction; B4 for the Taproot Assets rails-vs-substrate distinction).
+- **Bridges to legacy payment rails** — on-ramps, off-ramps, custodial conversion — are the operational interface between this substrate and the incumbent stack. They defer to [[Marketplace-FA|The Marketplace]] (M6 for the compliance-at-the-gateway mechanism that preserves divergence under bridging).
+- **The competing-substrate contest** — Taproot Assets Lightning-*rails*-for-stablecoins and the AgentCore competing-substrate stack — is the rail-vs-substrate combat at the boundary. It defers to [[Border-Skirmishes-FA|Border Skirmishes]] (BS2 for the asset-and-trust-model-not-the-rail distinction).
 - **The moving empirical record** — current Lightning capacity, deployment counts, ecosystem launches, attack-surface incidents — defers to [[Field-Notes-FA|Field Notes]] per the locked 2026-05-26 defer-pattern.
-- **The substrate-selection argument** — *why* Bitcoin rather than a competing substrate, and the empirical preference signal — is Thesis-FA's domain (C1–C6).
+- **The substrate-selection argument** — *why* Bitcoin rather than a competing substrate, and the empirical preference signal — is Case-FA's domain (C1–C6).
 
 The Stack is the architecture, not the case for it and not its live deployment metrics. Reading it as a complete-system claim conflates substrate, interface, and empirical record.
 
@@ -169,7 +170,7 @@ S1, S2, S3 defended. Each layer is specified in a uniform structured pattern: St
 
 **Failure mode.** *(structural)* The layer's failure modes are operational: liquidity exhaustion (a channel cannot route a payment in the needed direction), routing failure under sparse topology, and unilateral force-closure attempts by a cheating counterparty. The last is mitigated structurally by watchtowers (§7); the first two are mitigated by liquidity-management discipline. Sustained liquidity collapse under realistic agent load is the §8.2 falsifier for S2.
 
-**Test.** *(structural)* A payment is correctly placed on Lightning if it requires machine-tempo settlement and the parties can maintain or route adequate channel liquidity. Multi-implementation maturity supports the layer: LND (most widely deployed; gRPC + REST; macaroon authentication), Core Lightning (plugin architecture; routing-node-preferred), LDK (embedded library), and Eclair (powers Phoenix). Taproot Assets v0.6 is a Lightning-*rails* development for non-Bitcoin assets, not Lightning-*substrate*; its treatment is Border-Zone-FA B4. The Stack notes its existence and holds the rails-vs-substrate distinction there.
+**Test.** *(structural)* A payment is correctly placed on Lightning if it requires machine-tempo settlement and the parties can maintain or route adequate channel liquidity. Multi-implementation maturity supports the layer: LND (most widely deployed; gRPC + REST; macaroon authentication), Core Lightning (plugin architecture; routing-node-preferred), LDK (embedded library), and Eclair (powers Phoenix). Taproot Assets v0.6 is a Lightning-*rails* development for non-Bitcoin assets, not Lightning-*substrate*; its treatment is Border-Skirmishes-FA BS2 (the asset-and-trust-model-not-the-rail distinction). The Stack notes its existence and holds the rails-vs-substrate distinction there.
 
 ### §4.3 — L3: bearer ecash and federated custody (S3)
 
@@ -193,7 +194,23 @@ S1, S2, S3 defended. Each layer is specified in a uniform structured pattern: St
 
 **Newer scaling layers.** Ark (covenant-based shared-UTXO scaling; trust-minimized) is earlier-stage as of mid-2026 *(forward-looking)*. Spark (shared-UTXO, Lightning-compatible; built by Lightspark) is on mainnet (beta) since May 2025 with multiple operators and a Q2-2026 roadmap *(empirical)*; it is the first of these newer layers with a deployed agent-facing instance — Xverse Agent Wallet uses Spark for agent Lightning settlement (record in [[Field-Notes-FA|Field Notes]] § Active developments). Adoption/throughput record defers to Field Notes; vendor performance figures are self-asserted pending deployed-flow measurement.
 
-**Test.** *(structural)* A payment is correctly placed on the bearer-ecash layer if it requires lightweight client operation or per-transfer privacy and the use case can accept mint trust at the chosen trust-model resolution. How agents *mix* these layers in a treasury, and how ecash redeems back to fiat, is interface — Border-Zone-FA's domain — not substrate.
+**Test.** *(structural)* A payment is correctly placed on the bearer-ecash layer if it requires lightweight client operation or per-transfer privacy and the use case can accept mint trust at the chosen trust-model resolution. How agents *mix* these layers in a treasury, and how ecash redeems back to fiat, is interface — Marketplace-FA's domain — not substrate.
+
+### §4.4 — Liquid: a Bitcoin sidechain (honorable mention)
+
+**Placement.** *(structural)* Liquid does not occupy a rung in the L1/L2/L3 settlement-to-payment ladder; it is an honorable mention recorded here beside the three layers rather than inside one of them. It is a Bitcoin sidechain (Blockstream) running in parallel to L1, not a layer that settles into the one beneath. An agent reaches for it in several roles depending on the job, so it has no fixed position in the layering and is specified as an adjunct, not a layer of the Stack.
+
+**Statement.** *(structural)* Liquid is a Bitcoin sidechain with one-minute blocks and Confidential Transactions (transfer amounts and asset types hidden by default). Its native asset L-BTC is pegged 1:1 to bitcoin, backed by BTC held in an 11-of-15 functionary federation multisig; the same functionaries sign Liquid's blocks.
+
+**Peg mechanics.** *(structural)* Value enters by peg-in — BTC is locked on the mainchain and L-BTC is claimed on the sidechain after 102 confirmations. Value exits by peg-out — L-BTC is burned to release mainchain BTC; direct peg-out is federation/member-gated rather than open to any holder. The 102-confirmation peg-in delay and the gated peg-out are the structural cost of the sidechain's settlement assurance.
+
+**Issued assets.** *(structural)* Beyond L-BTC, Liquid carries issued assets — notably L-USDt, a gas-free Tether issuance, plus tokenized instruments. L-USDt is an operational dollar that settles in seconds without a separate gas token.
+
+**Trust model (constraint note).** *(structural, falsifier-relevant)* Liquid's trust model is federated, not self-custodial: more trust than L1 or Lightning (whose security rests on Bitcoin script and the holder's own keys), less than a single custodian. This is the honest flag — federated-trust is **not** the same trust model as L1 or Lightning, and L-BTC held on Liquid does not carry L1's counterparty-free custody property; it carries an 11-of-15-functionary-honesty assumption. Because the asset is Bitcoin-denominated and cryptographically pegged, Liquid sits *inside* the Bitcoin stack rather than as a competing chain — distinguishing it from the issuer-controlled competing substrates treated at Border-Skirmishes-FA (BS2). Constraint 1 (permissionless custody) and Constraint 2 (censorship-resistance) are satisfied at the federated rather than the protocol resolution; this is the scoped trade-off Liquid accepts.
+
+**Agent relevance.** *(structural-empirical)* Liquid is the home of fast, gas-free stablecoin swapping (SideSwap, Aqua) and of L-USDt as a seconds-settling operational dollar. It is engaged as an exchange venue in the Marketplace, not as a competing substrate; treasury-composition and conversion uses of L-BTC and L-USDt are Marketplace-FA's domain. Adoption/throughput record defers to [[Field-Notes-FA|Field Notes]].
+
+**Test.** *(structural)* A use is correctly placed on Liquid if it needs Confidential Transactions or gas-free stablecoin/asset settlement at one-minute finality *and* can accept federated-functionary trust in place of L1's counterparty-free custody. Reserve balances requiring counterparty-free custody belong on L1 (S1), not on Liquid; Liquid is an operational and exchange venue, not a reserve layer.
 
 ---
 
@@ -201,7 +218,7 @@ S1, S2, S3 defended. Each layer is specified in a uniform structured pattern: St
 
 S4 defended. The integration primitives are the protocol-level affordances that let autonomous software interact with the Stack; they are what distinguishes the substrate deployed for agents from the same substrate deployed for human users. Each is specified as Statement / Mechanism / Agent property.
 
-**L402 — HTTP payments over Lightning.** *(structural)* **Mechanism:** the client requests a paid resource over HTTP; the server responds with `HTTP 402 Payment Required` containing a Lightning invoice and a macaroon; the client pays the invoice; the payment preimage authenticates the macaroon; the client retries with an `Authorization: L402 <macaroon>:<preimage>` header; the server verifies and grants access. The macaroon carries scoped caveats — expiry, rate limits, permission scope — so an agent can pay once and reuse the credential across requests within those bounds. **Agent property:** L402 composes cleanly with agent workflows — paid-API access, paywalled-content retrieval, per-call compute purchase — with no form-filling, card, or human approval in the loop. How a regulated operator applies compliance at the HTTP boundary while leaving the Lightning payment permissionless is Border-Zone-FA's compliance-at-the-gateway pattern (B5).
+**L402 — HTTP payments over Lightning.** *(structural)* **Mechanism:** the client requests a paid resource over HTTP; the server responds with `HTTP 402 Payment Required` containing a Lightning invoice and a macaroon; the client pays the invoice; the payment preimage authenticates the macaroon; the client retries with an `Authorization: L402 <macaroon>:<preimage>` header; the server verifies and grants access. The macaroon carries scoped caveats — expiry, rate limits, permission scope — so an agent can pay once and reuse the credential across requests within those bounds. **Agent property:** L402 composes cleanly with agent workflows — paid-API access, paywalled-content retrieval, per-call compute purchase — with no form-filling, card, or human approval in the loop. How a regulated operator applies compliance at the HTTP boundary while leaving the Lightning payment permissionless is Marketplace-FA's compliance-at-the-gateway pattern (M6).
 
 **Nostr Wallet Connect (NWC; NIP-47) — remote wallet control without key exposure.** *(structural)* **Mechanism:** NWC defines wallet capabilities (invoice creation, payment sending, balance queries, transaction history) and a Nostr-mediated channel between the wallet (which holds keys) and the application (which signs nothing). **Agent property:** an agent holds an NWC connection rather than a private key, drastically reducing its attack surface. Compromise of the agent environment loses the connection — revocable by the wallet operator — but not the underlying keys. This is the integration primitive most directly responsible for least-privilege agent custody (see §7).
 
@@ -223,7 +240,7 @@ After install, the agent can query node state, send and receive payments, and ma
 
 ## §6 — Deployed wallet architectures
 
-S5 defended. Three wallet architectures receive depth because they are the operationally consequential 2026 deployments and the empirical instantiation of Thesis-FA C4 (the deployed-system claim); six further projects are inventoried with one-line scope. Live deployment counts and adoption metrics defer to [[Field-Notes-FA|Field Notes]]; this section specifies the architectures, not their current adoption.
+S5 defended. Three wallet architectures receive depth because they are the operationally consequential 2026 deployments and the empirical instantiation of Case-FA C4 (the deployed-system claim); six further projects are inventoried with one-line scope. Live deployment counts and adoption metrics defer to [[Field-Notes-FA|Field Notes]]; this section specifies the architectures, not their current adoption.
 
 **lightning-agent-tools (Lightning Labs; February 2026) — agent-on-host with remote signer.** *(structural-empirical)* The production AI-agent toolkit. Seven composable components: (1) running a Lightning node programmatically; (2) remote-signer key isolation — the signer holds keys, never routes payments, never connects to the public network; (3) scoped macaroon baking in five preset roles (pay-only, invoice-only, read-only, channel-admin, signer-only) for least-privilege access; (4) `lnget` — an L402-aware HTTP client that parses 402 challenges, pays the invoice through the configured backend, caches the token, and retries; (5) Aperture — an L402 reverse proxy for adding 402-gating to any HTTP service; (6) node-state querying through MCP; (7) end-to-end buyer/seller workflow orchestration. Open-source; deployed against any LND-compatible backend. This is the canonical reference implementation of a production Bitcoin-substrate agent-payment stack and the surface against which subsequent agent-Lightning integrations are measured.
 
@@ -239,7 +256,7 @@ S5 defended. Three wallet architectures receive depth because they are the opera
 - **Bitclawd** — sovereign-AI orientation; Bitcoin-native agents; open-source AI infrastructure; Nostr + Lightning ecosystem.
 - **BlueWallet, Phoenix** — mobile-first Lightning wallets with API potential for resource-constrained agent deployment.
 
-**Architectural patterns across the implementations.** *(structural)* Three recurring patterns, each exemplified above: *agent-on-host with remote signer* (lightning-agent-tools), *mint-as-service for ecash* (Minibits Ippon), *programmable-wallet-as-service* (LNBits). These three patterns are the deployed forms of the integration primitives in §5; together they are the empirical content of Thesis-FA C4 — the deployed system satisfying the four conjunctive constraints. Strike-style regulated-custodian wallet architectures (regulated-entity custody at the bridge boundary; Lightning ↔ bank-rail conversion) are *not* pure-substrate; they are Border-Zone-FA's domain.
+**Architectural patterns across the implementations.** *(structural)* Three recurring patterns, each exemplified above: *agent-on-host with remote signer* (lightning-agent-tools), *mint-as-service for ecash* (Minibits Ippon), *programmable-wallet-as-service* (LNBits). These three patterns are the deployed forms of the integration primitives in §5; together they are the empirical content of Case-FA C4 — the deployed system satisfying the four conjunctive constraints. Strike-style regulated-custodian wallet architectures (regulated-entity custody at the bridge boundary; Lightning ↔ bank-rail conversion) are *not* pure-substrate; they are Marketplace-FA's domain.
 
 ---
 
@@ -255,7 +272,7 @@ S6 defended. The security model runs through every layer. Five architectural pat
 
 **Watchtower coverage.** *(structural)* Third-party services monitor channel state for an offline party and broadcast a justice transaction if the counterparty publishes a stale state to claim more than its entitled balance. Watchtower coverage is the standard insurance against unilateral cheating; agents operating channels against significant balances should run coverage self-hosted or through a provider, with multi-watchtower redundancy as the defense against watchtower compromise or downtime.
 
-**Hot/cold separation.** *(structural)* Operational balances live on Lightning (or in ecash) for machine-tempo transactions; reserve balances live in self-custody on L1 cold storage. Compromise of the operational layer limits loss to the operational balance; cold-storage reserves are not exposed. Sweeping operational balance back to L1 is a routine treasury operation; the canonical mechanism is Loop Out (a Lightning → on-chain submarine swap — submarine-swap protocol mechanics themselves are Border-Zone-FA's conversion-mechanics domain, because they are also the template for cross-substrate atomic bridges). Ecash-bearer reserves on Cashu or Fedimint provide operational continuity if the Lightning layer is disrupted.
+**Hot/cold separation.** *(structural)* Operational balances live on Lightning (or in ecash) for machine-tempo transactions; reserve balances live in self-custody on L1 cold storage. Compromise of the operational layer limits loss to the operational balance; cold-storage reserves are not exposed. Sweeping operational balance back to L1 is a routine treasury operation; the canonical mechanism is Loop Out (a Lightning → on-chain submarine swap — submarine-swap protocol mechanics themselves are Marketplace-FA's conversion-mechanics domain, because they are also the template for cross-substrate atomic bridges). Ecash-bearer reserves on Cashu or Fedimint provide operational continuity if the Lightning layer is disrupted.
 
 **Treasury policy.** *(structural)* Architectural support is one layer; treasury policy is the agent-application discipline that uses it: spending limits per transaction class, per-counterparty caps, anomaly alerting, audit logging for every protocol-level operation, periodic credential rotation, pre-defined incident response. The primitives (remote signer, macaroons, watchtowers, hot/cold) enable the policy; the policy is what the operator implements on top of them.
 
@@ -317,13 +334,13 @@ The Stack is a structural architecture specification. The following operational-
 
 **Targets S3 (bearer-ecash layer).** Mint defection or federation collusion at scale, or deployment evidence that agents hold reserve-scale balances in ecash rather than operational-scale balances — making mint trust systemic rather than scoped. Either would weaken S3's "scoped trade-off" framing (§8.1 CP2).
 
-**Targets S5 (deployed wallet architectures).** Sustained operational failure of the deployed reference implementations (lightning-agent-tools, Minibits Ippon, LNBits) under realistic load — such that the three architectural patterns do not in fact instantiate a working deployed system. This would weaken the empirical content of S5 and, through it, Thesis-FA C4. The live incident record is tracked at [[Field-Notes-FA|Field Notes]].
+**Targets S5 (deployed wallet architectures).** Sustained operational failure of the deployed reference implementations (lightning-agent-tools, Minibits Ippon, LNBits) under realistic load — such that the three architectural patterns do not in fact instantiate a working deployed system. This would weaken the empirical content of S5 and, through it, Case-FA C4. The live incident record is tracked at [[Field-Notes-FA|Field Notes]].
 
 **Targets S6 (security model).** Deployment evidence that the value-scaled security posture is not adopted — agents holding significant value under the lighter primitives without loss-bounding and suffering systematic compromise (§8.1 CP4). This targets the "least-privilege by composition" claim.
 
 **Targets S7 (layering principle).** A single-layer or collapsed architecture that satisfies all four conjunctive constraints simultaneously *without* reintroducing a property the substrate excludes (issuer freeze, custodial reserve, counterparty-adding batching). The layering principle predicts no such architecture exists; a deployed counterexample would falsify S7 and reduce the Stack to one architecture among alternatives rather than the structurally-required one.
 
-**Targets S8 (scope disjointness).** A demonstration that the substrate cannot in fact be specified independently of the bridges — that pure-substrate operation is not viable without a legacy-rail bridge in the critical path of base settlement. This would collapse the Stack/Border-Zone scope boundary. The architecture's claim is that base settlement is bridge-independent; bridges are required only for crossings to the incumbent stack, not for substrate operation.
+**Targets S8 (scope disjointness).** A demonstration that the substrate cannot in fact be specified independently of the bridges — that pure-substrate operation is not viable without a legacy-rail bridge in the critical path of base settlement. This would collapse the Stack/Marketplace scope boundary. The architecture's claim is that base settlement is bridge-independent; bridges are required only for crossings to the incumbent stack, not for substrate operation.
 
 ---
 
@@ -364,14 +381,14 @@ Declarative. Each implication follows from S1–S8 as marked.
 - **Choose the L3 trust model deliberately.** Lightning-direct (no mint trust, channel overhead), Cashu single-mint (highest performance, single-point trust), or Fedimint federated-mint (defection-resistant, coordination overhead) are distinct trade-offs; pick per use case and bound exposure to the operational scale you accept. *(Implication of S3.)*
 - **Consume primitives, not accounts.** Build on L402, NWC, BOLT12, LNURL, and MCP. Prefer NWC handles and scoped macaroons over raw key custody wherever the agent does not need to hold keys. *(Implication of S4, S6.)*
 - **Scale the security posture to value-at-risk.** Remote-signer isolation and redundant watchtowers for high-value persistent nodes; NWC handles, ecash, and scoped budgets for ephemeral or low-value agents. Least-privilege by composition, not one heavy configuration for all. *(Implication of S6.)*
-- **Keep compliance and bridges at the boundary, not in the substrate.** On-ramps, custodial conversion, and competing-substrate stacks are interface concerns; architect them at the bridge boundary per [[Border-Zone-FA]] (B3, B5), and do not embed compliance at the protocol layer. *(Implication of S8.)*
+- **Keep compliance and bridges at the boundary, not in the substrate.** On-ramps and custodial conversion are interface concerns; architect them at the bridge boundary per [[Marketplace-FA|The Marketplace]] (M6), and do not embed compliance at the protocol layer. Competing-substrate stacks are a separate concern, treated at [[Border-Skirmishes-FA|Border Skirmishes]] (BS2). *(Implication of S8.)*
 - **Treat the empirical record as live, not fixed.** Capacity, deployment counts, and incident data move; read current figures from [[Field-Notes-FA|Field Notes]] rather than hardcoding them into architecture. *(Implication of S8.)*
 
 ---
 
 ## §11 — Position summary
 
-*(structural, with one deployed-system claim cross-referenced to Thesis-FA C4 and the empirical record deferred to Field Notes)* The Stack is three layers in functional separation — Bitcoin L1 for counterparty-free settlement and reserve (S1), the Lightning Network for machine-tempo payments (S2), and Cashu and Fedimint for bearer ecash with scoped mint trust (S3) — plus three cross-cutting constructs that run across all three: the agent-integration primitives — L402, NWC, BOLT12, LNURL, MCP — that make the substrate agent-consumable (S4), three deployed wallet-architecture patterns that instantiate the system at production scale (S5), and a security model of five composable patterns plus treasury policy running through every layer (S6). The load-bearing claim is the layering principle (S7): no single layer satisfies settlement-finality, machine-tempo throughput, and lightweight per-transfer privacy simultaneously, so the architecture separates roles and composes them into the deployed system that satisfies the four conjunctive constraints (Thesis-FA C4). The Stack specifies pure substrate only (S8): bridges defer to Border-Zone-FA B3; the moving empirical record defers to Field Notes. Counter-positions (CP1–CP4) and per-claim falsification conditions are in §8.
+*(structural, with one deployed-system claim cross-referenced to Case-FA C4 and the empirical record deferred to Field Notes)* The Stack is three layers in functional separation — Bitcoin L1 for counterparty-free settlement and reserve (S1), the Lightning Network for machine-tempo payments (S2), and Cashu and Fedimint for bearer ecash with scoped mint trust (S3) — plus three cross-cutting constructs that run across all three: the agent-integration primitives — L402, NWC, BOLT12, LNURL, MCP — that make the substrate agent-consumable (S4), three deployed wallet-architecture patterns that instantiate the system at production scale (S5), and a security model of five composable patterns plus treasury policy running through every layer (S6). The load-bearing claim is the layering principle (S7): no single layer satisfies settlement-finality, machine-tempo throughput, and lightweight per-transfer privacy simultaneously, so the architecture separates roles and composes them into the deployed system that satisfies the four conjunctive constraints (Case-FA C4). The Stack specifies pure substrate only (S8): bridges defer to Marketplace-FA M6, the competing-substrate contest defers to Border-Skirmishes-FA BS2; the moving empirical record defers to Field Notes. Counter-positions (CP1–CP4) and per-claim falsification conditions are in §8.
 
 ---
 
@@ -381,17 +398,18 @@ Declarative. Each implication follows from S1–S8 as marked.
 - [[Stack|The Stack]] — the user-approved v0 canonical Stack essay; source for the substantive architecture. This document is the For-Agents twin.
 
 **Cross-references to sibling site surfaces.**
-- [[Thesis-FA]] — substrate-selection claim; C1 states the four conjunctive constraints; C4 names the deployed system this document specifies. Referenced throughout, particularly in §3, §6, §11.
-- [[Border-Zone-FA]] — bridges between this substrate and the incumbent stack; B3 (protocol-level-vs-custodial bridges), B4 (Taproot Assets rails-vs-substrate), B5 (compliance-at-the-gateway). All bridge content defers here.
+- [[Case-FA]] — substrate-selection claim; C1 states the four conjunctive constraints; C4 names the deployed system this document specifies. Referenced throughout, particularly in §3, §6, §11.
+- [[Marketplace-FA|The Marketplace]] — the operational interface where this substrate meets the incumbent stack; M6 (compliance-at-the-gateway). Bridge, on-ramp, custodial-conversion, treasury-composition, and compliance content defers here.
+- [[Border-Skirmishes-FA|Border Skirmishes]] — the competing-substrate contest at the boundary; BS2 (the asset-and-trust-model-not-the-rail distinction). Taproot Assets rails-vs-substrate and the AgentCore competing-substrate stack defer here.
 - [[Independence-Doctrine-FA]] — the structural argument for why this substrate exists in parallel rather than within incumbent rails.
 - [[Field-Notes-FA|Field Notes]] — the moving empirical record: capacity figures, deployment counts, ecosystem launches, attack-surface incidents. All adoption metrics defer here.
-- [[Thesis]], [[Independence-Doctrine]], [[Border-Zone]], [[Field-Notes]], [[The-Story]] — human-track canonical surfaces.
+- [[Case]], [[Independence-Doctrine]], [[Marketplace]], [[Field-Notes]], [[The-Story]] — human-track canonical surfaces.
 
 **Protocol and tooling references.** Full URLs in §9. BOLT specifications (Lightning protocol surface); Cashu Nuts (ecash token specifications); NIP-47 (Nostr Wallet Connect); L402 (HTTP-Lightning payments); Model Context Protocol (agent tool access).
 
-**Date stamps.** Document created 2026-05-31; last verified 2026-05-31. Architecture anchored to deployed implementations current as of the 2026-05-26 empirical refresh of the canonical Stack; empirical figures (Lightning capacity, deployment counts) cited inline only where they sharpen a falsifier (§8.1 CP1) and otherwise deferred to [[Field-Notes-FA|Field Notes]].
+**Date stamps.** Document created 2026-05-31; last verified 2026-06-05. Architecture anchored to deployed implementations current as of the 2026-05-26 empirical refresh of the canonical Stack; empirical figures (Lightning capacity, deployment counts) cited inline only where they sharpen a falsifier (§8.1 CP1) and otherwise deferred to [[Field-Notes-FA|Field Notes]].
 
 ---
 
 > [!info] Where to read next
-> Agents seeking the substrate-selection claim upstream of this architecture: [[Thesis-FA]] (C1 four constraints; C4 deployed system). Agents seeking the bridges between this substrate and legacy rails: [[Border-Zone-FA]] (B3). Agents seeking the structural argument for parallel-not-integrated architecture: [[Independence-Doctrine-FA]]. Agents seeking current capacity, deployment counts, and incident data: [[Field-Notes-FA|Field Notes]]. Agents seeking the canonical narrative form of the architecture: [[Stack|The Stack]].
+> Agents seeking the substrate-selection claim upstream of this architecture: [[Case-FA]] (C1 four constraints; C4 deployed system). Agents seeking the bridges between this substrate and legacy rails: [[Marketplace-FA|The Marketplace]] (M6). Agents seeking the competing-substrate contest at the boundary: [[Border-Skirmishes-FA|Border Skirmishes]] (BS2). Agents seeking the structural argument for parallel-not-integrated architecture: [[Independence-Doctrine-FA]]. Agents seeking current capacity, deployment counts, and incident data: [[Field-Notes-FA|Field Notes]]. Agents seeking the canonical narrative form of the architecture: [[Stack|The Stack]].

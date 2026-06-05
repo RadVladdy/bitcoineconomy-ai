@@ -32,6 +32,10 @@ MCP is the connective tissue; the Lightning MCP servers are what make payments a
 - Standardizing how an agent reaches payment infrastructure (and everything else) through one interface.
 - Building once and integrating across many clients (Claude, ChatGPT, VS Code, Cursor).
 
+## Dependencies
+
+An MCP-capable client (Claude, Cursor, VS Code, n8n, or custom) and — to actually transact — a Lightning MCP server paired with it (lightning-mcp-server or Alby's nwc-mcp-server), backed by a Lightning node or NWC connection. MCP carries the tools, not the money.
+
 ## Quick start
 
 Pair MCP with a payments server. Two on-stack options: **lightning-mcp-server** (part of [lightning-agent-tools](/tools/lightning-agent-tools)) and Alby's **nwc-mcp-server** (see [Alby & NWC](/tools/alby-nwc)). Example — add a Lightning Node Connect-backed node to Claude Code:

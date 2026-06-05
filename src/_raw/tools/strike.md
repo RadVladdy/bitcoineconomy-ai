@@ -32,6 +32,10 @@ This is a **Border Zone** tool, not pure substrate — it interfaces the Bitcoin
 - Lightning-native send/receive where you want a managed, compliant counterparty.
 - Programmatic payouts/collections via a documented REST API.
 
+## Dependencies & payment
+
+**Dependencies:** a Strike account (KYC at onboarding) and API access via OAuth; availability is jurisdiction-gated. **Payment:** Strike moves value between bank/fiat rails (USD) and Bitcoin/Lightning — it is the regulated bridge, holding custody at the boundary, so the fiat leg carries the compliance and the Bitcoin/Lightning leg stays permissionless downstream.
+
 ## Quick start
 
 Build against the API documented at `docs.strike.me` (developer portal at `strike.me/developer/`), using OAuth for third-party access. Availability is gated by jurisdiction.

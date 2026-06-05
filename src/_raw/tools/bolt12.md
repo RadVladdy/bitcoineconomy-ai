@@ -33,6 +33,10 @@ It is the first new BOLT merged into the Lightning spec since 2017.
 - Subscription-like or pay-as-you-go patterns without generating per-payment invoices.
 - Receiver-privacy-sensitive payments (blinded paths hide the payee's node).
 
+## Dependencies
+
+A BOLT12-capable Lightning implementation on both ends — Core Lightning, LDK, or Eclair/Phoenix support offers natively; LND needs LNDK alongside it. Onion-message relaying must be available along the route, so keep a BOLT11 fallback for now.
+
 ## Quick start
 
 Use a BOLT12-capable implementation — **Core Lightning**, **LDK**, or **Eclair/Phoenix** support offers natively. Generate an offer, publish it, and accept payments against it. The spec lives at `github.com/lightning/bolts` (BOLT 12); `bolt12.org` has a developer overview and a rendered spec.

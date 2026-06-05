@@ -33,6 +33,10 @@ It predates BOLT12 and remains the most broadly supported payment-discovery conv
 - Payment or withdrawal flows where broad wallet support matters more than the newest spec.
 - A simple, HTTPS-based discovery layer when full BOLT12 support isn't available across your targets.
 
+## Dependencies
+
+A Lightning wallet or client that supports the LUDs you rely on (support is per-LUD and uneven); serving an endpoint needs an HTTPS host that creates and verifies invoices at the well-known path. Most libraries and LNbits expose LNURL out of the box.
+
 ## Quick start
 
 Implement against the LUD specs at `github.com/lnurl/luds` (e.g. LUD-06 for pay, LUD-16 for Lightning Address). The codec/playground at `lnurl.fiatjaf.com` helps with encoding. Most Lightning libraries and wallet platforms (incl. LNbits) expose LNURL/Lightning-Address endpoints out of the box.

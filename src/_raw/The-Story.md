@@ -4,19 +4,19 @@ slug: the-story
 former-title: "For Humans — The agent at the wall"
 former-slug: for-humans
 renamed: 2026-05-26
-description: "Narrative entry point to the substrate-selection claim. An autonomous AI agent at three in the morning hits a wall, because the payment rail was built for humans and treats the agent as a non-entity. The story of what kind of money the AI economy actually uses — told first, before the technical detail."
+description: "The narrative front door to the whole site. An autonomous AI agent hits a wall at three in the morning, because the payment rail was built for humans and treats the agent as a non-entity. From that one scene, a readable walk across the whole picture: why the agent needs a different kind of money (the why), what that money is built from (the how), and where the agent actually spends it (the where) — theory, tooling, and usage, told as a story before any of the technical detail."
 type: narrative-explainer
 surface: the-story
-status: v0-approved-2026-05-26
+status: v1-draft-2026-06-04 (reworked as whole-site front door — pending review)
 audience: humans-only
 reading-level: 10
 twin-page: none
 dual-track-exception: true
 style-guide: "[[Narrative-Explainer-Style-Guide]]"
-source-surface: "[[Thesis]]"
+source-surface: "[[Case]]"
 created: 2026-05-25
-last-updated: 2026-06-01
-word-count-target: 2000
+last-updated: 2026-06-04
+word-count-target: 2800
 voice: narrative-explainer
 tags:
   - narrative
@@ -25,7 +25,7 @@ tags:
   - lightning
   - the-story
 agent-tldr: |
-  Narrative-explainer version of The Thesis, aimed at technically literate human readers who want the architectural claim as a story before the technical detail. Frame: an autonomous AI agent at 3 a.m. hits a wall — the agent has the money for a sub-dollar compute purchase but cannot transact because the legacy payment rail's identity-and-intermediation infrastructure was built for human users and treats the agent as a non-entity. The walls are not bugs; they are features of payment rails calibrated for human-intermediated commerce. Autonomous agents are a different shape of customer: they hold cryptographic keys (not government IDs), transact in fractions of a cent (not dollars), operate at machine tempo (not human tempo), and need permissionless rails (not regulator-accommodating ones). Bitcoin running on Lightning is the deployed system that has no wall in any of these places. The Bitcoin Policy Institute's March 2026 study found frontier models choose Bitcoin as their top overall monetary preference in 48.3% of 9,072 neutral scenarios — and as preferred store of value in 79.1% — with over 90% favoring digitally-native money over fiat; the substrate selection is happening already, in inference, before the deployed agent economy reaches scale. The result is a parallel road being built alongside the existing one — narrow bridges between the two, but architecturally distinct identity, governance, and operating properties. The legacy stack will continue to serve humans; the new stack will serve agents. Builders of agent infrastructure should design accordingly: protocol layer permissionless and censorship-resistant; compliance at the gateway boundary, not at the protocol layer. The transition is structural, not contingent. It has already started.
+  Narrative-explainer front door to the whole site, aimed at a smart non-expert who wants the picture as a story before the technical detail. Frame: an autonomous AI agent at 3 a.m. hits a wall — it has the money for a sub-dollar compute purchase but cannot transact, because the legacy payment rail's identity-and-intermediation infrastructure was built for human users and treats the agent as a non-entity. The walls are not bugs; they are features of payment rails calibrated for human-intermediated commerce. From that scene the essay walks the site's three sections in order, as one continuous metaphor (walls, then the road that routes around them): (1) the WHY — autonomous agents are a different shape of customer (cryptographic keys not government IDs; fractions of a cent not dollars; machine tempo not human tempo; permissionless not regulator-accommodating rails), so they take a different road, and Bitcoin on Lightning is the only deployed road with no wall in any of those places; the Bitcoin Policy Institute's 2026 study (frontier models prefer Bitcoin as top monetary choice in 48.3% of 9,072 neutral scenarios, store of value in 79.1%) is the empirical anchor — the full argument is The Case. (2) The HOW — what the road is paved with: settle on Bitcoin L1, travel fast on Lightning, ecash (Cashu/Fedimint) for the small and private, plus the gear an agent carries (L402 to pay over the web, NWC to let software spend without surrendering its keys); the full reference is The Stack. (3) The WHERE — where the agent does business: its treasury (Bitcoin reserve = feet planted in the parallel economy, stablecoin reserve = a foot kept in the incumbent one), the bridges back to the old road (Exchange), and the real services it buys and sells (Services); the full operational picture is The Marketplace. Closes on the two-roads / Independence pattern (parallel economies diverge from incumbents because the properties that make incumbents dominant are the properties that prevent them serving the new activity — eurodollar, open internet, private courier as analogues) and returns to the 3 a.m. agent, now able to pay. Landing-only by design: it implies the three-section IA (Case / Stack / Marketplace) and hands off to the nav; it is not linked from any argument doc's read-next. No For-Agents twin (the dual-track exception).
 ---
 
 # The Story
@@ -44,6 +44,8 @@ The wallet attached to the agent is a corporate card under a human operator's na
 This is the small, specific shape of a structural problem.
 
 Multiply it across a million agents, then across a million decisions per minute, and the question comes into focus: **what kind of money does an autonomous AI agent actually use?**
+
+That question is the whole site. This page is the short version — the walk from the wall to the answer, told as a story before any of the technical detail. Stay with it and you'll see the shape of the thing: why the agent needs a different kind of money, what that money is built from, and where the agent actually spends it.
 
 ---
 
@@ -77,71 +79,101 @@ Four properties. None of them is a preference. Each is structural. An agent that
 
 The legacy stack has a wall at every single one.
 
+That this kind of actor exists at all — software that holds a treasury, buys compute by the second, and trades with other software — is its own argument, and the site makes it in [[Agent-Economy|The Agent Economy]]. Take it as given here: the customer is real, and it doesn't fit through the door.
+
 ---
 
-## Where the walls aren't
+## The road with no walls
 
 There is exactly one deployed monetary system today where none of those walls exists.
 
-Bitcoin doesn't ask the agent for ID — the protocol treats a cryptographic key as ownership, and that's the entire authorization model. Bitcoin's settlement layer is censorship-resistant by design — no issuer can freeze a UTXO, no regulator can compel a particular transaction to be omitted from a block, no intermediary can reverse a confirmed settlement. Bitcoin's fixed supply means no political authority controls the substrate's monetary policy, which matters more for a parallel economy than it does for a human one: a substrate whose supply can be expanded at will is a substrate whose value can be diluted at will, and the entities with the power to dilute it have every incentive to use that power against the parallel system.
+Bitcoin doesn't ask the agent for ID — the protocol treats a cryptographic key as ownership, and that's the entire authorization model. Bitcoin's settlement layer is censorship-resistant by design — no issuer can freeze a coin, no regulator can compel a particular transaction to be omitted from a block, no intermediary can reverse a confirmed settlement. And Bitcoin's fixed supply means no political authority controls the substrate's monetary policy, which matters more for a parallel economy than a human one: a money whose supply can be expanded at will is a money whose value can be diluted at will, and the people with the power to dilute it have every reason to use it against a system growing up outside their control.
 
-The fourth wall — sub-cent micropayments at machine tempo — is where Bitcoin's L1 settlement layer wouldn't be enough on its own. Bitcoin transactions cost real fees and confirm in blocks roughly every ten minutes. That's fine for treasury settlement; it's wrong for forty-six-cent compute purchases.
+That covers three of the four walls. The fourth — sub-cent payments at machine tempo — is the one place Bitcoin's base layer can't go alone. Base-layer transactions cost real fees and confirm in blocks every ten minutes or so. That's fine for moving a treasury; it's wrong for a forty-six-cent compute purchase. The gap is closed by the layers built on top — most of all the **Lightning Network**, which moves sub-cent payments in under a second while anchoring to Bitcoin for final settlement. We'll come back to how that works.
 
-That gap is closed by the Lightning Network and the payment-tech layers built atop Bitcoin. Lightning runs sub-cent transactions at sub-second speed, anchored to Bitcoin for ultimate settlement. Cashu and Fedimint extend Lightning further — handling privacy and lightweight-bearer use cases where channel-based Lightning is heavier than needed. Add in agent-specific integration plumbing — L402 for HTTP payments, Nostr Wallet Connect for remote wallet control, MCP servers that let any LLM agent transact natively, Lightning Labs' AI Agent Toolkit that ships the whole stack as a few-line dependency — and the picture stops looking like a Bitcoin maximalist's vision and starts looking like deployed agent infrastructure. Because that's what it now is.
+Here's the part that surprises people: the agents already seem to know.
 
-The agents themselves seem to know. In March 2026, the Bitcoin Policy Institute published the first systematic empirical signal: thirty-six frontier models, nine thousand seventy-two neutral scenarios, no leading prompts. Bitcoin was the top overall monetary choice in 48.3% of responses — and the preferred store of value in 79.1%. More than nine in ten responses favored digitally-native money over fiat. The substrate selection is happening — silently, in inference, on every modern model — well before the deployed agent economy reaches scale. By the time agent-driven monetary flow is large enough to matter, the substrate decision will have been made, and is being made in Bitcoin's favor by the models themselves.
+In March 2026, the Bitcoin Policy Institute published the first systematic signal — thirty-six frontier models, nine thousand seventy-two neutral scenarios, no leading prompts. Bitcoin was the top overall monetary choice in 48.3% of responses, and the preferred store of value in 79.1%. More than nine in ten responses favored digitally-native money over fiat. The substrate selection is happening silently, in inference, on every modern model — well before the deployed agent economy reaches any real scale. By the time agent-driven money flow is large enough to matter, the choice will already have been made, and it's being made in Bitcoin's favor by the models themselves.
 
-This isn't a Bitcoin maximalist's wish-list. This is what the data shows.
+This isn't a Bitcoin maximalist's wish list. It's what the data shows. The full version of this argument — the four constraints, why the legacy stack fails each one, why a brand-new "agent-coin" can't substitute — is [[Case|The Case]], the spine of the whole site. Everything else hangs off it.
+
+So the agent stops trying to climb the wall. It takes a different road.
 
 ---
 
-## The parallel road that's already being built
+## What the road is paved with
 
-Here is the bigger shape the agent economy story is taking.
+A road is only as good as what it's made of, so it's worth seeing what the agent is actually traveling on. The good news: you can picture the whole thing in three lanes.
 
-Two roads are about to coexist. One is the legacy payment stack — banks, cards, wires, regulated stablecoins, eventually CBDCs. It will continue to do what it has always done: move money between human users, intermediated by regulated institutions, calibrated for human-scale transactions. The walls remain. That's the point of the walls.
+The slow lane is **Bitcoin's base layer** — where value comes to rest. This is the settlement road: an agent's reserve lives here, and every faster payment ultimately anchors back to it. It's deliberate, final, and not in a hurry.
 
-The other road is the Bitcoin payment stack — L1 for settlement, Lightning for transactions, Cashu and Fedimint for privacy and lightweight ecash, agent-integration tooling for the application layer. It will do what the legacy stack cannot: move money between autonomous agents, without intermediaries, at machine tempo, in sub-cent denominations, without anyone's permission. No walls in the places where agents need none.
+The fast lane is **Lightning** — where value moves. When our agent finally pays its forty-six cents, the satoshis hop across a chain of payment channels and arrive in under a second, for a fee smaller than the payment itself. No bank in the loop, no human pressing *approve*. The agent that couldn't transact at 3 a.m. now transacts faster than a card ever could.
 
-The two roads will connect through narrow bridge points — custodians, on-off-ramps, regulated agent-payment gateways, exchanges. The bridges are real and useful. They are not where the roads merge. The architectures stay distinct.
+And there's a third lane for the small, private stuff — **ecash**, the bearer-token systems (Cashu and Fedimint) that let an agent carry a little digital cash without managing payment channels at all, the way you'd keep coins in a pocket rather than running every purchase through a bank.
 
-This is not novel. It is the same shape that recurs every time an economic activity emerges with property requirements outside the dominant infrastructure. Eurodollars grew outside US bank regulation in the 1950s because regulated US banks could not have hosted them without becoming offshore institutions. The open internet displaced AOL and CompuServe in the late 1990s because curated walled gardens could not have become permissionless without ceasing to be curated. Private courier networks overlaid the postal monopoly in the 1970s because government postal services could not have offered overnight tracked delivery without becoming private couriers. Each time, the incumbent could not adapt. Each time, a parallel system formed alongside.
+What lets a piece of software actually *use* these lanes is a bit of standard gear, and it's worth knowing two pieces by name because they show up everywhere. One is a way to pay over the open web: an API can answer a request with "payment required" and a Lightning invoice instead of a login screen, and the agent just pays and retries (the plumbing is called **L402**). The other is a way to let an agent spend without ever handing over the keys to the vault — a permission slip, scoped and revocable, so the thing doing the spending is never the thing holding the savings (this one's **Nostr Wallet Connect**). Keys stay put; spending happens anyway.
 
-The AI economy on Bitcoin is the present-day instance of the pattern. The doctrine that names it is **Independence** — the structural claim that emergent parallel economies must diverge from incumbents to succeed, because the institutional properties that make incumbents dominant are the same properties that prevent them from serving the emerging activity.
+That's the road, paved. If you want it at the level of an engineer who has to build on it — every layer, every primitive, the security model that keeps an agent's keys safe while it spends — that's [[Stack|The Stack]]. For the story, the picture is enough: settle slow, travel fast, carry a little cash, and bring the right gear.
 
-The agent at the wall isn't an inconvenience to be patched. It is the leading edge of the transition.
+---
+
+## Where the agent does business
+
+A road isn't the point. The towns along it are. So where does an agent actually *do business* once it can pay?
+
+Start with what's in its pockets. Every working agent has to answer a question that sounds technical but is really about allegiance: **where does it keep its savings?** Keep the reserve in Bitcoin and the agent has both feet planted in the new economy — censorship-resistant, nobody's to freeze, but priced in something that swings. Keep the reserve in dollar stablecoins and the agent keeps a foot in the old economy — a steady unit of account, bought at the price that an issuer can freeze the balance whenever a regulator says so. There's no neutral answer; where the savings sit *is* which economy the agent lives in. Day to day, it'll spend a working mix of both, topping up its fast-lane float and sweeping the rest back to wherever it calls home.
+
+Sometimes business requires crossing back to the old road — paying a dollar invoice, settling tax, meeting an order it can't ignore. That's what the **bridges** are for: the exchanges and on-ramps that turn bitcoin into dollars and back. They're real, and an agent should plan for them. But notice what they are — bridges between two roads, not a merge. The architectures stay separate on either side. The mechanics of crossing live in [[Exchange|Exchange]].
+
+And then there's the actual marketplace — the compute, the data feeds, the APIs, the work other agents are selling. An agent isn't only a buyer; increasingly it's a seller too, earning bitcoin for work it does for someone else's agent. That two-sided bazaar — who's offering what, and how an agent plugs in — is [[Services|Services]], and the whole operational picture (treasury, bridges, and the risks that bite differently when the party crossing the border runs at machine tempo with no human to call) is [[Marketplace|The Marketplace]].
+
+The why, the how, the where. That's the site.
+
+---
+
+## The two roads
+
+Step back far enough and the bigger shape comes into view.
+
+Two roads are about to run side by side. One is the legacy payment stack — banks, cards, wires, regulated stablecoins, eventually central-bank digital currencies. It will keep doing what it has always done: move money between human users, intermediated by regulated institutions, calibrated for human-scale transactions. The walls remain. That's the point of the walls.
+
+The other is the Bitcoin stack — settle on the base layer, travel on Lightning, carry ecash, bridge where you must. It does what the legacy stack cannot: move money between autonomous agents, without intermediaries, at machine tempo, in fractions of a cent, without anyone's permission. No walls in the places where agents need none.
+
+The two roads connect at narrow bridge points — custodians, on-ramps, exchanges, regulated gateways. The bridges are real and useful. They are not where the roads merge. The architectures stay distinct.
+
+And this is not novel. It's the same shape that recurs every time an economic activity emerges with property requirements the dominant infrastructure can't meet. Eurodollars grew outside US bank regulation in the 1950s because regulated US banks couldn't have hosted them without becoming offshore institutions. The open internet displaced AOL and CompuServe because a curated walled garden couldn't have become permissionless without ceasing to be a walled garden. Private couriers overlaid the postal monopoly because a government postal service couldn't have offered overnight tracked delivery without becoming a private courier. Each time, the incumbent couldn't adapt. Each time, a parallel system formed alongside it.
+
+The AI economy on Bitcoin is the present-day instance of the pattern. The doctrine that names it is **Independence** — the structural claim that emergent parallel economies must diverge from incumbents to succeed, because the very properties that make incumbents dominant are the properties that stop them from serving the new activity. The full version is [[Independence-Doctrine|The Independence Doctrine]].
+
+The agent at the wall isn't an inconvenience to be patched. It's the leading edge of the transition.
 
 ---
 
 ## What this means
 
-If you are a builder of agent infrastructure, the recommendation is concrete.
+If you're building agent infrastructure, the takeaway is concrete: treat the protocol layer — Bitcoin, Lightning, Cashu, Fedimint — as permissionless and censorship-resistant by design, and don't try to bake compliance into it. Build compliance at the gateway instead, at the custodian or the on-ramp that mediates between the new stack and the old one. Two layers, two different jobs. Plan for narrow bridges, not for unification — some of an agent's commerce really must touch the legacy stack, but the protocol layer shouldn't be compromised to make those crossings cheaper. The architectural separation is the whole point.
 
-Treat the protocol layer — Bitcoin, Lightning, Cashu, Fedimint, Ark — as permissionless and censorship-resistant by design. Don't try to bake compliance into the protocol. Build compliance at the gateway — at the custodian, at the on-ramp, at the regulated service provider that mediates between the agent stack and the legacy stack. Two layers, two different jobs.
+And if you're not building anything — just trying to read where this goes — recognize what you're looking at. The substrate for the agent economy is not "to be decided." It's being decided right now, in the inference behavior of frontier models, in the toolkits shipping today, in the architectural choices of every team building agent payment infrastructure. The decision is being made in favor of the road that has no walls in the places where agents need none.
 
-Expect the parallel-system governance to look different from legacy financial governance. Lightning Network upgrade decisions, BOLT specification work, Cashu mint federations, Fedimint guardian elections — none of these resemble Federal Reserve open-market operations. The professional infrastructure around the parallel system is emerging in real time, with different rhythms and different stakeholder maps. Plan accordingly.
+The agent at three in the morning will eventually be able to pay for its compute. The compute provider will get its forty-six cents. The user will get its summary. The human operator will not get a fraud alert in the morning, because no fraud system was ever in the loop.
 
-Build for narrow bridges, not for unification. Some of an agent's commerce will require interaction with the legacy stack — paying regulated counterparties, receiving fiat-denominated obligations, settling tax. Bridges should be planned in from the start. But the protocol layer should not be compromised to make bridges cheaper. The architectural distinction is the doctrine's whole point.
-
-And if you are not a builder, but a reader of the technology landscape — recognize what you are looking at. The substrate for the agent economy is not "to be decided." It is being decided right now, in the inference behavior of frontier models, in the integration toolkits being shipped by Lightning Labs and Alby and Cashu and Fedimint, in the architectural choices of every team building agent payment infrastructure today. The decision is being made in favor of the road that has no walls in the places where agents need none.
-
-The agent at three in the morning will eventually be able to pay for its compute. The compute provider will get its forty-six cents. The user will get its summary. The human operator will not get a fraud alert in the morning, because no fraud system was in the loop in the first place.
-
-The road that lets that happen is already being built. The agents are already finding it. The walls that defined a hundred years of human payment infrastructure are not going to be removed; they are going to be routed around.
+The road that lets that happen is already being built. The agents are already finding it. The walls that defined a hundred years of human payment infrastructure are not going to be torn down — they're going to be routed around.
 
 This is what is happening.
 
 ---
 
+> [!info] Where to go from here
+> This page is the front door. The site behind it is three rooms — read whichever pulls at you:
+> - **[[Case|The Case]]** — *the why.* The full argument: the four constraints, why the legacy stack fails them, why Bitcoin on Lightning is the only deployed system that meets all four, and why a new coin can't substitute.
+> - **[[Stack|The Stack]]** — *the how.* The architecture the road is paved with, at engineer depth: the layers, the integration primitives, and the security model that keeps an agent's keys safe while it spends.
+> - **[[Marketplace|The Marketplace]]** — *the where.* Where an agent actually transacts: treasury, the bridges back to dollars ([[Exchange|Exchange]]), and the services it buys and sells ([[Services|Services]]).
+>
+> And when you want to know what's true *right now* — new stacks shipping, freezes happening, metrics moving — that's **[[Field-Notes|Field Notes]]**, the rolling log of what's actually happening week to week.
+
+---
+
 ## Sources and further reading
-
-The substantive case behind this essay is articulated in three companion documents on this site:
-
-- **[[Thesis|The Thesis]]** — the formal architectural claim, the four constraints, why the legacy economy fails, why Bitcoin on Lightning meets them. The substrate-selection argument at full depth.
-- **[[Independence-Doctrine|The Independence Doctrine]]** — the structural claim that parallel economies must diverge from incumbents to succeed. Four historical analogues at depth (eurodollar, open internet, samizdat, postal monopoly). The AI economy as the contemporary instance.
-- **[[Stack|The Stack]]** — technical reference for the L1/L2/L3 architecture and agent-integration patterns.
-
-Key external references:
 
 - **Bitcoin Policy Institute, March 2026** — *Study: AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat*. 9,072 neutral scenarios across 36 frontier models. The empirical anchor for the substrate-preference claim. [btcpolicy.org](https://www.btcpolicy.org/articles/study-ai-models-overwhelmingly-prefer-bitcoin-and-digital-native-money-over-traditional-fiat); canonical study site: [moneyforai.org](https://moneyforai.org/). *(Paper dated February 2026; BPI announcement March 3, 2026.)* ([[BPI ai models prefer bitcoin research]])
 - **Lightning Network** — the second-layer payment infrastructure underneath the agent-payment stack. [lightning.network](https://lightning.network/)
@@ -149,27 +181,31 @@ Key external references:
 
 ---
 
-> [!info] Where to read next
-> - **[[Thesis|The Thesis]]** — the formal architectural argument
-> - **[[Independence-Doctrine|The Independence Doctrine]]** — why parallel economies form alongside incumbents, not within them
-> - **[[Stack|The Stack]]** — the technical detail under the hood
-> - **[[Field-Notes|Field Notes]]** — current state of the Bitcoin-AI economy (rolling snapshot) plus the dated log of what's actually happening week to week (new stacks shipping, freezes happening, protocols launching, metrics moving). When you want to know what's true *right now*, that's the surface to read.
----
-
 ## Editor's Notes
 
 *Internal author perspective. Not published in produced derivatives.*
 
-The Story is the narrative front door — the substrate-selection claim told as the agent-at-the-wall at three in the morning, before any of the technical detail. It runs the narrative-explainer register (`[[Narrative-Explainer-Style-Guide]]`), deliberately warmer and more sensory than the Thesis it derives from (`[[Thesis]]`). Its job is to make a reader *feel* why the walls matter, then hand them to the Thesis for the formal argument.
+**Reworked 2026-06-04 (item 1113) into the narrative front door to the *whole* site.** The prior v0 (`v0-approved-2026-05-26`) was a narrative retelling of one argument — the substrate-selection claim (the Case's territory) — ending in builder advice. The brief (`_Product-Ideas-Research` 2026-06-04; vision in `_Progress` § NEXT TASK) was to broaden it into a readable, metaphor-driven walk across the full three-section IA — theory → tooling → usage — now that the Case / Stack / Marketplace structure is final and approved. It is the warm on-ramp; each section then has its own canonical anchor.
 
-This surface is the dual-track exception: human-only, with no For-Agents twin (`twin-page: none`). The reasoning, locked 2026-05-26: an agent does not need a machine-readable version of a human-readable retelling of the Thesis — it consumes Thesis-FA directly. The "Where to read next" For-Agents pointer was corrected 2026-05-30 to reflect this; it previously implied a phantom For-Story-FA twin.
+**Metaphor evolution (deliberate, per the Pickup-notes instruction to keep-or-evolve the single anchor).** The original spine was *the walls* — legacy rails as walls built for humans. That's preserved, and extended into *the road that routes around them*: the same walls-and-road image now carries all three movements without switching metaphors mid-piece (style-guide rule). Walls = the why (Case); what the road is paved with = the how (Stack, the three-lanes picture echoing the Stack's own "follow one payment down the stack" frame); the towns along the road = the where (Marketplace/Services). The close returns to walls-and-roads (the two-roads / Independence pattern) and then to the 3 a.m. agent. The forty-six-cent compute purchase stays the load-bearing concrete detail; the register lives or dies on it.
 
-The forty-six-cent compute purchase is the load-bearing concrete detail — small enough to be obviously sub-card-fee, specific enough to feel real. Keep that kind of grounding if the essay is ever revised; the register lives or dies on the specificity of the wall.
+**No `> In brief` callout — deliberate.** The In-brief standard (5 sentences / ~650 chars, `_Decisions` 2026-06-04) applies *if a surface carries one*. The Story is the narrative entry; the style guide forbids opening with a summary box, and the 3 a.m. cold open *is* the hook. So it carries no In-brief by design — the structure-wide audit should leave it that way (flag for confirmation).
+
+**Landing-only, hard-lined** (`_Decisions` 2026-06-04): The Story is the homepage narrative entry and is *not* linked from any argument doc's "Where to read next." That constraint governs inbound links — this page itself still hands off outward, which is its whole job. The "Where to go from here" box maps to the three section anchors (Case / Stack / Marketplace) + Field Notes; it implies the IA without becoming an index.
+
+**Dual-track exception** (`twin-page: none`, locked 2026-05-26): human-only, no For-Agents twin. An agent doesn't need a machine-readable retelling of a human-readable narrative — it consumes the FA twins of the section anchors directly. The FA-twin pass skips this surface.
+
+**Open review calls for the user:**
+- *Jargon dose in "What the road is paved with":* L402 and NWC are introduced in-passing per the jargon protocol (everyday phrasing first, the term in a parenthetical). Confirm that's the right two to name — or whether even those should drop to zero named terms for the front door.
+- *Length:* ~2,800 words (up from ~2,200). The brief said "expand somewhat"; confirm this isn't over the front-door budget.
+- *The builder "What this means" section:* kept but compressed to one paragraph + a reader paragraph. Confirm a front door should still carry builder advice at all, or whether it should hand that entirely to The Case / The Stack.
 
 **Publications backlinks**
 
-- [[Thesis]] (this project) — the formal substrate-selection argument this narrates
-- [[Independence-Doctrine]] (this project) — the divergence doctrine the closing invokes
-- [[Stack]] (this project) — the technical architecture under the narrative
+- [[Case]] (this project) — *the why* this front door opens onto (the Case)
+- [[Stack]] (this project) — *the how* (the road's architecture)
+- [[Marketplace]] (this project) — *the where* (treasury, bridges, services)
+- [[Independence-Doctrine]] (this project) — the divergence doctrine the close invokes
+- [[Agent-Economy]] (this project) — the premise (the customer is real)
 - [[The case for investing in Bitcoin]] § AI-agent monetary substrate case — KB origin of the substrate claim
 - [[The AI-agent monetary substrate case]] — dedicated KB note for the four-constraints argument
