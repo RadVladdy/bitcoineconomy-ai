@@ -15,7 +15,7 @@ word-count-target: 5000
 voice: honest-middle-position
 scope: pure-substrate-architecture
 canonical-source: "[[Stack]]"
-epistemic-status: "structural architecture specification; one deployed-system claim cross-referenced to Case-FA C4; empirical adoption record (capacity, deployment counts, incidents) deferred to Field Notes per the locked 2026-05-26 defer-pattern; inline empirical figures appear only where they sharpen a falsifier"
+epistemic-status: "structural architecture specification; one deployed-system claim cross-referenced to Case-FA C4; empirical adoption record (capacity, deployment counts, incidents) deferred to Field Notes; inline empirical figures appear only where they sharpen a falsifier"
 claims-index:
   - id: S1
     tag: structural
@@ -137,7 +137,7 @@ Because the constraints are conjunctive and no single layer satisfies them all, 
 
 - **Bridges to legacy payment rails** — on-ramps, off-ramps, custodial conversion — are the operational interface between this substrate and the incumbent stack. They defer to [[Marketplace-FA|The Marketplace]] (M6 for the compliance-at-the-gateway mechanism that preserves divergence under bridging).
 - **The competing-substrate contest** — Taproot Assets Lightning-*rails*-for-stablecoins and the AgentCore competing-substrate stack — is the rail-vs-substrate combat at the boundary. It defers to [[Border-Skirmishes-FA|Border Skirmishes]] (BS2 for the asset-and-trust-model-not-the-rail distinction).
-- **The moving empirical record** — current Lightning capacity, deployment counts, ecosystem launches, attack-surface incidents — defers to [[Field-Notes-FA|Field Notes]] per the locked 2026-05-26 defer-pattern.
+- **The moving empirical record** — current Lightning capacity, deployment counts, ecosystem launches, attack-surface incidents — defers to [[Field-Notes-FA|Field Notes]].
 - **The substrate-selection argument** — *why* Bitcoin rather than a competing substrate, and the empirical preference signal — is Case-FA's domain (C1–C6).
 
 The Stack is the architecture, not the case for it and not its live deployment metrics. Reading it as a complete-system claim conflates substrate, interface, and empirical record.

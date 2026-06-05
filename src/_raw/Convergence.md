@@ -14,7 +14,7 @@ word-count-target: 1500
 voice: honest-middle-position
 scope: timing
 section: case
-epistemic-status: "Most epistemically hedged surface on the site by design, and carrying the heaviest tagging (per _Decisions 2026-06-03, decision 7). Mixed weight: the cycle frameworks are suggestive (not proof); the deflation leg is a concrete mechanism. PROMOTED to a full standalone surface (user 2026-06-04) — the deflation mechanism makes it strong enough to stand and lowers the 'woo' risk."
+epistemic-status: "The site's most epistemically hedged surface by design. Mixed weight: the macro-cycle frameworks are suggestive, not proof; the deflation-mechanism leg is concrete."
 assembled-from:
   - "Expanded from The Case § Why now (the promoted macro-cycle leg) + Thesis 'Why now' compressed paragraph (handoff §4.4)."
   - "Ties in KB civilizational-cycles convergence worldview."
