@@ -72,6 +72,106 @@ for (const col of ['exchanges', 'services', 'tools']) {
   }
 }
 
+// ---- card-tile injection ----------------------------------------------------
+// Directory surfaces (Exchange, Services) embed a tile grid of their cards at
+// the END of the pertinent essay section — same tile markup as /tools. Tile
+// data is read from the card frontmatter here (the port has filesystem access);
+// the result is static HTML the surface renderer passes through.
+function fmField(fm, key) {
+  const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
+  if (!m) return undefined;
+  let v = m[1].trim().replace(/^["']|["']$/g, '');
+  if (v === 'true') return true;
+  if (v === 'false') return false;
+  return v;
+}
+function readCards(col) {
+  const dir = path.join(RAW, col);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((f) => f.endsWith('.md')).map((file) => {
+    const fm = splitFrontmatter(fs.readFileSync(path.join(dir, file), 'utf8')).fm;
+    return {
+      slug: fmField(fm, 'slug') || file.replace(/\.md$/, ''),
+      title: fmField(fm, 'title') || fmField(fm, 'name'),
+      tagline: fmField(fm, 'tagline'),
+      category: fmField(fm, 'category') || 'other',
+      custody: fmField(fm, 'custody'),
+      kyc: fmField(fm, 'kyc'),
+      lightning: fmField(fm, 'lightning'),
+      toolType: fmField(fm, 'tool-type') || 'service',
+      featured: fmField(fm, 'featured') === true,
+      order: Number(fmField(fm, 'order') ?? 0),
+    };
+  });
+}
+const CARD_INDEX = { exchanges: readCards('exchanges'), services: readCards('services') };
+const lightLabel = (v) => (v === true ? 'Lightning' : typeof v === 'string' ? `${v} Lightning` : 'on-chain only');
+function htmlEsc(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function tileHtml(col, cards) {
+  const cells = cards.map((c) => {
+    const name = htmlEsc(c.title);
+    const body = col === 'exchanges'
+      ? htmlEsc([c.custody, c.kyc === 'none' ? 'no KYC' : 'KYC required', lightLabel(c.lightning)].filter(Boolean).join(' · '))
+      : htmlEsc(c.tagline || '');
+    const tag = col === 'exchanges' ? (c.kyc === 'none' ? 'no-KYC' : 'KYC') : htmlEsc(c.toolType);
+    const star = c.featured ? '<span class="tool-tag">★ standout</span>' : '';
+    return `<a class="surface-card tool-card" href="/${col}/${c.slug}"><h3>${name}</h3><p>${body}</p><span class="tool-card-tags">${star}<span class="tool-tag tool-tag-type">${tag}</span></span></a>`;
+  }).join('');
+  return `\n<div class="surface-grid">${cells}</div>\n`;
+}
+// Which essay headings receive which card group (matched by substring).
+const CARD_TILES = {
+  'Exchange.md': [
+    { needle: 'Non-custodial, no-KYC swaps', col: 'exchanges', cats: ['noncustodial-swap'] },
+    { needle: 'Custodial venues', col: 'exchanges', cats: ['custodial-bitcoin-only', 'custodial-multi-asset'] },
+  ],
+  'Services.md': [
+    { needle: 'Featured services', col: 'services', cats: ['machine-work-marketplace', 'inference-marketplace', 'inference-gateway'] },
+    { needle: 'Off-the-shelf services', col: 'services', cats: ['payments-bridge', 'vpn-privacy'] },
+  ],
+};
+// Insert `block` at the end of the section opened by the heading containing
+// `needle` — i.e. just before the next heading of equal-or-higher level.
+function insertAtSectionEnd(text, needle, block) {
+  const lines = text.split('\n');
+  const low = needle.toLowerCase();
+  let hi = -1, level = 2;
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].match(/^(#{2,4})\s/);
+    if (m && lines[i].toLowerCase().includes(low)) { hi = i; level = m[1].length; break; }
+  }
+  if (hi === -1) { console.warn(`  ! card-tile heading not found: "${needle}"`); return text; }
+  let j = hi + 1;
+  while (j < lines.length) {
+    const m = lines[j].match(/^(#{1,6})\s/);
+    if (m && m[1].length <= level) break;
+    j++;
+  }
+  while (j > hi + 1 && lines[j - 1].trim() === '') j--; // trim trailing blanks
+  // Step before a trailing horizontal rule so the tiles sit inside the section,
+  // not in the gap above the next heading.
+  if (j > hi + 1 && /^(-{3,}|\*{3,}|_{3,})\s*$/.test(lines[j - 1].trim())) {
+    j--;
+    while (j > hi + 1 && lines[j - 1].trim() === '') j--;
+  }
+  lines.splice(j, 0, block);
+  return lines.join('\n');
+}
+function injectCardTiles(body, file) {
+  const cfg = CARD_TILES[file];
+  if (!cfg) return body;
+  let out = body;
+  for (const ins of cfg) {
+    const cards = CARD_INDEX[ins.col]
+      .filter((c) => ins.cats.includes(c.category))
+      .sort((a, b) => Number(b.featured) - Number(a.featured) || a.order - b.order);
+    if (cards.length) out = insertAtSectionEnd(out, ins.needle, tileHtml(ins.col, cards));
+  }
+  return out;
+}
+
 // ---- transforms -------------------------------------------------------------
 function stripEditorsNotes(body) {
   const idx = body.search(/(^|\n)#{1,6}\s+Editor's Notes\b/);
@@ -208,6 +308,7 @@ for (const file of fs.readdirSync(RAW)) {
   fm = sanitizeFrontmatterWikilinks(fm);
   body = stripLeadingTitle(body);
   if (isHuman) body = insertVisuals(body, file);
+  if (isHuman) body = injectCardTiles(body, file);
   fs.writeFileSync(path.join(SURF_OUT, file), `${fm}\n\n${body.replace(/^\n+/, '')}`, 'utf8');
   surfCount++;
 }
