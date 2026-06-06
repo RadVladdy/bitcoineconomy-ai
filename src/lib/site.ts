@@ -70,6 +70,23 @@ export const NAV_GROUPS = [
 // section dropdown). Field Notes is the live record every section defers to.
 export const NAV_STANDALONE = [{ slug: 'field-notes', label: 'Field Notes' }];
 
+// One-glance descriptors per page, shown as a small dim sub-label under the
+// title in both the homepage rail and the nav dropdowns. Keyed by slug.
+export const SLUG_TAGS: Record<string, string> = {
+  case: 'Why agents choose Bitcoin',
+  'agent-economy': 'Agents become economic actors',
+  'adoption-asymmetry': 'Agents overcome BTC UI/UX',
+  'independence-doctrine': 'Parallel not integrated economies',
+  'border-skirmishes': 'TradFi vs. BTC agent economy',
+  convergence: 'Timing the BTC move',
+  stack: 'The Bitcoin tech stack',
+  tools: 'BTC implementation tools',
+  marketplace: 'Agent treasury, exchange and services',
+  exchange: 'BTC ↔ fiat',
+  services: 'A2A and A2B services',
+  'field-notes': 'The live record',
+};
+
 // Tool-card layer taxonomy. Ordered top-down to mirror The Stack's own section
 // structure. Each tool card declares one `layer`; the /tools index groups by these.
 export const TOOL_LAYERS = [

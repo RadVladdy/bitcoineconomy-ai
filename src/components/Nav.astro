@@ -1,5 +1,5 @@
 ---
-import { NAV_GROUPS, NAV_STANDALONE } from '../lib/site';
+import { NAV_GROUPS, NAV_STANDALONE, SLUG_TAGS } from '../lib/site';
 const { current = '' } = Astro.props as { current?: string };
 const isActiveGroup = (items: { slug: string }[]) => items.some((i) => i.slug === current);
 ---
@@ -24,7 +24,10 @@ const isActiveGroup = (items: { slug: string }[]) => items.some((i) => i.slug ==
             </button>
             <div class="nav-dd-menu" role="menu">
               {group.items.map((s) => (
-                <a href={`/${s.slug}`} role="menuitem" aria-current={current === s.slug ? 'page' : undefined}>{s.label}</a>
+                <a href={`/${s.slug}`} role="menuitem" aria-current={current === s.slug ? 'page' : undefined}>
+                  <span class="nav-dd-t">{s.label}</span>
+                  {SLUG_TAGS[s.slug] && <span class="nav-dd-d">{SLUG_TAGS[s.slug]}</span>}
+                </a>
               ))}
             </div>
           </div>
