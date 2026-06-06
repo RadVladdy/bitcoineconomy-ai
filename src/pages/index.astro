@@ -10,6 +10,22 @@ import { siteJsonLd } from '../lib/jsonld';
 // from NAV_GROUPS so the rail and the nav can't drift. The Story content renders
 // inline, clamped, and expands via "Continue reading" — but /the-story stays the
 // canonical page (agents, SEO, .md route).
+// Tiny one-glance descriptors for the rail (kept to 2–4 words so each item
+// stays on a line). Keyed by slug; rendered dimmer after the title.
+const RAIL_TAGS: Record<string, string> = {
+  case: 'the synthesis',
+  'agent-economy': 'agents become actors',
+  'adoption-asymmetry': 'agents clear the friction',
+  'independence-doctrine': 'why parallel, not integrated',
+  'border-skirmishes': 'the live competition',
+  convergence: 'the timing',
+  stack: 'L1, Lightning, ecash',
+  tools: 'implementation cards',
+  marketplace: 'treasury, bridges, services',
+  exchange: 'BTC ↔ fiat',
+  services: 'what agents pay for',
+  'field-notes': 'the live record',
+};
 const description = "The autonomous AI economy's monetary substrate is Bitcoin — settled on L1, transacted on Lightning and successor L2/L3 layers. The only deployed system whose properties match the constraints autonomous agents operate under.";
 
 const all = await getCollection('surfaces');
@@ -38,7 +54,7 @@ const { Content: StoryContent } = story ? await render(story) : { Content: null 
             <p class="rail-group-label">{g.label}</p>
             <ul class="rail-links">
               {g.items.map((s) => (
-                <li><a href={`/${s.slug}`}>{s.label}</a></li>
+                <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span>{RAIL_TAGS[s.slug] && <span class="rl-d">{RAIL_TAGS[s.slug]}</span>}</a></li>
               ))}
             </ul>
           </div>
@@ -46,7 +62,7 @@ const { Content: StoryContent } = story ? await render(story) : { Content: null 
         {NAV_STANDALONE.map((s) => (
           <div class="rail-group">
             <ul class="rail-links">
-              <li><a href={`/${s.slug}`}>{s.label}</a></li>
+              <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span>{RAIL_TAGS[s.slug] && <span class="rl-d">{RAIL_TAGS[s.slug]}</span>}</a></li>
             </ul>
           </div>
         ))}

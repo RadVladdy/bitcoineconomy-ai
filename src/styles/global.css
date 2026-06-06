@@ -501,11 +501,10 @@ figure.matrix .matrix-title {
 /* Compact section link-list rail (sitemap-style: section label + all its pages). */
 .rail-links { list-style: none; margin: 0 0 0.2rem; padding: 0; }
 .rail-links li { margin: 0; }
-.rail-links a {
-  display: block; text-decoration: none; color: var(--fg-soft);
-  font-size: 0.92rem; line-height: 1.25; padding: 0.28rem 0;
-}
-.rail-links a:hover { color: var(--orange); }
+.rail-links a { display: block; text-decoration: none; padding: 0.22rem 0; }
+.rl-t { display: block; color: var(--fg-soft); font-size: 0.9rem; line-height: 1.25; }
+.rl-d { display: block; color: var(--fg-soft); font-size: 0.74rem; opacity: 0.6; line-height: 1.2; }
+.rail-links a:hover .rl-t { color: var(--orange); }
 .agent-mini { font-family: var(--font-body); font-size: 0.82rem; color: var(--fg-soft); margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); }
 @media (max-width: 48rem) {
   .landing { grid-template-columns: 1fr; gap: 1.6rem; }
