@@ -62,10 +62,13 @@ export const NAV_GROUPS = [
       { slug: 'marketplace', label: 'The Marketplace' },
       { slug: 'exchange', label: 'Exchange' },
       { slug: 'services', label: 'Services' },
-      { slug: 'field-notes', label: 'Field Notes' },
     ],
   },
 ];
+
+// Cross-cutting surfaces shown as standalone top-level nav items (not inside a
+// section dropdown). Field Notes is the live record every section defers to.
+export const NAV_STANDALONE = [{ slug: 'field-notes', label: 'Field Notes' }];
 
 // Tool-card layer taxonomy. Ordered top-down to mirror The Stack's own section
 // structure. Each tool card declares one `layer`; the /tools index groups by these.
