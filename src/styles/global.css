@@ -498,6 +498,14 @@ figure.matrix .matrix-title {
 .rn-item:hover strong { color: var(--orange); }
 .rn-item strong { font-family: var(--font-head); display: block; font-size: 1.02rem; margin-bottom: 0.1rem; }
 .rn-item span { font-size: 0.82rem; color: var(--fg-soft); }
+/* Compact section link-list rail (sitemap-style: section label + all its pages). */
+.rail-links { list-style: none; margin: 0 0 0.2rem; padding: 0; }
+.rail-links li { margin: 0; }
+.rail-links a {
+  display: block; text-decoration: none; color: var(--fg-soft);
+  font-size: 0.92rem; line-height: 1.25; padding: 0.28rem 0;
+}
+.rail-links a:hover { color: var(--orange); }
 .agent-mini { font-family: var(--font-body); font-size: 0.82rem; color: var(--fg-soft); margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); }
 @media (max-width: 48rem) {
   .landing { grid-template-columns: 1fr; gap: 1.6rem; }
