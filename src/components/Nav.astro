@@ -1,6 +1,7 @@
 ---
-import { NAV_GROUPS } from '../lib/site';
+import { NAV_GROUPS, NAV_STANDALONE } from '../lib/site';
 const { current = '' } = Astro.props as { current?: string };
+const isActiveGroup = (items: { slug: string }[]) => items.some((i) => i.slug === current);
 ---
 <header class="site-header">
   <nav class="nav" aria-label="Primary">
@@ -9,19 +10,50 @@ const { current = '' } = Astro.props as { current?: string };
         <img class="brand-mark" src="/images/logo-mark.png" alt="" width="28" height="28" />
         <span class="brand-word">bitcoineconomy<span class="dot">.</span>ai</span>
       </a>
-      <a class="nav-fa" href="/agents.txt">For Agents ↗</a>
-    </div>
-    <div class="nav-groups">
-      {NAV_GROUPS.map((group) => (
-        <div class="nav-group">
-          <span class="nav-group-label">{group.label}</span>
-          <div class="nav-links">
-            {group.items.map((s) => (
-              <a href={`/${s.slug}`} aria-current={current === s.slug ? 'page' : undefined}>{s.label}</a>
-            ))}
+      <div class="nav-sections">
+        {NAV_GROUPS.map((group) => (
+          <div class="nav-dd">
+            <button
+              type="button"
+              class="nav-dd-trigger"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-current={isActiveGroup(group.items) ? 'true' : undefined}
+            >
+              {group.label}<span class="nav-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="nav-dd-menu" role="menu">
+              {group.items.map((s) => (
+                <a href={`/${s.slug}`} role="menuitem" aria-current={current === s.slug ? 'page' : undefined}>{s.label}</a>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+        {NAV_STANDALONE.map((s) => (
+          <a class="nav-standalone" href={`/${s.slug}`} aria-current={current === s.slug ? 'page' : undefined}>{s.label}</a>
+        ))}
+      </div>
+      <a class="nav-fa" href="/agents.txt">For Agents ↗</a>
     </div>
   </nav>
 </header>
+<script>
+  // Click/touch + keyboard support for the section dropdowns. CSS handles
+  // hover/focus-within; this adds tap-to-open and Escape/outside-click close.
+  const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>('.nav-dd-trigger'));
+  const closeAll = (except?: Element) => {
+    for (const t of triggers) if (t !== except) t.setAttribute('aria-expanded', 'false');
+  };
+  for (const t of triggers) {
+    t.addEventListener('click', (e) => {
+      e.preventDefault();
+      const open = t.getAttribute('aria-expanded') === 'true';
+      closeAll(t);
+      t.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
+  document.addEventListener('click', (e) => {
+    if (!(e.target as Element)?.closest('.nav-dd')) closeAll();
+  });
+</script>
