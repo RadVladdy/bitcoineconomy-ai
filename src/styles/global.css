@@ -126,13 +126,13 @@ a:hover { text-decoration: none; }
 .nav-dd:hover .nav-dd-menu,
 .nav-dd:focus-within .nav-dd-menu,
 .nav-dd-trigger[aria-expanded="true"] + .nav-dd-menu { display: flex; }
-.nav-dd-menu a {
-  color: var(--fg-soft); text-decoration: none; font-size: 0.9rem;
-  padding: 0.42rem 0.6rem; border-radius: 6px; white-space: nowrap;
-}
-.nav-dd-menu a:hover { color: var(--fg); background: rgba(255, 255, 255, 0.05); }
-.nav-dd-menu a[aria-current="page"] { color: var(--fg); }
-.nav-dd-menu a[aria-current="page"]::before { content: "▸ "; color: var(--orange); }
+.nav-dd-menu a { display: block; text-decoration: none; padding: 0.38rem 0.65rem; border-radius: 6px; white-space: nowrap; }
+.nav-dd-menu a:hover { background: rgba(255, 255, 255, 0.05); }
+.nav-dd-t { display: block; color: var(--fg-soft); font-size: 0.9rem; }
+.nav-dd-d { display: block; color: var(--fg-soft); font-size: 0.72rem; opacity: 0.58; margin-top: 0.05rem; }
+.nav-dd-menu a:hover .nav-dd-t { color: var(--fg); }
+.nav-dd-menu a[aria-current="page"] .nav-dd-t { color: var(--fg); }
+.nav-dd-menu a[aria-current="page"] .nav-dd-t::before { content: "▸ "; color: var(--orange); }
 .nav-standalone {
   color: var(--fg-soft); text-decoration: none; font-size: 0.92rem;
   padding: 0.4rem 0.7rem; border-radius: 8px; white-space: nowrap;
