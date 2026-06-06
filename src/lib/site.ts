@@ -84,7 +84,7 @@ export const SLUG_TAGS: Record<string, string> = {
   marketplace: 'Agent treasury, exchange and services',
   exchange: 'BTC ↔ fiat',
   services: 'A2A and A2B services',
-  'field-notes': 'The live record',
+  'field-notes': 'Agent BTC economy - live record',
 };
 
 // Tool-card layer taxonomy. Ordered top-down to mirror The Stack's own section
