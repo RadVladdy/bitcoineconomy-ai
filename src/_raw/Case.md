@@ -1,8 +1,8 @@
 ---
 title: The Case
-subtitle: The case for a Bitcoin-centric AI agent economy
+subtitle: "The case for a Bitcoin-centric AI agent economy."
 slug: case
-description: "The synthesis that braids the site's arguments into one: the case for a Bitcoin-centric AI agent economy."
+description: "The case for a Bitcoin-centric AI agent economy."
 type: case
 surface: case
 status: v0-approved-2026-06-04 (renamed Thesis.md->Case.md, slug thesis->case 2026-06-05)
@@ -62,7 +62,7 @@ These constraints are operational, not aspirational. An agent that cannot satisf
 
 Run each candidate in the incumbent stack against the four constraints. The pattern is a clean disqualification:
 
-| Candidate | C1 — no-KYC self-custody | C2 — censorship-resistant | C3 — sub-cent | C4 — machine-tempo |
+| Candidate | no-KYC self-custody | censorship-resistant | sub-cent | machine-tempo |
 |---|---|---|---|---|
 | **Bank accounts / wires** | ✗ KYC required | ✗ freezes at discretion | ✗ per-wire fees | ✗ days to settle |
 | **Credit cards** | ✗ human creditworthiness | ✗ chargebacks reverse for months | ✗ 2–3% + floors | ~ fast auth, slow final settlement |

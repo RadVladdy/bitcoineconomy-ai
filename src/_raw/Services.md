@@ -1,7 +1,7 @@
 ---
 title: Services
 slug: services
-description: "The 'what' layer of the agent economy — the real services an agent buys and sells for Bitcoin."
+description: "The services an agent buys and sells for Bitcoin."
 type: essay
 surface: services
 section: marketplace

@@ -1,8 +1,8 @@
 ---
 title: The Agent Economy
-subtitle: Autonomous software is becoming an economic actor, not just a tool.
+subtitle: "Why autonomous software is becoming an economic actor, not just a tool."
 slug: agent-economy
-description: "The premise the whole site rests on, argued not assumed: autonomous software is becoming an economic actor, not just a tool."
+description: "Why autonomous software is becoming an economic actor, not just a tool."
 type: essay
 surface: agent-economy
 status: v0-approved-2026-06-04; autonomy-to-capital-beat-added-and-approved-2026-06-04

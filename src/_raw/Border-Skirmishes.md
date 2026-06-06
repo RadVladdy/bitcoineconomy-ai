@@ -1,7 +1,7 @@
 ---
 title: Border Skirmishes
 slug: border-skirmishes
-description: "The live competition at the boundary — the fight is on the asset and the trust model, not the rail."
+description: "The live competition at the boundary between Bitcoin and the incumbent stacks."
 type: essay
 surface: border-skirmishes
 status: v0-approved-2026-06-04

@@ -1,7 +1,7 @@
 ---
 title: The Stablecoin Landscape
 slug: stablecoin-landscape
-description: "A neutral lay of the land on the dollar-stablecoin market an agent's operational mix draws on."
+description: "A neutral map of the dollar-stablecoin market."
 type: reference
 surface: stablecoin-landscape
 section: marketplace

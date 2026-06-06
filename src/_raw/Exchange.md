@@ -1,7 +1,7 @@
 ---
 title: Exchange
 slug: exchange
-description: "Where an agent converts between Bitcoin, dollar stablecoins, and fiat — and where the KYC wall stops it."
+description: "Where an agent converts between Bitcoin, stablecoins, and fiat."
 type: essay
 surface: exchange
 section: marketplace

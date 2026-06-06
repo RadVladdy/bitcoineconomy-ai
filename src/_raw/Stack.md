@@ -1,7 +1,7 @@
 ---
 title: The Stack
 slug: stack
-description: "The pure-substrate architecture beneath every Bitcoin-substrate agent payment."
+description: "The Bitcoin substrate every agent payment runs on — L1, Lightning, ecash."
 type: essay
 surface: stack
 status: v0-approved-2026-05-30; liquid-honorable-mention-approved-2026-06-04

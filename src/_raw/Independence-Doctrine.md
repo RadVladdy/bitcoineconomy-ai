@@ -1,7 +1,7 @@
 ---
 title: The Independence Doctrine
 slug: independence-doctrine
-description: "Emergent parallel economies must structurally diverge from incumbents to succeed."
+description: "Why parallel economies must diverge from the incumbents to succeed."
 type: essay
 surface: independence-doctrine
 status: v0-approved-2026-05-26; restructure-trim-approved-2026-06-04

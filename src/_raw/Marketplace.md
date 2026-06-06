@@ -1,7 +1,7 @@
 ---
 title: The Marketplace
 slug: marketplace
-description: "Where an agent actually transacts with Bitcoin, in a world that still runs mostly on dollars."
+description: "Where your agent does business — treasury, exchange, and services."
 type: essay
 surface: marketplace
 section: marketplace
