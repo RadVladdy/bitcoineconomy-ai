@@ -1,7 +1,7 @@
 ---
 title: About
 slug: about
-description: "What bitcoineconomy.ai is and why it exists, who writes it (under the pseudonym RadVladdy, and why), the sources and contributors it builds on, and how to reach the project. A meta page, not a thesis surface."
+description: "What this site is, who writes it, and why."
 type: page
 surface: about
 section-role: meta

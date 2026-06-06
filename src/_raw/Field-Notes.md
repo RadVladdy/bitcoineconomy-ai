@@ -1,7 +1,7 @@
 ---
 title: Field Notes
 slug: field-notes
-description: "The moving record of the Bitcoin-AI economy — what's deployed, what's measured, what's changing."
+description: "The live record — what's deployed, what's measured, what's changing."
 type: field-notes
 surface: field-notes
 status: v0-approved-2026-05-26

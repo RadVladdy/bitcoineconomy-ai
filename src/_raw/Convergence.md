@@ -1,8 +1,8 @@
 ---
 title: The Convergence
-subtitle: The agent economy and the monetary-regime rupture may be the same wave.
+subtitle: "The agent economy and the monetary-regime rupture may be the same wave."
 slug: convergence
-description: "The timing argument, and the site's most cautious surface: the agent economy and the monetary-regime rupture may be the same wave."
+description: "The agent economy and the monetary-regime rupture may be the same wave."
 type: essay
 surface: convergence
 status: v0-approved-2026-06-04

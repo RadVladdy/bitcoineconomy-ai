@@ -1,8 +1,8 @@
 ---
 title: The Adoption Asymmetry
-subtitle: The friction that slowed Bitcoin's human adoption was never the agent's.
+subtitle: "The friction that slowed Bitcoin's adoption was never the agent's."
 slug: adoption-asymmetry
-description: "The capacity argument: the friction that slowed Bitcoin's human adoption was never the agent's."
+description: "The friction that slowed Bitcoin's adoption was never the agent's."
 type: essay
 surface: adoption-asymmetry
 status: v0-approved-2026-06-04

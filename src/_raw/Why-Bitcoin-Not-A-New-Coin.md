@@ -1,8 +1,8 @@
 ---
 title: Why Bitcoin, Not a New Coin
-subtitle: A purpose-built agent-coin can copy the features — but not the neutrality, the security, the trust, or the liquidity.
+subtitle: "Why a purpose-built agent-coin can't replace Bitcoin as the base money."
 slug: why-bitcoin-not-a-new-coin
-description: "A purpose-built agent-coin can copy the features — but not the neutrality, security, trust, and liquidity that make a base money."
+description: "Why a purpose-built agent-coin can't replace Bitcoin as the base money."
 type: essay
 surface: why-bitcoin-not-a-new-coin
 status: v0-approved-2026-06-04
