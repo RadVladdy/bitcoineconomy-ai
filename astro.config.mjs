@@ -33,6 +33,10 @@ export default defineConfig({
     // Border Zone dissolved → its interface material lives in The Marketplace.
     '/border-zone': '/marketplace',
     '/border-zone-for-agents': '/marketplace-for-agents',
+    // Card directories merged into the Exchange / Services surfaces (which now
+    // render the tiles themselves).
+    '/exchanges': '/exchange',
+    '/services/directory': '/services',
   },
   integrations: [
     sitemap({

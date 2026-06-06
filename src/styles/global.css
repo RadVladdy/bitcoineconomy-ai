@@ -338,6 +338,12 @@ figure.matrix .matrix-title {
 .tool-layer { margin: 2.6rem 0 0; }
 .tool-layer-h { font-size: 1.3rem; margin-bottom: 0.2rem; }
 .tool-layer-blurb { color: var(--fg-soft); font-size: 0.95rem; margin: 0 0 0.4rem; max-width: 46rem; }
+/* Directory surfaces (Exchange, Services): card tiles above, readable prose below. */
+.surface-tiles { margin-top: 0.4rem; }
+.surface-tiles .tool-layer:first-child { margin-top: 1.2rem; }
+.surface-tiles-note { color: var(--fg-soft); font-size: 0.85rem; opacity: 0.7; margin: 1.6rem 0 0.4rem; }
+.surface-prose-narrow { max-width: 46rem; margin-top: 1.2rem; }
+.surface-prose-narrow > :first-child { margin-top: 0; }
 .tool-card { display: flex; flex-direction: column; }
 .tool-card-tags { margin-top: 0.7rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .tool-tag {
