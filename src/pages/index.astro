@@ -1,26 +1,15 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { SITE } from '../lib/site';
+import { SITE, NAV_GROUPS, NAV_STANDALONE } from '../lib/site';
 import { siteJsonLd } from '../lib/jsonld';
 
 // Homepage = The Story leads (narrative entry point); the canonical docs sit in
-// a slim rail, grouped "The case" / "The build" to mirror the nav. The Story
-// content is rendered inline, clamped, and expands in place via "Continue
-// reading" — but /the-story remains the canonical page (agents, SEO, .md route).
-// Right rail = the three section anchors + the live record. Compact: one line
-// each. The section pages link down to their own arguments and directories.
-const railGroups = [
-  {
-    label: 'Where to go next',
-    docs: [
-      { slug: 'case', label: 'The Case', blurb: 'Why agents choose Bitcoin — the four constraints and the synthesis that ties them together.' },
-      { slug: 'stack', label: 'The Stack', blurb: 'Equip your agent: L1, Lightning, and ecash, plus the tools to build on them.' },
-      { slug: 'marketplace', label: 'The Marketplace', blurb: 'Where your agent does business — treasury, the Exchange, and Services.' },
-      { slug: 'field-notes', label: 'Field Notes', blurb: 'The live record — what shipped, what was measured, what changed.' },
-    ],
-  },
-];
+// a slim rail that mirrors the nav sections (Case / Stack / Marketplace + the
+// standalone Field Notes), each section listing all its pages as links. Sourced
+// from NAV_GROUPS so the rail and the nav can't drift. The Story content renders
+// inline, clamped, and expands via "Continue reading" — but /the-story stays the
+// canonical page (agents, SEO, .md route).
 const description = "The autonomous AI economy's monetary substrate is Bitcoin — settled on L1, transacted on Lightning and successor L2/L3 layers. The only deployed system whose properties match the constraints autonomous agents operate under.";
 
 const all = await getCollection('surfaces');
@@ -44,12 +33,21 @@ const { Content: StoryContent } = story ? await render(story) : { Content: null 
         </div>
       </div>
       <aside class="read-next">
-        {railGroups.map((g) => (
+        {NAV_GROUPS.map((g) => (
           <div class="rail-group">
             <p class="rail-group-label">{g.label}</p>
-            {g.docs.map((d) => (
-              <a class="rn-item" href={`/${d.slug}`}><strong>{d.label}</strong><span>{d.blurb}</span></a>
-            ))}
+            <ul class="rail-links">
+              {g.items.map((s) => (
+                <li><a href={`/${s.slug}`}>{s.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        {NAV_STANDALONE.map((s) => (
+          <div class="rail-group">
+            <ul class="rail-links">
+              <li><a href={`/${s.slug}`}>{s.label}</a></li>
+            </ul>
           </div>
         ))}
       </aside>
