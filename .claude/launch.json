@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "preview"],
       "port": 4321
+    },
+    {
+      "name": "mockups",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4178", "--directory", "_mockups"],
+      "port": 4178
     }
   ]
 }

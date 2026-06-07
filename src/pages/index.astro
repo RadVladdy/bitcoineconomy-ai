@@ -94,8 +94,9 @@ const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marke
       });
     }
 
-    // Hero network: drifting dark nodes wired together; dim orange "payment
-    // packets" walk the edges node-to-node; cursor pulls faint links.
+    // Hero network: drifting dark nodes wired together. Each "transaction" sends a
+    // fast orange payment hopping origin → receiver, then a slower blue response
+    // retraces the path back (the service answering). Cursor pulls faint links.
     (function () {
       const canvas = document.getElementById('hero-net') as HTMLCanvasElement | null;
       if (!canvas) return;
@@ -104,7 +105,7 @@ const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marke
       if (!ctx) return;
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const NODE_COLORS = ['#243a63', '#322a57'];
-      let W = 0, H = 0, nodes: any[] = [], packets: any[] = [], raf = 0;
+      let W = 0, H = 0, nodes: any[] = [], txs: any[] = [], raf = 0;
       const mouse = { x: -9999, y: -9999 };
       const DIST = 130;
       function size() {
@@ -118,18 +119,46 @@ const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marke
           vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
           r: Math.random() * 1.3 + 1, c: NODE_COLORS[i % 2],
         }));
-        packets = [];
+        txs = [];
       }
-      function neighbors(n: any) {
+      function neighbors(n: any, exclude?: any) {
         const o = [];
-        for (const m of nodes) { if (m === n) continue; if (Math.hypot(n.x - m.x, n.y - m.y) < DIST) o.push(m); }
+        for (const m of nodes) { if (m === n || m === exclude) continue; if (Math.hypot(n.x - m.x, n.y - m.y) < DIST) o.push(m); }
         return o;
       }
-      function spawn() {
-        for (let t = 0; t < 8; t++) {
-          const n = nodes[(Math.random() * nodes.length) | 0], nb = neighbors(n);
-          if (nb.length) { packets.push({ from: n, to: nb[(Math.random() * nb.length) | 0], t: 0, sp: 0.009 + Math.random() * 0.006, hops: 0 }); return; }
+      // Build a multi-hop path origin → … → receiver, hopping node to node.
+      function buildPath(start: any, maxHops: number) {
+        const path = [start]; let cur = start, prev = null;
+        for (let h = 0; h < maxHops; h++) {
+          const nb = neighbors(cur, prev);
+          if (!nb.length) break;
+          const nx = nb[(Math.random() * nb.length) | 0];
+          path.push(nx); prev = cur; cur = nx;
         }
+        return path;
+      }
+      // A "transaction": a fast orange payment streaks origin → receiver over
+      // Lightning, then a slower blue response retraces receiver → origin (the
+      // service answering). Orange is quick; blue is deliberately slower.
+      function spawnTx() {
+        for (let t = 0; t < 8; t++) {
+          const start = nodes[(Math.random() * nodes.length) | 0];
+          if (neighbors(start).length) {
+            const path = buildPath(start, 3 + (Math.random() * 3 | 0));
+            if (path.length >= 2) {
+              txs.push({ path, stage: 'out', seg: 0, t: 0, pause: 0,
+                outSp: 0.05 + Math.random() * 0.022,       // lightning — fast
+                backSp: 0.006 + Math.random() * 0.0025 }); // response — slower, direct
+            }
+            return;
+          }
+        }
+      }
+      function drawDot(x: number, y: number, rgb: string, glowR: number, coreR: number) {
+        const g = ctx!.createRadialGradient(x, y, 0, x, y, glowR);
+        g.addColorStop(0, `rgba(${rgb},0.55)`); g.addColorStop(1, `rgba(${rgb},0)`);
+        ctx!.fillStyle = g; ctx!.beginPath(); ctx!.arc(x, y, glowR, 0, 7); ctx!.fill();
+        ctx!.fillStyle = `rgba(${rgb},0.9)`; ctx!.beginPath(); ctx!.arc(x, y, coreR, 0, 7); ctx!.fill();
       }
       function step() {
         ctx!.clearRect(0, 0, W, H);
@@ -144,15 +173,46 @@ const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marke
           if (md < 150) { ctx!.strokeStyle = `rgba(110,130,180,${(1 - md / 150) * 0.2})`; ctx!.lineWidth = 0.7; ctx!.beginPath(); ctx!.moveTo(a.x, a.y); ctx!.lineTo(mouse.x, mouse.y); ctx!.stroke(); }
         }
         for (const n of nodes) { ctx!.fillStyle = n.c; ctx!.globalAlpha = 0.55; ctx!.beginPath(); ctx!.arc(n.x, n.y, n.r, 0, 7); ctx!.fill(); ctx!.globalAlpha = 1; }
-        if (!reduce && packets.length < 3 && Math.random() < 0.02) spawn();
-        for (let k = packets.length - 1; k >= 0; k--) {
-          const p = packets[k]; p.t += p.sp;
-          if (p.t >= 1) { p.hops++; const nb = neighbors(p.to).filter((m: any) => m !== p.from); if (p.hops >= 6 || !nb.length) { packets.splice(k, 1); continue; } p.from = p.to; p.to = nb[(Math.random() * nb.length) | 0]; p.t = 0; }
-          const x = p.from.x + (p.to.x - p.from.x) * p.t, y = p.from.y + (p.to.y - p.from.y) * p.t;
-          const g = ctx!.createRadialGradient(x, y, 0, x, y, 5);
-          g.addColorStop(0, 'rgba(193,110,28,0.5)'); g.addColorStop(1, 'rgba(193,110,28,0)');
-          ctx!.fillStyle = g; ctx!.beginPath(); ctx!.arc(x, y, 5, 0, 7); ctx!.fill();
-          ctx!.fillStyle = 'rgba(214,134,52,0.85)'; ctx!.beginPath(); ctx!.arc(x, y, 1.3, 0, 7); ctx!.fill();
+        if (!reduce && txs.length < 3 && Math.random() < 0.02) spawnTx();
+        for (let k = txs.length - 1; k >= 0; k--) {
+          const tx = txs[k];
+          if (tx.pause > 0) { tx.pause--; continue; }
+          const segCount = tx.path.length - 1;
+          let a, b;
+          if (tx.stage === 'out') {
+            // the orange payment hops the network graph, origin → receiver.
+            tx.t += tx.outSp;
+            if (tx.t >= 1) {
+              tx.t = 0; tx.seg++;
+              if (tx.seg >= segCount) { tx.stage = 'back'; tx.t = 0; tx.pause = 16; continue; }
+            }
+            a = tx.path[tx.seg]; b = tx.path[tx.seg + 1];
+          } else {
+            // the blue response goes STRAIGHT from the receiver back to the
+            // original sender — a direct line, not constrained by the graph.
+            tx.t += tx.backSp;
+            if (tx.t >= 1) { txs.splice(k, 1); continue; }
+            a = tx.path[segCount]; b = tx.path[0];
+          }
+          if (!a || !b) { txs.splice(k, 1); continue; }
+          const x = a.x + (b.x - a.x) * tx.t, y = a.y + (b.y - a.y) * tx.t;
+          if (tx.stage === 'out') {
+            // a short fading streak behind the fast orange dot — reads as speed
+            const tailT = Math.max(0, tx.t - 0.2);
+            const tx0 = a.x + (b.x - a.x) * tailT, ty0 = a.y + (b.y - a.y) * tailT;
+            const grad = ctx!.createLinearGradient(tx0, ty0, x, y);
+            grad.addColorStop(0, 'rgba(233,150,55,0)'); grad.addColorStop(1, 'rgba(233,150,55,0.6)');
+            ctx!.strokeStyle = grad; ctx!.lineWidth = 2; ctx!.lineCap = 'round';
+            ctx!.beginPath(); ctx!.moveTo(tx0, ty0); ctx!.lineTo(x, y); ctx!.stroke();
+            drawDot(x, y, '233,150,55', 5, 1.5);   // orange — the Lightning payment (fast)
+          } else {
+            // faint direct trail from the receiver toward the sender + the dot
+            const grad = ctx!.createLinearGradient(a.x, a.y, x, y);
+            grad.addColorStop(0, 'rgba(74,141,255,0)'); grad.addColorStop(1, 'rgba(74,141,255,0.22)');
+            ctx!.strokeStyle = grad; ctx!.lineWidth = 1.4; ctx!.lineCap = 'round';
+            ctx!.beginPath(); ctx!.moveTo(a.x, a.y); ctx!.lineTo(x, y); ctx!.stroke();
+            drawDot(x, y, '74,141,255', 5.5, 1.4); // blue — the service responding (slow)
+          }
         }
         raf = requestAnimationFrame(step);
       }

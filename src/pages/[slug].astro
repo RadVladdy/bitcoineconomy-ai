@@ -30,6 +30,16 @@ const twinLabel = agent ? `${navLabel} (human narrative)` : `${navLabel} — For
 
 // Breadcrumb parent section (the nav group this surface belongs to, if any).
 const parentGroup = NAV_GROUPS.find((g) => g.items.some((i) => i.slug === humanSlug));
+// Off-menu pages aren't in a nav group but still belong to a section for colour
+// + breadcrumb. Map them explicitly so they don't fall back to the orange Case
+// accent; the nav menu stays uncluttered. (About has no section — it's a meta page.)
+const OFFMENU_SECTION: Record<string, { label: string; anchor: string }> = {
+  'stablecoin-landscape': { label: 'Marketplace', anchor: 'marketplace' },
+  'why-bitcoin-not-a-new-coin': { label: 'Case', anchor: 'case' },
+};
+const section = parentGroup
+  ? { label: parentGroup.label, anchor: parentGroup.items[0].slug }
+  : OFFMENU_SECTION[humanSlug] ?? null;
 
 // On-this-page TOC: the page's h2s. Skipped on the Story; only shown when there's
 // enough structure to be useful. (Editor's Notes is already stripped upstream.)
@@ -41,7 +51,7 @@ const hasToc = toc.length >= 3;
 const showRail = !isStory;
 const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marketplace: 'agent' };
 // Section accent for this page (colours the in-content card tiles).
-const accentKey = parentGroup ? SECTION_ACCENT[parentGroup.label] ?? 'btc' : 'btc';
+const accentKey = section ? SECTION_ACCENT[section.label] ?? 'btc' : 'btc';
 
 const jsonLd = surfaceJsonLd({
   slug: d.slug,
@@ -72,10 +82,10 @@ const tldrParas = (d['agent-tldr'] ?? '').split(/\n{2,}/).map((p) => p.trim()).f
       {!isStory && (
         <nav class="crumb" aria-label="Breadcrumb">
           <a href="/">Home</a>
-          {parentGroup && (
+          {section && (
             <>
               <span aria-hidden="true">/</span>
-              <a href={`/${parentGroup.items[0].slug}`}>{parentGroup.label}</a>
+              <a href={`/${section.anchor}`}>{section.label}</a>
             </>
           )}
           <span aria-hidden="true">/</span>

@@ -22,6 +22,7 @@ Shared building blocks (reuse these — don't re-implement):
 - **`src/components/PageRail.astro`** — the right rail: on-this-page TOC + "Explore the site" nav tiles + scroll-spy.
 - **`src/styles/global.css`** — all styling. Section colours flow from the `.accent-*` wrapper class to cards, rail tiles, and nav.
 - Nav + the rail's site tiles are **data-driven** from `NAV_GROUPS` / `SLUG_TAGS` in `src/lib/site.ts` — add a page to the nav config and it appears everywhere automatically.
+- **Every "Explore the site" link shows its `SLUG_TAGS` descriptor** under the label — on the homepage rail, the nav dropdowns, **and** the internal-page `PageRail` (they must not drift; the homepage and `PageRail` both render `rl-t` + `rl-d`). The label names the page; the descriptor says what it's about. Keep descriptors **plain-Joe and jargon-free** (no "UI/UX", "TradFi", "A2A/A2B") — they're the one-glance gloss for a reader who doesn't yet know the page.
 
 ## ✅ Every content page MUST get the standard treatment — no exceptions
 Adding a page of an **existing** collection (a tool/service/exchange/surface) is
