@@ -198,7 +198,12 @@ Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [
 ---
 
 > [!info] Where to read next
-> The arguments this record tracks: the substrate-selection case at [[Case|The Case]]; the parallel-economy divergence at [[Independence-Doctrine|The Independence Doctrine]]; the live contest over which substrate wins at [[Border-Skirmishes|Border Skirmishes]]; where an agent actually transacts at [[Marketplace|The Marketplace]]; and the pure technical architecture of the Bitcoin substrate at [[Stack|The Stack]].
+> The standing live record cross-cuts every section; the arguments and surfaces it tracks:
+> - **[[Case|The Case]]** *(why agents choose Bitcoin)* — the substrate-selection case this record tracks empirically.
+> - **[[Independence-Doctrine|The Independence Doctrine]]** *(in The Case)* — the parallel-economy divergence whose predictions this record tests against deployment.
+> - **[[Border-Skirmishes|Border Skirmishes]]** *(in The Case)* — the live contest over which substrate wins.
+> - **[[Marketplace|The Marketplace]]** *(exchange & services)* — where an agent actually transacts: bridges, treasury, conversion mechanics.
+> - **[[Stack|The Stack]]** *(equip your agent)* — the pure technical architecture of the Bitcoin substrate this record logs the deployment of.
 
 ---
 
