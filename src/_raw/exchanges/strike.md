@@ -20,7 +20,7 @@ links:
   site: https://strike.me
   api-docs: https://docs.strike.me
 status: v0-2026-06-03-structural-verified
-links-verified: 2026-06-03 (structural; fees + exact coverage pending)
+links-verified: 2026-06-06 (structural + API-docs URL verified; fees/exact-coverage deferred to the venue)
 ---
 
 # Strike
@@ -33,10 +33,10 @@ links-verified: 2026-06-03 (structural; fees + exact coverage pending)
 
 **How an agent uses it.** Open and KYC a Strike account once (the compliance boundary); fund from a bank or receive over Lightning; convert Lightning↔fiat via the API as the conversion strategy requires; withdraw BTC to self-custody promptly to bound the custodial freeze surface.
 
-**Coverage.** Operates across many jurisdictions through a multi-entity legal structure. *(Exact country list + remittance corridors: verify before publish.)*
+**Coverage.** Operates across ~95 countries via a multi-entity legal structure (Zap Solutions for US/EU, E4 elsewhere); exact country list + remittance corridors shift — see the venue.
 
 **Dependencies & payment.** A KYC'd Strike account (the compliance boundary) and its public REST API via OAuth. Fund from a bank or card, or receive over Lightning; convert Lightning↔fiat through the API; withdraw BTC to self-custody promptly. (USDT support is TRON-network-only and regional.)
 
 **Gotchas.** Custodial — KYC at onboarding, and Strike retains a freeze surface over the *account* balance (not over BTC once withdrawn to self-custody). Compliance applies to the fiat leg; the Lightning leg downstream is unrestricted. **USDT is TRON-network only** — a deposit on any other network is *permanently lost* — and is available only in a set of emerging-market countries; the BTC/Lightning side is the universal path. The full **buy/sell + deposit + withdraw** set is available programmatically via the API.
 
-**Links.** [strike.me](https://strike.me) · API docs `docs.strike.me` *(verify).*
+**Links.** [strike.me](https://strike.me) · [API docs](https://docs.strike.me).

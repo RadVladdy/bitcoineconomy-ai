@@ -15,7 +15,7 @@ word-count-target: 2200
 voice: honest-middle-position
 scope: fiat-btc-exchange-directory
 card-collection: Exchanges/
-verification: "structural facts (Lightning / stablecoins / API / KYC / custody) WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC (Circle CCTP) re-verified 2026-06-05; per-venue fees + exact jurisdictional coverage still pending"
+verification: "structural facts (Lightning / stablecoins / API / KYC / custody) WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC (Circle CCTP) re-verified 2026-06-05; per-card API-docs URLs pinned + coverage coarsened 2026-06-06; per-venue fees deferred to the venue / Field Notes (volatile, not hardcoded)"
 assembled-from:
   - "Border-Zone.md § The bridge architecture (fiat legs), § Conversion mechanics (off-ramp + CEX), § compliance worked examples, § Forward-looking"
 tags:
@@ -172,7 +172,7 @@ The first is the **KYC-delegation point** (user's insight): an agent can't KYC, 
 
 **Card-archival — DONE (2026-06-05).** `Exchanges/thorchain.md` and `Exchanges/robosats.md` (no longer referenced here) were archived to `_archive/` in the Border Zone archive pass.
 
-**Verification status.** Structural facts WebSearch-verified 2026-06-03; Boltz full support + live USDC re-verified 2026-06-05. Still pending per-card: fees, exact jurisdictional coverage, current API auth specifics. Strike's tool-vs-exchange status is resolved (`_Decisions` 2026-06-06: exchange-only; the former `Tools/strike.md` was retired 2026-06-06 → archived, and `/tools/strike` redirects to `/exchanges/strike`). Optionally add Cash App / Gemini.
+**Verification status.** Structural facts WebSearch-verified 2026-06-03; Boltz full support + live USDC re-verified 2026-06-05. Per-card pass 2026-06-06: API-docs URLs pinned, coverage coarsened to durable statements, and the reader-facing "(verify)" nags removed; **per-venue fees are deferred to the venue (not hardcoded)** since they drift, per the defer-to-live-source pattern. Strike's tool-vs-exchange status is resolved (`_Decisions` 2026-06-06: exchange-only; the former `Tools/strike.md` was retired 2026-06-06 → archived, and `/tools/strike` redirects to `/exchanges/strike`). Optionally add Cash App / Gemini.
 
 **Dissolution — DONE (2026-06-05):** `Border-Zone.md` + `-FA` archived to `_archive/`; the restructure is deployed.
 

@@ -18,8 +18,9 @@ bridges:
 coverage: global-broad
 links:
   site: https://coinbase.com
-status: v0-2026-06-03-structural-verified
-links-verified: 2026-06-03 (structural; fees + exact coverage pending)
+  api-docs: https://docs.cdp.coinbase.com
+status: v0-2026-06-06-structural-verified
+links-verified: 2026-06-06 (structural + API-docs URL verified; fees deferred to the venue / Field Notes)
 ---
 
 # Coinbase
@@ -32,10 +33,10 @@ links-verified: 2026-06-03 (structural; fees + exact coverage pending)
 
 **How an agent uses it.** KYC account; deposit fiat or BTC; execute the BTC↔stablecoin or fiat↔BTC trade via API; withdraw promptly. Holdings sit at custodial risk during the conversion window.
 
-**Coverage.** Broadly available across many countries. *(Verify current jurisdictional availability + restricted regions before publish.)*
+**Coverage.** Broadly available across many countries (US-headquartered, publicly listed); exact per-region availability shifts — see the venue.
 
 **Dependencies & payment.** A KYC'd Coinbase account and its trading API. Fund with fiat (bank/card) or BTC; execute fiat↔BTC or BTC↔USDC via API; withdraw promptly to bound the multi-asset custodial surface.
 
 **Gotchas.** Multi-asset custody surface — the freeze surface spans the account and all assets held, not just BTC; longer holding periods widen exposure. Much real fiat↔BTC and BTC↔stablecoin conversion happens here.
 
-**Links.** [coinbase.com](https://coinbase.com) · developer API *(verify URL).*
+**Links.** [coinbase.com](https://coinbase.com) · [Advanced Trade API](https://docs.cdp.coinbase.com).

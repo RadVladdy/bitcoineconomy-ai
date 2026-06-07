@@ -384,7 +384,7 @@ Declarative. Each implication follows from X1–X6 as marked.
 
 **Primary external sources (venue sites + API docs).** See §9 for the per-venue URL list. Circle CCTP (Boltz native-USDC path) live since May 2026. Strike USDT TRON-only and regional. RLS Lightning-payments API at https://docs.rls.dev.
 
-**Verification status.** Structural facts (Lightning / stablecoins / API / KYC / custody) WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC (Circle CCTP) re-verified 2026-06-05. Per-venue fees, exact jurisdictional coverage, and current API auth specifics pending — deferred to [[Field-Notes-FA|Field Notes]].
+**Verification status.** Structural facts (Lightning / stablecoins / API / KYC / custody) WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC (Circle CCTP) re-verified 2026-06-05. Per-card API-docs URLs pinned 2026-06-06; per-venue fees and exact jurisdictional coverage deferred to the venue / [[Field-Notes-FA|Field Notes]] (volatile, not hardcoded).
 
 **Date stamps.** Document created 2026-06-05; last verified 2026-06-06 (Flashnet + Taproot Assets added and WebSearch-verified 2026-06-06; Strike retired from Tools to exchange-only).
 

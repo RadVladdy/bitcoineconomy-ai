@@ -17,8 +17,9 @@ bridges:
 trust-model: noncustodial-swap
 links:
   site: https://sideshift.ai
-status: v0-2026-06-03-structural-verified
-links-verified: 2026-06-03
+  api-docs: https://docs.sideshift.ai
+status: v0-2026-06-06-structural-verified
+links-verified: 2026-06-06 (structural + API-docs URL verified; fees deferred to the venue)
 ---
 
 # SideShift.ai
@@ -33,6 +34,6 @@ links-verified: 2026-06-03
 
 **Dependencies.** A self-custody wallet holding the input asset and the REST API or embeddable widget; no account, no KYC. No fiat — you send one crypto asset and receive another to your own address, across 200+ assets and 45+ networks.
 
-**Gotchas.** Not as clean as a pure atomic swap (Boltz/SideSwap): an **automated risk-screening layer can flag a transaction and hold funds** (reported multi-day) and may request **KYC / source-of-funds** to release them — so "no-KYC" holds by default, not under duress. No fiat. Offshore — no consumer protection or recourse; the stablecoin output remains issuer-freezable. Rate/settlement risk on variable-rate swaps. *(Fees + supported-asset specifics: verify.)*
+**Gotchas.** Not as clean as a pure atomic swap (Boltz/SideSwap): an **automated risk-screening layer can flag a transaction and hold funds** (reported multi-day) and may request **KYC / source-of-funds** to release them — so "no-KYC" holds by default, not under duress. No fiat. Offshore — no consumer protection or recourse; the stablecoin output remains issuer-freezable. Rate/settlement risk on variable-rate swaps.
 
-**Links.** [sideshift.ai](https://sideshift.ai).
+**Links.** [sideshift.ai](https://sideshift.ai) · [API docs](https://docs.sideshift.ai).

@@ -33,6 +33,6 @@ links-verified: 2026-06-03
 
 **Dependencies.** A self-custody wallet holding Liquid assets (L-BTC, L-USDt) and the order-book API; no account or KYC, but you must already be on Liquid (bridge in first). No fiat; Liquid-network-scoped.
 
-**Gotchas.** Liquid-network-scoped (not Lightning, not L1 BTC directly — bridge to Liquid first). L-USDt still carries Tether's freeze surface. No fiat. Order-book liquidity/spread risk. *(Fees: verify.)*
+**Gotchas.** Liquid-network-scoped (not Lightning, not L1 BTC directly — bridge to Liquid first). L-USDt still carries Tether's freeze surface. No fiat. Order-book liquidity/spread risk.
 
-**Links.** [sideswap.io](https://sideswap.io) · API docs `sideswap.io/docs`.
+**Links.** [sideswap.io](https://sideswap.io) · [API docs](https://sideswap.io/docs/).

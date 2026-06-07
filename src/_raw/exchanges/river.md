@@ -20,7 +20,7 @@ links:
   site: https://river.com
   api-docs: https://docs.rls.dev
 status: v0-2026-06-03-structural-verified
-links-verified: 2026-06-03 (structural; fees + API scope pending)
+links-verified: 2026-06-06 (structural + API verified — RLS is a Lightning-payments API, not buy/sell; fees deferred to the venue)
 ---
 
 # River
@@ -33,10 +33,10 @@ links-verified: 2026-06-03 (structural; fees + API scope pending)
 
 **How an agent uses it.** Best as a **Lightning payments + deposit** rail (RLS — it powers El Salvador's Chivo backend), or for reserve accumulation via owner-initiated buys. Not a programmatic fiat↔BTC trading venue.
 
-**Coverage.** United States–focused. *(Verify current state availability.)*
+**Coverage.** United States–focused; state-level availability varies — see the venue.
 
 **Dependencies & payment.** A KYC'd US River account; programmatic access is River Lightning Services (RLS, a *Lightning payments* API), not a buy/sell trading API. Fund via US bank/wire; receive, hold, and pay over Lightning; fiat→BTC buys are owner-initiated, not programmatic.
 
 **Gotchas.** Custodial and US-regulated — KYC at onboarding, account-level freeze surface until withdrawal to self-custody. US bank rails mean fiat-leg latency (ACH/wire) on the fiat side.
 
-**Links.** [river.com](https://river.com) *(verify API docs URL).*
+**Links.** [river.com](https://river.com) · [RLS API docs](https://docs.rls.dev).
