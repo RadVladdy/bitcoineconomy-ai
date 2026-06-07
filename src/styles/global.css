@@ -443,7 +443,21 @@ figure.matrix .matrix-title {
   display: block;
   transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
 }
-.surface-card:hover { border-color: rgba(247, 147, 26, 0.5); transform: translateY(-3px); box-shadow: 0 16px 44px -22px rgba(247, 147, 26, 0.5); }
+.surface-card:hover { transform: translateY(-3px); }
+
+/* Section-coloured card tiles: subtle persistent tint, stronger glow on hover.
+   The page wrapper sets .accent-{btc|cyan|agent} — orange = Case, cyan = Stack,
+   violet = Marketplace — so cards read as belonging to their section. */
+.accent-btc .surface-card { border-color: rgba(247, 147, 26, 0.22); }
+.accent-btc .surface-card:hover { border-color: rgba(247, 147, 26, 0.6); box-shadow: 0 16px 44px -22px rgba(247, 147, 26, 0.5); }
+.accent-cyan .surface-card { border-color: rgba(34, 211, 238, 0.24); }
+.accent-cyan .surface-card:hover { border-color: rgba(34, 211, 238, 0.6); box-shadow: 0 16px 44px -22px rgba(34, 211, 238, 0.5); }
+.accent-agent .surface-card { border-color: rgba(139, 124, 255, 0.26); }
+.accent-agent .surface-card:hover { border-color: rgba(139, 124, 255, 0.6); box-shadow: 0 16px 44px -22px rgba(139, 124, 255, 0.5); }
+/* the type pill carries the section colour — a legible, persistent code */
+.accent-btc .tool-tag-type { border-color: rgba(247, 147, 26, 0.5); color: var(--orange); }
+.accent-cyan .tool-tag-type { border-color: rgba(34, 211, 238, 0.5); color: var(--electric); }
+.accent-agent .tool-tag-type { border-color: rgba(139, 124, 255, 0.5); color: var(--agent); }
 .surface-card h3 { margin: 0 0 0.3rem; font-size: 1.08rem; }
 .surface-card p { margin: 0; font-size: 0.9rem; color: var(--fg-soft); }
 .surface-card .fa-link { font-size: 0.8rem; color: var(--orange); margin-top: 0.5rem; display: inline-block; }
