@@ -28,6 +28,8 @@ tags:
 
 Spark is a shared-UTXO, Lightning-compatible Bitcoin L2 built by Lightspark for instant, near-zero-cost transfers of BTC and Bitcoin-native assets (including stablecoins), with full Lightning interoperability and no bridges or wrapped tokens. It sits in the same architectural band as the bearer-ecash layers — a lightweight settlement surface above Lightning — and is the rail behind some agent wallets ([Xverse Agent Wallet](/tools/xverse-agent-wallet) settles agent payments over Spark).
 
+This card is the *L2 substrate* view. The non-custodial **BTC↔stablecoin DEX built on Spark — [Flashnet](/exchanges/flashnet)** — has its own exchange card (it's where the BTC↔USDT/USDB swapping happens).
+
 ## When to use it
 
 - Agent settlement that wants Lightning interoperability with a lighter operational footprint than running channels.

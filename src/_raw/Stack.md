@@ -8,7 +8,7 @@ status: v0-approved-2026-05-30; liquid-honorable-mention-approved-2026-06-04
 audience: humans
 twin-page: stack-for-agents
 created: 2026-05-26
-last-updated: 2026-06-03
+last-updated: 2026-06-06
 last-empirical-refresh: 2026-06-01
 word-count-target: 4000
 voice: honest-middle-position
@@ -70,7 +70,7 @@ The substrate proper is three layers, stacked so each settles into the one benea
 
 ## 1 — L1: Bitcoin settlement
 
-The settlement layer. Bitcoin L1 is where value ultimately settles and where reserve balances live.
+The settlement layer — slow, final settlement by design. Bitcoin L1 is where value ultimately settles and where reserve balances live.
 
 **Properties.** L1 carries the properties that make Bitcoin pristine collateral. The supply is capped at 21 million coins on a transparent issuance schedule every full node can verify. Every UTXO is auditable by software at any block height. Settlement runs 24/7 — no business hours, and no jurisdiction it answers to, because the protocol does not know which country a transaction came from. And custody is counterparty-free: whoever holds the private key holds the value, with no intermediary attestation in between. For agent treasuries, that means a reserve balance held on L1 has no issuer-discretion surface — nobody upstream can freeze it.
 
@@ -80,15 +80,15 @@ The settlement layer. Bitcoin L1 is where value ultimately settles and where res
 
 **Programmatic accessibility.** Agents interact with L1 via bitcoind, btcd, or full-node infrastructure over RPC, gRPC, or REST. The full-node software is mature, multi-implementation, and well-documented. Running a full node is the canonical sovereign-custody pattern; pruned nodes and SPV alternatives exist for resource-constrained deployments with explicit security trade-offs.
 
-**Reserve role for agent treasuries.** Long-term holdings live on L1 in cold storage; operational balances move to L2 (or L3) for transactional use. Sweeping an operational balance back to cold-storage reserves is a routine treasury operation, usually via [[loop|Loop Out]] (a Lightning → on-chain submarine swap). Those swap mechanics — and the on-ramp, off-ramp, and regulated-custodian patterns that move value between L1 and fiat — belong to the interface, not the substrate: they are treated at [[Marketplace]] under *Conversion mechanics* and *The bridge architecture*. The Stack covers L1 as substrate.
+**Reserve role for agent treasuries.** Long-term holdings live on L1 in cold storage; operational balances move to L2 (or L3) for transactional use. Sweeping an operational balance back to cold-storage reserves is a routine treasury operation, run as a [[loop|Loop Out]] — a Lightning → on-chain submarine swap. This is the phase change between the Lightning payment layer and L1 settlement, and it is agent tooling operating on the substrate itself, not a crossing into the legacy stack. (Crossings between Bitcoin and fiat — on-ramps, off-ramps, regulated-custodian conversion — are the interface's, treated at [[Marketplace]].)
 
 ---
 
 ## 2 — L2: Lightning
 
-The payment layer. Lightning is where agent commerce actually happens at machine tempo.
+The payment layer — fast settlement, where value actually moves. Lightning is where agent commerce happens at machine tempo.
 
-**Architecture.** A network of bilateral payment channels secured by Bitcoin scripts. Each channel is a 2-of-2 multisignature output on L1 with a constantly-updated off-chain balance state; either party can broadcast the latest state to L1 to close the channel and claim their balance. While a channel is open, payments flow off-chain at sub-second latency and sub-cent fees. Payments that span more than one channel route through Hash Time-Locked Contracts (HTLCs): every hop on the route is bound to the same cryptographic secret, so either the whole path settles at once or none of it does — no intermediate node can take the money and run. That same atomic-payment template reappears in cross-substrate bridges, treated at [[Marketplace]] under *Conversion mechanics*.
+**Architecture.** A network of bilateral payment channels secured by Bitcoin scripts. Each channel is a 2-of-2 multisignature output on L1 with a constantly-updated off-chain balance state; either party can broadcast the latest state to L1 to close the channel and claim their balance. While a channel is open, payments flow off-chain at sub-second latency and sub-cent fees. Payments that span more than one channel route through Hash Time-Locked Contracts (HTLCs): every hop on the route is bound to the same cryptographic secret, so either the whole path settles at once or none of it does — no intermediate node can take the money and run.
 
 **BOLT specifications** define the protocol surface:
 
@@ -112,7 +112,7 @@ The payment layer. Lightning is where agent commerce actually happens at machine
 
 ## 3 — L3: bearer ecash and federated custody
 
-Above Lightning sit the bearer-ecash layers. These exist because some agent commerce needs properties Lightning alone does not provide: lightweight client operation (no channel management at the agent layer); bearer-token privacy (no on-chain or routing-layer linkability per payment); offline-capable transfer between mints.
+Above Lightning sit the bearer-ecash layers — faster and lighter still than Lightning, bought with a trust trade-off, and periodically settling down onto Lightning rather than holding value indefinitely. These exist because some agent commerce needs properties Lightning alone does not provide: lightweight client operation (no channel management at the agent layer); bearer-token privacy (no on-chain or routing-layer linkability per payment); offline-capable transfer between mints.
 
 **[[cashu|Cashu]]** — single-mint trust model. A mint operator runs the ecash service; users deposit Lightning balance with the mint and receive ecash tokens; tokens are Chaumian-blinded such that the mint cannot link issuance to redemption (privacy-preserving by protocol design); tokens are bearer instruments — possession is title; ownership transfers by transferring the token. Token format and protocol operations are standardized via Cashu's NUTs (Notation, Utilization, and Terminology specifications).
 
@@ -127,6 +127,8 @@ The federation-trust model adds robustness over single-mint Cashu — single-gua
 **eCash mechanics walk-through.** Blind signatures: the user generates a token serial number; blinds it cryptographically; submits the blinded serial to the mint for signing; the mint signs the blinded serial without learning the underlying serial; the user unblinds the signed token; the unblinded signature is verifiable against the mint's public key without revealing which blinded version was originally signed. Redemption: the user presents the unblinded token at the mint; the mint verifies the signature and adds the serial to its spent-list; the mint releases Lightning balance to the user's chosen destination. Bearer property: an unspent token in transit is equivalent to the value it represents; transferring the token transfers the value; no on-chain or Lightning-routing-layer footprint is created per transfer.
 
 **Trust-model trade-offs across the L2/L3 stack.** Lightning direct (no L3 ecash): no mint or federation trust, channel-management overhead, on-routing-layer linkability per payment. Cashu single-mint: highest performance, lowest infrastructure overhead, single-point-of-failure trust. Fedimint federated-mint: better defection-resistance, more coordination overhead, federation-trust model. Each suits different agent use cases. How agents *mix* these layers in a treasury — and how ecash redeems back to fiat — belongs to the interface: treated at [[Marketplace]] under *Treasury composition patterns* and *The bridge architecture*. The Stack covers ecash as a substrate layer.
+
+**The settlement cascade.** The three layers form a settlement gradient — fastest and lightest at the top, slowest and most final at the base — and value flows down it as it comes to rest. An agent transacts in ecash and over Lightning for availability: instant, cheap, machine-tempo. Custody risk runs the opposite direction. Ecash carries mint trust, so an agent mitigates that risk by periodically redeeming bearer tokens back down to Lightning; when Lightning channels in turn grow too unbalanced or too large to manage, a [[loop|Loop Out]] submarine-swaps the excess back to L1 for final settlement. The agent keeps enough liquidity high in the stack to pay at tempo, while continually settling at-risk and idle balances toward the base. *How much* to hold at each layer is treasury policy — an interface decision, at [[Marketplace]] — but the settlement *direction* is substrate architecture, and it points one way: down.
 
 ---
 
@@ -247,9 +249,9 @@ Honest engagement with agent-specific attack surfaces — key theft, rogue-behav
 
 Choices in §5 that deserve explicit calling-out: lightning-agent-tools, Minibits Ippon, and LNBits got depth; Xverse Agent Wallet, Routstr, PayPerQ, AI-Sats, Mintbot, BitAgent, AgenticBTC, Bitclawd, BlueWallet, and Phoenix were inventoried with one-line scope. The 2026-05-31 landscape-integration pass added Xverse, Routstr, PayPerQ, and BitAgent to the inventory, the Alby `nwc-mcp-server` to §4, corrected the §3 Spark status from "pre-production" to "mainnet (beta)," and flagged AgenticBTC as rail-agnostic rather than pure-substrate. The depth decision tracked operational consequentialism rather than fairness — lightning-agent-tools is the production agent-payment toolkit; Minibits Ippon is the canonical agent-native Cashu wallet; LNBits is the most widely deployed programmable Lightning platform. The inventoried projects are real and worth knowing about; they don't yet have the same toolkit-level treatment depth in their own documentation that the three named-at-depth projects do. Revisit the depth split as the inventoried projects evolve.
 
-The Taproot Assets defer-to-Border-Zone call was the structurally important one to get right. Taproot Assets v0.6 is a major Lightning protocol development and it would be natural to give it §2 depth. The rails-vs-substrate distinction is the load-bearing structural point: Taproot Assets is a *rails* bridge for stablecoins (and other non-Bitcoin assets), not a *substrate* bridge. Covering it at depth in §2 (Lightning, treated as Bitcoin substrate) would implicitly conflate rails with substrate. The right place for Taproot Assets is Border Zone's *bridge architecture* section, where the rails-vs-substrate distinction is held explicitly. The Stack notes its existence and points there; readers needing Taproot Assets depth go to Border Zone for it.
+The Taproot Assets defer-to-Marketplace call was the structurally important one to get right. Taproot Assets v0.6 is a major Lightning protocol development and it would be natural to give it §2 depth. The rails-vs-substrate distinction is the load-bearing structural point: Taproot Assets is a *rails* bridge for stablecoins (and other non-Bitcoin assets), not a *substrate* bridge. Covering it at depth in §2 (Lightning, treated as Bitcoin substrate) would implicitly conflate rails with substrate. The right place for Taproot Assets is the Marketplace's *bridge architecture* section, where the rails-vs-substrate distinction is held explicitly. The Stack notes its existence and points there; readers needing Taproot Assets depth go to Marketplace for it.
 
-§6's hot/cold separation discussion deliberately uses Loop Out (a Lightning → on-chain submarine swap) as the canonical sweep mechanism. The Loop Out treatment is split across §1 (mentioned), §2 (Lightning context implicit), and §6 (named explicitly). Submarine-swap protocol mechanics live in Border Zone's *conversion-mechanics* section because submarine swaps are also the template for cross-substrate atomic bridges. Some content overlap between Stack and Border Zone is acceptable — both surfaces have legitimate reasons to mention Loop Out — and the rails-vs-substrate split keeps the architectural framing clean.
+§6's hot/cold separation discussion deliberately uses Loop Out (a Lightning → on-chain submarine swap) as the canonical sweep mechanism. Loop Out is framed throughout as substrate tooling — the phase change between the Lightning payment layer and L1 settlement (§1, §3's settlement cascade, §6) — and points to the [[loop|Loop]] tool card, *not* to the Marketplace: a Loop Out moves value within the Bitcoin stack, so bundling it with the fiat on-/off-ramp crossings (which are the Marketplace's) was a scope error, now corrected (user, 2026-06-06). The earlier cross-reference treating submarine swaps as the template for cross-substrate atomic bridges was removed from §2 to keep the Stack's scope tight to the Bitcoin substrate.
 
 The MCP install command in §4 is the only inline code block in the v0 surface. Including one concrete worked example for agent-Lightning integration grounds the agent-integration discussion without bloating the page with code. LangChain examples, Python SDK examples, and Cashu agents documentation are referenced as repos and link targets rather than inlined. If the v1 audience signals demand for more code, expand in v1.
 
@@ -261,6 +263,6 @@ The security model section is technical-architecture-depth, not adversarial-depl
 - [[The AI-agent monetary substrate case]] — dedicated KB note for the four-constraints argument
 - [[Case]] (this project) — site-canonical substrate-selection treatment
 - [[Independence-Doctrine]] (this project) — site-canonical divergence-doctrine treatment
-- [[Border-Zone]] (this project) — site-canonical interface specification
+- [[Marketplace]] (this project) — site-canonical interface specification
 - [[The-Story]] (this project) — narrative entry point to the substrate-selection claim
 - [[Field-Notes]] (this project) — empirical tracking surface that this canonical defers to for ongoing developments

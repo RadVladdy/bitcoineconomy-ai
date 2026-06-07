@@ -26,7 +26,7 @@ links-verified: 2026-06-03
 
 **What it is.** A non-custodial, no-KYC atomic-swap service — the standout agent-native option. Swaps settle via shared-preimage HTLCs (either both legs settle or both refund), so the agent never gives up custody and no account or identity is required.
 
-**What it bridges.** Bitcoin across **L1, Lightning, Liquid, and Rootstock** (internal-substrate moves), **and Lightning ↔ USDT/USDC** — the cross-asset swaps that make it an *exchange* path, not just substrate tooling. (Its pure BTC L1↔Lightning swaps are the Stack/Tools aspect; see [[Stack|The Stack]].)
+**What it bridges.** Bitcoin across **L1, Lightning, Liquid, and Rootstock** (internal-substrate moves), **and Lightning ↔ USDT/USDC** — the cross-asset swaps that make it an *exchange* path, not just substrate tooling. (Its pure BTC L1↔Lightning swaps are the *infrastructure* aspect — see its [tools card](/tools/boltz).)
 
 **Agent access.** **REST API + `boltzd`** built for automated workflows — create swaps, poll status, retrieve history programmatically. No account, no KYC keys to delegate; the agent acts on its own wallet.
 

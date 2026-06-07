@@ -10,7 +10,7 @@ docs: https://docs.lightning.engineering/the-lightning-network/taproot-assets
 site: https://lightning.engineering
 x: "@lightning"
 latest-release: v0.7.2
-stack-section: "Border Zone"
+stack-section: "Marketplace"
 status: published
 last-verified: 2026-06-02
 order: 53
@@ -27,7 +27,9 @@ tags:
 
 Taproot Assets (the `tapd` daemon) is a Lightning Labs protocol for issuing assets — including stablecoins — on Bitcoin L1 via Taproot, and transferring them over Lightning rails. It's billed as the first multi-asset Lightning protocol on mainnet.
 
-The crucial framing, held explicitly at [The Border Zone](/border-zone): Taproot Assets provides Lightning *rails* for non-Bitcoin assets — it is **not** Bitcoin *substrate*. An agent might use a stablecoin over Taproot Assets at the boundary for unit-of-account stability, but the settlement substrate underneath is still Bitcoin. Keeping rails and substrate distinct is the whole point of putting this in Bridges, not the Stack.
+This card is the *protocol/integration* lens. For using Taproot Assets to swap BTC↔USDT over Lightning (the venue lens), see its [exchange card](/exchanges/taproot-assets).
+
+The crucial framing, held explicitly at [The Marketplace](/marketplace): Taproot Assets provides Lightning *rails* for non-Bitcoin assets — it is **not** Bitcoin *substrate*. An agent might use a stablecoin over Taproot Assets at the boundary for unit-of-account stability, but the settlement substrate underneath is still Bitcoin. Keeping rails and substrate distinct is the whole point of putting this in Bridges, not the Stack.
 
 ## When to use it
 

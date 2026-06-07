@@ -10,7 +10,7 @@ status: v1-draft-2026-06-05 (pending review)
 audience: humans
 twin-page: exchange-for-agents
 created: 2026-06-03
-last-updated: 2026-06-05
+last-updated: 2026-06-06
 word-count-target: 2200
 voice: honest-middle-position
 scope: fiat-btc-exchange-directory
@@ -67,15 +67,17 @@ Two features make or break a venue for agent use. **API access** is non-negotiab
 
 ## Non-custodial, no-KYC swaps *(agent-sovereign, crypto-native)*
 
-The agent swaps on its own keys — no account, no delegated identity. This is the most agent-native path; the caveats below are the price of that sovereignty. *(Structural facts WebSearch-verified 2026-06-03; Boltz re-verified 2026-06-05. ✅ yes · — no · ⚠ limited; the API column is the capability an agent needs to run a swap unattended.)*
+The agent swaps on its own keys — no account, no delegated identity. This is the most agent-native path; the caveats below are the price of that sovereignty. *(Structural facts WebSearch-verified 2026-06-03; Boltz re-verified 2026-06-05; Flashnet + Taproot Assets verified 2026-06-06. ✅ yes · — no · ⚠ limited; the API column is the capability an agent needs to run a swap unattended.)*
 
 | Service | Type | Lightning | Stablecoin (network) | API | Bank fiat |
 |---|---|---|---|---|---|
 | **Boltz** ⭐ | atomic swap | ✅ | USDT0 + USDC *(via Circle CCTP: ETH/Arbitrum/Base/Polygon)* | ✅ REST / `boltzd` | — |
 | **SideSwap** | Liquid swap | ⚠ *(Liquid)* | L-USDt *(Liquid)* | ✅ | — |
 | **SideShift** | swap | ✅ | USDT *(Liquid)* + 200+ assets | ✅ REST | — |
+| **Flashnet** | AMM *(Spark)* | ✅ *(via Spark)* | USDT / USDB / USDC *(Spark)* | ✅ skill / API | — |
+| **Taproot Assets** | Lightning FX *(edge-node)* | ✅ | USDT *(Lightning)* | ⚠ *(`tapd`, no REST)* | — |
 
-**Boltz is the standout for agents** — no-KYC, Lightning-native, fully non-custodial atomic swaps, a REST API + `boltzd` for automation, **Bitcoin across L1/Lightning/Liquid/Rootstock**, and both major stablecoins (USDT0, plus native USDC live via Circle's CCTP since May 2026). **SideSwap** is pure atomic swaps on Liquid (liquidity tracks order-book depth). **SideShift** spans the most assets but is not as clean as the other two: an automated risk-screening layer can flag and hold funds and may demand KYC/source-of-funds to release. None reach bank fiat — and that dividing line is the point: there is no no-KYC, API-driven, *fiat*-settling exchange, because that is exactly what KYC law exists to prevent.
+**Boltz is the standout for agents** — the cleanest mix of no-KYC, non-custodial atomicity, and a full automation API (the table has the per-asset specifics). **SideSwap** is pure atomic swaps on Liquid (liquidity tracks order-book depth). **SideShift** spans the most assets but is not as clean as the other two: an automated risk-screening layer can flag and hold funds and may demand KYC/source-of-funds to release. **Flashnet** is a non-custodial AMM on Spark (Lightspark's Bitcoin L2) swapping BTC↔USDT/USDB/USDC, with an open-source agent skill — a strong agent fit, though newer and carrying Spark's operator-set trust. **Taproot Assets** turns Lightning itself into a BTC↔USDT FX rail via edge-node swaps — sovereign and no-KYC, but it is *rails* (the stablecoin stays issuer-freezable) and has no clean swap API, so it asks more setup than the others. None reach bank fiat — and that dividing line is the point: there is no no-KYC, API-driven, *fiat*-settling exchange, because that is exactly what KYC law exists to prevent.
 
 > [!warning] Caveats — the price of no-KYC sovereignty
 > - **Crypto-native only.** None of these reach bank fiat. They convert BTC↔stablecoin/other-layer; the agent still needs a custodial venue to touch dollars in a bank.
@@ -131,7 +133,7 @@ Reading down the comparison, a profile emerges for the venue best suited to an *
 - **Wide Bitcoin-layer and stablecoin coverage** — L1, Lightning, Liquid, and the major dollar stablecoins — so the agent can source whatever a counterparty wants without leaving the venue.
 - **Deep liquidity**, so it can swap at size without slippage.
 
-The honest catch is that the last criterion fights the first four. The deepest liquidity lives on the large custodial, KYC'd venues; the purest sovereignty lives on the non-custodial swaps, which are thinner. So the "ideal" is a frontier, not a single winner — and today the venue sitting closest to it is **Boltz**: no KYC, non-custodial and atomic, a REST API, Bitcoin across L1/Lightning/Liquid/Rootstock, and both major stablecoins — with liquidity-at-size the one axis where the custodial giants still lead.
+The honest catch is that the last criterion fights the first four. The deepest liquidity lives on the large custodial, KYC'd venues; the purest sovereignty lives on the non-custodial swaps, which are thinner. So the "ideal" is a frontier, not a single winner — and today the venue sitting closest to it is **Boltz**, strong on every axis but liquidity-at-size, where the custodial giants still lead.
 
 The standing build opportunity — scarcely filled — is a **regulated agent-payment gateway on Lightning-substrate rails**: the compliance assurances institutions need without compromising the Bitcoin leg. And the deeper open frontier, the one that would dismantle the KYC wall itself: **agent-native identity** — reputation systems, on-chain attestations, and zero-knowledge proofs that could one day satisfy a regulatory regime without a human's delegated KYC. Until that exists, the wall stands, and the delegation pattern is the practical reality.
 
@@ -168,11 +170,11 @@ The first is the **KYC-delegation point** (user's insight): an agent can't KYC, 
 - **"Ideal agent exchange" rebuilt** around the user's criteria (API · no-KYC-of-owner · atomic · wide BTC-layer/stablecoin coverage · deep liquidity), naming the liquidity-vs-sovereignty tension explicitly and that Boltz sits closest.
 - **In-brief recalibrated** to the new 800-char / 6-sentence budget; **description shortened to a subtitle** (In-brief now carries the synthesis).
 
-**⚠ Card-archival debt (do NOT delete — batch into the Border Zone archive pass):** `Exchanges/thorchain.md` and `Exchanges/robosats.md` are no longer referenced by this surface. Move them to `_archive/` with the structural-change checklist when Border Zone is archived; until then they sit orphaned but on disk (build-new-before-trim, never hard-delete).
+**Card-archival — DONE (2026-06-05).** `Exchanges/thorchain.md` and `Exchanges/robosats.md` (no longer referenced here) were archived to `_archive/` in the Border Zone archive pass.
 
-**Verification status.** Structural facts WebSearch-verified 2026-06-03; Boltz full support + live USDC re-verified 2026-06-05. Still pending per-card: fees, exact jurisdictional coverage, current API auth specifics. Reconcile Strike's exchange card with the existing Tools/strike bridge card. Optionally add Cash App / Gemini.
+**Verification status.** Structural facts WebSearch-verified 2026-06-03; Boltz full support + live USDC re-verified 2026-06-05. Still pending per-card: fees, exact jurisdictional coverage, current API auth specifics. Strike's tool-vs-exchange status is resolved (`_Decisions` 2026-06-06: exchange-only; `Tools/strike.md` retires at repo-port). Optionally add Cash App / Gemini.
 
-**Open for the dissolution pass:** once Marketplace + Exchange (incl. verified cards) are approved and the tool-card migration confirmed, `Border-Zone.md` + `-FA` move to `_archive/`.
+**Dissolution — DONE (2026-06-05):** `Border-Zone.md` + `-FA` archived to `_archive/`; the restructure is deployed.
 
 **Publications backlinks**
 
