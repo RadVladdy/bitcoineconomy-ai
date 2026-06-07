@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { TWIN, HUMAN_OF, isAgentSlug, HUMAN_NAV, NAV_GROUPS } from '../lib/site';
+import { TWIN, HUMAN_OF, isAgentSlug, HUMAN_NAV, NAV_GROUPS, NAV_STANDALONE } from '../lib/site';
 import { surfaceJsonLd } from '../lib/jsonld';
 
 export async function getStaticPaths() {
@@ -35,6 +35,11 @@ const parentGroup = NAV_GROUPS.find((g) => g.items.some((i) => i.slug === humanS
 const toc = isStory ? [] : headings.filter((h) => h.depth === 2);
 const hasToc = toc.length >= 3;
 
+// Every surface page (not the Story) gets the right rail: the on-this-page TOC
+// (when there's enough structure) plus the site-nav tiles, stacked vertically.
+const showRail = !isStory;
+const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marketplace: 'agent' };
+
 const jsonLd = surfaceJsonLd({
   slug: d.slug,
   title: d.title,
@@ -57,9 +62,9 @@ const tldrParas = (d['agent-tldr'] ?? '').split(/\n{2,}/).map((p) => p.trim()).f
   current={humanSlug}
   canonical={`/${d.slug}`}
   jsonLd={jsonLd}
-  wide={hasToc}
+  wide={showRail}
 >
-  <div class={hasToc ? 'surface-layout' : ''}>
+  <div class={showRail ? 'surface-layout' : ''}>
     <article class="prose">
       {!isStory && (
         <nav class="crumb" aria-label="Breadcrumb">
@@ -108,13 +113,39 @@ const tldrParas = (d['agent-tldr'] ?? '').split(/\n{2,}/).map((p) => p.trim()).f
       </aside>
     </article>
 
-    {hasToc && (
-      <aside class="toc-rail" aria-label="On this page">
-        <div class="toc-sticky">
-          <p class="toc-label">On this page</p>
-          <nav class="toc">
-            {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
-          </nav>
+    {showRail && (
+      <aside class="page-rail" aria-label="Page navigation">
+        <div class="rail-sticky">
+          {hasToc && (
+            <div>
+              <p class="rail-h">On this page</p>
+              <nav class="toc">
+                {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+              </nav>
+            </div>
+          )}
+          <div>
+            <p class="rail-h">Explore the site</p>
+            <div class="rail-tiles">
+              {NAV_GROUPS.map((g) => (
+                <div class={`tile2 tile2-${SECTION_ACCENT[g.label] ?? 'btc'}`}>
+                  <p class="tile2-label">{g.label}</p>
+                  <ul class="rail-links">
+                    {g.items.map((s) => (
+                      <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span></a></li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+              {NAV_STANDALONE.map((s) => (
+                <div class="tile2 tile2-plain">
+                  <ul class="rail-links">
+                    <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span></a></li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </aside>
     )}
