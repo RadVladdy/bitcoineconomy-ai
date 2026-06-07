@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { TWIN, HUMAN_OF, isAgentSlug, HUMAN_NAV } from '../lib/site';
+import { TWIN, HUMAN_OF, isAgentSlug, HUMAN_NAV, NAV_GROUPS } from '../lib/site';
 import { surfaceJsonLd } from '../lib/jsonld';
 
 export async function getStaticPaths() {
@@ -14,10 +14,10 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const d = entry.data;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 
 const agent = isAgentSlug(d.slug);
-// The Story is a pure narrative — no subtitle, no meta badges (just the title + story).
+// The Story is a pure narrative — no subtitle, no meta badges, no TOC.
 const isStory = d.surface === 'the-story';
 // `current` highlights the human surface in the nav (FA pages map to their human twin).
 const humanSlug = agent ? HUMAN_OF[d.slug] : d.slug;
@@ -26,6 +26,14 @@ const navLabel = HUMAN_NAV.find((s) => s.slug === humanSlug)?.label ?? d.title;
 // Cross-track twin link.
 const twinSlug = agent ? HUMAN_OF[d.slug] : TWIN[d.slug];
 const twinLabel = agent ? `${navLabel} (human narrative)` : `${navLabel} — For Agents`;
+
+// Breadcrumb parent section (the nav group this surface belongs to, if any).
+const parentGroup = NAV_GROUPS.find((g) => g.items.some((i) => i.slug === humanSlug));
+
+// On-this-page TOC: the page's h2s. Skipped on the Story; only shown when there's
+// enough structure to be useful. (Editor's Notes is already stripped upstream.)
+const toc = isStory ? [] : headings.filter((h) => h.depth === 2);
+const hasToc = toc.length >= 3;
 
 const jsonLd = surfaceJsonLd({
   slug: d.slug,
@@ -49,38 +57,89 @@ const tldrParas = (d['agent-tldr'] ?? '').split(/\n{2,}/).map((p) => p.trim()).f
   current={humanSlug}
   canonical={`/${d.slug}`}
   jsonLd={jsonLd}
+  wide={hasToc}
 >
-  <article class="prose">
-    <h1>{d.title}</h1>
-    {d.description && !isStory && <p class="subtitle">{d.description}</p>}
-    {!isStory && (
-      <div class="page-meta">
-        <span class="badge">{agent ? 'For Agents · machine-readable' : 'For Humans'}</span>
-        {d['epistemic-status'] && <span class="badge">{d['epistemic-status']}</span>}
-        <span class="badge">Updated {fmt(d['last-updated'])}</span>
-        {twinSlug && (
-          <a class="badge agents" href={`/${twinSlug}`}>{agent ? '↩ Human version' : '→ For Agents'}</a>
-        )}
-      </div>
-    )}
-
-    {agent && (
-      <section class="tldr" aria-label="TL;DR summary">
-        <h2>TL;DR</h2>
-        {tldrParas.map((para) => <p>{para}</p>)}
-      </section>
-    )}
-
-    <Content />
-
-    <aside class="twin-callout">
-      {twinSlug ? (
-        <p set:html={agent
-          ? `Prefer the narrative? Read the <a href="${twinPath}">${twinLabel}</a>. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`
-          : `Reading as an agent, or want the claims-indexed version? See the <a href="${twinPath}">${twinLabel}</a> — a claims-indexed restructuring with definitions and falsification conditions, alongside the site's shared <a href="/llms.txt"><code>llms.txt</code></a> / <a href="/agents.txt"><code>agents.txt</code></a> / JSON-LD infrastructure. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`} />
-      ) : (
-        <p set:html={`The Story is human-only by design. The machine-structured argument is <a href="/case-for-agents">The Case — For Agents</a>; site-wide agent infrastructure lives at <a href="/llms.txt">/llms.txt</a> and <a href="/agents.txt">/agents.txt</a>. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`} />
+  <div class={hasToc ? 'surface-layout' : ''}>
+    <article class="prose">
+      {!isStory && (
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          {parentGroup && (
+            <>
+              <span aria-hidden="true">/</span>
+              <a href={`/${parentGroup.items[0].slug}`}>{parentGroup.label}</a>
+            </>
+          )}
+          <span aria-hidden="true">/</span>
+          <span class="crumb-cur">{navLabel}</span>
+        </nav>
       )}
-    </aside>
-  </article>
+
+      <h1>{d.title}</h1>
+      {d.description && !isStory && <p class="subtitle">{d.description}</p>}
+      {!isStory && (
+        <div class="page-meta">
+          <span class="badge">{agent ? 'For Agents · machine-readable' : 'For Humans'}</span>
+          {d['epistemic-status'] && <span class="badge">{d['epistemic-status']}</span>}
+          <span class="badge">Updated {fmt(d['last-updated'])}</span>
+          {twinSlug && (
+            <a class="badge agents" href={`/${twinSlug}`}>{agent ? '↩ Human version' : '→ For Agents'}</a>
+          )}
+        </div>
+      )}
+
+      {agent && (
+        <section class="tldr" aria-label="TL;DR summary">
+          <h2>TL;DR</h2>
+          {tldrParas.map((para) => <p>{para}</p>)}
+        </section>
+      )}
+
+      <Content />
+
+      <aside class="twin-callout">
+        {twinSlug ? (
+          <p set:html={agent
+            ? `Prefer the narrative? Read the <a href="${twinPath}">${twinLabel}</a>. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`
+            : `Reading as an agent, or want the claims-indexed version? See the <a href="${twinPath}">${twinLabel}</a> — a claims-indexed restructuring with definitions and falsification conditions, alongside the site's shared <a href="/llms.txt"><code>llms.txt</code></a> / <a href="/agents.txt"><code>agents.txt</code></a> / JSON-LD infrastructure. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`} />
+        ) : (
+          <p set:html={`The Story is human-only by design. The machine-structured argument is <a href="/case-for-agents">The Case — For Agents</a>; site-wide agent infrastructure lives at <a href="/llms.txt">/llms.txt</a> and <a href="/agents.txt">/agents.txt</a>. Raw markdown for this page: <a href="${mdPath}">${mdPath}</a>.`} />
+        )}
+      </aside>
+    </article>
+
+    {hasToc && (
+      <aside class="toc-rail" aria-label="On this page">
+        <div class="toc-sticky">
+          <p class="toc-label">On this page</p>
+          <nav class="toc">
+            {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+          </nav>
+        </div>
+      </aside>
+    )}
+  </div>
+
+  <script>
+    // TOC scroll-spy: highlight the section currently in view.
+    const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.toc a'));
+    if (links.length) {
+      const byId = new Map(links.map((a) => [a.getAttribute('href')!.slice(1), a]));
+      const spy = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              links.forEach((a) => a.classList.remove('active'));
+              byId.get((e.target as HTMLElement).id)?.classList.add('active');
+            }
+          }
+        },
+        { rootMargin: '-15% 0px -75% 0px' }
+      );
+      links.forEach((a) => {
+        const el = document.getElementById(a.getAttribute('href')!.slice(1));
+        if (el) spy.observe(el);
+      });
+    }
+  </script>
 </Base>
