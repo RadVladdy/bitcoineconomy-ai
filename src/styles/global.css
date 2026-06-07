@@ -79,9 +79,9 @@ a:hover { text-decoration: none; }
   margin-right: 0.4rem;
   white-space: nowrap;
 }
-/* The mark's source is on a black field; `lighten` lets that black drop out
-   against the dark header so only the orange B + agent head show. */
-.brand-mark { height: 30px; width: auto; display: block; mix-blend-mode: lighten; }
+/* Logo mark is a transparent PNG (orange B + agent head), so it sits cleanly
+   on any background — no blend hack needed. */
+.brand-mark { height: 30px; width: auto; display: block; }
 .brand .dot { color: var(--orange); }
 .nav-links { display: flex; flex-wrap: wrap; gap: 0.25rem 0.9rem; align-items: center; }
 .nav-links a {
@@ -608,3 +608,48 @@ figure.matrix .matrix-title {
   .hero2 { padding: 3.2rem 1.25rem 3rem; }
   .landing2 { grid-template-columns: 1fr; gap: 1.4rem; }
 }
+
+/* ============================================================
+   Interior pages v2 — breadcrumb, accent headings, TOC rail
+   ============================================================ */
+
+/* two-column: article + sticky "on this page" rail (when ≥3 headings) */
+.surface-layout { display: grid; grid-template-columns: minmax(0, 1fr) 13rem; gap: 2.6rem; align-items: start; }
+.toc-rail { font-size: 0.84rem; }
+.toc-sticky { position: sticky; top: 5.5rem; }
+.toc-label { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; color: var(--fg-soft); margin: 0 0 0.6rem; }
+.toc { display: flex; flex-direction: column; }
+.toc a {
+  display: block; padding: 0.32rem 0 0.32rem 0.85rem; line-height: 1.35;
+  color: var(--fg-soft); text-decoration: none;
+  border-left: 2px solid var(--rule); transition: color 0.15s, border-color 0.15s;
+}
+.toc a:hover { color: var(--fg); border-left-color: rgba(247, 147, 26, 0.6); }
+.toc a.active { color: var(--orange); border-left-color: var(--orange); }
+@media (max-width: 60rem) {
+  .surface-layout { grid-template-columns: 1fr; }
+  .toc-rail { display: none; }
+}
+
+/* breadcrumb */
+.crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; font-size: 0.82rem; margin: 0 0 1.1rem; }
+.crumb a { color: var(--fg-soft); text-decoration: none; }
+.crumb a:hover { color: var(--orange); }
+.crumb span[aria-hidden] { color: var(--slate); opacity: 0.7; }
+.crumb .crumb-cur { color: var(--fg); }
+
+/* accent bar before section headings */
+.prose h2 { scroll-margin-top: 5.5rem; }
+.prose h2::before {
+  content: ""; display: block; width: 34px; height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--orange), var(--electric)); margin-bottom: 0.7rem;
+}
+/* the TL;DR block keeps its own compact heading — no accent bar */
+.tldr h2 { scroll-margin-top: 0; }
+.tldr h2::before { display: none; }
+
+/* callout type accents (default stays orange; info → cyan, warning → amber) */
+.callout-info { border-left-color: var(--electric); }
+.callout-info .callout-title { color: var(--electric); }
+.callout-warning { border-left-color: #f5a623; }
+.callout-warning .callout-title { color: #f5b740; }
