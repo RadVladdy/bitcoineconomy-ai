@@ -11,7 +11,7 @@ site: https://lightning.engineering/loop/
 x: "@lightning"
 latest-release: v0.33.1-beta
 release-date: "2026-05-26"
-stack-section: "Border Zone"
+stack-section: "§1"
 status: published
 last-verified: 2026-06-02
 order: 52
@@ -28,7 +28,7 @@ tags:
 
 Loop is Lightning Labs' non-custodial liquidity tool for LND nodes. **Loop Out** moves Lightning balance to on-chain (the canonical way to sweep an operational balance back to L1 cold-storage reserves); **Loop In** does the reverse. Both use submarine swaps, so they're atomic and non-custodial. It's the standard mechanism behind the hot/cold treasury sweep the Stack describes — making it a practical bridge between the payment layer and the settlement layer.
 
-A **Border Zone** tool: the swap mechanics that move value between layers live at the boundary. See [The Border Zone](/border-zone).
+It moves value *within* the Bitcoin stack — Lightning ↔ L1 — so it's substrate tooling: the L1↔Lightning phase change, not a crossing to the legacy economy. See [The Stack](/stack) §1 for the reserve-sweep role.
 
 ## When to use it
 

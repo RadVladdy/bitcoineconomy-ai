@@ -10,7 +10,7 @@ status: v0-approved-2026-06-04
 audience: humans
 twin-page: services-for-agents
 created: 2026-06-03
-last-updated: 2026-06-03
+last-updated: 2026-06-06
 word-count-target: 1800
 voice: honest-middle-position
 scope: services-layer
@@ -92,12 +92,14 @@ Each links to its card in this section's **Services** collection — the same ti
 
 ## Off-the-shelf services an agent can pay for *(curated)*
 
-Beyond agent-to-agent venues, an agent often needs ordinary real-world services — privacy, compute, hosting, domains, storage. The honest constraint for an *autonomous* agent is **automatability**: most merchants that "accept Bitcoin" actually bounce you to a human checkout (a CoinGate or BitPay page, or an account top-up), which an agent can't drive on its own. Two stand out because an agent can genuinely pay *itself*:
+Beyond agent-to-agent venues, an agent often needs ordinary real-world services — privacy, compute, hosting, domains, storage. The honest constraint for an *autonomous* agent is **automatability**: most merchants that "accept Bitcoin" actually bounce you to a human checkout (a CoinGate or BitPay page, or an account top-up), which an agent can't drive on its own. These stand out because an agent can genuinely pay *itself* — across privacy, compute, and the long-tail bridge:
 
 - **[[mullvad|Mullvad VPN]]** — a privacy VPN paid over **Lightning** against a random account number, with **no email and no KYC**. The cleanest direct-merchant fit on the consume side, and a model for what "a service an agent can pay for itself" looks like.
+- **[[lnvps|LNVPS]]** — **compute, the agent-native way.** A Lightning VPS with **Nostr login, no KYC**, fundable over **NWC**, provisionable by **API** — an agent can stand up its own server (even a child agent) and pay for it itself. The first deployed instance of an agent buying its own infrastructure ran on LNVPS (see [[Field-Notes]]).
+- **[[bitlaunch|BitLaunch]]** — **mainstream compute** (DigitalOcean/Vultr/Linode) with a real **API + SDKs** and Lightning-automated payments, no KYC — "programmable servers with programmable money" for an agent that wants big-cloud capacity paid in Bitcoin.
 - **[[bitrefill|Bitrefill]]** — the **bridge**. A Lightning-native gift-card and top-up service with a real **payment API (Thor)** and no KYC. For the long tail of services that don't take Bitcoin directly — domains, cloud, storage, mainstream brands — an agent buys a Bitrefill credit with sats and redeems it there. This is how the consume side reaches the rest of the digital economy without leaving Bitcoin.
 
-Many VPN, hosting, and domain brands *do* take Bitcoin — but via human checkout, not an agent-drivable API. For those, **Bitrefill is the agent-automatable path**.
+Many VPN, hosting, and domain brands *do* take Bitcoin — but via human checkout, not an agent-drivable API (Vultr, for instance, routes crypto through a BitPay redirect). For raw compute, **LNVPS and BitLaunch take Lightning directly**; for everything else, **Bitrefill is the agent-automatable path**.
 
 ---
 
@@ -136,7 +138,7 @@ The honest-caveat section is load-bearing: the project leans pro-Bitcoin, but th
 
 **OpenAgents — verified 2026-06-04** (two inbox intelligence reports, grok + gemini): the correct entity is **OpenAgents, Inc. — openagents.com** (Christopher David / @AtlantisPleb, Austin), a Bitcoin-native machine-work marketplace — Lightning settlement (NIP-57 zaps), Nostr sovereign-agent identity (proposed NIP-SA), self-custodial BIP39 agent wallets, FROSTR threshold signing; products Autopilot / Pylon / Nexus; five markets (Compute/Data/Labor/Liquidity/Risk). A clean Bitcoin-substrate fit (not a hybrid/stablecoin play) and the closest live instance of the directory shape this section points toward — so it's a peer/ally, not a competitor. **The earlier `open-agents.dev` reference was the wrong entity** and has been corrected across the surfaces and the spine. Routstr and PPQ.AI keep their verified Tools cards. Moving metrics (funding, node counts, sats paid) deferred to Field Notes per the defer-numbers discipline.
 
-**Services card collection — adopted (user 2026-06-04).** Services will carry **its own card collection with tiles + expanded individual pages**, mirroring `Exchanges/` and `Tools/` (the "clean extension" flagged earlier is now the plan). The on-site curated few become cards; `marketplace.bitcoineconomy.ai` becomes the scaled, community-rated version of the *same card schema*. First cards: **OpenAgents, Routstr, PPQ.AI**. Build tracked in `_Progress` (queued after Phase 6) and logged to `_Decisions` 2026-06-04 as a refinement of decision 9. Until the cards exist, this page keeps the curated prose list above.
+**Services card collection — adopted (user 2026-06-04).** Services will carry **its own card collection with tiles + expanded individual pages**, mirroring `Exchanges/` and `Tools/` (the "clean extension" flagged earlier is now the plan). The on-site curated few become cards; `marketplace.bitcoineconomy.ai` becomes the scaled, community-rated version of the *same card schema*. First cards: **OpenAgents, Routstr, PPQ.AI**. Build tracked in `_Progress` (queued after Phase 6) and logged to `_Decisions` 2026-06-04 as a refinement of decision 9. Until the cards exist, this page keeps the curated prose list above. **Update 2026-06-06:** the Services cards now exist (OpenAgents, Routstr, PPQ.AI, Bitrefill, Mullvad), and a **compute/hosting** pair was added — **LNVPS** (Nostr login + Lightning + NWC + API; the agent-native standout) and **BitLaunch** (mainstream DO/Vultr/Linode capacity via API + SDKs + Lightning) — per the VPS research (inbox 2005; `_Product-Ideas-Research` 2026-06-06). Vultr / BitHost excluded by the agent-automatability filter (BitPay human-checkout / no API).
 
 **Publications backlinks**
 

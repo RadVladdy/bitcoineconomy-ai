@@ -11,7 +11,7 @@ site: https://boltz.exchange
 nostr: npub1psm37hke2pmxzdzraqe3cjmqs28dv77da74pdx8mtn5a0vegtlas9q8970
 latest-release: v3.13.0 "Dark Horse"
 release-date: "2026-05-08"
-stack-section: "Border Zone"
+stack-section: "Marketplace"
 status: published
 last-verified: 2026-06-02
 order: 51
@@ -28,7 +28,7 @@ tags:
 
 Boltz is a non-custodial bridge that performs atomic (submarine) swaps between on-chain Bitcoin, Lightning, and Liquid, exposed via a RESTful API. Because the swaps are atomic, neither side can take the funds and run — it's the trust-minimized way to move value across those rails without a custodian. For agent treasuries, Boltz is a building block for rebalancing and converting between layers at the boundary.
 
-A **Border Zone** tool: it crosses between rails. See [The Border Zone](/border-zone) for where conversion mechanics fit relative to the pure substrate.
+A **bridge** tool — it crosses between rails. This card is the *infrastructure* view of Boltz; its *venue* role (Lightning↔stablecoin conversion) has a separate [exchange card](/exchanges/boltz). See [The Marketplace](/marketplace) for where conversion mechanics fit relative to the pure substrate.
 
 ## When to use it
 

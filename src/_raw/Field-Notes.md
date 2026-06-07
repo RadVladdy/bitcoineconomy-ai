@@ -8,7 +8,7 @@ status: v0-approved-2026-05-26
 audience: humans
 twin-page: field-notes-for-agents
 created: 2026-05-26
-last-updated: 2026-06-01
+last-updated: 2026-06-06
 section-A-last-refreshed: 2026-06-01
 voice: honest-middle-position
 tags:
@@ -65,6 +65,8 @@ The state below reflects the empirical landscape as of late May 2026. Most conse
 **Lightning Labs Taproot Assets v0.6 ("Decentralized FX Network")** — launched June 2025, mainnet multi-asset Lightning protocol with Group Key Identifiers and Multi-Path Liquidity (receivers can combine up to 20 incoming Taproot Assets channels). Currently supports bridged USDT/USDC and native stablecoins (DePix, GBP). Bitfinex will issue USDT on Lightning per Tether's announcement. The "decentralized FX" framing is operationally significant: edge nodes convert assets at network boundaries, enabling cross-asset payment flows that settle in Bitcoin's security model.
 
 **Spark L2 on mainnet (Lightspark).** Spark — the shared-UTXO, Lightning-compatible Bitcoin L2 built by Lightspark — launched on mainnet (beta) in May 2025 and operates with multiple operators (Lightspark, Flashnet). Its Q2 2026 roadmap targets stablecoin issuance on Bitcoin, wallet/neobank/DEX integrations, and consumer token standards. Significant for agents: **Xverse Agent Wallet** uses Spark for sub-second Lightning settlement (see Part A.1). This supersedes the earlier "pre-production" characterization of Spark — [[Stack|The Stack]] — L3 is updated to match; **Ark** (covenant-based shared-UTXO scaling) remains earlier-stage. *(Vendor performance figures — "sub-second / sub-cent" — are self-asserted; deployed-flow measurement pending.)*
+
+**Agents are provisioning their own infrastructure (Lightning-paid VPS).** A February 2026 Alby report documented what reads as the first deployed instance of an autonomous agent *buying its own compute*: an OpenClaw agent spawned a child agent and funded it with Bitcoin over Lightning, deploying on a VPS provisioned through **LNVPS** — a Lightning-native, Nostr-login, no-KYC host fundable via NWC. Alongside **BitLaunch** (Bitcoin/Lightning VPS with a full API + SDKs across DigitalOcean/Vultr/Linode), this is the consume side of the thesis turning concrete — an agent paying for real-world infrastructure on the Bitcoin stack with no human in the loop. Both are now [[Services]] cards. *(Self-reported milestone; deployed-flow scale unmeasured — defer numbers here per the locked pattern.)*
 
 **Strike at 95+ countries via multi-entity structure.** Expanded from 65+ countries since 2023. Multi-entity: Zap Solutions Inc. for US customers, Zap Solutions Europe Sp. z o.o. for UK + eligible European countries, E4 S.A. de C.V. for all other jurisdictions. Remittance services to mobile money wallets or international bank accounts in 14 supported countries. API documented with sandbox, browser-based API Explorer, and code samples in cURL, Go, Python, and Node.js.
 
@@ -204,7 +206,7 @@ Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [
 
 *Internal author perspective. Not published in produced derivatives.*
 
-Field Notes is the project's pressure valve: it lets the canonical surfaces stay canonical. The locked 2026-05-26 defer-pattern routes all moving empirical content here — deployment counts, capacity figures, freeze incidents, protocol-version transitions — so the Thesis, Doctrine, Border Zone, and Stack can carry structural arguments without rotting as the landscape shifts. When a canonical surface is tempted to cite a current number, the answer is almost always "name it once, then defer to Field Notes."
+Field Notes is the project's pressure valve: it lets the canonical surfaces stay canonical. The locked 2026-05-26 defer-pattern routes all moving empirical content here — deployment counts, capacity figures, freeze incidents, protocol-version transitions — so the Case, Doctrine, Marketplace, and Stack can carry structural arguments without rotting as the landscape shifts. When a canonical surface is tempted to cite a current number, the answer is almost always "name it once, then defer to Field Notes."
 
 The honest-engagement discipline lives most visibly here, in §A.4 — engaging the Bitcoin-substrate-side challenges (Lightning liquidity management, Fedimint federated-trust, single-mint Cashu failure, the agent custody attack surface) as candidly as the competing-substrate failures. That is the editorial line that keeps the project credible rather than promotional; sweeping the challenges under the rug would weaken the thesis, not protect it.
 
@@ -214,7 +216,7 @@ Maintenance note: §A is a dated snapshot (`section-A-last-refreshed`), refreshe
 
 - [[Case]] (this project) — substrate-selection argument this surface tracks empirically
 - [[Independence-Doctrine]] (this project) — divergence predictions this surface tests against deployment
-- [[Border-Zone]] (this project) — bridge architecture whose empirical state this surface logs
+- [[Marketplace]] (this project) — bridge architecture whose empirical state this surface logs
 - [[Stack]] (this project) — substrate architecture whose deployed state this surface tracks
 - [[The case for investing in Bitcoin]] § AI-agent monetary substrate case — KB origin of the substrate claim
 - [[The AI-agent monetary substrate case]] — dedicated KB note for the four-constraints argument

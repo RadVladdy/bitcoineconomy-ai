@@ -130,7 +130,7 @@ This anchor deliberately keeps the conceptual/practice layer — treasury compos
 
 Two pieces of the old Border Zone deliberately did **not** come here: the "two-toolkit moment," the competing-substrate roster, and the honest-case-for-stablecoins went to [[Border-Skirmishes]] (they were the live *contest*, i.e. theory); the bridge *tool* cards stay in the Stack's Tools collection. What remained — treasury, compliance-as-practice, risks — is the genuinely operational core, and that is what the Marketplace section is for.
 
-**Open for the dissolution pass:** once this overview + the Exchange child are approved and the tool-card migration is confirmed, `Border-Zone.md` + `Border-Zone-FA.md` move to `_archive/` (not deleted) per `_Decisions` 2026-06-03. Build-new-before-trim: Border Zone stays live until then.
+**Dissolution — DONE (2026-06-05):** `Border-Zone.md` + `Border-Zone-FA.md` were archived to `_archive/` (not deleted) per `_Decisions` 2026-06-03; the Case/Stack/Marketplace restructure is deployed.
 
 **Publications backlinks**
 
