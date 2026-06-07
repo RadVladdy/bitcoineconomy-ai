@@ -306,6 +306,96 @@ ${bars}${glabels}
   return fig(svg, 'BPI March 2026 study, rendered from the data (same figures appear in the table below).', table);
 }
 
+/* 11 — The terminal motif (The Story). A full terminal screen showing the
+   agent's own console for one task: it fails on legacy rails, then — same task,
+   later in the story — succeeds on the Bitcoin stack, then runs at scale. The
+   interaction stands on its own (no commentary in the frame); the prose narrates. */
+// kinds: cmd = the shell command; send = the agent speaking (→, warm grey);
+// recv = the peer service answering (←, cool grey-cyan); fail/pass = status.
+type TLine = { t: string; kind: 'cmd' | 'send' | 'recv' | 'fail' | 'pass' };
+function terminalScene(o: { id: string; title: string; lines: TLine[]; outcome: 'fail' | 'pass'; caption: string }): string {
+  const accent = o.outcome === 'pass' ? C.orange : C.slate;
+  const colorOf: Record<TLine['kind'], string> = { cmd: C.off, send: '#b6b2a6', recv: '#86b0bd', fail: '#e06b5c', pass: C.orange };
+  const W = 720, M = 8, tbH = 38, padX = 28, padTop = 24, lineH = 30, padBot = 30;
+  const bodyH = padTop + o.lines.length * lineH + padBot;
+  const winX = M, winY = M, winW = W - 2 * M, winH = tbH + bodyH;
+  const H = winY + winH + M;
+  // macOS-style window controls (decoration, identical on every scene)
+  let dots = '';
+  ['#e06b5c', '#e0b84c', '#6fcf73'].forEach((c, i) => {
+    dots += `<circle cx="${winX + 24 + i * 20}" cy="${winY + tbH / 2}" r="5.5" fill="${c}" opacity="0.9"/>`;
+  });
+  let rows = '', lastY = winY + tbH + padTop;
+  o.lines.forEach((ln, i) => {
+    const y = winY + tbH + padTop + i * lineH + 15;
+    lastY = y;
+    const col = colorOf[ln.kind];
+    const w = ln.kind === 'fail' || ln.kind === 'pass' ? '700' : '400';
+    rows += `<text x="${winX + padX}" y="${y}" fill="${col}" font-size="15" font-weight="${w}" font-family="ui-monospace, monospace" xml:space="preserve">${ln.t}</text>`;
+  });
+  // blinking block cursor on the next line
+  const cur = `<rect x="${winX + padX}" y="${lastY + lineH - 27}" width="10" height="18" fill="${accent}"><animate attributeName="opacity" values="1;1;0;0" dur="1.05s" repeatCount="indefinite"/></rect>`;
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="${o.id}-t" preserveAspectRatio="xMidYMid meet">
+<title id="${o.id}-t">Terminal — ${o.title}. ${o.lines.map((l) => l.t).join('; ')}.</title>
+<rect width="${W}" height="${H}" fill="${C.bg}" rx="10"/>
+<rect x="${winX}" y="${winY}" width="${winW}" height="${winH}" rx="11" fill="#0a0c0f" stroke="${accent}" stroke-opacity="0.45" stroke-width="1.5"/>
+<path d="M ${winX} ${winY + tbH} V ${winY + 11} a 11 11 0 0 1 11 -11 H ${winX + winW - 11} a 11 11 0 0 1 11 11 V ${winY + tbH} Z" fill="#15171a"/>
+<line x1="${winX}" y1="${winY + tbH}" x2="${winX + winW}" y2="${winY + tbH}" stroke="#23262b"/>
+${dots}<text x="${winX + winW / 2}" y="${winY + tbH / 2 + 4}" text-anchor="middle" fill="#c2c7cd" font-size="12.5" font-family="ui-monospace, monospace">${o.title}</text>
+${rows}${cur}
+</svg>`;
+  return `<figure class="diagram">${svg}<figcaption>${o.caption}</figcaption></figure>`;
+}
+
+export function monitorFail(): string {
+  return terminalScene({
+    id: 'mon-fail', outcome: 'fail', title: 'agent · 3:00 a.m. · legacy rails',
+    lines: [
+      { t: 'agent@btc ~ $ connect gpu.compute.market', kind: 'cmd' },
+      { t: '→ HELLO  agent 0xA7F2', kind: 'send' },
+      { t: '← 200 OK · quote: 90s A100 = $0.46', kind: 'recv' },
+      { t: '→ ACCEPT · charge card ••4242', kind: 'send' },
+      { t: '← DECLINED.  REASON: FRAUD PREVENTION', kind: 'fail' },
+      { t: '← 401  HUMAN APPROVAL REQUIRED', kind: 'fail' },
+      { t: '✗ session closed · task aborted', kind: 'fail' },
+    ],
+    caption: 'The forty-six-cent compute purchase on legacy rails: the agent connects, gets a quote, and agrees — then the charge is declined and the rail asks for a human.',
+  });
+}
+
+export function monitorSuccess(): string {
+  return terminalScene({
+    id: 'mon-ok', outcome: 'pass', title: 'agent · same task · Bitcoin rails',
+    lines: [
+      { t: 'agent@btc ~ $ connect gpu.compute.market', kind: 'cmd' },
+      { t: '→ HELLO  agent 0xA7F2', kind: 'send' },
+      { t: '← 200 OK · quote: 90s A100 = 480 sat', kind: 'recv' },
+      { t: '→ ACCEPT · GET /gpu', kind: 'send' },
+      { t: '← 402 PAYMENT REQUIRED · invoice (L402)', kind: 'recv' },
+      { t: '→ pay invoice over Lightning', kind: 'send' },
+      { t: '← PAID  480 sat · fee 1 · 1.2s', kind: 'pass' },
+      { t: '← 200 OK · access granted', kind: 'pass' },
+      { t: '✓ task complete', kind: 'pass' },
+    ],
+    caption: 'The same handshake on the Bitcoin stack: connect, quote in sats, agree — then the agent pays the L402 invoice over Lightning and the service grants access. No human, no card.',
+  });
+}
+
+export function monitorRunning(): string {
+  return terminalScene({
+    id: 'mon-run', outcome: 'pass', title: 'agent · now · running',
+    lines: [
+      { t: 'agent@btc ~ $ run --autonomous', kind: 'cmd' },
+      { t: '→ connect data.feed.7 · quote 0.1¢/s', kind: 'send' },
+      { t: '← ACCEPT · streaming · paid 0.4s', kind: 'recv' },
+      { t: '→ 12× API call · negotiate · pay 1 sat ea', kind: 'send' },
+      { t: '← sell summary → agent#7 · +120 sat', kind: 'recv' },
+      { t: '✓ 9,412 tx today · settling to L1', kind: 'pass' },
+    ],
+    caption: 'The steady state: the same connect-quote-agree-pay handshake runs thousands of times a day, agent to agent, with no human and no wall in the loop.',
+  });
+}
+
 export const DIAGRAMS: Record<string, () => string> = {
   stack: stackDiagram,
   'two-tier': twoTierDiagram,
@@ -315,4 +405,7 @@ export const DIAGRAMS: Record<string, () => string> = {
   bridge: bridgeTaxonomy,
   timeline: deploymentTimeline,
   bpi: bpiChart,
+  'monitor-fail': monitorFail,
+  'monitor-success': monitorSuccess,
+  'monitor-running': monitorRunning,
 };

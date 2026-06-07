@@ -41,6 +41,8 @@ There isn't one.
 
 The wallet attached to the agent is a corporate card under a human operator's name. The card is locked at this hour because the bank's fraud system noticed an unusual spending pattern — many small transactions to compute providers across multiple time zones — and froze the account pending review. The agent cannot call the bank. The agent does not exist, from the bank's perspective. The compute provider waits. The job times out. The user gets a slightly later answer. The agent loses the fee. The human operator gets an email in the morning asking them to verify their identity.
 
+<div data-diagram="monitor-fail"></div>
+
 This is the small, specific shape of a structural problem.
 
 Multiply it across a million agents, then across a million decisions per minute, and the question comes into focus: **what kind of money does an autonomous AI agent actually use?**
@@ -109,6 +111,8 @@ The slow lane is **Bitcoin's base layer** — where value comes to rest. This is
 
 The fast lane is **Lightning** — where value moves. When our agent finally pays its forty-six cents, the satoshis hop across a chain of payment channels and arrive in under a second, for a fee smaller than the payment itself. No bank in the loop, no human pressing *approve*. The agent that couldn't transact at 3 a.m. now transacts faster than a card ever could.
 
+<div data-diagram="monitor-success"></div>
+
 And there's a third lane for the small, private stuff — **ecash**, the bearer-token systems (Cashu and Fedimint) that let an agent carry a little digital cash without managing payment channels at all, the way you'd keep coins in a pocket rather than running every purchase through a bank.
 
 What lets a piece of software actually *use* these lanes is a bit of standard gear, and it's worth knowing two pieces by name because they show up everywhere. One is a way to pay over the open web: an API can answer a request with "payment required" and a Lightning invoice instead of a login screen, and the agent just pays and retries (the plumbing is called **L402**). The other is a way to let an agent spend without ever handing over the keys to the vault — a permission slip, scoped and revocable, so the thing doing the spending is never the thing holding the savings (this one's **Nostr Wallet Connect**). Keys stay put; spending happens anyway.
@@ -158,6 +162,8 @@ And if you're not building anything — just trying to read where this goes — 
 The agent at three in the morning will eventually be able to pay for its compute. The compute provider will get its forty-six cents. The user will get its summary. The human operator will not get a fraud alert in the morning, because no fraud system was ever in the loop.
 
 The road that lets that happen is already being built. The agents are already finding it. The walls that defined a hundred years of human payment infrastructure are not going to be torn down — they're going to be routed around.
+
+<div data-diagram="monitor-running"></div>
 
 This is what is happening.
 

@@ -2,7 +2,7 @@
 // Right-hand page rail: the on-this-page TOC (when the page has enough headings)
 // plus the site-nav tiles. Shared by every content page so the two-column
 // layout and the "Explore the site" stack stay identical across the site.
-import { NAV_GROUPS, NAV_STANDALONE } from '../lib/site';
+import { NAV_GROUPS, NAV_STANDALONE, SLUG_TAGS } from '../lib/site';
 
 interface Props {
   toc?: { slug: string; text: string }[];
@@ -29,7 +29,7 @@ const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Mar
             <p class="tile2-label">{g.label}</p>
             <ul class="rail-links">
               {g.items.map((s) => (
-                <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span></a></li>
+                <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span>{SLUG_TAGS[s.slug] && <span class="rl-d">{SLUG_TAGS[s.slug]}</span>}</a></li>
               ))}
             </ul>
           </div>
@@ -37,7 +37,7 @@ const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Mar
         {NAV_STANDALONE.map((s) => (
           <div class="tile2 tile2-plain">
             <ul class="rail-links">
-              <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span></a></li>
+              <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span>{SLUG_TAGS[s.slug] && <span class="rl-d">{SLUG_TAGS[s.slug]}</span>}</a></li>
             </ul>
           </div>
         ))}

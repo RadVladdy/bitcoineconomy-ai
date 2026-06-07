@@ -67,15 +67,15 @@ Two features make or break a venue for agent use. **API access** is non-negotiab
 
 ## Non-custodial, no-KYC swaps *(agent-sovereign, crypto-native)*
 
-The agent swaps on its own keys — no account, no delegated identity. This is the most agent-native path; the caveats below are the price of that sovereignty. *(Structural facts WebSearch-verified 2026-06-03; Boltz re-verified 2026-06-05; Flashnet + Taproot Assets verified 2026-06-06. ✅ yes · — no · ⚠ limited; the API column is the capability an agent needs to run a swap unattended.)*
+The agent swaps on its own keys — no account, no delegated identity. This is the most agent-native path; the caveats below are the price of that sovereignty. *(Structural facts WebSearch-verified 2026-06-03; Boltz re-verified 2026-06-05; Flashnet + Taproot Assets verified 2026-06-06. ✓ yes · — no · ⚠ limited; the API column is the capability an agent needs to run a swap unattended.)*
 
 | Service | Type | Lightning | Stablecoin (network) | API | Bank fiat |
 |---|---|---|---|---|---|
-| **Boltz** ⭐ | atomic swap | ✅ | USDT0 + USDC *(via Circle CCTP: ETH/Arbitrum/Base/Polygon)* | ✅ REST / `boltzd` | — |
-| **SideSwap** | Liquid swap | ⚠ *(Liquid)* | L-USDt *(Liquid)* | ✅ | — |
-| **SideShift** | swap | ✅ | USDT *(Liquid)* + 200+ assets | ✅ REST | — |
-| **Flashnet** | AMM *(Spark)* | ✅ *(via Spark)* | USDT / USDB / USDC *(Spark)* | ✅ skill / API | — |
-| **Taproot Assets** | Lightning FX *(edge-node)* | ✅ | USDT *(Lightning)* | ⚠ *(`tapd`, no REST)* | — |
+| **Boltz** ⭐ | atomic swap | ✓ | USDT0 + USDC *(via Circle CCTP: ETH/Arbitrum/Base/Polygon)* | ✓ REST / `boltzd` | — |
+| **SideSwap** | Liquid swap | ⚠ *(Liquid)* | L-USDt *(Liquid)* | ✓ | — |
+| **SideShift** | swap | ✓ | USDT *(Liquid)* + 200+ assets | ✓ REST | — |
+| **Flashnet** | AMM *(Spark)* | ✓ *(via Spark)* | USDT / USDB / USDC *(Spark)* | ✓ skill / API | — |
+| **Taproot Assets** | Lightning FX *(edge-node)* | ✓ | USDT *(Lightning)* | ⚠ *(`tapd`, no REST)* | — |
 
 **Boltz is the standout for agents** — the cleanest mix of no-KYC, non-custodial atomicity, and a full automation API (the table has the per-asset specifics). **SideSwap** is pure atomic swaps on Liquid (liquidity tracks order-book depth). **SideShift** spans the most assets but is not as clean as the other two: an automated risk-screening layer can flag and hold funds and may demand KYC/source-of-funds to release. **Flashnet** is a non-custodial AMM on Spark (Lightspark's Bitcoin L2) swapping BTC↔USDT/USDB/USDC, with an open-source agent skill — a strong agent fit, though newer and carrying Spark's operator-set trust. **Taproot Assets** turns Lightning itself into a BTC↔USDT FX rail via edge-node swaps — sovereign and no-KYC, but it is *rails* (the stablecoin stays issuer-freezable) and has no clean swap API, so it asks more setup than the others. None reach bank fiat — and that dividing line is the point: there is no no-KYC, API-driven, *fiat*-settling exchange, because that is exactly what KYC law exists to prevent.
 
@@ -93,15 +93,15 @@ The regulated, centralized venues. The owner completes KYC and delegates the acc
 
 | Venue | Holds | Jurisdiction | Lightning | Stablecoin (network) | API: dep / trade / withdraw | Bank fiat |
 |---|---|---|---|---|---|---|
-| **Strike** | BTC-only | US + ~95 countries | ✅ native | USDT *(TRON, regional)* | ✅ / ✅ / ✅ | ✅ |
-| **River** | BTC-only | US | ✅ *(RLS)* | — | ✅ / ⚠ *(RLS = Lightning payments, no buy/sell)* / ✅ | ✅ |
-| **Swan** | BTC-only | US | ⚠ | — | ✅ / ⚠ *(buy-only, DCA)* / ✅ | ✅ |
-| **Kraken** | multi-asset | US | ✅ | USDC, USDT *(multi-network)* | ✅ / ✅ / ✅ | ✅ |
-| **Coinbase** | multi-asset | US | ✅ | USDC *(Base/ETH)* | ✅ / ✅ / ✅ | ✅ |
-| **Binance** | multi-asset | Offshore *(global)* | ✅ | USDT, USDC, FDUSD | ✅ full | restricted *(.US separate)* |
-| **OKX** | multi-asset | Offshore *(Seychelles)* | ✅ | USDT, USDC | ✅ full | restricted |
-| **Bybit** | multi-asset | Offshore *(Dubai)* | ⚠ | USDT, USDC | ✅ full | restricted |
-| **Bitget / MEXC / KuCoin** | multi-asset | Offshore *(Seychelles)* | ⚠ | USDT *(+USDC)* | ✅ full | restricted |
+| **Strike** | BTC-only | US + ~95 countries | ✓ native | USDT *(TRON, regional)* | ✓ / ✓ / ✓ | ✓ |
+| **River** | BTC-only | US | ✓ *(RLS)* | — | ✓ / ⚠ *(RLS = Lightning payments, no buy/sell)* / ✓ | ✓ |
+| **Swan** | BTC-only | US | ⚠ | — | ✓ / ⚠ *(buy-only, DCA)* / ✓ | ✓ |
+| **Kraken** | multi-asset | US | ✓ | USDC, USDT *(multi-network)* | ✓ / ✓ / ✓ | ✓ |
+| **Coinbase** | multi-asset | US | ✓ | USDC *(Base/ETH)* | ✓ / ✓ / ✓ | ✓ |
+| **Binance** | multi-asset | Offshore *(global)* | ✓ | USDT, USDC, FDUSD | ✓ full | restricted *(.US separate)* |
+| **OKX** | multi-asset | Offshore *(Seychelles)* | ✓ | USDT, USDC | ✓ full | restricted |
+| **Bybit** | multi-asset | Offshore *(Dubai)* | ⚠ | USDT, USDC | ✓ full | restricted |
+| **Bitget / MEXC / KuCoin** | multi-asset | Offshore *(Seychelles)* | ⚠ | USDT *(+USDC)* | ✓ full | restricted |
 
 Only the venues with a full deposit/trade/withdraw API — **Strike, Kraken, Coinbase**, and the offshore giants — can run a fiat↔BTC treasury unattended. **River**'s public API (RLS) is Lightning *payments*, not buy/sell; **Swan**'s automates *buying* (DCA) + withdrawal, not two-way trading — both stay useful for their niches (River for Lightning payouts, Swan for scheduled accumulation) but neither does programmatic *conversion*. The **large offshore exchanges** — Binance, OKX, Bybit, Bitget, MEXC, KuCoin — are the same animal as the US multi-asset venues under a different jurisdiction: offshore domicile adds regulatory and recourse uncertainty (several have faced enforcement or market exits) on top of the account-level freeze surface, but they hold the deepest stablecoin-and-BTC liquidity (the pools described in [[Stablecoin-Landscape|The Stablecoin Landscape]]). Across all of them, **bank fiat — the one thing the non-custodial swaps can't reach — appears only here**; withdraw to self-custody promptly and treat any on-venue balance as exposed. *(Volumes, jurisdictional availability, and listings shift constantly — see [[Field-Notes]].)*
 

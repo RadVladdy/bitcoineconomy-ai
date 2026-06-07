@@ -37,6 +37,10 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-size: 1.06rem;
+  /* The full-bleed hero uses calc(50% - 50vw); 100vw includes the scrollbar, so it
+     overhangs by the scrollbar width. clip (not hidden) trims it without creating a
+     scroll container — position:sticky on the header keeps working. */
+  overflow-x: clip;
 }
 
 code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
@@ -213,19 +217,32 @@ pre {
 .prose { background: var(--bg-soft); border: 1px solid var(--rule); border-radius: 14px; padding: 2rem 2.2rem; }
 .prose p, .prose li { color: var(--fg-soft); }
 .prose strong { color: var(--fg); }
+/* Plain markdown tables share the matrix palette (#0e0e0e frame, #262626 rules,
+   #17181a shaded header, zebra rows) so the two table styles read as one family. */
 .prose table {
   width: 100%;
   border-collapse: collapse;
   margin: 1.4rem 0;
   font-size: 0.92rem;
+  background: #0e0e0e;
+  border: 1px solid #262626;
+  border-radius: 10px;
+  overflow: hidden;
 }
 .prose th, .prose td {
-  border: 1px solid var(--rule);
-  padding: 0.45rem 0.6rem;
+  border: 1px solid #262626;
+  padding: 0.5rem 0.7rem;
   text-align: left;
   vertical-align: top;
 }
-.prose thead th { background: var(--bg-soft); }
+.prose thead th {
+  background: #17181a;
+  font-family: var(--font-head);
+  font-weight: 600;
+  color: var(--fg);
+}
+.prose tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018); }
+.prose tbody th[scope="row"] { background: #131313; }
 .prose img { max-width: 100%; height: auto; border-radius: 10px; display: block; }
 
 /* ---- Callouts (Obsidian [!info] etc., rendered by remark-callouts) ---- */
@@ -670,11 +687,14 @@ figure.matrix .matrix-title {
 .rail-tiles { display: flex; flex-direction: column; gap: 0.7rem; }
 .rail-tiles .tile2 { padding: 0.7rem 0.9rem; }
 .rail-tiles .tile2-label { font-size: 0.74rem; margin-bottom: 0.3rem; }
-.rail-tiles .rail-links a { padding: 0.2rem 0; }
+.rail-tiles .rail-links a { padding: 0.28rem 0; }
 .rail-tiles .rl-t { font-size: 0.86rem; }
+.rail-tiles .rl-d { font-size: 0.7rem; line-height: 1.25; }
 
 @media (max-width: 60rem) {
-  .surface-layout { grid-template-columns: 1fr; }
+  /* minmax(0,1fr) — NOT bare 1fr — so a wide table can't blow the track past the
+     viewport; its own overflow-x:auto then scrolls it in a box (see mobile block). */
+  .surface-layout { grid-template-columns: minmax(0, 1fr); }
   .page-rail { display: none; }
 }
 

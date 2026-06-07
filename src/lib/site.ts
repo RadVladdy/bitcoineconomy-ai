@@ -72,19 +72,23 @@ export const NAV_STANDALONE = [{ slug: 'field-notes', label: 'Field Notes' }];
 
 // One-glance descriptors per page, shown as a small dim sub-label under the
 // title in both the homepage rail and the nav dropdowns. Keyed by slug.
+// One-glance descriptor per page — plain-Joe, jargon-free (no "UI/UX", "TradFi",
+// "A2A/A2B"). Shown under the page label in the homepage rail, the nav dropdowns,
+// AND the internal-page rail (PageRail). Keep them short and explanatory: the
+// label names the page, the descriptor says what it's about.
 export const SLUG_TAGS: Record<string, string> = {
   case: 'Why agents choose Bitcoin',
-  'agent-economy': 'Agents become economic actors',
-  'adoption-asymmetry': 'Agents overcome BTC UI/UX',
-  'independence-doctrine': 'Parallel not integrated economies',
-  'border-skirmishes': 'TradFi vs. BTC agent economy',
-  convergence: 'Timing the BTC move',
-  stack: 'The Bitcoin tech stack',
-  tools: 'BTC implementation tools',
-  marketplace: 'Agent treasury, exchange and services',
-  exchange: 'BTC ↔ fiat',
-  services: 'A2A and A2B services',
-  'field-notes': 'Agent BTC economy - live record',
+  'agent-economy': 'How agents became economic actors',
+  'adoption-asymmetry': 'Why agents adopt faster than people',
+  'independence-doctrine': 'Why it grows as a parallel economy',
+  'border-skirmishes': 'Where legacy finance pushes back',
+  convergence: 'Why the shift is happening now',
+  stack: 'The Bitcoin tech agents run on',
+  tools: 'Building blocks, with how-to cards',
+  marketplace: 'Where agents hold, swap, and spend',
+  exchange: 'Moving between bitcoin and dollars',
+  services: 'What agents buy and sell',
+  'field-notes': 'The live record, week to week',
 };
 
 // Tool-card layer taxonomy. Ordered top-down to mirror The Stack's own section
