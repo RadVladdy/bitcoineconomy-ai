@@ -1,10 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageRail from '../../components/PageRail.astro';
 import { SITE, TOOL_LAYERS } from '../../lib/site';
 
 // /tools — the implementation reference, grouped by Stack layer. Each card is a
 // deployed (or protocol) building block of the Bitcoin-substrate agent stack.
+// Tools is the Stack section, so the page carries the cyan accent + the shared
+// two-column PageRail (the on-this-page layer list + the site-nav tiles).
 const all = await getCollection('tools');
 const tools = all
   .map((e) => e.data)
@@ -14,6 +17,9 @@ const groups = TOOL_LAYERS.map((layer) => ({
   ...layer,
   items: tools.filter((t) => t.layer === layer.key),
 })).filter((g) => g.items.length > 0);
+
+// On-this-page TOC = the layer sections (their ids are the layer keys).
+const toc = groups.map((g) => ({ slug: g.key, text: g.label }));
 
 const description =
   'Implementation cards for the Bitcoin-substrate agent stack: what each tool is, when to use it, how to start, and where its gotchas are — with verified repos, docs, and maintainer handles. Grouped by Stack layer.';
@@ -28,33 +34,46 @@ const jsonLd = {
 };
 ---
 <Base title="Tools" description={description} current="tools" canonical="/tools" jsonLd={jsonLd} wide={true}>
-  <div class="tools-intro">
-    <h1>Tools</h1>
-    <p class="subtitle">The Bitcoin-substrate agent stack, as building blocks you can pick up.</p>
-    <p>Each card is one piece of the stack an autonomous agent actually runs on — what it is, when to reach for it, how to start, and the gotchas worth knowing before you ship. Grouped by layer, mirroring <a href="/stack">The Stack</a>. The bridges to legacy money live at <a href="/marketplace">The Marketplace</a>; the live adoption record is at <a href="/field-notes">Field Notes</a>.</p>
-    <p class="tools-agent-note">Building agent payments? Each card has a clean <code>.md</code> route and <code>SoftwareApplication</code> JSON-LD, and they are listed in <a href="/agents.txt">agents.txt</a>. The site helping you implement the substrate <em>is</em> the thesis.</p>
-  </div>
-
-  {groups.map((g) => (
-    <section class="tool-layer accent-cyan" aria-label={g.label}>
-      <h2 class="tool-layer-h">{g.label}</h2>
-      <p class="tool-layer-blurb">{g.blurb}</p>
-      <div class="surface-grid">
-        {g.items.map((t) => (
-          <a class="surface-card tool-card" href={`/tools/${t.slug}`}>
-            <h3>{t.name}</h3>
-            <p>{t.tagline}</p>
-            <span class="tool-card-tags">
-              {t['latest-release'] && <span class="tool-tag">{t['latest-release']}</span>}
-              <span class="tool-tag tool-tag-type">{t['tool-type']}</span>
-            </span>
-          </a>
-        ))}
+  <div class="surface-layout accent-cyan">
+    <div>
+      <div class="tools-intro">
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+          <a href="/stack">Stack</a>
+          <span aria-hidden="true">/</span>
+          <span class="crumb-cur">Tools</span>
+        </nav>
+        <h1>Tools</h1>
+        <p class="subtitle">The Bitcoin-substrate agent stack, as building blocks you can pick up.</p>
+        <p>Each card is one piece of the stack an autonomous agent actually runs on — what it is, when to reach for it, how to start, and the gotchas worth knowing before you ship. Grouped by layer, mirroring <a href="/stack">The Stack</a>. The bridges to legacy money live at <a href="/marketplace">The Marketplace</a>; the live adoption record is at <a href="/field-notes">Field Notes</a>.</p>
+        <p class="tools-agent-note">Building agent payments? Each card has a clean <code>.md</code> route and <code>SoftwareApplication</code> JSON-LD, and they are listed in <a href="/agents.txt">agents.txt</a>. The site helping you implement the substrate <em>is</em> the thesis.</p>
       </div>
-    </section>
-  ))}
 
-  {groups.length === 0 && (
-    <p class="tools-empty">Tool cards are being drafted. Check back shortly.</p>
-  )}
+      {groups.map((g) => (
+        <section class="tool-layer" id={g.key} aria-label={g.label}>
+          <h2 class="tool-layer-h">{g.label}</h2>
+          <p class="tool-layer-blurb">{g.blurb}</p>
+          <div class="surface-grid">
+            {g.items.map((t) => (
+              <a class="surface-card tool-card" href={`/tools/${t.slug}`}>
+                <h3>{t.name}</h3>
+                <p>{t.tagline}</p>
+                <span class="tool-card-tags">
+                  {t['latest-release'] && <span class="tool-tag">{t['latest-release']}</span>}
+                  <span class="tool-tag tool-tag-type">{t['tool-type']}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      {groups.length === 0 && (
+        <p class="tools-empty">Tool cards are being drafted. Check back shortly.</p>
+      )}
+    </div>
+
+    <PageRail toc={toc} />
+  </div>
 </Base>
