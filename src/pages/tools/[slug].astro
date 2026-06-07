@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageRail from '../../components/PageRail.astro';
 import { TOOL_LAYERS } from '../../lib/site';
 import { toolJsonLd } from '../../lib/jsonld';
 
@@ -11,7 +12,8 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const d = entry.data;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
 
 const layer = TOOL_LAYERS.find((l) => l.key === d.layer);
 const fmt = (date?: Date) => (date ? date.toISOString().slice(0, 10) : null);
@@ -40,7 +42,8 @@ const jsonLd = toolJsonLd({
 
 const mdPath = `/tools/${d.slug}.md`;
 ---
-<Base title={d.name} description={d.tagline} current="tools" canonical={`/tools/${d.slug}`} jsonLd={jsonLd}>
+<Base title={d.name} description={d.tagline} current="tools" canonical={`/tools/${d.slug}`} jsonLd={jsonLd} wide={true}>
+  <div class="surface-layout accent-cyan">
   <article class="prose tool-page">
     <p class="tool-eyebrow"><a href="/tools">Tools</a> · {layer?.label ?? d.layer}</p>
     <h1>{d.name}</h1>
@@ -68,4 +71,6 @@ const mdPath = `/tools/${d.slug}.md`;
       <p set:html={`Where this sits in the architecture: <a href="/stack">The Stack</a>. Raw markdown for this card: <a href="${mdPath}">${mdPath}</a>. Release and version fields move fast — confirm against the repo before you depend on them.`} />
     </aside>
   </article>
+  <PageRail toc={toc} />
+  </div>
 </Base>

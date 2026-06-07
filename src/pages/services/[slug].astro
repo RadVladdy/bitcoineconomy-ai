@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageRail from '../../components/PageRail.astro';
 import { SITE } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -10,7 +11,8 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const d = entry.data;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
 
 const fmt = (date?: Date) => (date ? date.toISOString().slice(0, 10) : null);
 
@@ -38,7 +40,8 @@ if (d.category) jsonLd.serviceType = d.category;
 
 const mdPath = `/services/${d.slug}.md`;
 ---
-<Base title={d.name} description={d.tagline} current="services" canonical={`/services/${d.slug}`} jsonLd={jsonLd}>
+<Base title={d.name} description={d.tagline} current="services" canonical={`/services/${d.slug}`} jsonLd={jsonLd} wide={true}>
+  <div class="surface-layout accent-agent">
   <article class="prose tool-page">
     <p class="tool-eyebrow"><a href="/services">Services</a> · {d.category}</p>
     <h1>{d.name}</h1>
@@ -67,4 +70,6 @@ const mdPath = `/services/${d.slug}.md`;
       <p set:html={`Where this sits in the section: <a href="/marketplace">The Marketplace</a>. Raw markdown for this card: <a href="${mdPath}">${mdPath}</a>. Payment and KYC fields move fast — confirm against the provider before you depend on them.`} />
     </aside>
   </article>
+  <PageRail toc={toc} />
+  </div>
 </Base>

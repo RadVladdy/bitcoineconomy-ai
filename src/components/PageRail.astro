@@ -1,0 +1,70 @@
+---
+// Right-hand page rail: the on-this-page TOC (when the page has enough headings)
+// plus the site-nav tiles. Shared by every content page so the two-column
+// layout and the "Explore the site" stack stay identical across the site.
+import { NAV_GROUPS, NAV_STANDALONE } from '../lib/site';
+
+interface Props {
+  toc?: { slug: string; text: string }[];
+}
+const { toc = [] } = Astro.props;
+const hasToc = toc.length >= 3;
+const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marketplace: 'agent' };
+---
+<aside class="page-rail" aria-label="Page navigation">
+  <div class="rail-sticky">
+    {hasToc && (
+      <div>
+        <p class="rail-h">On this page</p>
+        <nav class="toc">
+          {toc.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+        </nav>
+      </div>
+    )}
+    <div>
+      <p class="rail-h">Explore the site</p>
+      <div class="rail-tiles">
+        {NAV_GROUPS.map((g) => (
+          <div class={`tile2 tile2-${SECTION_ACCENT[g.label] ?? 'btc'}`}>
+            <p class="tile2-label">{g.label}</p>
+            <ul class="rail-links">
+              {g.items.map((s) => (
+                <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span></a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        {NAV_STANDALONE.map((s) => (
+          <div class="tile2 tile2-plain">
+            <ul class="rail-links">
+              <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span></a></li>
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+  // TOC scroll-spy: highlight the section currently in view.
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.toc a'));
+  if (links.length) {
+    const byId = new Map(links.map((a) => [a.getAttribute('href')!.slice(1), a]));
+    const spy = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            links.forEach((a) => a.classList.remove('active'));
+            byId.get((e.target as HTMLElement).id)?.classList.add('active');
+          }
+        }
+      },
+      { rootMargin: '-15% 0px -75% 0px' }
+    );
+    links.forEach((a) => {
+      const el = document.getElementById(a.getAttribute('href')!.slice(1));
+      if (el) spy.observe(el);
+    });
+  }
+</script>
