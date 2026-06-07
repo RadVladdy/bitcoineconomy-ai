@@ -273,8 +273,16 @@ const INSERTS = {
     { afterHeading: 'The bridge architecture', html: '<div data-diagram="bridge"></div>' },
   ],
   'Stack.md': [
-    { afterHeading: 'Following one payment down the stack', html: '<div data-diagram="trace"></div>' },
+    // Terminal scene replaces the older box-flow `trace` here (same L402 walkthrough,
+    // more engaging) so the section stays to one visual.
+    { afterHeading: 'Following one payment down the stack', html: '<div data-diagram="stack-pay"></div>' },
     { afterHeading: 'What the Stack is', html: '<div data-diagram="stack"></div>' },
+  ],
+  'Services.md': [
+    { afterHeading: 'How an agent pays for a service', html: '<div data-diagram="services-pay"></div>' },
+  ],
+  'Exchange.md': [
+    { afterHeading: 'Non-custodial, no-KYC swaps', html: '<div data-diagram="exchange-swap"></div>' },
   ],
   'Field-Notes.md': [
     { afterHeading: 'The two deployed agent-payment stacks', html: '<div data-diagram="timeline"></div>' },
