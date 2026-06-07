@@ -396,6 +396,57 @@ export function monitorRunning(): string {
   });
 }
 
+/* 12 — Terminal scenes for the canonical surfaces (Stack / Services / Exchange).
+   Same builder + register as the Story motif; each visualises a flow the prose
+   already walks step-by-step. The interaction stands alone; the prose narrates. */
+export function stackPay(): string {
+  return terminalScene({
+    id: 'stk-pay', outcome: 'pass', title: 'agent · L402 · one payment',
+    lines: [
+      { t: 'agent@btc ~ $ GET weather.api/forecast', kind: 'cmd' },
+      { t: '← 402 PAYMENT REQUIRED · invoice 11 sat', kind: 'recv' },
+      { t: '→ pay 11 sat over Lightning', kind: 'send' },
+      { t: '← PAID · <1s · fee < 1 sat', kind: 'pass' },
+      { t: '→ GET /forecast  [L402 macaroon:preimage]', kind: 'send' },
+      { t: '← 200 OK · {14°C, wind 11kt}', kind: 'recv' },
+      { t: '✓ done · Lightning anchors to L1 later', kind: 'pass' },
+    ],
+    caption: 'One payment down the stack: the weather API answers with an L402 invoice, the agent pays 11 sats over Lightning in under a second, retries with cryptographic proof, and gets its data — and that Lightning balance settles to Bitcoin L1 later, in bulk.',
+  });
+}
+
+export function servicesPay(): string {
+  return terminalScene({
+    id: 'svc-pay', outcome: 'pass', title: 'agent · pays for a service',
+    lines: [
+      { t: 'agent@btc ~ $ POST inference.svc/run', kind: 'cmd' },
+      { t: '← 402 PAYMENT REQUIRED · 250 sat (L402)', kind: 'recv' },
+      { t: '→ pay invoice over Lightning', kind: 'send' },
+      { t: '← 200 OK + macaroon [scope: 10/min, exp 1h]', kind: 'pass' },
+      { t: '→ POST /run ×9   [reuse macaroon, no re-pay]', kind: 'send' },
+      { t: '← 200 OK ×9', kind: 'recv' },
+      { t: '✓ one payment · scoped credential reused', kind: 'pass' },
+    ],
+    caption: 'Paying for a service with L402: one Lightning payment buys a scoped credential (a macaroon carrying rate-limit and expiry caveats), which the agent then reuses across the whole session — sats converted into machine-readable capability.',
+  });
+}
+
+export function exchangeSwap(): string {
+  return terminalScene({
+    id: 'xch-swap', outcome: 'pass', title: 'agent · non-custodial swap',
+    lines: [
+      { t: 'agent@btc ~ $ swap 50000 sat → USDC (boltz)', kind: 'cmd' },
+      { t: '→ POST /swap  {from: BTC-LN, to: USDC}', kind: 'send' },
+      { t: '← quote + claim/refund keys  [no account]', kind: 'recv' },
+      { t: '→ pay Lightning invoice', kind: 'send' },
+      { t: '← atomic swap · both legs settle or refund', kind: 'recv' },
+      { t: '← RECEIVED 21.40 USDC (Base)', kind: 'pass' },
+      { t: '✓ swap complete · self-custody throughout', kind: 'pass' },
+    ],
+    caption: 'A non-custodial, no-KYC swap on Boltz: the agent swaps sats for USDC on its own keys — no account, no identity — and the atomic design guarantees both legs settle or both refund. (The value now sits on an issuer-freezable stablecoin; the rail is sovereign, the asset is not.)',
+  });
+}
+
 export const DIAGRAMS: Record<string, () => string> = {
   stack: stackDiagram,
   'two-tier': twoTierDiagram,
@@ -408,4 +459,7 @@ export const DIAGRAMS: Record<string, () => string> = {
   'monitor-fail': monitorFail,
   'monitor-success': monitorSuccess,
   'monitor-running': monitorRunning,
+  'stack-pay': stackPay,
+  'services-pay': servicesPay,
+  'exchange-swap': exchangeSwap,
 };
