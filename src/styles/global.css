@@ -434,16 +434,16 @@ figure.matrix .matrix-title {
   margin: 1.5rem 0;
 }
 .surface-card {
-  border: 1px solid var(--rule);
-  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 12px;
   padding: 1.1rem 1.2rem;
-  background: var(--card);
+  background: rgba(255, 255, 255, 0.05);
   text-decoration: none;
   color: var(--fg);
   display: block;
-  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
 }
-.surface-card:hover { border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+.surface-card:hover { border-color: rgba(247, 147, 26, 0.5); transform: translateY(-3px); box-shadow: 0 16px 44px -22px rgba(247, 147, 26, 0.5); }
 .surface-card h3 { margin: 0 0 0.3rem; font-size: 1.08rem; }
 .surface-card p { margin: 0; font-size: 0.9rem; color: var(--fg-soft); }
 .surface-card .fa-link { font-size: 0.8rem; color: var(--orange); margin-top: 0.5rem; display: inline-block; }
@@ -610,25 +610,35 @@ figure.matrix .matrix-title {
 }
 
 /* ============================================================
-   Interior pages v2 — breadcrumb, accent headings, TOC rail
+   Interior pages v2 — breadcrumb + right rail (On this page + site nav)
    ============================================================ */
 
-/* two-column: article + sticky "on this page" rail (when ≥3 headings) */
-.surface-layout { display: grid; grid-template-columns: minmax(0, 1fr) 13rem; gap: 2.6rem; align-items: start; }
-.toc-rail { font-size: 0.84rem; }
-.toc-sticky { position: sticky; top: 5.5rem; }
-.toc-label { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; color: var(--fg-soft); margin: 0 0 0.6rem; }
+/* two-column: reading column + right rail */
+.surface-layout { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 2.4rem; align-items: start; }
+.page-rail { font-size: 0.84rem; }
+.rail-sticky { position: sticky; top: 5.5rem; display: flex; flex-direction: column; gap: 1.7rem; }
+.rail-h { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; color: var(--fg-soft); margin: 0 0 0.6rem; }
+
+/* on-this-page list */
 .toc { display: flex; flex-direction: column; }
 .toc a {
-  display: block; padding: 0.32rem 0 0.32rem 0.85rem; line-height: 1.35;
+  display: block; padding: 0.3rem 0 0.3rem 0.85rem; line-height: 1.35;
   color: var(--fg-soft); text-decoration: none;
   border-left: 2px solid var(--rule); transition: color 0.15s, border-color 0.15s;
 }
 .toc a:hover { color: var(--fg); border-left-color: rgba(247, 147, 26, 0.6); }
 .toc a.active { color: var(--orange); border-left-color: var(--orange); }
+
+/* site-nav tiles stacked in the rail (compact form of the homepage tiles) */
+.rail-tiles { display: flex; flex-direction: column; gap: 0.7rem; }
+.rail-tiles .tile2 { padding: 0.7rem 0.9rem; }
+.rail-tiles .tile2-label { font-size: 0.74rem; margin-bottom: 0.3rem; }
+.rail-tiles .rail-links a { padding: 0.2rem 0; }
+.rail-tiles .rl-t { font-size: 0.86rem; }
+
 @media (max-width: 60rem) {
   .surface-layout { grid-template-columns: 1fr; }
-  .toc-rail { display: none; }
+  .page-rail { display: none; }
 }
 
 /* breadcrumb */
@@ -638,15 +648,8 @@ figure.matrix .matrix-title {
 .crumb span[aria-hidden] { color: var(--slate); opacity: 0.7; }
 .crumb .crumb-cur { color: var(--fg); }
 
-/* accent bar before section headings */
+/* section headings keep clearance under the sticky header (no accent bar) */
 .prose h2 { scroll-margin-top: 5.5rem; }
-.prose h2::before {
-  content: ""; display: block; width: 34px; height: 3px; border-radius: 2px;
-  background: linear-gradient(90deg, var(--orange), var(--electric)); margin-bottom: 0.7rem;
-}
-/* the TL;DR block keeps its own compact heading — no accent bar */
-.tldr h2 { scroll-margin-top: 0; }
-.tldr h2::before { display: none; }
 
 /* callout type accents (default stays orange; info → cyan, warning → amber) */
 .callout-info { border-left-color: var(--electric); }

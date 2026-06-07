@@ -29,7 +29,7 @@ const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marke
       <h1>The autonomous AI economy runs on <span class="btc">Bitcoin.</span></h1>
       <p class="hero2-lede">{lede}</p>
       <div class="hero2-ctas">
-        <a class="btn-btc" href="#story">Read the Story</a>
+        <a class="btn-btc" href="#story" data-read-story>Read the Story</a>
         <a class="btn-ghost" href="#explore">Browse the sections ↓</a>
       </div>
     </div>
@@ -79,6 +79,18 @@ const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marke
         const expanded = body.classList.toggle('expanded');
         btn.setAttribute('aria-expanded', String(expanded));
         btn.textContent = expanded ? 'Show less ↑' : 'Continue reading ↓';
+      });
+    }
+
+    // "Read the Story" in the hero: they asked to read it, so expand it in place
+    // (the anchor href still scrolls the page down to it).
+    const readBtn = document.querySelector('[data-read-story]');
+    if (readBtn && body) {
+      readBtn.addEventListener('click', () => {
+        if (!body.classList.contains('expanded')) {
+          body.classList.add('expanded');
+          if (btn) { btn.setAttribute('aria-expanded', 'true'); btn.textContent = 'Show less ↑'; }
+        }
       });
     }
 
