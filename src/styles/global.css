@@ -452,7 +452,7 @@ figure.matrix .matrix-title {
 .cta:hover { filter: brightness(1.06); }
 .surface-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
   gap: 1rem;
   margin: 1.5rem 0;
 }
@@ -693,3 +693,22 @@ figure.matrix .matrix-title {
 .callout-info .callout-title { color: var(--electric); }
 .callout-warning { border-left-color: #f5a623; }
 .callout-warning .callout-title { color: #f5b740; }
+
+/* ============================================================
+   Mobile hardening — keep every page within the viewport
+   ============================================================ */
+@media (max-width: 48rem) {
+  main { padding: 1.6rem 1rem 3rem; }
+  .prose { padding: 1.4rem 1.15rem; border-radius: 12px; }
+  /* card grids collapse to one column on phones */
+  .surface-grid { grid-template-columns: 1fr; }
+  /* wide tables scroll inside their own box instead of stretching the page */
+  .prose table,
+  figure.matrix,
+  figure.diagram { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .prose table { width: max-content; min-width: 100%; }
+  figure.matrix table { min-width: 30rem; }
+  /* trim the hero band on small screens */
+  .hero2 { padding: 2.6rem 1rem 2.4rem; }
+  .hero2 h1 { font-size: clamp(2rem, 9vw, 2.6rem); }
+}
