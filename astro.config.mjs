@@ -30,6 +30,8 @@ export default defineConfig({
     '/thesis-for-agents': '/case-for-agents',
     '/tools/routstr': '/services/routstr',
     '/tools/ppq-ai': '/services/ppq-ai',
+    // Strike is exchange-only (not infrastructure); its Tools card was retired.
+    '/tools/strike': '/exchanges/strike',
     // Border Zone dissolved → its interface material lives in The Marketplace.
     '/border-zone': '/marketplace',
     '/border-zone-for-agents': '/marketplace-for-agents',

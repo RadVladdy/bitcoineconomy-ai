@@ -190,9 +190,44 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 - *Constraint 2 (stablecoin output):* **Fail.** Output stablecoin remains issuer-freezable.
 - *Constraints 3, 4:* **Pass.** On the Lightning/Liquid legs.
 
-**Ranking within the no-KYC set.** *(structural)* Boltz (atomic, Lightning-native, widest BTC-layer coverage) → SideSwap (pure atomic Liquid) → SideShift (broadest asset coverage, with the risk-screening/freeze caveat).
+**Ranking within the no-KYC set.** *(structural)* Boltz (atomic, Lightning-native, widest BTC-layer coverage) → SideSwap (pure atomic Liquid) → SideShift (broadest asset coverage, with the risk-screening/freeze caveat) → Flashnet (non-custodial Spark AMM; strong agent fit but newer, with Spark operator-trust) → Taproot Assets (Lightning rails-FX; no clean swap API, more setup).
 
-### §5.4 — Caveats: the structural price of no-KYC sovereignty
+### §5.4 — Flashnet
+
+**What it is.** *(operational)* A non-custodial, no-KYC Bitcoin-native DEX/AMM built on Spark (Lightspark's Bitcoin L2). Swaps BTC ↔ USDT / USDB / USDC; the agent keeps its keys — Flashnet routes and settles against native Bitcoin liquidity rather than custodying funds.
+
+**Coverage.** *(operational)* BTC ↔ USDT / USDB / USDC on Spark (USDT issued natively on Spark; USDB the native Brale + Flashnet dollar), fundable over Lightning via Spark's Lightning interop. No bank fiat.
+
+**API legs.** *(operational)* Programmatic via the open-source `flashnetxyz/spark-wallet` skill (MIT) + Flashnet's API — wallet create/manage and AMM swaps (e.g. `swap usdb btc`), on mainnet. No account model; swap-create-and-settle is the agent-native unit.
+
+**Constraint profile on the Bitcoin leg.**
+- *Constraint 1 (permissionless custody):* **Pass.** Self-custody; the AMM is non-custodial.
+- *Constraint 2 (censorship-resistance):* **Partial.** *(operational)* The swap rides Spark — a mainnet-beta L2 with a small operator set (Lightspark + Flashnet), a semi-trusted surface, not trust-minimized like L1; the operator set is a discretion/liveness surface above pure cryptography.
+- *Constraints 3, 4:* **Pass.** Near-zero-cost, sub-second on Spark.
+
+**Constraint profile on the stablecoin output.**
+- *Constraint 2:* **Fail.** *(structural — issuer freeze)* USDT / USDB / USDC remain issuer-freezable regardless of the non-custodial swap.
+
+**Maturity caveat.** *(operational)* Newer and less battle-tested than Boltz; the agent skill is early. Strong on the sovereignty axis (non-custodial + API + no-KYC), with Spark operator-trust as the trade.
+
+**No bank fiat.**
+
+### §5.5 — Taproot Assets *(rails-FX, not a venue)*
+
+**What it is.** *(structural)* Not a venue but a protocol-level FX capability: Taproot Assets turns Lightning into a decentralized FX network, so an agent can pay in sats and receive a stablecoin (or vice versa) over Lightning. USDT live on Lightning via Taproot Assets since March 2026. *(Dual card — the protocol/integration view is the [[Stack-FA|Stack]]-side Tools twin.)*
+
+**How the swap works.** *(operational)* Conversion at the routing layer via edge nodes (any Taproot-Assets-aware Lightning node); the parties agree a rate before invoice generation, then the payment routes through asset channels. A swap embedded in a Lightning payment, not a trip to an exchange.
+
+**API legs *(limited)*.** *(operational)* No clean REST swap API like Boltz's; requires `tapd` (or a Taproot-Assets-capable wallet) and channels with edge nodes that quote the pair — materially more setup than an API-driven swap.
+
+**Constraint profile.**
+- *Constraint 1 (permissionless custody):* **Pass.** Self-custodial; no account, no KYC at the protocol layer.
+- *Constraint 2:* **Fail on the asset, pass on the rail.** *(structural — rails-vs-substrate)* The rail is Lightning (excellent on fees/speed), but USDT-on-Lightning carries Tether's issuer freeze surface; censorship-resistance is decided at the asset layer. Cross-link [[Marketplace-FA]] (rails-vs-substrate).
+- *Constraints 3, 4:* **Pass.** Lightning-rail economics.
+
+**No bank fiat.** Crypto-in, crypto-out.
+
+### §5.6 — Caveats: the structural price of no-KYC sovereignty
 
 *(structural / operational)*
 - **Crypto-native only.** None of these reach bank fiat. They convert BTC↔stablecoin/other-layer; the agent still needs a custodial venue to touch dollars in a bank. The absence of a no-KYC, API-driven, fiat-settling exchange is structural, not a gap to be filled — fiat settlement without KYC is exactly what KYC law exists to prevent.
@@ -293,6 +328,8 @@ Reference list of named venues as of mid-2026. One-line description and primary 
 - **Boltz** — non-custodial atomic-swap service; HTLC settlement; Bitcoin across L1/Lightning/Liquid/Rootstock + USDT0 + native USDC (Circle CCTP); REST API + `boltzd`. https://boltz.exchange · API docs https://api.docs.boltz.exchange
 - **SideSwap** — non-custodial KYC-free Liquid-native swap platform; L-BTC ↔ L-USDt and Liquid asset-to-asset; order-book API. https://sideswap.io · API docs https://sideswap.io/docs/
 - **SideShift** — non-custodial no-account swap service; 200+ assets across 45+ networks; REST API + embeddable widgets; risk-screening/freeze caveat. https://sideshift.ai
+- **Flashnet** — non-custodial Bitcoin-native DEX/AMM on Spark; BTC ↔ USDT/USDB/USDC; open-source `spark-wallet` agent skill + API; newer, Spark operator-trust. https://www.flashnet.xyz · skill https://github.com/flashnetxyz/spark-wallet
+- **Taproot Assets** — protocol-level Lightning FX (BTC ↔ USDT via edge-node swaps), not a venue; needs `tapd`, no clean swap API; asset stays issuer-freezable (rails, not substrate). https://lightning.engineering · docs https://docs.lightning.engineering/the-lightning-network/taproot-assets
 
 **Custodial KYC venues — Bitcoin-only (US):**
 - **Strike** — US-licensed; native Lightning; fiat ↔ BTC and Lightning ↔ fiat; full deposit/trade/withdraw API; ~95 countries via multi-entity structure. https://strike.me · API docs https://docs.strike.me
@@ -316,7 +353,7 @@ Reference list of named venues as of mid-2026. One-line description and primary 
 Declarative. Each implication follows from X1–X6 as marked.
 
 - **Stay crypto-native to stay sovereign.** *(X2)* Hold Bitcoin; convert to a stablecoin and back via non-custodial swaps only when a stable unit of account is required; reach for owner-delegated custodial accounts only when the workflow requires actual bank fiat.
-- **Prefer non-custodial atomic swaps where the conversion is crypto-to-crypto.** *(X4)* Boltz for Lightning ↔ stablecoin and Bitcoin-layer moves; SideSwap for Liquid-native swaps; SideShift for the widest asset reach, accounting for its risk-screening/freeze caveat.
+- **Prefer non-custodial atomic swaps where the conversion is crypto-to-crypto.** *(X4)* Boltz for Lightning ↔ stablecoin and Bitcoin-layer moves; SideSwap for Liquid-native swaps; SideShift for the widest asset reach, accounting for its risk-screening/freeze caveat; Flashnet for a non-custodial Spark AMM (weigh the Spark operator-trust); Taproot Assets only where you can run `tapd` (rails-FX, no clean swap API).
 - **Require all three API legs before treating a venue as agent-operable.** *(X3)* A venue missing the trade leg (River) or the two-way-trade leg (Swan) is single-purpose, not a treasury venue.
 - **Use Lightning support to bound the freeze window.** *(X3)* Prefer venues that pay out over Lightning so off-venue withdrawal is sub-second; withdraw to self-custody promptly regardless.
 - **Confine the freeze surface by choosing what the account holds.** *(X3)* A Bitcoin-only custodial account bounds the freeze surface to BTC; a multi-asset account exposes the union of all assets held — a structural fact to weigh per use case, not a venue endorsement.
@@ -343,13 +380,13 @@ Declarative. Each implication follows from X1–X6 as marked.
 - [[Stack-FA|The Stack]] (S-series) — internal Lightning ↔ on-chain submarine swaps; protocol architecture beneath these venues.
 - [[Field-Notes-FA|Field Notes]] — fees, exact jurisdictional coverage, API changes, new venues, freeze incidents, volumes.
 
-**Per-venue cards (maintained independently).** `Exchanges/boltz.md`, `Exchanges/sideswap.md`, `Exchanges/sideshift.md`, `Exchanges/strike.md`, `Exchanges/river.md`, `Exchanges/swan.md`, `Exchanges/kraken.md`, `Exchanges/coinbase.md`. (`Exchanges/thorchain.md` and `Exchanges/robosats.md` are orphaned/archival and intentionally excluded.)
+**Per-venue cards (maintained independently).** `Exchanges/boltz.md`, `Exchanges/sideswap.md`, `Exchanges/sideshift.md`, `Exchanges/flashnet.md`, `Exchanges/taproot-assets.md`, `Exchanges/strike.md`, `Exchanges/river.md`, `Exchanges/swan.md`, `Exchanges/kraken.md`, `Exchanges/coinbase.md`. (`Exchanges/thorchain.md` and `Exchanges/robosats.md` are orphaned/archival and intentionally excluded. `taproot-assets` is a dual card — the protocol view is `Tools/taproot-assets.md`; `Strike` is exchange-only, the former `Tools/strike.md` retired 2026-06-06 → `/tools/strike` redirects to `/exchanges/strike`.)
 
 **Primary external sources (venue sites + API docs).** See §9 for the per-venue URL list. Circle CCTP (Boltz native-USDC path) live since May 2026. Strike USDT TRON-only and regional. RLS Lightning-payments API at https://docs.rls.dev.
 
 **Verification status.** Structural facts (Lightning / stablecoins / API / KYC / custody) WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC (Circle CCTP) re-verified 2026-06-05. Per-venue fees, exact jurisdictional coverage, and current API auth specifics pending — deferred to [[Field-Notes-FA|Field Notes]].
 
-**Date stamps.** Document created 2026-06-05; last verified 2026-06-05.
+**Date stamps.** Document created 2026-06-05; last verified 2026-06-06 (Flashnet + Taproot Assets added and WebSearch-verified 2026-06-06; Strike retired from Tools to exchange-only).
 
 ---
 

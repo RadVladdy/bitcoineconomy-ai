@@ -8,9 +8,11 @@
 //   3. Preserve frontmatter (incl. agent-tldr, epistemic tags, claim-IDs).
 //
 // Route maps are derived dynamically from each file's `slug` frontmatter, so new
-// surfaces/cards need no edit here. Card-slug collisions (boltz, strike exist in
-// both tools and exchanges) resolve with TOOLS precedence — all in-surface
-// [[boltz]]/[[strike]] wikilinks reference the tools (bridge) card.
+// surfaces/cards need no edit here. Card-slug collisions (boltz exists in both
+// tools and exchanges) resolve with TOOLS precedence — in-surface [[boltz]]
+// wikilinks reference the tools (bridge) card. (Strike is exchange-only since
+// 2026-06-06: its tools card was retired, so [[strike]] now resolves to the
+// exchange card and /tools/strike redirects there — see astro.config.mjs.)
 //
 // Run: node scripts/port-surfaces.mjs
 import fs from 'node:fs';
