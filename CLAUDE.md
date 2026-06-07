@@ -38,7 +38,29 @@ Adding a **new page type** (its own `.astro`) — wire it in by hand so it match
 front door deliberately opts out of breadcrumb/TOC/rail. Any other content page
 without the rail is a bug.
 
-## Content conventions
-Voice, In-brief sizing, Editor's-Notes, read-next structure, and the other
-content rules are recorded in the project's decision register (kept outside this
-repo). Match the existing surfaces as the pattern.
+## Content conventions — match these on every surface/card (no exceptions)
+The full rules live in the project's decision register; these are the load-bearing ones.
+
+**Voice — honest middle-position.** *"This is the substrate the agent economy will require, and here's why."* Direct, technical but not jargon-laden; engage skepticism rather than perform certainty; don't hedge with "could/might" when concrete deployed things exist. Never soften the thesis into "one option among several."
+
+**Two registers.** Human surfaces = plain-Joe body prose — avoid "load-bearing", "falsifier", bare "Constraint N", "conjunctive constraints" (use the plain words; "Schelling point" + "category error" are fine to keep). For-Agents (`*-for-agents`) twins keep the full precise, claims-indexed register — that precision is the point there.
+
+**In-brief callout** = ≤ 800 characters / ≤ 6 sentences — a ceiling and a license, **not** a pad-to target. No In-brief on: The Story (narrative cold-open), Field-Notes (a 3-paragraph structural callout instead), About (meta page).
+
+**`description` frontmatter** = a one-line subtitle (~60–130 chars), not a synopsis; must not duplicate the In-brief.
+
+**Every human surface carries three things:** an **In-brief**; a **`> [!info] Where to read next`** callout (two groups — "More in {Section}" / "In the other sections"); and an **Editor's Notes** section. Editor's Notes are **internal** — the port (`scripts/port-surfaces.mjs`) strips them on build. The project's own stance/preference goes there, **never** in neutral body copy.
+
+**Dual-track.** Every canonical surface has a **For-Agents twin** — except **The Story** (human-only by design) and the non-canonical pages (About, Stablecoin-Landscape). Before drafting a twin, read the project's For-Agents methodology brief (persuasion → specification: claims-index + definitions + formal constraints + counter-positions/falsification + epistemic tags).
+
+**One load-bearing claim per surface** (no theory sprawl — a claim earns its own page only if it's load-bearing, separable, and substantial ~1,200+ words; otherwise it stays a section inside **The Case**, which must still stand alone as a complete argument).
+
+**Reference-content neutrality.** Exchange + its cards, Stablecoin-Landscape, and all Tools/Exchanges/Services cards present **facts** — curate by *what you show, the order, and the facts*, never by editorializing the project's preference in the body (that's a leak → Editor's Notes). Fine: "standout for agents" (curation-by-emphasis), and stating a plain fact (e.g. a stablecoin is freezable). Argument surfaces (The Case, Doctrine…) openly arguing the thesis is their job.
+
+**Two-tier model — never collapse it.** Bitcoin **L1 = settlement + reserve**; **Lightning + L2/L3 (Cashu/Fedimint) = payment tech that settles *in* Bitcoin**. Don't frame the upper layers as Bitcoin-competing or as "the AI money." Keep altcoin/x402 mentions bounded to comparison-context, not centerpiece.
+
+**Empirical discipline.** Every number cites a specific study/repo/release. The BPI March 2026 anchor: **48.3% top overall monetary preference, 79.1% store of value** (36 models, 9,072 neutral scenarios; >90% favored digitally-native money over fiat). Don't smooth or aggregate; update the citation if newer data lands. Use projects' canonical names + primary repo/site links.
+
+**Cards — verify before publish.** Omit uncertain fields, never guess; defer volatile specifics (fees, exact coverage) to the venue / Field Notes. Archive orphaned cards (move aside), never hard-delete.
+
+**Honest engagement strengthens the thesis.** Lightning liquidity management, federated-trust (Fedimint), mint failure, agent attack surface — engage them (Field Notes is the home), don't sweep them away.
