@@ -360,7 +360,7 @@ figure.matrix .matrix-title {
   background: var(--bg-soft);
   border-radius: 0 6px 6px 0;
 }
-.tool-layer { margin: 2.6rem 0 0; }
+.tool-layer { margin: 2.6rem 0 0; scroll-margin-top: 5.5rem; }
 .tool-layer-h { font-size: 1.3rem; margin-bottom: 0.2rem; }
 .tool-layer-blurb { color: var(--fg-soft); font-size: 0.95rem; margin: 0 0 0.4rem; max-width: 46rem; }
 /* Card tiles embedded inside an essay (Exchange / Services) get a little breathing room. */
