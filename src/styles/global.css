@@ -141,6 +141,29 @@ a:hover { text-decoration: none; }
 }
 .nav-standalone:hover { color: var(--fg); }
 .nav-standalone[aria-current="page"] { color: var(--fg); border-bottom: 2px solid var(--orange); }
+/* Section-coloured dropdowns: the heading turns its accent on hover/open, and
+   its items turn the same colour on hover — matching the side rail tiles. */
+.nav-dd.accent-btc:hover .nav-dd-trigger,
+.nav-dd.accent-btc .nav-dd-trigger:focus-visible,
+.nav-dd.accent-btc .nav-dd-trigger[aria-expanded="true"],
+.nav-dd.accent-btc:hover .nav-caret,
+.nav-dd.accent-btc .nav-dd-trigger[aria-expanded="true"] .nav-caret,
+.nav-dd.accent-btc .nav-dd-menu a:hover .nav-dd-t { color: var(--orange); }
+
+.nav-dd.accent-cyan:hover .nav-dd-trigger,
+.nav-dd.accent-cyan .nav-dd-trigger:focus-visible,
+.nav-dd.accent-cyan .nav-dd-trigger[aria-expanded="true"],
+.nav-dd.accent-cyan:hover .nav-caret,
+.nav-dd.accent-cyan .nav-dd-trigger[aria-expanded="true"] .nav-caret,
+.nav-dd.accent-cyan .nav-dd-menu a:hover .nav-dd-t { color: var(--electric); }
+
+.nav-dd.accent-agent:hover .nav-dd-trigger,
+.nav-dd.accent-agent .nav-dd-trigger:focus-visible,
+.nav-dd.accent-agent .nav-dd-trigger[aria-expanded="true"],
+.nav-dd.accent-agent:hover .nav-caret,
+.nav-dd.accent-agent .nav-dd-trigger[aria-expanded="true"] .nav-caret,
+.nav-dd.accent-agent .nav-dd-menu a:hover .nav-dd-t { color: var(--agent); }
+
 @media (max-width: 48rem) {
   .nav-top { flex-wrap: wrap; }
   .nav-sections { width: 100%; order: 3; }

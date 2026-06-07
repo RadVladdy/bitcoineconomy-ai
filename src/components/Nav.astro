@@ -2,6 +2,8 @@
 import { NAV_GROUPS, NAV_STANDALONE, SLUG_TAGS } from '../lib/site';
 const { current = '' } = Astro.props as { current?: string };
 const isActiveGroup = (items: { slug: string }[]) => items.some((i) => i.slug === current);
+// Section accent per dropdown (matches the rail tiles): Case=orange, Stack=cyan, Marketplace=violet.
+const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marketplace: 'agent' };
 ---
 <header class="site-header">
   <nav class="nav" aria-label="Primary">
@@ -12,7 +14,7 @@ const isActiveGroup = (items: { slug: string }[]) => items.some((i) => i.slug ==
       </a>
       <div class="nav-sections">
         {NAV_GROUPS.map((group) => (
-          <div class="nav-dd">
+          <div class={`nav-dd accent-${SECTION_ACCENT[group.label] ?? 'btc'}`}>
             <button
               type="button"
               class="nav-dd-trigger"
