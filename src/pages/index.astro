@@ -4,65 +4,152 @@ import Base from '../layouts/Base.astro';
 import { SITE, NAV_GROUPS, NAV_STANDALONE, SLUG_TAGS } from '../lib/site';
 import { siteJsonLd } from '../lib/jsonld';
 
-// Homepage = The Story leads (narrative entry point); the canonical docs sit in
-// a slim rail that mirrors the nav sections (Case / Stack / Marketplace + the
-// standalone Field Notes), each section listing all its pages as links. Sourced
-// from NAV_GROUPS so the rail and the nav can't drift. The Story content renders
-// inline, clamped, and expands via "Continue reading" — but /the-story stays the
-// canonical page (agents, SEO, .md route).
+// Homepage = a hero band (narrative hook) over a two-column landing: The Story
+// leads on the left, the section tiles (the nav IA, mirrored in-body) sit on the
+// right. The Story content renders inline, clamped, and expands via "Continue
+// reading" — but /the-story stays the canonical page (agents, SEO, .md route).
+// Section tiles and their links come from NAV_GROUPS so the rail and the nav
+// can't drift; each group is accent-coloured (Case=orange, Stack=cyan, Marketplace=violet).
 const description = "The autonomous AI economy's monetary substrate is Bitcoin — settled on L1, transacted on Lightning and successor L2/L3 layers. The only deployed system whose properties match the constraints autonomous agents operate under.";
+const lede = "Autonomous agents need money that is permissionless, censorship-resistant, settles below a cent, and clears at machine tempo. The legacy payment stack can't provide that without ceasing to be itself — so the agent economy forms around a different substrate.";
 
 const all = await getCollection('surfaces');
 const story = all.find((e) => e.data.slug === 'the-story');
 const { Content: StoryContent } = story ? await render(story) : { Content: null };
+
+const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marketplace: 'agent' };
 ---
 <Base title={SITE.name} description={description} jsonLd={siteJsonLd()} wide={true}>
-  <section class="landing-wrap">
-    <div class="landing">
-      <div class="landing-main">
-        <h1>The autonomous AI economy runs on Bitcoin.</h1>
-        <p class="lede">Autonomous agents need money that is permissionless, censorship-resistant, settles below a cent, and clears at machine tempo. The legacy payment stack can't provide that without ceasing to be itself — so the agent economy forms around a different substrate.</p>
-        <div class="story-lead">
-          <p class="story-kicker">The Story</p>
-          {StoryContent && (
-            <div class="story-body" data-story-body>
-              <StoryContent />
-            </div>
-          )}
-          <button class="cta story-toggle" data-story-toggle aria-expanded="false">Continue reading ↓</button>
-        </div>
+  <!-- HERO BAND (full-bleed) -->
+  <section class="hero2">
+    <div class="hero2-grid" aria-hidden="true"></div>
+    <canvas id="hero-net" aria-hidden="true"></canvas>
+    <div class="hero2-inner">
+      <span class="hero2-eyebrow">The monetary substrate for autonomous agents</span>
+      <h1>The autonomous AI economy runs on <span class="btc">Bitcoin.</span></h1>
+      <p class="hero2-lede">{lede}</p>
+      <div class="hero2-ctas">
+        <a class="btn-btc" href="#story">Read the Story</a>
+        <a class="btn-ghost" href="#explore">Browse the sections ↓</a>
       </div>
-      <aside class="read-next">
-        {NAV_GROUPS.map((g) => (
-          <div class="rail-group">
-            <p class="rail-group-label">{g.label}</p>
-            <ul class="rail-links">
-              {g.items.map((s) => (
-                <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span>{SLUG_TAGS[s.slug] && <span class="rl-d">{SLUG_TAGS[s.slug]}</span>}</a></li>
-              ))}
-            </ul>
-          </div>
-        ))}
-        {NAV_STANDALONE.map((s) => (
-          <div class="rail-group">
-            <ul class="rail-links">
-              <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span>{SLUG_TAGS[s.slug] && <span class="rl-d">{SLUG_TAGS[s.slug]}</span>}</a></li>
-            </ul>
-          </div>
-        ))}
-      </aside>
     </div>
-    <p class="agent-mini">Built for agents, too — clean <code>.md</code> routes, For-Agents twins, and JSON-LD on every page. <a href="/llms.txt">llms.txt</a> · <a href="/agents.txt">agents.txt</a></p>
   </section>
+
+  <!-- LANDING: Story (left) + section tiles (right) -->
+  <div class="landing2">
+    <div class="story2" id="story">
+      <p class="story-kicker">The Story</p>
+      {StoryContent && (
+        <div class="story-body" data-story-body>
+          <StoryContent />
+        </div>
+      )}
+      <button class="story-toggle" data-story-toggle aria-expanded="false">Continue reading ↓</button>
+    </div>
+
+    <aside class="tiles2" id="explore" aria-label="Explore the site">
+      {NAV_GROUPS.map((g) => (
+        <div class={`tile2 tile2-${GROUP_ACCENT[g.label] ?? 'btc'}`}>
+          <p class="tile2-label">{g.label}</p>
+          <ul class="rail-links">
+            {g.items.map((s) => (
+              <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span>{SLUG_TAGS[s.slug] && <span class="rl-d">{SLUG_TAGS[s.slug]}</span>}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      {NAV_STANDALONE.map((s) => (
+        <div class="tile2 tile2-plain">
+          <ul class="rail-links">
+            <li><a href={`/${s.slug}`}><span class="rl-t">{s.label}</span>{SLUG_TAGS[s.slug] && <span class="rl-d">{SLUG_TAGS[s.slug]}</span>}</a></li>
+          </ul>
+        </div>
+      ))}
+    </aside>
+  </div>
+
+  <p class="agent-mini">Built for agents, too — clean <code>.md</code> routes, For-Agents twins, and JSON-LD on every page. <a href="/llms.txt">llms.txt</a> · <a href="/agents.txt">agents.txt</a></p>
+
   <script>
+    // Story: expand/collapse in place.
     const btn = document.querySelector('[data-story-toggle]');
     const body = document.querySelector('[data-story-body]');
     if (btn && body) {
       btn.addEventListener('click', () => {
-        body.classList.add('expanded');
-        btn.setAttribute('aria-expanded', 'true');
-        btn.remove();
+        const expanded = body.classList.toggle('expanded');
+        btn.setAttribute('aria-expanded', String(expanded));
+        btn.textContent = expanded ? 'Show less ↑' : 'Continue reading ↓';
       });
     }
+
+    // Hero network: drifting dark nodes wired together; dim orange "payment
+    // packets" walk the edges node-to-node; cursor pulls faint links.
+    (function () {
+      const canvas = document.getElementById('hero-net') as HTMLCanvasElement | null;
+      if (!canvas) return;
+      const hero = canvas.parentElement as HTMLElement;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const NODE_COLORS = ['#243a63', '#322a57'];
+      let W = 0, H = 0, nodes: any[] = [], packets: any[] = [], raf = 0;
+      const mouse = { x: -9999, y: -9999 };
+      const DIST = 130;
+      function size() {
+        const DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = hero.clientWidth; H = hero.clientHeight;
+        canvas!.width = W * DPR; canvas!.height = H * DPR;
+        ctx!.setTransform(DPR, 0, 0, DPR, 0, 0);
+        const N = Math.max(18, Math.min(42, Math.round(W / 30)));
+        nodes = Array.from({ length: N }, (_, i) => ({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+          r: Math.random() * 1.3 + 1, c: NODE_COLORS[i % 2],
+        }));
+        packets = [];
+      }
+      function neighbors(n: any) {
+        const o = [];
+        for (const m of nodes) { if (m === n) continue; if (Math.hypot(n.x - m.x, n.y - m.y) < DIST) o.push(m); }
+        return o;
+      }
+      function spawn() {
+        for (let t = 0; t < 8; t++) {
+          const n = nodes[(Math.random() * nodes.length) | 0], nb = neighbors(n);
+          if (nb.length) { packets.push({ from: n, to: nb[(Math.random() * nb.length) | 0], t: 0, sp: 0.009 + Math.random() * 0.006, hops: 0 }); return; }
+        }
+      }
+      function step() {
+        ctx!.clearRect(0, 0, W, H);
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i]; a.x += a.vx; a.y += a.vy;
+          if (a.x < 0 || a.x > W) a.vx *= -1; if (a.y < 0 || a.y > H) a.vy *= -1;
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (d < DIST) { ctx!.strokeStyle = `rgba(80,100,140,${(1 - d / DIST) * 0.2})`; ctx!.lineWidth = 0.6; ctx!.beginPath(); ctx!.moveTo(a.x, a.y); ctx!.lineTo(b.x, b.y); ctx!.stroke(); }
+          }
+          const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+          if (md < 150) { ctx!.strokeStyle = `rgba(110,130,180,${(1 - md / 150) * 0.2})`; ctx!.lineWidth = 0.7; ctx!.beginPath(); ctx!.moveTo(a.x, a.y); ctx!.lineTo(mouse.x, mouse.y); ctx!.stroke(); }
+        }
+        for (const n of nodes) { ctx!.fillStyle = n.c; ctx!.globalAlpha = 0.55; ctx!.beginPath(); ctx!.arc(n.x, n.y, n.r, 0, 7); ctx!.fill(); ctx!.globalAlpha = 1; }
+        if (!reduce && packets.length < 3 && Math.random() < 0.02) spawn();
+        for (let k = packets.length - 1; k >= 0; k--) {
+          const p = packets[k]; p.t += p.sp;
+          if (p.t >= 1) { p.hops++; const nb = neighbors(p.to).filter((m: any) => m !== p.from); if (p.hops >= 6 || !nb.length) { packets.splice(k, 1); continue; } p.from = p.to; p.to = nb[(Math.random() * nb.length) | 0]; p.t = 0; }
+          const x = p.from.x + (p.to.x - p.from.x) * p.t, y = p.from.y + (p.to.y - p.from.y) * p.t;
+          const g = ctx!.createRadialGradient(x, y, 0, x, y, 5);
+          g.addColorStop(0, 'rgba(193,110,28,0.5)'); g.addColorStop(1, 'rgba(193,110,28,0)');
+          ctx!.fillStyle = g; ctx!.beginPath(); ctx!.arc(x, y, 5, 0, 7); ctx!.fill();
+          ctx!.fillStyle = 'rgba(214,134,52,0.85)'; ctx!.beginPath(); ctx!.arc(x, y, 1.3, 0, 7); ctx!.fill();
+        }
+        raf = requestAnimationFrame(step);
+      }
+      hero.addEventListener('mousemove', (e) => { const r = hero.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+      hero.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+      window.addEventListener('resize', () => { cancelAnimationFrame(raf); size(); step(); });
+      size();
+      if (reduce) { ctx.clearRect(0, 0, W, H); for (const n of nodes) { ctx.fillStyle = n.c; ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, 7); ctx.fill(); } }
+      else step();
+    })();
   </script>
 </Base>

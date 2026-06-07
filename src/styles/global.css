@@ -4,6 +4,8 @@
 
 :root {
   --orange: #f7931a;
+  --electric: #22d3ee; /* Lightning / speed accent */
+  --agent: #8b7cff;    /* AI / agent accent */
   --slate: #7a8290;
   --maxw: 46rem;
 
@@ -512,4 +514,97 @@ figure.matrix .matrix-title {
   .landing { grid-template-columns: 1fr; gap: 1.6rem; }
   .read-next { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 1.2rem; }
   .landing-main h1 { font-size: 2.1rem; }
+}
+
+/* ============================================================
+   Homepage v2 — hero band + Story/tiles landing (dark-futuristic)
+   Scoped to homepage classes; interior pages are unaffected.
+   ============================================================ */
+
+/* anchor jumps clear the sticky header */
+#story, #explore { scroll-margin-top: 5.5rem; }
+
+/* ---- Full-bleed hero band ---- */
+.hero2 {
+  position: relative;
+  overflow: hidden;
+  /* cancel main's top padding so the band meets the nav, and break to full width */
+  margin-top: -2.4rem;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 5rem 1.25rem 4.5rem;
+  border-bottom: 1px solid var(--rule);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(247, 147, 26, 0.13), transparent 52%),
+    radial-gradient(circle at 82% 62%, rgba(139, 124, 255, 0.10), transparent 46%),
+    radial-gradient(circle at 12% 88%, rgba(34, 211, 238, 0.07), transparent 46%),
+    #0b0b0d;
+}
+.hero2-grid {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 28%, #000 60%, transparent);
+  mask-image: radial-gradient(ellipse 75% 70% at 50% 28%, #000 60%, transparent);
+}
+#hero-net { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; }
+.hero2-inner { position: relative; z-index: 2; max-width: 60rem; margin: 0 auto; text-align: center; }
+.hero2-eyebrow {
+  display: inline-block; margin: 0 0 1.4rem;
+  font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.14em;
+  font-size: 0.7rem; color: var(--agent);
+  border: 1px solid rgba(139, 124, 255, 0.35); border-radius: 999px; padding: 0.4rem 0.95rem;
+}
+.hero2 h1 {
+  font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 1.1rem;
+}
+.hero2 h1 .btc { color: var(--orange); text-shadow: 0 0 26px rgba(247, 147, 26, 0.5); }
+.hero2-lede { font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--fg-soft); line-height: 1.55; max-width: 44rem; margin: 0 auto 2rem; }
+.hero2-ctas { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+
+/* primary CTA: darker amber gradient + bright orange ring; ghost secondary */
+.btn-btc {
+  display: inline-block; font-weight: 700; padding: 0.72rem 1.5rem; border-radius: 999px;
+  background: linear-gradient(180deg, #c2740f, #8c5008); color: #fff; text-decoration: none;
+  box-shadow: 0 0 0 1.5px rgba(247, 147, 26, 0.9), 0 8px 26px -8px rgba(247, 147, 26, 0.5);
+  transition: box-shadow 0.25s, filter 0.25s;
+}
+.btn-btc:hover { box-shadow: 0 0 0 1.5px rgba(247, 147, 26, 1), 0 0 30px rgba(247, 147, 26, 0.55); filter: brightness(1.08); }
+.btn-ghost {
+  display: inline-block; font-weight: 600; padding: 0.72rem 1.5rem; border-radius: 999px;
+  border: 1px solid var(--rule); color: var(--fg); text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: rgba(34, 211, 238, 0.5); color: var(--electric); }
+
+/* ---- Landing: Story (left) + section tiles (right) ---- */
+.landing2 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 2.2rem; align-items: start; margin-top: 2.2rem; }
+.story2 { background: var(--bg-soft); border: 1px solid var(--rule); border-radius: 14px; padding: 1.7rem 1.9rem; }
+.story2 .story-kicker { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; color: var(--orange); margin: 0 0 0.8rem; }
+.story-toggle { background: none; border: none; cursor: pointer; color: var(--orange); font-family: var(--font-body); font-weight: 600; font-size: 0.98rem; padding: 0; margin-top: 1rem; }
+.story-toggle:hover { color: var(--electric); }
+
+.tiles2 { display: flex; flex-direction: column; gap: 1rem; }
+.tile2 {
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 14px; padding: 0.95rem 1.2rem;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.tile2:hover { transform: translateY(-3px); }
+.tile2-btc:hover { border-color: rgba(247, 147, 26, 0.5); box-shadow: 0 16px 44px -22px rgba(247, 147, 26, 0.5); }
+.tile2-cyan:hover { border-color: rgba(34, 211, 238, 0.45); box-shadow: 0 16px 44px -22px rgba(34, 211, 238, 0.45); }
+.tile2-agent:hover { border-color: rgba(139, 124, 255, 0.5); box-shadow: 0 16px 44px -22px rgba(139, 124, 255, 0.5); }
+.tile2-plain:hover { border-color: rgba(255, 255, 255, 0.22); }
+.tile2-label { font-family: var(--font-head); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.82rem; margin: 0 0 0.45rem; }
+.tile2-btc .tile2-label { color: var(--orange); }
+.tile2-cyan .tile2-label { color: var(--electric); }
+.tile2-agent .tile2-label { color: var(--agent); }
+.tile2-cyan .rail-links a:hover .rl-t { color: var(--electric); }
+.tile2-agent .rail-links a:hover .rl-t { color: var(--agent); }
+
+@media (max-width: 48rem) {
+  .hero2 { padding: 3.2rem 1.25rem 3rem; }
+  .landing2 { grid-template-columns: 1fr; gap: 1.4rem; }
 }
