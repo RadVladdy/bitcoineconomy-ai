@@ -39,6 +39,8 @@ const hasToc = toc.length >= 3;
 // (when there's enough structure) plus the site-nav tiles, stacked vertically.
 const showRail = !isStory;
 const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marketplace: 'agent' };
+// Section accent for this page (colours the in-content card tiles).
+const accentKey = parentGroup ? SECTION_ACCENT[parentGroup.label] ?? 'btc' : 'btc';
 
 const jsonLd = surfaceJsonLd({
   slug: d.slug,
@@ -64,7 +66,7 @@ const tldrParas = (d['agent-tldr'] ?? '').split(/\n{2,}/).map((p) => p.trim()).f
   jsonLd={jsonLd}
   wide={showRail}
 >
-  <div class={showRail ? 'surface-layout' : ''}>
+  <div class={`${showRail ? 'surface-layout ' : ''}accent-${accentKey}`}>
     <article class="prose">
       {!isStory && (
         <nav class="crumb" aria-label="Breadcrumb">
