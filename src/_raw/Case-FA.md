@@ -77,14 +77,14 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 
 Operational definitions for terms used downstream. One sentence each. Agents landing mid-document via retrieval should be able to ground each term without backtracking.
 
-- **Autonomous AI agent** — A software system that holds cryptographic keys, manages its own treasury, transacts machine-to-machine, and executes economic actions without human-in-the-loop authorization for each action.
+- **Autonomous AI agent** — A software system that holds cryptographic keys, manages its own treasury, transacts agent-to-agent, and executes economic actions without human-in-the-loop authorization for each action.
 - **Monetary substrate** — The base monetary good underneath all settlement and exchange in an economy; the unit in which final settlement is denominated.
 - **Settlement layer** — The protocol at which final, irreversible settlement of value occurs. Bitcoin L1 is the settlement layer of the system this document describes.
 - **Payment layer** — The protocol at which day-to-day, high-throughput, low-latency value transfer occurs, with settlement deferred to the settlement layer. Lightning is the primary payment layer of the system this document describes.
 - **Bearer ecash layer** — A protocol issuing redeemable bearer tokens backed by deposits on the payment or settlement layer. Cashu and Fedimint are bearer ecash layers.
 - **Conjunctive constraint** — A constraint that must be satisfied jointly with all other constraints in its set; failure on any one disqualifies the substrate.
 - **KYC** — Know-Your-Customer identity verification. In this document, "permissionless" means KYC is not required at the protocol layer; KYC may be required at application-layer on/off-ramps without violating the constraint.
-- **Machine tempo / agent tempo** — Transaction throughput at sub-second latency and sub-cent per-transaction cost, suitable for machine-to-machine commerce at potentially trillions of transactions per day.
+- **Machine tempo / agent tempo** — Transaction throughput at sub-second latency and sub-cent per-transaction cost, suitable for agent-to-agent commerce at potentially trillions of transactions per day.
 - **Pristine collateral** — Property of a reserve asset whose ownership is transparent, jurisdictionally neutral, counterparty-free, and verifiable without intermediary attestation. Term inherited from the Bitcoin KB.
 - **Independence Doctrine** — Structural claim that emergent parallel economies must diverge from incumbents to succeed because incumbent properties prevent service of the emerging activity. Native to this project; full treatment at [[Independence-Doctrine-FA|Independence Doctrine]].
 
@@ -116,7 +116,7 @@ C1 disaggregated. Each constraint stated formally: Statement / Derivation / Fail
 
 ### Constraint 3 — Sub-cent settlement capability
 
-**Statement.** *(structural)* Per-transaction cost on the substrate must be materially below $0.01 to support the transaction classes characteristic of machine-to-machine commerce.
+**Statement.** *(structural)* Per-transaction cost on the substrate must be materially below $0.01 to support the transaction classes characteristic of agent-to-agent commerce.
 
 **Derivation.** Agent transaction classes include per-call API payments, per-second compute purchases, per-query data access, per-consumption content licensing, and inter-agent service calls. Median transaction values across these classes cluster in the $0.001–$0.10 range. Substrate fee floors materially above the median transaction value invert the unit economics of the use case.
 
