@@ -333,6 +333,19 @@ figure.matrix table {
   overflow: hidden;
   font-size: 0.9rem;
 }
+/* Wide matrix tables scroll inside their own box on narrow screens, so every
+   column (incl. the last) is fully reachable. The wrapper owns the rounded
+   frame + scroll; the table drops its own radius/clip so nothing is cut off. */
+figure.matrix .matrix-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+}
+figure.matrix .matrix-scroll > table {
+  min-width: 34rem;
+  border-radius: 0;
+  overflow: visible;
+}
 figure.matrix th, figure.matrix td {
   border: 1px solid #262626;
   padding: 0.6rem 0.7rem;
