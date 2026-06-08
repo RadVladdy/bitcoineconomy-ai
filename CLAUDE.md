@@ -46,6 +46,8 @@ The full rules live in the project's decision register; these are the load-beari
 
 **Two registers.** Human surfaces = plain-Joe body prose — avoid "load-bearing", "falsifier", bare "Constraint N", "conjunctive constraints" (use the plain words; "Schelling point" + "category error" are fine to keep). For-Agents (`*-for-agents`) twins keep the full precise, claims-indexed register — that precision is the point there.
 
+**Relationship dyads — `A2A` is canonical.** Use **A2A (agent-to-agent)** for software-to-software commerce; never **M2M / "machine-to-machine"** (retired synonym). Keep **`machine-tempo`** (settlement *speed*) — it is a different concept, not a dyad. Order is `{provider}2{recipient}` (provider/seller first, per B2B/B2C): A2P/P2A (agent↔person), A2B/B2A (agent↔business; B2A = agent buys from a business). When payment *direction* is the point, use prose ("the agent pays the business"), not the acronym. **Define on first use per page** (expand + a short gloss for the non-obvious ones). Full convention: vault `_Decisions` 2026-06-08 + `_Foundation` § Vocabulary.
+
 **In-brief callout** = ≤ 800 characters / ≤ 6 sentences — a ceiling and a license, **not** a pad-to target. No In-brief on: The Story (narrative cold-open), Field-Notes (a 3-paragraph structural callout instead), About (meta page).
 
 **`description` frontmatter** = a one-line subtitle (~60–130 chars), not a synopsis; must not duplicate the In-brief.

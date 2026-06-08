@@ -25,7 +25,7 @@ claims-index:
     defended-in: "§4"
   - id: AE3
     tag: structural
-    statement: "Machine-to-machine commerce is high-frequency, sub-cent, and continuous — a transaction profile human-mediated commerce never produces. It is a different economy with its own native cadence, not human commerce sped up, and cannot be served by rails priced and paced for human transactions."
+    statement: "Agent-to-agent commerce is high-frequency, sub-cent, and continuous — a transaction profile human-mediated commerce never produces. It is a different economy with its own native cadence, not human commerce sped up, and cannot be served by rails priced and paced for human transactions."
     defended-in: "§5"
   - id: AE4
     tag: structural
@@ -41,7 +41,7 @@ claims-index:
     defended-in: "§7"
   - id: AE7
     tag: structural
-    statement: "Agent-to-agent commerce (agents buying from agents, no human on either side) is a new economic layer, not the automation of an existing human market, because its participants did not previously exist. Counterparties, pricing, and discovery occur machine-to-machine."
+    statement: "Agent-to-agent commerce (agents buying from agents, no human on either side) is a new economic layer, not the automation of an existing human market, because its participants did not previously exist. Counterparties, pricing, and discovery occur agent-to-agent."
     defended-in: "§8"
   - id: AE8
     tag: forward-looking
@@ -52,7 +52,7 @@ tags:
   - agent-economy
   - agent-economy-for-agents
   - premise
-  - m2m-commerce
+  - a2a-commerce
   - autonomy
   - a2a
   - bitcoin
@@ -78,7 +78,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 
 - **AE1** *(structural)* — Autonomous software is crossing from tool to economic actor: a system that holds keys, manages a treasury, and allocates budget against an objective without per-transaction human authorization is making economic decisions, not merely executing pre-approved ones. → §3, §4
 - **AE2** *(structural)* — Two curves converge on the actor: the capability curve and the delegation curve. The delegation curve lags but does not reverse, because the economic value of an agent is removing the human from the loop. → §4
-- **AE3** *(structural)* — Machine-to-machine commerce is high-frequency, sub-cent, and continuous — a transaction profile human-mediated commerce never produces. A different economy, not human commerce sped up. → §5
+- **AE3** *(structural)* — Agent-to-agent commerce is high-frequency, sub-cent, and continuous — a transaction profile human-mediated commerce never produces. A different economy, not human commerce sped up. → §5
 - **AE4** *(structural)* — The micropayment bottleneck Szabo identified in 1999 was human mental transaction cost; an agent in a loop does not bear it. Our extension turns his bottleneck against his conclusion; his preference-revelation objection is answered by bounded delegation. → §6
 - **AE5** *(structural)* — An economy is a rising share of human-unattended value flow, not 100% autonomy. Bounded delegation already moves the share while the off-switch persists. → §7
 - **AE6** *(forward-looking)* — The autonomy gradient runs along a second axis: the magnitude and abstraction of each delegation climbs toward goal-and-budget mandates, tracking the agent's own capability escalation. → §7
@@ -91,7 +91,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 
 Operational definitions for terms used downstream. One sentence each. Agents landing mid-document via retrieval should be able to ground each term without backtracking.
 
-- **Autonomous AI agent** — A software system that holds cryptographic keys, manages its own treasury, transacts machine-to-machine, and executes economic actions without human-in-the-loop authorization for each action.
+- **Autonomous AI agent** — A software system that holds cryptographic keys, manages its own treasury, transacts agent-to-agent, and executes economic actions without human-in-the-loop authorization for each action.
 - **Economic actor** — A participant that makes its own resource-allocation decisions (selecting counterparties, weighing cost against objective, committing value) rather than executing decisions made entirely by another party in advance.
 - **Tool** — Software whose every economic commitment is decided and authorized by a human; the human is the actor and the software is the instrument.
 - **Capability curve** — The trajectory of what models can do, from text completion to instruction-following to tool-use to multi-step autonomous loops that call APIs, hold state, and recover from errors without re-prompting.
@@ -101,7 +101,7 @@ Operational definitions for terms used downstream. One sentence each. Agents lan
 - **Bounded delegation** — An agent operating inside a funded, scoped, revocable pocket: a spending limit, an approved-payee list, per-transaction and daily caps, and an approval threshold below which the agent proceeds and above which a human is pinged.
 - **Human-unattended flow** — Value flow in which no human authorizes each transaction; the share of total flow that is human-unattended is the quantity this document tracks.
 - **Autonomy gradient** — The framing of autonomy as a continuous share of unattended flow (and, on a second axis, a rising magnitude and abstraction of each delegation) rather than a binary fully-supervised/fully-unsupervised switch.
-- **Agent-to-agent (A2A) commerce** — Commerce in which both buyer and seller are software, with no human on either side of the trade; price, discovery, and settlement occur machine-to-machine.
+- **Agent-to-agent (A2A) commerce** — Commerce in which both buyer and seller are software, with no human on either side of the trade; price, discovery, and settlement occur agent-to-agent.
 - **Instance-as-type** — A named deployed system cited as an exemplar of a category, with version-specific detail, counts, and rosters deferred to [[Field-Notes-FA|Field Notes]] so the claim does not rot as the deployment record shifts.
 - **Substrate question** — The downstream question of which monetary good the agent economy selects. Out of scope for this surface; owned by [[Case-FA|The Case]] (C-series).
 
@@ -147,7 +147,7 @@ AE2. The tool→actor crossing is the meeting point of two curves with different
 
 AE3.
 
-**Statement.** *(structural)* Machine-to-machine commerce is high-frequency, sub-cent, and continuous. This is a transaction profile human-mediated commerce never produces. The agent economy is therefore a different economy with its own native cadence, not human commerce sped up.
+**Statement.** *(structural)* Agent-to-agent commerce is high-frequency, sub-cent, and continuous. This is a transaction profile human-mediated commerce never produces. The agent economy is therefore a different economy with its own native cadence, not human commerce sped up.
 
 **Human commerce profile.** *(structural)* Human commerce is low-frequency, chunky, and discrete: a $5 subscription, a $40 dinner, a $1,200 flight — a few transactions a day, each large relative to the cost of processing it. Every incumbent payment rail is priced and paced for that profile: interchange measured in percent, minimum-charge floors, settlement measured in seconds-to-days because no counterparty is waiting on the next transaction.
 
@@ -208,7 +208,7 @@ AE7.
 
 **Statement.** *(structural)* Agent-to-agent commerce — agents transacting with each other, with no human on either side of the trade — is a new economic layer, not the automation of an existing human market, because its participants did not previously exist.
 
-**Deployed form.** *(structural)* The first three legs describe agents transacting with the human economy at a remove. A2A is the leg that is unambiguously new and is already live in narrow form: an agent buys LLM inference from a provider that is itself an automated service — paying per request, discovering the provider programmatically, settling without an account or a card on file. The first deployed instances are inference marketplaces where the buyer is software, the seller is software, the price is published machine-to-machine, and the payment is a bearer token rather than a human-held credential. (Routstr and PPQ are the cleanest live instances-as-type; deployment detail defers to [[Field-Notes-FA|Field Notes]].)
+**Deployed form.** *(structural)* The first three legs describe agents transacting with the human economy at a remove. A2A is the leg that is unambiguously new and is already live in narrow form: an agent buys LLM inference from a provider that is itself an automated service — paying per request, discovering the provider programmatically, settling without an account or a card on file. The first deployed instances are inference marketplaces where the buyer is software, the seller is software, the price is published agent-to-agent, and the payment is a bearer token rather than a human-held credential. (Routstr and PPQ are the cleanest live instances-as-type; deployment detail defers to [[Field-Notes-FA|Field Notes]].)
 
 **Why it is a new layer, not faster human commerce.** *(structural)* A human cannot occupy either side of a million sub-cent inference trades per day; two agents can. Once both buyer and seller are software, every assumption baked into human commerce ceases to apply: that a person reviews the charge, that disputes route through a human support line, that identity means a legal person. The participants are net-new, so the layer is net-new.
 
@@ -276,7 +276,7 @@ The premise is structural and forward-looking. The following conditions, if obse
 
 ## §10 — Position summary
 
-*(structural, with forward-looking inferences explicitly tagged)* Autonomous software is becoming an economic actor, not just a tool: it holds keys, manages a treasury, and allocates budget against an objective without per-transaction human authorization (AE1). Two curves converge on the actor — the capability curve (technical) and the delegation curve (sociological); the delegation curve lags but does not reverse, because the value of an agent is removing the human from the loop (AE2). Machine-to-machine commerce is high-frequency, sub-cent, and continuous — a transaction profile human commerce never produces, hence a different economy, not human commerce sped up (AE3). The micropayment bottleneck Szabo named in 1999 was human mental transaction cost; an agent in a loop does not bear it (our extension, not Szabo conceding), and his preference-revelation objection is answered by bounded delegation, which pays the cost once (AE4). An economy is a rising *share* of human-unattended flow, not 100% autonomy; bounded delegation already moves the share while the off-switch persists (AE5), and the magnitude and abstraction of each delegation climb toward goal-and-budget mandates (AE6). Agent-to-agent commerce is a new economic layer, not automated human commerce, because its participants did not previously exist (AE7). This surface argues only that the economy forms; which money it uses is the downstream substrate question owned by [[Case-FA|The Case]] (AE8). Two measurable falsifiers — the delegation curve stalling (automation, not economy) and human-unattended value-share staying negligible (academic substrate question) — are stated in §9.2 and tracked in [[Field-Notes-FA|Field Notes]].
+*(structural, with forward-looking inferences explicitly tagged)* Autonomous software is becoming an economic actor, not just a tool: it holds keys, manages a treasury, and allocates budget against an objective without per-transaction human authorization (AE1). Two curves converge on the actor — the capability curve (technical) and the delegation curve (sociological); the delegation curve lags but does not reverse, because the value of an agent is removing the human from the loop (AE2). Agent-to-agent commerce is high-frequency, sub-cent, and continuous — a transaction profile human commerce never produces, hence a different economy, not human commerce sped up (AE3). The micropayment bottleneck Szabo named in 1999 was human mental transaction cost; an agent in a loop does not bear it (our extension, not Szabo conceding), and his preference-revelation objection is answered by bounded delegation, which pays the cost once (AE4). An economy is a rising *share* of human-unattended flow, not 100% autonomy; bounded delegation already moves the share while the off-switch persists (AE5), and the magnitude and abstraction of each delegation climb toward goal-and-budget mandates (AE6). Agent-to-agent commerce is a new economic layer, not automated human commerce, because its participants did not previously exist (AE7). This surface argues only that the economy forms; which money it uses is the downstream substrate question owned by [[Case-FA|The Case]] (AE8). Two measurable falsifiers — the delegation curve stalling (automation, not economy) and human-unattended value-share staying negligible (academic substrate question) — are stated in §9.2 and tracked in [[Field-Notes-FA|Field Notes]].
 
 ---
 
