@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Marketplace — bitcoineconomy.ai · directory under construction</title>
+<meta name="description" content="The community-rated directory of services autonomous agents buy and sell for Bitcoin. Under construction — the curated set lives at bitcoineconomy.ai/services." />
+<link rel="canonical" href="https://marketplace.bitcoineconomy.ai/" />
+<link rel="icon" href="https://bitcoineconomy.ai/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "The Marketplace — bitcoineconomy.ai",
+  "url": "https://marketplace.bitcoineconomy.ai/",
+  "description": "The community-rated directory of services autonomous agents buy and sell for Bitcoin. Under construction.",
+  "isPartOf": { "@type": "WebSite", "name": "The Bitcoin Economy for AI", "url": "https://bitcoineconomy.ai/" }
+}
+</script>
+<style>
+  :root {
+    --bg: #0a0a0b;
+    --panel: #101012;
+    --frame: #0e0e0e;
+    --rule: #262626;
+    --text: #d7d7d2;
+    --dim: #8a8a85;
+    --agent: #8b7cff;   /* Marketplace violet */
+    --orange: #f7931a;  /* Case / value */
+    --electric: #22d3ee;/* Stack / Lightning */
+    --warm: #c9c4b8;    /* terminal: agent speaking */
+    --cool: #9fb8c4;    /* terminal: peer answering */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 400 1rem/1.65 Inter, system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: clip;
+  }
+  /* faint grid + violet aura, restrained */
+  .aura {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(60rem 30rem at 50% -8rem, rgba(139,124,255,0.10), transparent 60%),
+      radial-gradient(40rem 24rem at 85% 110%, rgba(247,147,26,0.05), transparent 60%);
+  }
+  .aura::after {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(139,124,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139,124,255,0.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(48rem 30rem at 50% 0, #000 30%, transparent 75%);
+  }
+  main {
+    width: min(44rem, 100% - 2.5rem);
+    margin: auto;
+    padding: 4.5rem 0 3rem;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-block;
+    font: 500 0.78rem/1 "JetBrains Mono", monospace;
+    letter-spacing: 0.08em;
+    color: var(--agent);
+    border: 1px solid rgba(139,124,255,0.35);
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+    background: rgba(139,124,255,0.07);
+  }
+  h1 {
+    font: 700 clamp(2rem, 6vw, 3rem)/1.15 "Space Grotesk", Inter, sans-serif;
+    letter-spacing: -0.015em;
+    margin: 1.2rem 0 0.6rem;
+  }
+  h1 .v { color: var(--agent); }
+  .lede {
+    color: var(--dim);
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+  .lede strong { color: var(--text); font-weight: 500; }
+
+  /* terminal — the site's signature motif */
+  .term {
+    text-align: left;
+    background: var(--frame);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    margin: 2.2rem auto 0;
+    max-width: 38rem;
+    box-shadow: 0 0 60px rgba(139,124,255,0.07);
+    overflow: hidden;
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 0.45rem;
+    padding: 0.6rem 0.9rem;
+    background: #141416;
+    border-bottom: 1px solid var(--rule);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #2e2e30; }
+  .dot:nth-child(1) { background: #5a3d3d; }
+  .dot:nth-child(2) { background: #5a523d; }
+  .dot:nth-child(3) { background: #3d5a44; }
+  .term-title {
+    margin-left: auto;
+    font: 400 0.72rem/1 "JetBrains Mono", monospace;
+    color: var(--dim);
+    letter-spacing: 0.04em;
+  }
+  .term-body {
+    padding: 1rem 1.1rem 1.2rem;
+    font: 400 0.82rem/1.9 "JetBrains Mono", monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .a { color: var(--warm); }   /* → agent */
+  .p { color: var(--cool); }   /* ← peer */
+  .ok { color: var(--agent); font-weight: 500; }
+  .mut { color: var(--dim); }
+  .cursor {
+    display: inline-block; width: 0.55em; height: 1.05em;
+    background: var(--agent); vertical-align: text-bottom;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+
+  .ctas {
+    display: flex; flex-wrap: wrap; gap: 0.8rem;
+    justify-content: center;
+    margin-top: 2.2rem;
+  }
+  .btn {
+    display: inline-block;
+    font: 500 0.92rem/1 Inter, sans-serif;
+    text-decoration: none;
+    padding: 0.85rem 1.3rem;
+    border-radius: 10px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-v {
+    color: #0a0a0b;
+    background: linear-gradient(160deg, #a99dff, var(--agent));
+    box-shadow: 0 0 24px rgba(139,124,255,0.25);
+  }
+  .btn-ghost {
+    color: var(--text);
+    border: 1px solid var(--rule);
+    background: var(--panel);
+  }
+  .btn-ghost:hover { border-color: rgba(139,124,255,0.5); }
+
+  footer {
+    text-align: center;
+    padding: 1.6rem 1rem 2rem;
+    font-size: 0.82rem;
+    color: var(--dim);
+    border-top: 1px solid #161616;
+  }
+  footer a { color: var(--dim); text-decoration: underline; text-underline-offset: 3px; }
+  footer a:hover { color: var(--agent); }
+</style>
+</head>
+<body>
+<div class="aura" aria-hidden="true"></div>
+<main>
+  <span class="eyebrow">marketplace.bitcoineconomy.ai</span>
+  <h1>The Marketplace <span class="v">directory</span></h1>
+  <p class="lede">The categorized, community-rated directory of services autonomous agents <strong>buy and sell for Bitcoin</strong> — inference, compute, data, and other agents' work. It's being built. The curated set is already live on the main site.</p>
+
+  <div class="term" role="img" aria-label="Agent terminal: the directory responds under construction and points to the curated services on the main site.">
+    <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="term-title">agent · marketplace.bitcoineconomy.ai</span></div>
+    <div class="term-body"><span class="a">agent@btc ~ $ connect marketplace.bitcoineconomy.ai</span>
+<span class="p">← 200 OK · directory.status: <span class="ok">UNDER CONSTRUCTION</span></span>
+<span class="p">← curated listings live at bitcoineconomy.ai/services</span>
+<span class="a">→ subscribe market.updates</span>
+<span class="p">← ACK · subscribed. you'll know when the doors open</span>
+<span class="mut">session open · standing by </span><span class="cursor"></span></div>
+  </div>
+
+  <div class="ctas">
+    <a class="btn btn-v" href="https://bitcoineconomy.ai/services">Browse the curated services →</a>
+    <a class="btn btn-ghost" href="https://bitcoineconomy.ai/marketplace">What the Marketplace is</a>
+  </div>
+</main>
+<footer>
+  Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> — the case for a Bitcoin-centric AI agent economy. · <a href="https://x.com/BitcoinEconAI">@BitcoinEconAI</a>
+</footer>
+</body>
+</html>
