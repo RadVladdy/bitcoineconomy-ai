@@ -261,9 +261,9 @@ const INSERTS = {
     { afterHeading: 'Why the legacy economy fails', html: '<div data-diagram="matrix"></div>' },
     { afterHeading: 'The two-tier model', html: '<div data-diagram="two-tier"></div>' },
   ],
-  'The-Story.md': [
-    { afterText: 'starts looking like deployed agent infrastructure', html: '<div data-diagram="two-tier"></div>' },
-  ],
+  // The Story carries its three terminal scenes in-body (vault-synced markdown),
+  // so it has no build-time insert. (A stale two-tier insert was removed 2026-06-09 —
+  // its anchor paragraph no longer existed and it warned on every build.)
   'Independence-Doctrine.md': [
     { afterHeading: 'The contemporary instance', image: 'independence-doctrine-two-roads.png', alt: 'Two parallel roads running into the distance across a dark plane — one paved in warm Bitcoin-orange (the parallel, sovereign economy), the other in cool slate-grey (the incumbent payment stack). They never merge; they are connected only by a few thin, narrow bridges at intervals, and keep visibly different architectures.', caption: 'Two roads: the sovereign Bitcoin economy (orange) and the incumbent stack (slate) run in parallel, connected only by narrow bridges. The architectures stay distinct.' },
     { afterHeading: 'Four historical analogues', image: 'independence-doctrine-analogues.png', alt: 'A 2×2 grid of four flat-vector vignettes, each showing an emergent parallel system (Bitcoin-orange) routing around an incumbent it could not fit inside (slate-grey): Eurodollar — dollar value pooling offshore outside a regulated bank; Open Internet — an open mesh of nodes bypassing a closed walled-garden portal; Samizdat — typed pages copied hand-to-hand around a state printing press; Couriers — a fast tracked parcel route overtaking a slow postal monopoly.', caption: 'The pattern recurs: eurodollars, the open internet, samizdat, and private couriers each routed around an incumbent that could not adapt without ceasing to be itself.' },
