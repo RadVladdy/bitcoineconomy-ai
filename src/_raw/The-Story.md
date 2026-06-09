@@ -1,13 +1,14 @@
 ---
-title: The Story — What kind of money the AI economy actually uses
+title: The Story
+subtitle: "What kind of money the AI economy actually uses — the whole picture, told as a story."
 slug: the-story
 former-title: "For Humans — The agent at the wall"
 former-slug: for-humans
 renamed: 2026-05-26
-description: "The narrative front door to the whole site. An autonomous AI agent hits a wall at three in the morning, because the payment rail was built for humans and treats the agent as a non-entity. From that one scene, a readable walk across the whole picture: why the agent needs a different kind of money (the why), what that money is built from (the how), and where the agent actually spends it (the where) — theory, tooling, and usage, told as a story before any of the technical detail."
+description: "What kind of money the AI economy actually uses — the whole picture, told as a story."
 type: narrative-explainer
 surface: the-story
-status: v1-draft-2026-06-04 (reworked as whole-site front door — pending review)
+status: v1-draft-2026-06-04 (standard page treatment applied 2026-06-09 for the launch — pending review)
 audience: humans-only
 reading-level: 10
 twin-page: none
@@ -15,7 +16,7 @@ dual-track-exception: true
 style-guide: "[[Narrative-Explainer-Style-Guide]]"
 source-surface: "[[Case]]"
 created: 2026-05-25
-last-updated: 2026-06-04
+last-updated: 2026-06-09
 word-count-target: 2800
 voice: narrative-explainer
 tags:
@@ -190,6 +191,8 @@ This is what is happening.
 ## Editor's Notes
 
 *Internal author perspective. Not published in produced derivatives.*
+
+**2026-06-09 — standard page treatment applied (Scott; launch-driven).** With the launch campaign linking to `/the-story` from outside (Substack canonical, Nostr, X), the page's chrome exception is revoked: `/the-story` now gets the same treatment as every other surface — breadcrumb (`Home / The Story`), H1 + subtitle, the For-Humans/Updated badge row, the on-this-page TOC, and the right `PageRail`. Frontmatter retitled to match the site pattern (`title: The Story` + a one-line `subtitle`/`description`; the old synopsis-length description violated the locked description convention and is fully covered by `agent-tldr`, which llms/agents surfaces keep using). **What did NOT change:** the landing-only inbound-link rule (still not in the nav menus, still not linked from any argument doc's read-next), the no-In-brief rule (the 3 a.m. cold open is the hook), and the dual-track exception (no FA twin). Page-chrome changes live in the site repo (`[slug].astro`; stale Story `INSERTS` entry also removed).
 
 **Reworked 2026-06-04 (item 1113) into the narrative front door to the *whole* site.** The prior v0 (`v0-approved-2026-05-26`) was a narrative retelling of one argument — the substrate-selection claim (the Case's territory) — ending in builder advice. The brief (`_Product-Ideas-Research` 2026-06-04; vision in `_Progress` § NEXT TASK) was to broaden it into a readable, metaphor-driven walk across the full three-section IA — theory → tooling → usage — now that the Case / Stack / Marketplace structure is final and approved. It is the warm on-ramp; each section then has its own canonical anchor.
 

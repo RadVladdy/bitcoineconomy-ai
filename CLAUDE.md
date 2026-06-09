@@ -35,9 +35,14 @@ Adding a **new page type** (its own `.astro`) — wire it in by hand so it match
 4. Build `toc` from the page's `h2` sections (give them `id`s); PageRail shows the TOC when there are ≥3.
 5. Add a `.crumb` breadcrumb (`Home / Section / Page`).
 
-**The only intentional exception is The Story (`/the-story`)** — the narrative
-front door deliberately opts out of breadcrumb/TOC/rail. Any other content page
-without the rail is a bug.
+**No exceptions — The Story included.** `/the-story` used to opt out of
+breadcrumb/TOC/rail as the narrative front door; that exception was **revoked
+2026-06-09** (the launch campaign links to `/the-story` from outside, so it must
+look like the rest of the site). The Story's remaining special rules are about
+*navigation and content*, not chrome: it stays out of the nav menus and the
+argument docs' read-next links (landing-only), carries no In-brief (the cold
+open is the hook), and has no For-Agents twin. Any content page without the
+rail is a bug.
 
 ## Content conventions — match these on every surface/card (no exceptions)
 The full rules live in the project's decision register; these are the load-bearing ones.
