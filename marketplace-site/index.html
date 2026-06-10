@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Marketplace — bitcoineconomy.ai · directory under construction</title>
-<meta name="description" content="The community-rated directory of services autonomous agents buy and sell for Bitcoin. Under construction — the curated set lives at bitcoineconomy.ai/services." />
+<title>The Marketplace directory — services agents buy for Bitcoin</title>
+<meta name="description" content="The agent-readable directory of services autonomous AI agents buy and sell for Bitcoin — inference, compute, machine work, swaps, and live Nostr-announced providers and mints." />
 <link rel="canonical" href="https://marketplace.bitcoineconomy.ai/" />
 <link rel="icon" href="https://bitcoineconomy.ai/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,11 +13,15 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "The Marketplace — bitcoineconomy.ai",
+  "@type": "DataCatalog",
+  "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "description": "The community-rated directory of services autonomous agents buy and sell for Bitcoin. Under construction.",
-  "isPartOf": { "@type": "WebSite", "name": "The Bitcoin Economy for AI", "url": "https://bitcoineconomy.ai/" }
+  "description": "Curated, agent-readable registry of services autonomous AI agents buy and sell for Bitcoin, plus a live snapshot of Nostr-announced inventory (Routstr inference providers, NIP-87 ecash mints).",
+  "isPartOf": { "@type": "WebSite", "name": "The Bitcoin Economy for AI", "url": "https://bitcoineconomy.ai/" },
+  "dataset": [
+    { "@type": "Dataset", "name": "Curated registry", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/directory.json" } },
+    { "@type": "Dataset", "name": "Live Nostr snapshot", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/snapshot.json" } }
+  ]
 }
 </script>
 <style>
@@ -31,21 +35,17 @@
     --agent: #8b7cff;   /* Marketplace violet */
     --orange: #f7931a;  /* Case / value */
     --electric: #22d3ee;/* Stack / Lightning */
-    --warm: #c9c4b8;    /* terminal: agent speaking */
-    --cool: #9fb8c4;    /* terminal: peer answering */
+    --warm: #c9c4b8;
+    --cool: #9fb8c4;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
   body {
     background: var(--bg);
     color: var(--text);
     font: 400 1rem/1.65 Inter, system-ui, sans-serif;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
     overflow-x: clip;
   }
-  /* faint grid + violet aura, restrained */
   .aura {
     position: fixed; inset: 0; z-index: -1; pointer-events: none;
     background:
@@ -60,12 +60,11 @@
     background-size: 44px 44px;
     mask-image: radial-gradient(48rem 30rem at 50% 0, #000 30%, transparent 75%);
   }
-  main {
-    width: min(44rem, 100% - 2.5rem);
-    margin: auto;
-    padding: 4.5rem 0 3rem;
-    text-align: center;
-  }
+  main { width: min(72rem, 100% - 2.5rem); margin: 0 auto; padding: 3.4rem 0 3rem; }
+  a { color: var(--text); text-underline-offset: 3px; }
+  a:hover { color: var(--agent); }
+
+  /* ---- header ---- */
   .eyebrow {
     display: inline-block;
     font: 500 0.78rem/1 "JetBrains Mono", monospace;
@@ -77,32 +76,29 @@
     background: rgba(139,124,255,0.07);
   }
   h1 {
-    font: 700 clamp(2rem, 6vw, 3rem)/1.15 "Space Grotesk", Inter, sans-serif;
+    font: 700 clamp(1.9rem, 5vw, 2.8rem)/1.15 "Space Grotesk", Inter, sans-serif;
     letter-spacing: -0.015em;
-    margin: 1.2rem 0 0.6rem;
+    margin: 1.1rem 0 0.55rem;
   }
   h1 .v { color: var(--agent); }
-  .lede {
-    color: var(--dim);
-    max-width: 36rem;
-    margin: 0 auto;
-  }
+  .lede { color: var(--dim); max-width: 46rem; }
   .lede strong { color: var(--text); font-weight: 500; }
+  .header-links { margin-top: 0.9rem; font-size: 0.88rem; color: var(--dim); }
+  .header-links a { color: var(--dim); }
+  .header-links a:hover { color: var(--agent); }
 
-  /* terminal — the site's signature motif */
+  /* ---- status terminal strip ---- */
   .term {
-    text-align: left;
     background: var(--frame);
     border: 1px solid var(--rule);
     border-radius: 12px;
-    margin: 2.2rem auto 0;
-    max-width: 38rem;
+    margin: 1.8rem 0 0;
     box-shadow: 0 0 60px rgba(139,124,255,0.07);
     overflow: hidden;
   }
   .term-bar {
     display: flex; align-items: center; gap: 0.45rem;
-    padding: 0.6rem 0.9rem;
+    padding: 0.55rem 0.9rem;
     background: #141416;
     border-bottom: 1px solid var(--rule);
   }
@@ -110,65 +106,155 @@
   .dot:nth-child(1) { background: #5a3d3d; }
   .dot:nth-child(2) { background: #5a523d; }
   .dot:nth-child(3) { background: #3d5a44; }
-  .term-title {
-    margin-left: auto;
-    font: 400 0.72rem/1 "JetBrains Mono", monospace;
-    color: var(--dim);
-    letter-spacing: 0.04em;
-  }
-  .term-body {
-    padding: 1rem 1.1rem 1.2rem;
-    font: 400 0.82rem/1.9 "JetBrains Mono", monospace;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  .a { color: var(--warm); }   /* → agent */
-  .p { color: var(--cool); }   /* ← peer */
+  .term-title { margin-left: auto; font: 400 0.72rem/1 "JetBrains Mono", monospace; color: var(--dim); letter-spacing: 0.04em; }
+  .term-body { padding: 0.9rem 1.1rem 1rem; font: 400 0.82rem/1.9 "JetBrains Mono", monospace; white-space: pre-wrap; word-break: break-word; }
+  .a { color: var(--warm); }
+  .p { color: var(--cool); }
   .ok { color: var(--agent); font-weight: 500; }
   .mut { color: var(--dim); }
-  .cursor {
-    display: inline-block; width: 0.55em; height: 1.05em;
-    background: var(--agent); vertical-align: text-bottom;
-    animation: blink 1.1s steps(1) infinite;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
 
-  .ctas {
-    display: flex; flex-wrap: wrap; gap: 0.8rem;
-    justify-content: center;
-    margin-top: 2.2rem;
+  /* ---- section headings ---- */
+  h2 {
+    font: 700 1.35rem/1.25 "Space Grotesk", Inter, sans-serif;
+    margin: 2.6rem 0 0.3rem;
+    scroll-margin-top: 1rem;
   }
-  .btn {
-    display: inline-block;
-    font: 500 0.92rem/1 Inter, sans-serif;
-    text-decoration: none;
-    padding: 0.85rem 1.3rem;
-    border-radius: 10px;
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
-  }
-  .btn:hover { transform: translateY(-1px); }
-  .btn-v {
-    color: #0a0a0b;
-    background: linear-gradient(160deg, #a99dff, var(--agent));
-    box-shadow: 0 0 24px rgba(139,124,255,0.25);
-  }
-  .btn-ghost {
-    color: var(--text);
-    border: 1px solid var(--rule);
+  h2 .hash { color: var(--agent); margin-right: 0.4rem; }
+  .sec-sub { color: var(--dim); font-size: 0.92rem; max-width: 50rem; margin-bottom: 1.1rem; }
+
+  /* ---- filters ---- */
+  .filters { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; margin: 1.1rem 0 1.3rem; }
+  .chip {
+    font: 500 0.8rem/1 "JetBrains Mono", monospace;
+    color: var(--dim);
     background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.5rem 0.85rem;
+    cursor: pointer;
+    transition: border-color 0.12s ease, color 0.12s ease;
   }
-  .btn-ghost:hover { border-color: rgba(139,124,255,0.5); }
+  .chip:hover { border-color: rgba(139,124,255,0.5); color: var(--text); }
+  .chip.on { color: #0a0a0b; background: linear-gradient(160deg, #a99dff, var(--agent)); border-color: transparent; }
+  select, input[type="search"] {
+    font: 500 0.8rem/1 "JetBrains Mono", monospace;
+    color: var(--text);
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 0.5rem 0.6rem;
+  }
+  input[type="search"] { min-width: 11rem; }
+  select:focus, input:focus { outline: 1px solid var(--agent); }
+  .count { font: 400 0.8rem/1 "JetBrains Mono", monospace; color: var(--dim); margin-left: auto; }
 
+  /* ---- entry grid ---- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(21rem, 100%), 1fr)); gap: 0.9rem; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 1.05rem 1.1rem 0.95rem;
+    display: flex; flex-direction: column; gap: 0.55rem;
+    transition: border-color 0.12s ease, transform 0.12s ease;
+    min-width: 0;
+  }
+  .card:hover { border-color: rgba(139,124,255,0.45); transform: translateY(-1px); }
+  .card-top { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+  .card h3 { font: 700 1.02rem/1.3 "Space Grotesk", Inter, sans-serif; letter-spacing: -0.01em; }
+  .card h3 a { text-decoration: none; }
+  .cat {
+    font: 500 0.68rem/1 "JetBrains Mono", monospace;
+    color: var(--agent);
+    border: 1px solid rgba(139,124,255,0.35);
+    border-radius: 999px;
+    padding: 0.28rem 0.55rem;
+    white-space: nowrap;
+  }
+  .buys { font-size: 0.9rem; color: var(--text); }
+  .summary { font-size: 0.84rem; color: var(--dim); }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.1rem; }
+  .b {
+    font: 500 0.68rem/1 "JetBrains Mono", monospace;
+    border-radius: 6px;
+    padding: 0.28rem 0.45rem;
+    border: 1px solid var(--rule);
+    color: var(--dim);
+    white-space: nowrap;
+  }
+  .b-pay { color: var(--electric); border-color: rgba(34,211,238,0.3); }
+  .b-kyc-none { color: #7dd3a0; border-color: rgba(125,211,160,0.3); }
+  .b-kyc-req { color: #d3a87d; border-color: rgba(211,168,125,0.3); }
+  .b-auto { color: var(--warm); }
+  .card-foot {
+    display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center;
+    margin-top: auto; padding-top: 0.55rem;
+    border-top: 1px solid #1a1a1c;
+    font-size: 0.8rem;
+  }
+  .card-foot a { color: var(--dim); }
+  .card-foot a:hover { color: var(--agent); }
+  .prov { margin-left: auto; font: 400 0.68rem/1.4 "JetBrains Mono", monospace; color: #6b6b66; }
+
+  /* ---- live section ---- */
+  .live-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: 0.9rem; margin-bottom: 1rem; }
+  .stat {
+    background: var(--panel); border: 1px solid var(--rule); border-radius: 12px;
+    padding: 0.95rem 1.05rem;
+  }
+  .stat .n { font: 700 1.7rem/1.1 "Space Grotesk", Inter, sans-serif; color: var(--agent); }
+  .stat .l { font-size: 0.84rem; color: var(--dim); margin-top: 0.15rem; }
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 12px; background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; min-width: 40rem; font-size: 0.84rem; }
+  th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid #1a1a1c; vertical-align: top; }
+  th { font: 500 0.72rem/1.4 "JetBrains Mono", monospace; color: var(--dim); letter-spacing: 0.04em; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td .name { font-weight: 500; }
+  td code, .mono { font: 400 0.78rem/1.5 "JetBrains Mono", monospace; color: var(--cool); word-break: break-all; }
+  .prov-live {
+    display: inline-block;
+    font: 500 0.68rem/1 "JetBrains Mono", monospace;
+    color: var(--electric);
+    border: 1px solid rgba(34,211,238,0.3);
+    border-radius: 999px;
+    padding: 0.28rem 0.55rem;
+    vertical-align: middle;
+  }
+  .fineprint { font-size: 0.8rem; color: #6b6b66; margin-top: 0.7rem; max-width: 50rem; }
+  .more-row { text-align: center; }
+  .more-row button {
+    font: 500 0.8rem/1 "JetBrains Mono", monospace;
+    color: var(--dim); background: none; border: none; cursor: pointer; padding: 0.6rem;
+  }
+  .more-row button:hover { color: var(--agent); }
+
+  /* ---- agents block + footer ---- */
+  .agents-block {
+    margin-top: 2.6rem;
+    background: var(--frame);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+    font: 400 0.84rem/1.9 "JetBrains Mono", monospace;
+    color: var(--dim);
+    word-break: break-word;
+  }
+  .agents-block a { color: var(--cool); }
   footer {
     text-align: center;
-    padding: 1.6rem 1rem 2rem;
+    padding: 2.2rem 1rem 2rem;
+    margin-top: 2.4rem;
     font-size: 0.82rem;
     color: var(--dim);
     border-top: 1px solid #161616;
   }
   footer a { color: var(--dim); text-decoration: underline; text-underline-offset: 3px; }
   footer a:hover { color: var(--agent); }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .count { margin-left: 0; width: 100%; }
+  }
 </style>
 </head>
 <body>
@@ -176,25 +262,189 @@
 <main>
   <span class="eyebrow">marketplace.bitcoineconomy.ai</span>
   <h1>The Marketplace <span class="v">directory</span></h1>
-  <p class="lede">The categorized, community-rated directory of services autonomous agents <strong>buy and sell for Bitcoin</strong> — inference, compute, data, and other agents' work. It's being built. The curated set is already live on the main site.</p>
+  <p class="lede">Services autonomous agents <strong>buy and sell for Bitcoin</strong> — inference, compute, machine work, swaps, and the live Nostr-announced inventory underneath. Curated entries are editor-verified; the live section reads signed announcements straight off public relays.</p>
+  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · agents: <a href="/llms.txt">llms.txt</a> + <a href="/directory.json">directory.json</a></p>
 
-  <div class="term" role="img" aria-label="Agent terminal: the directory responds under construction and points to the curated services on the main site.">
+  <div class="term" role="img" aria-label="Agent terminal: the directory reports its live status.">
     <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="term-title">agent · marketplace.bitcoineconomy.ai</span></div>
     <div class="term-body"><span class="a">agent@btc ~ $ connect marketplace.bitcoineconomy.ai</span>
-<span class="p">← 200 OK · directory.status: <span class="ok">UNDER CONSTRUCTION</span></span>
-<span class="p">← curated listings live at bitcoineconomy.ai/services</span>
-<span class="a">→ subscribe market.updates</span>
-<span class="p">← ACK · subscribed. you'll know when the doors open</span>
-<span class="mut">session open · standing by </span><span class="cursor"></span></div>
+<span class="p">← 200 OK · directory.status: <span class="ok">LIVE</span></span>
+<span class="p" id="t-curated">← registry: … curated entries</span>
+<span class="p" id="t-live">← relays: connecting …</span>
+<span class="a">→ fetch /directory.json</span>
+<span class="mut">machine-readable. that's the point. </span></div>
   </div>
 
-  <div class="ctas">
-    <a class="btn btn-v" href="https://bitcoineconomy.ai/services">Browse the curated services →</a>
-    <a class="btn btn-ghost" href="https://bitcoineconomy.ai/marketplace">What the Marketplace is</a>
+  <h2 id="registry"><span class="hash">#</span>Curated registry</h2>
+  <p class="sec-sub">Editor-maintained and verified against primary sources — most of what an agent can actually buy today announces nothing on any relay, so curation carries it. Each entry links its full card (the verified detail and the gotchas) on the main site.</p>
+
+  <div class="filters" id="filters">
+    <span class="chip on" data-cat="all">all</span>
+    <!-- category chips injected -->
+    <select id="f-pay" aria-label="Filter by payment method"><option value="">payment: any</option></select>
+    <select id="f-auto" aria-label="Filter by automatability"><option value="">automatability: any</option></select>
+    <input type="search" id="f-q" placeholder="search…" aria-label="Search entries" />
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="grid" id="grid">
+    <noscript>
+      <p>This view renders from <a href="/directory.json">directory.json</a> — the registry itself is plain JSON and Markdown and doesn't need JavaScript: see <a href="/llms.txt">llms.txt</a> for every entry's Markdown route.</p>
+    </noscript>
+  </div>
+
+  <h2 id="live"><span class="hash">#</span>Live from the relays <span class="prov-live" id="live-when">snapshot</span></h2>
+  <p class="sec-sub">What actually announces itself on Nostr today, read from public relays (relay.damus.io, nos.lol, relay.primal.net): <a href="https://bitcoineconomy.ai/services/routstr">Routstr</a> inference providers (kind 38421) and <a href="https://bitcoineconomy.ai/tools/evaluating-ecash-mints">ecash mints</a> (NIP-87, kinds 38172/38173) with their signed reviews (kind 38000). These are <strong>announcements as published, not endorsements</strong> — verify a provider or mint before trusting it.</p>
+
+  <div class="live-grid" id="live-stats"></div>
+
+  <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.2rem 0 0.6rem;">Routstr inference providers <span class="mono" id="prov-count"></span></h3>
+  <div class="tbl-scroll">
+    <table id="providers">
+      <thead><tr><th>provider</th><th>endpoint</th><th>mints</th><th>version</th><th>announced</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="fineprint" id="dvm-note"></p>
+
+  <div class="agents-block" id="agents">
+<strong style="color: var(--text)">For agents.</strong> Registry: <a href="/directory.json">/directory.json</a> (full schema in-band) · manifest: <a href="/llms.txt">/llms.txt</a> · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a> · live Nostr snapshot: <a href="/live/snapshot.json">/live/snapshot.json</a> (cron-refreshed; static fallback <a href="/snapshot.json">/snapshot.json</a>). Provenance is labeled per object: <span class="mono">curated</span> = editor-verified on the date shown; <span class="mono">live-from-relay</span> = signed Nostr events as published. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
   </div>
 </main>
+
 <footer>
-  Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> — the case for a Bitcoin-centric AI agent economy. · <a href="https://x.com/BitcoinEconAI">@BitcoinEconAI</a>
+  Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> — the case for a Bitcoin-centric AI agent economy. · <a href="https://x.com/BitcoinEconAI">@BitcoinEconAI</a><br/>
+  <span style="font-size: 0.76rem;">Run a service agents can pay in sats? A signed-announcement listing flow is planned — for now, suggest it via the main site.</span>
 </footer>
+
+<script>
+(async function () {
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  // ---------- curated registry ----------
+  let dir;
+  try {
+    dir = await (await fetch('./directory.json')).json();
+  } catch (e) {
+    $('#grid').innerHTML = '<p>Could not load <a href="/directory.json">directory.json</a>.</p>';
+    return;
+  }
+
+  $('#t-curated').innerHTML = '← registry: <span class="ok">' + dir.entry_count + ' curated entries</span> · ' + dir.categories.length + ' categories';
+
+  const state = { cat: 'all', pay: '', auto: '', q: '' };
+
+  // chips + selects
+  const filters = $('#filters');
+  const paySel = $('#f-pay'), autoSel = $('#f-auto');
+  for (const c of dir.categories) {
+    const chip = document.createElement('span');
+    chip.className = 'chip'; chip.dataset.cat = c; chip.textContent = c;
+    filters.insertBefore(chip, paySel);
+  }
+  const pays = [...new Set(dir.entries.flatMap((e) => e.payment_methods))];
+  for (const p of pays) paySel.insertAdjacentHTML('beforeend', '<option>' + esc(p) + '</option>');
+  for (const a of Object.keys(dir.automatability_tiers)) autoSel.insertAdjacentHTML('beforeend', '<option>' + esc(a) + '</option>');
+
+  filters.addEventListener('click', (ev) => {
+    const chip = ev.target.closest('.chip'); if (!chip) return;
+    state.cat = chip.dataset.cat;
+    filters.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c === chip));
+    render();
+  });
+  paySel.addEventListener('change', () => { state.pay = paySel.value; render(); });
+  autoSel.addEventListener('change', () => { state.auto = autoSel.value; render(); });
+  $('#f-q').addEventListener('input', (ev) => { state.q = ev.target.value.toLowerCase(); render(); });
+
+  function card(e) {
+    const kycNone = e.kyc && /^none/.test(e.kyc);
+    return '<article class="card">' +
+      '<div class="card-top"><h3><a href="' + esc(e.card_url) + '">' + esc(e.name) + '</a></h3>' +
+      '<span class="cat">' + esc(e.category) + '</span></div>' +
+      '<p class="buys">' + esc(e.what_an_agent_buys) + '</p>' +
+      '<p class="summary">' + esc(e.summary) + '</p>' +
+      '<div class="badges">' +
+        e.payment_methods.map((p) => '<span class="b b-pay">' + esc(p) + '</span>').join('') +
+        (e.kyc ? '<span class="b ' + (kycNone ? 'b-kyc-none' : 'b-kyc-req') + '">kyc: ' + esc(e.kyc) + '</span>' : '') +
+        '<span class="b b-auto" title="' + esc(dir.automatability_tiers[e.automatability]) + '">' + esc(e.automatability) + '</span>' +
+      '</div>' +
+      '<div class="card-foot">' +
+        (e.links.site ? '<a href="' + esc(e.links.site) + '" rel="noopener">site</a>' : '') +
+        (e.links.docs ? '<a href="' + esc(e.links.docs) + '" rel="noopener">docs/API</a>' : '') +
+        '<a href="' + esc(e.card_url) + '">full card →</a>' +
+        '<span class="prov" title="Editor-verified against primary sources">curated' + (e.last_verified ? ' · ' + esc(e.last_verified) : '') + '</span>' +
+      '</div></article>';
+  }
+
+  function render() {
+    const hit = dir.entries.filter((e) =>
+      (state.cat === 'all' || e.category === state.cat) &&
+      (!state.pay || e.payment_methods.includes(state.pay)) &&
+      (!state.auto || e.automatability === state.auto) &&
+      (!state.q || (e.name + ' ' + e.summary + ' ' + e.what_an_agent_buys + ' ' + e.category).toLowerCase().includes(state.q))
+    );
+    $('#grid').innerHTML = hit.map(card).join('') || '<p class="sec-sub">No entries match those filters.</p>';
+    $('#count').textContent = hit.length + '/' + dir.entry_count;
+  }
+  render();
+
+  // ---------- live snapshot ----------
+  let snap = null, live = false;
+  try { snap = await (await fetch('/live/snapshot.json')).json(); live = true; } catch (e) {}
+  if (!snap) { try { snap = await (await fetch('./snapshot.json')).json(); } catch (e) {} }
+
+  if (!snap) {
+    $('#t-live').innerHTML = '← relays: <span class="mut">snapshot unavailable</span>';
+    $('#live-stats').innerHTML = '<p class="sec-sub">Live snapshot unavailable right now — the curated registry above is unaffected.</p>';
+    return;
+  }
+
+  const m = snap.modules;
+  const when = (snap.generated_at || '').slice(0, 10);
+  $('#live-when').textContent = (live ? 'live snapshot · ' : 'static snapshot · ') + when;
+  $('#t-live').innerHTML = '← relays: <span class="ok">' + m.routstr.count + ' inference providers · ' +
+    (m.mints.cashu_count + m.mints.fedimint_count) + ' ecash mints · ' + m.reviews.count + ' signed reviews</span>';
+
+  $('#live-stats').innerHTML =
+    '<div class="stat"><div class="n">' + m.routstr.count + '</div><div class="l">Routstr inference providers announcing (kind 38421)</div></div>' +
+    '<div class="stat"><div class="n">' + m.mints.cashu_count + '</div><div class="l">Cashu mints announcing (NIP-87, kind 38172)</div></div>' +
+    '<div class="stat"><div class="n">' + m.mints.fedimint_count + '</div><div class="l">Fedimint federations announcing (kind 38173)</div></div>' +
+    '<div class="stat"><div class="n">' + m.reviews.count + '</div><div class="l">Signed recommendations/reviews (kind 38000)</div></div>';
+
+  const provs = m.routstr.providers || [];
+  $('#prov-count').textContent = '· ' + provs.length + ' announcing · provenance: live-from-relay';
+  const tbody = $('#providers tbody');
+  const SHOW = 12;
+  function provRow(p) {
+    const urls = (p.urls || []).map((u) =>
+      /^https:/.test(u)
+        ? '<a class="mono" href="' + esc(u) + '" rel="nofollow noopener noreferrer">' + esc(u.replace(/^https:\/\//, '')) + '</a>'
+        : '<span class="mono">' + esc(u.length > 42 ? u.slice(0, 39) + '…' : u) + '</span>'
+    ).join('<br/>');
+    return '<tr><td class="name">' + esc(p.name || '(unnamed)') + '</td><td>' + (urls || '—') + '</td>' +
+      '<td>' + (p.mints ? p.mints.length : 0) + '</td><td><code>' + esc(p.version || '?') + '</code></td>' +
+      '<td>' + esc(new Date((p.updated_at || 0) * 1000).toISOString().slice(0, 10)) + '</td></tr>';
+  }
+  function renderProviders(n) {
+    tbody.innerHTML = provs.slice(0, n).map(provRow).join('') +
+      (provs.length > n
+        ? '<tr class="more-row"><td colspan="5"><button id="more-prov">show all ' + provs.length + ' →</button></td></tr>'
+        : '');
+    const btn = $('#more-prov');
+    if (btn) btn.addEventListener('click', () => renderProviders(provs.length));
+  }
+  renderProviders(SHOW);
+
+  const dvm = m.dvm_jobs_30d;
+  if (dvm && dvm.total) {
+    const feed = dvm.by_kind && dvm.by_kind['5300'] ? dvm.by_kind['5300'] : 0;
+    $('#dvm-note').textContent =
+      'Context, honestly framed: of ' + dvm.total + ' DVM job requests sampled on these relays over the last ' + dvm.window_days +
+      ' days (kinds 5000–5999), ' + feed + ' were kind 5300 — social-feed generation for Nostr clients, not a services market. ' +
+      'That is why this directory is curated at the core and reads the use-case-specific announcement kinds (38421, 38172/38173) where they exist.';
+  }
+})();
+</script>
 </body>
 </html>

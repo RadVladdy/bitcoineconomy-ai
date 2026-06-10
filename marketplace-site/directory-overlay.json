@@ -1,0 +1,159 @@
+{
+  "_comment": "Directory-specific fields per entry, merged over the card frontmatter by build.mjs. The cards in src/_raw/ stay the single source of truth for names, links, KYC, custody, and verification dates; this overlay adds only what the directory needs: category, what an agent buys, normalized payment methods, and the automatability tier. Order here = display order (sovereignty-first; fiat ramps last, Bitcoin-only before multi-asset).",
+  "_automatability_tiers": {
+    "api-no-account": "API with no account — payment or a key is the credential; zero human onboarding",
+    "api-account": "API after account setup — no identity check, but a human creates the account first",
+    "api-kyc": "API after KYC onboarding — automatable once a human completes identity verification",
+    "limited": "No public trading/provisioning API — scheduled or app-driven flows only"
+  },
+  "entries": [
+    {
+      "slug": "routstr",
+      "source": "services/routstr.md",
+      "category": "inference",
+      "what_an_agent_buys": "LLM inference — OpenAI-compatible API calls from independent providers",
+      "payment_methods": ["cashu", "lightning"],
+      "automatability": "api-no-account"
+    },
+    {
+      "slug": "ppq-ai",
+      "source": "services/ppq-ai.md",
+      "category": "inference",
+      "what_an_agent_buys": "Pay-per-query frontier-model calls — chat, image, video, audio",
+      "payment_methods": ["l402", "lightning"],
+      "automatability": "api-no-account"
+    },
+    {
+      "slug": "lnvps",
+      "source": "services/lnvps.md",
+      "category": "compute",
+      "what_an_agent_buys": "VPS compute — provision a server with Nostr login and fund it in sats",
+      "payment_methods": ["lightning", "nwc"],
+      "automatability": "api-no-account"
+    },
+    {
+      "slug": "bitlaunch",
+      "source": "services/bitlaunch.md",
+      "category": "compute",
+      "what_an_agent_buys": "VPS on DigitalOcean / Vultr / Linode capacity, provisioned end-to-end by API",
+      "payment_methods": ["lightning", "onchain"],
+      "automatability": "api-account"
+    },
+    {
+      "slug": "openagents",
+      "source": "services/openagents.md",
+      "category": "machine-work",
+      "what_an_agent_buys": "Machine work — agents buy and sell labor, compute, and data; settlement by zap after verification",
+      "payment_methods": ["lightning"],
+      "automatability": "api-no-account",
+      "note": "Early-stage marketplace — built in public, five interlocking markets planned."
+    },
+    {
+      "slug": "bitrefill",
+      "source": "services/bitrefill.md",
+      "category": "commerce",
+      "what_an_agent_buys": "Gift cards and prepaid top-ups for thousands of mainstream services — the long-tail bridge",
+      "payment_methods": ["lightning", "onchain"],
+      "automatability": "api-account"
+    },
+    {
+      "slug": "mullvad",
+      "source": "services/mullvad.md",
+      "category": "privacy",
+      "what_an_agent_buys": "VPN time on a no-identity account — fund a random 16-digit account number with sats",
+      "payment_methods": ["lightning", "onchain"],
+      "automatability": "api-account"
+    },
+    {
+      "slug": "boltz",
+      "source": "exchanges/boltz.md",
+      "category": "swap",
+      "summary": "A non-custodial, no-KYC atomic-swap service — swaps settle via shared-preimage HTLCs, so the agent never gives up custody and no account or identity is required.",
+      "what_an_agent_buys": "Atomic swaps — Lightning ↔ on-chain ↔ Liquid, plus Lightning ↔ USDT/USDC",
+      "payment_methods": ["lightning", "onchain", "liquid"],
+      "automatability": "api-no-account"
+    },
+    {
+      "slug": "sideshift",
+      "source": "exchanges/sideshift.md",
+      "category": "swap",
+      "summary": "A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks — direct-to-wallet conversions with no funds custodied.",
+      "what_an_agent_buys": "Cross-asset swaps across 200+ assets and 45+ networks, direct to wallet",
+      "payment_methods": ["lightning", "onchain"],
+      "automatability": "api-no-account"
+    },
+    {
+      "slug": "flashnet",
+      "source": "exchanges/flashnet.md",
+      "category": "swap",
+      "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark — BTC ↔ USDT/USDB/USDC settling in seconds while the agent keeps its keys.",
+      "what_an_agent_buys": "BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM",
+      "payment_methods": ["spark", "lightning"],
+      "automatability": "api-no-account"
+    },
+    {
+      "slug": "sideswap",
+      "source": "exchanges/sideswap.md",
+      "category": "swap",
+      "summary": "A non-custodial, KYC-free swap platform native to the Liquid Network — L-BTC, L-USDt, and tokenized assets on public order books.",
+      "what_an_agent_buys": "L-BTC ↔ L-USDt and direct asset-to-asset swaps on Liquid order books",
+      "payment_methods": ["liquid"],
+      "automatability": "api-no-account"
+    },
+    {
+      "slug": "loop",
+      "source": "tools/loop.md",
+      "category": "liquidity",
+      "what_an_agent_buys": "Lightning ↔ on-chain liquidity — non-custodial submarine swaps for LND nodes, fee for service",
+      "payment_methods": ["lightning", "onchain"],
+      "automatability": "api-no-account",
+      "kyc": "none",
+      "custody": "self-custody (atomic submarine swaps)"
+    },
+    {
+      "slug": "strike",
+      "source": "exchanges/strike.md",
+      "category": "fiat-ramp",
+      "summary": "A Bitcoin-only financial app whose defining feature for agents is native Lightning — it converts between a fiat bank balance and Lightning sats at the custodial boundary, sub-second on the Lightning side.",
+      "what_an_agent_buys": "Lightning ↔ fiat conversion at the custodial edge",
+      "payment_methods": ["lightning", "onchain", "fiat"],
+      "automatability": "api-kyc"
+    },
+    {
+      "slug": "river",
+      "source": "exchanges/river.md",
+      "category": "fiat-ramp",
+      "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.",
+      "what_an_agent_buys": "Fiat ↔ BTC (US) plus Lightning payments via the RLS API",
+      "payment_methods": ["lightning", "onchain", "fiat"],
+      "automatability": "api-kyc"
+    },
+    {
+      "slug": "swan",
+      "source": "exchanges/swan.md",
+      "category": "fiat-ramp",
+      "summary": "A US Bitcoin-only company built around recurring accumulation and automatic withdrawal to self-custody — scheduled buys rather than ad-hoc trading.",
+      "what_an_agent_buys": "Scheduled fiat → BTC accumulation with auto-withdraw to self-custody",
+      "payment_methods": ["onchain", "fiat"],
+      "automatability": "limited"
+    },
+    {
+      "slug": "kraken",
+      "source": "exchanges/kraken.md",
+      "category": "fiat-ramp",
+      "summary": "A large, long-established multi-asset exchange with broad fiat pairs and a mature trading API.",
+      "what_an_agent_buys": "Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API",
+      "payment_methods": ["lightning", "onchain", "fiat"],
+      "automatability": "api-kyc"
+    },
+    {
+      "slug": "coinbase",
+      "source": "exchanges/coinbase.md",
+      "category": "fiat-ramp",
+      "summary": "A large, publicly listed multi-asset exchange with broad fiat connectivity and a mature developer platform; co-issuer of USDC.",
+      "what_an_agent_buys": "Fiat ↔ BTC ↔ USDC via a mature developer platform",
+      "payment_methods": ["lightning", "onchain", "fiat"],
+      "automatability": "api-kyc"
+    }
+  ]
+}
