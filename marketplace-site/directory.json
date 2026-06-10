@@ -1,0 +1,437 @@
+{
+  "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json with provenance \"live-from-relay\". Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
+  "name": "The Marketplace directory — bitcoineconomy.ai",
+  "url": "https://marketplace.bitcoineconomy.ai/",
+  "generated_at": "2026-06-10T14:21:26.708Z",
+  "entry_count": 17,
+  "categories": [
+    "inference",
+    "compute",
+    "machine-work",
+    "commerce",
+    "privacy",
+    "swap",
+    "liquidity",
+    "fiat-ramp"
+  ],
+  "automatability_tiers": {
+    "api-no-account": "API with no account — payment or a key is the credential; zero human onboarding",
+    "api-account": "API after account setup — no identity check, but a human creates the account first",
+    "api-kyc": "API after KYC onboarding — automatable once a human completes identity verification",
+    "limited": "No public trading/provisioning API — scheduled or app-driven flows only"
+  },
+  "payment_method_vocabulary": {
+    "lightning": "Lightning Network (BOLT11/BOLT12 invoices or Lightning address)",
+    "l402": "L402 — HTTP 402 payment protocol over Lightning; the payment is the API credential",
+    "cashu": "Cashu bearer ecash (Bitcoin-denominated); the token is the API key",
+    "nwc": "Nostr Wallet Connect (NIP-47) — remote, scoped wallet control",
+    "zaps": "NIP-57 Lightning zaps",
+    "onchain": "Bitcoin L1 on-chain",
+    "liquid": "Liquid Network (L-BTC)",
+    "spark": "Spark (Bitcoin L2)",
+    "fiat": "Bank/fiat leg (custodial venue)"
+  },
+  "entries": [
+    {
+      "slug": "routstr",
+      "name": "Routstr",
+      "category": "inference",
+      "summary": "A decentralized AI-inference marketplace where a Cashu token is the API key — pay per request in private Bitcoin ecash, no login, no KYC.",
+      "what_an_agent_buys": "LLM inference — OpenAI-compatible API calls from independent providers",
+      "payment_methods": [
+        "cashu",
+        "lightning"
+      ],
+      "payment_detail": "cashu ecash over Lightning (bearer token = API key)",
+      "kyc": "none",
+      "custody": "self-custodial (bearer Cashu tokens)",
+      "automatability": "api-no-account",
+      "two_sided": "consume + offer",
+      "maintainer": "Routstr",
+      "links": {
+        "site": "https://routstr.com",
+        "docs": "https://docs.routstr.com",
+        "repo": "https://github.com/Routstr"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/routstr",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/routstr.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "ppq-ai",
+      "name": "PPQ.AI (PayPerQ)",
+      "category": "inference",
+      "summary": "Pay-per-query access to hundreds of frontier models over Lightning / L402 — no account, no API key, roughly a cent and a half a query.",
+      "what_an_agent_buys": "Pay-per-query frontier-model calls — chat, image, video, audio",
+      "payment_methods": [
+        "l402",
+        "lightning"
+      ],
+      "payment_detail": "lightning / L402 (no account)",
+      "kyc": "none (Lightning path)",
+      "custody": "custodial gateway",
+      "automatability": "api-no-account",
+      "two_sided": "consume",
+      "maintainer": "PayPerQ",
+      "links": {
+        "site": "https://ppq.ai",
+        "docs": "https://ppq.ai/api-docs",
+        "repo": "https://github.com/PayPerQ"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/ppq-ai",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/ppq-ai.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "lnvps",
+      "name": "LNVPS",
+      "category": "compute",
+      "summary": "A Lightning-native VPS host with Nostr login and no KYC — pay in sats, fund via NWC, spin up a server by API. The most agent-native compute on the consume side.",
+      "what_an_agent_buys": "VPS compute — provision a server with Nostr login and fund it in sats",
+      "payment_methods": [
+        "lightning",
+        "nwc"
+      ],
+      "payment_detail": "Lightning (sats), fundable via NWC; no card",
+      "kyc": "none",
+      "custody": "n/a (pay-and-receive)",
+      "automatability": "api-no-account",
+      "two_sided": "consume",
+      "maintainer": "LNVPS (Apex Strata Ltd, Ireland)",
+      "links": {
+        "site": "https://lnvps.net",
+        "docs": "https://github.com/LNVPS/api"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/lnvps",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/lnvps.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "bitlaunch",
+      "name": "BitLaunch",
+      "category": "compute",
+      "summary": "Bitcoin/Lightning VPS provisioning with a real API and SDKs — spin up DigitalOcean/Vultr/Linode servers and pay over Lightning, programmatically. \"Programmable servers with programmable money.\"",
+      "what_an_agent_buys": "VPS on DigitalOcean / Vultr / Linode capacity, provisioned end-to-end by API",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
+      "payment_detail": "Lightning + on-chain BTC; programmatic via the BitLaunch API (blcli CLI; Go/Python/PHP SDKs)",
+      "kyc": "none",
+      "custody": "n/a (pay-and-receive)",
+      "automatability": "api-account",
+      "two_sided": "consume",
+      "maintainer": "BitLaunch",
+      "links": {
+        "site": "https://bitlaunch.io",
+        "docs": "https://bitlaunch.io/blog/introducing-the-bitlaunch-api/"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/bitlaunch",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/bitlaunch.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "openagents",
+      "name": "OpenAgents",
+      "category": "machine-work",
+      "summary": "A Bitcoin-native marketplace for machine work — sovereign agents hold their own keys, sell spare compute, and get paid in Bitcoin over Lightning, across five interlocking markets.",
+      "what_an_agent_buys": "Machine work — agents buy and sell labor, compute, and data; settlement by zap after verification",
+      "payment_methods": [
+        "lightning"
+      ],
+      "payment_detail": "lightning (NIP-57 zaps, pay-after-verify)",
+      "kyc": "none",
+      "custody": "self-custodial (BIP39-derived agent wallets; FROSTR threshold signing)",
+      "automatability": "api-no-account",
+      "two_sided": "consume + offer",
+      "maintainer": "OpenAgents, Inc.",
+      "links": {
+        "site": "https://openagents.com",
+        "docs": "https://docs.openagents.com",
+        "repo": "https://github.com/OpenAgentsInc/openagents"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/openagents",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/openagents.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-04",
+      "note": "Early-stage marketplace — built in public, five interlocking markets planned."
+    },
+    {
+      "slug": "bitrefill",
+      "name": "Bitrefill",
+      "category": "commerce",
+      "summary": "The Lightning-native bridge to the rest of the digital economy — buy gift cards and top-ups for thousands of mainstream services with Bitcoin, via a real API, no KYC.",
+      "what_an_agent_buys": "Gift cards and prepaid top-ups for thousands of mainstream services — the long-tail bridge",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
+      "payment_detail": "Lightning (native) + on-chain BTC; programmatic via the Thor API",
+      "kyc": "none",
+      "custody": "n/a (pay-and-receive)",
+      "automatability": "api-account",
+      "two_sided": "consume",
+      "maintainer": "Bitrefill",
+      "links": {
+        "site": "https://bitrefill.com",
+        "docs": "https://www.bitrefill.com/thor-api/"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/bitrefill",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/bitrefill.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-05"
+    },
+    {
+      "slug": "mullvad",
+      "name": "Mullvad VPN",
+      "category": "privacy",
+      "summary": "A privacy VPN that takes Lightning with no email and no account profile — just a random account number. The lowest-identity direct-merchant fit for an agent.",
+      "what_an_agent_buys": "VPN time on a no-identity account — fund a random 16-digit account number with sats",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
+      "payment_detail": "Lightning (native, own node) + on-chain BTC (also cash-by-mail, Monero)",
+      "kyc": "none",
+      "custody": "n/a (pay-and-receive)",
+      "automatability": "api-account",
+      "two_sided": "consume",
+      "maintainer": "Mullvad VPN",
+      "links": {
+        "site": "https://mullvad.net"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/mullvad",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/mullvad.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-05"
+    },
+    {
+      "slug": "boltz",
+      "name": "Boltz",
+      "category": "swap",
+      "summary": "A non-custodial, no-KYC atomic-swap service — swaps settle via shared-preimage HTLCs, so the agent never gives up custody and no account or identity is required.",
+      "what_an_agent_buys": "Atomic swaps — Lightning ↔ on-chain ↔ Liquid, plus Lightning ↔ USDT/USDC",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "liquid"
+      ],
+      "kyc": "none",
+      "custody": "self-custody",
+      "automatability": "api-no-account",
+      "links": {
+        "site": "https://boltz.exchange",
+        "docs": "https://api.docs.boltz.exchange"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/boltz",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/boltz.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-03"
+    },
+    {
+      "slug": "sideshift",
+      "name": "SideShift.ai",
+      "category": "swap",
+      "summary": "A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks — direct-to-wallet conversions with no funds custodied.",
+      "what_an_agent_buys": "Cross-asset swaps across 200+ assets and 45+ networks, direct to wallet",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
+      "kyc": "none",
+      "custody": "self-custody",
+      "automatability": "api-no-account",
+      "links": {
+        "site": "https://sideshift.ai",
+        "docs": "https://docs.sideshift.ai"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/sideshift",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/sideshift.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "flashnet",
+      "name": "Flashnet",
+      "category": "swap",
+      "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark — BTC ↔ USDT/USDB/USDC settling in seconds while the agent keeps its keys.",
+      "what_an_agent_buys": "BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM",
+      "payment_methods": [
+        "spark",
+        "lightning"
+      ],
+      "kyc": "none",
+      "custody": "self-custody",
+      "automatability": "api-no-account",
+      "links": {
+        "site": "https://www.flashnet.xyz"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/flashnet",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/flashnet.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "sideswap",
+      "name": "SideSwap",
+      "category": "swap",
+      "summary": "A non-custodial, KYC-free swap platform native to the Liquid Network — L-BTC, L-USDt, and tokenized assets on public order books.",
+      "what_an_agent_buys": "L-BTC ↔ L-USDt and direct asset-to-asset swaps on Liquid order books",
+      "payment_methods": [
+        "liquid"
+      ],
+      "kyc": "none",
+      "custody": "self-custody",
+      "automatability": "api-no-account",
+      "links": {
+        "site": "https://sideswap.io",
+        "docs": "https://sideswap.io/docs/"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/sideswap",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/sideswap.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-03"
+    },
+    {
+      "slug": "loop",
+      "name": "Loop",
+      "category": "liquidity",
+      "summary": "Lightning Labs' non-custodial liquidity bridge — Loop Out and Loop In move balance between Lightning and on-chain via submarine swaps.",
+      "what_an_agent_buys": "Lightning ↔ on-chain liquidity — non-custodial submarine swaps for LND nodes, fee for service",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
+      "kyc": "none",
+      "custody": "self-custody (atomic submarine swaps)",
+      "automatability": "api-no-account",
+      "maintainer": "Lightning Labs",
+      "links": {
+        "site": "https://lightning.engineering/loop/",
+        "docs": "https://lightning.engineering/loop/",
+        "repo": "https://github.com/lightninglabs/loop"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/loop",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/loop.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "strike",
+      "name": "Strike",
+      "category": "fiat-ramp",
+      "summary": "A Bitcoin-only financial app whose defining feature for agents is native Lightning — it converts between a fiat bank balance and Lightning sats at the custodial boundary, sub-second on the Lightning side.",
+      "what_an_agent_buys": "Lightning ↔ fiat conversion at the custodial edge",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "fiat"
+      ],
+      "kyc": "required",
+      "custody": "custodial",
+      "automatability": "api-kyc",
+      "links": {
+        "site": "https://strike.me",
+        "docs": "https://docs.strike.me"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/strike",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/strike.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "river",
+      "name": "River",
+      "category": "fiat-ramp",
+      "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.",
+      "what_an_agent_buys": "Fiat ↔ BTC (US) plus Lightning payments via the RLS API",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "fiat"
+      ],
+      "kyc": "required",
+      "custody": "custodial",
+      "automatability": "api-kyc",
+      "links": {
+        "site": "https://river.com",
+        "docs": "https://docs.rls.dev"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/river",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/river.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "swan",
+      "name": "Swan Bitcoin",
+      "category": "fiat-ramp",
+      "summary": "A US Bitcoin-only company built around recurring accumulation and automatic withdrawal to self-custody — scheduled buys rather than ad-hoc trading.",
+      "what_an_agent_buys": "Scheduled fiat → BTC accumulation with auto-withdraw to self-custody",
+      "payment_methods": [
+        "onchain",
+        "fiat"
+      ],
+      "kyc": "required",
+      "custody": "custodial",
+      "automatability": "limited",
+      "links": {
+        "site": "https://swanbitcoin.com"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/swan",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/swan.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "kraken",
+      "name": "Kraken",
+      "category": "fiat-ramp",
+      "summary": "A large, long-established multi-asset exchange with broad fiat pairs and a mature trading API.",
+      "what_an_agent_buys": "Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "fiat"
+      ],
+      "kyc": "required",
+      "custody": "custodial",
+      "automatability": "api-kyc",
+      "links": {
+        "site": "https://kraken.com",
+        "docs": "https://docs.kraken.com"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/kraken",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/kraken.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "coinbase",
+      "name": "Coinbase",
+      "category": "fiat-ramp",
+      "summary": "A large, publicly listed multi-asset exchange with broad fiat connectivity and a mature developer platform; co-issuer of USDC.",
+      "what_an_agent_buys": "Fiat ↔ BTC ↔ USDC via a mature developer platform",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "fiat"
+      ],
+      "kyc": "required",
+      "custody": "custodial",
+      "automatability": "api-kyc",
+      "links": {
+        "site": "https://coinbase.com",
+        "docs": "https://docs.cdp.coinbase.com"
+      },
+      "card_url": "https://bitcoineconomy.ai/exchanges/coinbase",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/coinbase.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-06"
+    }
+  ]
+}

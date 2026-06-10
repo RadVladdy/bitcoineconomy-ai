@@ -8,6 +8,16 @@ as markdown surfaces + card collections and ported into `src/_raw/` at build tim
 - Verify in `dist/` (and/or `npm run preview`) before pushing.
 - Push to `main` = live Cloudflare deploy.
 
+## marketplace-site/ — the directory subdomain (separate deploy)
+`marketplace-site/` is marketplace.bitcoineconomy.ai — its own Cloudflare project,
+not part of the Astro build. `directory.json`, `entries/*.md`, `llms.txt`, and
+`snapshot.json` are **generated — never hand-edit**: change a card in `src/_raw/`
+or `marketplace-site/directory-overlay.json`, then run `node build.mjs` from that
+folder (`node sample-relays.mjs --write` refreshes the live-snapshot fallback).
+Directory entries are reference content (facts only, sovereignty-first order);
+live-module data is announcements-not-endorsements. Full conventions + deploy
+steps: `marketplace-site/README.md`.
+
 ## Design system (locked 2026-06-07 — keep the whole site consistent)
 Dark-futuristic look with a **semantic section colour triad** — the colour is
 meaningful (value settles → moves → agents decide), not decorative:

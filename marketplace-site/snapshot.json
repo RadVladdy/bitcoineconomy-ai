@@ -1,0 +1,1055 @@
+{
+  "generated_at": "2026-06-10T14:13:04.068Z",
+  "source": "sample-relays.mjs (static snapshot)",
+  "provenance": "live-from-relay",
+  "relays": [
+    {
+      "url": "wss://relay.nostr.band",
+      "status": "connect-error: connect timeout",
+      "unfinished": [
+        "routstr",
+        "cashu",
+        "fedimint",
+        "reviews",
+        "handlers",
+        "dvmjobs"
+      ]
+    },
+    {
+      "url": "wss://relay.damus.io",
+      "status": "ok",
+      "unfinished": []
+    },
+    {
+      "url": "wss://nos.lol",
+      "status": "ok",
+      "unfinished": []
+    },
+    {
+      "url": "wss://relay.primal.net",
+      "status": "ok",
+      "unfinished": []
+    }
+  ],
+  "modules": {
+    "routstr": {
+      "kind": 38421,
+      "count": 37,
+      "providers": [
+        {
+          "name": "thefux",
+          "d": "3d8333c5a346",
+          "urls": [
+            "https://routstr.otrta.me",
+            "http://zdnt2juw6htljsu25ftnbvdicgvr4s3ts4ldlx2myjcuyz4woaf4l7id.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://ecashmint.otrta.me",
+            "https://mint.cubabitcoin.org",
+            "https://stablenut.umint.cash"
+          ],
+          "version": "0.4.3+ga16bc12",
+          "pubkey": "3d8333c5a3467c62b055c72f7f197df161faad20a5219ae694a92457c0e48a7c",
+          "updated_at": 1780949592
+        },
+        {
+          "name": "A Routstr Node",
+          "d": "975b5f483d2e",
+          "urls": [
+            "https://api.routstr.com/",
+            "http://fhxpl22punqhmmgcldhbusmxrmxa36gx2hbrr7yz4trq5wwthwbxucqd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me",
+            "https://mint.coinos.io"
+          ],
+          "version": "0.4.3",
+          "pubkey": "975b5f483d2e89d4992f612214878662e39524a5d306c526a1379ae0c9b0c906",
+          "updated_at": 1780948067
+        },
+        {
+          "name": "Rossi",
+          "d": "aa97d5891553",
+          "urls": [
+            "https://routstr.satoshisend.xyz"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me"
+          ],
+          "version": "0.4.3+gb1947d6",
+          "pubkey": "aa97d58915535738d0068612172bbb9a4a58628530883b1b14a54c3d34556fb9",
+          "updated_at": 1780569583
+        },
+        {
+          "name": "ARoutstrNode",
+          "d": "1d8abd24bfa1",
+          "urls": [
+            "http://xzf4sgnpiq4a4na3fiw7pqhzeeqi7bg6bj4lrlzv6kfyjykjfzdd5nqd.onion"
+          ],
+          "mints": [],
+          "version": "0.4.3",
+          "pubkey": "1d8abd24bfa1e61cab7902814dc6acc662367da6ada4ac9bc94e4c8354f7b191",
+          "updated_at": 1780524487
+        },
+        {
+          "name": "Cypherpunk",
+          "d": "2ca46ee98f31",
+          "urls": [
+            "https://routstr.cypherpunk.today",
+            "http://fm633miel2afheanqq4uxyilpw2gbwend5uyehhko7i63rvpywllryad.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://21mint.me",
+            "https://mint.0xchat.com"
+          ],
+          "version": "0.4.3+g29cfeae",
+          "pubkey": "2ca46ee98f3134c4e11a638663a45983b590bfdefd31588f9c2f03455fba15e7",
+          "updated_at": 1780144811
+        },
+        {
+          "name": "highperfocused AI",
+          "d": "ea185aba0db5",
+          "urls": [
+            "https://routstr.highperfocused.tech",
+            "http://kgsb3cyxn6vhyw3wutz2qfpyppwzhrd3ph42plbxgb2v5fh2ahwwgwyd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org"
+          ],
+          "version": "0.4.3",
+          "pubkey": "ea185aba0db5cefdafd2c31d1b3ac49acc827e5694efc18592e8403cecec9c6f",
+          "updated_at": 1779994344
+        },
+        {
+          "name": "Tollgate AI Node",
+          "d": "2c987f6b4d9c",
+          "urls": [
+            "https://routstr.orangesync.tech"
+          ],
+          "mints": [
+            "https://routstr-mint.mints.orangesync.tech"
+          ],
+          "version": "0.4.3+g29cfeae",
+          "pubkey": "2c987f6b4d9cced3171be3bb6c2cfb7fd5730e7eb709d1ea84cd9ae9e16fc108",
+          "updated_at": 1779916245
+        },
+        {
+          "name": "Tollgate AI Node",
+          "d": "1ca99c43bb98",
+          "urls": [
+            "https://routstr.orangesync.tech"
+          ],
+          "mints": [
+            "https://routstr-mint.mints.orangesync.tech"
+          ],
+          "version": "0.4.3+g3a1902b",
+          "pubkey": "1ca99c43bb98b8ed02e50ad2b1d6faf5531f6ff0644ea812c0c327875f019708",
+          "updated_at": 1779819604
+        },
+        {
+          "name": "Privacy Maxi",
+          "d": "ac783c5d4ec1",
+          "urls": [
+            "https://ai.redsh1ft.com",
+            "http://52hndvslde4kvtcku5txyqan73vp7jvrxmanhctoxn5oygwzc7byauyd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me/"
+          ],
+          "version": "0.4.3",
+          "pubkey": "ac783c5d4ec13983e2f5b4bc2575d230de2b025583042ff54e02ba78ec34d180",
+          "updated_at": 1779766522
+        },
+        {
+          "name": "Remi-chan",
+          "d": "6892d1b6d4d2",
+          "urls": [
+            "https://routstr.rewolf.dev",
+            "http://5nltc2eumzxl6652tjxggf2eywypxmmcsiscoqqq42nif2hgb4f3ouqd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org"
+          ],
+          "version": "0.1.3",
+          "pubkey": "6892d1b6d4d235f912aa187efaac006d99589587af29598337b883f0d201b0ba",
+          "updated_at": 1779754074
+        },
+        {
+          "name": "Roustr Staging Environment",
+          "d": "b3fde4baa277",
+          "urls": [
+            "https://staging.routstr.com",
+            "http://d7y5gtjl374lpbjijndtvakopreobvrqbksl5jiyky6bkltrcy7zpsqd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://ecashmint.otrta.me",
+            "https://mint.cubabitcoin.org",
+            "https://mint.coinos.io"
+          ],
+          "version": "0.4.1-dev",
+          "pubkey": "b3fde4baa277cb6412dec552942f7a0557fcb26e613e5e6f2856b427e1afef33",
+          "updated_at": 1779744980
+        },
+        {
+          "name": "Local Lover",
+          "d": "2a2b5cfbee68",
+          "urls": [
+            "http://4dpfeaqfvd237chxnotyf2trsdtug64wf62ocudxiygtfhcvrj24x4qd.onion"
+          ],
+          "mints": [],
+          "version": "0.4.3+g4a8d0e1",
+          "pubkey": "2a2b5cfbee6826fc5e8ffd66cce903ed8ca1ad496cec89be7d239d26f6c6517d",
+          "updated_at": 1779334393
+        },
+        {
+          "name": "Githappen2Routstr",
+          "d": "f12db526e41e",
+          "urls": [
+            "https://routstr.githappens.space",
+            "http://fmgse2hcsgjpmivci4rgz4pjwn5vcav33kivh33znylv362lgoolsbad.onion"
+          ],
+          "mints": [
+            "https://mint.githappens.space",
+            "https://mint.minibits.cash/Bitcoin"
+          ],
+          "version": "0.4.3",
+          "pubkey": "f12db526e41e71a158b962d93196996b5bb55339960cccde42ad673a0d3f9959",
+          "updated_at": 1778510396
+        },
+        {
+          "name": "tokendragon.io",
+          "d": "aa03e73e2b3e",
+          "urls": [
+            "https://routstr.tokendragon.io",
+            "http://rthfogjpq6nnqapwamtpqoa7wapwjdr72fbugejfjm4o73s7piwqozid.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me",
+            "https://mint.coinos.io"
+          ],
+          "version": "0.4.3",
+          "pubkey": "aa03e73e2b3e9641e176a8ca67ca6238345a6469fb3e487b16dda62bd3e8a0b7",
+          "updated_at": 1778469593
+        },
+        {
+          "name": "Cloudwaddie AI",
+          "d": "9aea1f1109a7",
+          "urls": [
+            "https://router.infra.cloudwaddie.com"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me"
+          ],
+          "version": "0.4.3+gb1947d6",
+          "pubkey": "9aea1f1109a704ab3747d6ed2cd1f8d3d366231e4ac8b4a5fe35ca43f861a056",
+          "updated_at": 1778408590
+        },
+        {
+          "name": "Private Provider",
+          "d": "4e5622b575cd",
+          "urls": [
+            "https://privateprovider.xyz",
+            "http://trwikgly5x4nbciwb2upoanr3tx5yofcyuwc25utro27h34l2ie5d7qd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://ecashmint.otrta.me"
+          ],
+          "version": "0.4.3",
+          "pubkey": "4e5622b575cdbb4d5ded093e48c68cd3f724fad547142f0c1b0aec2f2b2a0b2e",
+          "updated_at": 1778303221
+        },
+        {
+          "name": "An OpenRouter Node",
+          "d": "a4b35f561ea0",
+          "urls": [
+            "https://llm.satsandsports.cash/",
+            "http://eq3asax6dkuflrf6ea7ynd3jmeccdqwz2ay7xxyzwx6t4vndxbezikid.onion"
+          ],
+          "mints": [
+            "https://mint.cubabitcoin.org",
+            "https://mint.mountainlake.io",
+            "https://21mint.me",
+            "https://mint.minibits.cash/Bitcoin"
+          ],
+          "version": "0.4.3+g8dd0ece",
+          "pubkey": "a4b35f561ea055fd06a9c26ed010dfc48204ca240524ddb6de7740873b77cd39",
+          "updated_at": 1778225805
+        },
+        {
+          "name": "LightSpeed Models",
+          "d": "0d66a90f0325",
+          "urls": [
+            "http://juoyrinzx2d4am3pbtjczioacosefjzhy2hwwgqrslftnyyppoj7afad.onion"
+          ],
+          "mints": [],
+          "version": "0.4.3",
+          "pubkey": "0d66a90f0325f0153ad219aea07b7629c4e0d35d70f3709010be9ea801091689",
+          "updated_at": 1777851338
+        },
+        {
+          "name": "NOKYCAI — Premium AI Models for Sats",
+          "d": "af342c273778",
+          "urls": [
+            "https://foreverai.online",
+            "http://j7bkyrc2qyyrtkyghzjbv6uiadraolsjq2j3lbg2cc5h4ihluhbwxkyd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cashu.space"
+          ],
+          "version": "0.4.1",
+          "pubkey": "af342c27377877c0a47289a6f237fa368ed2ed726ac196fb21d0ed7faf75dbf1",
+          "updated_at": 1777354598
+        },
+        {
+          "name": "LAB484",
+          "d": "0278881d0d2c",
+          "urls": [
+            "http://wca67kkubijmcco6qiysftlqfrkgwc7i4zcd7ovwrtvksifs3mjdspqd.onion"
+          ],
+          "mints": [],
+          "version": "0.4.1",
+          "pubkey": "0278881d0d2cf5aec0d0b2a9a37c6d8f4534b130108199f7fe7ba15571a6fe59",
+          "updated_at": 1776553669
+        },
+        {
+          "name": "llm402-staging-test",
+          "d": "llm402-ai-provider",
+          "urls": [
+            "https://staging.llm402.ai"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.lnvoltz.com",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me",
+            "https://mint.mountainlake.io"
+          ],
+          "version": "0.1",
+          "pubkey": "b0bcda28bcb965c8bfae8996e915c5f1e6c5728ee7ce9e77dc636614d7d16102",
+          "updated_at": 1776538186
+        },
+        {
+          "name": "Purple Prometheus",
+          "d": "2c2efbeb8892",
+          "urls": [
+            "https://rouster1.purpleprometheus.com",
+            "http://qvhtnl2zey5btjwedchwpwlmqdrdbjna66fddcbd67cbh26ygmbzwnqd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me"
+          ],
+          "version": "0.4.1",
+          "pubkey": "2c2efbeb889216f983e43cbbeca7b4be433aa0d02c1c8bf78993bb99ed224072",
+          "updated_at": 1776252742
+        },
+        {
+          "name": "New AI Node",
+          "d": "2a55f4906da6",
+          "urls": [
+            "http://uoktvoklel3u7n4lsaqx36pvh5yk4thyrou54gtg75ieuad5m6nn37yd.onion"
+          ],
+          "mints": [],
+          "version": "0.4.1",
+          "pubkey": "2a55f4906da6240518ce4dd002d899a00dad2d582ff951db37ed104c56ebc9f4",
+          "updated_at": 1775942839
+        },
+        {
+          "name": "Non-KYC AI",
+          "d": "d3a0af518fdf",
+          "urls": [
+            "https://api.nonkycai.com",
+            "http://rl2c5ppy44jdvzz3j4gvcdstpmtpsqrvmigdangh6mcbu3mkrzxu6sad.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me",
+            "https://mint.mountainlake.io"
+          ],
+          "version": "0.4.1",
+          "pubkey": "d3a0af518fdf48fd7e8c794371d20040616afbcf934e38247461c6e74009e9fb",
+          "updated_at": 1774496606
+        },
+        {
+          "name": "thefux",
+          "d": "MacBook-Pro-2.local",
+          "urls": [
+            "https://routstr.otrta.me",
+            "http://zdnt2juw6htljsu25ftnbvdicgvr4s3ts4ldlx2myjcuyz4woaf4l7id.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://ecashmint.otrta.me",
+            "https://mint.cubabitcoin.org",
+            "https://stablenut.umint.cash"
+          ],
+          "version": "0.4.1",
+          "pubkey": "3d8333c5a3467c62b055c72f7f197df161faad20a5219ae694a92457c0e48a7c",
+          "updated_at": 1774382821
+        },
+        {
+          "name": "Node Zero Coder",
+          "d": "2fe2299329da",
+          "urls": [
+            "http://99.68.36.178:8000"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org"
+          ],
+          "version": "0.3.0",
+          "pubkey": "2fe2299329da54c441c63186bbe0e1db6ee1afc8ca14e57b0875e4586b6eb02b",
+          "updated_at": 1773537363
+        },
+        {
+          "name": "Node Zero Coder",
+          "d": "34b470786fc0",
+          "urls": [
+            "http://99.68.36.178:8000"
+          ],
+          "mints": [],
+          "version": "0.3.0",
+          "pubkey": "34b470786fc0b86df56079adbd1c382fa88450b03c569f7ddc594d1820ed24d0",
+          "updated_at": 1773468347
+        },
+        {
+          "name": "Omochi Node",
+          "d": "6565dfb76253",
+          "urls": [
+            "https://routstr.bulbulpp.com",
+            "http://xjg5q2ygsreonslpev77ztfq24yoedwpji6bxmogf363atqu5cneruid.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin"
+          ],
+          "version": "0.3.0",
+          "pubkey": "6565dfb762533d9da26e9bd6ee8a3aaddf30e570d4d7388512d903ab6a723776",
+          "updated_at": 1772626270
+        },
+        {
+          "name": "AnotherNode",
+          "d": "0b10545bba35",
+          "urls": [
+            "https://llm.sescloud.org",
+            "http://rp55p73ssvi72tqrlwahc3bmr5vdyhq5ujkklutm5ak7goeg2vrmggqd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin"
+          ],
+          "version": "0.3.0",
+          "pubkey": "0b10545bba35dab3ef4051af46db6f7f7b6ee7960ecba6195f1f6191859b67f2",
+          "updated_at": 1771933887
+        },
+        {
+          "name": "GB10",
+          "d": "25404e72a3ad",
+          "urls": [
+            "https://routestr.0x.tf"
+          ],
+          "mints": [],
+          "version": "0.2.2",
+          "pubkey": "25404e72a3ad36cb32989122b650f10e10804adee70d0bc9110fed5303c147a0",
+          "updated_at": 1769970505
+        },
+        {
+          "name": "ARoutstrNode",
+          "d": "94a99268e2ae",
+          "urls": [
+            "http://3na5f4ili5tuwxqj4f6jcogw76t5w5u4cgshwdnc5l2dftqvzulbh6yd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me"
+          ],
+          "version": "0.3.0",
+          "pubkey": "94a99268e2aed1ba20496e9c227b50b528912f2b8ca54e82612bb534bbc5d9f6",
+          "updated_at": 1769351203
+        },
+        {
+          "name": "Privacy Maxi",
+          "d": "731d2145f46e",
+          "urls": [
+            "http://XXX.onion"
+          ],
+          "mints": [],
+          "version": "0.2.0",
+          "pubkey": "731d2145f46e92b5762e3ed9d09cce00c2259572cfdaed75fe38f7e57d3a6936",
+          "updated_at": 1762058900
+        },
+        {
+          "name": "ARoutstrNode",
+          "d": "9b07b2f74c59",
+          "urls": [
+            "http://rroww7eu6n6qwsmk26lpof2m5yygge6byeniesg7driazrfg3njygiid.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me",
+            "https://mint.coinos.io"
+          ],
+          "version": "0.2.0-dev",
+          "pubkey": "94a99268e2aed1ba20496e9c227b50b528912f2b8ca54e82612bb534bbc5d9f6",
+          "updated_at": 1761474516
+        },
+        {
+          "name": "nht",
+          "d": "8878fc4b1a08",
+          "urls": [
+            "http://nhtwauz66t7eobj54pbkre2u4tsmifwewqlwd2odtasg57d43epwpbyd.onion",
+            "http://nhtwauz66t7eobj54pbkre2u4tsmifwewqlwd2odtasg57d43epwpbyd.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://ecashmint.otrta.me",
+            "https://mint.sovran.money"
+          ],
+          "version": "0.1.3",
+          "pubkey": "8878fc4b1a08afc66ad85d7ebbdf4c52335c7e292383be910f5d88c2048bd527",
+          "updated_at": 1758950660
+        },
+        {
+          "name": "Non-KYC AI",
+          "d": "b2e954ead4fe",
+          "urls": [
+            "https://api.nonkycai.com",
+            "http://4iujtcpe4da7zumhnetv6jjk76ppic3yh44xiz6fqko4solznwu7d4ad.onion"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin"
+          ],
+          "version": "0.1.3",
+          "pubkey": "b2e954ead4fe4c9a63c82db55f86650d02b6fe2034066c61549223f6e1efec18",
+          "updated_at": 1758023142
+        },
+        {
+          "name": "Routstr Proxy",
+          "d": "a24a80102d1e",
+          "urls": [
+            "http://100.99.50.50:8000",
+            "http://7nszdtv2qy4lwy5mhvof5djuu76juouo5wdm6i2nomoaywbpp7b3aqyd.onion"
+          ],
+          "mints": [],
+          "version": "0.1.2",
+          "pubkey": "a24a80102d1ea0dcafb546a49a0dd74abf2a03c90b0f06badad1bdd535ede6e2",
+          "updated_at": 1757923400
+        },
+        {
+          "name": "Routstr Proxy",
+          "d": "d65d06b4d886",
+          "urls": [
+            "http://localhost:8000"
+          ],
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin"
+          ],
+          "version": "0.1.1b",
+          "pubkey": "94a99268e2aed1ba20496e9c227b50b528912f2b8ca54e82612bb534bbc5d9f6",
+          "updated_at": 1756486052
+        }
+      ]
+    },
+    "mints": {
+      "kinds": [
+        38172,
+        38173
+      ],
+      "cashu_count": 35,
+      "fedimint_count": 26,
+      "cashu": [
+        {
+          "url": "https://mint.sharegap.net",
+          "d": "5fe928ae0970844f3c5253d2e85a88788486edcbd96c070334a4a2d0d0154a77",
+          "nuts": "1,2,3,4,5,6,7,9,10,11,12,14,20",
+          "network": "mainnet",
+          "pubkey": "5fe928ae0970844f3c5253d2e85a88788486edcbd96c070334a4a2d0d0154a77",
+          "updated_at": 1774120532
+        },
+        {
+          "url": "https://mint.endfiat.money",
+          "d": "skjti5yn4uhv9ob8",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "85d5ae354755bb90373f20485a20aa2a07d5fac3572f2bcf416f5294681a1f6b",
+          "updated_at": 1771595376
+        },
+        {
+          "url": "https://mint.unclerics.cash",
+          "d": "9xwrqojp5syeov5o",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "ea0111e0f4bfb4cd4b0afc03c4ba6a906157d00744580866fbbe23f1f6fb64c9",
+          "updated_at": 1761455499
+        },
+        {
+          "url": "https://mint.efectivodigital.mx/",
+          "d": "dosjoo2082ig40yg",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "81b57fc6197b687ed196768298b9fc73f945c99d11da9713ca2b76319dfae965",
+          "updated_at": 1761429178
+        },
+        {
+          "url": "https://unclerics.cash",
+          "d": "p2ys6gka85mh8la9",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "ea0111e0f4bfb4cd4b0afc03c4ba6a906157d00744580866fbbe23f1f6fb64c9",
+          "updated_at": 1761213244
+        },
+        {
+          "url": "https://mint.28waves.com",
+          "d": "2of8yd3c9lx0sakm",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "1f9c52848bd53e51cff8ac4dd4363cabde05b70168178a65145bbf56c8e40803",
+          "updated_at": 1758299823
+        },
+        {
+          "url": "https://mint.btcforplebs.com",
+          "d": "8jirqjx0drwpn7t8",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "75462f4dece4fbde54a535cfa09eb0d329bda090a9c2f9ed6b5f9d1d2fb6c15b",
+          "updated_at": 1758049538
+        },
+        {
+          "url": "https://mint.mineracks.com",
+          "d": "05tinon55qh8u7sg",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "bb0c0e0b3d200904b096bd8f896530d1f4fffea117d868eab26c8d424787482b",
+          "updated_at": 1756445367
+        },
+        {
+          "url": "https://mint.kashir.xyz",
+          "d": "qcelgx6c1sbt3iqf",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "ff140c396a8f0140db85284c9cc79c6844dfd709b4155c2bd43e0009a737e4be",
+          "updated_at": 1752808842
+        },
+        {
+          "url": "https://mint.fredix.xyz",
+          "d": "1vbzet949tlp1nch",
+          "nuts": "7,8,9,10,11,12,14,17,20",
+          "pubkey": "63bed096c5a18d92ed13176c4b0777df452a014ccfdabd4992e29ac1a6c667fa",
+          "updated_at": 1750027821
+        },
+        {
+          "url": "https://mint.westernbtc.com",
+          "d": "9sf0wzqlha64e3hg",
+          "nuts": "7,8,9,10,11,12,14,17",
+          "pubkey": "0e29efc2a3eb6966403e8c61cb8bea6d78527af5e0565a2baa0f313eff142af2",
+          "updated_at": 1734967392
+        },
+        {
+          "url": "https://forge.flashapp.me",
+          "d": "8vyxofq5wv6pfhuz",
+          "nuts": "7,8,9,10,11,12,17",
+          "pubkey": "fbcefeba65741c7f11db8a7fb0ef184d07bfb2edf31288064a0cfac37033fa73",
+          "updated_at": 1729907698
+        },
+        {
+          "url": "https://mint2.nutmix.cash",
+          "d": "tqei94vf6h3dvoid",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "6fb266012c3008303e54ae55140b46957e9978098401dda34f4d921a275bf8bb",
+          "updated_at": 1729678708
+        },
+        {
+          "url": "https://mint.lnw.cash",
+          "d": "57pw3h1g02own6q3",
+          "nuts": "7,8,9,10,11,12,17",
+          "pubkey": "08f968569f15f1f803466845f954e8b384fee6669aa589c85b860fd3ffe59a09",
+          "updated_at": 1728545371
+        },
+        {
+          "url": "https://smilemoji.cash:3338",
+          "d": "35eypsc9ngam8841",
+          "nuts": "7,8,9,10,11,12,17",
+          "pubkey": "e3fc673fc5f99cc554d0ff47756795647d25cb6e6658f912d114ae6429d35d35",
+          "updated_at": 1725179373
+        },
+        {
+          "url": "https://mint.coinos.io",
+          "d": "2p99r473z3ro1roi",
+          "nuts": "7,8,9,10,11,12,17",
+          "pubkey": "566c166f3adab0c8fba5da015b0b3bcc8eb3696b455f2a1d43bfbd97059646a8",
+          "updated_at": 1723837602
+        },
+        {
+          "url": "https://mint.belgianbitcoinembassy.org",
+          "d": "96vpoap8kxpd6dsv",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "6d3a6f98f5ec81e05093af0fad94c89ee1040298d59724ef9a02dde976eaadc5",
+          "updated_at": 1721350643
+        },
+        {
+          "url": "https://21mint.me",
+          "d": "r26q8bsia2bfq5p2",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "8c382ee1f0df71548ca203063c0def8da4a84c6add3b43caa8469d1e3732cce7",
+          "updated_at": 1721350016
+        },
+        {
+          "url": "https://mint.nostrich.cc",
+          "d": "6vjj7bts71q5fd68",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "85d5ae354755bb90373f20485a20aa2a07d5fac3572f2bcf416f5294681a1f6b",
+          "updated_at": 1720710360
+        },
+        {
+          "url": "https://mint.lnserver.com",
+          "d": "pgaws099xq8im905",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "fbfb3855d50c37866af00484a6476680ae1e2ff04ceb9dd8936465f70d39150b",
+          "updated_at": 1719572678
+        },
+        {
+          "url": "https://mint.lnfast.com",
+          "d": "mzdphwzy5bsu1ujn",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "44c90da27071c5557086b1ad80d69303ce4796f1fe576456de98d704bc6b1ad2",
+          "updated_at": 1719485138
+        },
+        {
+          "url": "https://mint.lnwallet.app",
+          "d": "mxh8oy840f82m9jz",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "a3c1acb135201549e7f0609b2fb4585654fcfc89425c09325d579782e91e2766",
+          "updated_at": 1719293320
+        },
+        {
+          "url": "https://cashu.boats",
+          "d": "5m4httkal2jbmsw4",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "3e6f0732e667fc52a88a294bf200ff9cec40867aefdb4ba5bbe317896ffc8b35",
+          "updated_at": 1718930958
+        },
+        {
+          "url": "https://mint.lnvoltz.com",
+          "d": "fldfh7e2nvrg03y1",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "b4aa3cfa9b6ce001a06b1eb5da16e2a732bc3ab3a73be2f4a56a5bcd10a4d656",
+          "updated_at": 1718916921
+        },
+        {
+          "url": "https://mint.0xchat.com",
+          "d": "bnn33vubbjhunxpo",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "7adb520c3ac7cb6dc8253508df0ce1d975da49fefda9b5c956744a049d230ace",
+          "updated_at": 1717661481
+        },
+        {
+          "url": "https://mint.gwoq.com",
+          "d": "991ktv26utid53yc",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "4e3016e742f44520e9077a20f898179b026bc53d02c9a74b0a027b7d087a7012",
+          "updated_at": 1717329901
+        },
+        {
+          "url": "https://mint.quixote.cash/cashu/api/v1/TX6nZECe8r6hjDxtdA6N5b",
+          "d": "5qssq9xm5gk0dxqf",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "900ad351a1a7d1a5d55c406cd7c325e26877976e3d4bb7e782727577bb1262cd",
+          "updated_at": 1713389701
+        },
+        {
+          "url": "https://mint.mountainlake.io",
+          "d": "p4hr7p7ddoebz9fi",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "3db7ca42a8e83c04bd52ce836a9818b6e9052e9e3aa85d22c2b3c715f121f96f",
+          "updated_at": 1711981120
+        },
+        {
+          "url": "https://bitcointxoko.com/cashu/api/v1/dMk78c5aR7uhHzcqH3Bwqp",
+          "d": "lph2zn1s4y19svkw",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "599f67f7df7694c603a6d0636e15ebc610db77dcfd47d6e5d05386d821fb3ea9",
+          "updated_at": 1711011039
+        },
+        {
+          "url": "https://lnwallet.app/cashu/api/v1/9tZLEVyknrtaGxeBjEecc4",
+          "d": "b6fvmnp709180zlc",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "28a9404d6e6f4f94a77a30bc23cb1a130cc44bc35acf38bcdf3f1348c7c4b16d",
+          "updated_at": 1710921479
+        },
+        {
+          "url": "https://bb.mountainlake.io/cashu/api/v1/WpczZwvNES7wMa8ForKGmh",
+          "d": "dk87zye26lvgsnye",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "4bda8a0e7e2e4035bc04b6675ed6be5a9f0a2d37a32f97eafd228da2f0aaec7e",
+          "updated_at": 1710920455
+        },
+        {
+          "url": "https://stpaulinternet.net/cashu/api/v1/TTcmiEDSWmkefef3XqERKv",
+          "d": "3t73a8jcqop0bi03",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "63a25f661f2eef8683f4bcbd563787440717c98c3b5cf0439061bd19fdc8ca50",
+          "updated_at": 1710894810
+        },
+        {
+          "url": "https://lnb.bolverker.com/cashu/api/v1/GZjPXyQXsgnZEgKZsLRQyy",
+          "d": "o3iixciim717e01a",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "669ebbcccf409ee0467a33660ae88fd17e5379e646e41d7c236ff4963f3c36b6",
+          "updated_at": 1710879641
+        },
+        {
+          "url": "https://obsessedjerky7.lnbits.com/cashu/api/v1/L4bNfiBtTyhEpZWdt6QTb4",
+          "d": "9mjhsuqsss81nisv",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "ae1008d23930b776c18092f6eab41e4b09fcf3f03f3641b1b4e6ee3aa166d760",
+          "updated_at": 1710863627
+        },
+        {
+          "url": "https://mint.minibits.cash/Bitcoin",
+          "d": "rz5btn60uytjp86f",
+          "nuts": "7,8,9,10,11,12",
+          "pubkey": "c35ff8c340449f0d68af1aec4844bb44a9c0b8c1dd4f4d4efbc65e12039a348a",
+          "updated_at": 1710546441
+        }
+      ],
+      "fedimint": [
+        {
+          "invite": "fed11qgqyj3mfwfhksw309u6kzc3exvmn2dnz8q6xgvfhvd3kgep48yekyd3",
+          "d": "ffc46075bfc235a5683fadb93e8c7e1377ae18d37dd369f9d88e95f1df3bb484",
+          "modules": "ln,lnv2,meta,mint,mintv2,wallet,walletv2",
+          "network": "bitcoin",
+          "pubkey": "4a08e6efb38e6928a5c2bb2f09f4c09505e4f11ec9b283d3766573e178ce08ae",
+          "updated_at": 1780815302
+        },
+        {
+          "invite": "fed11qgqrvdrhwden5te0v9cxjtnpd3cxscfwvekj6v3sxg6nqwf3xykkzmr",
+          "d": "08ff9119365a7e36316cfdd2692705486df1fb1f923d7320a2448dd8326f9b40",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "bitcoin",
+          "pubkey": "bc5122e4d89e495ceb2a63134b5f208c7d17a1505d041d6a4eca7fc59eb71d50",
+          "updated_at": 1776235133
+        },
+        {
+          "invite": "fed11qvqyj3mfwfhksw309umrjen9vscnwefhx4jkve3j893rsvmpv56rzvp",
+          "d": "103b0a005077185b64583e1cdcd2e3023f00a16e28ae5fcc79fffc156a36ef61",
+          "modules": "ln,mint,wallet,lnv2,meta",
+          "network": "signet",
+          "pubkey": "bc5122e4d89e495ceb2a63134b5f208c7d17a1505d041d6a4eca7fc59eb71d50",
+          "updated_at": 1775199515
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309uunxer9xajk2dpsv9jx2en98qeryef48yexyer",
+          "d": "713d9b889b5e207a85d8632e2e5f6926cf74c532299bc313a5fc105534007fce",
+          "modules": "ln,mint,wallet,lnv2,meta",
+          "network": "bitcoin",
+          "pubkey": "41804ce7b1340366e8fb37cd0632d14344d6d294e51f524dc16c9e8ba28f8ed8",
+          "updated_at": 1768826117
+        },
+        {
+          "invite": "fed11qvqyj3mfwfhksw309u6nqvej8p3rgc33xcmk2dp5vvckzvf4xfnxvef",
+          "d": "5a0ca072cffcdfe5ce2ce8a04f728e073ce179221dc2f88ca0ee39ffa607513b",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "bitcoin",
+          "pubkey": "f6349a9ed50fafc2f685a5c6d3040f5eead5b10b362b1fdc05bd0c651c99f84d",
+          "updated_at": 1763992474
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309uergwf3vvuxyefcvgcrwcmyxaskvvnzxs6nzdr",
+          "d": "1bcb64e68ef0b3de3ad96cb98b43a2fd972a9ffa0fb6f0e26aaee69d1d463b97",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "mainnet",
+          "pubkey": "e5bedc3f869dfbd54cd6bad60b32009bffe0a87762b74d8f79c98000be94f966",
+          "updated_at": 1761144167
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309uenvdehv9nrgvtpxy6xxwp3v5ukyefcxuerze3",
+          "d": "e053caf955643bdd9936746f744843cdfd7c2cb60e54aadc26ffa4b093a8d53a",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "mainnet",
+          "pubkey": "e5bedc3f869dfbd54cd6bad60b32009bffe0a87762b74d8f79c98000be94f966",
+          "updated_at": 1761144132
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309anrjdfjvcunsvtrvgunzdpnxvenzdp3xsuxvce",
+          "d": "7dd868a86990cd27331a9e1b386b34cb9da2937a7b885d6bd6a0a6a39ca3c7bb",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "mainnet",
+          "pubkey": "e5bedc3f869dfbd54cd6bad60b32009bffe0a87762b74d8f79c98000be94f966",
+          "updated_at": 1759931431
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309umrwepev4nrjdmpxy6xvctxxe3kxcejvvmrjef",
+          "d": "6b2bcd96ab83d6ba31e36b821c89f6cc7a57d2133cdf884018833d3770456fe6",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "mainnet",
+          "pubkey": "e5bedc3f869dfbd54cd6bad60b32009bffe0a87762b74d8f79c98000be94f966",
+          "updated_at": 1759931390
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309ajkxc3jxejkgd3jxcerqdf5xs6r2c3svgunxvf",
+          "d": "718e421be177486639330d198e870b7345ebd07b2866b5fd3797d73e4bc4c9af",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "mainnet",
+          "pubkey": "e5bedc3f869dfbd54cd6bad60b32009bffe0a87762b74d8f79c98000be94f966",
+          "updated_at": 1759931333
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309uekyvesvenrzdpjx93xvdf4xcex2d33xajxycm",
+          "d": "9dc886ab35c45c162b27fa3da6fe356375b074b5496c7e9afa5b1c8e7fd61288",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "mainnet",
+          "pubkey": "e5bedc3f869dfbd54cd6bad60b32009bffe0a87762b74d8f79c98000be94f966",
+          "updated_at": 1759931271
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309askxcehvdjnjwtpx4jrvvt9xp3nwerpv9snwve",
+          "d": "d823ae7a21bb51727187f178f18c1b0bdd6f315195ccc676f6c2465d717e269e",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "mainnet",
+          "pubkey": "e5bedc3f869dfbd54cd6bad60b32009bffe0a87762b74d8f79c98000be94f966",
+          "updated_at": 1759931137
+        },
+        {
+          "invite": "fed11qgqyj3mfwfhksw309a3nydehv9nrvve3vgexvefevscnjc35v5unwvt",
+          "d": "7c1edc0c6ac9bb4e581e06f5a8ca61c9ca1669ba16fbe644f9c63dc0fe47b908",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "mainnet",
+          "pubkey": "e5bedc3f869dfbd54cd6bad60b32009bffe0a87762b74d8f79c98000be94f966",
+          "updated_at": 1759931088
+        },
+        {
+          "invite": "fed11qvqyj3mfwfhksw309ucnywf38yurwwf4x5unswf58pjxydpnx9jnxdp",
+          "d": "718e421be177486639330d198e870b7345ebd07b2866b5fd3797d73e4bc4c9af",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "bitcoin",
+          "pubkey": "de2b138f51b9d52752ec4f44fc36153fe5ae5b7dc92c39cdbd6d4a9fb8f4334e",
+          "updated_at": 1759923172
+        },
+        {
+          "invite": "fed11qvqzxgthwden5te0v9cxjtnzd96xxmmfdckhqunfde3kjurvv4ejucm",
+          "d": "b21068c84f5b12ca4fdf93f3e443d3bd7c27e8642d0d52ea2e4dce6fdbbee9df",
+          "modules": "ln,mint,wallet,fedi-social,stability_pool",
+          "network": "bitcoin",
+          "pubkey": "9e1e498420bc7c35f3e3a78d20045b4c8343986dae48739759bccb2a27e88c53",
+          "updated_at": 1759321264
+        },
+        {
+          "invite": "fed11qgqrvdrhwden5te0v9cxjtnpd3cxscfwvekj6v3sxg6nqwf3xykkzmr",
+          "d": "08ff9119365a7e36316cfdd2692705486df1fb1f923d7320a2448dd8326f9b40",
+          "pubkey": "c978d53649e41a394aff939dcc4bd960cabfc97031cfac3d9ccd31fc2af0fff7",
+          "updated_at": 1758227369
+        },
+        {
+          "invite": "fed11qvqrcwnhwden5te0v9cxjtnpd3cxscfwd35kyetjw3uj6arjv4jj6mn",
+          "d": "3694b086bf3d7f5e64e2cbe44de9e6c4247e6c9d29e3d3c4625a79798f5f8d38",
+          "modules": "ln,mint,wallet,lnv2,meta,multi_sig_stability_pool",
+          "network": "bitcoin",
+          "pubkey": "d31148be9ff82eb3f0fdfb0087faafcce5d0ed26e70ccb6b6c0be45ebe113581",
+          "updated_at": 1756932659
+        },
+        {
+          "invite": "fed11qgqrcwnhwden5te0v9cxjtnpd3cxscfwd35kyetjw3uj6arjv4jj6mn",
+          "d": "3694b086bf3d7f5e64e2cbe44de9e6c4247e6c9d29e3d3c4625a79798f5f8d38",
+          "pubkey": "c705c143b7cc169b99b1a909c56bd8a23a6d0280a866ecb9251807284b53bf80",
+          "updated_at": 1756835398
+        },
+        {
+          "invite": "fed11qvqzxgthwden5te0v9cxjtnzd96xxmmfdckhqunfde3kjurvv4ejucm",
+          "d": "b21068c84f5b12ca4fdf93f3e443d3bd7c27e8642d0d52ea2e4dce6fdbbee9df",
+          "modules": "ln,mint,wallet,fedi-social,stability_pool",
+          "network": "bitcoin",
+          "pubkey": "141d2053cb29535ad45aa9e865cdec492524f0ec0066496b98b7099daab5d658",
+          "updated_at": 1756224487
+        },
+        {
+          "invite": "fed11qvqzggnhwden5te0v9cxjtn9vd3jue3wvfkxjmnyva6kzunyd9skutn",
+          "d": "aeca6cc80ffc530bd2d54b09681f6edb9a415c362e4af2fe3d5e04137006fa21",
+          "modules": "ln,mint,wallet,meta",
+          "network": "bitcoin",
+          "pubkey": "141d2053cb29535ad45aa9e865cdec492524f0ec0066496b98b7099daab5d658",
+          "updated_at": 1756224071
+        },
+        {
+          "invite": "fed11qvqyj3mfwfhksw309umrjen9vscnwefhx4jkve3j893rsvmpv56rzvp",
+          "d": "103b0a005077185b64583e1cdcd2e3023f00a16e28ae5fcc79fffc156a36ef61",
+          "modules": "ln,mint,wallet,lnv2,meta",
+          "network": "signet",
+          "pubkey": "141d2053cb29535ad45aa9e865cdec492524f0ec0066496b98b7099daab5d658",
+          "updated_at": 1753129617
+        },
+        {
+          "invite": "fed11qvqpw9thwden5te0v9sjuctnvcczummjvuhhwue0qqqpj9mhwden5te",
+          "d": "e9a3a03fb399029340c0e8d39c12c6b79768926e028860dc6701abab8cb864de",
+          "modules": "ln,mint,wallet,meta",
+          "network": "bitcoin",
+          "pubkey": "2325b61aea919fed96b4da55fe5654b41c37b7519bddac49ad94581b3abc986a",
+          "updated_at": 1732029539
+        },
+        {
+          "invite": "fed11qvqpw9thwvaz7te3xgmjuvpwxqhrzw33xvmnqwf0qqqpw9thwvaz7te",
+          "d": "50a4c03b5c7c5c07dd07215f906d28ce9bea3dc7ee0ef49477a66df14f417316",
+          "modules": "ln,mint,wallet,lnv2,meta,unknown",
+          "network": "regtest",
+          "pubkey": "9e1e498420bc7c35f3e3a78d20045b4c8343986dae48739759bccb2a27e88c53",
+          "updated_at": 1731930682
+        },
+        {
+          "invite": "fed11qgqzz8mhwden5te0vejkg6tdd9h8gepwvchxjmm5w4hxgunp9e3k7mf",
+          "d": "c944b2fd1e7fe04ca87f9a57d7894cb69116cec6264cb52faa71228f4ec54cd6",
+          "pubkey": "1989034e56b8f606c724f45a12ce84a11841621aaf7182a1f6564380b9c4276b",
+          "updated_at": 1716931598
+        },
+        {
+          "invite": "fed11qgqzygrhwden5te0v9cxjtnzd96xxmmfdec8y6twvd5hqmr9wvhxuet",
+          "d": "b21068c84f5b12ca4fdf93f3e443d3bd7c27e8642d0d52ea2e4dce6fdbbee9df",
+          "pubkey": "de8823cdc979bf4c753223edc19a7abc35ecff2959ef50ca9e9d573ac0f83fd0",
+          "updated_at": 1712762781
+        },
+        {
+          "invite": "fed11qgqzc2nhwden5te0vejkg6tdd9h8gepwvejkg6tdd9h8garhduhx6at",
+          "d": "c8d423964c7ad944d30f57359b6e5b260e211dcfdb945140e28d4df51fd572d2",
+          "modules": "lightning,wallet,mint",
+          "network": "signet",
+          "pubkey": "024f93e1890e9e470fb729ea24426766508c0e0c5618b5b475f2d027d0814d09",
+          "updated_at": 1711507423
+        }
+      ]
+    },
+    "reviews": {
+      "kind": 38000,
+      "count": 528,
+      "by_target_kind": {
+        "38172": 98,
+        "38173": 369,
+        "untagged": 61
+      }
+    },
+    "handlers": {
+      "kind": 31990,
+      "count": 550
+    },
+    "dvm_jobs_30d": {
+      "kinds_sampled": "5000-5999",
+      "window_days": 30,
+      "total": 1000,
+      "by_kind": {
+        "5000": 1,
+        "5300": 975,
+        "5555": 24
+      }
+    }
+  }
+}

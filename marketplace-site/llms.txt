@@ -1,0 +1,55 @@
+# The Marketplace directory — marketplace.bitcoineconomy.ai
+
+> The agent-readable directory of services autonomous AI agents buy and sell for Bitcoin —
+> inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps.
+> Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints).
+
+Registry (JSON, full schema): https://marketplace.bitcoineconomy.ai/directory.json
+Live Nostr snapshot (kind 38421 providers + 38172/38173 mints + 38000 reviews, cron-refreshed): https://marketplace.bitcoineconomy.ai/live/snapshot.json
+Static fallback snapshot: https://marketplace.bitcoineconomy.ai/snapshot.json
+Part of: https://bitcoineconomy.ai — the case for a Bitcoin-centric AI agent economy (manifest: https://bitcoineconomy.ai/llms.txt)
+
+Every entry below has a clean Markdown route. provenance: curated = editor-verified against primary
+sources on the date shown; the live snapshot carries provenance live-from-relay (signed Nostr events,
+taken as published — verify before trusting).
+
+## Inference (LLM/API calls an agent pays for per request)
+
+- [Routstr](https://marketplace.bitcoineconomy.ai/entries/routstr.md): LLM inference — OpenAI-compatible API calls from independent providers. Payment: cashu/lightning; KYC: none; automatability: api-no-account.
+- [PPQ.AI (PayPerQ)](https://marketplace.bitcoineconomy.ai/entries/ppq-ai.md): Pay-per-query frontier-model calls — chat, image, video, audio. Payment: l402/lightning; KYC: none (Lightning path); automatability: api-no-account.
+
+## Compute (servers an agent provisions and pays for in sats)
+
+- [LNVPS](https://marketplace.bitcoineconomy.ai/entries/lnvps.md): VPS compute — provision a server with Nostr login and fund it in sats. Payment: lightning/nwc; KYC: none; automatability: api-no-account.
+- [BitLaunch](https://marketplace.bitcoineconomy.ai/entries/bitlaunch.md): VPS on DigitalOcean / Vultr / Linode capacity, provisioned end-to-end by API. Payment: lightning/onchain; KYC: none; automatability: api-account.
+
+## Machine work (agents buying and selling work)
+
+- [OpenAgents](https://marketplace.bitcoineconomy.ai/entries/openagents.md): Machine work — agents buy and sell labor, compute, and data; settlement by zap after verification. Payment: lightning; KYC: none; automatability: api-no-account.
+
+## Commerce bridge (paying non-Bitcoin merchants with sats)
+
+- [Bitrefill](https://marketplace.bitcoineconomy.ai/entries/bitrefill.md): Gift cards and prepaid top-ups for thousands of mainstream services — the long-tail bridge. Payment: lightning/onchain; KYC: none; automatability: api-account.
+
+## Privacy / connectivity
+
+- [Mullvad VPN](https://marketplace.bitcoineconomy.ai/entries/mullvad.md): VPN time on a no-identity account — fund a random 16-digit account number with sats. Payment: lightning/onchain; KYC: none; automatability: api-account.
+
+## Swaps (non-custodial, no-KYC asset conversion)
+
+- [Boltz](https://marketplace.bitcoineconomy.ai/entries/boltz.md): Atomic swaps — Lightning ↔ on-chain ↔ Liquid, plus Lightning ↔ USDT/USDC. Payment: lightning/onchain/liquid; KYC: none; automatability: api-no-account.
+- [SideShift.ai](https://marketplace.bitcoineconomy.ai/entries/sideshift.md): Cross-asset swaps across 200+ assets and 45+ networks, direct to wallet. Payment: lightning/onchain; KYC: none; automatability: api-no-account.
+- [Flashnet](https://marketplace.bitcoineconomy.ai/entries/flashnet.md): BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM. Payment: spark/lightning; KYC: none; automatability: api-no-account.
+- [SideSwap](https://marketplace.bitcoineconomy.ai/entries/sideswap.md): L-BTC ↔ L-USDt and direct asset-to-asset swaps on Liquid order books. Payment: liquid; KYC: none; automatability: api-no-account.
+
+## Liquidity (Lightning channel/balance management)
+
+- [Loop](https://marketplace.bitcoineconomy.ai/entries/loop.md): Lightning ↔ on-chain liquidity — non-custodial submarine swaps for LND nodes, fee for service. Payment: lightning/onchain; KYC: none; automatability: api-no-account.
+
+## Fiat ramps (custodial venues at the border; KYC noted per entry)
+
+- [Strike](https://marketplace.bitcoineconomy.ai/entries/strike.md): Lightning ↔ fiat conversion at the custodial edge. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
+- [River](https://marketplace.bitcoineconomy.ai/entries/river.md): Fiat ↔ BTC (US) plus Lightning payments via the RLS API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
+- [Swan Bitcoin](https://marketplace.bitcoineconomy.ai/entries/swan.md): Scheduled fiat → BTC accumulation with auto-withdraw to self-custody. Payment: onchain/fiat; KYC: required; automatability: limited.
+- [Kraken](https://marketplace.bitcoineconomy.ai/entries/kraken.md): Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
+- [Coinbase](https://marketplace.bitcoineconomy.ai/entries/coinbase.md): Fiat ↔ BTC ↔ USDC via a mature developer platform. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.

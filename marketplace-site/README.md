@@ -1,35 +1,67 @@
-# marketplace-site — placeholder for marketplace.bitcoineconomy.ai
+# marketplace-site — marketplace.bitcoineconomy.ai
 
-A single self-contained `index.html`: the elegant under-construction page for the
-future community-rated services directory (the "separate sibling site" the
-Marketplace/Services surfaces reference). On-brand: dark-futuristic, the violet
-Marketplace accent, the terminal-window motif, CTAs back to the main site.
+The Marketplace **directory**: the agent-readable registry of services autonomous
+agents buy and sell for Bitcoin. Phase 1 architecture (see the build plan in the
+project notes): **curated registry core + live Nostr modules + a snapshot layer**.
 
-This folder is **not** part of the main Astro build (`npm run build` only
-publishes `dist/`); it deploys as its **own Cloudflare Pages project**.
+This folder is **not** part of the main Astro build; it deploys on its own
+(currently a Cloudflare Pages project; Worker migration steps below).
 
-## Deploy (one-time, Cloudflare dashboard — ~5 minutes)
+## What's here
 
-Recommended: git-connected, so future updates ship on push.
+| file | role |
+|---|---|
+| `index.html` | the directory UI — renders `directory.json` + the live snapshot, client-side, no framework |
+| `directory.json` | **generated** — the curated registry core (17 entries from the main site's card inventory) |
+| `entries/*.md` | **generated** — one clean Markdown route per entry |
+| `llms.txt` | **generated** — the agent manifest for the subdomain |
+| `snapshot.json` | **generated** — committed fallback of the live Nostr snapshot (Routstr 38421 providers, NIP-87 38172/38173 mints, 38000 reviews) |
+| `directory-overlay.json` | hand-authored directory fields (category, what-an-agent-buys, payment methods, automatability tier) merged over card frontmatter |
+| `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `entries/`, `llms.txt` |
+| `sample-relays.mjs` | local CLI: query relays, print inventory, `--write` regenerates `snapshot.json` |
+| `snapshot-lib.mjs` | shared relay-query + snapshot-shape logic (used by the CLI **and** the worker — one schema) |
+| `worker.js` | Cloudflare Worker: cron → relays → KV; serves `/live/snapshot.json`; assets otherwise |
+| `wrangler.jsonc` | worker config (cron every 6h, KV binding, static assets) |
+| `_headers` | CORS for the agent routes |
 
-1. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**
-   → pick `RadVladdy/bitcoineconomy-ai`.
-2. Project name: `bitcoineconomy-marketplace` (any name works).
-   **Build command:** *(leave empty)* · **Build output directory:** `marketplace-site`.
-3. Deploy, then in the project → **Custom domains → Set up a custom domain** →
-   `marketplace.bitcoineconomy.ai`. The zone is already on Cloudflare, so the
-   DNS record + certificate are created automatically.
-4. Verify `https://marketplace.bitcoineconomy.ai` loads.
+**Never hand-edit the generated files.** Change a card in `src/_raw/` or
+`directory-overlay.json`, then run `node build.mjs` from this folder.
+Refresh the committed live fallback occasionally with `node sample-relays.mjs --write`.
 
-(Alternative: **Upload assets** / direct upload of this folder — fastest, but
-each future change is a manual re-upload.)
+## Editorial rules (same as the main site)
 
-## After it's live
+Directory entries are **reference content** — facts, curated by what we show and
+the order (sovereignty-first; fiat ramps last, Bitcoin-only before multi-asset).
+No stance editorializing in entry text. Live-module data is **announcements as
+published, not endorsements** — the UI and llms.txt say so explicitly. Provenance
+is labeled per object: `curated` vs `live-from-relay`.
 
-Flip the `marketplace.bitcoineconomy.ai` mentions on the main site from inline
-code to real links (Marketplace, Services, Services-FA, Exchange — they are
-deliberately not hyperlinks today because the subdomain didn't resolve).
+## Deploys
 
-When the real directory is built (v2 — see the vault `_Progress` backlog and the
-Nostr-marketplace research), it replaces this folder's content or gets its own
-repo; the Pages project and domain stay.
+**Today (Pages, already live):** the git-connected Pages project
+`bitcoineconomy-marketplace` (build output dir = `marketplace-site`) redeploys on
+push. Everything static works on it — UI, `directory.json`, `llms.txt`,
+`entries/`, `snapshot.json` — and the UI silently falls back from
+`/live/snapshot.json` to the committed snapshot.
+
+**Worker migration (one-time, enables the cron-refreshed `/live/snapshot.json`):**
+
+1. From this folder: `npx wrangler kv namespace create SNAPSHOT` (or dashboard →
+   Storage & Databases → KV → Create). Paste the namespace id into
+   `wrangler.jsonc` where marked, commit.
+2. Create the Worker — either git-connected like the main site (dashboard →
+   Workers & Pages → Create → Worker → import `RadVladdy/bitcoineconomy-ai`,
+   **root directory `marketplace-site`**, deploy command `npx wrangler deploy`)
+   or one-off from this folder: `npx wrangler deploy`.
+3. Move the custom domain: remove `marketplace.bitcoineconomy.ai` from the Pages
+   project, then Worker → Settings → Domains & Routes → add it.
+4. Retire the Pages project. The cron fires within 6 hours (or trigger it once
+   from the Worker's dashboard → Settings → Trigger Events); until the first run,
+   `/live/snapshot.json` serves the committed fallback.
+
+## Phase 2+ (per the build plan)
+
+Reviews via the proven NIP-87 kind-38000 pattern rendered per entry; the
+DVM/handler module with honest-activity framing; zap-weighted ranking; then the
+submission flow (publish a signed announcement — possibly our own agent-payable
+service announcement microstandard, with Routstr's 38421 as the template).
