@@ -1,0 +1,4 @@
+# NIP-05 verification endpoint: CORS is REQUIRED by the spec (clients fetch
+# cross-origin from web apps), and the endpoint must never redirect.
+/.well-known/nostr.json
+  Access-Control-Allow-Origin: *
