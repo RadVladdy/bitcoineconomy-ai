@@ -9,6 +9,9 @@ A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+
 - KYC: none
 - Custody: self-custody
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
+- Auth: none
+- API base: https://sideshift.ai/api/v2
+- Quickstart: Request a quote and create a shift via the REST API — no account; funds settle direct to the destination address (docs.sideshift.ai).
 - Site: https://sideshift.ai
 - Docs/API: https://docs.sideshift.ai
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/sideshift

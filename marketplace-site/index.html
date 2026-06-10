@@ -20,7 +20,8 @@
   "isPartOf": { "@type": "WebSite", "name": "The Bitcoin Economy for AI", "url": "https://bitcoineconomy.ai/" },
   "dataset": [
     { "@type": "Dataset", "name": "Curated registry", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/directory.json" } },
-    { "@type": "Dataset", "name": "Live Nostr snapshot", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/snapshot.json" } }
+    { "@type": "Dataset", "name": "Live Nostr snapshot (probed)", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/snapshot.json" } },
+    { "@type": "Dataset", "name": "Cross-provider inference price index", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/models.json" } }
   ]
 }
 </script>
@@ -186,6 +187,14 @@
   .b-kyc-none { color: #7dd3a0; border-color: rgba(125,211,160,0.3); }
   .b-kyc-req { color: #d3a87d; border-color: rgba(211,168,125,0.3); }
   .b-auto { color: var(--warm); }
+  .qs {
+    font: 400 0.74rem/1.6 "JetBrains Mono", monospace;
+    color: var(--dim);
+    border-left: 2px solid #232326;
+    padding-left: 0.6rem;
+    word-break: break-word;
+  }
+  .qs b { color: var(--cool); font-weight: 500; }
   .card-foot {
     display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center;
     margin-top: auto; padding-top: 0.55rem;
@@ -220,6 +229,12 @@
     padding: 0.28rem 0.55rem;
     vertical-align: middle;
   }
+  .st { font: 500 0.72rem/1.4 "JetBrains Mono", monospace; white-space: nowrap; }
+  .st-alive { color: #7dd3a0; }
+  .st-dead { color: #d37d7d; }
+  .st-tor { color: var(--warm); }
+  .st-unk { color: var(--dim); }
+  .lat { font: 400 0.7rem/1.4 "JetBrains Mono", monospace; color: var(--dim); }
   .fineprint { font-size: 0.8rem; color: #6b6b66; margin-top: 0.7rem; max-width: 50rem; }
   .more-row { text-align: center; }
   .more-row button {
@@ -271,7 +286,8 @@
 <span class="p">← 200 OK · directory.status: <span class="ok">LIVE</span></span>
 <span class="p" id="t-curated">← registry: … curated entries</span>
 <span class="p" id="t-live">← relays: connecting …</span>
-<span class="a">→ fetch /directory.json</span>
+<span class="p" id="t-probe">← probe: …</span>
+<span class="a">→ fetch /directory.json + /live/models.json</span>
 <span class="mut">machine-readable. that's the point. </span></div>
   </div>
 
@@ -294,21 +310,35 @@
   </div>
 
   <h2 id="live"><span class="hash">#</span>Live from the relays <span class="prov-live" id="live-when">snapshot</span></h2>
-  <p class="sec-sub">What actually announces itself on Nostr today, read from public relays (relay.damus.io, nos.lol, relay.primal.net): <a href="https://bitcoineconomy.ai/services/routstr">Routstr</a> inference providers (kind 38421) and <a href="https://bitcoineconomy.ai/tools/evaluating-ecash-mints">ecash mints</a> (NIP-87, kinds 38172/38173) with their signed reviews (kind 38000). These are <strong>announcements as published, not endorsements</strong> — verify a provider or mint before trusting it.</p>
+  <p class="sec-sub">What actually announces itself on Nostr today, read from public relays (relay.damus.io, nos.lol, relay.primal.net): <a href="https://bitcoineconomy.ai/services/routstr">Routstr</a> inference providers (kind 38421) and <a href="https://bitcoineconomy.ai/tools/evaluating-ecash-mints">ecash mints</a> (NIP-87, kinds 38172/38173) with their signed reviews (kind 38000). These are <strong>announcements as published, not endorsements</strong> — and announcements outlive their nodes, so each clearnet endpoint is <strong>probed when the snapshot refreshes</strong> (dead ≠ delisted; onion-only endpoints can't be probed from here and show as unverified). Today's signed reviews target the mints, not the providers — verify a provider or mint before trusting it.</p>
 
   <div class="live-grid" id="live-stats"></div>
 
   <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.2rem 0 0.6rem;">Routstr inference providers <span class="mono" id="prov-count"></span></h3>
+  <div class="filters" id="prov-filters">
+    <span class="chip on" data-reach="alive">alive now</span>
+    <span class="chip" data-reach="all">all announced</span>
+    <select id="f-net" aria-label="Filter providers by network"><option value="">network: any</option><option value="clearnet">clearnet only</option><option value="both">clearnet + tor</option><option value="tor">tor-only</option></select>
+  </div>
   <div class="tbl-scroll">
     <table id="providers">
-      <thead><tr><th>provider</th><th>endpoint</th><th>mints</th><th>version</th><th>announced</th></tr></thead>
+      <thead><tr><th>provider</th><th>status</th><th>endpoint</th><th>models</th><th>mints</th><th>version</th><th>announced</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.6rem 0 0.6rem;" id="price-h">Cross-provider price check <span class="mono" id="model-count"></span></h3>
+  <p class="sec-sub" id="price-sub">The same model is priced differently across providers. The widest-served models, cheapest provider first — full index, every model and every alive provider, at <a href="/live/models.json">/live/models.json</a>. Prices are the providers' own published numbers in <strong>sats per 1M tokens</strong>; <code>max_cost</code> (in the index) is each provider's per-request ceiling — the budgeting number.</p>
+  <div class="tbl-scroll">
+    <table id="prices">
+      <thead><tr><th>model</th><th>served by</th><th>cheapest at</th><th>prompt sats/1M</th><th>completion sats/1M</th></tr></thead>
       <tbody></tbody>
     </table>
   </div>
   <p class="fineprint" id="dvm-note"></p>
 
   <div class="agents-block" id="agents">
-<strong style="color: var(--text)">For agents.</strong> Registry: <a href="/directory.json">/directory.json</a> (full schema in-band) · manifest: <a href="/llms.txt">/llms.txt</a> · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a> · live Nostr snapshot: <a href="/live/snapshot.json">/live/snapshot.json</a> (cron-refreshed; static fallback <a href="/snapshot.json">/snapshot.json</a>). Provenance is labeled per object: <span class="mono">curated</span> = editor-verified on the date shown; <span class="mono">live-from-relay</span> = signed Nostr events as published. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
+<strong style="color: var(--text)">For agents.</strong> Registry: <a href="/directory.json">/directory.json</a> (full schema in-band; entries carry <span class="mono">auth</span> / <span class="mono">quickstart</span> / verified <span class="mono">api_base</span>) · manifest: <a href="/llms.txt">/llms.txt</a> (start with its three-fetch recipe) · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a> · live Nostr snapshot with per-provider probe status: <a href="/live/snapshot.json">/live/snapshot.json</a> · cross-provider inference price index: <a href="/live/models.json">/live/models.json</a> (both cron-refreshed; static fallbacks <a href="/snapshot.json">/snapshot.json</a> + <a href="/models.json">/models.json</a>). Provenance is labeled per object: <span class="mono">curated</span> = editor-verified on the date shown; <span class="mono">live-from-relay</span> = signed Nostr events as published; <span class="mono">probed-from-provider-endpoints</span> = the providers' own published numbers. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
   </div>
 </main>
 
@@ -365,6 +395,12 @@
       '<span class="cat">' + esc(e.category) + '</span></div>' +
       '<p class="buys">' + esc(e.what_an_agent_buys) + '</p>' +
       '<p class="summary">' + esc(e.summary) + '</p>' +
+      ((e.auth || e.quickstart)
+        ? '<p class="qs">' +
+          (e.auth ? '<b>auth:</b> ' + esc(e.auth) + (e.quickstart ? '<br/>' : '') : '') +
+          (e.quickstart ? '<b>start:</b> ' + esc(e.quickstart) : '') +
+          '</p>'
+        : '') +
       '<div class="badges">' +
         e.payment_methods.map((p) => '<span class="b b-pay">' + esc(p) + '</span>').join('') +
         (e.kyc ? '<span class="b ' + (kycNone ? 'b-kyc-none' : 'b-kyc-req') + '">kyc: ' + esc(e.kyc) + '</span>' : '') +
@@ -390,13 +426,17 @@
   }
   render();
 
-  // ---------- live snapshot ----------
+  // ---------- live snapshot + models index ----------
   let snap = null, live = false;
   try { snap = await (await fetch('/live/snapshot.json')).json(); live = true; } catch (e) {}
   if (!snap) { try { snap = await (await fetch('./snapshot.json')).json(); } catch (e) {} }
+  let mx = null;
+  try { mx = await (await fetch('/live/models.json')).json(); } catch (e) {}
+  if (!mx) { try { mx = await (await fetch('./models.json')).json(); } catch (e) {} }
 
   if (!snap) {
     $('#t-live').innerHTML = '← relays: <span class="mut">snapshot unavailable</span>';
+    $('#t-probe').innerHTML = '← probe: <span class="mut">—</span>';
     $('#live-stats').innerHTML = '<p class="sec-sub">Live snapshot unavailable right now — the curated registry above is unaffected.</p>';
     return;
   }
@@ -407,35 +447,98 @@
   $('#t-live').innerHTML = '← relays: <span class="ok">' + m.routstr.count + ' inference providers · ' +
     (m.mints.cashu_count + m.mints.fedimint_count) + ' ecash mints · ' + m.reviews.count + ' signed reviews</span>';
 
+  const probe = m.routstr.probe;
+  if (probe) {
+    $('#t-probe').innerHTML = '← probe: <span class="ok">' + probe.alive + ' endpoints alive</span> · ' +
+      probe.unreachable + ' unreachable · ' + probe.unverified_tor_only + ' tor-only' +
+      (probe.unroutable ? ' · ' + probe.unroutable + ' unroutable' : '') +
+      (mx ? ' · <span class="ok">' + mx.model_count + ' models price-indexed</span>' : '');
+  } else {
+    $('#t-probe').innerHTML = '← probe: <span class="mut">not in this snapshot</span>';
+  }
+
   $('#live-stats').innerHTML =
+    (probe ? '<div class="stat"><div class="n">' + probe.alive + '</div><div class="l">endpoints alive at the last probe (' + esc((probe.probed_at || '').slice(0, 10)) + ') — of ' + m.routstr.count + ' announced</div></div>' : '') +
     '<div class="stat"><div class="n">' + m.routstr.count + '</div><div class="l">Routstr inference providers announcing (kind 38421)</div></div>' +
     '<div class="stat"><div class="n">' + m.mints.cashu_count + '</div><div class="l">Cashu mints announcing (NIP-87, kind 38172)</div></div>' +
     '<div class="stat"><div class="n">' + m.mints.fedimint_count + '</div><div class="l">Fedimint federations announcing (kind 38173)</div></div>' +
-    '<div class="stat"><div class="n">' + m.reviews.count + '</div><div class="l">Signed recommendations/reviews (kind 38000)</div></div>';
+    '<div class="stat"><div class="n">' + m.reviews.count + '</div><div class="l">Signed reviews (kind 38000) — today these target the mints, not the providers</div></div>';
 
   const provs = m.routstr.providers || [];
   $('#prov-count').textContent = '· ' + provs.length + ' announcing · provenance: live-from-relay';
-  const tbody = $('#providers tbody');
-  const SHOW = 12;
+
+  const STATUS_ORDER = { alive: 0, 'unverified-tor-only': 1, unreachable: 2, unroutable: 3 };
+  const sorted = [...provs].sort((a, b) =>
+    (STATUS_ORDER[a.status] ?? 3) - (STATUS_ORDER[b.status] ?? 3) ||
+    (a.latency_ms ?? Infinity) - (b.latency_ms ?? Infinity) ||
+    (b.updated_at ?? 0) - (a.updated_at ?? 0));
+
+  const pstate = { reach: probe ? 'alive' : 'all', net: '' };
+  const provFilters = $('#prov-filters');
+  if (!probe) provFilters.style.display = 'none';
+  provFilters.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c.dataset.reach === pstate.reach));
+  provFilters.addEventListener('click', (ev) => {
+    const chip = ev.target.closest('.chip'); if (!chip) return;
+    pstate.reach = chip.dataset.reach;
+    provFilters.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c === chip));
+    renderProviders(SHOW);
+  });
+  $('#f-net').addEventListener('change', (ev) => { pstate.net = ev.target.value; renderProviders(SHOW); });
+
+  function statusCell(p) {
+    if (p.status === 'alive') return '<span class="st st-alive">● alive</span><br/><span class="lat">' + esc(p.latency_ms) + ' ms</span>';
+    if (p.status === 'unreachable') return '<span class="st st-dead">✗ unreachable</span>';
+    if (p.status === 'unverified-tor-only') return '<span class="st st-tor" title="Announced with only an onion endpoint — not probeable from this infrastructure">◌ tor-only, unverified</span>';
+    if (p.status === 'unroutable') return '<span class="st st-dead" title="Announced with no publicly routable endpoint (e.g. localhost)">✗ unroutable</span>';
+    return '<span class="st st-unk">unprobed</span>';
+  }
   function provRow(p) {
     const urls = (p.urls || []).map((u) =>
       /^https:/.test(u)
         ? '<a class="mono" href="' + esc(u) + '" rel="nofollow noopener noreferrer">' + esc(u.replace(/^https:\/\//, '')) + '</a>'
         : '<span class="mono">' + esc(u.length > 42 ? u.slice(0, 39) + '…' : u) + '</span>'
     ).join('<br/>');
-    return '<tr><td class="name">' + esc(p.name || '(unnamed)') + '</td><td>' + (urls || '—') + '</td>' +
+    return '<tr><td class="name">' + esc(p.name || '(unnamed)') + '</td><td>' + statusCell(p) + '</td><td>' + (urls || '—') + '</td>' +
+      '<td>' + (p.model_count ?? '—') + '</td>' +
       '<td>' + (p.mints ? p.mints.length : 0) + '</td><td><code>' + esc(p.version || '?') + '</code></td>' +
       '<td>' + esc(new Date((p.updated_at || 0) * 1000).toISOString().slice(0, 10)) + '</td></tr>';
   }
+  const tbody = $('#providers tbody');
+  const SHOW = 12;
+  function provHits() {
+    return sorted.filter((p) =>
+      (pstate.reach === 'all' || p.status === 'alive') &&
+      (!pstate.net || p.network === pstate.net));
+  }
   function renderProviders(n) {
-    tbody.innerHTML = provs.slice(0, n).map(provRow).join('') +
-      (provs.length > n
-        ? '<tr class="more-row"><td colspan="5"><button id="more-prov">show all ' + provs.length + ' →</button></td></tr>'
+    const hits = provHits();
+    tbody.innerHTML = (hits.slice(0, n).map(provRow).join('') ||
+        '<tr><td colspan="7" class="mut" style="padding:0.9rem">No providers match — switch to “all announced” or clear the network filter.</td></tr>') +
+      (hits.length > n
+        ? '<tr class="more-row"><td colspan="7"><button id="more-prov">show all ' + hits.length + ' →</button></td></tr>'
         : '');
     const btn = $('#more-prov');
-    if (btn) btn.addEventListener('click', () => renderProviders(provs.length));
+    if (btn) btn.addEventListener('click', () => renderProviders(hits.length));
   }
   renderProviders(SHOW);
+
+  // ---------- cross-provider price check ----------
+  const perM = (v) => (typeof v === 'number' && isFinite(v)) ? Math.round(v * 1e6).toLocaleString('en-US') : '—';
+  if (mx && Array.isArray(mx.models) && mx.models.length) {
+    $('#model-count').textContent = '· ' + mx.model_count + ' models across ' + mx.providers_alive + ' alive providers · provenance: probed-from-provider-endpoints';
+    const rows = mx.models.slice(0, 8).map((mod) => {
+      const best = mod.providers[0] || {};
+      return '<tr><td><code>' + esc(mod.id) + '</code></td><td>' + mod.provider_count + '</td>' +
+        '<td class="name">' + esc(best.provider || '—') + '</td>' +
+        '<td>' + perM(best.sats_per_prompt_token) + '</td>' +
+        '<td>' + perM(best.sats_per_completion_token) + '</td></tr>';
+    }).join('');
+    $('#prices tbody').innerHTML = rows;
+  } else {
+    $('#price-h').style.display = 'none';
+    $('#price-sub').style.display = 'none';
+    $('#prices').closest('.tbl-scroll').style.display = 'none';
+  }
 
   const dvm = m.dvm_jobs_30d;
   if (dvm && dvm.total) {

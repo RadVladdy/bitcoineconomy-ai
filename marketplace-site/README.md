@@ -11,22 +11,43 @@ This folder is **not** part of the main Astro build; it deploys on its own
 
 | file | role |
 |---|---|
-| `index.html` | the directory UI — renders `directory.json` + the live snapshot, client-side, no framework |
-| `directory.json` | **generated** — the curated registry core (16 entries from the main site's card inventory) |
+| `index.html` | the directory UI — renders `directory.json` + the live snapshot + the price index, client-side, no framework |
+| `directory.json` | **generated** — the curated registry core (16 entries from the main site's card inventory, incl. the machine fields auth/quickstart/api_base/pricing_url) |
 | `entries/*.md` | **generated** — one clean Markdown route per entry |
-| `llms.txt` | **generated** — the agent manifest for the subdomain |
-| `snapshot.json` | **generated** — committed fallback of the live Nostr snapshot (Routstr 38421 providers, NIP-87 38172/38173 mints, 38000 reviews) |
-| `directory-overlay.json` | hand-authored directory fields (category, what-an-agent-buys, payment methods, automatability tier) merged over card frontmatter |
+| `llms.txt` | **generated** — the agent manifest for the subdomain (opens with the three-fetch consumption recipe) |
+| `snapshot.json` | **generated** — committed fallback of the live Nostr snapshot (Routstr 38421 providers **with probe status**, NIP-87 38172/38173 mints, 38000 reviews) |
+| `models.json` | **generated, minified** — committed fallback of the cross-provider inference price index (model → alive providers, cheapest first, sats pricing) |
+| `directory-overlay.json` | hand-authored directory fields (category, what-an-agent-buys, payment methods, automatability tier, auth/quickstart + verified api_base/pricing_url) merged over card frontmatter |
 | `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `entries/`, `llms.txt` |
-| `sample-relays.mjs` | local CLI: query relays, print inventory, `--write` regenerates `snapshot.json` |
-| `snapshot-lib.mjs` | shared relay-query + snapshot-shape logic (used by the CLI **and** the worker — one schema) |
-| `worker.js` | Cloudflare Worker: cron → relays → KV; serves `/live/snapshot.json`; assets otherwise |
+| `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
+| `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
+| `worker.js` | Cloudflare Worker: cron → relays + probes → KV; serves `/live/snapshot.json` + `/live/models.json`; assets otherwise |
 | `wrangler.jsonc` | worker config (cron every 6h, KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 
 **Never hand-edit the generated files.** Change a card in `src/_raw/` or
 `directory-overlay.json`, then run `node build.mjs` from this folder.
-Refresh the committed live fallback occasionally with `node sample-relays.mjs --write`.
+Refresh the committed live fallbacks occasionally with `node sample-relays.mjs --write`.
+
+## The agent-decision layer (probes + price index)
+
+Announcements are replaceable Nostr events that outlive their nodes (first probe,
+2026-06-10: 13 of 37 announced providers alive). So every snapshot refresh probes
+each announced **clearnet** endpoint's unauthenticated `/v1/models` and records
+per provider: `status` (`alive | unreachable | unverified-tor-only | unroutable`),
+`latency_ms`, `model_count`, `network` (`clearnet | tor | both | unroutable`).
+Honesty rules: dead ≠ delisted (announcements stay listed with status); onion-only
+endpoints can't be probed from this infrastructure and are labeled unverified, not
+dead; prices are the providers' own published numbers, not endorsements.
+
+The probe's catalogs also build **`models.json`** — model id → every alive
+provider serving it, cheapest first, in sats per token + per-request `max_cost`.
+That one fetch answers "who serves model X cheapest right now".
+
+**Free-plan note:** the worker cron parses each alive provider's `/v1/models`
+(~1–2 MB for the big ones). If the cron ever hits the plan's CPU limit, the
+don't-overwrite-good-data rule keeps the previous KV snapshot; persistent failure
+→ upgrade the plan or refresh via `node sample-relays.mjs --write` instead.
 
 ## Editorial rules (same as the main site)
 

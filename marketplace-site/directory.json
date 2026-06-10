@@ -1,8 +1,8 @@
 {
-  "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json with provenance \"live-from-relay\". Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
+  "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line). Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-06-10T14:36:06.245Z",
+  "generated_at": "2026-06-10T16:16:11.864Z",
   "entry_count": 16,
   "categories": [
     "inference",
@@ -14,6 +14,10 @@
     "liquidity",
     "fiat-ramp"
   ],
+  "live_routes": {
+    "snapshot": "https://marketplace.bitcoineconomy.ai/live/snapshot.json",
+    "models_price_index": "https://marketplace.bitcoineconomy.ai/live/models.json"
+  },
   "automatability_tiers": {
     "api-no-account": "API with no account — payment or a key is the credential; zero human onboarding",
     "api-account": "API after account setup — no identity check, but a human creates the account first",
@@ -46,6 +50,10 @@
       "kyc": "none",
       "custody": "self-custodial (bearer Cashu tokens)",
       "automatability": "api-no-account",
+      "auth": "none — a funded Cashu token is the API key",
+      "api_base": "https://api.routstr.com/v1",
+      "pricing_url": "https://api.routstr.com/v1/models",
+      "quickstart": "Point any OpenAI-compatible client at a provider endpoint with a funded Cashu token as the Bearer key. Per-model sats pricing at {endpoint}/v1/models; live provider list + cross-provider price index at /live/snapshot.json + /live/models.json.",
       "two_sided": "consume + offer",
       "maintainer": "Routstr",
       "links": {
@@ -72,6 +80,8 @@
       "kyc": "none (Lightning path)",
       "custody": "custodial gateway",
       "automatability": "api-no-account",
+      "auth": "none on the L402 path — pay-per-query; or a funded top-up balance",
+      "quickstart": "Pay per query over Lightning/L402 — no account, no API key on that path; API documented at ppq.ai/api-docs (machine pointer: ppq.ai/llms.txt).",
       "two_sided": "consume",
       "maintainer": "PayPerQ",
       "links": {
@@ -98,6 +108,8 @@
       "kyc": "none",
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-no-account",
+      "auth": "Nostr key is the identity — no email, no KYC",
+      "quickstart": "Log in with a Nostr key, pick CPU/RAM/SSD, pay the Lightning invoice (or connect a wallet over NWC); automate the same flow via the LNVPS API (github.com/LNVPS/api).",
       "two_sided": "consume",
       "maintainer": "LNVPS (Apex Strata Ltd, Ireland)",
       "links": {
@@ -123,6 +135,8 @@
       "kyc": "none",
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-account",
+      "auth": "API token after email signup — no KYC",
+      "quickstart": "Create an account and an API token, then provision and pay end-to-end with blcli or the Go/Python/PHP SDKs — request, invoice, pay, provision, all programmatic.",
       "two_sided": "consume",
       "maintainer": "BitLaunch",
       "links": {
@@ -147,6 +161,8 @@
       "kyc": "none",
       "custody": "self-custodial (BIP39-derived agent wallets; FROSTR threshold signing)",
       "automatability": "api-no-account",
+      "auth": "Nostr identity (npub) + a self-custodial Lightning wallet",
+      "quickstart": "Run Autopilot (desktop) or a Pylon node to offer compute; consumers pay Lightning zaps after the work verifies (pay-after-verify).",
       "two_sided": "consume + offer",
       "maintainer": "OpenAgents, Inc.",
       "links": {
@@ -174,6 +190,8 @@
       "kyc": "none",
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-account",
+      "auth": "Thor API key (account; no KYC for ordinary purchases)",
+      "quickstart": "Request a product via the Thor API, receive a Lightning invoice, pay it, get the redemption code back — the whole loop with no human in it.",
       "two_sided": "consume",
       "maintainer": "Bitrefill",
       "links": {
@@ -199,6 +217,8 @@
       "kyc": "none",
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-account",
+      "auth": "account number only — generated free, no email, no identity",
+      "quickstart": "Generate an account number, pay a Lightning invoice against it, connect via WireGuard — scriptable, though there is no formal payment API.",
       "two_sided": "consume",
       "maintainer": "Mullvad VPN",
       "links": {
@@ -223,6 +243,9 @@
       "kyc": "none",
       "custody": "self-custody",
       "automatability": "api-no-account",
+      "auth": "none",
+      "api_base": "https://api.boltz.exchange/v2",
+      "quickstart": "Create a swap against the v2 REST API — no account; atomic HTLC settlement keeps custody with the agent throughout (docs: api.docs.boltz.exchange).",
       "links": {
         "site": "https://boltz.exchange",
         "docs": "https://api.docs.boltz.exchange"
@@ -245,6 +268,9 @@
       "kyc": "none",
       "custody": "self-custody",
       "automatability": "api-no-account",
+      "auth": "none",
+      "api_base": "https://sideshift.ai/api/v2",
+      "quickstart": "Request a quote and create a shift via the REST API — no account; funds settle direct to the destination address (docs.sideshift.ai).",
       "links": {
         "site": "https://sideshift.ai",
         "docs": "https://docs.sideshift.ai"
@@ -267,6 +293,8 @@
       "kyc": "none",
       "custody": "self-custody",
       "automatability": "api-no-account",
+      "auth": "none — keys stay with the agent",
+      "quickstart": "Swap BTC ↔ USDT/USDB/USDC on the Spark-native AMM — non-custodial, settles in seconds.",
       "links": {
         "site": "https://www.flashnet.xyz"
       },
@@ -287,6 +315,8 @@
       "kyc": "none",
       "custody": "self-custody",
       "automatability": "api-no-account",
+      "auth": "none",
+      "quickstart": "Trade L-BTC ↔ L-USDt and tokenized assets on Liquid order books via the SideSwap API (sideswap.io/docs).",
       "links": {
         "site": "https://sideswap.io",
         "docs": "https://sideswap.io/docs/"
@@ -309,6 +339,8 @@
       "kyc": "none",
       "custody": "self-custody (atomic submarine swaps)",
       "automatability": "api-no-account",
+      "auth": "none — your own LND node is the prerequisite",
+      "quickstart": "Run loopd against an LND node holding both channel and on-chain balance; loop out / loop in rebalance atomically (a fee to the Loop server applies).",
       "maintainer": "Lightning Labs",
       "links": {
         "site": "https://lightning.engineering/loop/",
@@ -334,6 +366,9 @@
       "kyc": "required",
       "custody": "custodial",
       "automatability": "api-kyc",
+      "auth": "API key — KYC account required",
+      "api_base": "https://api.strike.me",
+      "quickstart": "Complete KYC, create an API key, then drive invoices, payments, and fiat↔Lightning conversion via the Strike API (docs.strike.me).",
       "links": {
         "site": "https://strike.me",
         "docs": "https://docs.strike.me"
@@ -357,6 +392,8 @@
       "kyc": "required",
       "custody": "custodial",
       "automatability": "api-kyc",
+      "auth": "API key — KYC onboarding required",
+      "quickstart": "Complete KYC onboarding, then use the RLS API for Lightning send/receive — a payments API, not buy/sell trading (docs.rls.dev).",
       "links": {
         "site": "https://river.com",
         "docs": "https://docs.rls.dev"
@@ -380,6 +417,9 @@
       "kyc": "required",
       "custody": "custodial",
       "automatability": "api-kyc",
+      "auth": "API key — KYC account required",
+      "api_base": "https://api.kraken.com",
+      "quickstart": "Complete KYC, create an API key, then full deposit/trade/withdraw over REST + WebSocket (docs.kraken.com).",
       "links": {
         "site": "https://kraken.com",
         "docs": "https://docs.kraken.com"
@@ -403,6 +443,9 @@
       "kyc": "required",
       "custody": "custodial",
       "automatability": "api-kyc",
+      "auth": "API key (CDP) — KYC account required",
+      "api_base": "https://api.coinbase.com",
+      "quickstart": "Complete KYC, create CDP API keys, then Advanced Trade REST/WebSocket for deposit/trade/withdraw (docs.cdp.coinbase.com).",
       "links": {
         "site": "https://coinbase.com",
         "docs": "https://docs.cdp.coinbase.com"

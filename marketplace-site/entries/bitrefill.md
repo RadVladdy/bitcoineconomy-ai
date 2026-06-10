@@ -10,6 +10,8 @@ The Lightning-native bridge to the rest of the digital economy — buy gift card
 - KYC: none
 - Custody: n/a (pay-and-receive)
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first
+- Auth: Thor API key (account; no KYC for ordinary purchases)
+- Quickstart: Request a product via the Thor API, receive a Lightning invoice, pay it, get the redemption code back — the whole loop with no human in it.
 - Direction: consume
 - Maintainer: Bitrefill
 - Site: https://bitrefill.com

@@ -10,6 +10,8 @@ Bitcoin/Lightning VPS provisioning with a real API and SDKs — spin up DigitalO
 - KYC: none
 - Custody: n/a (pay-and-receive)
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first
+- Auth: API token after email signup — no KYC
+- Quickstart: Create an account and an API token, then provision and pay end-to-end with blcli or the Go/Python/PHP SDKs — request, invoice, pay, provision, all programmatic.
 - Direction: consume
 - Maintainer: BitLaunch
 - Site: https://bitlaunch.io

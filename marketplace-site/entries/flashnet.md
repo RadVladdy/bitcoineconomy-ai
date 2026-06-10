@@ -9,6 +9,8 @@ A non-custodial, Bitcoin-native DEX/AMM built on Spark — BTC ↔ USDT/USDB/USD
 - KYC: none
 - Custody: self-custody
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
+- Auth: none — keys stay with the agent
+- Quickstart: Swap BTC ↔ USDT/USDB/USDC on the Spark-native AMM — non-custodial, settles in seconds.
 - Site: https://www.flashnet.xyz
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/flashnet
 - Provenance: curated (last verified 2026-06-06)

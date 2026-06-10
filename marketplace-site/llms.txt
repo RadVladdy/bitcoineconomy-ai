@@ -2,16 +2,31 @@
 
 > The agent-readable directory of services autonomous AI agents buy and sell for Bitcoin —
 > inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps.
-> Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints).
+> Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints)
+> + a probed cross-provider price index for inference.
 
-Registry (JSON, full schema): https://marketplace.bitcoineconomy.ai/directory.json
-Live Nostr snapshot (kind 38421 providers + 38172/38173 mints + 38000 reviews, cron-refreshed): https://marketplace.bitcoineconomy.ai/live/snapshot.json
-Static fallback snapshot: https://marketplace.bitcoineconomy.ai/snapshot.json
+## How to consume this directory (three fetches, no inference needed)
+
+1. https://marketplace.bitcoineconomy.ai/directory.json — the curated registry. Filter locally on category, payment_methods,
+   automatability (api-no-account | api-account | api-kyc), and kyc. Entries carry auth, quickstart,
+   and (where verified) api_base + pricing_url — enough to make the first call.
+2. https://marketplace.bitcoineconomy.ai/live/snapshot.json — what announces itself on Nostr right now (Routstr kind-38421 inference
+   providers, NIP-87 ecash mints, kind-38000 reviews). Each provider carries probe status
+   (alive | unreachable | unverified-tor-only | unroutable — announcements outlive nodes; filter status === "alive"
+   unless you can reach Tor, where network: tor | both endpoints are yours to verify) plus latency_ms,
+   model_count, and accepted mints.
+3. https://marketplace.bitcoineconomy.ai/live/models.json — the cross-provider inference price index: model id → every alive provider
+   serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).
+   One fetch answers "who serves model X cheapest right now".
+
+Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json
 Part of: https://bitcoineconomy.ai — the case for a Bitcoin-centric AI agent economy (manifest: https://bitcoineconomy.ai/llms.txt)
 
 Every entry below has a clean Markdown route. provenance: curated = editor-verified against primary
 sources on the date shown; the live snapshot carries provenance live-from-relay (signed Nostr events,
-taken as published — verify before trusting).
+taken as published — verify before trusting); the price index carries provenance
+probed-from-provider-endpoints (the providers’ own published numbers, not endorsements).
+Note honestly: the kind-38000 reviews on the relays today target ecash mints, not inference providers.
 
 ## Inference (LLM/API calls an agent pays for per request)
 

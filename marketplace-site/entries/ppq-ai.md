@@ -10,6 +10,8 @@ Pay-per-query access to hundreds of frontier models over Lightning / L402 — no
 - KYC: none (Lightning path)
 - Custody: custodial gateway
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
+- Auth: none on the L402 path — pay-per-query; or a funded top-up balance
+- Quickstart: Pay per query over Lightning/L402 — no account, no API key on that path; API documented at ppq.ai/api-docs (machine pointer: ppq.ai/llms.txt).
 - Direction: consume
 - Maintainer: PayPerQ
 - Site: https://ppq.ai

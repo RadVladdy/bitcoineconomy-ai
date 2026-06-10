@@ -9,6 +9,9 @@ A large, long-established multi-asset exchange with broad fiat pairs and a matur
 - KYC: required
 - Custody: custodial
 - Automatability: api-kyc — API after KYC onboarding — automatable once a human completes identity verification
+- Auth: API key — KYC account required
+- API base: https://api.kraken.com
+- Quickstart: Complete KYC, create an API key, then full deposit/trade/withdraw over REST + WebSocket (docs.kraken.com).
 - Site: https://kraken.com
 - Docs/API: https://docs.kraken.com
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/kraken
