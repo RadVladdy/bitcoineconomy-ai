@@ -37,8 +37,12 @@ export default {
         );
       }
       try {
+        // no-store: payment parameters must be live — Cloudflare otherwise
+        // edge-caches the upstream response (observed: a stale payer-visible
+        // description served for minutes after the provider updated it).
         const res = await fetch(upstream + url.search, {
           headers: { accept: 'application/json' },
+          cache: 'no-store',
         });
         return new Response(await res.text(), { status: res.status, headers: JSON_HEADERS });
       } catch {
