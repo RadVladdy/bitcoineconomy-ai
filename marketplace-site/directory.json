@@ -2,8 +2,8 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json with provenance \"live-from-relay\". Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-06-10T14:21:26.708Z",
-  "entry_count": 17,
+  "generated_at": "2026-06-10T14:36:06.245Z",
+  "entry_count": 16,
   "categories": [
     "inference",
     "compute",
@@ -363,27 +363,6 @@
       },
       "card_url": "https://bitcoineconomy.ai/exchanges/river",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/river.md",
-      "provenance": "curated",
-      "last_verified": "2026-06-06"
-    },
-    {
-      "slug": "swan",
-      "name": "Swan Bitcoin",
-      "category": "fiat-ramp",
-      "summary": "A US Bitcoin-only company built around recurring accumulation and automatic withdrawal to self-custody — scheduled buys rather than ad-hoc trading.",
-      "what_an_agent_buys": "Scheduled fiat → BTC accumulation with auto-withdraw to self-custody",
-      "payment_methods": [
-        "onchain",
-        "fiat"
-      ],
-      "kyc": "required",
-      "custody": "custodial",
-      "automatability": "limited",
-      "links": {
-        "site": "https://swanbitcoin.com"
-      },
-      "card_url": "https://bitcoineconomy.ai/exchanges/swan",
-      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/swan.md",
       "provenance": "curated",
       "last_verified": "2026-06-06"
     },

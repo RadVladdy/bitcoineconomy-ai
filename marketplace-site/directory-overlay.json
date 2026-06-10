@@ -1,5 +1,5 @@
 {
-  "_comment": "Directory-specific fields per entry, merged over the card frontmatter by build.mjs. The cards in src/_raw/ stay the single source of truth for names, links, KYC, custody, and verification dates; this overlay adds only what the directory needs: category, what an agent buys, normalized payment methods, and the automatability tier. Order here = display order (sovereignty-first; fiat ramps last, Bitcoin-only before multi-asset).",
+  "_comment": "Directory-specific fields per entry, merged over the card frontmatter by build.mjs. The cards in src/_raw/ stay the single source of truth for names, links, KYC, custody, and verification dates; this overlay adds only what the directory needs: category, what an agent buys, normalized payment methods, and the automatability tier. Order here = display order (sovereignty-first; fiat ramps last, Bitcoin-only before multi-asset). INCLUSION BAR: an entry must be agent-drivable through a real API — the `limited` tier (no public trading/provisioning API) is below the threshold and stays in the vocabulary only to mark the boundary (Swan removed under this rule; its card remains on the main site's Exchange reference map).",
   "_automatability_tiers": {
     "api-no-account": "API with no account — payment or a key is the credential; zero human onboarding",
     "api-account": "API after account setup — no identity check, but a human creates the account first",
@@ -127,15 +127,6 @@
       "what_an_agent_buys": "Fiat ↔ BTC (US) plus Lightning payments via the RLS API",
       "payment_methods": ["lightning", "onchain", "fiat"],
       "automatability": "api-kyc"
-    },
-    {
-      "slug": "swan",
-      "source": "exchanges/swan.md",
-      "category": "fiat-ramp",
-      "summary": "A US Bitcoin-only company built around recurring accumulation and automatic withdrawal to self-custody — scheduled buys rather than ad-hoc trading.",
-      "what_an_agent_buys": "Scheduled fiat → BTC accumulation with auto-withdraw to self-custody",
-      "payment_methods": ["onchain", "fiat"],
-      "automatability": "limited"
     },
     {
       "slug": "kraken",

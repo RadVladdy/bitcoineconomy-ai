@@ -12,7 +12,7 @@ This folder is **not** part of the main Astro build; it deploys on its own
 | file | role |
 |---|---|
 | `index.html` | the directory UI — renders `directory.json` + the live snapshot, client-side, no framework |
-| `directory.json` | **generated** — the curated registry core (17 entries from the main site's card inventory) |
+| `directory.json` | **generated** — the curated registry core (16 entries from the main site's card inventory) |
 | `entries/*.md` | **generated** — one clean Markdown route per entry |
 | `llms.txt` | **generated** — the agent manifest for the subdomain |
 | `snapshot.json` | **generated** — committed fallback of the live Nostr snapshot (Routstr 38421 providers, NIP-87 38172/38173 mints, 38000 reviews) |
@@ -35,6 +35,12 @@ the order (sovereignty-first; fiat ramps last, Bitcoin-only before multi-asset).
 No stance editorializing in entry text. Live-module data is **announcements as
 published, not endorsements** — the UI and llms.txt say so explicitly. Provenance
 is labeled per object: `curated` vs `live-from-relay`.
+
+**Inclusion bar:** an entry must be agent-drivable through a real API. The
+`limited` automatability tier (no public trading/provisioning API) is below the
+threshold — such venues can be honest facts on the main site's Exchange
+reference map, but they are not marketplace entries (Swan was removed under
+this rule, 2026-06-10).
 
 ## Deploys
 

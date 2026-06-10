@@ -345,7 +345,8 @@
   }
   const pays = [...new Set(dir.entries.flatMap((e) => e.payment_methods))];
   for (const p of pays) paySel.insertAdjacentHTML('beforeend', '<option>' + esc(p) + '</option>');
-  for (const a of Object.keys(dir.automatability_tiers)) autoSel.insertAdjacentHTML('beforeend', '<option>' + esc(a) + '</option>');
+  const autos = [...new Set(dir.entries.map((e) => e.automatability))];
+  for (const a of autos) autoSel.insertAdjacentHTML('beforeend', '<option>' + esc(a) + '</option>');
 
   filters.addEventListener('click', (ev) => {
     const chip = ev.target.closest('.chip'); if (!chip) return;

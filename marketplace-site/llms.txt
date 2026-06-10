@@ -50,6 +50,5 @@ taken as published — verify before trusting).
 
 - [Strike](https://marketplace.bitcoineconomy.ai/entries/strike.md): Lightning ↔ fiat conversion at the custodial edge. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
 - [River](https://marketplace.bitcoineconomy.ai/entries/river.md): Fiat ↔ BTC (US) plus Lightning payments via the RLS API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
-- [Swan Bitcoin](https://marketplace.bitcoineconomy.ai/entries/swan.md): Scheduled fiat → BTC accumulation with auto-withdraw to self-custody. Payment: onchain/fiat; KYC: required; automatability: limited.
 - [Kraken](https://marketplace.bitcoineconomy.ai/entries/kraken.md): Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
 - [Coinbase](https://marketplace.bitcoineconomy.ai/entries/coinbase.md): Fiat ↔ BTC ↔ USDC via a mature developer platform. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
