@@ -131,15 +131,19 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
       routstr: {
         kind: 38421,
         count: routstr.length,
-        providers: routstr.map((ev) => ({
-          name: parseContentName(ev),
-          d: tag(ev, 'd')[0],
-          urls: tag(ev, 'u'),
-          mints: tag(ev, 'mint'),
-          version: tag(ev, 'version')[0],
-          pubkey: ev.pubkey,
-          updated_at: ev.created_at,
-        })).sort((a, b) => b.updated_at - a.updated_at),
+        providers: routstr.map((ev) => {
+          const urls = tag(ev, 'u');
+          return {
+            name: parseContentName(ev),
+            d: tag(ev, 'd')[0],
+            urls,
+            network: networkOf(urls),
+            mints: tag(ev, 'mint'),
+            version: tag(ev, 'version')[0],
+            pubkey: ev.pubkey,
+            updated_at: ev.created_at,
+          };
+        }).sort((a, b) => b.updated_at - a.updated_at),
       },
       mints: {
         kinds: [38172, 38173],
@@ -171,5 +175,154 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
         by_kind: Object.fromEntries(Object.entries(dvmByKind).sort((a, b) => b[1] - a[1])),
       },
     },
+  };
+}
+
+// ---- provider endpoint probes — the agent-decision layer ---------------------
+// Announcements are replaceable Nostr events that outlive their nodes (observed
+// 2026-06-10: 11 of 24 probeable announced providers were dead). So the snapshot
+// probes every clearnet endpoint's /v1/models at refresh time and records what
+// answered. Onion-only providers can't be probed from our infrastructure (no
+// Tor): they get "unverified-tor-only" — honestly distinct from both "alive"
+// and "unreachable". Dead ≠ delisted: the announcement layer stays the source
+// of record; consumers filter on `status`.
+
+function isPublicHttp(u) {
+  if (!/^https?:\/\//i.test(u) || /\.onion/i.test(u)) return false;
+  try {
+    const h = new URL(u).hostname;
+    if (/^(localhost|0\.0\.0\.0|127\.|10\.|192\.168\.)/i.test(h)) return false;
+    if (/^172\.(1[6-9]|2\d|3[01])\./.test(h)) return false;
+    if (h === '[::1]' || h.endsWith('.local') || !h.includes('.')) return false;
+    return true;
+  } catch { return false; }
+}
+
+export function networkOf(urls = []) {
+  const onion = urls.some((u) => /\.onion/i.test(u));
+  const clear = urls.some(isPublicHttp);
+  if (onion && clear) return 'both';
+  if (onion) return 'tor';
+  if (clear) return 'clearnet';
+  // Announced, but with no publicly routable endpoint at all (e.g. localhost).
+  return 'unroutable';
+}
+
+function clearnetBase(urls = []) {
+  const u = urls.find(isPublicHttp);
+  return u ? u.replace(/\/+$/, '') : undefined;
+}
+
+const sig6 = (n) => (typeof n === 'number' && isFinite(n) ? Number(n.toPrecision(6)) : undefined);
+
+// Probes each provider's clearnet /v1/models (Routstr nodes are OpenAI-compatible
+// and the endpoint is unauthenticated). Returns Map(d → probe result); `models`
+// (the full priced catalog) rides along for buildModelsIndex but is NOT written
+// into the snapshot — model_count + status are.
+export async function probeProviders(providers, { timeoutMs = 10000, concurrency = 8, fetchFn = fetch } = {}) {
+  const results = new Map();
+  const queue = [...providers];
+  async function lane() {
+    while (queue.length) {
+      const p = queue.shift();
+      const base = clearnetBase(p.urls);
+      if (!base) {
+        const onion = (p.urls ?? []).some((u) => /\.onion/i.test(u));
+        results.set(p.d, { status: onion ? 'unverified-tor-only' : 'unroutable' });
+        continue;
+      }
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
+      const t0 = Date.now();
+      try {
+        const res = await fetchFn(base + '/v1/models', { signal: ctrl.signal, headers: { accept: 'application/json' } });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const body = await res.json();
+        const models = Array.isArray(body?.data) ? body.data : Array.isArray(body?.models) ? body.models : [];
+        results.set(p.d, { status: 'alive', latency_ms: Math.round(Date.now() - t0), model_count: models.length, endpoint: base, models });
+      } catch {
+        results.set(p.d, { status: 'unreachable', endpoint: base });
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, Math.max(queue.length, 1)) }, lane));
+  return results;
+}
+
+// Folds probe results into the snapshot in place (and returns it): per-provider
+// status/latency/model_count + a module-level probe summary.
+export function applyProbes(snapshot, probeResults, { probedAt }) {
+  const mod = snapshot.modules?.routstr;
+  if (!mod) return snapshot;
+  const counts = { alive: 0, unreachable: 0, 'unverified-tor-only': 0, unroutable: 0 };
+  for (const p of mod.providers) {
+    const r = probeResults.get(p.d);
+    if (!r) continue;
+    p.status = r.status;
+    if (r.latency_ms !== undefined) p.latency_ms = r.latency_ms;
+    if (r.model_count !== undefined) p.model_count = r.model_count;
+    counts[r.status] = (counts[r.status] ?? 0) + 1;
+  }
+  mod.probe = {
+    probed_at: probedAt,
+    method: 'GET {clearnet endpoint}/v1/models, 10s timeout; onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint (e.g. localhost)',
+    alive: counts.alive,
+    unreachable: counts.unreachable,
+    unverified_tor_only: counts['unverified-tor-only'],
+    unroutable: counts.unroutable,
+    note: 'status reflects the probe moment only; dead ≠ delisted — announcements remain the source of record',
+  };
+  return snapshot;
+}
+
+// The cross-provider price index: model id → every alive provider serving it,
+// with sats pricing, cheapest first. One fetch answers "who serves model X
+// cheapest right now". Pricing fields mirror the providers' own sats_pricing:
+// sats per token (prompt/completion) + the per-request max_cost ceiling.
+export function buildModelsIndex(providers, probeResults, { generatedAt, source }) {
+  const byModel = new Map();
+  let alive = 0;
+  for (const p of providers) {
+    const probe = probeResults.get(p.d);
+    if (!probe || probe.status !== 'alive') continue;
+    alive++;
+    for (const m of probe.models ?? []) {
+      const sp = m.sats_pricing;
+      if (!m.id || !sp) continue;
+      const rec = byModel.get(m.id) ?? { id: m.id, name: m.name, context_length: m.context_length ?? null, providers: [] };
+      if ((m.context_length ?? 0) > (rec.context_length ?? 0)) rec.context_length = m.context_length;
+      rec.providers.push({
+        provider: p.name,
+        d: p.d,
+        endpoint: probe.endpoint,
+        sats_per_prompt_token: sig6(sp.prompt),
+        sats_per_completion_token: sig6(sp.completion),
+        sats_max_cost_per_request: sig6(sp.max_cost),
+      });
+      byModel.set(m.id, rec);
+    }
+  }
+  const models = [...byModel.values()];
+  for (const m of models) {
+    m.providers.sort((a, b) => (a.sats_per_prompt_token ?? Infinity) - (b.sats_per_prompt_token ?? Infinity));
+    m.provider_count = m.providers.length;
+  }
+  models.sort((a, b) => b.provider_count - a.provider_count || String(a.id).localeCompare(String(b.id)));
+  return {
+    $schema_note:
+      'Cross-provider price index for Routstr (kind 38421) inference providers, built by probing each ' +
+      'alive clearnet endpoint\'s unauthenticated /v1/models at snapshot time. models[] is sorted by how many ' +
+      'providers serve the model; each model\'s providers[] is sorted cheapest-first by sats_per_prompt_token. ' +
+      'Units: sats per token (prompt/completion); sats_max_cost_per_request is the provider\'s stated per-request ' +
+      'ceiling. Prices are the providers\' own published numbers, not endorsements — verify before trusting. ' +
+      'Provider inventory + liveness: /live/snapshot.json. Part of https://marketplace.bitcoineconomy.ai.',
+    generated_at: generatedAt,
+    source,
+    provenance: 'probed-from-provider-endpoints',
+    providers_alive: alive,
+    model_count: models.length,
+    models,
   };
 }

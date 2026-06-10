@@ -9,6 +9,8 @@ A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning
 - KYC: required
 - Custody: custodial
 - Automatability: api-kyc — API after KYC onboarding — automatable once a human completes identity verification
+- Auth: API key — KYC onboarding required
+- Quickstart: Complete KYC onboarding, then use the RLS API for Lightning send/receive — a payments API, not buy/sell trading (docs.rls.dev).
 - Site: https://river.com
 - Docs/API: https://docs.rls.dev
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/river

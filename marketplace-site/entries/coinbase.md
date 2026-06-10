@@ -9,6 +9,9 @@ A large, publicly listed multi-asset exchange with broad fiat connectivity and a
 - KYC: required
 - Custody: custodial
 - Automatability: api-kyc — API after KYC onboarding — automatable once a human completes identity verification
+- Auth: API key (CDP) — KYC account required
+- API base: https://api.coinbase.com
+- Quickstart: Complete KYC, create CDP API keys, then Advanced Trade REST/WebSocket for deposit/trade/withdraw (docs.cdp.coinbase.com).
 - Site: https://coinbase.com
 - Docs/API: https://docs.cdp.coinbase.com
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/coinbase

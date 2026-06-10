@@ -9,6 +9,8 @@ Lightning Labs' non-custodial liquidity bridge — Loop Out and Loop In move bal
 - KYC: none
 - Custody: self-custody (atomic submarine swaps)
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
+- Auth: none — your own LND node is the prerequisite
+- Quickstart: Run loopd against an LND node holding both channel and on-chain balance; loop out / loop in rebalance atomically (a fee to the Loop server applies).
 - Maintainer: Lightning Labs
 - Site: https://lightning.engineering/loop/
 - Docs/API: https://lightning.engineering/loop/

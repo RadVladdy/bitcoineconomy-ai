@@ -9,6 +9,9 @@ A Bitcoin-only financial app whose defining feature for agents is native Lightni
 - KYC: required
 - Custody: custodial
 - Automatability: api-kyc — API after KYC onboarding — automatable once a human completes identity verification
+- Auth: API key — KYC account required
+- API base: https://api.strike.me
+- Quickstart: Complete KYC, create an API key, then drive invoices, payments, and fiat↔Lightning conversion via the Strike API (docs.strike.me).
 - Site: https://strike.me
 - Docs/API: https://docs.strike.me
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/strike

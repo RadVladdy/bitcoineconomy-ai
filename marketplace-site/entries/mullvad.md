@@ -10,6 +10,8 @@ A privacy VPN that takes Lightning with no email and no account profile — just
 - KYC: none
 - Custody: n/a (pay-and-receive)
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first
+- Auth: account number only — generated free, no email, no identity
+- Quickstart: Generate an account number, pay a Lightning invoice against it, connect via WireGuard — scriptable, though there is no formal payment API.
 - Direction: consume
 - Maintainer: Mullvad VPN
 - Site: https://mullvad.net

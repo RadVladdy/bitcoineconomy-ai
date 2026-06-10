@@ -9,6 +9,8 @@ A non-custodial, KYC-free swap platform native to the Liquid Network — L-BTC, 
 - KYC: none
 - Custody: self-custody
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
+- Auth: none
+- Quickstart: Trade L-BTC ↔ L-USDt and tokenized assets on Liquid order books via the SideSwap API (sideswap.io/docs).
 - Site: https://sideswap.io
 - Docs/API: https://sideswap.io/docs/
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/sideswap

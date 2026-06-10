@@ -10,6 +10,8 @@ A Lightning-native VPS host with Nostr login and no KYC — pay in sats, fund vi
 - KYC: none
 - Custody: n/a (pay-and-receive)
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
+- Auth: Nostr key is the identity — no email, no KYC
+- Quickstart: Log in with a Nostr key, pick CPU/RAM/SSD, pay the Lightning invoice (or connect a wallet over NWC); automate the same flow via the LNVPS API (github.com/LNVPS/api).
 - Direction: consume
 - Maintainer: LNVPS (Apex Strata Ltd, Ireland)
 - Site: https://lnvps.net

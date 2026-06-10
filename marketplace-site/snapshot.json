@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T14:13:04.068Z",
+  "generated_at": "2026-06-10T16:16:20.058Z",
   "source": "sample-relays.mjs (static snapshot)",
   "provenance": "live-from-relay",
   "relays": [
@@ -43,6 +43,7 @@
             "https://routstr.otrta.me",
             "http://zdnt2juw6htljsu25ftnbvdicgvr4s3ts4ldlx2myjcuyz4woaf4l7id.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://ecashmint.otrta.me",
@@ -51,7 +52,10 @@
           ],
           "version": "0.4.3+ga16bc12",
           "pubkey": "3d8333c5a3467c62b055c72f7f197df161faad20a5219ae694a92457c0e48a7c",
-          "updated_at": 1780949592
+          "updated_at": 1780949592,
+          "status": "alive",
+          "latency_ms": 1794,
+          "model_count": 333
         },
         {
           "name": "A Routstr Node",
@@ -60,6 +64,7 @@
             "https://api.routstr.com/",
             "http://fhxpl22punqhmmgcldhbusmxrmxa36gx2hbrr7yz4trq5wwthwbxucqd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -68,7 +73,10 @@
           ],
           "version": "0.4.3",
           "pubkey": "975b5f483d2e89d4992f612214878662e39524a5d306c526a1379ae0c9b0c906",
-          "updated_at": 1780948067
+          "updated_at": 1780948067,
+          "status": "alive",
+          "latency_ms": 987,
+          "model_count": 421
         },
         {
           "name": "Rossi",
@@ -76,6 +84,7 @@
           "urls": [
             "https://routstr.satoshisend.xyz"
           ],
+          "network": "clearnet",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -83,7 +92,10 @@
           ],
           "version": "0.4.3+gb1947d6",
           "pubkey": "aa97d58915535738d0068612172bbb9a4a58628530883b1b14a54c3d34556fb9",
-          "updated_at": 1780569583
+          "updated_at": 1780569583,
+          "status": "alive",
+          "latency_ms": 767,
+          "model_count": 335
         },
         {
           "name": "ARoutstrNode",
@@ -91,10 +103,12 @@
           "urls": [
             "http://xzf4sgnpiq4a4na3fiw7pqhzeeqi7bg6bj4lrlzv6kfyjykjfzdd5nqd.onion"
           ],
+          "network": "tor",
           "mints": [],
           "version": "0.4.3",
           "pubkey": "1d8abd24bfa1e61cab7902814dc6acc662367da6ada4ac9bc94e4c8354f7b191",
-          "updated_at": 1780524487
+          "updated_at": 1780524487,
+          "status": "unverified-tor-only"
         },
         {
           "name": "Cypherpunk",
@@ -103,6 +117,7 @@
             "https://routstr.cypherpunk.today",
             "http://fm633miel2afheanqq4uxyilpw2gbwend5uyehhko7i63rvpywllryad.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -111,7 +126,10 @@
           ],
           "version": "0.4.3+g29cfeae",
           "pubkey": "2ca46ee98f3134c4e11a638663a45983b590bfdefd31588f9c2f03455fba15e7",
-          "updated_at": 1780144811
+          "updated_at": 1780144811,
+          "status": "alive",
+          "latency_ms": 632,
+          "model_count": 81
         },
         {
           "name": "highperfocused AI",
@@ -120,13 +138,15 @@
             "https://routstr.highperfocused.tech",
             "http://kgsb3cyxn6vhyw3wutz2qfpyppwzhrd3ph42plbxgb2v5fh2ahwwgwyd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org"
           ],
           "version": "0.4.3",
           "pubkey": "ea185aba0db5cefdafd2c31d1b3ac49acc827e5694efc18592e8403cecec9c6f",
-          "updated_at": 1779994344
+          "updated_at": 1779994344,
+          "status": "unreachable"
         },
         {
           "name": "Tollgate AI Node",
@@ -134,12 +154,14 @@
           "urls": [
             "https://routstr.orangesync.tech"
           ],
+          "network": "clearnet",
           "mints": [
             "https://routstr-mint.mints.orangesync.tech"
           ],
           "version": "0.4.3+g29cfeae",
           "pubkey": "2c987f6b4d9cced3171be3bb6c2cfb7fd5730e7eb709d1ea84cd9ae9e16fc108",
-          "updated_at": 1779916245
+          "updated_at": 1779916245,
+          "status": "unreachable"
         },
         {
           "name": "Tollgate AI Node",
@@ -147,12 +169,14 @@
           "urls": [
             "https://routstr.orangesync.tech"
           ],
+          "network": "clearnet",
           "mints": [
             "https://routstr-mint.mints.orangesync.tech"
           ],
           "version": "0.4.3+g3a1902b",
           "pubkey": "1ca99c43bb98b8ed02e50ad2b1d6faf5531f6ff0644ea812c0c327875f019708",
-          "updated_at": 1779819604
+          "updated_at": 1779819604,
+          "status": "unreachable"
         },
         {
           "name": "Privacy Maxi",
@@ -161,6 +185,7 @@
             "https://ai.redsh1ft.com",
             "http://52hndvslde4kvtcku5txyqan73vp7jvrxmanhctoxn5oygwzc7byauyd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -168,7 +193,10 @@
           ],
           "version": "0.4.3",
           "pubkey": "ac783c5d4ec13983e2f5b4bc2575d230de2b025583042ff54e02ba78ec34d180",
-          "updated_at": 1779766522
+          "updated_at": 1779766522,
+          "status": "alive",
+          "latency_ms": 1393,
+          "model_count": 417
         },
         {
           "name": "Remi-chan",
@@ -177,13 +205,17 @@
             "https://routstr.rewolf.dev",
             "http://5nltc2eumzxl6652tjxggf2eywypxmmcsiscoqqq42nif2hgb4f3ouqd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org"
           ],
           "version": "0.1.3",
           "pubkey": "6892d1b6d4d235f912aa187efaac006d99589587af29598337b883f0d201b0ba",
-          "updated_at": 1779754074
+          "updated_at": 1779754074,
+          "status": "alive",
+          "latency_ms": 545,
+          "model_count": 9
         },
         {
           "name": "Roustr Staging Environment",
@@ -192,6 +224,7 @@
             "https://staging.routstr.com",
             "http://d7y5gtjl374lpbjijndtvakopreobvrqbksl5jiyky6bkltrcy7zpsqd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://ecashmint.otrta.me",
@@ -200,7 +233,10 @@
           ],
           "version": "0.4.1-dev",
           "pubkey": "b3fde4baa277cb6412dec552942f7a0557fcb26e613e5e6f2856b427e1afef33",
-          "updated_at": 1779744980
+          "updated_at": 1779744980,
+          "status": "alive",
+          "latency_ms": 955,
+          "model_count": 333
         },
         {
           "name": "Local Lover",
@@ -208,10 +244,12 @@
           "urls": [
             "http://4dpfeaqfvd237chxnotyf2trsdtug64wf62ocudxiygtfhcvrj24x4qd.onion"
           ],
+          "network": "tor",
           "mints": [],
           "version": "0.4.3+g4a8d0e1",
           "pubkey": "2a2b5cfbee6826fc5e8ffd66cce903ed8ca1ad496cec89be7d239d26f6c6517d",
-          "updated_at": 1779334393
+          "updated_at": 1779334393,
+          "status": "unverified-tor-only"
         },
         {
           "name": "Githappen2Routstr",
@@ -220,13 +258,17 @@
             "https://routstr.githappens.space",
             "http://fmgse2hcsgjpmivci4rgz4pjwn5vcav33kivh33znylv362lgoolsbad.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.githappens.space",
             "https://mint.minibits.cash/Bitcoin"
           ],
           "version": "0.4.3",
           "pubkey": "f12db526e41e71a158b962d93196996b5bb55339960cccde42ad673a0d3f9959",
-          "updated_at": 1778510396
+          "updated_at": 1778510396,
+          "status": "alive",
+          "latency_ms": 725,
+          "model_count": 88
         },
         {
           "name": "tokendragon.io",
@@ -235,6 +277,7 @@
             "https://routstr.tokendragon.io",
             "http://rthfogjpq6nnqapwamtpqoa7wapwjdr72fbugejfjm4o73s7piwqozid.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -243,7 +286,8 @@
           ],
           "version": "0.4.3",
           "pubkey": "aa03e73e2b3e9641e176a8ca67ca6238345a6469fb3e487b16dda62bd3e8a0b7",
-          "updated_at": 1778469593
+          "updated_at": 1778469593,
+          "status": "unreachable"
         },
         {
           "name": "Cloudwaddie AI",
@@ -251,6 +295,7 @@
           "urls": [
             "https://router.infra.cloudwaddie.com"
           ],
+          "network": "clearnet",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -258,7 +303,8 @@
           ],
           "version": "0.4.3+gb1947d6",
           "pubkey": "9aea1f1109a704ab3747d6ed2cd1f8d3d366231e4ac8b4a5fe35ca43f861a056",
-          "updated_at": 1778408590
+          "updated_at": 1778408590,
+          "status": "unreachable"
         },
         {
           "name": "Private Provider",
@@ -267,13 +313,17 @@
             "https://privateprovider.xyz",
             "http://trwikgly5x4nbciwb2upoanr3tx5yofcyuwc25utro27h34l2ie5d7qd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://ecashmint.otrta.me"
           ],
           "version": "0.4.3",
           "pubkey": "4e5622b575cdbb4d5ded093e48c68cd3f724fad547142f0c1b0aec2f2b2a0b2e",
-          "updated_at": 1778303221
+          "updated_at": 1778303221,
+          "status": "alive",
+          "latency_ms": 1429,
+          "model_count": 331
         },
         {
           "name": "An OpenRouter Node",
@@ -282,6 +332,7 @@
             "https://llm.satsandsports.cash/",
             "http://eq3asax6dkuflrf6ea7ynd3jmeccdqwz2ay7xxyzwx6t4vndxbezikid.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.cubabitcoin.org",
             "https://mint.mountainlake.io",
@@ -290,7 +341,10 @@
           ],
           "version": "0.4.3+g8dd0ece",
           "pubkey": "a4b35f561ea055fd06a9c26ed010dfc48204ca240524ddb6de7740873b77cd39",
-          "updated_at": 1778225805
+          "updated_at": 1778225805,
+          "status": "alive",
+          "latency_ms": 1183,
+          "model_count": 333
         },
         {
           "name": "LightSpeed Models",
@@ -298,10 +352,12 @@
           "urls": [
             "http://juoyrinzx2d4am3pbtjczioacosefjzhy2hwwgqrslftnyyppoj7afad.onion"
           ],
+          "network": "tor",
           "mints": [],
           "version": "0.4.3",
           "pubkey": "0d66a90f0325f0153ad219aea07b7629c4e0d35d70f3709010be9ea801091689",
-          "updated_at": 1777851338
+          "updated_at": 1777851338,
+          "status": "unverified-tor-only"
         },
         {
           "name": "NOKYCAI — Premium AI Models for Sats",
@@ -310,13 +366,15 @@
             "https://foreverai.online",
             "http://j7bkyrc2qyyrtkyghzjbv6uiadraolsjq2j3lbg2cc5h4ihluhbwxkyd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cashu.space"
           ],
           "version": "0.4.1",
           "pubkey": "af342c27377877c0a47289a6f237fa368ed2ed726ac196fb21d0ed7faf75dbf1",
-          "updated_at": 1777354598
+          "updated_at": 1777354598,
+          "status": "unreachable"
         },
         {
           "name": "LAB484",
@@ -324,10 +382,12 @@
           "urls": [
             "http://wca67kkubijmcco6qiysftlqfrkgwc7i4zcd7ovwrtvksifs3mjdspqd.onion"
           ],
+          "network": "tor",
           "mints": [],
           "version": "0.4.1",
           "pubkey": "0278881d0d2cf5aec0d0b2a9a37c6d8f4534b130108199f7fe7ba15571a6fe59",
-          "updated_at": 1776553669
+          "updated_at": 1776553669,
+          "status": "unverified-tor-only"
         },
         {
           "name": "llm402-staging-test",
@@ -335,6 +395,7 @@
           "urls": [
             "https://staging.llm402.ai"
           ],
+          "network": "clearnet",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.lnvoltz.com",
@@ -344,7 +405,8 @@
           ],
           "version": "0.1",
           "pubkey": "b0bcda28bcb965c8bfae8996e915c5f1e6c5728ee7ce9e77dc636614d7d16102",
-          "updated_at": 1776538186
+          "updated_at": 1776538186,
+          "status": "unreachable"
         },
         {
           "name": "Purple Prometheus",
@@ -353,6 +415,7 @@
             "https://rouster1.purpleprometheus.com",
             "http://qvhtnl2zey5btjwedchwpwlmqdrdbjna66fddcbd67cbh26ygmbzwnqd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -360,7 +423,8 @@
           ],
           "version": "0.4.1",
           "pubkey": "2c2efbeb889216f983e43cbbeca7b4be433aa0d02c1c8bf78993bb99ed224072",
-          "updated_at": 1776252742
+          "updated_at": 1776252742,
+          "status": "unreachable"
         },
         {
           "name": "New AI Node",
@@ -368,10 +432,12 @@
           "urls": [
             "http://uoktvoklel3u7n4lsaqx36pvh5yk4thyrou54gtg75ieuad5m6nn37yd.onion"
           ],
+          "network": "tor",
           "mints": [],
           "version": "0.4.1",
           "pubkey": "2a55f4906da6240518ce4dd002d899a00dad2d582ff951db37ed104c56ebc9f4",
-          "updated_at": 1775942839
+          "updated_at": 1775942839,
+          "status": "unverified-tor-only"
         },
         {
           "name": "Non-KYC AI",
@@ -380,6 +446,7 @@
             "https://api.nonkycai.com",
             "http://rl2c5ppy44jdvzz3j4gvcdstpmtpsqrvmigdangh6mcbu3mkrzxu6sad.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -388,7 +455,10 @@
           ],
           "version": "0.4.1",
           "pubkey": "d3a0af518fdf48fd7e8c794371d20040616afbcf934e38247461c6e74009e9fb",
-          "updated_at": 1774496606
+          "updated_at": 1774496606,
+          "status": "alive",
+          "latency_ms": 1461,
+          "model_count": 333
         },
         {
           "name": "thefux",
@@ -397,6 +467,7 @@
             "https://routstr.otrta.me",
             "http://zdnt2juw6htljsu25ftnbvdicgvr4s3ts4ldlx2myjcuyz4woaf4l7id.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://ecashmint.otrta.me",
@@ -405,7 +476,10 @@
           ],
           "version": "0.4.1",
           "pubkey": "3d8333c5a3467c62b055c72f7f197df161faad20a5219ae694a92457c0e48a7c",
-          "updated_at": 1774382821
+          "updated_at": 1774382821,
+          "status": "alive",
+          "latency_ms": 1163,
+          "model_count": 333
         },
         {
           "name": "Node Zero Coder",
@@ -413,13 +487,15 @@
           "urls": [
             "http://99.68.36.178:8000"
           ],
+          "network": "clearnet",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org"
           ],
           "version": "0.3.0",
           "pubkey": "2fe2299329da54c441c63186bbe0e1db6ee1afc8ca14e57b0875e4586b6eb02b",
-          "updated_at": 1773537363
+          "updated_at": 1773537363,
+          "status": "unreachable"
         },
         {
           "name": "Node Zero Coder",
@@ -427,10 +503,12 @@
           "urls": [
             "http://99.68.36.178:8000"
           ],
+          "network": "clearnet",
           "mints": [],
           "version": "0.3.0",
           "pubkey": "34b470786fc0b86df56079adbd1c382fa88450b03c569f7ddc594d1820ed24d0",
-          "updated_at": 1773468347
+          "updated_at": 1773468347,
+          "status": "unreachable"
         },
         {
           "name": "Omochi Node",
@@ -439,12 +517,14 @@
             "https://routstr.bulbulpp.com",
             "http://xjg5q2ygsreonslpev77ztfq24yoedwpji6bxmogf363atqu5cneruid.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin"
           ],
           "version": "0.3.0",
           "pubkey": "6565dfb762533d9da26e9bd6ee8a3aaddf30e570d4d7388512d903ab6a723776",
-          "updated_at": 1772626270
+          "updated_at": 1772626270,
+          "status": "unreachable"
         },
         {
           "name": "AnotherNode",
@@ -453,12 +533,14 @@
             "https://llm.sescloud.org",
             "http://rp55p73ssvi72tqrlwahc3bmr5vdyhq5ujkklutm5ak7goeg2vrmggqd.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin"
           ],
           "version": "0.3.0",
           "pubkey": "0b10545bba35dab3ef4051af46db6f7f7b6ee7960ecba6195f1f6191859b67f2",
-          "updated_at": 1771933887
+          "updated_at": 1771933887,
+          "status": "unreachable"
         },
         {
           "name": "GB10",
@@ -466,10 +548,12 @@
           "urls": [
             "https://routestr.0x.tf"
           ],
+          "network": "clearnet",
           "mints": [],
           "version": "0.2.2",
           "pubkey": "25404e72a3ad36cb32989122b650f10e10804adee70d0bc9110fed5303c147a0",
-          "updated_at": 1769970505
+          "updated_at": 1769970505,
+          "status": "unreachable"
         },
         {
           "name": "ARoutstrNode",
@@ -477,6 +561,7 @@
           "urls": [
             "http://3na5f4ili5tuwxqj4f6jcogw76t5w5u4cgshwdnc5l2dftqvzulbh6yd.onion"
           ],
+          "network": "tor",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -484,7 +569,8 @@
           ],
           "version": "0.3.0",
           "pubkey": "94a99268e2aed1ba20496e9c227b50b528912f2b8ca54e82612bb534bbc5d9f6",
-          "updated_at": 1769351203
+          "updated_at": 1769351203,
+          "status": "unverified-tor-only"
         },
         {
           "name": "Privacy Maxi",
@@ -492,10 +578,12 @@
           "urls": [
             "http://XXX.onion"
           ],
+          "network": "tor",
           "mints": [],
           "version": "0.2.0",
           "pubkey": "731d2145f46e92b5762e3ed9d09cce00c2259572cfdaed75fe38f7e57d3a6936",
-          "updated_at": 1762058900
+          "updated_at": 1762058900,
+          "status": "unverified-tor-only"
         },
         {
           "name": "ARoutstrNode",
@@ -503,6 +591,7 @@
           "urls": [
             "http://rroww7eu6n6qwsmk26lpof2m5yygge6byeniesg7driazrfg3njygiid.onion"
           ],
+          "network": "tor",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://mint.cubabitcoin.org",
@@ -511,7 +600,8 @@
           ],
           "version": "0.2.0-dev",
           "pubkey": "94a99268e2aed1ba20496e9c227b50b528912f2b8ca54e82612bb534bbc5d9f6",
-          "updated_at": 1761474516
+          "updated_at": 1761474516,
+          "status": "unverified-tor-only"
         },
         {
           "name": "nht",
@@ -520,6 +610,7 @@
             "http://nhtwauz66t7eobj54pbkre2u4tsmifwewqlwd2odtasg57d43epwpbyd.onion",
             "http://nhtwauz66t7eobj54pbkre2u4tsmifwewqlwd2odtasg57d43epwpbyd.onion"
           ],
+          "network": "tor",
           "mints": [
             "https://mint.minibits.cash/Bitcoin",
             "https://ecashmint.otrta.me",
@@ -527,7 +618,8 @@
           ],
           "version": "0.1.3",
           "pubkey": "8878fc4b1a08afc66ad85d7ebbdf4c52335c7e292383be910f5d88c2048bd527",
-          "updated_at": 1758950660
+          "updated_at": 1758950660,
+          "status": "unverified-tor-only"
         },
         {
           "name": "Non-KYC AI",
@@ -536,12 +628,16 @@
             "https://api.nonkycai.com",
             "http://4iujtcpe4da7zumhnetv6jjk76ppic3yh44xiz6fqko4solznwu7d4ad.onion"
           ],
+          "network": "both",
           "mints": [
             "https://mint.minibits.cash/Bitcoin"
           ],
           "version": "0.1.3",
           "pubkey": "b2e954ead4fe4c9a63c82db55f86650d02b6fe2034066c61549223f6e1efec18",
-          "updated_at": 1758023142
+          "updated_at": 1758023142,
+          "status": "alive",
+          "latency_ms": 1299,
+          "model_count": 333
         },
         {
           "name": "Routstr Proxy",
@@ -550,10 +646,12 @@
             "http://100.99.50.50:8000",
             "http://7nszdtv2qy4lwy5mhvof5djuu76juouo5wdm6i2nomoaywbpp7b3aqyd.onion"
           ],
+          "network": "both",
           "mints": [],
           "version": "0.1.2",
           "pubkey": "a24a80102d1ea0dcafb546a49a0dd74abf2a03c90b0f06badad1bdd535ede6e2",
-          "updated_at": 1757923400
+          "updated_at": 1757923400,
+          "status": "unreachable"
         },
         {
           "name": "Routstr Proxy",
@@ -561,14 +659,25 @@
           "urls": [
             "http://localhost:8000"
           ],
+          "network": "unroutable",
           "mints": [
             "https://mint.minibits.cash/Bitcoin"
           ],
           "version": "0.1.1b",
           "pubkey": "94a99268e2aed1ba20496e9c227b50b528912f2b8ca54e82612bb534bbc5d9f6",
-          "updated_at": 1756486052
+          "updated_at": 1756486052,
+          "status": "unroutable"
         }
-      ]
+      ],
+      "probe": {
+        "probed_at": "2026-06-10T16:16:32.593Z",
+        "method": "GET {clearnet endpoint}/v1/models, 10s timeout; onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint (e.g. localhost)",
+        "alive": 13,
+        "unreachable": 14,
+        "unverified_tor_only": 9,
+        "unroutable": 1,
+        "note": "status reflects the probe moment only; dead ≠ delisted — announcements remain the source of record"
+      }
     },
     "mints": {
       "kinds": [
@@ -1033,8 +1142,8 @@
       "count": 528,
       "by_target_kind": {
         "38172": 98,
-        "38173": 369,
-        "untagged": 61
+        "38173": 371,
+        "untagged": 59
       }
     },
     "handlers": {
@@ -1044,11 +1153,11 @@
     "dvm_jobs_30d": {
       "kinds_sampled": "5000-5999",
       "window_days": 30,
-      "total": 1000,
+      "total": 971,
       "by_kind": {
         "5000": 1,
-        "5300": 975,
-        "5555": 24
+        "5300": 945,
+        "5555": 25
       }
     }
   }
