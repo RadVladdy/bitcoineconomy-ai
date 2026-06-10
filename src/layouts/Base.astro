@@ -40,6 +40,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta property="og:image" content={new URL('/images/og-default.png', SITE.url).href} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={new URL('/images/og-default.png', SITE.url).href} />
+    <meta name="lightning" content="hello@bitcoineconomy.ai" />
     <link rel="alternate" type="text/markdown" href={canonicalUrl.replace(/\/$/, '') + '.md'} />
     {ld.map((obj) => (
       <script type="application/ld+json" set:html={JSON.stringify(obj)} />
