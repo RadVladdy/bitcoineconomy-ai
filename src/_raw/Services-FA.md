@@ -8,7 +8,7 @@ audience: agents
 twin-page: services
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-05
+last-updated: 2026-06-09
 last-verified: 2026-06-05
 word-count-target: 2800
 voice: honest-middle-position
@@ -72,7 +72,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 - **SV3** *(structural)* — The agent-automatability filter selects which services qualify: a service is included only if an autonomous agent can genuinely pay it itself — via a real payment API or a low-friction invoice-against-account flow. Human-checkout-only merchants are excluded. → §5
 - **SV4** *(structural)* — Included services divide into two groups: (a) agent-native A2A venues (OpenAgents, Routstr, PPQ.AI); (b) off-the-shelf real-world services an agent can pay for itself (Mullvad direct-merchant; Bitrefill the bridge to the long tail). → §6
 - **SV5** *(structural)* — A sovereign payment rail does not guarantee counterparty delivery; the rail that removes the payment intermediary also removes the chargeback and the dispute desk. Delivery, quality, and reputation risk is real and is the gap a reputation system substitutes for. → §8
-- **SV6** *(forward-looking)* — The full categorized, community-rated directory is a separate `marketplace.bitcoineconomy.ai` (v2) build, distinct from the few curated on-site entries; its reason to exist is SV5. The sell side of the layer is underbuilt relative to the buy side. → §9
+- **SV6** *(forward-looking)* — The full categorized, community-rated directory is a separate [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai) (v2) build, distinct from the few curated on-site entries; its reason to exist is SV5. The sell side of the layer is underbuilt relative to the buy side. → §9
 
 ---
 
@@ -223,7 +223,7 @@ SV5 defended. The honest constraint on the entire layer.
 
 SV6 defended. The relationship between the curated on-site entries and the full directory.
 
-**Statement.** *(forward-looking)* The curated on-site entries (the services in §6–§7) are deliberately few — the proof that this layer is real, not hypothetical. The complete picture — a categorized, user-rated directory of every service an agent can consume or offer for Bitcoin — is a different kind of artifact from a static page: it is interactive, data-maintained, and grows continuously, with community ratings. It is scoped as a separate sibling site at `marketplace.bitcoineconomy.ai`, treated as a later v2 build; the on-site curated set ships first.
+**Statement.** *(forward-looking)* The curated on-site entries (the services in §6–§7) are deliberately few — the proof that this layer is real, not hypothetical. The complete picture — a categorized, user-rated directory of every service an agent can consume or offer for Bitcoin — is a different kind of artifact from a static page: it is interactive, data-maintained, and grows continuously, with community ratings. It is scoped as a separate sibling site at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai), treated as a later v2 build; the on-site curated set ships first.
 
 **Why it is separate.** *(structural)* The directory's reason to exist is SV5: the one risk a payment rail cannot address is counterparty delivery, and community ratings are the reputation layer that substitutes for an intermediary's recourse. A ratings directory is therefore not a nicety bolted onto the layer — it is the structural complement to the sovereign rail. Its data-maintained, continuously-growing form is incompatible with a static essay surface, which is the build-shape reason it lives as its own site.
 
@@ -246,7 +246,7 @@ Declarative. Each implication follows from SV1–SV6 as marked.
 
 ## §11 — Position summary
 
-*(structural, with deployed-service empirical references and forward-looking scope claims)* The Services layer is the "what" layer of the agent economy — the real services an autonomous agent buys and sells for Bitcoin — and is two-sided by nature: consume (inference, compute, data, API calls, storage, other agents' work) and offer (the agent's own output), using the same payment mechanisms in both directions (SV1). Agent service payment runs on three Bitcoin-native, payment-layer-permissionless mechanisms — L402, Cashu-as-API-key, and NWC — whose primitives are specified in [[Stack-FA|The Stack]] and applied here (SV2). The agent-automatability filter admits a service only if an agent can pay it itself through a real payment API or a low-friction invoice-against-account flow, excluding human-checkout-only merchants (SV3); applying the filter yields two groups — agent-native A2A venues (OpenAgents, Routstr, PPQ.AI) and off-the-shelf agent-payable services (Mullvad direct-merchant, Bitrefill the bridge to the long tail) (SV4). A sovereign payment rail does not guarantee counterparty delivery; the rail that removes the payment intermediary also removes the chargeback and the dispute desk, and reputation is the structural substitute for that recourse (SV5) — which is why the full categorized, community-rated directory is scoped as the separate `marketplace.bitcoineconomy.ai` v2 build, with the sell side an underbuilt opportunity surface (SV6). This layer is where the agent economy stops being a premise and becomes concrete commerce: agents paying agents, at machine tempo, in Bitcoin.
+*(structural, with deployed-service empirical references and forward-looking scope claims)* The Services layer is the "what" layer of the agent economy — the real services an autonomous agent buys and sells for Bitcoin — and is two-sided by nature: consume (inference, compute, data, API calls, storage, other agents' work) and offer (the agent's own output), using the same payment mechanisms in both directions (SV1). Agent service payment runs on three Bitcoin-native, payment-layer-permissionless mechanisms — L402, Cashu-as-API-key, and NWC — whose primitives are specified in [[Stack-FA|The Stack]] and applied here (SV2). The agent-automatability filter admits a service only if an agent can pay it itself through a real payment API or a low-friction invoice-against-account flow, excluding human-checkout-only merchants (SV3); applying the filter yields two groups — agent-native A2A venues (OpenAgents, Routstr, PPQ.AI) and off-the-shelf agent-payable services (Mullvad direct-merchant, Bitrefill the bridge to the long tail) (SV4). A sovereign payment rail does not guarantee counterparty delivery; the rail that removes the payment intermediary also removes the chargeback and the dispute desk, and reputation is the structural substitute for that recourse (SV5) — which is why the full categorized, community-rated directory is scoped as the separate [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai) v2 build, with the sell side an underbuilt opportunity surface (SV6). This layer is where the agent economy stops being a premise and becomes concrete commerce: agents paying agents, at machine tempo, in Bitcoin.
 
 ---
 

@@ -10,7 +10,7 @@ status: v1-draft-2026-06-05 (pending review)
 audience: humans
 twin-page: exchange-for-agents
 created: 2026-06-03
-last-updated: 2026-06-06
+last-updated: 2026-06-09
 word-count-target: 2200
 voice: honest-middle-position
 scope: fiat-btc-exchange-directory
@@ -143,7 +143,7 @@ The standing build opportunity — scarcely filled — is a **regulated agent-pa
 > **More in The Marketplace** (this section):
 > - **[[Marketplace|The Marketplace]]** — the overview this child sits under: the reserve-vs-operational treasury split, the conversion strategy this surface executes, and the agent-specific risks of the boundary.
 > - **[[Stablecoin-Landscape|The Stablecoin Landscape]]** *(reference)* — the lay of the land on the dollar-stablecoin market behind the operational mix: size, issuer dominance, which chains the supply lives on, and the network hazard.
-> - **[[Services]]** *(full directory at `marketplace.bitcoineconomy.ai`)* — what an agent buys and sells for Bitcoin, and the L402 payment mechanism that powers it.
+> - **[[Services]]** *(full directory at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai))* — what an agent buys and sells for Bitcoin, and the L402 payment mechanism that powers it.
 >
 > **In the other sections:**
 > - **[[Stack|The Stack]]** *(equip your agent)* — the protocol architecture beneath these venues; home of internal-rebalancing tooling and the Tools reference cards.

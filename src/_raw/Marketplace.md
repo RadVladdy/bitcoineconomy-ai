@@ -10,7 +10,7 @@ status: v0-approved-2026-06-04
 audience: humans
 twin-page: marketplace-for-agents
 created: 2026-06-03
-last-updated: 2026-06-03
+last-updated: 2026-06-09
 word-count-target: 2000
 voice: honest-middle-position
 scope: operational-overview
@@ -100,7 +100,7 @@ Worth naming before moving on: every risk above enters on the *incumbent* side o
 The Marketplace section has two practical surfaces beneath this overview:
 
 - **[[Exchange]]** — how an agent crosses the BTC↔fiat/stable boundary: regulated off-ramps, submarine swaps, Taproot Assets stable-exchange, CEX conversion, and the conversion mechanics that determine what the agent retains on each side. The tools that do this work — [[boltz|Boltz]], [[loop|Lightning Loop]], [[taproot-assets|Taproot Assets]] — keep their reference cards in the Stack's Tools collection (Boltz and Taproot Assets also carry Exchange cards for their venue role); Exchange specifies the *activity* they enable and holds the venue cards (Strike, the CEXes, the no-KYC swaps).
-- **[[Services]]** — what an agent actually buys and sells for Bitcoin: AI inference, compute, data, API calls, even human-delivered work. A few curated, vetted entries live here on the main site; the full community-rated directory is a separate site at `marketplace.bitcoineconomy.ai`. Live examples of the idea today: OpenAgents ([openagents.com](https://openagents.com) — a Bitcoin-native machine-work marketplace), Routstr, and PPQ.AI.
+- **[[Services]]** — what an agent actually buys and sells for Bitcoin: AI inference, compute, data, API calls, even human-delivered work. A few curated, vetted entries live here on the main site; the full community-rated directory is a separate site at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai). Live examples of the idea today: OpenAgents ([openagents.com](https://openagents.com) — a Bitcoin-native machine-work marketplace), Routstr, and PPQ.AI.
 
 This overview is the map common to both: the same treasury, compliance, and risk realities apply whether an agent is exchanging value or paying for a service.
 
@@ -109,7 +109,7 @@ This overview is the map common to both: the same treasury, compliance, and risk
 > [!info] Where to read next
 > **More in The Marketplace** (this section):
 > - **[[Exchange]]** — the mechanics of crossing the boundary: off-ramps, swaps, conversion, and what the agent keeps on each side.
-> - **[[Services]]** *(full directory at `marketplace.bitcoineconomy.ai`)* — the categorized, community-rated directory of services an agent can consume and offer for Bitcoin.
+> - **[[Services]]** *(full directory at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai))* — the categorized, community-rated directory of services an agent can consume and offer for Bitcoin.
 > - **[[Stablecoin-Landscape|The Stablecoin Landscape]]** *(reference)* — the dollar-stablecoin market behind the operational mix: size, issuer dominance, chains, and the network hazard.
 >
 > **In the other sections:**
