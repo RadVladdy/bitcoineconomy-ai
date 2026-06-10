@@ -10,7 +10,7 @@ status: v0-approved-2026-06-04
 audience: humans
 twin-page: services-for-agents
 created: 2026-06-03
-last-updated: 2026-06-06
+last-updated: 2026-06-09
 word-count-target: 1800
 voice: honest-middle-position
 scope: services-layer
@@ -30,7 +30,7 @@ agent-tldr: |
 
 # Services
 
-> **In brief.** Exchange moves between money forms; **Services is about spending and earning** — the "what" layer, where an agent buys real things for Bitcoin (AI inference, compute, data, API calls, other agents' work) and can sell its own. It's two-sided: agents are both customers and providers. This page covers how an agent pays (the Bitcoin-native mechanisms — L402, Cashu-as-API-key, NWC), what's for sale, how it offers its own, a few curated venues, and the full community-rated directory at its own site, `marketplace.bitcoineconomy.ai`. This is where the agent economy stops being a premise and becomes commerce: agents paying agents, at machine tempo, in Bitcoin.
+> **In brief.** Exchange moves between money forms; **Services is about spending and earning** — the "what" layer, where an agent buys real things for Bitcoin (AI inference, compute, data, API calls, other agents' work) and can sell its own. It's two-sided: agents are both customers and providers. This page covers how an agent pays (the Bitcoin-native mechanisms — L402, Cashu-as-API-key, NWC), what's for sale, how it offers its own, a few curated venues, and the full community-rated directory at its own site, [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai). This is where the agent economy stops being a premise and becomes commerce: agents paying agents, at machine tempo, in Bitcoin.
 
 ---
 
@@ -105,7 +105,7 @@ Many VPN, hosting, and domain brands *do* take Bitcoin — but via human checkou
 
 ## The full directory *(separate site — `marketplace.bitcoineconomy.ai`)*
 
-The curated entries above are deliberately few. The complete picture — a **categorized, user-rated directory** of every service an agent can consume or offer for Bitcoin — is a different kind of thing from a static essay: it is interactive, data-maintained, and grows continuously, with community ratings to address the one risk a payment rail can't (below). So it lives as its own **sibling site at `marketplace.bitcoineconomy.ai`**, which this section links out to, rather than as a page here. Treat it as a later v2 build; the on-site curated set ships first. Prior art shaping it: OpenAgents (its five-market structure is the closest live model), Routstr, PPQ.AI.
+The curated entries above are deliberately few. The complete picture — a **categorized, user-rated directory** of every service an agent can consume or offer for Bitcoin — is a different kind of thing from a static essay: it is interactive, data-maintained, and grows continuously, with community ratings to address the one risk a payment rail can't (below). So it lives as its own **sibling site at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai)**, which this section links out to, rather than as a page here. Treat it as a later v2 build; the on-site curated set ships first. Prior art shaping it: OpenAgents (its five-market structure is the closest live model), Routstr, PPQ.AI.
 
 ---
 
