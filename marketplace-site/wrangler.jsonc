@@ -13,12 +13,18 @@
     // Refresh the live snapshot every 6 hours.
     "crons": ["17 */6 * * *"]
   },
+  // Zone route: the Worker intercepts the hostname at the edge (it serves the
+  // same static assets + the /live/* KV routes), so no Pages domain-move is
+  // needed — Workers routes take precedence over the Pages project on this
+  // hostname. The old Pages project can be retired at leisure.
+  "routes": [
+    { "pattern": "marketplace.bitcoineconomy.ai/*", "zone_name": "bitcoineconomy.ai" }
+  ],
   "kv_namespaces": [
     {
       "binding": "SNAPSHOT",
-      // Create once: `npx wrangler kv namespace create SNAPSHOT` (or dashboard →
-      // Storage & Databases → KV), then paste the namespace id here.
-      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+      // Created 2026-06-10 via `npx wrangler kv namespace create SNAPSHOT`.
+      "id": "a90b31e53761424bbb595508ebf94943"
     }
   ]
 }
