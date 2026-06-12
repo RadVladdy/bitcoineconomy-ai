@@ -1,6 +1,6 @@
 # Bitrefill
 
-> Gift cards and prepaid top-ups for thousands of mainstream services — the long-tail bridge
+> Agent-relevant slice: prepaid virtual Visa/Mastercard (the universal card bridge), eSIM data, phone/VoIP refills, VPN subscriptions. The bulk of the catalog is human-consumption gift cards (A2P procurement). NOT in the catalog: VPS/hosting, domains, compute, AI credits — see lnvps/bitlaunch/routstr/ppq-ai for those
 
 The Lightning-native bridge to the rest of the digital economy — buy gift cards and top-ups for thousands of mainstream services with Bitcoin, via a real API, no KYC.
 

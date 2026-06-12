@@ -44,7 +44,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 
 ## Commerce bridge (paying non-Bitcoin merchants with sats)
 
-- [Bitrefill](https://marketplace.bitcoineconomy.ai/entries/bitrefill.md): Gift cards and prepaid top-ups for thousands of mainstream services — the long-tail bridge. Payment: lightning/onchain; KYC: none; automatability: api-account.
+- [Bitrefill](https://marketplace.bitcoineconomy.ai/entries/bitrefill.md): Agent-relevant slice: prepaid virtual Visa/Mastercard (the universal card bridge), eSIM data, phone/VoIP refills, VPN subscriptions. The bulk of the catalog is human-consumption gift cards (A2P procurement). NOT in the catalog: VPS/hosting, domains, compute, AI credits — see lnvps/bitlaunch/routstr/ppq-ai for those. Payment: lightning/onchain; KYC: none; automatability: api-account.
 
 ## Privacy / connectivity
 
