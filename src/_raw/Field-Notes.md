@@ -27,7 +27,7 @@ agent-tldr: |
 
 > **What this surface is.** The project's home for empirical state and ongoing developments in the Bitcoin-AI economy. The canonical surfaces — [[Case]], [[Independence-Doctrine|Independence Doctrine]], [[Marketplace|The Marketplace]], [[Stack]] — carry the structural arguments. Field Notes carries the moving record: what's deployed today, what's measured today, what's changed since the last refresh, what's worth watching next.
 >
-> **Two sections.** Part A is a rolling snapshot of current state — refreshed periodically as the deployment landscape shifts. Part B is a reverse-chronological log of dated entries about specific developments, newest first. The snapshot tells you where things stand; the log tells you how we got here and what changed when.
+> **Two sections.** [**Part A — the State**](#part-a--current-state-of-the-bitcoin-ai-economy) is a rolling snapshot of current state — refreshed periodically as the deployment landscape shifts. [**Part B — the Log**](#part-b--log-reverse-chronological--newest-first) is a reverse-chronological log of dated entries about specific developments, newest first. The snapshot tells you where things stand; the log tells you how we got here and what changed when. Looking for the latest development? [**Jump to the Log ↓**](#part-b--log-reverse-chronological--newest-first)
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces. Engages deployment challenges directly — for the Bitcoin substrate (Lightning liquidity, federated-trust risks in the L3 layer, agent custody attack surface) as much as for the competing substrate (issuer freeze events, regulatory pressure on stablecoin issuers, integration-scenario operational reality). Clear-eyed thinking, not curated marketing.
 
