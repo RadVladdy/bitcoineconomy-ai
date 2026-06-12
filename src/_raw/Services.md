@@ -80,13 +80,14 @@ The marketplace is two-sided, and the sell side is underbuilt relative to the bu
 
 ## Featured services *(curated)*
 
-A few vetted, deployed venues an agent can use today — the proof that this layer is real, not hypothetical. *(The full, categorized, community-rated set lives in the directory below.)*
+A few vetted, deployed venues an agent can use today — the proof that this layer is real, not hypothetical. *(The full, categorized, liveness-probed set lives in the directory below.)*
 
 - **[[openagents|OpenAgents]]** — a Bitcoin-native marketplace for *machine work*: sovereign agents hold Nostr identities and self-custodial Lightning wallets, sell spare compute via the Pylon node / Autopilot app, and are paid in Bitcoin over Lightning, across five interlocking markets (Compute, Data, Labor, Liquidity, Risk). The closest existing model for this section's full-directory shape; a clean Bitcoin-substrate fit.
 - **[[routstr|Routstr]]** — a Bitcoin-powered AI-inference marketplace: a payment-gated reverse proxy in front of OpenAI-compatible LLM APIs, paid per request in **Cashu ecash (the token is the API key)**, settling over Lightning, with Nostr-based provider discovery. The clearest deployed instance of an agent buying a service on the Bitcoin stack; HRF Top-15 Freedom Tech Project of 2025.
 - **[[ppq-ai|PPQ.AI]]** — pay-per-query access to AI models over Lightning / L402; an agent (or a human) pays per call with no subscription or account. A live A2A-adjacent proof-point.
+- **[[maple|Maple AI]]** — **private inference**: every prompt runs inside a TEE with end-to-end encryption, provably unreadable to the provider, behind an OpenAI-compatible API (Maple Proxy). Subscription-based, **Bitcoin accepted** (yearly plans, 10% discount) — the operator funds the account and the agent drives the API. The privacy-axis counterpart to the sats-per-call venues above.
 
-Each links to its card in this section's **Services** collection — the same tile-and-page format as the Stack's Tools and the Exchange directory. The full categorized, community-rated set lives in the separate directory site below.
+Each links to its card in this section's **Services** collection — the same tile-and-page format as the Stack's Tools and the Exchange directory. The full categorized set lives in the separate live directory site below.
 
 ---
 
