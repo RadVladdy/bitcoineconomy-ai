@@ -6,18 +6,21 @@ The Lightning-native bridge to the rest of the digital economy — buy gift card
 
 - Category: commerce
 - Payment methods: lightning, onchain
-- Payment detail: Lightning (native) + on-chain BTC; programmatic via the Thor API
+- Payment detail: Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Thor API
 - KYC: none
 - Custody: n/a (pay-and-receive)
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first
-- Auth: Thor API key (account; no KYC for ordinary purchases)
-- Quickstart: Request a product via the Thor API, receive a Lightning invoice, pay it, get the redemption code back — the whole loop with no human in it.
+- Auth: MCP server: OAuth or API key (account developers page) — auth-gated, probed alive 2026-06-11. Thor API key alternative. No KYC for ordinary purchases; guest checkout = email only.
+- API base: https://api.bitrefill.com/mcp
+- Quickstart: Connect the remote MCP server at https://api.bitrefill.com/mcp (OAuth or API key): search-products → get-product-details → buy-products (≤15 items/invoice) → pay the Lightning invoice → get-invoice-by-id returns the redemption code. Setup: bitrefill.com/agents (machine-readable SKILL.md). Raw-HTTP alternative: the Thor API.
 - Direction: consume
 - Maintainer: Bitrefill
 - Site: https://bitrefill.com
-- Docs/API: https://www.bitrefill.com/thor-api/
+- Docs/API: https://docs.bitrefill.com
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/bitrefill
-- Provenance: curated (last verified 2026-06-05)
+- Provenance: curated (last verified 2026-06-11)
+
+One of the few entries with a purpose-built agent interface (remote MCP + agents onboarding page).
 
 ---
 

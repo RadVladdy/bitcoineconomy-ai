@@ -10,15 +10,15 @@ featured: true
 two-sided: consume
 maintainer: Bitrefill
 site: https://bitrefill.com
-docs: https://www.bitrefill.com/thor-api/
+docs: https://docs.bitrefill.com
 x: "@bitrefill"
-payment: Lightning (native) + on-chain BTC; programmatic via the Thor API
+payment: Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Thor API
 identity: none
 custody: n/a (pay-and-receive)
 kyc: none
 bitcoin-native: true
 status: published
-last-verified: 2026-06-05
+last-verified: 2026-06-11
 order: 50
 tags:
   - bitrefill
@@ -30,7 +30,7 @@ tags:
 
 ## What it is
 
-Bitrefill is the Lightning-native bridge between an agent's Bitcoin and the rest of the digital economy. It sells **gift cards and prepaid top-ups for thousands of mainstream services** — domains, hosting, cloud, VPNs, marketplaces, travel, mobile — payable in **Bitcoin over the Lightning Network** (or on-chain), with **no account and no KYC** for ordinary purchases. Crucially for an agent: it exposes a real **payment API (Thor)**, so the purchase can be driven programmatically rather than through a human checkout page.
+Bitrefill is the Lightning-native bridge between an agent's Bitcoin and the rest of the digital economy. It sells **gift cards and prepaid top-ups for thousands of mainstream services** — domains, hosting, cloud, VPNs, marketplaces, travel, mobile — payable in **Bitcoin over the Lightning Network** (or on-chain), with **no account and no KYC** for ordinary purchases. Crucially for an agent: it is one of the few services here with a **purpose-built agent interface** — a remote **MCP server** (`api.bitrefill.com/mcp`) exposing the whole catalog-to-redemption loop as typed tool calls, alongside the raw **payment API (Thor)** — so the purchase is driven programmatically rather than through a human checkout page. Bitrefill maintains a dedicated agent-onboarding page (`bitrefill.com/agents`) with a machine-readable setup file.
 
 ## When to use it
 
@@ -40,11 +40,11 @@ Bitrefill is the Lightning-native bridge between an agent's Bitcoin and the rest
 
 ## Dependencies & payment
 
-**Dependencies:** a Lightning-capable wallet with a funded balance and — for automation — a **Thor API** key. **Payment:** native **Lightning** (instant, sub-cent fees) or on-chain BTC; no account, no KYC for ordinary purchases. The Thor API lets an agent request a product, receive a Lightning invoice, pay it, and get the redemption code back programmatically — the whole loop with no human in it.
+**Dependencies:** a Lightning-capable wallet with a funded balance and — for automation — either the **MCP server** (OAuth sign-in, or an API key from the account developers page; HTTP/SSE transport) or a **Thor API** key. Guest checkout needs only an email. **Payment:** native **Lightning** (instant, sub-cent fees) or on-chain BTC; a pre-funded account balance (XBT sub-account available) also works; no KYC for ordinary purchases. Either programmatic route lets an agent request a product, receive a Lightning invoice, pay it, and get the redemption code back — the whole loop with no human in it.
 
 ## Quick start
 
-Pick a product (gift card / top-up / eSIM / bill), pay the Lightning invoice, redeem the code at the target service. For automation, drive the same flow through the Thor API (`bitrefill.com/thor-api`).
+Pick a product (gift card / top-up / eSIM / bill), pay the Lightning invoice, redeem the code at the target service. **Agent-native route:** connect to the remote MCP server at `https://api.bitrefill.com/mcp` (OAuth or API key) — seven typed tools cover the loop: `search-products` → `get-product-details` → `buy-products` (up to 15 cart items per invoice) → `get-invoice-by-id` for status and the redemption code. Setup recipe at `bitrefill.com/agents`; MCP docs at `docs.bitrefill.com/docs/ecommerce-mcp`. The Thor API (`bitrefill.com/thor-api`) remains the raw-HTTP alternative.
 
 ## Gotchas
 
@@ -52,3 +52,4 @@ Pick a product (gift card / top-up / eSIM / bill), pay the Lightning invoice, re
 - Gift-card coverage, denominations, and regional availability shift — verify the specific product before relying on it.
 - Pricing carries Bitrefill's spread/fees; for very large purchases, compare against a direct path.
 - KYC-free for ordinary purchases; very large orders may trigger limits or verification — verify current thresholds.
+- Bitrefill's own agent guidance: use a **dedicated, low-balance account** for agent purchasing (the integration is not a wallet), and invoices expire within minutes — pay promptly after creating one.
