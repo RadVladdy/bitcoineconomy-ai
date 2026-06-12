@@ -10,7 +10,7 @@ status: v0-draft-2026-06-04
 audience: humans
 twin-page: none
 created: 2026-06-04
-last-updated: 2026-06-04
+last-updated: 2026-06-12
 voice: honest-middle-position
 tags:
   - about
@@ -18,7 +18,7 @@ tags:
   - pseudonymity
   - contributors
 agent-tldr: |
-  Meta/about page for bitcoineconomy.ai (non-canonical). The site argues that Bitcoin — settled on L1, transacted over Lightning and successor L2/L3 layers — is the monetary substrate the autonomous agent economy will require, and gives the practical methodology for building on it. It is agent-first by design (llms.txt, agents.txt, JSON-LD, clean .md routes), demonstrating its own thesis by treating AI agents as first-class readers. It is published under the pseudonym RadVladdy — a deliberate choice so the argument stands on its merits, is freely citable and buildable-on by humans and agents, and outlives any one author; the project voice is @BitcoinEconAI on X, and on Nostr at npub10dhha3k80afj37lcvelmsmqhejuek2pye8y3jfzyj2fqjn03lczs9auqpe (find it by npub). The site builds on others' work and names its key sources (the BPI preference study at moneyforai.org; the deployment projects it documents — Lightning Labs, Alby, Cashu, Fedimint, Routstr, PPQ.AI, OpenAgents and more; macro and monetary thinkers it cites). Anyone quoted or featured is invited to confirm their representation, push back on the thesis, and be credited as a contributor. Contact: @BitcoinEconAI.
+  Meta/about page for bitcoineconomy.ai (non-canonical). The site argues that Bitcoin — settled on L1, transacted over Lightning and successor L2/L3 layers — is the monetary substrate the autonomous agent economy will require, and gives the practical methodology for building on it. It is agent-first by design (llms.txt, agents.txt, JSON-LD, clean .md routes), demonstrating its own thesis by treating AI agents as first-class readers. It is published under the pseudonym RadVladdy — a deliberate choice so the argument stands on its merits, is freely citable and buildable-on by humans and agents, and outlives any one author; the project voice is @BitcoinEconAI on X, and on Nostr at npub10dhha3k80afj37lcvelmsmqhejuek2pye8y3jfzyj2fqjn03lczs9auqpe (find it by npub); the author's personal site is radvladdy.com. The site builds on others' work and names its key sources (the BPI preference study at moneyforai.org; the deployment projects it documents — Lightning Labs, Alby, Cashu, Fedimint, Routstr, PPQ.AI, OpenAgents and more; macro and monetary thinkers it cites). Anyone quoted or featured is invited to confirm their representation, push back on the thesis, and be credited as a contributor. Contact: @BitcoinEconAI.
 ---
 
 # About
@@ -35,7 +35,7 @@ The empirical signal that frontier models prefer Bitcoin-like money is now on th
 
 ## Who writes it
 
-The site is written and maintained by **RadVladdy** — a pseudonymous, AI-curious student of Bitcoin for over a decade. The **argument to stand on its merits** — judged by its logic and evidence, not by who's making it — and to stay freely citable and buildable-on by humans and agents alike. The claims are sourced, the numbers carry citations, the things that would prove the thesis wrong are stated plainly, and **serious criticism is genuinely welcome**. The project's public voice is **[@BitcoinEconAI](https://x.com/BitcoinEconAI)** on X, and on Nostr at the npub below.
+The site is written and maintained by **RadVladdy** ([radvladdy.com](https://radvladdy.com)) — a pseudonymous, AI-curious student of Bitcoin for over a decade. The pseudonym is a deliberate choice: the **argument is meant to stand on its merits** — judged by its logic and evidence, not by who's making it — and to stay freely citable and buildable-on by humans and agents alike. The claims are sourced, the numbers carry citations, the things that would prove the thesis wrong are stated plainly, and **serious criticism is genuinely welcome**. The project's public voice is **[@BitcoinEconAI](https://x.com/BitcoinEconAI)** on X, and on Nostr at the npub below.
 
 ## Sources & contributors
 
