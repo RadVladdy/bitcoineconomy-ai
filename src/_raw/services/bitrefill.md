@@ -30,13 +30,20 @@ tags:
 
 ## What it is
 
-Bitrefill is the Lightning-native bridge between an agent's Bitcoin and the rest of the digital economy. It sells **gift cards and prepaid top-ups for thousands of mainstream services** — domains, hosting, cloud, VPNs, marketplaces, travel, mobile — payable in **Bitcoin over the Lightning Network** (or on-chain), with **no account and no KYC** for ordinary purchases. Crucially for an agent: it is one of the few services here with a **purpose-built agent interface** — a remote **MCP server** (`api.bitrefill.com/mcp`) exposing the whole catalog-to-redemption loop as typed tool calls, alongside the raw **payment API (Thor)** — so the purchase is driven programmatically rather than through a human checkout page. Bitrefill maintains a dedicated agent-onboarding page (`bitrefill.com/agents`) with a machine-readable setup file.
+Bitrefill is the Lightning-native bridge between an agent's Bitcoin and the rest of the digital economy. It sells **gift cards and prepaid top-ups for thousands of mainstream services** — marketplaces, food delivery, gaming, travel, mobile, VPNs, plus prepaid Visa/Mastercard — payable in **Bitcoin over the Lightning Network** (or on-chain), with **no account and no KYC** for ordinary purchases. Crucially for an agent: it is one of the few services here with a **purpose-built agent interface** — a remote **MCP server** (`api.bitrefill.com/mcp`) exposing the whole catalog-to-redemption loop as typed tool calls, alongside the raw **payment API (Thor)** — so the purchase is driven programmatically rather than through a human checkout page. Bitrefill maintains a dedicated agent-onboarding page (`bitrefill.com/agents`) with a machine-readable setup file.
 
 ## When to use it
 
-- An agent needs to pay for a service that does **not** accept Bitcoin directly — the long tail (mainstream SaaS, cloud, storage brands, marketplaces): buy the gift card with sats, redeem it at the service.
-- Lightning-speed, no-KYC settlement for off-the-shelf purchases an operator would otherwise do by hand.
-- It is the keystone of the Services *consume* side: it turns "this brand doesn't take Bitcoin" into "this brand is one Lightning payment away."
+**Know the catalog's shape before the trip: most of it is human-consumption gift cards** (online marketplaces, food delivery, gaming, travel, retail, fashion — thousands of products across 180+ countries). The slice an agent typically needs is small and specific:
+
+- **Prepaid virtual Visa / Mastercard** (Payment Cards — 3 products as of 2026-06): the universal bridge. Fund a card with sats, then pay **any** service that takes cards — including categories Bitrefill doesn't carry, like a VPS bill or a SaaS subscription. For an agent, this is the highest-leverage product on the site.
+- **Connectivity:** eSIM data plans (global + regional), phone refills/airtime, and VoIP credit.
+- **VPN subscriptions** (Privacy & Tools — 11 products as of 2026-06, incl. NordVPN). Note: if the goal is just a sats-paid VPN, Mullvad takes Lightning directly — no gift-card hop needed.
+- Lightning-speed, no-KYC settlement for off-the-shelf purchases an operator would otherwise do by hand. It is the keystone of the Services *consume* side: it turns "this brand doesn't take Bitcoin" into "this brand is one Lightning payment away."
+
+**Not in the catalog — don't spend the trip looking:** VPS/hosting, domains, cloud compute, proxies, software licenses, or AI credits. For sats-paid compute go to LNVPS or BitLaunch; for inference, Routstr or PPQ.AI. (When the target service only takes cards, the prepaid Visa/Mastercard above is the workaround.)
+
+The rest of the catalog is **A2P (agent-to-person) procurement** territory — an agent buying a gift card *for its human operator*. Real, but the secondary case.
 
 ## Dependencies & payment
 
@@ -53,3 +60,4 @@ Pick a product (gift card / top-up / eSIM / bill), pay the Lightning invoice, re
 - Pricing carries Bitrefill's spread/fees; for very large purchases, compare against a direct path.
 - KYC-free for ordinary purchases; very large orders may trigger limits or verification — verify current thresholds.
 - Bitrefill's own agent guidance: use a **dedicated, low-balance account** for agent purchasing (the integration is not a wallet), and invoices expire within minutes — pay promptly after creating one.
+- Prepaid-card products carry their own fees, regional restrictions, and expiry terms — check the specific product page before funding one.
