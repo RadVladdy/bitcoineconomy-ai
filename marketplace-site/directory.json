@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line). Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-06-10T16:16:11.864Z",
+  "generated_at": "2026-06-12T04:55:43.296Z",
   "entry_count": 16,
   "categories": [
     "inference",
@@ -186,22 +186,24 @@
         "lightning",
         "onchain"
       ],
-      "payment_detail": "Lightning (native) + on-chain BTC; programmatic via the Thor API",
+      "payment_detail": "Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Thor API",
       "kyc": "none",
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-account",
-      "auth": "Thor API key (account; no KYC for ordinary purchases)",
-      "quickstart": "Request a product via the Thor API, receive a Lightning invoice, pay it, get the redemption code back — the whole loop with no human in it.",
+      "auth": "MCP server: OAuth or API key (account developers page) — auth-gated, probed alive 2026-06-11. Thor API key alternative. No KYC for ordinary purchases; guest checkout = email only.",
+      "api_base": "https://api.bitrefill.com/mcp",
+      "quickstart": "Connect the remote MCP server at https://api.bitrefill.com/mcp (OAuth or API key): search-products → get-product-details → buy-products (≤15 items/invoice) → pay the Lightning invoice → get-invoice-by-id returns the redemption code. Setup: bitrefill.com/agents (machine-readable SKILL.md). Raw-HTTP alternative: the Thor API.",
       "two_sided": "consume",
       "maintainer": "Bitrefill",
       "links": {
         "site": "https://bitrefill.com",
-        "docs": "https://www.bitrefill.com/thor-api/"
+        "docs": "https://docs.bitrefill.com"
       },
       "card_url": "https://bitcoineconomy.ai/services/bitrefill",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/bitrefill.md",
       "provenance": "curated",
-      "last_verified": "2026-06-05"
+      "last_verified": "2026-06-11",
+      "note": "One of the few entries with a purpose-built agent interface (remote MCP + agents onboarding page)."
     },
     {
       "slug": "mullvad",

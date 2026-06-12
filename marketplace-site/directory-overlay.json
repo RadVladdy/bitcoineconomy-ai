@@ -67,8 +67,10 @@
       "what_an_agent_buys": "Gift cards and prepaid top-ups for thousands of mainstream services — the long-tail bridge",
       "payment_methods": ["lightning", "onchain"],
       "automatability": "api-account",
-      "auth": "Thor API key (account; no KYC for ordinary purchases)",
-      "quickstart": "Request a product via the Thor API, receive a Lightning invoice, pay it, get the redemption code back — the whole loop with no human in it."
+      "api_base": "https://api.bitrefill.com/mcp",
+      "auth": "MCP server: OAuth or API key (account developers page) — auth-gated, probed alive 2026-06-11. Thor API key alternative. No KYC for ordinary purchases; guest checkout = email only.",
+      "quickstart": "Connect the remote MCP server at https://api.bitrefill.com/mcp (OAuth or API key): search-products → get-product-details → buy-products (≤15 items/invoice) → pay the Lightning invoice → get-invoice-by-id returns the redemption code. Setup: bitrefill.com/agents (machine-readable SKILL.md). Raw-HTTP alternative: the Thor API.",
+      "note": "One of the few entries with a purpose-built agent interface (remote MCP + agents onboarding page)."
     },
     {
       "slug": "mullvad",
