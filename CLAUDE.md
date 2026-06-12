@@ -1,12 +1,16 @@
 # bitcoineconomy.ai — build & design conventions
 
-Astro static site, deployed to Cloudflare on push to `main`. Content is authored
-as markdown surfaces + card collections and ported into `src/_raw/` at build time.
+Astro static site on a Cloudflare Worker (root `wrangler.jsonc`: `src/worker.js` +
+`dist/` assets). Content is authored as markdown surfaces + card collections and
+ported into `src/_raw/` at build time.
 
 ## Build & verify
 - `npm run build` runs the port (`scripts/port-surfaces.mjs`) then `astro build` → `dist/`.
 - Verify in `dist/` (and/or `npm run preview`) before pushing.
-- Push to `main` = live Cloudflare deploy.
+- **Push does NOT deploy the main site.** Go live with `npx wrangler deploy` (uploads the
+  Worker + `dist/` assets) after pushing. Auto-deploy-on-push ended with the 2026-06-08
+  Pages→Worker migration; discovered 2026-06-12. (`marketplace-site/` differs — its Pages
+  project still builds from git, with the marketplace Worker's zone route in front.)
 
 ## marketplace-site/ — the directory subdomain (separate deploy)
 `marketplace-site/` is marketplace.bitcoineconomy.ai — its own Cloudflare project,
