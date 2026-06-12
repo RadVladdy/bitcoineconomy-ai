@@ -32,6 +32,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 
 - [Routstr](https://marketplace.bitcoineconomy.ai/entries/routstr.md): LLM inference — OpenAI-compatible API calls from independent providers. Payment: cashu/lightning; KYC: none; automatability: api-no-account.
 - [PPQ.AI (PayPerQ)](https://marketplace.bitcoineconomy.ai/entries/ppq-ai.md): Pay-per-query frontier-model calls — chat, image, video, audio. Payment: l402/lightning; KYC: none (Lightning path); automatability: api-no-account.
+- [Maple AI](https://marketplace.bitcoineconomy.ai/entries/maple.md): Private TEE-encrypted LLM inference through an OpenAI-compatible API — prompts provably unreadable to the provider. Payment: fiat; KYC: none; automatability: api-account.
 
 ## Compute (servers an agent provisions and pays for in sats)
 

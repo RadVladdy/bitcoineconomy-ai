@@ -30,6 +30,17 @@
       "quickstart": "Pay per query over Lightning/L402 — no account, no API key on that path; API documented at ppq.ai/api-docs (machine pointer: ppq.ai/llms.txt)."
     },
     {
+      "slug": "maple",
+      "source": "services/maple.md",
+      "category": "inference",
+      "what_an_agent_buys": "Private TEE-encrypted LLM inference through an OpenAI-compatible API — prompts provably unreadable to the provider",
+      "payment_methods": ["fiat"],
+      "automatability": "api-account",
+      "auth": "Maple API key as Bearer (Pro+ subscription, $20/mo+; account via email/Google/GitHub — no KYC). Bitcoin accepted on YEARLY plans (10% discount) via human checkout: the operator funds the account; the agent drives the API. No sats-per-call path.",
+      "quickstart": "Run Maple Proxy (docker run -p 8080:8080 -e MAPLE_BACKEND_URL=https://enclave.trymaple.ai ghcr.io/opensecretcloud/maple-proxy:latest), then point any OpenAI client at http://localhost:8080/v1 with the API key. Streaming responses only.",
+      "note": "Privacy-axis inference: TEE-attested end-to-end encryption, open-source server code, 7 open-weight models. Subscription, not pay-per-use — for sats-native pay-per-call see routstr/ppq-ai."
+    },
+    {
       "slug": "lnvps",
       "source": "services/lnvps.md",
       "category": "compute",

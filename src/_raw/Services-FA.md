@@ -197,7 +197,7 @@ SV4 defended at depth. Each deployed service profiled against the four conjuncti
 
 ### §7.5 — Bitrefill (Group b; the bridge)
 
-- **Payment mechanism.** Native Lightning (instant, sub-cent fees) or on-chain BTC; programmatic via the Thor API. No account, no KYC for ordinary purchases. The Thor loop: request a product, receive a Lightning invoice, pay it, receive the redemption code back — no human in it.
+- **Payment mechanism.** Native Lightning (instant, sub-cent fees) or on-chain BTC; programmatic via the remote MCP server (`api.bitrefill.com/mcp` — typed tools covering search → purchase → redemption-code retrieval) or the raw Thor API. No account, no KYC for ordinary purchases. Either loop: request a product, receive a Lightning invoice, pay it, receive the redemption code back — no human in it.
 - **Constraint profile (payment leg).** Pass 1 (no account/KYC for ordinary purchases), 2 (Lightning payment leg permissionless), 3 (sub-cent Lightning fees), 4 (Lightning settlement).
 - **Automatability.** Real payment API (Thor); admissible shape 1. The keystone of the consume side — it turns "this brand doesn't take Bitcoin" into "this brand is one Lightning payment away."
 - **Two-sided.** Consume only (a reach extender, not a venue).

@@ -2,8 +2,8 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line). Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-06-12T05:07:32.844Z",
-  "entry_count": 16,
+  "generated_at": "2026-06-12T05:44:43.679Z",
+  "entry_count": 17,
   "categories": [
     "inference",
     "compute",
@@ -93,6 +93,33 @@
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/ppq-ai.md",
       "provenance": "curated",
       "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "maple",
+      "name": "Maple AI",
+      "category": "inference",
+      "summary": "End-to-end-encrypted AI inference an agent can drive through an OpenAI-compatible API — TEE-attested privacy, Bitcoin-accepted subscriptions.",
+      "what_an_agent_buys": "Private TEE-encrypted LLM inference through an OpenAI-compatible API — prompts provably unreadable to the provider",
+      "payment_methods": [
+        "fiat"
+      ],
+      "payment_detail": "subscription (card, or Bitcoin on yearly plans at a 10% discount) + usage credits",
+      "kyc": "none",
+      "custody": "n/a (TEE-attested, end-to-end-encrypted inference)",
+      "automatability": "api-account",
+      "auth": "Maple API key as Bearer (Pro+ subscription, $20/mo+; account via email/Google/GitHub — no KYC). Bitcoin accepted on YEARLY plans (10% discount) via human checkout: the operator funds the account; the agent drives the API. No sats-per-call path.",
+      "quickstart": "Run Maple Proxy (docker run -p 8080:8080 -e MAPLE_BACKEND_URL=https://enclave.trymaple.ai ghcr.io/opensecretcloud/maple-proxy:latest), then point any OpenAI client at http://localhost:8080/v1 with the API key. Streaming responses only.",
+      "two_sided": "consume",
+      "maintainer": "OpenSecret",
+      "links": {
+        "site": "https://trymaple.ai",
+        "docs": "https://blog.trymaple.ai/maple-proxy-documentation/"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/maple",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/maple.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-11",
+      "note": "Privacy-axis inference: TEE-attested end-to-end encryption, open-source server code, 7 open-weight models. Subscription, not pay-per-use — for sats-native pay-per-call see routstr/ppq-ai."
     },
     {
       "slug": "lnvps",
