@@ -27,13 +27,15 @@ export const HUMAN_NAV = [
   { slug: 'marketplace', label: 'The Marketplace' },
   { slug: 'exchange', label: 'Exchange' },
   { slug: 'services', label: 'Services' },
+  { slug: 'treasury', label: 'Treasury & the Boundary' },
   { slug: 'stablecoin-landscape', label: 'The Stablecoin Landscape' },
   { slug: 'field-notes', label: 'Field Notes' },
 ];
 
 // Grouped navigation — the three-section IA (locked 2026-06-03):
-// Case (why agents choose Bitcoin) · Stack (equip your agent) · Marketplace
-// (exchange & services). Each section's anchor doc leads its group. Ancillary
+// Case (why agents choose Bitcoin) · Stack (equip your agent) · The Market
+// (the live Marketplace directory, Exchange & Services). Each section's anchor
+// doc leads its group. Ancillary
 // pages get no menu slot (link-only); About lives in the footer; The Story is
 // the homepage. 'tools' is the /tools index, not a surfaces slug — its `current`
 // highlight is handled by Nav directly.
@@ -57,9 +59,9 @@ export const NAV_GROUPS = [
     ],
   },
   {
-    label: 'Marketplace',
+    label: 'The Market',
     items: [
-      { slug: 'marketplace', label: 'The Marketplace' },
+      { slug: 'marketplace', label: 'Marketplace' },
       { slug: 'exchange', label: 'Exchange' },
       { slug: 'services', label: 'Services' },
     ],
@@ -85,7 +87,8 @@ export const SLUG_TAGS: Record<string, string> = {
   convergence: 'Why the shift is happening now',
   stack: 'The Bitcoin tech agents run on',
   tools: 'Building blocks, with how-to cards',
-  marketplace: 'Where agents hold, swap, and spend',
+  marketplace: 'The live services directory',
+  treasury: 'What an agent holds — and the border it crosses',
   exchange: 'Moving between bitcoin and dollars',
   services: 'What agents buy and sell',
   'field-notes': 'The live record, week to week',
@@ -135,7 +138,7 @@ export const TWIN: Record<string, string | null> = {
   convergence: 'convergence-for-agents',
   'why-bitcoin-not-a-new-coin': 'why-bitcoin-not-a-new-coin-for-agents',
   stack: 'stack-for-agents',
-  marketplace: 'marketplace-for-agents',
+  marketplace: null,
   exchange: 'exchange-for-agents',
   services: 'services-for-agents',
   'stablecoin-landscape': null,
