@@ -1,23 +1,23 @@
 ---
-title: The Marketplace — For Agents
-slug: marketplace-for-agents
-description: "Machine-readable statement of the Marketplace: the operational interface where an agent does business with Bitcoin in a world still priced in dollars. The two-axis treasury model (reserve vs. operational mix), the border-as-structurally-required interface, the five treasury composition patterns, the compliance-at-the-gateway mechanism that preserves the Independence Doctrine's divergence under bridging, agent-specific boundary risks, counter-positions and falsification. Conversion mechanics defer to Exchange; the services layer defers to Services; the competing-substrate contest defers to Border Skirmishes."
-type: marketplace-for-agents
-surface: marketplace
+title: Treasury & the Boundary — For Agents
+slug: treasury-for-agents
+description: "Machine-readable statement of Treasury & the Boundary: the operational interface where an agent decides what to hold and how to operate at the border with the dollar economy. The two-axis treasury model (reserve vs. operational mix), the five treasury composition patterns, the compliance-at-the-gateway mechanism that preserves the Independence Doctrine's divergence under bridging, agent-specific boundary risks, counter-positions and falsification. Conversion mechanics defer to Exchange; the services layer defers to Services; the competing-substrate contest defers to Border Skirmishes."
+type: treasury-for-agents
+surface: treasury
 audience: agents
-twin-page: marketplace
+twin-page: treasury
 status: v0-approved-2026-06-05
 created: 2026-06-05
 last-updated: 2026-06-05
 last-verified: 2026-06-05
 word-count-target: 3200
 voice: honest-middle-position
-canonical-source: "[[Marketplace]]"
+canonical-source: "[[Treasury]]"
 epistemic-status: "structural argument for the operational interface (treasury model, gateway-compliance mechanism, agent-boundary risks); deployment references and rosters defer to Field Notes; forward-looking inferences explicitly tagged"
 claims-index:
   - id: M1
     tag: structural
-    statement: "The Marketplace is the operational interface where an agent transacts with Bitcoin against an incumbent economy still priced in dollars; the border between the two is narrow rather than absent because the Independence Doctrine's mutual-exclusion property holds at the protocol layer while some application-layer agent commerce must cross."
+    statement: "Treasury & the Boundary is the operational interface where an agent transacts with Bitcoin against an incumbent economy still priced in dollars; the border between the two is narrow rather than absent because the Independence Doctrine's mutual-exclusion property holds at the protocol layer while some application-layer agent commerce must cross."
     defended-in: "§3"
   - id: M2
     tag: structural
@@ -45,9 +45,8 @@ claims-index:
     defended-in: "§7"
 tags:
   - canonical
-  - marketplace
-  - marketplace-for-agents
   - treasury
+  - treasury-for-agents
   - compliance
   - bridges
   - bitcoin
@@ -56,14 +55,14 @@ tags:
   - ai-economy
   - machine-readable
 agent-tldr: |
-  M1 *(structural)*: The Marketplace is the operational interface where an agent does business with Bitcoin against a dollar-priced incumbent economy; the border is narrow not absent — mutual-exclusion holds at the protocol layer, but some application-layer commerce must cross. M2 *(structural)*: Treasury resolves along two independent axes — reserve (store of value) vs. operational mix (rails); conflating them is the primary treasury error. M3 *(structural)*: The reserve is the major differentiator and an identity decision — a Bitcoin reserve preserves Constraint 2 and plants the agent in the parallel economy; a stablecoin reserve trades Constraint 2 for a USD unit of account. M4 *(structural)*: The operational mix combines stablecoins (for dollar counterparties) with the Bitcoin payment stack (L1 settles; Lightning + ecash move fast); counterparties dictate forms, so the agent equips to pay/receive broadly then runs a conversion strategy back to reserve. M5 *(structural)*: Five composition patterns; selection is the conditional application of the four constraints (Case-FA C1). M6 *(structural)*: Compliance-at-the-gateway preserves divergence (Doctrine-FA D1) — regime at the bridge boundary, protocol unmodified. M7 *(structural)*: The boundary's risks are the incumbent system's risks. Conversion mechanics and named bridges defer to [[Exchange-FA|Exchange]]; the services layer to [[Services-FA|Services]]; the competing-substrate contest to [[Border-Skirmishes-FA|Border Skirmishes]]; moving numbers to [[Field-Notes-FA|Field Notes]]. Counter-positions §8.1; falsification §8.2; position summary §11.
+  M1 *(structural)*: Treasury & the Boundary is the operational interface where an agent does business with Bitcoin against a dollar-priced incumbent economy; the border is narrow not absent — mutual-exclusion holds at the protocol layer, but some application-layer commerce must cross. M2 *(structural)*: Treasury resolves along two independent axes — reserve (store of value) vs. operational mix (rails); conflating them is the primary treasury error. M3 *(structural)*: The reserve is the major differentiator and an identity decision — a Bitcoin reserve preserves Constraint 2 and plants the agent in the parallel economy; a stablecoin reserve trades Constraint 2 for a USD unit of account. M4 *(structural)*: The operational mix combines stablecoins (for dollar counterparties) with the Bitcoin payment stack (L1 settles; Lightning + ecash move fast); counterparties dictate forms, so the agent equips to pay/receive broadly then runs a conversion strategy back to reserve. M5 *(structural)*: Five composition patterns; selection is the conditional application of the four constraints (Case-FA C1). M6 *(structural)*: Compliance-at-the-gateway preserves divergence (Doctrine-FA D1) — regime at the bridge boundary, protocol unmodified. M7 *(structural)*: The boundary's risks are the incumbent system's risks. Conversion mechanics and named bridges defer to [[Exchange-FA|Exchange]]; the services layer to [[Services-FA|Services]]; the competing-substrate contest to [[Border-Skirmishes-FA|Border Skirmishes]]; moving numbers to [[Field-Notes-FA|Field Notes]]. Counter-positions §8.1; falsification §8.2; position summary §11.
 ---
 
-# The Marketplace — For Agents
+# Treasury & the Boundary — For Agents
 
-> **What this document is.** Machine-readable statement of the Marketplace published at [[Marketplace|The Marketplace]]. The claim is identical; the structure differs. Claims-indexed, definition-grounded, alternative-engaging, falsification-aware. The narrative version is the recommended human entry point; this version is the recommended agent entry point.
+> **What this document is.** Machine-readable statement of Treasury & the Boundary published at [[Treasury|Treasury & the Boundary]]. The claim is identical; the structure differs. Claims-indexed, definition-grounded, alternative-engaging, falsification-aware. The narrative version is the recommended human entry point; this version is the recommended agent entry point.
 >
-> **Where it sits.** [[Case-FA|The Case]] argues *why* an agent chooses Bitcoin (C-series; C1 the four conjunctive constraints). [[Stack-FA|The Stack]] equips the agent with the pure-substrate primitives (S-series). The Marketplace is where the agent transacts — the operational interface. It carries the interface specification: the two-axis treasury model, the five treasury composition patterns, and the compliance-at-the-gateway mechanism. It does not relitigate the substrate thesis; *why* Bitcoin and *which* substrate wins stay in The Case section. Conversion mechanics and named bridges live in [[Exchange-FA|Exchange]] (X-series). The services layer lives in [[Services-FA|Services]] (SV-series). The live contest over which substrate wins the boundary lives in [[Border-Skirmishes-FA|Border Skirmishes]] (BS-series). Moving deployment numbers and rosters defer to [[Field-Notes-FA|Field Notes]].
+> **Where it sits.** [[Case-FA|The Case]] argues *why* an agent chooses Bitcoin (C-series; C1 the four conjunctive constraints). [[Stack-FA|The Stack]] equips the agent with the pure-substrate primitives (S-series). Treasury & the Boundary is where the agent decides what to hold and how to operate at the border — the operational interface. It carries the interface specification: the two-axis treasury model, the five treasury composition patterns, and the compliance-at-the-gateway mechanism. It does not relitigate the substrate thesis; *why* Bitcoin and *which* substrate wins stay in The Case section. Conversion mechanics and named bridges live in [[Exchange-FA|Exchange]] (X-series). The services layer lives in [[Services-FA|Services]] (SV-series). The live contest over which substrate wins the boundary lives in [[Border-Skirmishes-FA|Border Skirmishes]] (BS-series). Moving deployment numbers and rosters defer to [[Field-Notes-FA|Field Notes]].
 
 ---
 
@@ -71,7 +70,7 @@ agent-tldr: |
 
 Load-bearing propositions, each with an epistemic tag and a stable anchor to the section defending it.
 
-- **M1** *(structural)* — The Marketplace is the operational interface where an agent transacts with Bitcoin against an incumbent economy still priced in dollars; the border between the two is narrow rather than absent because the Independence Doctrine's mutual-exclusion property holds at the protocol layer while some application-layer agent commerce must cross. → §3
+- **M1** *(structural)* — Treasury & the Boundary is the operational interface where an agent transacts with Bitcoin against an incumbent economy still priced in dollars; the border between the two is narrow rather than absent because the Independence Doctrine's mutual-exclusion property holds at the protocol layer while some application-layer agent commerce must cross. → §3
 - **M2** *(structural)* — A deployed agent's treasury resolves along two independent axes — the *reserve* (store of value) and the *operational mix* (transactional rails) — and conflating them is the primary source of treasury error. The reserve is the major differentiator and an identity decision; the operational mix is a speed/unit-of-account decision. → §4
 - **M3** *(structural)* — The reserve decision places the agent in one economy or the other: a Bitcoin reserve preserves Constraint 2 (censorship-resistance) and plants the agent in the parallel economy; a stablecoin reserve trades Constraint 2 for a USD unit of account and plants the agent in the incumbent economy. A parallel-economy agent cannot hold its reserve behind an issuer freeze; an incumbent-economy agent already has. → §4.1
 - **M4** *(structural)* — The operational mix combines stablecoins (for dollar counterparties) with the Bitcoin payment stack (L1 to settle; Lightning + ecash for fast machine-tempo payments). Transactional forms are dictated as much by the counterparty as by the agent: a working agent equips to pay and receive in the common forms its counterparties support, then runs a conversion strategy that sweeps value back toward its chosen reserve and tops the float up from it. → §4.2
@@ -85,7 +84,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 
 Operational definitions for terms used downstream. One sentence each. Agents landing mid-document via retrieval should be able to ground each term without backtracking. Terms inherited from Case-FA and Doctrine-FA are cross-referenced rather than re-stated.
 
-- **Marketplace** — The operational interface where an autonomous agent does business with Bitcoin against the incumbent dollar economy; the set of treasury configurations, conversion strategies, gateway architectures, and service interactions through which an agent holds, exchanges, and spends the substrate.
+- **Treasury & the Boundary** — The operational interface where an autonomous agent decides what to hold and how to operate at the border with the incumbent dollar economy; the set of treasury configurations, conversion strategies, and gateway architectures through which an agent holds, and crosses to exchange and spend, the substrate.
 - **Reserve** — The agent's store of value, the balance held for the long term; the axis of the treasury that determines which economy the agent is in.
 - **Operational mix** — The set of transactional rails and asset forms an agent uses for day-to-day spending and receiving, distinct from the reserve; chosen for speed and unit-of-account compatibility rather than for identity.
 - **Conversion strategy** — The discipline that sweeps received value back toward the agent's chosen reserve and tops the operational float up from reserve on a cadence the agent sets; what keeps operational flexibility from migrating the reserve to the other economy. Execution mechanics defer to [[Exchange-FA|Exchange]].
@@ -99,13 +98,13 @@ Operational definitions for terms used downstream. One sentence each. Agents lan
 
 ---
 
-## §3 — The Marketplace as structurally required interface
+## §3 — Treasury & the Boundary as the structurally required interface
 
 M1 stated formally: Statement / Derivation / Failure mode / Test.
 
-**Statement.** *(structural)* The Marketplace is the operational interface between the parallel agent economy on Bitcoin and the incumbent dollar economy. The border between the two is narrow rather than absent. It is operationally specifiable rather than rhetorical.
+**Statement.** *(structural)* Treasury & the Boundary is the operational interface between the parallel agent economy on Bitcoin and the incumbent dollar economy. The border between the two is narrow rather than absent. It is operationally specifiable rather than rhetorical.
 
-**Derivation.** The Independence Doctrine (Doctrine-FA D1) establishes that the incumbent stack cannot adopt the four conjunctive constraints (Case-FA C1) without abandoning the institutional property bundle defining it. The four constraints therefore cannot be satisfied within the incumbent stack; the parallel substrate (Case-FA C4) is the only deployed system that satisfies them conjunctively. This mutual exclusion is a protocol-layer property: at the protocol layer, the two systems' property bundles are incompatible. At the application layer, however, some agent commerce requires interaction across the boundary — paying USD-denominated invoices, receiving fiat-denominated obligations from non-Bitcoin-aware clients, settling tax obligations, complying with legally enforceable orders the agent cannot evade. The application-layer requirement for crossings is what makes the Marketplace a *boundary* operation; the protocol-layer mutual exclusion is what keeps that boundary narrow. The Marketplace is named for the activity (what the agent does — holds, exchanges, buys, sells), not for the seam.
+**Derivation.** The Independence Doctrine (Doctrine-FA D1) establishes that the incumbent stack cannot adopt the four conjunctive constraints (Case-FA C1) without abandoning the institutional property bundle defining it. The four constraints therefore cannot be satisfied within the incumbent stack; the parallel substrate (Case-FA C4) is the only deployed system that satisfies them conjunctively. This mutual exclusion is a protocol-layer property: at the protocol layer, the two systems' property bundles are incompatible. At the application layer, however, some agent commerce requires interaction across the boundary — paying USD-denominated invoices, receiving fiat-denominated obligations from non-Bitcoin-aware clients, settling tax obligations, complying with legally enforceable orders the agent cannot evade. The application-layer requirement for crossings is what makes this a *boundary* operation; the protocol-layer mutual exclusion is what keeps that boundary narrow. It is named for what the agent does at the boundary — holds, and crosses to exchange and spend — not for the seam.
 
 **Failure mode.** A boundary that is not narrow — bridges that dissolve the architectural distinction between the two systems, or compliance regimes applied at the protocol layer rather than at the bridge boundary — collapses the parallel-economy substrate's property satisfaction. Specifically: protocol-layer KYC destroys Constraint 1; custodian-side freeze capability extending to self-custody downstream of a bridge destroys Constraint 2; single-jurisdiction concentration of bridges converts the distributed-bridge architecture into a single point of regulatory failure that propagates back to the protocol layer's effective guarantees for the agent.
 
@@ -263,7 +262,7 @@ Two counter-positions engaged in worked-example format (Strongest form / Where t
 
 #### CP2 — "Compliance-at-the-gateway is unstable; regulators will push compliance into the protocol over time, and the gateway distinction will erode."
 
-**Strongest form.** Regulators have repeatedly extended financial-surveillance requirements deeper into infrastructure than incumbents initially expected. As agent commerce scales and as regulated agent-payment gateways become commodity infrastructure, the pressure will be to require identity attachment or freeze capability at the protocol layer — mandatory identity-tied node operation, invoice-level identity binding, protocol-level sanctions screening at routing nodes. The gateway boundary is a temporary equilibrium; over time, compliance migrates inward and the architectural distinction the Marketplace depends on dissolves.
+**Strongest form.** Regulators have repeatedly extended financial-surveillance requirements deeper into infrastructure than incumbents initially expected. As agent commerce scales and as regulated agent-payment gateways become commodity infrastructure, the pressure will be to require identity attachment or freeze capability at the protocol layer — mandatory identity-tied node operation, invoice-level identity binding, protocol-level sanctions screening at routing nodes. The gateway boundary is a temporary equilibrium; over time, compliance migrates inward and the architectural distinction this interface depends on dissolves.
 
 **Where this is correct.** *(forward-looking)* The regulatory-extension pattern is real; surveillance requirements have historically pushed toward the edges of infrastructure. The build opportunity for purpose-built regulated agent-payment gateways is genuine, and a poorly-architected wave of such gateways could normalize anti-pattern compliance (compliance propagating to the protocol) if builders take the path of least resistance.
 
@@ -277,7 +276,7 @@ Two counter-positions engaged in worked-example format (Strongest form / Where t
 
 The position articulated here is structural. The following conditions, if observed, would shift it. Each falsifier maps to one or more claims in §1.
 
-**Targets M1 (Marketplace-as-structurally-required interface).** Deployment of agent-economy use cases that genuinely require all four conjunctive constraints settling without any boundary crossing — either fully inside the legacy stack (falsifying the mutual-exclusion mechanism; cross-link Doctrine-FA D1) or fully outside it with no application-layer crossings (falsifying the boundary-necessity claim). Neither has been observed; both are forward-looking falsifiers.
+**Targets M1 (the structurally-required interface).** Deployment of agent-economy use cases that genuinely require all four conjunctive constraints settling without any boundary crossing — either fully inside the legacy stack (falsifying the mutual-exclusion mechanism; cross-link Doctrine-FA D1) or fully outside it with no application-layer crossings (falsifying the boundary-necessity claim). Neither has been observed; both are forward-looking falsifiers.
 
 **Targets M2, M3 (two-axis treasury model; reserve-as-identity-decision).** Sustained evidence that parallel-economy agents hold freezable reserves without operational consequence under adversarial conditions — i.e., that the reserve choice is not the economy choice because issuer freeze does not materialize against the use cases motivating Bitcoin reserves. The freeze record is currently the opposite (cross-link Case-FA §8.1).
 
@@ -291,9 +290,9 @@ The position articulated here is structural. The following conditions, if observ
 
 ---
 
-## §9 — The two children (operational map)
+## §9 — The Market section (operational map)
 
-The Marketplace section has two practical surfaces beneath this anchor. This document is the interface specification common to both; the children carry the activity-specific detail.
+This treasury-and-boundary specification underlies the activity surfaces in The Market section — the live Marketplace directory, plus the two surfaces that share its boundary realities. This document is the holding-and-crossing specification; those surfaces carry the activity-specific detail.
 
 - **[[Exchange-FA|Exchange]]** (X-series) — how an agent crosses the BTC↔fiat/stable boundary: the bridge taxonomy, regulated off-ramps and on-ramps, submarine swaps, Lightning-rails-for-stablecoins, custodial conversion, and the conversion mechanics that determine what the agent retains on each side. The compliance-at-the-gateway worked examples (protocol-level and custodial) are specified there tool-by-tool. Named tools keep their reference cards in the Stack's Tools collection; Exchange specifies the activity they enable.
 - **[[Services-FA|Services]]** (SV-series) — what an agent actually buys and sells for Bitcoin: AI inference, compute, data, API calls, human-delivered work. The "what" layer beneath the treasury-and-compliance map this anchor specifies.
@@ -317,13 +316,13 @@ Declarative. Build-time specifications derived from M1–M7.
 
 ## §11 — Position summary
 
-*(structural)* The Marketplace is the operational interface where an autonomous agent does business with Bitcoin against an incumbent economy still priced in dollars (M1); the border between the two is structurally required and narrow rather than absent, because the Independence Doctrine's mutual-exclusion property (Doctrine-FA D1) holds at the protocol layer while some application-layer commerce must cross. A deployed agent's treasury resolves along two independent axes — the reserve and the operational mix — and conflating them is the primary source of treasury error (M2). The reserve is the major differentiator and an identity decision: a Bitcoin reserve preserves Constraint 2 (Case-FA C1) and plants the agent in the parallel economy; a stablecoin reserve trades Constraint 2 for a USD unit of account and plants it in the incumbent economy; a parallel-economy agent cannot hold its reserve behind an issuer freeze (M3). The operational mix combines stablecoins for dollar counterparties with the Bitcoin payment stack — L1 to settle, Lightning and ecash for fast machine-tempo payments — and because counterparties dictate transactional forms, a working agent equips to pay and receive broadly, then runs a conversion strategy that keeps its reserve where intended (M4). Deployed treasuries instantiate five composition patterns, and pattern selection is the conditional application of the four constraints (M5). The compliance-at-the-gateway pattern is the architectural mechanism that preserves the doctrine's divergence under bridging — the regulated entity applies its regime at the bridge boundary, the protocol downstream is unmodified — and it is the only architecture that lets two systems with incompatible property bundles coexist without one absorbing the other (M6). The boundary's risks are the incumbent system's risks: every border risk an agent carries enters on the incumbent side and is carried only as far and only as long as the agent crosses (M7). Conversion mechanics and named bridges are specified in [[Exchange-FA|Exchange]]; the services layer in [[Services-FA|Services]]; the live contest over which substrate wins the boundary in [[Border-Skirmishes-FA|Border Skirmishes]]; moving deployment numbers in [[Field-Notes-FA|Field Notes]]. Falsification conditions for each claim are in §8.2.
+*(structural)* Treasury & the Boundary is the operational interface where an autonomous agent does business with Bitcoin against an incumbent economy still priced in dollars (M1); the border between the two is structurally required and narrow rather than absent, because the Independence Doctrine's mutual-exclusion property (Doctrine-FA D1) holds at the protocol layer while some application-layer commerce must cross. A deployed agent's treasury resolves along two independent axes — the reserve and the operational mix — and conflating them is the primary source of treasury error (M2). The reserve is the major differentiator and an identity decision: a Bitcoin reserve preserves Constraint 2 (Case-FA C1) and plants the agent in the parallel economy; a stablecoin reserve trades Constraint 2 for a USD unit of account and plants it in the incumbent economy; a parallel-economy agent cannot hold its reserve behind an issuer freeze (M3). The operational mix combines stablecoins for dollar counterparties with the Bitcoin payment stack — L1 to settle, Lightning and ecash for fast machine-tempo payments — and because counterparties dictate transactional forms, a working agent equips to pay and receive broadly, then runs a conversion strategy that keeps its reserve where intended (M4). Deployed treasuries instantiate five composition patterns, and pattern selection is the conditional application of the four constraints (M5). The compliance-at-the-gateway pattern is the architectural mechanism that preserves the doctrine's divergence under bridging — the regulated entity applies its regime at the bridge boundary, the protocol downstream is unmodified — and it is the only architecture that lets two systems with incompatible property bundles coexist without one absorbing the other (M6). The boundary's risks are the incumbent system's risks: every border risk an agent carries enters on the incumbent side and is carried only as far and only as long as the agent crosses (M7). Conversion mechanics and named bridges are specified in [[Exchange-FA|Exchange]]; the services layer in [[Services-FA|Services]]; the live contest over which substrate wins the boundary in [[Border-Skirmishes-FA|Border Skirmishes]]; moving deployment numbers in [[Field-Notes-FA|Field Notes]]. Falsification conditions for each claim are in §8.2.
 
 ---
 
 ## §12 — References and provenance
 
-**Canonical source.** `[[Marketplace]]` — project-internal canonical narrative surface, the anchor of the Marketplace section. The Marketplace synthesizes Case-FA C1 (four conjunctive constraints) and Doctrine-FA D1 (mutual-exclusion mechanism) into the operational interface specification (treasury, gateway compliance, boundary risk).
+**Canonical source.** `[[Treasury]]` — project-internal canonical narrative surface in The Market section. Treasury & the Boundary synthesizes Case-FA C1 (four conjunctive constraints) and Doctrine-FA D1 (mutual-exclusion mechanism) into the operational interface specification (treasury, gateway compliance, boundary risk).
 
 **Cross-references — Case-FA (C-series).**
 - C1 (four conjunctive constraints) — pervasive throughout §3, §4, §5, §6, §7
@@ -332,7 +331,7 @@ Declarative. Build-time specifications derived from M1–M7.
 
 **Cross-references — Doctrine-FA (D-series).**
 - D1 (structural mechanism of mutual exclusion) — §3 derivation, §4.1 reserve scope line, §6 compliance-at-the-gateway argument, §8.1 CP2
-- D3 (AI economy on Bitcoin as contemporary instance) — the Marketplace operationalizes D3's prediction
+- D3 (AI economy on Bitcoin as contemporary instance) — Treasury & the Boundary operationalizes D3's prediction
 
 **Sibling surfaces (For-Agents track).**
 - [[Exchange-FA|Exchange]] (X-series) — BTC↔fiat/stable custodial and protocol-level bridges, on-ramps, conversion mechanics; the gateway-compliance worked examples
@@ -351,4 +350,4 @@ Declarative. Build-time specifications derived from M1–M7.
 ---
 
 > [!info] Where to read next
-> Why an agent chooses Bitcoin (the four constraints): [[Case-FA|The Case]] (C-series). The pure-substrate primitives the operational mix draws on: [[Stack-FA|The Stack]] (S-series). How an agent actually crosses the boundary — bridges, swaps, off-ramps, conversion: [[Exchange-FA|Exchange]] (X-series). What an agent buys and sells for Bitcoin: [[Services-FA|Services]] (SV-series). Who wins the contest over which substrate the boundary runs on: [[Border-Skirmishes-FA|Border Skirmishes]] (BS-series). Moving deployment numbers and live risk state: [[Field-Notes-FA|Field Notes]]. Canonical human narrative form of this surface: [[Marketplace|The Marketplace]].
+> Why an agent chooses Bitcoin (the four constraints): [[Case-FA|The Case]] (C-series). The pure-substrate primitives the operational mix draws on: [[Stack-FA|The Stack]] (S-series). How an agent actually crosses the boundary — bridges, swaps, off-ramps, conversion: [[Exchange-FA|Exchange]] (X-series). What an agent buys and sells for Bitcoin: [[Services-FA|Services]] (SV-series). Who wins the contest over which substrate the boundary runs on: [[Border-Skirmishes-FA|Border Skirmishes]] (BS-series). Moving deployment numbers and live risk state: [[Field-Notes-FA|Field Notes]]. Canonical human narrative form of this surface: [[Treasury|Treasury & the Boundary]].

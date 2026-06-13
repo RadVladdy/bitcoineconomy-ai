@@ -15,7 +15,7 @@ const SURFACE_SLUGS = [
   'case-for-agents', 'agent-economy-for-agents', 'adoption-asymmetry-for-agents',
   'independence-doctrine-for-agents', 'border-skirmishes-for-agents', 'convergence-for-agents',
   'why-bitcoin-not-a-new-coin-for-agents', 'stack-for-agents',
-  'marketplace-for-agents', 'exchange-for-agents', 'services-for-agents', 'field-notes-for-agents',
+  'treasury-for-agents', 'exchange-for-agents', 'services-for-agents', 'field-notes-for-agents',
 ];
 
 // https://astro.build/config
@@ -34,8 +34,9 @@ export default defineConfig({
     '/tools/strike': '/exchanges/strike',
     // Border Zone → its treasury/compliance/boundary material now lives in Treasury & the Boundary.
     '/border-zone': '/treasury',
-    // (repoints to /treasury-for-agents in Pass B, once that FA twin exists)
-    '/border-zone-for-agents': '/marketplace-for-agents',
+    '/border-zone-for-agents': '/treasury-for-agents',
+    // The Marketplace-FA twin was renamed Treasury-FA in the 2026-06-13 IA fix.
+    '/marketplace-for-agents': '/treasury-for-agents',
     // Card directories merged into the Exchange / Services surfaces (which now
     // render the tiles themselves).
     '/exchanges': '/exchange',
