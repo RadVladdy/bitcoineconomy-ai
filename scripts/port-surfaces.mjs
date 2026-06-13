@@ -57,6 +57,8 @@ for (const file of fs.readdirSync(RAW)) {
 }
 // Legacy alias: any straggling [[Thesis]] resolves to the renamed Case page.
 SURFACE_ROUTES['Thesis'] = SURFACE_ROUTES['Thesis'] || '/case';
+// Legacy alias: any straggling [[Marketplace-FA]] (renamed to Treasury-FA 2026-06-13) resolves to the new twin.
+SURFACE_ROUTES['Marketplace-FA'] = SURFACE_ROUTES['Marketplace-FA'] || '/treasury-for-agents';
 
 // Card routes, built with exchanges + services first then tools (tools wins on
 // the boltz/strike basename collision).

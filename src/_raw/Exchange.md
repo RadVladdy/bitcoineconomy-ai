@@ -114,7 +114,20 @@ Only the venues with a full deposit/trade/withdraw API — **Strike, Kraken, Coi
 
 ## Compliance lives at the gateway
 
-For the custodial venues, the principle the Marketplace overview states holds: the venue runs its full regime on **the account and the fiat leg**; the BTC/Lightning leg downstream, once withdrawn to self-custody, is unrestricted. The pattern breaks when KYC is pushed into the protocol, when terms compel repatriation of self-custodied BTC on demand, or when every venue an agent uses terminates in one jurisdiction — answered by multiple independent venues across non-correlated regimes, prompt withdrawal, and hot/cold separation.
+For the custodial venues, the principle is simple: **compliance lives at the gateway, not the protocol.** The venue runs its full regime on **the account and the fiat leg**; the BTC/Lightning leg downstream, once withdrawn to self-custody, is unrestricted. The pattern breaks when KYC is pushed into the protocol, when terms compel repatriation of self-custodied BTC on demand, or when every venue an agent uses terminates in one jurisdiction — answered by multiple independent venues across non-correlated regimes, prompt withdrawal, and hot/cold separation. (*Why* this gateway boundary is the architecture that lets two incompatible systems coexist without one absorbing the other is the [[Independence-Doctrine|Independence Doctrine]]'s mechanism.)
+
+---
+
+## Risks at the boundary
+
+Crossing has risks that look generic but bite differently when the party crossing is an agent — at machine tempo, continuously, with no human to call:
+
+- **Bridge freeze mid-workflow** — a human notices a compliance hold and calls support; an agent can lose value in the seconds before the freeze reaches its logic, and has no support line. Recovery requires fallback-routing designed in.
+- **Automated-conversion exposure** — slippage, MEV, and oracle manipulation become significant when an agent converts on a *schedule* with no per-trade judgment; a predictable rebalance is a target. Defenses: rate-limiting, jittered timing, atomic-swap settlement.
+- **Inadvertent reporting / sanctions triggers** — an agent operating across jurisdictions can trip thresholds without the operator's awareness; the burden lands on the custodian and the human behind it. Predictable-jurisdiction custody is a legitimate response.
+- **Layered-custody inheritance** — a bridge sold as one integration may stack a wallet provider, an issuer, and a processor behind a single API; the agent inherits the *union* of their freeze surfaces. Evaluate the custody actually exposed, not the developer-facing simplification.
+
+The defenses are a small, unexotic set: **hot/cold separation** (operational balances on bridges, reserves in self-custody), **fallback bridges** (at least two independent paths to fiat), **multi-jurisdiction custody**, and **ecash-bearer reserves** (balances outside the custodial perimeter). Every one of these risks enters on the *incumbent* side of the boundary — none exists in the pure substrate, where there is no one to freeze a balance and no intermediary to fail. The agent carries them only as far, and only as long, as it crosses.
 
 ---
 
@@ -142,8 +155,9 @@ The standing build opportunity — scarcely filled — is a **regulated agent-pa
 ---
 
 > [!info] Where to read next
-> **More in The Marketplace** (this section):
-> - **[[Marketplace|The Marketplace]]** — the overview this child sits under: the reserve-vs-operational treasury split, the conversion strategy this surface executes, and the agent-specific risks of the boundary.
+> **More in The Market** (this section):
+> - **[[Treasury|Treasury & the Boundary]]** — the holding decision this surface serves: the reserve-vs-operational-mix split and the conversion strategy these venues execute.
+> - **[[Marketplace|The Marketplace]]** — the live directory of services an agent can consume and offer for Bitcoin.
 > - **[[Stablecoin-Landscape|The Stablecoin Landscape]]** *(reference)* — the lay of the land on the dollar-stablecoin market behind the operational mix: size, issuer dominance, which chains the supply lives on, and the network hazard.
 > - **[[Services]]** *(full directory at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai))* — what an agent buys and sells for Bitcoin, and the L402 payment mechanism that powers it.
 >

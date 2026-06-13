@@ -261,7 +261,7 @@ Bulleted declarative. Build-time specifications derived from BS1–BS6. Named in
 
 **Cross-references — The Independence Doctrine (D-series).** D1 (mutual-exclusion mechanism) — confirmed by the live contest (§3, §8.1 CP1). D3 (AI economy on Bitcoin as the contemporary instance) — the skirmishes are its live evidence. D5 / P1 (substrate-selection-precedes-scale), P2 (bridges-proliferate-but-don't-unify), P5 (competing-substrates-find-niches-not-dominance), P6 (regulatory-pressure-feeds-divergence) — §7, §8.1 CP1.
 
-**Sibling surfaces.** [[Marketplace-FA|The Marketplace]] (M-series) — the operational interface (interface/treasury/gateway material). [[Exchange-FA|Exchange]] (X-series). [[Field-Notes-FA|Field Notes]] — the standing live record; every version-specific number, name, latency, transaction count, customer list, validator-set detail, and roster change defers here.
+**Sibling surfaces.** [[Treasury-FA|Treasury & the Boundary]] (M-series) — the operational interface (interface/treasury/gateway material). [[Exchange-FA|Exchange]] (X-series). [[Field-Notes-FA|Field Notes]] — the standing live record; every version-specific number, name, latency, transaction count, customer list, validator-set detail, and roster change defers here.
 
 **Defer-out to [[Field-Notes-FA|Field Notes]] per locked Decisions 2026-05-26 pattern.** Named competing-substrate vendors and products; consortium membership and standards detail; gas-free chain validator-set size, composition, mainnet status, and throughput; enterprise customer lists; transaction counts and latencies; freeze incidents; regulatory shifts; the share of flow that is genuinely human-unattended.
 
@@ -270,4 +270,4 @@ Bulleted declarative. Build-time specifications derived from BS1–BS6. Named in
 ---
 
 > [!info] Where to read next
-> The structural law this surface is the live test of: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series, P1–P6) — the Doctrine is the law; this is the war. The substrate-selection anchor upstream of the contest: [[Case-FA|The Case]] (C-series, esp. Constraint 2). The operational interface for actually crossing the boundary: [[Marketplace-FA|The Marketplace]] (M-series). The standing live record this surface defers all moving numbers to: [[Field-Notes-FA|Field Notes]]. Canonical human narrative form of this surface: [[Border-Skirmishes|Border Skirmishes]].
+> The structural law this surface is the live test of: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series, P1–P6) — the Doctrine is the law; this is the war. The substrate-selection anchor upstream of the contest: [[Case-FA|The Case]] (C-series, esp. Constraint 2). The operational interface for actually crossing the boundary: [[Treasury-FA|Treasury & the Boundary]] (M-series). The standing live record this surface defers all moving numbers to: [[Field-Notes-FA|Field Notes]]. Canonical human narrative form of this surface: [[Border-Skirmishes|Border Skirmishes]].

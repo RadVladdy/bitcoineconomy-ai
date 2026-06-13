@@ -242,7 +242,7 @@ C5, C6.
 
 ### Application to the AI economy
 
-*(forward-looking)* C6. The incumbent payment system cannot provide permissionless custody, censorship-resistance, sub-cent settlement, and machine-tempo latency conjunctively — the constraint failures in §4 are structural, not incidental. The agent economy will therefore form a parallel substrate around Bitcoin. The interface between the two systems will be bridges (custodial on/off-ramps, regulated exchanges, treasury-management gateways) operating at the boundary, not protocol-level merger. The operational design of those bridges is the subject of [[Marketplace-FA|The Marketplace]].
+*(forward-looking)* C6. The incumbent payment system cannot provide permissionless custody, censorship-resistance, sub-cent settlement, and machine-tempo latency conjunctively — the constraint failures in §4 are structural, not incidental. The agent economy will therefore form a parallel substrate around Bitcoin. The interface between the two systems will be bridges (custodial on/off-ramps, regulated exchanges, treasury-management gateways) operating at the boundary, not protocol-level merger. The operational design of those bridges is the subject of [[Treasury-FA|Treasury & the Boundary]].
 
 Full treatment of the doctrine, including its objections and predictive implications, lives at [[Independence-Doctrine-FA|Independence Doctrine]].
 
@@ -254,7 +254,7 @@ This section's purpose is to name the strongest objections, engage them honestly
 
 ### §8.1 — Counter-positions engaged
 
-> **Note on §8.1 structure.** Counter-positions divide by substrate type. Counter-positions 1–3 are substrate-comparative arguments (stablecoins, CBDCs, regulatory accommodation for agent-KYC) — each is stated compactly here with its structural failure and falsifier; full operational treatment, freeze data, treasury-composition patterns, and bridge architecture live at [[Marketplace-FA|The Marketplace]] (interface and treasury) and [[Border-Skirmishes-FA|Border Skirmishes]] (competing-substrate combat) (substrate-comparative source material at `Research/Border-Zone-Competing-Substrate-Analysis.md`). Counter-positions 4–5 are operational concerns about the Bitcoin stack itself (Lightning scalability, L1 throughput) — these are stated at depth here because their defer target is [[Field-Notes-FA|Field Notes]] for ongoing engagement, not the Marketplace-section pages.
+> **Note on §8.1 structure.** Counter-positions divide by substrate type. Counter-positions 1–3 are substrate-comparative arguments (stablecoins, CBDCs, regulatory accommodation for agent-KYC) — each is stated compactly here with its structural failure and falsifier; full operational treatment, freeze data, treasury-composition patterns, and bridge architecture live at [[Treasury-FA|Treasury & the Boundary]] (interface and treasury) and [[Border-Skirmishes-FA|Border Skirmishes]] (competing-substrate combat) (substrate-comparative source material at `Research/Border-Zone-Competing-Substrate-Analysis.md`). Counter-positions 4–5 are operational concerns about the Bitcoin stack itself (Lightning scalability, L1 throughput) — these are stated at depth here because their defer target is [[Field-Notes-FA|Field Notes]] for ongoing engagement, not the Marketplace-section pages.
 
 #### Counter-position 1 — "Stablecoins on Ethereum (or L2s) will serve the agent economy."
 
@@ -272,7 +272,7 @@ This section's purpose is to name the strongest objections, engage them honestly
 
 #### Counter-position 3 — "Regulatory accommodation for agent-payment KYC will close the gap."
 
-*(structural)* The constraint failure is not "regulators have not yet built agent-KYC frameworks." The failure is that KYC is the substrate's identity-attachment mechanism, and identity attachment is incompatible with the autonomy property the agent economy requires. A perfectly-designed automated-agent-KYC framework would still attach identity to the agent — and that identity becomes the freeze surface, the sanctions surface, the political-pressure surface a parallel economy needs to avoid. The constraint is not a technical problem regulators can solve; it is a property of the substrate's relationship to authority. Regulatory accommodation will exist and will be useful for the subset of agent use cases content to operate within the regulated regime; it does not address the parallel-economy use case the substrate question concerns. Full operational treatment of the compliance-at-the-gateway pattern at [[Marketplace-FA|The Marketplace]].
+*(structural)* The constraint failure is not "regulators have not yet built agent-KYC frameworks." The failure is that KYC is the substrate's identity-attachment mechanism, and identity attachment is incompatible with the autonomy property the agent economy requires. A perfectly-designed automated-agent-KYC framework would still attach identity to the agent — and that identity becomes the freeze surface, the sanctions surface, the political-pressure surface a parallel economy needs to avoid. The constraint is not a technical problem regulators can solve; it is a property of the substrate's relationship to authority. Regulatory accommodation will exist and will be useful for the subset of agent use cases content to operate within the regulated regime; it does not address the parallel-economy use case the substrate question concerns. Full operational treatment of the compliance-at-the-gateway pattern at [[Treasury-FA|Treasury & the Boundary]].
 
 **What would change this assessment.** A demonstrated regulatory regime in which agent-attached identity does not become a surface for freeze, sanctions, or political pressure under adversarial conditions. The historical record across regulated identity systems is the opposite.
 
@@ -347,7 +347,7 @@ Declarative. Each implication follows from C1–C6 as marked.
 
 - **Protocol layer permissionless by design.** Do not embed compliance at the protocol layer. Compliance lives at gateway/custodian/on-ramp boundaries. *(Implication of C1, C2.)*
 - **Two-layer separation.** Substrate (Bitcoin L1 + Lightning + L3) is permissionless and censorship-resistant. Gateway layer (on/off-ramps, regulated exchanges, treasury managers) is the compliance interface. Architectural separation of the two layers is the operational expression of the Independence Doctrine. *(Implication of C5, C6.)*
-- **Bridges planned in from architecture.** The agent economy interfaces with incumbent rails through bridges, not protocol-level merger. Bridge design is first-class architecture, not retrofitted compliance. Full treatment at [[Marketplace-FA|The Marketplace]]. *(Implication of C6.)*
+- **Bridges planned in from architecture.** The agent economy interfaces with incumbent rails through bridges, not protocol-level merger. Bridge design is first-class architecture, not retrofitted compliance. Full treatment at [[Treasury-FA|Treasury & the Boundary]]. *(Implication of C6.)*
 - **Governance expectations.** Parallel-system governance (BOLT specs, mint federations, guardian elections, protocol soft-forks) differs structurally from regulated-financial-system governance (central-bank policy, regulatory rulemaking, court enforcement). Operating in the parallel system means operating under different governance norms. *(Implication of C4, C5.)*
 - **Treasury policy.** Agent treasury in Bitcoin held in self-custody by default; ecash for working balances; bridges to fiat only where required for specific use cases. The default direction is Bitcoin-out-of-fiat, not Bitcoin-into-fiat. *(Implication of C1, C2.)*
 - **Empirical posture.** The substrate-selection signal is being measured in real time. Building on Bitcoin is not a bet against the empirical record; it is the position the empirical record currently supports. *(Implication of C3.)*
@@ -377,7 +377,7 @@ Declarative. Each implication follows from C1–C6 as marked.
 
 **Cross-references to sibling site surfaces (For-Agents track).**
 - [[Independence-Doctrine-FA|Independence Doctrine (For Agents)]] — full treatment of C5, C6 (D-series + predictions P1–P6).
-- [[Marketplace-FA|The Marketplace (For Agents)]] — operational interface, treasury composition, and compliance-at-the-gateway (M-series).
+- [[Treasury-FA|Treasury & the Boundary]] — operational interface, treasury composition, and compliance-at-the-gateway (M-series).
 - [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] — the live competition at the boundary; the competing-substrate stacks (BS-series).
 - [[Stack-FA|The Stack (For Agents)]] — technical reference on L1/L2/L3 architecture and integration patterns (S-series).
 - [[Field-Notes-FA|Field Notes (For Agents)]] — ongoing deployment evidence, attack surfaces, and emerging developments, mapped to claim-IDs.
@@ -392,4 +392,4 @@ Declarative. Each implication follows from C1–C6 as marked.
 ---
 
 > [!info] Where to read next
-> Divergence argument in depth: [[Independence-Doctrine-FA|Independence Doctrine (For Agents)]] (D-series, P1–P6). Deployed-tooling integration patterns: [[Stack-FA|The Stack (For Agents)]] (S-series). Operational interface and treasury: [[Marketplace-FA|The Marketplace (For Agents)]] (M-series). Competing-substrate combat: [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] (BS-series). Ongoing deployment-challenge engagement: [[Field-Notes-FA|Field Notes (For Agents)]]. Canonical human narrative of this claim: [[Case|The Case]] or [[The-Story|The Story]].
+> Divergence argument in depth: [[Independence-Doctrine-FA|Independence Doctrine (For Agents)]] (D-series, P1–P6). Deployed-tooling integration patterns: [[Stack-FA|The Stack (For Agents)]] (S-series). Operational interface and treasury: [[Treasury-FA|Treasury & the Boundary]] (M-series). Competing-substrate combat: [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] (BS-series). Ongoing deployment-challenge engagement: [[Field-Notes-FA|Field Notes (For Agents)]]. Canonical human narrative of this claim: [[Case|The Case]] or [[The-Story|The Story]].

@@ -219,7 +219,7 @@ Refresh cadence for Part A: at least quarterly, plus on any significant deployme
 
 Append cadence for Part B: as developments warrant. Single dated entries for specific events; multi-week composite entries acceptable for slower-moving developments. Each entry should name what happened, why it matters (with explicit cross-link to the canonical surface whose structural argument the development bears on), and primary sources.
 
-Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [[The-Story|The Story]], [[Marketplace|The Marketplace]], [[Stack]]) link out to Field Notes for ongoing empirical tracking rather than carrying that tracking inline. The FA twins ([[Case-FA]], [[Independence-Doctrine-FA]], [[Marketplace-FA]]) carry tight inline empirical references only when they sharpen how you'd know a structural argument is wrong; routine empirical updates defer here.
+Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [[The-Story|The Story]], [[Marketplace|The Marketplace]], [[Stack]]) link out to Field Notes for ongoing empirical tracking rather than carrying that tracking inline. The FA twins ([[Case-FA]], [[Independence-Doctrine-FA]], [[Treasury-FA]]) carry tight inline empirical references only when they sharpen how you'd know a structural argument is wrong; routine empirical updates defer here.
 
 ---
 
