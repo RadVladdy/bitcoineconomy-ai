@@ -17,7 +17,7 @@ const all = await getCollection('surfaces');
 const story = all.find((e) => e.data.slug === 'the-story');
 const { Content: StoryContent } = story ? await render(story) : { Content: null };
 
-const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', Marketplace: 'agent' };
+const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'The Market': 'agent' };
 ---
 <Base title={SITE.name} description={description} jsonLd={siteJsonLd()} wide={true}>
   <!-- HERO BAND (full-bleed) -->

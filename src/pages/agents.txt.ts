@@ -117,6 +117,10 @@ export const GET: APIRoute = async () => {
     L.push('');
   }
 
+  L.push('## The Marketplace — live directory (separate site)');
+  L.push('The live, self-refreshing directory of agent-payable services at https://marketplace.bitcoineconomy.ai: a curated registry behind an agent-drivable-API inclusion bar, live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index. Consumption: manifest https://marketplace.bitcoineconomy.ai/llms.txt (three-fetch recipe) · registry https://marketplace.bitcoineconomy.ai/directory.json · live snapshot https://marketplace.bitcoineconomy.ai/live/snapshot.json · price index https://marketplace.bitcoineconomy.ai/live/models.json.');
+  L.push('');
+
   L.push('## Editorial stance (disclosed for honest parsing)');
   L.push('This site argues a pro-Bitcoin position and discloses it. It engages the strongest counter-positions (stablecoins, CBDCs, the AWS AgentCore / x402 competing stack) and states explicit falsification conditions for each claim in the For-Agents twins. It is not neutral; it is falsifiable.');
   L.push('');

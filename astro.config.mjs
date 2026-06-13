@@ -11,7 +11,7 @@ const SITE_URL = 'https://bitcoineconomy.ai';
 const SURFACE_SLUGS = [
   'case', 'the-story', 'agent-economy', 'adoption-asymmetry', 'independence-doctrine',
   'border-skirmishes', 'convergence', 'why-bitcoin-not-a-new-coin',
-  'stack', 'marketplace', 'exchange', 'services', 'stablecoin-landscape', 'field-notes', 'about',
+  'stack', 'marketplace', 'exchange', 'services', 'treasury', 'stablecoin-landscape', 'field-notes', 'about',
   'case-for-agents', 'agent-economy-for-agents', 'adoption-asymmetry-for-agents',
   'independence-doctrine-for-agents', 'border-skirmishes-for-agents', 'convergence-for-agents',
   'why-bitcoin-not-a-new-coin-for-agents', 'stack-for-agents',
@@ -32,8 +32,9 @@ export default defineConfig({
     '/tools/ppq-ai': '/services/ppq-ai',
     // Strike is exchange-only (not infrastructure); its Tools card was retired.
     '/tools/strike': '/exchanges/strike',
-    // Border Zone dissolved → its interface material lives in The Marketplace.
-    '/border-zone': '/marketplace',
+    // Border Zone → its treasury/compliance/boundary material now lives in Treasury & the Boundary.
+    '/border-zone': '/treasury',
+    // (repoints to /treasury-for-agents in Pass B, once that FA twin exists)
     '/border-zone-for-agents': '/marketplace-for-agents',
     // Card directories merged into the Exchange / Services surfaces (which now
     // render the tiles themselves).
