@@ -30,7 +30,7 @@ meaningful (value settles → moves → agents decide), not decorative:
 |---|---|---|---|---|
 | **The Case** | value / L1 | orange `#f7931a` | `--orange` | `.accent-btc` |
 | **The Stack** (incl. Tools) | Lightning / movement | cyan `#22d3ee` | `--electric` | `.accent-cyan` |
-| **The Marketplace** (incl. Exchange, Services) | agents / ecash | violet `#8b7cff` | `--agent` | `.accent-agent` |
+| **The Market** (incl. Treasury, Exchange, Services) | agents / ecash | violet `#8b7cff` | `--agent` | `.accent-agent` |
 
 Shared building blocks (reuse these — don't re-implement):
 - **`src/components/PageRail.astro`** — the right rail: on-this-page TOC + "Explore the site" nav tiles + scroll-spy.

@@ -200,10 +200,10 @@ The Thesis answers the substrate question; the doctrine answers the architecture
 
 Practical implications:
 
-- **Treat compliance as an application-layer concern, not a protocol-layer dependency.** The protocol layer (Bitcoin, Lightning, L2/L3) should remain censorship-resistant and permissionless; KYC and regulatory obligations live at the application boundary, not in the protocol. How that boundary is built — gateway patterns, on-ramp compliance, the compliance-at-the-gateway model — is treated operationally in [[Marketplace|The Marketplace]].
+- **Treat compliance as an application-layer concern, not a protocol-layer dependency.** The protocol layer (Bitcoin, Lightning, L2/L3) should remain censorship-resistant and permissionless; KYC and regulatory obligations live at the application boundary, not in the protocol. How that boundary is built — gateway patterns, on-ramp compliance, the compliance-at-the-gateway model — is treated operationally in [[Exchange]].
 - **Expect divergent governance.** Lightning Network upgrade decisions, BOLT specification development, Cashu and Fedimint federation operations — these do not resemble bank regulatory cycles. Build for the parallel system's governance rhythms, not the legacy stack's.
 - **Anticipate parallel professional infrastructure.** Lightning routing operators, agent-wallet custodians, Bitcoin-native legal services, agent-payment audit conventions — each is emerging as the parallel economy's professional class. The legacy stack's professionals (bank compliance officers, card-network risk managers, payment-processor SREs) will not transfer directly; their expertise is institution-specific.
-- **Plan for narrow but real bridges.** Some agent commerce will require interaction with the legacy stack, so bridges should be designed in, not retrofitted — without compromising the protocol layer to make them cheaper. The bridge architecture itself — taxonomy, conversion mechanics, treasury composition — lives in [[Marketplace|The Marketplace]].
+- **Plan for narrow but real bridges.** Some agent commerce will require interaction with the legacy stack, so bridges should be designed in, not retrofitted — without compromising the protocol layer to make them cheaper. The bridge architecture itself — taxonomy and conversion mechanics — lives in [[Exchange]], with treasury composition in [[Treasury]].
 
 The doctrine does not say the legacy stack is doomed. It says the legacy stack is structurally unsuited to host the AI economy, and that the AI economy will therefore form alongside it. Build accordingly.
 
@@ -249,7 +249,7 @@ The doctrine does not say the legacy stack is doomed. It says the legacy stack i
 > **In the other sections:**
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — where the doctrine's predictions are tested empirically as the deployment record accumulates. This surface carries the structural argument; that one carries the moving record.
 > - **[[Stack|The Stack]]** *(equip your agent)* — the technical architecture of the parallel substrate the doctrine says will host the agent economy.
-> - **[[Marketplace|The Marketplace]]** *(exchange & services)* — the operational interface: which bridges between the two economies preserve the divergence and which dissolve it.
+> - **[[Exchange]]** *(in The Market)* — the operational interface: which bridges between the two economies preserve the divergence and which dissolve it.
 ---
 
 ## Editor's Notes
@@ -260,7 +260,7 @@ The Independence Doctrine is the project's strongest original intellectual contr
 
 The four historical analogues (eurodollar, open internet, samizdat, postal monopoly) are load-bearing and chosen for range — financial, technological, political, logistical — so the pattern reads as structural rather than crypto-specific. The selection-bias objection is engaged head-on in § Objections precisely because four hand-picked cases invite it; the response (the claim is *conditional* on a structural property-mismatch, and counter-examples like music streaming are where the mismatch isn't structural) is what keeps the doctrine falsifiable rather than just-so.
 
-Scope discipline: this surface carries the structural argument; the empirical testing of its predictions defers to [[Field-Notes|Field Notes]], and the bridge-architecture operational detail lives in [[Marketplace|The Marketplace]]. When the doctrine starts citing current deployment numbers inline, that content belongs in Field Notes.
+Scope discipline: this surface carries the structural argument; the empirical testing of its predictions defers to [[Field-Notes|Field Notes]], and the bridge-architecture operational detail lives in [[Exchange]]. When the doctrine starts citing current deployment numbers inline, that content belongs in Field Notes.
 
 **2026-06-03 restructure trim.** The § "The contemporary instance" dated combat (AgentCore/AP2/x402, the "automation, not agency" wedge, the regulatory-pressure-feeds-the-parallel-system beat) and Objection 2 (the integration scenario) were extracted to [[Border-Skirmishes]], leaving a one-line pointer in each place. The structural mapping of the pattern to the AI economy, the four analogues, the pattern, the predictions, and Objections 1 & 3 remain — the surface is now purely structural and timeless, per `_Decisions` 2026-06-03. The legacy-failure *mechanism* (§ Why incumbents cannot serve) stays here and will absorb the duplicate currently in the Thesis when the Thesis is tightened into The Case (Phase 5). *Pending re-review after the trim.*
 

@@ -127,7 +127,7 @@ The wager of this surface is the opposite: that the actor is already here in bou
 >
 > **In the other sections:**
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the deployment evidence behind every instance this surface treats as a type: Routstr, PPQ, Lightspark Grid pockets, Xverse, and the running test of the two things that would prove this surface wrong.
-> - **[[Marketplace|The Marketplace]]** *(exchange & services)* — where the agent-to-agent frontier becomes practice: the venues, the exchange mechanics, the services agents actually buy and sell.
+> - **[[Marketplace|The Marketplace]]** *(The Market)* — where the agent-to-agent frontier becomes practice: the live directory of venues and the services agents actually buy and sell ([[Services]]), and how they cross the boundary ([[Exchange]]).
 > - **[[Stack|The Stack]]** *(equip your agent)* — the substrate primitives that let a bounded-delegation agent actually hold and move value.
 
 ---

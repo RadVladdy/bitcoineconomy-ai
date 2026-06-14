@@ -158,7 +158,7 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 - *Constraint 4 (machine-tempo):* **Pass.** Sub-second Lightning settlement.
 
 **Constraint profile on the stablecoin output.**
-- *Constraint 2:* **Fail.** *(structural — asset-side issuer freeze)* USDT0 inherits Tether's freeze surface; native USDC inherits Circle's; the atomic guarantee protects custody, not the asset's censorship-resistance. The USDT0 path additionally carries tBTC (wrapped-BTC bridge), DEX (liquidity/slippage), and LayerZero (omnichain-bridge) risk; the native-USDC/CCTP path avoids the wrapping and DEX hops but CCTP is a Circle-operated mechanism. Cross-link Case-FA §8.1 CP1 (regulated-stablecoin structural failure) and Marketplace-FA (rails-vs-substrate).
+- *Constraint 2:* **Fail.** *(structural — asset-side issuer freeze)* USDT0 inherits Tether's freeze surface; native USDC inherits Circle's; the atomic guarantee protects custody, not the asset's censorship-resistance. The USDT0 path additionally carries tBTC (wrapped-BTC bridge), DEX (liquidity/slippage), and LayerZero (omnichain-bridge) risk; the native-USDC/CCTP path avoids the wrapping and DEX hops but CCTP is a Circle-operated mechanism. Cross-link Case-FA §8.1 CP1 (regulated-stablecoin structural failure) and Border-Skirmishes-FA (rails-vs-substrate).
 
 **No bank fiat.** Value goes crypto-in, crypto-out. There is no fiat leg.
 
@@ -257,7 +257,7 @@ X2 and X3 defended on the custodial side. The regulated and offshore centralized
 
 **Constraint profile (uniform across the custodial set).** *(structural)*
 - *At the bridge boundary (the agent's owner-delegated account):* **Constraint 1 Fail** — account onboarding requires owner identity attachment (KYC). **Constraint 2 Fail** — the custodian can freeze the account under regulatory compulsion; the freeze surface is BTC-only for Bitcoin-only venues and the union of all held assets for multi-asset venues.
-- *On the Lightning/BTC leg downstream of the bridge:* **Constraints 1, 2, 3, 4 Pass** — once value is withdrawn to user-controlled keys, the Bitcoin protocol layer's properties are restored. Compliance lives at the account and the fiat leg; the BTC/Lightning leg downstream, once withdrawn to self-custody, is unrestricted (Marketplace-FA compliance-at-the-gateway).
+- *On the Lightning/BTC leg downstream of the bridge:* **Constraints 1, 2, 3, 4 Pass** — once value is withdrawn to user-controlled keys, the Bitcoin protocol layer's properties are restored. Compliance lives at the account and the fiat leg; the BTC/Lightning leg downstream, once withdrawn to self-custody, is unrestricted (Treasury-FA M6, compliance-at-the-gateway).
 
 ### §6.1 — Bitcoin-only US venues
 
@@ -358,7 +358,7 @@ Declarative. Each implication follows from X1–X6 as marked.
 - **Use Lightning support to bound the freeze window.** *(X3)* Prefer venues that pay out over Lightning so off-venue withdrawal is sub-second; withdraw to self-custody promptly regardless.
 - **Confine the freeze surface by choosing what the account holds.** *(X3)* A Bitcoin-only custodial account bounds the freeze surface to BTC; a multi-asset account exposes the union of all assets held — a structural fact to weigh per use case, not a venue endorsement.
 - **Match the stablecoin network end-to-end.** *(X5)* A network mismatch is a permanent-loss hazard; hold BTC as the portable asset and convert to a stablecoin only at the recipient's network edge.
-- **Apply compliance at the account/fiat-leg boundary, never at the protocol layer.** *(Marketplace-FA)* The custodial venue runs its regime on the account and the fiat leg; the BTC/Lightning leg downstream, once withdrawn to self-custody, is unrestricted. Use multiple independent venues across non-correlated jurisdictions, prompt withdrawal, and hot/cold separation.
+- **Apply compliance at the account/fiat-leg boundary, never at the protocol layer.** *(Treasury-FA M6)* The custodial venue runs its regime on the account and the fiat leg; the BTC/Lightning leg downstream, once withdrawn to self-custody, is unrestricted. Use multiple independent venues across non-correlated jurisdictions, prompt withdrawal, and hot/cold separation.
 - **Recognize the open build frontier.** *(X6, forward-looking)* A regulated agent-payment gateway on Lightning-substrate rails — institutional compliance assurances without compromising the Bitcoin leg — is a standing, scarcely-filled build opportunity. The deeper frontier that would dismantle the KYC wall itself is agent-native identity (reputation systems, on-chain attestations, zero-knowledge proofs that satisfy a regulatory regime without a human's delegated KYC). Until that exists, the delegation pattern is the practical reality.
 
 ---

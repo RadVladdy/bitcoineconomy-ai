@@ -141,7 +141,7 @@ This page is the synthesis; each central claim has a deeper home. Read the case 
 - **The live contest — the incumbents' parallel agent rails, and what they confirm** → [[Border-Skirmishes|Border Skirmishes]]
 - **The timing — the agent economy and the monetary-regime rupture as one wave** → [[Convergence|The Convergence]]
 - **The architecture — how to actually equip an agent** → [[Stack|The Stack]]
-- **The practice — exchange and services at the boundary** → [[Marketplace|The Marketplace]]
+- **The practice — holding, exchange, and the services agents trade at the boundary** → [[Marketplace|The Marketplace]]
 - **The running record — deployments, freeze incidents, the moving numbers** → [[Field-Notes|Field Notes]]
 
 ---
@@ -187,7 +187,7 @@ Primary references. Empirical figures and the deployed-tooling roster are tracke
 >
 > **In the other sections:**
 > - **[[Stack|The Stack]]** *(equip your agent)* — the L1/L2/L3 architecture and agent-integration primitives this case summarizes.
-> - **[[Marketplace|The Marketplace]]** *(exchange & services)* — the practice of crossing the boundary: exchange mechanics, treasury composition, the services agents buy and sell.
+> - **[[Marketplace|The Marketplace]]** *(The Market)* — the practice at the boundary: what an agent holds ([[Treasury]]), how it crosses ([[Exchange]]), and the services it buys and sells ([[Services]]).
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the empirical anchor for every number this case defers: the preference-study figures, the deployment roster, freeze incidents, capacity and adoption metrics.
 
 ---
@@ -215,6 +215,6 @@ Primary references. Empirical figures and the deployed-tooling roster are tracke
 - [[Independence-Doctrine]] (this project) — the divergence argument this case hands off to
 - [[Border-Skirmishes]] (this project) — the live contest that confirms the divergence
 - [[Stack]] (this project) — the L1/L2/L3 architecture this case summarizes
-- [[Marketplace]] (this project) — the practice at the boundary
+- [[Marketplace]] (this project) — the Market section: where an agent holds, crosses, and trades at the boundary
 - [[Field-Notes]] (this project) — the empirical record this case defers all numbers to
 - [[Thesis-FA]] (this project; renaming → Case-FA) — the For-Agents twin of this surface
