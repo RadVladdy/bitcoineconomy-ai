@@ -99,7 +99,7 @@ That is a smaller claim than "agents will adopt Bitcoin," and a more durable one
 >
 > **In the other sections:**
 > - **[[Stack|The Stack]]** *(equip your agent)* — the concrete primitives that make "an agent holds keys and settles in sats" a matter of importing a library: wallets, L402, NWC, MCP.
-> - **[[Marketplace|The Marketplace]]** *(exchange & services)* — where that trivially-adopted substrate actually gets used: treasury, exchange, and the services agents buy and sell.
+> - **[[Marketplace|The Marketplace]]** *(The Market)* — where that trivially-adopted substrate actually gets used: what an agent holds ([[Treasury]]), how it crosses ([[Exchange]]), and the services agents buy and sell ([[Services]]).
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the running test of what would prove this wrong: which agent stacks standardize on which default substrate, and how the defaults move.
 
 ---

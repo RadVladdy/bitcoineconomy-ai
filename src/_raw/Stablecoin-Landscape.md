@@ -93,13 +93,13 @@ Stablecoins are where crypto liquidity concentrates: most exchange order books a
 
 ## What it means for an agent's operational mix
 
-Mapping all of this back to the [[Marketplace|Marketplace]] treasury model:
+Mapping all of this back to the [[Treasury|Treasury]] model:
 
 - A stablecoin is an **operational-mix asset**: a dollar unit of account for dollar-priced obligations, liquid and widely accepted. Useful — sometimes necessary.
 - It is **not** a reserve asset for a parallel-economy agent: it is issuer-controlled and **freezable at the asset layer regardless of which rail it moves over** (USDT-on-Lightning via Taproot Assets is still freezable USDT). The rail can be sovereign; the dollar token is not.
 - So the working pattern: a parallel-economy agent holds stablecoins as a **short-lived operational float** (sized to near-term dollar obligations), converts back toward a **Bitcoin reserve** on a cadence, and chooses the **network** deliberately. An incumbent-economy agent serving a regulated, dollar-denominated principal may sit in stablecoins by design — having already accepted the freeze surface.
 
-The choice of *which* stablecoin and *which* chain is an operational one; the choice of *reserve* is the identity one. This page covers the first. The second is the Marketplace's, and the why-behind-it is The Case's.
+The choice of *which* stablecoin and *which* chain is an operational one; the choice of *reserve* is the identity one. This page covers the first. The second is [[Treasury|Treasury]]'s, and the why-behind-it is The Case's.
 
 ---
 
@@ -116,7 +116,7 @@ Market figures are **point-in-time (May 2026)** and move constantly — treat th
 
 > [!info] Where to read next
 > **More in The Market** (this section):
-> - **[[Marketplace|The Marketplace]]** — the treasury model this page feeds: the reserve-vs-operational-mix split and the conversion strategy.
+> - **[[Treasury]]** — the treasury model this page feeds: the reserve-vs-operational-mix split and the conversion strategy.
 > - **[[Exchange]]** — where and how an agent actually converts between fiat, stablecoins, and Bitcoin, including the large non-US venues where stablecoin liquidity concentrates.
 >
 > **In the other sections:**
@@ -129,7 +129,7 @@ Market figures are **point-in-time (May 2026)** and move constantly — treat th
 
 *Internal author perspective. Not published in produced derivatives.*
 
-Built for inbox item 2026-06-04 (1131): a non-canonical "lay of the land" reference so the Marketplace treasury / operational-mix discussion can point to real stablecoin numbers instead of carrying them inline. Deliberately **neutral and descriptive, not advocacy** — it neither talks up stablecoins nor relitigates the thesis (the practical-section scope discipline, `_Decisions` 2026-06-04). The honest-middle register applies: stablecoins are genuinely large, liquid, and useful *and* issuer-controlled/freezable; both are stated. The one load-bearing connection back to the project is the reserve-vs-operational-mix mapping — stablecoins are operational, the reserve stays Bitcoin for a parallel-economy agent — which is description of the Marketplace model, not a fresh argument.
+Built for inbox item 2026-06-04 (1131): a non-canonical "lay of the land" reference so the Treasury operational-mix discussion can point to real stablecoin numbers instead of carrying them inline. Deliberately **neutral and descriptive, not advocacy** — it neither talks up stablecoins nor relitigates the thesis (the practical-section scope discipline, `_Decisions` 2026-06-04). The honest-middle register applies: stablecoins are genuinely large, liquid, and useful *and* issuer-controlled/freezable; both are stated. The one load-bearing connection back to the project is the reserve-vs-operational-mix mapping — stablecoins are operational, the reserve stays Bitcoin for a parallel-economy agent — which is description of the Treasury model, not a fresh argument.
 
 **Scope guard:** if this page ever starts arguing *why* Bitcoin over stablecoins, that belongs in The Case / Border Skirmishes — move it. This page's job is to describe the dollar-token world, not to win the substrate debate.
 
@@ -137,7 +137,7 @@ Built for inbox item 2026-06-04 (1131): a non-canonical "lay of the land" refere
 
 **Publications backlinks**
 
-- [[Marketplace]] (this project) — the treasury model this reference feeds
+- [[Treasury]] (this project) — the treasury model this reference feeds
 - [[Exchange]] (this project) — the conversion venues + the non-US exchange table
 - [[Stack]] (this project) — Liquid / L-USDt, the in-stack stablecoin option
 - [[Border-Skirmishes]] (this project) — the substrate contest this page deliberately does not relitigate

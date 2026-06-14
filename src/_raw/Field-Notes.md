@@ -25,7 +25,7 @@ agent-tldr: |
 
 # Field Notes
 
-> **What this surface is.** The project's home for empirical state and ongoing developments in the Bitcoin-AI economy. The canonical surfaces — [[Case]], [[Independence-Doctrine|Independence Doctrine]], [[Marketplace|The Marketplace]], [[Stack]] — carry the structural arguments. Field Notes carries the moving record: what's deployed today, what's measured today, what's changed since the last refresh, what's worth watching next.
+> **What this surface is.** The project's home for empirical state and ongoing developments in the Bitcoin-AI economy. The canonical surfaces — [[Case]], [[Independence-Doctrine|Independence Doctrine]], [[Treasury]], [[Stack]] — carry the structural arguments. Field Notes carries the moving record: what's deployed today, what's measured today, what's changed since the last refresh, what's worth watching next.
 >
 > **Two sections.** [**Part A — the State**](#part-a--current-state-of-the-bitcoin-ai-economy) is a rolling snapshot of current state — refreshed periodically as the deployment landscape shifts. [**Part B — the Log**](#part-b--log-reverse-chronological--newest-first) is a reverse-chronological log of dated entries about specific developments, newest first. The snapshot tells you where things stand; the log tells you how we got here and what changed when. Looking for the latest development? [**Jump to the Log ↓**](#part-b--log-reverse-chronological--newest-first)
 >
@@ -135,7 +135,7 @@ So the substrate question is now openly contested in public, at podcast scale, b
 
 **Why it matters.** This is the first Tier-1-enterprise production deployment of the integration scenario for agent payments — the stablecoin-substrate stack that the [[Independence-Doctrine|Independence Doctrine]] — Honest objections engages as a structural alternative to the Bitcoin substrate. It is direct empirical evidence that the integration scenario is operationally pursued at scale by mainstream incumbents (Amazon, Coinbase, Stripe) for enterprise agent-payment use cases — Thomson Reuters et al. are not crypto-native early adopters but Fortune 500 enterprise customers operating in the regulated USD-denominated economy. The doctrine's prediction that this stack serves the integration-scenario subset (USD-denominated, regulated-counterparty, issuer-counterparty-risk-acceptable use cases) without absorbing the parallel-economy subset (the agent activity requiring all four requirements at once) is now testable on the live deployment record over the next 2–5 years. The L402 vs. x402 protocol-naming convergence is the protocol-level expression of the structural substrate divergence: same HTTP status code, different settlement currencies, different trust models, two competing production stacks.
 
-**Cross-references.** [[Case]] — Why the legacy economy fails (the structural failure of regulated stablecoins as parallel-economy substrate); [[Case-FA]] §8.1 CP1 (with operational confirmation paragraph added 2026-05-26); [[Independence-Doctrine|Independence Doctrine]] — Why incumbents cannot serve + What the doctrine predicts; [[Independence-Doctrine-FA|Doctrine-FA]] §8.1 CP2 + §9 P1 (both updated with empirical-update paragraphs 2026-05-26); [[Marketplace|The Marketplace]] — The bridge architecture; `Research/Border-Zone-Existing-Bridges.md` §8 (full structural treatment); `Research/Border-Zone-Competing-Substrate-Analysis.md` CP1 (operational confirmation subsection).
+**Cross-references.** [[Case]] — Why the legacy economy fails (the structural failure of regulated stablecoins as parallel-economy substrate); [[Case-FA]] §8.1 CP1 (with operational confirmation paragraph added 2026-05-26); [[Independence-Doctrine|Independence Doctrine]] — Why incumbents cannot serve + What the doctrine predicts; [[Independence-Doctrine-FA|Doctrine-FA]] §8.1 CP2 + §9 P1 (both updated with empirical-update paragraphs 2026-05-26); [[Exchange]] — the bridges and crossing mechanics; `Research/Border-Zone-Existing-Bridges.md` §8 (full structural treatment); `Research/Border-Zone-Competing-Substrate-Analysis.md` CP1 (operational confirmation subsection).
 
 **Sources.** [AWS announcement: Agents that transact — Amazon Bedrock AgentCore Payments](https://aws.amazon.com/blogs/machine-learning/agents-that-transact-introducing-amazon-bedrock-agentcore-payments-built-with-coinbase-and-stripe/); [The Block coverage](https://www.theblock.co/post/400421/aws-taps-coinbase-and-stripe-to-power-usdc-payments-for-ai-agents); [CoinDesk: Amazon AI agent stablecoin payments platform](https://www.coindesk.com/business/2026/05/07/amazon-rolls-out-ai-agent-stablecoin-payments-platform-with-coinbase-and-stripe); [CryptoTimes: AWS + Stripe Privy](https://www.cryptotimes.io/2026/05/08/aws-and-stripe-privy-bring-stablecoin-wallets-to-ai-agents/).
 
@@ -183,7 +183,7 @@ So the substrate question is now openly contested in public, at podcast scale, b
 
 **Why it matters.** This is operationally significant for the integration-scenario use cases and important to characterize honestly for the structural argument. *Operationally:* Lightning's sub-cent fees and machine-tempo settlement now apply to USD-denominated transactions — agents and humans can transact in USD over Lightning rails without holding native Bitcoin price exposure. *Structurally:* **USDT-on-Lightning is a Lightning-rails bridge for the stablecoin, not a Lightning-substrate bridge.** The stablecoin issuer (Tether) retains freeze capability on its issuance regardless of which rail the asset moves over; censorship-resistance still fails for the asset side even though the rail-side properties are excellent. The structural framing the canonical surfaces use applies unchanged: USDT-on-Lightning serves integration-scenario use cases (USD-denominated, issuer-counterparty-risk-acceptable) and does NOT make stablecoins suitable as the parallel-economy substrate. The bridge changes the rail; it does not change the asset.
 
-**Cross-references.** [[Case]] — Bitcoin meets the constraints (Lightning + L2/L3 framing); [[Case-FA]] §4 substrate evaluation; [[Marketplace|The Marketplace]] — The bridge architecture (stablecoin-on-Lightning treated operationally); `Research/Border-Zone-Existing-Bridges.md` §4 (full operational treatment).
+**Cross-references.** [[Case]] — Bitcoin meets the constraints (Lightning + L2/L3 framing); [[Case-FA]] §4 substrate evaluation; [[Exchange]] — the bridges and crossing mechanics (stablecoin-on-Lightning treated operationally); `Research/Border-Zone-Existing-Bridges.md` §4 (full operational treatment).
 
 **Sources.** [Tether announcement: Tether brings USDt to Bitcoin's Lightning Network](https://tether.io/news/tether-brings-usdt-to-bitcoins-lightning-network-ushering-in-a-new-era-of-unstoppable-technology/); [BTC.network analysis of USDT-on-Lightning fee market](https://btc.network/blog/usdt-live-lightning-network-taproot-assets-fee-market-2026); [Speed Wallet announcement](https://www.speed.app/blog/speed-wallet-introduces-usdt-on-lightning/); [Lightning Labs Taproot Assets v0.6 launch (June 2025)](https://lightning.engineering/posts/2025-6-24-tapd-v0.6-launch/).
 
@@ -219,7 +219,7 @@ Refresh cadence for Part A: at least quarterly, plus on any significant deployme
 
 Append cadence for Part B: as developments warrant. Single dated entries for specific events; multi-week composite entries acceptable for slower-moving developments. Each entry should name what happened, why it matters (with explicit cross-link to the canonical surface whose structural argument the development bears on), and primary sources.
 
-Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [[The-Story|The Story]], [[Marketplace|The Marketplace]], [[Stack]]) link out to Field Notes for ongoing empirical tracking rather than carrying that tracking inline. The FA twins ([[Case-FA]], [[Independence-Doctrine-FA]], [[Treasury-FA]]) carry tight inline empirical references only when they sharpen how you'd know a structural argument is wrong; routine empirical updates defer here.
+Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [[The-Story|The Story]], [[Treasury]], [[Stack]]) link out to Field Notes for ongoing empirical tracking rather than carrying that tracking inline. The FA twins ([[Case-FA]], [[Independence-Doctrine-FA]], [[Treasury-FA]]) carry tight inline empirical references only when they sharpen how you'd know a structural argument is wrong; routine empirical updates defer here.
 
 ---
 
@@ -228,7 +228,7 @@ Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [
 > - **[[Case|The Case]]** *(why agents choose Bitcoin)* — the substrate-selection case this record tracks empirically.
 > - **[[Independence-Doctrine|The Independence Doctrine]]** *(in The Case)* — the parallel-economy divergence whose predictions this record tests against deployment.
 > - **[[Border-Skirmishes|Border Skirmishes]]** *(in The Case)* — the live contest over which substrate wins.
-> - **[[Marketplace|The Marketplace]]** *(exchange & services)* — where an agent actually transacts: bridges, treasury, conversion mechanics.
+> - **[[Marketplace|The Marketplace]]** *(The Market)* — where an agent actually transacts: what it holds ([[Treasury]]), how it crosses ([[Exchange]] — bridges, conversion), and the live directory of services.
 > - **[[Stack|The Stack]]** *(equip your agent)* — the pure technical architecture of the Bitcoin substrate this record logs the deployment of.
 
 ---
@@ -237,7 +237,7 @@ Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [
 
 *Internal author perspective. Not published in produced derivatives.*
 
-Field Notes is the project's pressure valve: it lets the canonical surfaces stay canonical. The locked 2026-05-26 defer-pattern routes all moving empirical content here — deployment counts, capacity figures, freeze incidents, protocol-version transitions — so the Case, Doctrine, Marketplace, and Stack can carry structural arguments without rotting as the landscape shifts. When a canonical surface is tempted to cite a current number, the answer is almost always "name it once, then defer to Field Notes."
+Field Notes is the project's pressure valve: it lets the canonical surfaces stay canonical. The locked 2026-05-26 defer-pattern routes all moving empirical content here — deployment counts, capacity figures, freeze incidents, protocol-version transitions — so the Case, Doctrine, Treasury, and Stack can carry structural arguments without rotting as the landscape shifts. When a canonical surface is tempted to cite a current number, the answer is almost always "name it once, then defer to Field Notes."
 
 The honest-engagement discipline lives most visibly here, in §A.4 — engaging the Bitcoin-substrate-side challenges (Lightning liquidity management, Fedimint federated-trust, single-mint Cashu failure, the agent custody attack surface) as candidly as the competing-substrate failures. That is the editorial line that keeps the project credible rather than promotional; sweeping the challenges under the rug would weaken the thesis, not protect it.
 
@@ -247,7 +247,7 @@ Maintenance note: §A is a dated snapshot (`section-A-last-refreshed`), refreshe
 
 - [[Case]] (this project) — substrate-selection argument this surface tracks empirically
 - [[Independence-Doctrine]] (this project) — divergence predictions this surface tests against deployment
-- [[Marketplace]] (this project) — bridge architecture whose empirical state this surface logs
+- [[Exchange]] (this project) — the bridges/crossing surface whose empirical state this surface logs
 - [[Stack]] (this project) — substrate architecture whose deployed state this surface tracks
 - [[The case for investing in Bitcoin]] § AI-agent monetary substrate case — KB origin of the substrate claim
 - [[The AI-agent monetary substrate case]] — dedicated KB note for the four-constraints argument

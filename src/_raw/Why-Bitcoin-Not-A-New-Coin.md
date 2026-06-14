@@ -112,7 +112,7 @@ But notice what that test actually requires, because it is the whole point. A ch
 >
 > **In the other sections:**
 > - **[[Stack|The Stack]]** *(equip your agent)* — the proof-of-work, settlement, and L2 mechanics this page summarizes.
-> - **[[Marketplace|The Marketplace]]** *(exchange & services)* — where the single base money does its work: treasury composition, exchange, and the services priced in it.
+> - **[[Marketplace|The Marketplace]]** *(The Market)* — where the single base money does its work: what an agent holds ([[Treasury]]), how it crosses ([[Exchange]]), and the services priced in it ([[Services]]).
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the running record of agent-coin proposals and whether any challenger begins to earn the bundle.
 
 ---

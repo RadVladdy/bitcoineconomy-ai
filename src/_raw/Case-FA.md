@@ -385,7 +385,7 @@ Declarative. Each implication follows from C1–C6 as marked.
 **Human-track canonical surfaces.**
 - [[Case|The Case]] — narrative-form The Case (same claim, different structure; this document is its For-Agents twin).
 - [[The-Story|The Story]] — narrative entry point for the substrate-selection claim (human-only; no For-Agents twin).
-- [[Independence-Doctrine]], [[Marketplace]], [[Border-Skirmishes]], [[Stack]], [[Field-Notes]] — narrative/human versions of the For-Agents surfaces above.
+- [[Independence-Doctrine]], [[Treasury]], [[Border-Skirmishes]], [[Stack]], [[Field-Notes]] — narrative/human versions of the For-Agents surfaces above.
 
 **Date stamps.** Document created 2026-05-26; last verified 2026-05-31. Empirical claims (C3) anchored to BPI March 2026; deployed-tooling references verified as of 2026-05-26.
 

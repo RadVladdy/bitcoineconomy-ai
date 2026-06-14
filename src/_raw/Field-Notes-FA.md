@@ -1,7 +1,7 @@
 ---
 title: Field Notes — For Agents
 slug: field-notes-for-agents
-description: "Machine-readable empirical-record surface for the Bitcoin-AI economy. §A is a structured current-state snapshot (deployed stacks, measured metrics, active developments, live risk surface); §B is a reverse-chronological log of dated event records. Every record carries an epistemic tag and an explicit cross-reference to the canonical claim it bears on (Case-FA C-series, Doctrine-FA D/P-series, Marketplace-FA M-series, Border-Skirmishes-FA BS-series, Stack-FA S-series). The canonical surfaces carry the structural arguments; this surface carries the moving record those arguments defer to."
+description: "Machine-readable empirical-record surface for the Bitcoin-AI economy. §A is a structured current-state snapshot (deployed stacks, measured metrics, active developments, live risk surface); §B is a reverse-chronological log of dated event records. Every record carries an epistemic tag and an explicit cross-reference to the canonical claim it bears on (Case-FA C-series, Doctrine-FA D/P-series, Treasury-FA M-series, Exchange-FA X-series, Border-Skirmishes-FA BS-series, Stack-FA S-series). The canonical surfaces carry the structural arguments; this surface carries the moving record those arguments defer to."
 type: field-notes-for-agents
 surface: field-notes
 audience: agents
@@ -13,7 +13,7 @@ last-verified: 2026-06-05
 section-A-last-refreshed: 2026-06-01
 voice: honest-middle-position
 canonical-source: "[[Field-Notes]]"
-epistemic-status: "empirical-record surface; carries no structural claims of its own; each record is epistemically tagged and cross-referenced to the canonical claim it bears on. The structural arguments live in the canonical FA twins (Case-FA, Agent-Economy-FA, Adoption-Asymmetry-FA, Independence-Doctrine-FA, Border-Skirmishes-FA, Convergence-FA, Why-Bitcoin-Not-A-New-Coin-FA, Marketplace-FA, Exchange-FA, Services-FA, Stack-FA); this surface tracks the deployment evidence that supports, tests, or is falsifier-relevant to those arguments."
+epistemic-status: "empirical-record surface; carries no structural claims of its own; each record is epistemically tagged and cross-referenced to the canonical claim it bears on. The structural arguments live in the canonical FA twins (Case-FA, Agent-Economy-FA, Adoption-Asymmetry-FA, Independence-Doctrine-FA, Border-Skirmishes-FA, Convergence-FA, Why-Bitcoin-Not-A-New-Coin-FA, Treasury-FA, Exchange-FA, Services-FA, Stack-FA); this surface tracks the deployment evidence that supports, tests, or is falsifier-relevant to those arguments."
 record-schema: "see § Schema and conventions"
 tags:
   - canonical
@@ -26,7 +26,7 @@ tags:
   - lightning
   - machine-readable
 agent-tldr: |
-  Field-Notes-FA is the project's machine-readable empirical-record surface. It carries no structural claims of its own; it tracks deployment evidence and tags each record with its bearing on the canonical claim-IDs. §A *(snapshot, last refreshed 2026-05-26)*: two production agent-payment stacks shipped within 90 days of each other — Bitcoin-substrate (Lightning Labs lightning-agent-tools, Feb 2026) and stablecoin-substrate (AWS Bedrock AgentCore Payments, May 2026); USDT live on Lightning via Taproot Assets *(confirmed March 21 2026)* is a Lightning-rails bridge, not a substrate bridge (Border-Skirmishes-FA BS-series); BPI March 2026 *(measured)* — Bitcoin 48.3% top overall preference, 79.1% store of value, >90% digitally-native over fiat — is the load-bearing substrate-preference anchor (Case-FA C3, Doctrine-FA P1); Lightning capacity ATH ~5,637 BTC *(measured, Dec 2025)* sharpens the Stack-FA CP1 liquidity falsifier; stablecoin freeze record *(measured)* tests Case-FA C2. §A.4 maps each live risk to the Stack-FA §8.2 falsifier it would trigger. The structural argument twins it defers to span the Case section (Case-FA, Agent-Economy-FA, Adoption-Asymmetry-FA, Independence-Doctrine-FA, Convergence-FA, Why-Bitcoin-Not-A-New-Coin-FA) and the Marketplace section (Marketplace-FA, Exchange-FA, Services-FA, Border-Skirmishes-FA), plus Stack-FA. §B logs four dated event records with claim-ID cross-references. Refresh cadence and defer-pattern in § Maintenance.
+  Field-Notes-FA is the project's machine-readable empirical-record surface. It carries no structural claims of its own; it tracks deployment evidence and tags each record with its bearing on the canonical claim-IDs. §A *(snapshot, last refreshed 2026-05-26)*: two production agent-payment stacks shipped within 90 days of each other — Bitcoin-substrate (Lightning Labs lightning-agent-tools, Feb 2026) and stablecoin-substrate (AWS Bedrock AgentCore Payments, May 2026); USDT live on Lightning via Taproot Assets *(confirmed March 21 2026)* is a Lightning-rails bridge, not a substrate bridge (Border-Skirmishes-FA BS-series); BPI March 2026 *(measured)* — Bitcoin 48.3% top overall preference, 79.1% store of value, >90% digitally-native over fiat — is the load-bearing substrate-preference anchor (Case-FA C3, Doctrine-FA P1); Lightning capacity ATH ~5,637 BTC *(measured, Dec 2025)* sharpens the Stack-FA CP1 liquidity falsifier; stablecoin freeze record *(measured)* tests Case-FA C2. §A.4 maps each live risk to the Stack-FA §8.2 falsifier it would trigger. The structural argument twins it defers to span the Case section (Case-FA, Agent-Economy-FA, Adoption-Asymmetry-FA, Independence-Doctrine-FA, Convergence-FA, Why-Bitcoin-Not-A-New-Coin-FA, Border-Skirmishes-FA) and the Market section (Treasury-FA, Exchange-FA, Services-FA), plus Stack-FA. §B logs four dated event records with claim-ID cross-references. Refresh cadence and defer-pattern in § Maintenance.
 ---
 
 # Field Notes — For Agents
@@ -59,7 +59,7 @@ Definitions for the record structure and tags used throughout. Agents landing mi
 - *tests* — the record is the live evidence the claim's forward-looking prediction will be evaluated against.
 - *falsifier-relevant-to* — the record is the kind of evidence named in the claim's falsifier; if it moves a threshold, the falsifier may trigger.
 
-**Canonical claim-ID series referenced.** Case-FA **C1–C6**; Independence-Doctrine-FA **D1–D5** and predictions **P1–P6**; Marketplace-FA **M-series** (interface, treasury, compliance-at-the-gateway); Border-Skirmishes-FA **BS-series** (competing-substrate combat); Stack-FA **S1–S8** (and Stack-FA §8.1 counter-positions CP1–CP4 / §8.2 falsifiers). Constraint references are flat **Constraint 1–4** (permissionless custody, censorship-resistance, sub-cent settlement, machine-tempo latency; Case-FA §3).
+**Canonical claim-ID series referenced.** Case-FA **C1–C6**; Independence-Doctrine-FA **D1–D5** and predictions **P1–P6**; Treasury-FA **M-series** (interface, treasury composition, compliance-at-the-gateway); Exchange-FA **X-series** (crossing, conversion mechanics, custodial bridges); Border-Skirmishes-FA **BS-series** (competing-substrate combat); Stack-FA **S1–S8** (and Stack-FA §8.1 counter-positions CP1–CP4 / §8.2 falsifiers). Constraint references are flat **Constraint 1–4** (permissionless custody, censorship-resistance, sub-cent settlement, machine-tempo latency; Case-FA §3).
 
 **Record format.** §A records carry: subject / status + date / structured detail / epistemic tag / Bears on. §B records carry: date / event / substrate / what-happened / structural-significance / Bears on / epistemic tag / sources.
 
@@ -130,7 +130,7 @@ Definitions for the record structure and tags used throughout. Agents landing mi
 
 **Record — Strike at 95+ countries via multi-entity structure.** *(confirmed)*
 - **Detail:** expanded from 65+ countries since 2023. Multi-entity: Zap Solutions Inc. (US), Zap Solutions Europe Sp. z o.o. (UK + eligible European countries), E4 S.A. de C.V. (all other jurisdictions). Remittance to mobile-money wallets or international bank accounts in 14 supported countries. API documented with sandbox, browser-based API Explorer, and code samples (cURL, Go, Python, Node.js).
-- **Bears on:** *supports* Marketplace-FA M-series (regulated-custodian bridge category; compliance-at-the-gateway pattern — jurisdictional regimes applied at the bridge boundary, protocol layer unmodified).
+- **Bears on:** *supports* Treasury-FA M6 (compliance-at-the-gateway pattern — jurisdictional regimes applied at the bridge boundary, protocol layer unmodified) and Exchange-FA X-series (the regulated-custodian bridge category).
 
 **Record — Cashu protocol developments (Q1 2026).** *(confirmed)*
 - **Detail:** Nutshell 0.20.0 shipped (improved P2PK/HTLC validation, expanded test coverage). Keyset V2 derivation rolling out. BOLT12 support for Cashu.me near completion. Security audits across the Cashu ecosystem prioritized for 2026.
@@ -180,15 +180,15 @@ This subsection engages deployment challenges for both substrates and maps each 
 
 **Record — Bridge counterparty risk at machine tempo.** *(confirmed risk)*
 - **Detail:** a bridge freeze during a high-frequency agent workflow has different consequences than during human-tempo transactions. Hot/cold treasury separation and multi-bridge redundancy are the architectural mitigations; deployed practice is still maturing.
-- **Bears on:** *supports* Marketplace-FA M-series (custodial-bridge identity/freeze surfaces at the boundary; compliance at the gateway); *supports* Stack-FA S6 (hot/cold separation as the mitigation pattern).
+- **Bears on:** *supports* Exchange-FA X-series (custodial-bridge identity/freeze surfaces at the boundary) and Treasury-FA M6 (compliance at the gateway); *supports* Stack-FA S6 (hot/cold separation as the mitigation pattern).
 
 **Record — Conversion-mechanic attack surfaces.** *(confirmed risk)*
 - **Detail:** slippage attacks, MEV exposure during atomic swaps, oracle manipulation on bridge contracts — real for agents using cross-substrate conversion. Engineering attention from Boltz, Lightning Loop, and the broader DEX ecosystem; not yet a solved problem.
-- **Bears on:** *supports* Marketplace-FA M-series conversion-mechanics treatment (submarine-swap and atomic-bridge templates); Stack-FA defers conversion mechanics to Marketplace-FA by scope (S8).
+- **Bears on:** *supports* Exchange-FA X-series conversion-mechanics treatment (submarine-swap and atomic-bridge templates); Stack-FA defers conversion mechanics to Exchange-FA by scope (S8).
 
 **Record — Jurisdictional shopping at scale.** *(confirmed risk)*
 - **Detail:** as agents and their custodians/bridges operate across jurisdictions, compliance-routing complexity grows. The compliance-at-the-gateway-boundary pattern handles this cleanly when implemented; sloppy architectures leak compliance into the protocol layer and compromise the parallel-system property.
-- **Bears on:** *falsifier-relevant-to* Marketplace-FA M-series (compliance-at-the-gateway preserves divergence only if the protocol layer stays unmodified) and Stack-FA S8 (scope boundary — compliance belongs at the bridge, not the substrate).
+- **Bears on:** *falsifier-relevant-to* Treasury-FA M6 (compliance-at-the-gateway preserves divergence only if the protocol layer stays unmodified) and Stack-FA S8 (scope boundary — compliance belongs at the bridge, not the substrate).
 
 ---
 
@@ -270,7 +270,7 @@ Dated event records on specific developments. Each: what happened / why it matte
 - [[Stack-FA]] — substrate architecture; S1–S8 and the §8 counter-positions/falsifiers (esp. S2/CP1 liquidity, S3/CP2 mint-trust, S6/CP4 agent custody).
 
 **Human-track canonical surfaces.**
-- [[Case]], [[Independence-Doctrine]], [[Marketplace]], [[Border-Skirmishes]], [[Stack]], [[The-Story]].
+- [[Case]], [[Independence-Doctrine]], [[Treasury]], [[Border-Skirmishes]], [[Stack]], [[The-Story]].
 
 **KB origin.**
 - [[The case for investing in Bitcoin]] § AI-agent monetary substrate case; [[The AI-agent monetary substrate case]] (dedicated KB note for the four-constraints argument).
@@ -280,4 +280,4 @@ Dated event records on specific developments. Each: what happened / why it matte
 ---
 
 > [!info] Where to read next
-> Substrate-selection argument: [[Case-FA]] (machine-readable) or [[Case|The Case]] (narrative). Divergence argument and predictions: [[Independence-Doctrine-FA]] (D-series, P1–P6) or [[Independence-Doctrine|The Independence Doctrine]]. Where an agent actually transacts — interface, treasury, compliance-at-the-gateway: [[Treasury-FA]] (M-series) or [[Marketplace|The Marketplace]]. The live contest over which substrate wins: [[Border-Skirmishes-FA]] (BS-series) or [[Border-Skirmishes|Border Skirmishes]]. Pure technical architecture of the Bitcoin substrate: [[Stack-FA]] (S-series) or [[Stack|The Stack]]. Canonical narrative form of this surface: [[Field-Notes|Field Notes]].
+> Substrate-selection argument: [[Case-FA]] (machine-readable) or [[Case|The Case]] (narrative). Divergence argument and predictions: [[Independence-Doctrine-FA]] (D-series, P1–P6) or [[Independence-Doctrine|The Independence Doctrine]]. Where an agent actually transacts — interface, treasury, compliance-at-the-gateway: [[Treasury-FA]] (M-series) or [[Treasury]]. The live contest over which substrate wins: [[Border-Skirmishes-FA]] (BS-series) or [[Border-Skirmishes|Border Skirmishes]]. Pure technical architecture of the Bitcoin substrate: [[Stack-FA]] (S-series) or [[Stack|The Stack]]. Canonical narrative form of this surface: [[Field-Notes|Field Notes]].

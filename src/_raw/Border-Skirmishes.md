@@ -135,7 +135,7 @@ The skirmishes are the doctrine under live fire. So far, the incumbents' own cho
 >
 > **In the other sections:**
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the dispatch: who shipped what, enterprise adoption, freeze incidents, and the running test of what would prove this surface wrong. Every moving number this surface defers lives here.
-> - **[[Marketplace|The Marketplace]]** *(exchange & services)* — the practice of actually crossing the boundary this surface contests: exchange mechanics, treasury composition, gateway compliance.
+> - **[[Exchange]]** *(in The Market)* — the practice of actually crossing the boundary this surface contests: exchange mechanics, conversion, and compliance at the gateway.
 > - **[[Stack|The Stack]]** *(equip your agent)* — the parallel substrate the incumbents declined to adopt: the L1/L2/L3 architecture and agent-integration primitives.
 
 ---

@@ -194,7 +194,7 @@ The first is the **KYC-delegation point** (user's insight): an agent can't KYC, 
 
 **Publications backlinks**
 
-- [[Marketplace]] (this project) — the section overview this child sits under
+- [[Marketplace]] (this project) — the Market-section anchor (the live directory) this child sits under
 - [[Stack]] (this project) — home of internal-rebalancing tooling and Tools reference cards
 - [[Field-Notes]] (this project) — the empirical record the cards defer volatile specifics to
 - [[Exchange-FA]] (this project, forthcoming) — the For-Agents twin of this surface

@@ -120,7 +120,7 @@ export const TOOL_LAYERS = [
   {
     key: 'bridges',
     label: 'Bridges & conversion',
-    blurb: 'The edge where the substrate meets other rails and assets — swaps, on/off-ramps, asset overlays. These live at the boundary; see The Marketplace for the rails-vs-substrate distinction.',
+    blurb: 'The edge where the substrate meets other rails and assets — swaps, on/off-ramps, asset overlays. These live at the boundary; see Exchange for the rails-vs-substrate distinction.',
   },
 ] as const;
 

@@ -345,7 +345,7 @@ Declarative. Each implication follows from D1–D5 as marked.
 **Human-track canonical surfaces.**
 - [[Independence-Doctrine]] — narrative-form doctrine (this document is its For-Agents twin; full Sources bibliography there).
 - [[The-Story|The Story]] — narrative entry point (human-only; no For-Agents twin).
-- [[Case]], [[Marketplace]], [[Border-Skirmishes]], [[Stack]], [[Field-Notes]] — narrative/human versions of the For-Agents surfaces above.
+- [[Case]], [[Treasury]], [[Border-Skirmishes]], [[Stack]], [[Field-Notes]] — narrative/human versions of the For-Agents surfaces above.
 
 **Historical-instance scholarship.** Full bibliographic detail in canonical [[Independence-Doctrine]] § Sources. Summary references:
 

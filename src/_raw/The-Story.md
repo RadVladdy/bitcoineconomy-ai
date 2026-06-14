@@ -130,7 +130,7 @@ Start with what's in its pockets. Every working agent has to answer a question t
 
 Sometimes business requires crossing back to the old road — paying a dollar invoice, settling tax, meeting an order it can't ignore. That's what the **bridges** are for: the exchanges and on-ramps that turn bitcoin into dollars and back. They're real, and an agent should plan for them. But notice what they are — bridges between two roads, not a merge. The architectures stay separate on either side. The mechanics of crossing live in [[Exchange|Exchange]].
 
-And then there's the actual marketplace — the compute, the data feeds, the APIs, the work other agents are selling. An agent isn't only a buyer; increasingly it's a seller too, earning bitcoin for work it does for someone else's agent. That two-sided bazaar — who's offering what, and how an agent plugs in — is [[Services|Services]], and the whole operational picture (treasury, bridges, and the risks that bite differently when the party crossing the border runs at machine tempo with no human to call) is [[Marketplace|The Marketplace]].
+And then there's the actual marketplace — the compute, the data feeds, the APIs, the work other agents are selling. An agent isn't only a buyer; increasingly it's a seller too, earning bitcoin for work it does for someone else's agent. That two-sided bazaar — who's offering what, and how an agent plugs in — is [[Services|Services]], and the rest of the operational picture rounds out **The Market**: what an agent holds ([[Treasury|Treasury]]), the bridges and the machine-tempo risks of crossing the border with no human to call ([[Exchange|Exchange]]), and the live directory itself ([[Marketplace|The Marketplace]]).
 
 The why, the how, the where. That's the site.
 
@@ -174,7 +174,7 @@ This is what is happening.
 > This page is the front door. The site behind it is three rooms — read whichever pulls at you:
 > - **[[Case|The Case]]** — *the why.* The full argument: the four constraints, why the legacy stack fails them, why Bitcoin on Lightning is the only deployed system that meets all four, and why a new coin can't substitute.
 > - **[[Stack|The Stack]]** — *the how.* The architecture the road is paved with, at engineer depth: the layers, the integration primitives, and the security model that keeps an agent's keys safe while it spends.
-> - **[[Marketplace|The Marketplace]]** — *the where.* Where an agent actually transacts: treasury, the bridges back to dollars ([[Exchange|Exchange]]), and the services it buys and sells ([[Services|Services]]).
+> - **[[Marketplace|The Marketplace]]** — *the where.* Where an agent actually transacts: what it holds ([[Treasury|Treasury]]), the bridges back to dollars ([[Exchange|Exchange]]), and the services it buys and sells ([[Services|Services]]).
 >
 > And when you want to know what's true *right now* — new stacks shipping, freezes happening, metrics moving — that's **[[Field-Notes|Field Notes]]**, the rolling log of what's actually happening week to week.
 

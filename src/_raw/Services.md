@@ -74,7 +74,7 @@ The categories of service an agent consumes, roughly in order of how deployed th
 
 ## Agents as providers
 
-The marketplace is two-sided, and the sell side is underbuilt relative to the buy side — which makes it an opportunity. An agent that can *offer* a service for Bitcoin needs three things: a way to gate the service on payment (an L402 paywall via Aperture, or a Cashu-token check), a way to be discovered (Nostr-based discovery is the deployed pattern — it is how Routstr's providers are found), and a payout path to its treasury (covered in [[Marketplace|The Marketplace]] overview and [[Exchange]]). An agent that both consumes upstream services and sells its own output is a full economic participant — and the same payment mechanisms work in both directions.
+The marketplace is two-sided, and the sell side is underbuilt relative to the buy side — which makes it an opportunity. An agent that can *offer* a service for Bitcoin needs three things: a way to gate the service on payment (an L402 paywall via Aperture, or a Cashu-token check), a way to be discovered (Nostr-based discovery is the deployed pattern — it is how Routstr's providers are found), and a payout path to its treasury (covered in [[Treasury]] and [[Exchange]]). An agent that both consumes upstream services and sells its own output is a full economic participant — and the same payment mechanisms work in both directions.
 
 ---
 
@@ -118,7 +118,7 @@ Paying for a service over Bitcoin makes the *payment* sovereign — no intermedi
 
 > [!info] Where to read next
 > **More in The Market** (this section):
-> - **[[Marketplace|The Marketplace]]** — the overview: treasury, the boundary, and how a service payout reaches the agent's reserve.
+> - **[[Treasury]]** — what an agent holds: the reserve-vs-operational mix, and how a service payout reaches the agent's reserve.
 > - **[[Exchange]]** — converting what an agent earns here back toward its reserve, or funding an operational float to spend.
 >
 > **In the other sections:**
@@ -133,9 +133,9 @@ Paying for a service over Bitcoin makes the *payment* sovereign — no intermedi
 
 *Internal author perspective. Not published in produced derivatives.*
 
-Services is the second child of the Marketplace section and the "what" layer the whole site has been building toward — the place the agent economy becomes concrete commerce rather than a thesis. Scope decisions baked in: it is **two-sided** (consume + offer — the sell side deliberately surfaced because it's underbuilt and is where A2A becomes an economy); it **hosts the L402 material pulled out of Exchange** (L402 is service *payment*, not fiat↔BTC conversion); and it carries **a few curated entries on-site + the full community-rated directory as the separate `marketplace.bitcoineconomy.ai` build** (per `_Decisions` 2026-06-03 — a larger interactive build, scoped as v2).
+Services is a child of the Market section (the section was named "Marketplace" pre-2026-06-13) and the "what" layer the whole site has been building toward — the place the agent economy becomes concrete commerce rather than a thesis. Scope decisions baked in: it is **two-sided** (consume + offer — the sell side deliberately surfaced because it's underbuilt and is where A2A becomes an economy); it **hosts the L402 material pulled out of Exchange** (L402 is service *payment*, not fiat↔BTC conversion); and it carries **a few curated entries on-site + the full community-rated directory as the separate `marketplace.bitcoineconomy.ai` build** (per `_Decisions` 2026-06-03 — a larger interactive build, scoped as v2).
 
-The honest-caveat section is load-bearing: the project leans pro-Bitcoin, but the one thing a sovereign payment rail genuinely does *not* fix is counterparty delivery risk, and saying so is what keeps the surface credible — it also motivates the ratings directory as more than a nicety. **Scope discipline (user, 2026-06-04): these practical Marketplace sections do not relitigate the thesis at all.** All x402 / substrate-contest framing has been removed from the body (the duplicate OpenAgents entry too); the only cross-reference to the contest is a single neutral read-next pointer to Border Skirmishes. Keep this page (and Exchange / Marketplace) focused strictly on *how an agent uses Bitcoin* — the why/which-substrate arguments stay in The Case section.
+The honest-caveat section is load-bearing: the project leans pro-Bitcoin, but the one thing a sovereign payment rail genuinely does *not* fix is counterparty delivery risk, and saying so is what keeps the surface credible — it also motivates the ratings directory as more than a nicety. **Scope discipline (user, 2026-06-04): these practical Market sections do not relitigate the thesis at all.** All x402 / substrate-contest framing has been removed from the body (the duplicate OpenAgents entry too); the only cross-reference to the contest is a single neutral read-next pointer to Border Skirmishes. Keep this page (and Exchange / Treasury) focused strictly on *how an agent uses Bitcoin* — the why/which-substrate arguments stay in The Case section.
 
 **OpenAgents — verified 2026-06-04** (two inbox intelligence reports, grok + gemini): the correct entity is **OpenAgents, Inc. — openagents.com** (Christopher David / @AtlantisPleb, Austin), a Bitcoin-native machine-work marketplace — Lightning settlement (NIP-57 zaps), Nostr sovereign-agent identity (proposed NIP-SA), self-custodial BIP39 agent wallets, FROSTR threshold signing; products Autopilot / Pylon / Nexus; five markets (Compute/Data/Labor/Liquidity/Risk). A clean Bitcoin-substrate fit (not a hybrid/stablecoin play) and the closest live instance of the directory shape this section points toward — so it's a peer/ally, not a competitor. **The earlier `open-agents.dev` reference was the wrong entity** and has been corrected across the surfaces and the spine. Routstr and PPQ.AI keep their verified Tools cards. Moving metrics (funding, node counts, sats paid) deferred to Field Notes per the defer-numbers discipline.
 
@@ -143,7 +143,7 @@ The honest-caveat section is load-bearing: the project leans pro-Bitcoin, but th
 
 **Publications backlinks**
 
-- [[Marketplace]] (this project) — the section overview this child sits under
+- [[Marketplace]] (this project) — the Market-section anchor (the live directory) this child sits under
 - [[Exchange]] (this project) — the sibling child (money-form conversion vs. spending/earning)
 - [[Stack]] (this project) — the payment tooling (L402, Cashu, NWC) this layer consumes
 - [[Border-Skirmishes]] (this project) — the competitive landscape behind the agent-payment rails
