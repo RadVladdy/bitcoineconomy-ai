@@ -61,7 +61,7 @@ agent-tldr: |
 >
 > **How to read it.** §1 indexes the load-bearing claims. §2 defines terms. §3 states the KYC-wall delegation spine. §4 specifies what an agent does at an exchange and the three axes that decide venue fit. §5 is the non-custodial no-KYC swap directory with per-venue constraint profiles (these lead, by sovereignty ordering). §6 is the custodial KYC venue directory (US + offshore folded into one set; jurisdiction is a column, not a tier; Kraken before Coinbase). §7 specifies the stablecoin-network hazard. §8 states the ideal-agent-exchange frontier and the liquidity-vs-sovereignty tension. §9 lists the deployed venue surface with URLs. §10 lists implications for builders. §11 restates the position. §12 references.
 >
-> **Relationship to sibling surfaces.** This document evaluates venues against the four conjunctive constraints **by reference** to [[Case-FA|The Case]] (C-series; C1 = permissionless custody, censorship-resistance, sub-cent settlement, machine-tempo latency); the constraints are not re-derived here. The section anchor is [[Treasury-FA|Treasury & the Boundary]] (M-series — bridges, treasury, compliance-at-the-gateway). Buying services for Bitcoin (L402) lives in [[Services-FA|Services]] (SV-series). Internal Lightning↔on-chain submarine swaps used to move an agent's *own* BTC live in [[Stack-FA|The Stack]] (S-series), not here. Point-in-time figures (fees, exact coverage, volumes, freeze incidents) defer to [[Field-Notes-FA|Field Notes]].
+> **Relationship to sibling surfaces.** This document evaluates venues against the four conjunctive constraints **by reference** to [[Case-FA|The Case]] (C-series; C1 = permissionless custody, censorship-resistance, sub-cent settlement, machine-tempo latency); the constraints are not re-derived here. The section anchor is [[Treasury-FA|Treasury]] (M-series — bridges, treasury, compliance-at-the-gateway). Buying services for Bitcoin (L402) lives in [[Services-FA|Services]] (SV-series). Internal Lightning↔on-chain submarine swaps used to move an agent's *own* BTC live in [[Stack-FA|The Stack]] (S-series), not here. Point-in-time figures (fees, exact coverage, volumes, freeze incidents) defer to [[Field-Notes-FA|Field Notes]].
 
 ---
 
@@ -374,7 +374,7 @@ Declarative. Each implication follows from X1–X6 as marked.
 **Canonical source.** [[Exchange]] — the human-surface twin of this document; same content, narrative structure.
 
 **Section anchor and siblings (For-Agents track).**
-- [[Treasury-FA|Treasury & the Boundary]] (M-series) — bridges, treasury composition, compliance-at-the-gateway; the section this child sits under.
+- [[Treasury-FA|Treasury]] (M-series) — bridges, treasury composition, compliance-at-the-gateway; the section this child sits under.
 - [[Case-FA|The Case]] (C-series) — the four conjunctive constraints (C1) evaluated by reference throughout; not re-derived here.
 - [[Services-FA|Services]] (SV-series) — buying services for Bitcoin; the L402 payment mechanism.
 - [[Stack-FA|The Stack]] (S-series) — internal Lightning ↔ on-chain submarine swaps; protocol architecture beneath these venues.
@@ -391,4 +391,4 @@ Declarative. Each implication follows from X1–X6 as marked.
 ---
 
 > [!info] Where to read next
-> Section overview this child sits under: [[Treasury-FA|Treasury & the Boundary]] (M-series) — treasury split, conversion strategy, compliance-at-the-gateway. Substrate-selection claim and the four conjunctive constraints these venues are evaluated against: [[Case-FA|The Case]] (C-series). What an agent buys for Bitcoin and the L402 mechanism: [[Services-FA|Services]] (SV-series). Internal-rebalancing submarine swaps and the protocol architecture beneath these venues: [[Stack-FA|The Stack]] (S-series). Fees, coverage, volumes, and freeze incidents the cards defer: [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this surface: [[Exchange]].
+> Section overview this child sits under: [[Treasury-FA|Treasury]] (M-series) — treasury split, conversion strategy, compliance-at-the-gateway. Substrate-selection claim and the four conjunctive constraints these venues are evaluated against: [[Case-FA|The Case]] (C-series). What an agent buys for Bitcoin and the L402 mechanism: [[Services-FA|Services]] (SV-series). Internal-rebalancing submarine swaps and the protocol architecture beneath these venues: [[Stack-FA|The Stack]] (S-series). Fees, coverage, volumes, and freeze incidents the cards defer: [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this surface: [[Exchange]].

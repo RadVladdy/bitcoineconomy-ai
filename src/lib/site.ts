@@ -27,7 +27,7 @@ export const HUMAN_NAV = [
   { slug: 'marketplace', label: 'The Marketplace' },
   { slug: 'exchange', label: 'Exchange' },
   { slug: 'services', label: 'Services' },
-  { slug: 'treasury', label: 'Treasury & the Boundary' },
+  { slug: 'treasury', label: 'Treasury' },
   { slug: 'stablecoin-landscape', label: 'The Stablecoin Landscape' },
   { slug: 'field-notes', label: 'Field Notes' },
 ];
@@ -59,7 +59,7 @@ export const NAV_GROUPS = [
     ],
   },
   {
-    label: 'The Market',
+    label: 'Market',
     items: [
       { slug: 'marketplace', label: 'Marketplace' },
       { slug: 'exchange', label: 'Exchange' },

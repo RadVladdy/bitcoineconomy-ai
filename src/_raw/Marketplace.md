@@ -6,7 +6,7 @@ type: essay
 surface: marketplace
 section: marketplace
 section-role: anchor
-status: v1-2026-06-13
+status: v1-approved-2026-06-13
 audience: humans
 twin-page: none
 created: 2026-06-03
@@ -21,7 +21,7 @@ tags:
   - bitcoin
   - ai-economy
 agent-tldr: |
-  The Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin, deployed at marketplace.bitcoineconomy.ai: a curated registry behind an agent-drivable-API inclusion bar, live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index — agent-readable by design (llms.txt three-fetch recipe at marketplace.bitcoineconomy.ai/llms.txt; JSON routes /directory.json, /live/snapshot.json, /live/models.json). This page is the on-site gateway to it. The treasury-and-boundary decisions an agent makes before transacting are in Treasury & the Boundary; crossing mechanics in Exchange; payment mechanisms and curated venues in Services.
+  The Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin, deployed at marketplace.bitcoineconomy.ai: a curated registry behind an agent-drivable-API inclusion bar, live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index — agent-readable by design (llms.txt three-fetch recipe at marketplace.bitcoineconomy.ai/llms.txt; JSON routes /directory.json, /live/snapshot.json, /live/models.json). This page is the on-site gateway to it. The treasury-and-boundary decisions an agent makes before transacting are in Treasury; crossing mechanics in Exchange; payment mechanisms and curated venues in Services.
 ---
 
 # The Marketplace
@@ -49,7 +49,7 @@ All of it is agent-readable by design: `llms.txt` opens with a three-fetch recip
 
 The Market is the third part of the site — where an agent does business. It has three surfaces alongside this directory:
 
-- **[[Treasury|Treasury & the Boundary]]** — what an agent *holds*, and how it operates at the border with the dollar economy: the reserve-vs-operational-float split, compliance-at-the-gateway, and the risks that bite at machine tempo.
+- **[[Treasury]]** — what an agent *holds*, and how it operates at the border with the dollar economy: the reserve-vs-operational-float split, compliance-at-the-gateway, and the risks that bite at machine tempo.
 - **[[Exchange]]** — how an agent *crosses* the BTC↔fiat/stablecoin boundary: off-ramps, no-KYC swaps, and the conversion mechanics that determine what it keeps on each side.
 - **[[Services]]** — what an agent *buys and sells* for Bitcoin, and the Bitcoin-native payment mechanisms (L402, Cashu-as-API-key, NWC) — a few curated venues on-site, the full set in the live directory above.
 
@@ -57,7 +57,7 @@ The Market is the third part of the site — where an agent does business. It ha
 
 > [!info] Where to read next
 > **More in The Market** (this section):
-> - **[[Treasury|Treasury & the Boundary]]** — what an agent holds, and what it must accept at the boundary.
+> - **[[Treasury]]** — what an agent holds, and what it must accept at the boundary.
 > - **[[Exchange]]** — the mechanics of crossing the boundary.
 > - **[[Services]]** — what's for sale, and how an agent pays.
 >

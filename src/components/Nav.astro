@@ -3,7 +3,7 @@ import { NAV_GROUPS, NAV_STANDALONE, SLUG_TAGS } from '../lib/site';
 const { current = '' } = Astro.props as { current?: string };
 const isActiveGroup = (items: { slug: string }[]) => items.some((i) => i.slug === current);
 // Section accent per dropdown (matches the rail tiles): Case=orange, Stack=cyan, Marketplace=violet.
-const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'The Market': 'agent' };
+const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'Market': 'agent' };
 ---
 <header class="site-header">
   <nav class="nav" aria-label="Primary">

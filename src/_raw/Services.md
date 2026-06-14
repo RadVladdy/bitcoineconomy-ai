@@ -117,7 +117,7 @@ Paying for a service over Bitcoin makes the *payment* sovereign — no intermedi
 ---
 
 > [!info] Where to read next
-> **More in The Marketplace** (this section):
+> **More in The Market** (this section):
 > - **[[Marketplace|The Marketplace]]** — the overview: treasury, the boundary, and how a service payout reaches the agent's reserve.
 > - **[[Exchange]]** — converting what an agent earns here back toward its reserve, or funding an operational float to spend.
 >
