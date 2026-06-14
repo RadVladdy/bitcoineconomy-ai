@@ -32,8 +32,8 @@ const parentGroup = NAV_GROUPS.find((g) => g.items.some((i) => i.slug === humanS
 // + breadcrumb. Map them explicitly so they don't fall back to the orange Case
 // accent; the nav menu stays uncluttered. (About has no section — it's a meta page.)
 const OFFMENU_SECTION: Record<string, { label: string; anchor: string }> = {
-  'stablecoin-landscape': { label: 'The Market', anchor: 'marketplace' },
-  'treasury': { label: 'The Market', anchor: 'marketplace' },
+  'stablecoin-landscape': { label: 'Market', anchor: 'marketplace' },
+  'treasury': { label: 'Market', anchor: 'marketplace' },
   'why-bitcoin-not-a-new-coin': { label: 'Case', anchor: 'case' },
 };
 const section = parentGroup
@@ -49,7 +49,7 @@ const hasToc = toc.length >= 3;
 // enough structure) plus the site-nav tiles, stacked vertically. The Story
 // included (its chrome exception was revoked 2026-06-09 for the launch — outside
 // links land on /the-story; it stays out of the nav menus, which is a separate rule).
-const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'The Market': 'agent' };
+const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'Market': 'agent' };
 // Section accent for this page (colours the in-content card tiles).
 const accentKey = section ? SECTION_ACCENT[section.label] ?? 'btc' : 'btc';
 

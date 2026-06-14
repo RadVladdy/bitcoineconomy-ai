@@ -156,7 +156,7 @@ The standing build opportunity — scarcely filled — is a **regulated agent-pa
 
 > [!info] Where to read next
 > **More in The Market** (this section):
-> - **[[Treasury|Treasury & the Boundary]]** — the holding decision this surface serves: the reserve-vs-operational-mix split and the conversion strategy these venues execute.
+> - **[[Treasury]]** — the holding decision this surface serves: the reserve-vs-operational-mix split and the conversion strategy these venues execute.
 > - **[[Marketplace|The Marketplace]]** — the live directory of services an agent can consume and offer for Bitcoin.
 > - **[[Stablecoin-Landscape|The Stablecoin Landscape]]** *(reference)* — the lay of the land on the dollar-stablecoin market behind the operational mix: size, issuer dominance, which chains the supply lives on, and the network hazard.
 > - **[[Services]]** *(full directory at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai))* — what an agent buys and sells for Bitcoin, and the L402 payment mechanism that powers it.

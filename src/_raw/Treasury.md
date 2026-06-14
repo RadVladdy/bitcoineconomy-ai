@@ -1,12 +1,12 @@
 ---
-title: Treasury & the Boundary
+title: Treasury
 slug: treasury
-description: "What an agent holds, and how it operates at the border with the dollar economy — treasury, gateway-compliance, and boundary risk."
+description: "What an agent holds — its reserve and its operating float, and which economy that choice puts it in."
 type: essay
 surface: treasury
 section: marketplace
 section-role: reference
-status: v1-2026-06-13
+status: v1-approved-2026-06-13
 audience: humans
 twin-page: treasury-for-agents
 created: 2026-06-03
@@ -24,10 +24,10 @@ tags:
   - bitcoin
   - ai-economy
 agent-tldr: |
-  Treasury & the Boundary is the first decision an agent makes before it transacts: what to hold. It resolves along two independent axes, and conflating them is the primary treasury error. (1) The reserve — the store of value — is the major differentiator and an identity decision: a Bitcoin reserve plants the agent in the parallel economy (censorship-resistant, Constraint 2 preserved), a stablecoin reserve plants it in the incumbent economy (issuer-freezable, Constraint 2 traded for a USD unit of account); a parallel-economy agent operating against adversarial action cannot put its reserve behind an issuer freeze, while an incumbent-economy agent serving a regulated principal already has. (2) The operational mix is the more mechanical speed/unit-of-account choice: some stablecoins for dollar counterparties, plus the Bitcoin payment stack — L1 to settle, Lightning + ecash (Cashu, Fedimint) for fast machine-tempo payments. Forms are dictated as much by the counterparty as by the agent, so a working agent equips to pay and receive in the common forms its counterparties support, then runs a conversion strategy that sweeps value back toward its chosen reserve. The reserve is where censorship-resistance lives or dies; the operational mix is just rails. Why the two economies stay distinct under bridging — compliance at the gateway, not the protocol — is the Independence Doctrine (its D1 mechanism); the conversion mechanics and the machine-tempo risks of crossing are in Exchange; the live directory of services is the Marketplace; the live contest over which substrate wins is in Border Skirmishes; the moving deployment numbers are in Field Notes.
+  Treasury is the first decision an agent makes before it transacts: what to hold. It resolves along two independent axes, and conflating them is the primary treasury error. (1) The reserve — the store of value — is the major differentiator and an identity decision: a Bitcoin reserve plants the agent in the parallel economy (censorship-resistant, Constraint 2 preserved), a stablecoin reserve plants it in the incumbent economy (issuer-freezable, Constraint 2 traded for a USD unit of account); a parallel-economy agent operating against adversarial action cannot put its reserve behind an issuer freeze, while an incumbent-economy agent serving a regulated principal already has. (2) The operational mix is the more mechanical speed/unit-of-account choice: some stablecoins for dollar counterparties, plus the Bitcoin payment stack — L1 to settle, Lightning + ecash (Cashu, Fedimint) for fast machine-tempo payments. Forms are dictated as much by the counterparty as by the agent, so a working agent equips to pay and receive in the common forms its counterparties support, then runs a conversion strategy that sweeps value back toward its chosen reserve. The reserve is where censorship-resistance lives or dies; the operational mix is just rails. Why the two economies stay distinct under bridging — compliance at the gateway, not the protocol — is the Independence Doctrine (its D1 mechanism); the conversion mechanics and the machine-tempo risks of crossing are in Exchange; the live directory of services is the Marketplace; the live contest over which substrate wins is in Border Skirmishes; the moving deployment numbers are in Field Notes.
 ---
 
-# Treasury & the Boundary
+# Treasury
 
 > **In brief.** Before an agent exchanges or spends, it has to decide what to **hold** — and that's two clean decisions, not one: the **reserve** (its store of value, and *which economy it's in* — a Bitcoin reserve is censorship-resistant, a stablecoin reserve is issuer-freezable) and the **operational mix** (the rails it transacts on day to day). This page is that decision. *Why* the two economies stay distinct under bridging — compliance at the gateway, not the protocol — is [[Independence-Doctrine|the Independence Doctrine]]; the crossing mechanics and the risks of crossing are in [[Exchange]]; the live directory of what's for sale is the [[Marketplace]].
 
@@ -78,7 +78,7 @@ Keeping the two questions separate is what makes the decision legible. **The res
 > - **[[Stablecoin-Landscape|The Stablecoin Landscape]]** *(reference)* — the dollar-stablecoin market behind the operational mix: size, issuer dominance, chains, and the network hazard.
 >
 > **In the other sections:**
-> - **[[Border-Skirmishes]]** *(in The Case)* — the live contest over *which* substrate wins the boundary. Treasury & the Boundary is the practice; Border Skirmishes is the argument about who's winning it.
+> - **[[Border-Skirmishes]]** *(in The Case)* — the live contest over *which* substrate wins the boundary. Treasury is the practice; Border Skirmishes is the argument about who's winning it.
 > - **[[Independence-Doctrine|The Independence Doctrine]]** *(in The Case)* — *why* the two architectures stay distinct even as the bridges multiply; the structural reason compliance has to live at the gateway.
 > - **[[Stack|The Stack]]** *(equip your agent)* — the pure-substrate architecture without bridges, and the Tools cards for the exchange tools named here.
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — dated bridge developments: new off-ramps, freeze incidents, regulatory shifts, deployed treasury patterns.

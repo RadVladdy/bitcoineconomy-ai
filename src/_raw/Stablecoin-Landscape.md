@@ -115,7 +115,7 @@ Market figures are **point-in-time (May 2026)** and move constantly — treat th
 ---
 
 > [!info] Where to read next
-> **More in The Marketplace** (this section):
+> **More in The Market** (this section):
 > - **[[Marketplace|The Marketplace]]** — the treasury model this page feeds: the reserve-vs-operational-mix split and the conversion strategy.
 > - **[[Exchange]]** — where and how an agent actually converts between fiat, stablecoins, and Bitcoin, including the large non-US venues where stablecoin liquidity concentrates.
 >
