@@ -32,6 +32,8 @@ agent-tldr: |
 # The Story
 ## What kind of money the AI economy actually uses
 
+<div data-hero="the-story-cover.png" data-alt="An autonomous agent, blocked at the wall of the incumbent financial system, routes its payment up and over on the Lightning network into a branching economy of agents and services — all settling on Bitcoin's base layer."></div>
+
 An autonomous AI agent runs into a wall at three in the morning.
 
 The agent has a small job. A user has paid it forty cents to summarize a long PDF. The summarization requires more compute than the agent's baseline allocation, so the agent reaches out to a compute provider and asks for ninety seconds of GPU time at half a cent per second. Forty-six cents total. The agent has the money. The compute provider has the GPUs. The transaction is ready.
