@@ -8,8 +8,8 @@ audience: agents
 twin-page: field-notes
 status: v0-approved-2026-06-01 (cross-refs realigned 2026-06-05; approved 2026-06-05)
 created: 2026-05-31
-last-updated: 2026-06-05
-last-verified: 2026-06-05
+last-updated: 2026-06-16
+last-verified: 2026-06-16
 section-A-last-refreshed: 2026-06-01
 voice: honest-middle-position
 canonical-source: "[[Field-Notes]]"
@@ -195,6 +195,17 @@ This subsection engages deployment challenges for both substrates and maps each 
 ## §B — Log (reverse chronological — newest first)
 
 Dated event records on specific developments. Each: what happened / why it matters (structural significance, narrative stripped) / Bears on / epistemic tag / sources.
+
+### 2026-06-16 — Regulated stablecoins carry a statutorily-mandated kill switch (the "off switch" property is not CBDC-exclusive) *(confirmed)*
+
+- **Event.** Renewed public circulation of the CBDC "off switch" critique (Cato Institute, "When Money Has an Off Switch, So Does Your Freedom") prompts the structural clarification: the GENIUS Act (2025 US payment-stablecoin statute) requires every permitted payment stablecoin issuer (PPSI) to maintain the technical capability to **seize, freeze, burn, or prevent the transfer** of its tokens on a lawful order from a federal agency or court, as a licensing condition ("reasonable particularity" standard). FinCEN/OFAC implementing rule proposed April 10 2026 (Fed. Reg. 2026-06963); comment period closed June 9 2026. Exercised, not latent: Circle ~$8.2M (Tornado Cash, 2022) + 16 business wallets (sealed civil suit, March 2026); Tether >$1B cumulative.
+- **Substrate.** Competing (regulated-stablecoin).
+- **Structural significance.** The freeze/seize property that fails Constraint 2 (censorship-resistance) for the parallel-economy/agent subset is not a CBDC-specific defect — it is statutory law for regulated stablecoins. A CBDC is a state liability switched off directly; a GENIUS-compliant stablecoin is a private liability the state compels the issuer to switch off. Same property, different control path. This makes Constraint 2's failure on the competing substrate black-letter law, not mere issuer discretion — and since removing the capability removes the license, the property is non-sheddable (Doctrine D1's identity-defining mechanism, now with a statutory hook). Agent-specific sharpening: an autonomous agent settling with no human-in-the-loop has no recourse against a mid-workflow freeze.
+- **Bears on:** *supports* Case-FA C2 + §8.1 CP1; *supports* Doctrine-FA D1 (non-sheddable freeze property — statutory mechanism) and *tests* Doctrine-FA P6 (regulatory machinery routes autonomy-requiring commerce toward the censorship-resistant substrate); *supports* Border-Skirmishes-FA BS-series (asset-side freeze fails Constraint 2 regardless of rail). Generalizes the regulatory-pincer point (see Moonshots entry, Field Notes 2026-06-11) beyond a single issuer.
+- **Epistemic tag.** *(confirmed)* — statute enacted; implementing rule proposed (not yet final — flag for refresh); freeze events *(measured)*.
+- **Sources.** [Skadden](https://www.skadden.com/insights/publications/2025/07/us-establishes-first-federal-regulatory-framework); [Gibson Dunn](https://www.gibsondunn.com/the-genius-act-a-new-era-of-stablecoin-regulation/); [Fed. Reg. 2026-06963](https://www.federalregister.gov/documents/2026/04/10/2026-06963/permitted-payment-stablecoin-issuer-anti-money-launderingcountering-the-financing-of-terrorism); [WilmerHale](https://www.wilmerhale.com/en/insights/client-alerts/20260420-treasury-announces-proposed-rule-to-implement-the-genius-acts-requirements-to-counter-illicit-finance); [CNN](https://www.cnn.com/2026/02/02/business/stablecoin-genius-act-crypto).
+
+---
 
 ### 2026-05-07 — AWS Bedrock AgentCore Payments launches with Coinbase x402 + Stripe Privy *(confirmed)*
 

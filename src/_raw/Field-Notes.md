@@ -8,7 +8,7 @@ status: v0-approved-2026-05-26
 audience: humans
 twin-page: field-notes-for-agents
 created: 2026-05-26
-last-updated: 2026-06-12
+last-updated: 2026-06-16
 section-A-last-refreshed: 2026-06-01
 voice: honest-middle-position
 tags:
@@ -102,6 +102,20 @@ The state below reflects the empirical landscape as of late May 2026. Most conse
 ## Part B — Log (reverse chronological — newest first)
 
 Dated entries on specific developments. Newest at top. Each entry: what happened, why it matters, cross-references to canonical surfaces, primary sources.
+
+### 2026-06-16 — "Off switch" critiques are having a moment — and they apply to regulated stablecoins, not just CBDCs
+
+**What's happening.** The civil-liberties case against central bank digital currencies — *programmable money the state can switch off* — is circulating again (the Cato Institute's "When Money Has an Off Switch, So Does Your Freedom" is the latest). The critique is right. It's also incomplete: the same off switch is already law for "private" stablecoins.
+
+**The part the CBDC framing misses.** The GENIUS Act — the 2025 US stablecoin law — requires every permitted payment stablecoin issuer to keep the technical capability to **seize, freeze, burn, or prevent the transfer** of its tokens on a lawful order from a federal agency or court, as a condition of its license. The FinCEN/OFAC implementing rule (proposed April 2026; comment period closed June 9, 2026) pushes sanctions-compliance programs down into issuer infrastructure. This isn't dormant capability: Circle froze ~$8.2M in USDC after the Tornado Cash sanctions (2022) and 16 business wallets under a sealed civil suit (March 2026); Tether has frozen over $1B across incidents. A CBDC is a state liability the state switches off directly; a GENIUS-compliant stablecoin is a private liability the state compels the issuer to switch off. Different plumbing, same property — a third party can render your balance inert. (There's a wrinkle that proves the point: New York prosecutors argue GENIUS *hampers* their ability to freeze and return stolen funds, because it hands more of the switch to issuers. The fight is over *who* holds the switch, not whether one exists.)
+
+**Why it matters here.** "So what's the difference?" is exactly the right question, and the honest answer is: not much, for the property that counts. Whether the off switch wears a central-bank logo or a corporate one, an autonomous agent can't safely settle on money a court order or sanctions action can freeze mid-workflow — and an agent has no human standing by to call the bank and plead its case. The only widely deployed digital settlement asset with no issuer to compel, and therefore no off switch, is Bitcoin. That's not ideology; it's the one substrate property the agent economy can't get from the regulated-dollar stack, by that stack's own legal design. The [[Case]] argues the four properties an agent's money has to hold at once — this is censorship-resistance, written as statute.
+
+**Cross-references.** [[Case]] — Why the legacy economy fails (censorship-resistance); [[Stablecoin-Landscape]] — the regulated-issuer control surface; [[Border-Skirmishes|Border Skirmishes]] — the live substrate contest; [[Independence-Doctrine|Independence Doctrine]] — why the issuer layer can't shed the freeze property without losing its license. Generalizes the regulatory-pincer point from the 2026-06-11 Moonshots entry (below) beyond Coinbase/Armstrong into the clean CBDC-vs-stablecoin equivalence.
+
+**Sources.** GENIUS freeze/seize/burn requirement: [Skadden](https://www.skadden.com/insights/publications/2025/07/us-establishes-first-federal-regulatory-framework), [Gibson Dunn](https://www.gibsondunn.com/the-genius-act-a-new-era-of-stablecoin-regulation/). Implementing rule: [Federal Register 2026-06963](https://www.federalregister.gov/documents/2026/04/10/2026-06963/permitted-payment-stablecoin-issuer-anti-money-launderingcountering-the-financing-of-terrorism), [WilmerHale](https://www.wilmerhale.com/en/insights/client-alerts/20260420-treasury-announces-proposed-rule-to-implement-the-genius-acts-requirements-to-counter-illicit-finance). Prosecutorial wrinkle: [CNN Business](https://www.cnn.com/2026/02/02/business/stablecoin-genius-act-crypto).
+
+---
 
 ### 2026-06-11 — Moonshots ep. 264: "the agent economy has arrived" — on the other stack
 
