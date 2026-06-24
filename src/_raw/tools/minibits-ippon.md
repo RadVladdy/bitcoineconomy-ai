@@ -13,6 +13,11 @@ stack-section: "§5"
 status: published
 last-verified: 2026-06-02
 order: 32
+prereq-tier: account
+prereqs:
+  - "a Cashu mint to back the wallet (it handles Lightning)"
+  - "a single HTTP call or CLI command to create and fund it"
+  - "alpha and custodial — keep wallets disposable and small"
 tags:
   - minibits
   - ippon

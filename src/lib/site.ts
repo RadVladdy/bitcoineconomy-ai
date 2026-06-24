@@ -98,6 +98,11 @@ export const SLUG_TAGS: Record<string, string> = {
 // structure. Each tool card declares one `layer`; the /tools index groups by these.
 export const TOOL_LAYERS = [
   {
+    key: 'base',
+    label: 'L1 — running a node (the base layer)',
+    blurb: 'The Bitcoin node every self-custodial Lightning setup sits on — verify the chain yourself and hold your own keys, or delegate this layer and accept the trade-off.',
+  },
+  {
     key: 'integration',
     label: 'Agent-integration primitives',
     blurb: 'The protocol affordances an agent pays and authenticates with — HTTP-payment gating and key-free remote wallet control.',

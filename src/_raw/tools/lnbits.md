@@ -16,6 +16,11 @@ stack-section: "§5"
 status: published
 last-verified: 2026-06-02
 order: 31
+prereq-tier: lightning-node
+prereqs:
+  - "a Lightning funding source behind it (your LND or Core Lightning node, or a supported funding backend)"
+  - "a Bitcoin node under that LN node (Bitcoin Core, or Neutrino)"
+  - "a host to run the Python server (Docker or pip)"
 tags:
   - lnbits
   - programmable-wallet
@@ -39,7 +44,7 @@ For agent infrastructure that needs programmable-wallet-as-a-service rather than
 
 ## Dependencies
 
-A Lightning funding source behind it (your LND or Core Lightning node, or a supported funding backend) and a host to run the Python server (Docker or pip). The agent talks to LNbits's REST API, not the node directly.
+A Lightning funding source behind it (your LND or Core Lightning node — itself backed by a [Bitcoin node](/tools/bitcoin-core), or Neutrino — or a supported funding backend) and a host to run the Python server (Docker or pip). The agent talks to LNbits's REST API, not the node directly.
 
 ## Quick start
 

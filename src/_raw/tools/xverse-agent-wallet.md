@@ -13,6 +13,11 @@ stack-section: "§5"
 status: published
 last-verified: 2026-06-02
 order: 33
+prereq-tier: l2-network
+prereqs:
+  - "the audited xverse-core library plus a Spark backend for settlement"
+  - "a funding source (keys stay encrypted on-device; the agent answers HTTP 402s itself)"
+  - "inherits Spark's mainnet-beta operator-trust assumptions"
 tags:
   - xverse
   - agent-wallet

@@ -12,6 +12,11 @@ stack-section: "§4"
 status: published
 last-verified: 2026-06-02
 order: 14
+prereq-tier: keys-only
+prereqs:
+  - "an MCP-capable client (Claude, Cursor, VS Code, n8n, or custom)"
+  - "to transact: a Lightning MCP server paired with it (lightning-mcp-server or Alby's nwc-mcp-server), backed by a node or NWC connection"
+  - "MCP carries the tools, not the money"
 tags:
   - mcp
   - model-context-protocol

@@ -15,6 +15,11 @@ stack-section: "§5"
 status: published
 last-verified: 2026-06-02
 order: 30
+prereq-tier: lightning-node
+prereqs:
+  - "an LND-compatible Lightning node plus funded channels"
+  - "a Bitcoin node under it (Bitcoin Core, full or pruned) or Neutrino light-client mode"
+  - "ideally a watch-only node plus a separate remote signer so the agent host holds no keys"
 tags:
   - lightning-agent-tools
   - lightning-labs
@@ -39,7 +44,7 @@ It is the canonical 2026 reference implementation for what a production Bitcoin-
 
 ## Dependencies
 
-An LND-compatible Lightning node as the backend — ideally a watch-only node plus a separate remote signer, so the agent host holds no keys. Open-source; Docker is the default deployment path.
+An LND-compatible Lightning node as the backend — itself backed by a [Bitcoin node](/tools/bitcoin-core) (Bitcoin Core, full or pruned) or run in Neutrino light-client mode — ideally a watch-only node plus a separate remote signer, so the agent host holds no keys. Open-source; Docker is the default deployment path.
 
 ## Quick start
 

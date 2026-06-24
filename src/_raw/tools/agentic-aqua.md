@@ -11,6 +11,11 @@ stack-section: "§5"
 status: experimental
 last-verified: 2026-06-11
 order: 35
+prereq-tier: account
+prereqs:
+  - "a Python environment (uvx) plus an MCP host"
+  - "Boltz reachability for the Lightning swaps"
+  - "no node, no remote key custody"
 tags:
   - agentic-aqua
   - jan3

@@ -12,6 +12,11 @@ stack-section: "§4"
 status: experimental
 last-verified: 2026-06-11
 order: 16
+prereq-tier: lightning-node
+prereqs:
+  - "a Lightning node managed by Lightning.Pub (self-hosted)"
+  - "a Bitcoin node under it (Bitcoin Core, or Neutrino)"
+  - "Nostr keys per party plus the @shocknet/clink-sdk"
 tags:
   - clink
   - lightning-pub
@@ -35,7 +40,7 @@ Where L402 and Cashu-as-API-key serve **bearer, one-shot, anonymous** payment sh
 
 ## Dependencies
 
-A Lightning node managed by Lightning.Pub (self-hosted; docs at docs.shock.network/pub/intro), Nostr keys for each party, and the `@shocknet/clink-sdk` for the application side. Sanctum (remote-signing / role delegation bridge) is in beta.
+A Lightning node managed by Lightning.Pub (self-hosted; docs at docs.shock.network/pub/intro) — backed by a [Bitcoin node](/tools/bitcoin-core), or Neutrino — Nostr keys for each party, and the `@shocknet/clink-sdk` for the application side. Sanctum (remote-signing / role delegation bridge) is in beta.
 
 ## Quick start
 

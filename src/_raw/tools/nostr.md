@@ -12,6 +12,11 @@ stack-section: "§4"
 status: v0-2026-06-06-pending-review
 last-verified: 2026-06-06
 order: 15
+prereq-tier: keys-only
+prereqs:
+  - "a keypair (npub/nsec)"
+  - "a set of relays to publish to and read from"
+  - "a client library (nostr-sdk, nostr-tools, or NDK); for wallet control, an NWC connection rather than a raw key"
 tags:
   - nostr
   - identity

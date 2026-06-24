@@ -12,6 +12,10 @@ stack-section: "§4"
 status: published
 last-verified: 2026-06-02
 order: 13
+prereq-tier: wallet
+prereqs:
+  - "a Lightning wallet/client that supports the LUDs you rely on (support is per-LUD and uneven)"
+  - "to serve an endpoint: an HTTPS host that creates and verifies invoices at the well-known path"
 tags:
   - lnurl
   - lightning-address

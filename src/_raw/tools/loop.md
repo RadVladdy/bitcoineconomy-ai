@@ -15,6 +15,11 @@ stack-section: "§1"
 status: published
 last-verified: 2026-06-02
 order: 52
+prereq-tier: lightning-node
+prereqs:
+  - "an LND node with both Lightning and on-chain balance to move between"
+  - "a Bitcoin node under it (Bitcoin Core, or Neutrino)"
+  - "access to Lightning Labs' Loop server (non-custodial via atomic swaps; you depend on its availability and pricing)"
 tags:
   - loop
   - lightning-labs
@@ -38,7 +43,7 @@ It moves value *within* the Bitcoin stack — Lightning ↔ L1 — so it's subst
 
 ## Dependencies
 
-An LND node with both Lightning and on-chain balance to move between, plus access to Lightning Labs' Loop server (non-custodial via atomic swaps, but not a permissionless market — you depend on its availability and pricing); on-chain fees apply to each swap.
+An LND node — backed by a [Bitcoin node](/tools/bitcoin-core) (Bitcoin Core, or Neutrino) — with both Lightning and on-chain balance to move between, plus access to Lightning Labs' Loop server (non-custodial via atomic swaps, but not a permissionless market — you depend on its availability and pricing); on-chain fees apply to each swap.
 
 ## Quick start
 

@@ -14,6 +14,10 @@ stack-section: "§4"
 status: published
 last-verified: 2026-06-02
 order: 11
+prereq-tier: wallet
+prereqs:
+  - "a NIP-47 (NWC) wallet or hub that holds the keys (e.g. Alby Hub)"
+  - "a scoped, budgeted, revocable NWC connection string on the agent side"
 tags:
   - nwc
   - nip-47

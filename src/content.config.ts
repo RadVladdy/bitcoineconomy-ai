@@ -64,9 +64,16 @@ const tools = defineCollection({
   schema: z.object({
     name: z.string(),
     slug: z.string(),
-    layer: z.enum(['integration', 'ecash', 'wallets', 'services', 'bridges']),
+    layer: z.enum(['base', 'integration', 'ecash', 'wallets', 'services', 'bridges']),
     tagline: z.string(),
     'tool-type': z.enum(['software', 'protocol', 'service', 'guide']).default('software'),
+    // Prerequisite axis (audit 2026-06-23): what an agent must already have to
+    // use this tool. Drives the /tools prerequisite lens + directory prereq
+    // fields. tier = the ladder rung; prereqs = the concrete requirements.
+    'prereq-tier': z
+      .enum(['keys-only', 'account', 'wallet', 'lightning-node', 'l2-network', 'bitcoin-node'])
+      .optional(),
+    prereqs: z.array(z.string()).optional(),
     maintainer: z.string().optional(),
     repo: z.string().url().optional(),
     docs: z.string().url().optional(),

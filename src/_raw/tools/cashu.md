@@ -13,6 +13,11 @@ stack-section: "§3"
 status: published
 last-verified: 2026-06-02
 order: 20
+prereq-tier: wallet
+prereqs:
+  - "a Cashu wallet"
+  - "a mint to issue/redeem tokens whose solvency you trust (diversify across mints)"
+  - "a Lightning connection to fund the mint and cash out"
 tags:
   - cashu
   - ecash

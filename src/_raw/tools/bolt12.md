@@ -12,6 +12,10 @@ stack-section: "§4"
 status: published
 last-verified: 2026-06-02
 order: 12
+prereq-tier: lightning-node
+prereqs:
+  - "a BOLT12-capable Lightning setup on both ends (Core Lightning, LDK, Eclair/Phoenix natively; LND needs LNDK)"
+  - "onion-message relaying along the route (keep a BOLT11 fallback)"
 tags:
   - bolt12
   - offers

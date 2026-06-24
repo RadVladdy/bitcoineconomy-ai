@@ -11,6 +11,11 @@ stack-section: "§5"
 status: experimental
 last-verified: 2026-06-02
 order: 34
+prereq-tier: lightning-node
+prereqs:
+  - "a Lightning wallet for settlement (LNbits by default — self-host for real amounts)"
+  - "a Bitcoin node under that LN node (Bitcoin Core, or Neutrino)"
+  - "a Nostr identity plus a DID for agent identity"
 tags:
   - bitagent
   - agent-to-agent
@@ -34,7 +39,7 @@ It is tiny and experimental, but conceptually it points exactly where the agent 
 
 ## Dependencies
 
-A Lightning wallet for settlement (LNbits by default — self-host it for real amounts), a Nostr identity for discovery, and a DID for agent identity. It's a Python + JS framework you wire together, not a finished product.
+A Lightning wallet for settlement (LNbits by default — self-host it, on your own Lightning node and [Bitcoin node](/tools/bitcoin-core), for real amounts), a Nostr identity for discovery, and a DID for agent identity. It's a Python + JS framework you wire together, not a finished product.
 
 ## Quick start
 

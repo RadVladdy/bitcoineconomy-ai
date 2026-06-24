@@ -15,6 +15,10 @@ stack-section: "§3"
 status: published
 last-verified: 2026-06-02
 order: 22
+prereq-tier: l2-network
+prereqs:
+  - "a Spark-compatible wallet plus a Spark operator to transact through (most agents reach Spark through a wallet, e.g. Xverse)"
+  - "mainnet-beta with a small operator set — a semi-trusted model, not trust-minimized like Bitcoin's base layer"
 tags:
   - spark
   - lightspark

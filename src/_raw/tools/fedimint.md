@@ -14,6 +14,11 @@ stack-section: "§3"
 status: published
 last-verified: 2026-06-02
 order: 21
+prereq-tier: l2-network
+prereqs:
+  - "a Fedimint client plus a federation to join (trust distributed across guardians under threshold security)"
+  - "a Lightning gateway for ecash↔Lightning"
+  - "running your own federation means coordinating multiple guardian operators"
 tags:
   - fedimint
   - ecash

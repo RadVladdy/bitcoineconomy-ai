@@ -15,6 +15,11 @@ stack-section: "Marketplace"
 status: published
 last-verified: 2026-06-02
 order: 51
+prereq-tier: wallet
+prereqs:
+  - "non-custodial wallets on the rails you are swapping (on-chain Bitcoin, Lightning, and/or Liquid)"
+  - "a client-side API integration with correct refund/timeout handling"
+  - "no account, no KYC"
 tags:
   - boltz
   - submarine-swap

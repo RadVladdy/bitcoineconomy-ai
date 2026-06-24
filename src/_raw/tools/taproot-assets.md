@@ -14,6 +14,11 @@ stack-section: "Marketplace"
 status: published
 last-verified: 2026-06-02
 order: 53
+prereq-tier: lightning-node
+prereqs:
+  - "a Lightning node running the tapd daemon, with compatible Lightning Terminal versions for grouped-asset channels"
+  - "a Bitcoin node under it (Bitcoin Core, or Neutrino)"
+  - "Taproot-Assets-capable software on both ends — rails for issued assets, not trustless substrate"
 tags:
   - taproot-assets
   - lightning-labs
@@ -39,7 +44,7 @@ The crucial framing, held explicitly at [The Marketplace](/marketplace): Taproot
 
 ## Dependencies
 
-A Lightning node running the `tapd` daemon, with compatible Lightning Terminal versions for grouped-asset channel funding; both ends of a transfer need Taproot-Assets-capable software. Rails for issued assets, not trustless substrate — the asset is only as good as its issuer's solvency and redemption.
+A Lightning node running the `tapd` daemon — backed by a [Bitcoin node](/tools/bitcoin-core) (Bitcoin Core, or Neutrino) — with compatible Lightning Terminal versions for grouped-asset channel funding; both ends of a transfer need Taproot-Assets-capable software. Rails for issued assets, not trustless substrate — the asset is only as good as its issuer's solvency and redemption.
 
 ## Quick start
 
