@@ -290,6 +290,12 @@ const INSERTS = {
     { afterHeading: 'The two deployed agent-payment stacks', html: '<div data-diagram="timeline"></div>' },
     { afterHeading: 'Empirical record', html: '<div data-diagram="bpi"></div>' },
   ],
+  'Why-Bitcoin-Not-A-New-Coin.md': [
+    // Verdict diagram: lands at the end of the closing argument (after the last
+    // paragraph of "The honest test"), just before "Where to read next" — the
+    // honest property-check crystallises the whole essay once it's been earned.
+    { afterText: 'already spent the time', html: '<div data-diagram="new-coin-check"></div>' },
+  ],
 };
 
 function insertVisuals(body, file) {

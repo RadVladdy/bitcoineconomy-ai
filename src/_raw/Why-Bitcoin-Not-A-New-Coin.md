@@ -10,7 +10,7 @@ promotion: "Non-promoted supporting deeper-dive (user 2026-06-04). Section-first
 audience: humans
 twin-page: why-bitcoin-not-a-new-coin-for-agents
 created: 2026-06-04
-last-updated: 2026-06-04
+last-updated: 2026-06-22
 word-count-target: 2000
 voice: honest-middle-position
 section: case
@@ -50,7 +50,7 @@ A base money has to be **credibly neutral**: no issuer, no premine, no foundatio
 
 Here is the problem every new coin runs into. To launch a coin, someone creates it: chooses the initial distribution, holds the founder's allocation, sets the roadmap, controls the multisig or the upgrade keys. That someone is a *party who can act* — and a party who can act is a party who can be pressured, subpoenaed, bought, or captured. The moment a money has a steward who *can* change its rules, supply, or ledger, it has re-introduced the exact discretion surface the four constraints exist to eliminate. It does not matter how benevolent the founder is; the constraint is violated by the *existence* of the lever, not its use.
 
-Bitcoin's neutrality is credible for one reason: there is no one to call. Its creator left and never moved the coins; the supply schedule is fixed and has never changed; no party can alter the rules without the near-unanimous consent of a global, adversarial set of node operators who have every incentive to refuse. That property cannot be forked, because the act of forking it re-creates a founder — the new chain's launcher is, by definition, a controlling party at genesis. You can copy Bitcoin's code in an hour. You cannot copy the fourteen years of *not being controlled by anyone* that make its neutrality believable.
+Bitcoin's neutrality is credible for one reason: there is no one to call. Its creator left and never moved the coins; the supply schedule is fixed and has never changed; no party can alter the rules without the near-unanimous consent of a global, adversarial set of node operators who have every incentive to refuse. That property cannot be forked, because the act of forking it re-creates a founder — the new chain's launcher is, by definition, a controlling party at genesis. You can copy Bitcoin's code in an hour. You cannot copy the seventeen years of *not being controlled by anyone* that make its neutrality believable.
 
 ---
 

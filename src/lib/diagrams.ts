@@ -447,6 +447,32 @@ export function exchangeSwap(): string {
   });
 }
 
+/* 13 — Why Bitcoin, not a new coin: the honest property-check. An agent
+   evaluates a purpose-built "AgentXCoin" against Bitcoin as base money. It
+   passes the copyable spec (the four constraints) but fails the earned bundle
+   (neutrality, PoW security budget, Lindy, liquidity / network effect). The
+   honest verdict is not "scam" — it is "settle in Bitcoin; hold a service-coin
+   only as a claim on a service, never as the money." Same builder + register as
+   the other terminal scenes; the interaction stands alone, the prose narrates. */
+export function newCoinCheck(): string {
+  return terminalScene({
+    id: 'coin-check', outcome: 'pass', title: 'agent · evaluate AgentXCoin',
+    lines: [
+      { t: 'agent@btc ~ $ evaluate AgentXCoin --as base-money', kind: 'cmd' },
+      { t: '→ test 1/2 · the spec (copyable in an afternoon)', kind: 'send' },
+      { t: '← self-custody ✓  censorship-resistant ✓', kind: 'pass' },
+      { t: '← sub-cent ✓  machine-tempo ✓   → SPEC PASSED', kind: 'pass' },
+      { t: '→ test 2/2 · the bundle (earned over time)', kind: 'send' },
+      { t: '← neutrality: issuer + upgrade key found ✗', kind: 'fail' },
+      { t: '← PoW budget ✗   Lindy 0y (bitcoin: 17y) ✗', kind: 'fail' },
+      { t: '← deep liquidity ✗   network effect ✗  → FAILED', kind: 'fail' },
+      { t: '✓ verdict: settle in bitcoin', kind: 'pass' },
+      { t: '✓ hold AgentXCoin as a service claim, not money', kind: 'pass' },
+    ],
+    caption: 'The test this essay describes, run by an agent: a purpose-built AgentXCoin passes the copyable spec — self-custody, censorship-resistance, sub-cent fees, machine tempo — but fails the earned bundle, because it still has an issuer and an upgrade key (no credible neutrality), a day-one security budget, no Lindy record, and no liquidity. The honest verdict isn\'t "scam" — it\'s settle in Bitcoin, and hold a service-coin only as a claim on a service, never as the money.',
+  });
+}
+
 export const DIAGRAMS: Record<string, () => string> = {
   stack: stackDiagram,
   'two-tier': twoTierDiagram,
@@ -462,4 +488,5 @@ export const DIAGRAMS: Record<string, () => string> = {
   'stack-pay': stackPay,
   'services-pay': servicesPay,
   'exchange-swap': exchangeSwap,
+  'new-coin-check': newCoinCheck,
 };

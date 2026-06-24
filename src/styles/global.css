@@ -529,14 +529,16 @@ figure.matrix .matrix-title {
 .story-kicker { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; color: var(--orange); margin: 0 0 0.6rem; }
 .story-lead p { color: var(--fg-soft); }
 
-/* Story renders inline, clamped, and expands in place via "Continue reading". */
-.story-body { position: relative; max-height: 9rem; overflow: hidden; }
+/* Story renders inline, clamped, and expands in place via "Continue reading".
+   The clamp clears the lead hero image (~16rem tall) plus several lines of the
+   cold open, so a reader sees real text — not just the image — before expanding. */
+.story-body { position: relative; max-height: 30rem; overflow: hidden; }
 .story-body.expanded { max-height: none; }
 .story-body::after {
   content: '';
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  height: 6rem;
+  height: 4rem;
   background: linear-gradient(to bottom, transparent, var(--bg-soft));
   pointer-events: none;
 }
