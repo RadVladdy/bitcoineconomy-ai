@@ -21,6 +21,7 @@
 // plan or refresh via the local CLI (`node sample-relays.mjs --write`) instead.
 
 import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex } from './snapshot-lib.mjs';
+import { handleMcp } from './mcp-lib.mjs';
 
 const KV_SNAPSHOT = 'snapshot';
 const KV_MODELS = 'models';
@@ -85,6 +86,7 @@ export default {
 
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === '/mcp' || url.pathname === '/mcp/') return handleMcp(request, env, url.origin);
     if (url.pathname === '/live/snapshot.json') return serveLive(env, url.origin, KV_SNAPSHOT, '/snapshot.json');
     if (url.pathname === '/live/models.json') return serveLive(env, url.origin, KV_MODELS, '/models.json');
     return env.ASSETS.fetch(request);

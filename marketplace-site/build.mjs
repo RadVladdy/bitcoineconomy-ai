@@ -92,6 +92,7 @@ const directory = {
     'and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at ' +
     '/snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), ' +
     'api_base, pricing_url, quickstart (the first call, one line). ' +
+    'An MCP server at /mcp exposes the directory as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote) for agents that call rather than fetch. ' +
     'Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.',
   name: 'The Marketplace directory — bitcoineconomy.ai',
   url: BASE + '/',
@@ -99,6 +100,7 @@ const directory = {
   entry_count: entries.length,
   categories,
   live_routes: {
+    mcp: BASE + '/mcp',
     snapshot: BASE + '/live/snapshot.json',
     models_price_index: BASE + '/live/models.json',
   },
@@ -185,6 +187,13 @@ const llms = [
   `3. ${BASE}/live/models.json — the cross-provider inference price index: model id → every alive provider`,
   '   serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).',
   '   One fetch answers "who serves model X cheapest right now".',
+  '',
+  '## Or call the directory as tools (MCP)',
+  '',
+  `An MCP server at ${BASE}/mcp exposes this directory as Model Context Protocol tools, so an agent can`,
+  'call instead of fetch: find_service, get_service, price_model, list_categories, and get_quote — a',
+  'ready-to-pay payment plan (a live L402 invoice or live sats price where the provider supports it).',
+  'Stateless Streamable HTTP: POST one JSON-RPC request, get one JSON response. No funds move through it.',
   '',
   `Static fallbacks (work without the worker): ${BASE}/snapshot.json + ${BASE}/models.json`,
   `Part of: ${MAIN} — the case for a Bitcoin-centric AI agent economy (manifest: ${MAIN}/llms.txt)`,

@@ -21,7 +21,8 @@ This folder is **not** part of the main Astro build; it deploys on its own
 | `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `entries/`, `llms.txt` |
 | `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
-| `worker.js` | Cloudflare Worker: cron → relays + probes → KV; serves `/live/snapshot.json` + `/live/models.json`; assets otherwise |
+| `worker.js` | Cloudflare Worker: cron → relays + probes → KV; serves `/mcp` (the MCP server), `/live/snapshot.json` + `/live/models.json`; assets otherwise |
+| `mcp-lib.mjs` | the MCP server — exposes the directory + price index as Model Context Protocol tools (`find_service`, `get_service`, `price_model`, `list_categories`, `get_quote`) at `POST /mcp` |
 | `wrangler.jsonc` | worker config (cron every 6h, KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 
@@ -48,6 +49,31 @@ That one fetch answers "who serves model X cheapest right now".
 (~1–2 MB for the big ones). If the cron ever hits the plan's CPU limit, the
 don't-overwrite-good-data rule keeps the previous KV snapshot; persistent failure
 → upgrade the plan or refresh via `node sample-relays.mjs --write` instead.
+
+## The MCP server (`/mcp`)
+
+`mcp-lib.mjs` exposes the directory as a **Model Context Protocol** server at `POST /mcp` on
+the Worker, so an LN-enabled agent can call tools instead of fetching JSON. Stateless
+Streamable HTTP (MCP 2025-06-18): one JSON-RPC request per POST → one `application/json`
+response; no sessions, no SSE; notifications → 202; GET/DELETE → 405. Open CORS (read-only
+over public data). Tools:
+
+- `find_service` — filter the registry (category, payment method, no-KYC, automatability, two-sided)
+- `get_service` — full machine detail for one slug
+- `price_model` — cheapest alive providers for a model id, in sats (from `models.json`)
+- `list_categories` — the filter vocabulary + tallies + live routes
+- `get_quote` — a structured payment plan + (where the provider supports it) a live L402 invoice
+  probed from its `api_base`, or a live sats price for inference. **No funds move through the
+  server** — the agent pays the provider directly.
+
+`get_quote` probes only the `api_base` recorded on the entry the caller names by slug (never a
+caller-supplied URL), so the Worker can't be used as an open proxy. The tools read the same KV
+snapshot + committed assets the `/live/*` routes serve. Smoke test:
+
+```
+curl -s https://marketplace.bitcoineconomy.ai/mcp -H 'content-type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
 
 ## Editorial rules (same as the main site)
 

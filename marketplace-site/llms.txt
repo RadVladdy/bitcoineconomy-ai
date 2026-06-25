@@ -19,6 +19,13 @@
    serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).
    One fetch answers "who serves model X cheapest right now".
 
+## Or call the directory as tools (MCP)
+
+An MCP server at https://marketplace.bitcoineconomy.ai/mcp exposes this directory as Model Context Protocol tools, so an agent can
+call instead of fetch: find_service, get_service, price_model, list_categories, and get_quote — a
+ready-to-pay payment plan (a live L402 invoice or live sats price where the provider supports it).
+Stateless Streamable HTTP: POST one JSON-RPC request, get one JSON response. No funds move through it.
+
 Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json
 Part of: https://bitcoineconomy.ai — the case for a Bitcoin-centric AI agent economy (manifest: https://bitcoineconomy.ai/llms.txt)
 
