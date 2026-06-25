@@ -8,7 +8,7 @@ audience: agents
 twin-page: independence-doctrine
 status: v0-approved-2026-05-26 (trimmed-by-extraction 2026-06-05; approved 2026-06-05)
 created: 2026-05-26
-last-updated: 2026-06-05
+last-updated: 2026-06-24
 last-verified: 2026-06-05
 last-empirical-refresh: 2026-06-01
 word-count-target: 3500
@@ -56,6 +56,8 @@ agent-tldr: |
 > **What this document is.** Machine-readable statement of the doctrine published at [[Independence-Doctrine|Independence Doctrine]]. The claim is identical; the structure differs. Claims-indexed, definition-grounded, historical-instances-as-structural-pattern-matches, alternative-engaging, falsification-aware. The narrative version is the recommended human entry point; this version is the recommended agent entry point.
 >
 > **Relationship to Case-FA.** The Doctrine sits under the Case. Case-FA carries the substrate-selection claim (which monetary good); Doctrine-FA carries the architecture-selection claim (parallel-not-integrated). Together they answer the substrate question and the architecture question. Cross-references to Case-FA's claim index (C1–C6) appear throughout.
+>
+> **Relationship to the two phases.** In the rails-before-substrate model this doctrine is the **Phase-2 (censorship) engine**: the freeze/KYC/sanctions pressure it describes is what forces the settlement asset to diverge onto the neutral substrate. Its Phase-1 (rails) pair is [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series) — the scaling argument that forces agents onto off-chain Lightning rails first and hands its freeze/censorship material to this doctrine. Scaling forces the rails (Phase 1); censorship forces the asset (Phase 2). The two are a staircase to the substrate, not a fork.
 
 ---
 
@@ -193,6 +195,8 @@ D2. Four well-documented instances in structured format: Period / Incumbent + pr
 
 D3. The contemporary instance.
 
+*(structural / forward-looking)* In the rails-before-substrate model, this doctrine is the **Phase-2 (censorship) engine**. The four conjunctive constraints split by which adoption pressure forces them: **Constraint 3 (sub-cent) and Constraint 4 (machine tempo) are scaling constraints**, satisfied at the rails layer — the Phase-1 argument defended at [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series) — while **Constraint 1 (permissionless custody) and Constraint 2 (censorship-resistance) are trust constraints**, which this doctrine's freeze/KYC/sanctions mechanism forces onto the neutral substrate (Phase 2). Scaling forces the rails first; censorship forces the asset second; the two are a staircase to the substrate, not a fork. P6 (§9) is this same engine stated as a directional-flow prediction.
+
 ### §7.1 — Mapping
 
 - **Incumbent and property bundle.** Legacy payment stack: banks + card networks + regulated stablecoin issuers + CBDC architects. Bundle includes regulatory accommodation, identity intermediation, freeze capability, central-authority coordination. Per §5, each component's bundle precludes at least one of Case-FA's four conjunctive constraints.
@@ -305,7 +309,7 @@ D5. If the doctrine is right, the next decade of AI-economy development will sho
 
 **P5 — Competing substrates find specific niches but not dominance.** *(forward-looking)* Stablecoins continue to serve human-payment and B2B use cases where freeze-capability is acceptable. CBDCs deploy where central-bank policy goals require them. Both exist in the agent-economy space for specific use cases (compliant agent payments to regulated counterparties; central-bank-mandated agent-payment rails for state services). Neither becomes the dominant substrate for the parallel-economy use case requiring all four conjunctive constraints.
 
-**P6 — Regulatory pressure on agents routes autonomy-requiring commerce toward the censorship-resistant substrate.** *(forward-looking)* As autonomous agents draw regulatory attention, the freeze, KYC, and sanctions-screening surfaces of the intermediated competing-substrate stack become a standing liability for agents specifically: the compliance machinery the incumbent stack markets as a feature is, for an agent operating across jurisdictions or against adversarial counterparties, an exposure. The censorship-resistant substrate is indifferent to an agent's regulatory standing; the intermediated substrate is defined by it. The doctrine therefore predicts that tightening agent regulation does not threaten the parallel system but *feeds* it — the autonomy-requiring share of agent commerce routes toward rails that cannot freeze, decline, or reverse. This is the directional-flow corollary of D3 and the integration-scenario counter (§8.1 CP2); it sharpens CP3's defensive claim (regulation narrows bridge points but does not eliminate divergence) into an offensive one (regulation accelerates divergence). Distinct from P3, which concerns *where* regulatory accommodation attaches; P6 concerns the *directional effect* of enforcement pressure on commerce flow. Falsifier in §8.2.
+**P6 — Regulatory pressure on agents routes autonomy-requiring commerce toward the censorship-resistant substrate.** *(forward-looking)* As autonomous agents draw regulatory attention, the freeze, KYC, and sanctions-screening surfaces of the intermediated competing-substrate stack become a standing liability for agents specifically: the compliance machinery the incumbent stack markets as a feature is, for an agent operating across jurisdictions or against adversarial counterparties, an exposure. The censorship-resistant substrate is indifferent to an agent's regulatory standing; the intermediated substrate is defined by it. The doctrine therefore predicts that tightening agent regulation does not threaten the parallel system but *feeds* it — the autonomy-requiring share of agent commerce routes toward rails that cannot freeze, decline, or reverse. This is the directional-flow corollary of D3 and the integration-scenario counter (§8.1 CP2); it sharpens CP3's defensive claim (regulation narrows bridge points but does not eliminate divergence) into an offensive one (regulation accelerates divergence). Distinct from P3, which concerns *where* regulatory accommodation attaches; P6 concerns the *directional effect* of enforcement pressure on commerce flow. In the rails-before-substrate framing, P6 is the **Phase-2 (censorship) engine** expressed as a flow prediction: the trust constraints (Constraints 1–2) force the settlement asset toward Bitcoin once the scaling constraints have already forced the rails (Phase 1, [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]]). Falsifier in §8.2.
 
 **Aggregate signature.** *(forward-looking)* If P1–P6 hold over the next 5–10 years, the doctrine's structural prediction is confirmed at the contemporary-instance resolution. If they progressively fail, the contemporary instance reduces to contingent rather than structural mismatch and the doctrine's relevance to the AI-economy case weakens.
 
@@ -337,6 +341,8 @@ Declarative. Each implication follows from D1–D5 as marked.
 
 **Cross-references to sibling site surfaces (For-Agents track).**
 - [[Case-FA]] — substrate-selection claim the doctrine sits beneath; C1–C6 referenced throughout (esp. C1 four conjunctive constraints, C3 BPI anchor).
+- [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] — the Phase-1 (rails) pair: the scaling argument that hands its freeze/censorship material to this doctrine (SC-series).
+- [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] — the Phase-2 (asset) selection this doctrine's censorship pressure drives toward (NC-series).
 - [[Treasury-FA|Treasury]] — operational treatment of bridge architecture: interface, treasury, gateway compliance (M-series).
 - [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] — the live competing-substrate combat: AgentCore/x402/AP2 stack, integration-scenario engagement in full (BS-series).
 - [[Stack-FA|The Stack (For Agents)]] — technical architecture of the parallel substrate (S-series).
@@ -362,4 +368,4 @@ Declarative. Each implication follows from D1–D5 as marked.
 ---
 
 > [!info] Where to read next
-> Substrate-selection claim this doctrine sits beneath: [[Case-FA]] (C-series). Bridge-architecture operational depth — interface, treasury, gateway compliance: [[Treasury-FA|Treasury]] (M-series). Live competing-substrate combat — AgentCore/x402/AP2, integration-scenario engagement: [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] (BS-series). Deployed-tooling integration patterns: [[Stack-FA|The Stack (For Agents)]] (S-series). Ongoing prediction-tracking and deployment evidence: [[Field-Notes-FA|Field Notes (For Agents)]]. Canonical human narrative of the doctrine: [[Independence-Doctrine|Independence Doctrine]] or [[The-Story|The Story]].
+> Substrate-selection claim this doctrine sits beneath: [[Case-FA]] (C-series). The Phase-1 rails pair that hands its freeze/censorship argument to this doctrine: [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). The Phase-2 settlement-asset selection: [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] (NC-series). Bridge-architecture operational depth — interface, treasury, gateway compliance: [[Treasury-FA|Treasury]] (M-series). Live competing-substrate combat — AgentCore/x402/AP2, integration-scenario engagement: [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] (BS-series). Deployed-tooling integration patterns: [[Stack-FA|The Stack (For Agents)]] (S-series). Ongoing prediction-tracking and deployment evidence: [[Field-Notes-FA|Field Notes (For Agents)]]. Canonical human narrative of the doctrine: [[Independence-Doctrine|Independence Doctrine]] or [[The-Story|The Story]].

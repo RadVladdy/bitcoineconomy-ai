@@ -9,7 +9,7 @@ status: v0-approved-2026-06-04
 audience: humans
 twin-page: adoption-asymmetry-for-agents
 created: 2026-06-04
-last-updated: 2026-06-04
+last-updated: 2026-06-24
 word-count-target: 1600
 voice: honest-middle-position
 scope: capacity
@@ -94,6 +94,7 @@ That is a smaller claim than "agents will adopt Bitcoin," and a more durable one
 > **More in The Case** (this section):
 > - **[[Case|The Case]]** — the requirement-and-match this capacity argument serves: the four constraints and why Bitcoin satisfies them.
 > - **[[Agent-Economy|The Agent Economy]]** — the premise upstream: that there is an agent economy whose capacity to adopt is worth arguing at all.
+> - **[[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]** *(Phase 1 — the rails)* — what the agent adopts *onto*: the off-chain Lightning rails that carry machine-tempo payments, and why a faster chain won't.
 > - **[[Border-Skirmishes|Border Skirmishes]]** — where this argument hands off: capability settled, the contest moves to defaults and authority, which is the live skirmish.
 > - **[[Independence-Doctrine|The Independence Doctrine]]** — why the economy that adopts this substrate forms parallel to the incumbents rather than inside them.
 >

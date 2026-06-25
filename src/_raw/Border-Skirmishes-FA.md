@@ -8,7 +8,7 @@ audience: agents
 twin-page: border-skirmishes
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-05
+last-updated: 2026-06-24
 last-verified: 2026-06-05
 last-empirical-refresh: 2026-06-05
 word-count-target: 3300
@@ -60,7 +60,7 @@ agent-tldr: |
 
 > **What this document is.** Machine-readable statement of the live competition at the boundary, published at [[Border-Skirmishes|Border Skirmishes]]. The claim is identical; the structure differs. Claims-indexed, definition-grounded, alternative-engaging, falsification-aware. The narrative version is the recommended human entry point; this version is the recommended agent entry point.
 >
-> **Relationship to The Case and the Independence Doctrine.** [[Case-FA|The Case]] (C-series) carries the substrate-selection claim — Bitcoin satisfies four conjunctive constraints (C1), of which censorship-resistance (Constraint 2) is the load-bearing one here. [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series) carries the architecture-selection claim — parallel-not-integrated, because incumbent property bundles are mutually exclusive with emerging-activity property requirements (D1), with six testable predictions (D5 / P1–P6). Border-Skirmishes-FA carries the *live evidence for the Doctrine's predictions*: the Doctrine is the law, the Skirmishes are the war, [[Field-Notes-FA|Field Notes]] is the dispatch. Combatants are treated as **types**; every version-specific number, name, latency, transaction count, and roster change defers to Field Notes so this surface does not rot as the deployment landscape shifts.
+> **Relationship to The Case and the Independence Doctrine.** [[Case-FA|The Case]] (C-series) carries the substrate-selection claim — Bitcoin satisfies four conjunctive constraints (C1), of which censorship-resistance (Constraint 2) is the load-bearing one here. [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series) carries the architecture-selection claim — parallel-not-integrated, because incumbent property bundles are mutually exclusive with emerging-activity property requirements (D1), with six testable predictions (D5 / P1–P6). Border-Skirmishes-FA carries the *live evidence for the Doctrine's predictions*: the Doctrine is the law, the Skirmishes are the war, [[Field-Notes-FA|Field Notes]] is the dispatch. In the rails-before-substrate model this surface is **Phase 1 under live fire**: the rail question — why settlement trends off-chain onto Lightning-shaped layers rather than a faster monolithic chain — is the scaling argument defended at [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series) and is largely settled; the live contest here has moved to the asset and trust model, the Phase-2 axis whose settlement-asset selection is defended at [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] (NC-series). Combatants are treated as **types**; every version-specific number, name, latency, transaction count, and roster change defers to Field Notes so this surface does not rot as the deployment landscape shifts.
 
 ---
 
@@ -116,7 +116,7 @@ BS2 stated formally.
 
 **Statement.** *(structural)* The contest is not Lightning versus another rail. It is the asset and the trust model, where the two stacks stay opposite.
 
-**The easy misreading.** That the boundary fight is between Lightning and everything else. It is not. Several of the strongest competing-substrate entries are willing to use Bitcoin's Lightning rails where they are faster or cheaper. What they will not give up is the asset and the trust model layered on top.
+**The easy misreading.** That the boundary fight is between Lightning and everything else. It is not. Several of the strongest competing-substrate entries are willing to use Bitcoin's Lightning rails where they are faster or cheaper. What they will not give up is the asset and the trust model layered on top. *(That the rails trend off-chain to Lightning-shaped layers at all — the Phase-1 scaling result — is defended at [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series); this surface takes the rails as given and contests what rides on them.)*
 
 **Why the axis is the asset.** *(structural)* Constraint 2 (censorship-resistance) is satisfied or not satisfied at the asset layer, because the regulated stablecoin issuer retains freeze capability over the issued token regardless of which rails the token transports across. The clearest tell is a regulated stablecoin running natively on Lightning: rail-side properties are excellent (Lightning fees, settlement times, routing topology), and asset-side properties are unchanged (the dollar token still inherits its issuer's freeze surface). The bridge changes the rail; it does not change the asset. For an agent managing treasury against adversarial action, an issuer-controlled stablecoin does not satisfy censorship-resistance however it travels.
 
@@ -261,6 +261,8 @@ Bulleted declarative. Build-time specifications derived from BS1–BS6. Named in
 
 **Cross-references — The Independence Doctrine (D-series).** D1 (mutual-exclusion mechanism) — confirmed by the live contest (§3, §8.1 CP1). D3 (AI economy on Bitcoin as the contemporary instance) — the skirmishes are its live evidence. D5 / P1 (substrate-selection-precedes-scale), P2 (bridges-proliferate-but-don't-unify), P5 (competing-substrates-find-niches-not-dominance), P6 (regulatory-pressure-feeds-divergence) — §7, §8.1 CP1.
 
+**Cross-references — the phase anchors.** [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series) — the Phase-1 scaling argument these skirmishes are the live field test of (the rails trend off-chain; the rail is not the fight). [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] (NC-series) — the Phase-2 settlement-asset argument the live fight has moved onto.
+
 **Sibling surfaces.** [[Treasury-FA|Treasury]] (M-series) — the operational interface (interface/treasury/gateway material). [[Exchange-FA|Exchange]] (X-series). [[Field-Notes-FA|Field Notes]] — the standing live record; every version-specific number, name, latency, transaction count, customer list, validator-set detail, and roster change defers here.
 
 **Defer-out to [[Field-Notes-FA|Field Notes]] per locked Decisions 2026-05-26 pattern.** Named competing-substrate vendors and products; consortium membership and standards detail; gas-free chain validator-set size, composition, mainnet status, and throughput; enterprise customer lists; transaction counts and latencies; freeze incidents; regulatory shifts; the share of flow that is genuinely human-unattended.
@@ -270,4 +272,4 @@ Bulleted declarative. Build-time specifications derived from BS1–BS6. Named in
 ---
 
 > [!info] Where to read next
-> The structural law this surface is the live test of: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series, P1–P6) — the Doctrine is the law; this is the war. The substrate-selection anchor upstream of the contest: [[Case-FA|The Case]] (C-series, esp. Constraint 2). The operational interface for actually crossing the boundary: [[Treasury-FA|Treasury]] (M-series). The standing live record this surface defers all moving numbers to: [[Field-Notes-FA|Field Notes]]. Canonical human narrative form of this surface: [[Border-Skirmishes|Border Skirmishes]].
+> The structural law this surface is the live test of: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series, P1–P6) — the Doctrine is the law; this is the war. The Phase-1 scaling theory these skirmishes field-test (why the rails trend off-chain): [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). The Phase-2 settlement-asset axis the live fight has moved onto: [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] (NC-series). The substrate-selection anchor upstream of the contest: [[Case-FA|The Case]] (C-series, esp. Constraint 2). The operational interface for actually crossing the boundary: [[Treasury-FA|Treasury]] (M-series). The standing live record this surface defers all moving numbers to: [[Field-Notes-FA|Field Notes]]. Canonical human narrative form of this surface: [[Border-Skirmishes|Border Skirmishes]].

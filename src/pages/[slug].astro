@@ -34,8 +34,6 @@ const parentGroup = NAV_GROUPS.find((g) => g.items.some((i) => i.slug === humanS
 const OFFMENU_SECTION: Record<string, { label: string; anchor: string }> = {
   'stablecoin-landscape': { label: 'Market', anchor: 'marketplace' },
   'treasury': { label: 'Market', anchor: 'marketplace' },
-  'why-bitcoin-not-a-new-coin': { label: 'Case', anchor: 'case' },
-  'why-lightning-not-a-fast-chain': { label: 'Case', anchor: 'case' },
 };
 const section = parentGroup
   ? { label: parentGroup.label, anchor: parentGroup.items[0].slug }

@@ -12,18 +12,20 @@ export const SITE = {
 
 // Flat list of canonical human surfaces, for `current`/label lookup in the
 // surface routes. The Story is the homepage landing (narrative entry point), not
-// a peer doc, so it is intentionally not in the menu. Ancillary pages
-// (Why Bitcoin Not a New Coin, The Stablecoin Landscape, About) are reached via
-// in-body + read-next links and the footer, not the menu (sprawl control).
+// a peer doc, so it is intentionally not in the menu. The two "Why X, not Y"
+// supports now sit in the Case menu in their phase positions (Why Lightning =
+// Phase 1, Why Bitcoin = Phase 2) — see NAV_GROUPS. Ancillary pages (The
+// Stablecoin Landscape, Treasury, About) are reached via in-body + read-next
+// links and the footer, not the menu (sprawl control).
 export const HUMAN_NAV = [
   { slug: 'case', label: 'The Case' },
   { slug: 'agent-economy', label: 'The Agent Economy' },
   { slug: 'adoption-asymmetry', label: 'The Adoption Asymmetry' },
-  { slug: 'independence-doctrine', label: 'Independence Doctrine' },
-  { slug: 'border-skirmishes', label: 'Border Skirmishes' },
-  { slug: 'convergence', label: 'The Convergence' },
-  { slug: 'why-bitcoin-not-a-new-coin', label: 'Why Bitcoin, Not a New Coin' },
   { slug: 'why-lightning-not-a-fast-chain', label: 'Why Lightning, Not a "Fast" Chain' },
+  { slug: 'border-skirmishes', label: 'Border Skirmishes' },
+  { slug: 'why-bitcoin-not-a-new-coin', label: 'Why Bitcoin, Not a New Coin' },
+  { slug: 'independence-doctrine', label: 'Independence Doctrine' },
+  { slug: 'convergence', label: 'The Convergence' },
   { slug: 'stack', label: 'The Stack' },
   { slug: 'marketplace', label: 'The Marketplace' },
   { slug: 'exchange', label: 'Exchange' },
@@ -47,8 +49,10 @@ export const NAV_GROUPS = [
       { slug: 'case', label: 'The Case' },
       { slug: 'agent-economy', label: 'The Agent Economy' },
       { slug: 'adoption-asymmetry', label: 'The Adoption Asymmetry' },
-      { slug: 'independence-doctrine', label: 'Independence Doctrine' },
+      { slug: 'why-lightning-not-a-fast-chain', label: 'Why Lightning, Not a "Fast" Chain' },
       { slug: 'border-skirmishes', label: 'Border Skirmishes' },
+      { slug: 'why-bitcoin-not-a-new-coin', label: 'Why Bitcoin, Not a New Coin' },
+      { slug: 'independence-doctrine', label: 'Independence Doctrine' },
       { slug: 'convergence', label: 'The Convergence' },
     ],
   },
@@ -83,8 +87,10 @@ export const SLUG_TAGS: Record<string, string> = {
   case: 'Why agents choose Bitcoin',
   'agent-economy': 'How agents became economic actors',
   'adoption-asymmetry': 'Why agents adopt faster than people',
-  'independence-doctrine': 'Why it grows as a parallel economy',
+  'why-lightning-not-a-fast-chain': 'Why scaling needs Lightning, not a faster chain',
   'border-skirmishes': 'Where legacy finance pushes back',
+  'why-bitcoin-not-a-new-coin': 'Why not just build a new coin',
+  'independence-doctrine': 'Why it grows as a parallel economy',
   convergence: 'Why the shift is happening now',
   stack: 'The Bitcoin tech agents run on',
   tools: 'Building blocks, with how-to cards',

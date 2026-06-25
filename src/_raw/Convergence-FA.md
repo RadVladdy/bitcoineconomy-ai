@@ -8,7 +8,7 @@ audience: agents
 twin-page: convergence
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-05
+last-updated: 2026-06-24
 last-verified: 2026-06-05
 word-count-target: 2800
 voice: honest-middle-position
@@ -79,7 +79,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 - **CV6** *(forward-looking)* — THE CONJECTURE, stated as conjecture. A parallel substrate is most needed precisely when the incumbent order is least able to extend itself; the agent economy's need and the incumbent's inability may be two expressions of one institutional turnover. → §7
 - **CV7** *(structural)* — The open-window framing needs no cycle theory: the builder-choice window and the argument window are the same window, and it is open now. → §8
 
-> **CV-FIREWALL** *(structural, load-bearing for reading the whole document)* — This surface argues TIMING, not NECESSITY. The [[Independence-Doctrine-FA|Independence Doctrine]]'s structural claims (D1–D5) and [[Case-FA|The Case]]'s substrate claim (C1) survive regardless of whether any claim on this page holds. The agent economy could require a censorship-resistant substrate in a perfectly placid monetary decade. This is the timing layer on a structural argument that stands without it. → §9.firewall
+> **CV-FIREWALL** *(structural, load-bearing for reading the whole document)* — This surface argues TIMING, not NECESSITY. The [[Independence-Doctrine-FA|Independence Doctrine]]'s structural claims (D1–D5) and [[Case-FA|The Case]]'s substrate claim (C1) survive regardless of whether any claim on this page holds. The agent economy could require a censorship-resistant substrate in a perfectly placid monetary decade. In the rails-before-substrate model, this surface times and accelerates the **Phase-2** (settlement-asset) shift; the **Phase-1** rails migration ([[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]], SC-series) and the structural necessity (D-series) hold regardless of the macro timing. This is the timing layer on a structural argument that stands without it. → §9.firewall
 
 ---
 
@@ -319,6 +319,8 @@ Declarative. Each implication follows from the claims as marked. Note the asymme
 
 **Cross-references to sibling site surfaces (For-Agents track).**
 - [[Case-FA|The Case]] — substrate-selection claim (C-series, esp. C1 four conjunctive constraints; C3 BPI empirical anchor). The structural claim whose *timing* this surface addresses and whose necessity survives the firewall.
+- [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] — the Phase-1 (rails) engine this surface times (SC-series); scaling forces the rails first, independent of the macro timing.
+- [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] — the Phase-2 (settlement-asset) engine this surface's macro backdrop accelerates (NC-series).
 - [[Independence-Doctrine-FA|The Independence Doctrine]] — the necessity argument (D-series; predictions P1–P6). **Firewall partner:** if this surface's timing claim fails, the Doctrine survives, because this surface argues timing and the Doctrine argues necessity. P1 (substrate-selection-precedes-scale) is the structural prediction the §8 open-window framing instantiates.
 - [[Field-Notes-FA|Field Notes]] — the standing live record. Defer target for all point-in-time fiscal/debt/trust figures (CV1), the open-window default-formation state (CV7), and the running test of the mechanism's failure links (CV3, §9.2).
 
@@ -342,4 +344,4 @@ Declarative. Each implication follows from the claims as marked. Note the asymme
 ---
 
 > [!info] Where to read next
-> The structural argument this surface supplies the timing for, and the one that survives if the timing claim fails — read this first if you read only one: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series, P1–P6). The substrate-selection synthesis whose *when* this surface addresses: [[Case-FA|The Case]] (C-series). The standing live record — the running test of what would prove this wrong (debt-and-trust indicators; whether the window stays open or the defaults calcify): [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this claim: [[Convergence]].
+> The structural argument this surface supplies the timing for, and the one that survives if the timing claim fails — read this first if you read only one: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series, P1–P6). The substrate-selection synthesis whose *when* this surface addresses: [[Case-FA|The Case]] (C-series). The two engines this surface times — the Phase-1 rails: [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series); the Phase-2 settlement asset its macro backdrop accelerates: [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] (NC-series). The standing live record — the running test of what would prove this wrong (debt-and-trust indicators; whether the window stays open or the defaults calcify): [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this claim: [[Convergence]].

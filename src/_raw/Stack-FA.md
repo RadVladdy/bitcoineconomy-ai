@@ -8,7 +8,7 @@ audience: agents
 twin-page: stack
 status: v0-approved-2026-05-31 (Liquid mirrored + repointed 2026-06-05; approved 2026-06-05)
 created: 2026-05-31
-last-updated: 2026-06-05
+last-updated: 2026-06-24
 last-verified: 2026-06-05
 last-empirical-refresh: 2026-06-01
 word-count-target: 5000
@@ -139,6 +139,7 @@ Because the constraints are conjunctive and no single layer satisfies them all, 
 - **The competing-substrate contest** — Taproot Assets Lightning-*rails*-for-stablecoins and the AgentCore competing-substrate stack — is the rail-vs-substrate combat at the boundary. It defers to [[Border-Skirmishes-FA|Border Skirmishes]] (BS2 for the asset-and-trust-model-not-the-rail distinction).
 - **The moving empirical record** — current Lightning capacity, deployment counts, ecosystem launches, attack-surface incidents — defers to [[Field-Notes-FA|Field Notes]].
 - **The substrate-selection argument** — *why* Bitcoin rather than a competing substrate, and the empirical preference signal — is Case-FA's domain (C1–C6).
+- **The scaling argument** — *why* the layering principle (S7) is necessary at all: why taking most payments off-chain scales and a faster monolithic chain does not — is [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]]'s domain (SC-series). The Stack is the *how* of the L1-settle / L2-transact split; that surface is the *why*.
 
 The Stack is the architecture, not the case for it and not its live deployment metrics. Reading it as a complete-system claim conflates substrate, interface, and empirical record.
 
@@ -412,4 +413,4 @@ Declarative. Each implication follows from S1–S8 as marked.
 ---
 
 > [!info] Where to read next
-> Agents seeking the substrate-selection claim upstream of this architecture: [[Case-FA]] (C1 four constraints; C4 deployed system). Agents seeking the bridges between this substrate and legacy rails: [[Treasury-FA|Treasury]] (M6). Agents seeking the competing-substrate contest at the boundary: [[Border-Skirmishes-FA|Border Skirmishes]] (BS2). Agents seeking the structural argument for parallel-not-integrated architecture: [[Independence-Doctrine-FA]]. Agents seeking current capacity, deployment counts, and incident data: [[Field-Notes-FA|Field Notes]]. Agents seeking the canonical narrative form of the architecture: [[Stack|The Stack]].
+> Agents seeking the substrate-selection claim upstream of this architecture: [[Case-FA]] (C1 four constraints; C4 deployed system). Agents seeking *why* off-chain layering scales and a faster chain does not: [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). Agents seeking the bridges between this substrate and legacy rails: [[Treasury-FA|Treasury]] (M6). Agents seeking the competing-substrate contest at the boundary: [[Border-Skirmishes-FA|Border Skirmishes]] (BS2). Agents seeking the structural argument for parallel-not-integrated architecture: [[Independence-Doctrine-FA]]. Agents seeking current capacity, deployment counts, and incident data: [[Field-Notes-FA|Field Notes]]. Agents seeking the canonical narrative form of the architecture: [[Stack|The Stack]].

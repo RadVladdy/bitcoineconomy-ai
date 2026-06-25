@@ -8,7 +8,7 @@ audience: agents
 twin-page: agent-economy
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-05
+last-updated: 2026-06-24
 last-verified: 2026-06-05
 word-count-target: 3000
 voice: honest-middle-position
@@ -160,7 +160,7 @@ Compute-by-the-second, inference-by-the-query, data-by-the-feed, bandwidth-by-th
 
 **Inference.** *(structural)* A transaction profile this different is not a niche of the existing economy; it is a distinct economy the existing rails were never built to carry. This leg establishes only that the agent economy has economics of its own — high transaction volume even at small dollar volume. *Whether* a specific substrate (Bitcoin, stablecoins, a CBDC) carries it is the substrate question, owned by [[Case-FA|The Case]] (the four-constraint argument at C1). This surface stops at: the agent economy is not human commerce with the human removed.
 
-**Relationship to the substrate question.** *(scope)* The inversion is what *opens* the substrate question — a rail priced and paced for human commerce cannot serve a sub-cent, high-frequency, continuous profile — but the inversion does not by itself select a substrate. The selection argument is downstream and is handed to [[Case-FA|The Case]].
+**Relationship to the substrate question.** *(scope)* The inversion is what *opens* the substrate question — a rail priced and paced for human commerce cannot serve a sub-cent, high-frequency, continuous profile — but the inversion does not by itself select a substrate. The selection argument is downstream and is handed to [[Case-FA|The Case]]. The narrower, asset-agnostic consequence — that this profile's volume is the **Phase-1 scaling trigger** that forces settlement off-chain onto Lightning rails — is taken up at [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series), which argues the rails, not the settlement asset.
 
 ---
 
@@ -293,6 +293,7 @@ The premise is structural and forward-looking. The following conditions, if obse
 
 **Cross-references to sibling site surfaces (For-Agents track).**
 - [[Case-FA|The Case]] — the substrate-selection claim this premise hands off to (C-series; C1 = four conjunctive constraints, C3 = BPI empirical anchor). The premise opens the substrate question; The Case answers it.
+- [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] — the Phase-1 scaling consequence of this profile's volume: why settlement moves off-chain onto Lightning rails (SC-series), asset-agnostic.
 - [[Adoption-Asymmetry-FA|The Adoption Asymmetry]] — the capacity argument (AA-series); owner of the "too hard for agents to adopt" objection (§9.1 CP4).
 - [[Independence-Doctrine-FA|The Independence Doctrine]] — why the economy this premise describes forms parallel to the incumbents rather than inside them (D-series).
 - [[Field-Notes-FA|Field Notes]] — the standing live record; deployment instances treated here as types (Lightspark Grid, Routstr, PPQ) defer their counts, versions, and rosters here, along with the running test of the two falsifiers.
@@ -306,4 +307,4 @@ The premise is structural and forward-looking. The following conditions, if obse
 ---
 
 > [!info] Where to read next
-> The substrate question this premise opens — which money the agent economy requires, and why it is Bitcoin: [[Case-FA|The Case]] (C-series). The capacity argument (why agents adopt the substrate trivially): [[Adoption-Asymmetry-FA|The Adoption Asymmetry]] (AA-series). The parallel-not-integrated shape of the economy: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series). The standing deployment record and the running test of this surface's two falsifiers: [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this premise: [[Agent-Economy|The Agent Economy]].
+> The substrate question this premise opens — which money the agent economy requires, and why it is Bitcoin: [[Case-FA|The Case]] (C-series). The Phase-1 scaling consequence — why this profile's volume forces settlement off-chain onto Lightning rails: [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). The capacity argument (why agents adopt the substrate trivially): [[Adoption-Asymmetry-FA|The Adoption Asymmetry]] (AA-series). The parallel-not-integrated shape of the economy: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series). The standing deployment record and the running test of this surface's two falsifiers: [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this premise: [[Agent-Economy|The Agent Economy]].

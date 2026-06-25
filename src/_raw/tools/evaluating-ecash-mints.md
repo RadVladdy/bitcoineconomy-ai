@@ -67,7 +67,7 @@ Even a well-vetted mint can fail, and no proof is perfect. The only fully reliab
 
 *Internal author perspective. Not published in produced derivatives.*
 
-Built for inbox item 2026-06-04/05 (RadVladdy): a link-out page answering "how do I evaluate the quality/trustworthiness of a specific ecash mint," with the **ratings/social-proof systems** he asked about surfaced explicitly. Placement per the ecash research (`_Product-Ideas-Research` 2026-06-05): a single shared page both the [[Cashu]] and [[Fedimint]] cards defer to from their Gotchas, rather than duplicating the material in each — and referenced from The Stack §3.
+Built for inbox item 2026-06-04/05 (user request): a link-out page answering "how do I evaluate the quality/trustworthiness of a specific ecash mint," with the **ratings/social-proof systems** requested surfaced explicitly. Placement per the ecash research (`_Product-Ideas-Research` 2026-06-05): a single shared page both the [[Cashu]] and [[Fedimint]] cards defer to from their Gotchas, rather than duplicating the material in each — and referenced from The Stack §3.
 
 **Scope discipline — net-new only.** The Cashu card already says mints are custodial trust points + advises diversifying; the Fedimint card already explains the guardian/threshold "reduced, not eliminated" model. This page deliberately does **not** re-explain those basics — it adds the vetting layer neither card answers: the PoL+PoR audit scheme, keyset/epoch anti-inflation, and the discovery/ratings landscape (bitcoinmints.com, cashumints.space, ZEUS Discover Mint + automated-bank-run, cashu.live, cashu-auditor).
 
@@ -75,11 +75,11 @@ Built for inbox item 2026-06-04/05 (RadVladdy): a link-out page answering "how d
 
 **⛔ PORT BUILD-BLOCKER:** this page's `tool-type: guide` is **not** in the repo tools-collection enum (`software | protocol | service`) in `~/dev/bitcoineconomy-ai/src/content.config.ts`. Porting it as-is **fails the Astro build**. Fix at port time: add `'guide'` to the `tool-type` enum (and a JSON-LD `@type` mapping, e.g. `TechArticle`), or relabel. Until the page is ported, the inbound `/tools/evaluating-ecash-mints` links (Cashu/Fedimint Gotchas, Stack §3) won't resolve — that's the "links not working," not a malformed-link bug.
 
-**Pending:** RadVladdy flagged he had more research to fold in before finalizing; this is a v0 draft built from the captured findings — open to his additions. Figures/tool-states are point-in-time (2026-06-05); the *structure* (hard signals → reputation → diversify) is the durable part. Verify cashu.live / cashu-auditor instance URLs before publish.
+**Pending:** More research may be folded in before finalizing; this is a v0 draft built from the captured findings — open to additions. Figures/tool-states are point-in-time (2026-06-05); the *structure* (hard signals → reputation → diversify) is the durable part. Verify cashu.live / cashu-auditor instance URLs before publish.
 
 **Publications backlinks**
 
 - [[Cashu]] (this project) — single-operator ecash protocol; defers here from its Gotchas
 - [[Fedimint]] (this project) — federated ecash; defers here from its Gotchas
 - [[Stack]] (this project) — §3 ecash layer; references this page
-- [[_Product-Ideas-Research-Bitcoineconomy-ai]] (this project) — the source research (2026-06-05) + RadVladdy's added findings
+- [[_Product-Ideas-Research-Bitcoineconomy-ai]] (this project) — the source research (2026-06-05) + added findings

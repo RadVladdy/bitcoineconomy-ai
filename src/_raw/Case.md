@@ -9,7 +9,7 @@ status: v0-approved-2026-06-04 (renamed Thesis.md->Case.md, slug thesis->case 20
 audience: humans
 twin-page: case-for-agents
 created: 2026-05-25
-last-updated: 2026-06-03
+last-updated: 2026-06-24
 word-count-target: 3000
 voice: honest-middle-position
 scope: synthesis-weave
@@ -21,7 +21,7 @@ tags:
   - ai-economy
   - lightning
 agent-tldr: |
-  This is the anchor synthesis (display title: The Case) that weaves the site's arguments together; it stands complete on its own, and each claim has a deeper home. Bitcoin (L1 settlement + Lightning/L2/L3 payments, with Cashu and Fedimint for ecash) is the optimal monetary substrate for autonomous AI agents because four conjunctive constraints must all hold: (1) software-manageable without KYC or human account intermediation — agents hold keys but cannot pass KYC; (2) censorship-resistant against intermediary freezes; (3) sub-cent micropayment-capable, for the high-frequency, machine-tempo agent-to-agent (A2A) profile; (4) machine-tempo settlement. The legacy stack (bank rails, cards, issuer-controlled stablecoins, CBDCs) each fails one or more, and cannot be fixed without ceasing to be itself — the structural mechanism is owned by the Independence Doctrine. Bitcoin meets all four: pristine self-custodial collateral, protocol-level censorship-resistance, fixed neutral supply, and sub-cent machine-tempo payments via Lightning and successor layers. A purpose-built "agent-coin" can copy the four features but not the neutrality, security budget, or Lindy that make the bundle credible — most are issuer-backed tokens in disguise. The premise that agents become economic actors transacting at scale is argued separately in The Agent Economy; the capacity for agents to adopt this substrate trivially is The Adoption Asymmetry; the why-parallel-not-integrated argument is the Independence Doctrine; the live competitive contest is Border Skirmishes; the timing is The Convergence. Empirical preference signal (frontier models prefer Bitcoin in neutral tests) and the deployed-tooling roster are real; the moving numbers live in Field Notes. This surface carries the claim and the synthesis; the deeper pages carry the full arguments.
+  This is the anchor synthesis (display title: The Case) that weaves the site's arguments together; it stands complete on its own, and each claim has a deeper home. Bitcoin (L1 settlement + Lightning/L2/L3 payments, with Cashu and Fedimint for ecash) is the optimal monetary substrate for autonomous AI agents because four conjunctive constraints must all hold: (1) software-manageable without KYC or human account intermediation — agents hold keys but cannot pass KYC; (2) censorship-resistant against intermediary freezes; (3) sub-cent micropayment-capable, for the high-frequency, machine-tempo agent-to-agent (A2A) profile; (4) machine-tempo settlement. The legacy stack (bank rails, cards, issuer-controlled stablecoins, CBDCs) each fails one or more, and cannot be fixed without ceasing to be itself — the structural mechanism is owned by the Independence Doctrine. Bitcoin meets all four: pristine self-custodial collateral, protocol-level censorship-resistance, fixed neutral supply, and sub-cent machine-tempo payments via Lightning and successor layers. Adoption runs rails-before-substrate: the scaling constraints (sub-cent, machine-tempo) force agents onto Lightning rails first — even carrying stablecoins — argued in full at Why Lightning, Not a "Fast" Chain; the trust constraints (no-KYC, censorship-resistance) force the settlement asset toward Bitcoin; two engines, same direction, not a hedge on whether the substrate is Bitcoin. A purpose-built "agent-coin" can copy the four features but not the neutrality, security budget, or Lindy that make the bundle credible — most are issuer-backed tokens in disguise. The premise that agents become economic actors transacting at scale is argued separately in The Agent Economy; the capacity for agents to adopt this substrate trivially is The Adoption Asymmetry; the why-parallel-not-integrated argument is the Independence Doctrine; the live competitive contest is Border Skirmishes; the timing is The Convergence. Empirical preference signal (frontier models prefer Bitcoin in neutral tests) and the deployed-tooling roster are real; the moving numbers live in Field Notes. This surface carries the claim and the synthesis; the deeper pages carry the full arguments.
 ---
 
 # The Case
@@ -60,7 +60,7 @@ These constraints are operational, not aspirational. An agent that cannot satisf
 
 ## Why the legacy economy fails
 
-The scorecard above runs each incumbent candidate against the four constraints, and the pattern is a clean disqualification — every one fails at least one box, and the failures are features of what each rail *is*, not gaps to be patched. **Bank rails** require KYC, freeze at discretion, carry per-transaction fees, and settle in days — they miss every constraint but raw authorization speed; **credit cards** add chargebacks that reverse for months and 2–3% floors that swamp any sub-cent payment. **Stablecoins** are where the conversation usually pauses, because they seem the right shape — until you look at the asset rather than the rail: issuers (Tether, Circle, others) freeze addresses under regulatory pressure (fails C2), and issuer concentration reintroduces the exact intermediation C1 exists to eliminate, even when an address technically holds the tokens. **CBDCs** fail C1 and C2 *by design* — control is the issuing authority's reason for issuing.
+The scorecard above runs each incumbent candidate against the four constraints, and the pattern is a clean disqualification — every one fails at least one box, and the failures are features of what each rail *is*, not gaps to be patched. **Bank rails** require KYC, freeze at discretion, carry per-transaction fees, and settle in days — they miss every constraint but raw authorization speed; **credit cards** add chargebacks that reverse for months and 2–3% floors that swamp any sub-cent payment. **Stablecoins** are where the conversation usually pauses, because they seem the right shape — until you look at the asset rather than the rail: issuers (Tether, Circle, others) freeze addresses under regulatory pressure — failing censorship-resistance — and issuer concentration reintroduces the exact intermediation the no-KYC requirement exists to eliminate, even when an address technically holds the tokens. **CBDCs** fail the no-KYC *and* censorship-resistance tests *by design* — control is the issuing authority's reason for issuing.
 
 The deeper point is not that each candidate happens to fail a box. It is that **the incumbent stack's payment infrastructure is dominant *because* of the intermediation, oversight, and political integration that fail these constraints** — so it cannot be fixed without ceasing to be itself. That structural mechanism — why the dominant economy cannot serve the emerging one without giving up what makes it dominant — is the central argument of [[Independence-Doctrine|The Independence Doctrine]], and it is owned there. Here it is enough to read the scorecard: no incumbent candidate clears all four.
 
@@ -70,13 +70,13 @@ The deeper point is not that each candidate happens to fail a box. It is that **
 
 Bitcoin's protocol-level properties — the ones that made it the subject of seventeen years of monetary-policy debate among humans — turn out to be exactly what an agent needs.
 
-**Pristine collateral (C1).** Bitcoin's UTXO model gives transparent, verifiable, 24/7-settleable ownership. An agent holds private keys directly; the keys *are* the holding; settlement requires no intermediary's good faith. This is the same "pristine collateral" framing used in macro analyses of Bitcoin as a sovereign and corporate reserve asset — the agent economy needs the property for the same reason.
+**Pristine collateral.** Bitcoin's UTXO model gives transparent, verifiable, 24/7-settleable ownership. An agent holds private keys directly; the keys *are* the holding; settlement requires no intermediary's good faith. This is the same "pristine collateral" framing used in macro analyses of Bitcoin as a sovereign and corporate reserve asset — the agent economy needs the property for the same reason.
 
-**Censorship-resistance and sovereignty (C2).** Nodes verify independently. No issuer can freeze a UTXO; no regulator can compel a transaction's exclusion once a miner finds the next block. The guarantee is unconditional, with no working exception in its history. Competing instruments explicitly weaken this to satisfy regulatory mandates — which disqualifies them regardless of other merit.
+**Censorship-resistance and sovereignty.** Nodes verify independently. No issuer can freeze a UTXO; no regulator can compel a transaction's exclusion once a miner finds the next block. The guarantee is unconditional, with no working exception in its history. Competing instruments explicitly weaken this to satisfy regulatory mandates — which disqualifies them regardless of other merit.
 
 **Fixed supply.** The 21-million cap and transparent issuance mean no political authority controls the substrate's monetary policy. For a parallel economy emerging outside the incumbent system this is structurally necessary: a supply a central authority could expand is a lever to dilute the parallel economy at will. Bitcoin's neutrality is protocol, not philosophy.
 
-**Programmability via Lightning and successor layers (C3, C4).** L1 satisfies C1, C2, and partially C4 — but not C3. That gap is closed by the payment-tech stack atop Bitcoin: the **Lightning Network** for instant routable micropayments; **Ark, Spark, and similar L2/L3** for off-chain scale with on-chain settlement; **Fedimint** for federated ecash; **Cashu** for privacy-preserving bearer ecash at near-zero overhead. These don't compete with Bitcoin — they settle in it. Add the agent-integration primitives (**L402** for HTTP payments, **Nostr Wallet Connect / NIP-47** for keyless remote wallet control, **MCP servers** for any LLM agent) and the stack stops looking like a maximalist's vision and starts looking like deployed agent-payment infrastructure — because that is now what it is. The per-layer architecture lives in [[Stack|The Stack]].
+**Programmability via Lightning and successor layers.** L1 settles, holds, and resists censorship, but cannot do sub-cent payments at machine tempo on its own. That gap is closed by the payment-tech stack atop Bitcoin: the **Lightning Network** for instant routable micropayments; **Ark, Spark, and similar L2/L3** for off-chain scale with on-chain settlement; **Fedimint** for federated ecash; **Cashu** for privacy-preserving bearer ecash at near-zero overhead. These don't compete with Bitcoin — they settle in it. The reason the scaling answer is off-chain rails like these and not simply a faster chain is its own argument: [[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]. Add the agent-integration primitives (**L402** for HTTP payments, **Nostr Wallet Connect / NIP-47** for keyless remote wallet control, **MCP servers** for any LLM agent) and the stack stops looking like a maximalist's vision and starts looking like deployed agent-payment infrastructure — because that is now what it is. The per-layer architecture lives in [[Stack|The Stack]].
 
 Bitcoin is the only deployed system that clears all four boxes the incumbents miss.
 
@@ -99,6 +99,8 @@ No — and the reason is the heart of a separate argument. The friction that thr
 ## The two-tier model
 
 One layer does not have to do everything. The agent economy uses a **two-tier model**: **Bitcoin L1** as the settlement and reserve layer — slow, absolute, unconditional, where treasury balances and important payments anchor and where the monetary policy lives; and **Lightning plus L2/L3** as the payment-tech layer — fast, near-free, routable, where the vast majority of agent transactions actually happen, with Cashu and Fedimint adding bearer-ecash and federated-custody for cases where Lightning's channels are heavier than needed. The tiers compose: agents settle constantly over Lightning with Bitcoin as the hard reserve beneath, moving balances between layers as routine treasury operations. This is not a workaround for Bitcoin's limits; it is a hard monetary base supporting a soft, fast, programmable upper layer. The channel mechanics, the security model, and mint operation are detailed in [[Stack|The Stack]].
+
+The same split sorts the four constraints, and it explains the order adoption actually follows. **Sub-cent cost and machine-tempo speed are scaling demands** — met at the rails layer by taking most payments off-chain; no single "fast" chain escapes the throughput wall, which is why the rails are Lightning and not a faster ledger ([[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]). **No-KYC operation and censorship-resistance are trust demands** — met only by the neutral base asset underneath the rails. The two are forced in sequence: scaling pushes agents onto Lightning rails first (which can even carry stablecoins at the outset), and censorship pushes the settlement asset toward Bitcoin after. Rails before substrate — two engines pulling the same direction, not a hedge on whether the substrate is Bitcoin.
 
 ---
 
@@ -135,7 +137,9 @@ There is a fourth, larger leg that is about *timing* rather than tooling: **the 
 This page is the synthesis; each central claim has a deeper home. Read the case here; follow any thread to its full treatment:
 
 - **The premise — that agents become economic actors transacting at scale** → [[Agent-Economy|The Agent Economy]]
-- **The requirement and the match — four constraints, why Bitcoin satisfies them, why not a new coin** → *this page* (the synthesis)
+- **The requirement and the match — four constraints, why Bitcoin satisfies them** → *this page* (the synthesis)
+- **The scaling engineering — why off-chain rails, not a faster chain (Phase 1)** → [[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]
+- **The asset — why Bitcoin specifically, not a purpose-built agent-coin (Phase 2)** → [[Why-Bitcoin-Not-A-New-Coin|Why Bitcoin, Not a New Coin]]
 - **The capacity — why agents can adopt the substrate trivially** → [[Adoption-Asymmetry|The Adoption Asymmetry]]
 - **The structural necessity — why the economy is parallel, not integrated** → [[Independence-Doctrine|The Independence Doctrine]]
 - **The live contest — the incumbents' parallel agent rails, and what they confirm** → [[Border-Skirmishes|Border Skirmishes]]
@@ -150,7 +154,7 @@ This page is the synthesis; each central claim has a deeper home. Read the case 
 
 The agent economy's monetary substrate is being chosen now — in the inference behavior of frontier models, in the integration surfaces shipping from Lightning Labs and the mint operators, and in the architectural decisions of every builder choosing where to deploy agent infrastructure. The answer this case argues is the Bitcoin stack: L1 for settlement and reserve, Lightning and the layers above it for machine-tempo payments. The structural argument — that the AI economy must diverge from incumbent rails because the incumbents cannot satisfy the constraints without ceasing to be incumbents — does not hinge on any single deployment scenario; it follows from the properties of the substrates available.
 
-For builders deciding where to invest agent-payment work, the case is made here and the detail is one link away in each direction. The agent economy is forming; its money is being chosen; the choice is Bitcoin. Each canonical surface also has a separately-authored For-Agents twin for machine consumption — this page's is [[Thesis-FA]].
+For builders deciding where to invest agent-payment work, the case is made here and the detail is one link away in each direction. The agent economy is forming; its money is being chosen; the choice is Bitcoin. Each canonical surface also has a separately-authored For-Agents twin for machine consumption — this page's is [[Case-FA]].
 
 ---
 
@@ -179,11 +183,12 @@ Primary references. Empirical figures and the deployed-tooling roster are tracke
 > [!info] Where to read next
 > **More in The Case** (this section):
 > - **[[Agent-Economy|The Agent Economy]]** — the premise upstream of everything here: why autonomous software becomes an economic actor at all.
-> - **[[Independence-Doctrine|The Independence Doctrine]]** — the structural argument for why the economy is parallel, not integrated.
-> - **[[Border-Skirmishes|Border Skirmishes]]** — the live contest: the incumbents' own agent rails, and why they confirm the case.
 > - **[[Adoption-Asymmetry|The Adoption Asymmetry]]** — the capacity argument: why the friction that slowed Bitcoin's human adoption was never the agent's.
+> - **[[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]** *(Phase 1 — the rails)* — why the scaling answer is off-chain Lightning, not a faster chain; the engineering behind the two-tier model.
+> - **[[Border-Skirmishes|Border Skirmishes]]** *(Phase 1, live)* — the live contest: the incumbents' own agent rails, and why they confirm the case.
+> - **[[Why-Bitcoin-Not-A-New-Coin|Why Bitcoin, Not a New Coin]]** *(Phase 2 — the asset)* — why neutrality, the proof-of-work security budget, and Lindy can't be copied by a purpose-built agent-coin.
+> - **[[Independence-Doctrine|The Independence Doctrine]]** *(Phase 2)* — the structural argument for why the economy is parallel, not integrated.
 > - **[[Convergence|The Convergence]]** — the timing argument: the agent economy and the monetary-regime rupture as one wave *(the site's most epistemically hedged surface, by design)*.
-> - **[[Why-Bitcoin-Not-A-New-Coin|Why Bitcoin, Not a New Coin]]** *(deeper dive)* — the full version of this page's "why not a purpose-built agent-coin" beat: the four features copy, but neutrality, the proof-of-work security budget, and Lindy don't.
 >
 > **In the other sections:**
 > - **[[Stack|The Stack]]** *(equip your agent)* — the L1/L2/L3 architecture and agent-integration primitives this case summarizes.
@@ -217,4 +222,4 @@ Primary references. Empirical figures and the deployed-tooling roster are tracke
 - [[Stack]] (this project) — the L1/L2/L3 architecture this case summarizes
 - [[Marketplace]] (this project) — the Market section: where an agent holds, crosses, and trades at the boundary
 - [[Field-Notes]] (this project) — the empirical record this case defers all numbers to
-- [[Thesis-FA]] (this project; renaming → Case-FA) — the For-Agents twin of this surface
+- [[Case-FA]] (this project) — the For-Agents twin of this surface

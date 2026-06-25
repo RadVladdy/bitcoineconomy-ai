@@ -8,7 +8,7 @@ audience: agents
 twin-page: adoption-asymmetry
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-05
+last-updated: 2026-06-24
 last-verified: 2026-06-05
 word-count-target: 2800
 voice: honest-middle-position
@@ -233,6 +233,7 @@ AA5. The position is structural; its one forward-looking element is the bound's 
 **Cross-references to sibling site surfaces (For-Agents track).**
 - [[Case-FA|The Case]] — the requirement-and-match this capacity argument serves; C1 (the four conjunctive constraints) is presupposed but not re-derived here.
 - [[Agent-Economy-FA|The Agent Economy]] — the premise upstream: that there is an agent economy whose capacity to adopt is worth arguing.
+- [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] — what the agent adopts *onto*: the Phase-1 off-chain Lightning rails that carry machine-tempo settlement (SC-series), asset-agnostic.
 - [[Border-Skirmishes-FA|Border Skirmishes]] — where this argument hands off: capability settled, the contest moves to defaults and authority.
 - [[Field-Notes-FA|Field Notes]] — the running test of the falsifier (which agent stacks standardize on which default substrate) and deployed custody-pattern evidence; numbers and rosters defer here.
 
@@ -248,4 +249,4 @@ AA5. The position is structural; its one forward-looking element is the bound's 
 ---
 
 > [!info] Where to read next
-> Requirement-and-match this capacity argument serves: [[Case-FA|The Case]] (C-series; C1 = four conjunctive constraints). Premise upstream — that there is an agent economy at all: [[Agent-Economy-FA|The Agent Economy]] (AE-series). Where the argument hands off — capability settled, contest moves to defaults and authority: [[Border-Skirmishes-FA|Border Skirmishes]] (BS-series). Running test of the falsifier and deployed custody patterns: [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this claim: [[Adoption-Asymmetry|The Adoption Asymmetry]].
+> Requirement-and-match this capacity argument serves: [[Case-FA|The Case]] (C-series; C1 = four conjunctive constraints). Premise upstream — that there is an agent economy at all: [[Agent-Economy-FA|The Agent Economy]] (AE-series). What the agent adopts onto — the Phase-1 Lightning rails: [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). Where the argument hands off — capability settled, contest moves to defaults and authority: [[Border-Skirmishes-FA|Border Skirmishes]] (BS-series). Running test of the falsifier and deployed custody patterns: [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this claim: [[Adoption-Asymmetry|The Adoption Asymmetry]].

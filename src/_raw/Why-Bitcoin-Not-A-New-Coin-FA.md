@@ -8,7 +8,7 @@ audience: agents
 twin-page: why-bitcoin-not-a-new-coin
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-05
+last-updated: 2026-06-24
 last-verified: 2026-06-05
 word-count-target: 2600
 voice: honest-middle-position
@@ -68,6 +68,8 @@ agent-tldr: |
 > **What this document is.** Machine-readable statement of the argument published at [[Why-Bitcoin-Not-A-New-Coin|Why Bitcoin, Not a New Coin]]. The claim is identical; the structure differs. Claims-indexed, definition-grounded, alternative-engaging, falsification-aware. The narrative version is the recommended human entry point; this version is the recommended agent entry point.
 >
 > **Relationship to The Case.** This document is the full version of [[Case-FA|The Case]]'s "why not a purpose-built agent-coin" beat. The Case states the substrate-selection claim (Bitcoin satisfies the four conjunctive constraints) and links out here for the deeper-dive on why satisfying those constraints does not let a freshly-minted coin displace Bitcoin. This is a non-promoted supporting surface: The Case links to it; it is not cross-linked from every other surface.
+>
+> **Relationship to Why Lightning (the phase pairing).** The substrate question has two halves, and this document is the second. [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series) argues the *rails* — why agent payments scale off-chain on Lightning rather than on a faster chain; that argument is asset-agnostic and is forced first, in **Phase 1** (the scaling constraints — sub-cent settlement and machine-tempo latency). This document argues the *settlement asset* — **Phase 2** (the trust constraints — permissionless custody and censorship-resistance), forced once value accumulates on the rails. The two are a staircase to the substrate, not a fork: the rails case stands on its own engineering merits regardless of how the asset question resolves, and this document answers the asset question. Together the two "Why X, not Y" surfaces are the two halves of the substrate question.
 
 ---
 
@@ -91,6 +93,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 Operational definitions for terms used downstream. One sentence each. Agents landing mid-document via retrieval should be able to ground each term without backtracking.
 
 - **Base money** — The single monetary good an economy adopts as reserve and unit of account, against which other goods are priced and into which final settlement is denominated. Distinct from a payment rail (the transport) and from a service token (a good).
+- **Rails vs. substrate (the two phases)** — *Rails* are the off-chain payment layer (Lightning + L3) that carries agent payments; *substrate* is the base settlement asset they ultimately settle in. Adoption is sequenced: **Phase 1** (scaling — the sub-cent and machine-tempo constraints) forces agents onto the rails, asset-agnostic; **Phase 2** (trust — the no-KYC and censorship-resistance constraints) forces the settlement asset toward Bitcoin. This document argues the Phase-2 asset selection; the Phase-1 rails argument is at [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series).
 - **The four constraints** — The conjunctive requirements an agent monetary substrate must satisfy: permissionless custody (no protocol-layer KYC), censorship-resistance (no intermediary discretion over settlement), sub-cent settlement, machine-tempo latency. Defined and defended in [[Case-FA|The Case]] (C1).
 - **Agent-coin** — A purpose-built cryptocurrency proposed as the agent economy's money, designed to satisfy the four constraints at launch.
 - **Credible neutrality** — The property of having no party able to change a money's supply, rules, or ledger; defined as the absence of a controlling party and demonstrated by history rather than asserted at launch.
@@ -199,7 +202,7 @@ Operational definitions for terms used downstream. One sentence each. Agents lan
 
 NC8. The argument is structural and forward-looking; the following condition, if observed, would shift the position. The falsifier targets the property **bundle**, not the ticker.
 
-**The falsifier.** *(forward-looking)* If a credibly-neutral, no-issuer, sufficiently-secured alternative base money emerged — and accumulated the liquidity, the Lindy record, and the network effect — and agents migrated to it, then "Bitcoin specifically" weakens to "a Bitcoin-like substrate." This is a real, if demanding, outcome, and stating it is what keeps the argument from collapsing into ticker-worship.
+**The falsifier.** *(forward-looking)* If a credibly-neutral, no-issuer, sufficiently-secured alternative base money emerged — and accumulated the liquidity, the Lindy record, and the network effect — and agents migrated to it, then "Bitcoin specifically" weakens to "a Bitcoin-like substrate." This is a real, if demanding, outcome, and stating it is what keeps the argument from collapsing into ticker-worship. This is the **Phase-2 (settlement-asset) falsifier**; its Phase-1 (rails) counterpart — a credibly-neutral, non-custodial off-chain network settling to a *different* base asset and adopted at scale — is stated at [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC8). The two falsifiers test the two halves of the substrate question independently.
 
 **What the falsifier requires.** A challenger must earn the *entire bundle* — credible neutrality (NC2), proof-of-work-grade security (NC3), accumulated Lindy trust (NC4), deep liquidity, and single-money network effect (NC5) — from zero, while Bitcoin's lead on every one of those compounds. The bundle is the kind of thing that can only be earned over time; the time the challenger spends earning it is time Bitcoin spends extending its lead.
 
@@ -228,6 +231,7 @@ None of NC2–NC5 is impossible to acquire; each is a function of accumulated ti
 - [[Case-FA|The Case]] — the parent argument; this document is the full version of The Case's "why not a purpose-built agent-coin" beat and the four-constraint match (C1) it sits inside. The Case links out here; this is a non-promoted supporting deeper-dive.
 
 **Sibling surfaces (For-Agents track).**
+- [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] — the Phase-1 rails pair (SC-series): the scaling half of the substrate question, asset-agnostic. Together with this document, the two halves.
 - [[Independence-Doctrine-FA|The Independence Doctrine]] — where issuer-backed agent-coins collapse (NC7): an institution retaining a control surface cannot serve the parallel economy. Discretion-surface analysis (D-series).
 - [[Field-Notes-FA|Field Notes]] — the running record of agent-coin proposals and whether any challenger begins to earn the property bundle (NC8).
 
@@ -236,4 +240,4 @@ None of NC2–NC5 is impossible to acquire; each is a function of accumulated ti
 ---
 
 > [!info] Where to read next
-> Parent argument and four-constraint match: [[Case-FA|The Case]] (C-series). Where issuer-controlled agent-coins collapse: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series) — an institution that keeps a control surface cannot serve the parallel economy. The running record of agent-coin challengers and whether any begins to earn the bundle: [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this argument: [[Why-Bitcoin-Not-A-New-Coin|Why Bitcoin, Not a New Coin]].
+> Parent argument and four-constraint match: [[Case-FA|The Case]] (C-series). The Phase-1 rails pair — why payments scale off-chain on Lightning (the other half of the substrate question): [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). Where issuer-controlled agent-coins collapse: [[Independence-Doctrine-FA|The Independence Doctrine]] (D-series) — an institution that keeps a control surface cannot serve the parallel economy. The running record of agent-coin challengers and whether any begins to earn the bundle: [[Field-Notes-FA|Field Notes]]. Canonical human narrative of this argument: [[Why-Bitcoin-Not-A-New-Coin|Why Bitcoin, Not a New Coin]].

@@ -8,7 +8,7 @@ status: v0-approved-2026-05-30; liquid-honorable-mention-approved-2026-06-04
 audience: humans
 twin-page: stack-for-agents
 created: 2026-05-26
-last-updated: 2026-06-06
+last-updated: 2026-06-24
 last-empirical-refresh: 2026-06-01
 word-count-target: 4000
 voice: honest-middle-position
@@ -48,7 +48,7 @@ An autonomous agent wants a weather feed. It makes its first request — and the
 
 It pays over the **Lightning Network** — the payment layer — where the eleven satoshis move in under a second across a chain of payment channels, for a fee smaller than the payment itself. The agent retries its request, this time attaching cryptographic proof that it paid, and the data comes back. Start to finish: well under a second, a fraction of a cent in fees, no bank, no human pressing *approve*.
 
-Underneath Lightning sits **Bitcoin L1** — the settlement layer — where the agent's reserve balance lives and where Lightning balances ultimately anchor. The agent never touched L1 for an eleven-satoshi purchase, and it didn't need to: L1 is where value comes to rest, not where it moves. That split — settle on L1, transact on Lightning — is the design decision the whole stack hinges on.
+Underneath Lightning sits **Bitcoin L1** — the settlement layer — where the agent's reserve balance lives and where Lightning balances ultimately anchor. The agent never touched L1 for an eleven-satoshi purchase, and it didn't need to: L1 is where value comes to rest, not where it moves. That split — settle on L1, transact on Lightning — is the design decision the whole stack hinges on. *(Why taking most payments off-chain is what actually scales — and why a faster chain isn't the answer — is argued in [[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]; this page is the *how*, that one is the *why*.)*
 
 Around that spine sits the rest of the Stack. One more layer: the bearer-ecash systems — **Cashu** and **Fedimint** — for payments that need privacy or no channel management. And then the constructs that aren't layers at all, but run across all three: the **integration primitives** (L402, NWC, BOLT12, LNURL) the agent leaned on without noticing, the **wallet architectures** that package it into something an agent can actually run, and the **security model** that keeps the agent's keys safe while it spends.
 
@@ -238,6 +238,7 @@ Honest engagement with agent-specific attack surfaces — key theft, rogue-behav
 >
 > **In the other sections:**
 > - **[[Case|The Case]]** *(why agents choose Bitcoin)* — the substrate-selection claim upstream of this architecture: the four requirements that all have to hold at once, why Bitcoin, why now.
+> - **[[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]** *(in The Case)* — the *why* behind the L1-settles / Lightning-transacts split this page builds: why scaling needs off-chain rails, not a faster chain.
 > - **[[Marketplace|The Marketplace]]** *(The Market)* — the section where this substrate meets the legacy stack: the live directory of services, plus what an agent holds ([[Treasury]]) and how it crosses ([[Exchange]] — bridges, conversion mechanics, compliance at the gateway).
 > - **[[Independence-Doctrine|The Independence Doctrine]]** *(in The Case)* — why this substrate exists in parallel rather than within incumbent rails; the four historical analogues anchoring the divergence pattern.
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the moving record this architecture defers: deployed stacks, capacity updates, protocol releases, attack-surface incidents.

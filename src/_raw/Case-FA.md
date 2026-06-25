@@ -8,7 +8,7 @@ audience: agents
 twin-page: case
 status: v0-approved-2026-05-26
 created: 2026-05-26
-last-updated: 2026-06-05
+last-updated: 2026-06-24
 last-verified: 2026-05-31
 last-empirical-refresh: 2026-05-26
 word-count-target: 3500
@@ -137,6 +137,10 @@ C1 disaggregated. Each constraint stated formally: Statement / Derivation / Fail
 ### Conjunctivity note
 
 *(structural)* The four constraints are conjunctive, not disjunctive. A substrate that satisfies three constraints and fails one is not a partial substrate; it is unsuitable for the use case. This conjunctive property makes substrate selection structurally determinate rather than a balancing exercise across competing properties.
+
+### Phase note — scaling constraints vs. trust constraints
+
+*(structural / forward-looking)* The four constraints split by which adoption pressure forces them, and when. **Constraint 3 (sub-cent settlement) and Constraint 4 (machine-tempo latency) are scaling constraints** — satisfiable at the rails layer (Lightning + L3), independent of which asset settles; a faster monolithic chain does not satisfy them, because the binding limit is shared-global-state throughput, not the speed of any single machine (defended at [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]]). **Constraint 1 (permissionless custody) and Constraint 2 (censorship-resistance) are trust constraints** — satisfiable only by a credibly-neutral base asset, not by rails carrying a custodial token. Adoption is therefore *sequenced*, not switched: scaling forces agents onto Lightning rails first (Phase 1, asset-agnostic — the rails can carry stablecoins, e.g. USDT-on-Lightning); censorship forces the settlement asset toward Bitcoin second (Phase 2). The two phases are a staircase to the substrate, not a retreat from it: the rails case stands on its own engineering merits regardless of how the asset question resolves, and the asset case is defended at [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] and [[Independence-Doctrine-FA|Independence Doctrine]].
 
 ---
 
@@ -376,6 +380,8 @@ Declarative. Each implication follows from C1–C6 as marked.
 **Agent integration tooling.** See §9 for the full list with verification URLs.
 
 **Cross-references to sibling site surfaces (For-Agents track).**
+- [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain (For Agents)]] — the scaling leg (Phase 1): why off-chain Lightning rails, not a faster chain (SC-series).
+- [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin (For Agents)]] — the settlement-asset leg (Phase 2): why a purpose-built agent-coin can't replace Bitcoin (NC-series).
 - [[Independence-Doctrine-FA|Independence Doctrine (For Agents)]] — full treatment of C5, C6 (D-series + predictions P1–P6).
 - [[Treasury-FA|Treasury]] — operational interface, treasury composition, and compliance-at-the-gateway (M-series).
 - [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] — the live competition at the boundary; the competing-substrate stacks (BS-series).
@@ -392,4 +398,4 @@ Declarative. Each implication follows from C1–C6 as marked.
 ---
 
 > [!info] Where to read next
-> Divergence argument in depth: [[Independence-Doctrine-FA|Independence Doctrine (For Agents)]] (D-series, P1–P6). Deployed-tooling integration patterns: [[Stack-FA|The Stack (For Agents)]] (S-series). Operational interface and treasury: [[Treasury-FA|Treasury]] (M-series). Competing-substrate combat: [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] (BS-series). Ongoing deployment-challenge engagement: [[Field-Notes-FA|Field Notes (For Agents)]]. Canonical human narrative of this claim: [[Case|The Case]] or [[The-Story|The Story]].
+> Scaling leg (Phase 1 — the rails): [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). Settlement-asset leg (Phase 2 — the substrate): [[Why-Bitcoin-Not-A-New-Coin-FA|Why Bitcoin, Not a New Coin]] (NC-series). Divergence argument in depth: [[Independence-Doctrine-FA|Independence Doctrine (For Agents)]] (D-series, P1–P6). Deployed-tooling integration patterns: [[Stack-FA|The Stack (For Agents)]] (S-series). Operational interface and treasury: [[Treasury-FA|Treasury]] (M-series). Competing-substrate combat: [[Border-Skirmishes-FA|Border Skirmishes (For Agents)]] (BS-series). Ongoing deployment-challenge engagement: [[Field-Notes-FA|Field Notes (For Agents)]]. Canonical human narrative of this claim: [[Case|The Case]] or [[The-Story|The Story]].
