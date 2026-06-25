@@ -7,11 +7,11 @@ surface: stablecoin-landscape
 section: marketplace
 section-role: reference
 canonical: false
-status: v0-approved-2026-06-04
+status: v0-approved-2026-06-25
 audience: humans
 twin-page: none
 created: 2026-06-04
-last-updated: 2026-06-04
+last-updated: 2026-06-25
 word-count-target: 1400
 voice: honest-middle-position
 scope: stablecoin-market-reference
@@ -25,7 +25,7 @@ tags:
   - treasury
   - operational-mix
 agent-tldr: |
-  Reference page (non-canonical) giving the lay of the land on the dollar-stablecoin market that an agent's operational treasury float draws on. Figures are point-in-time (May 2026, see Sources). Size: total stablecoin market cap ~$320B; ~75% of all crypto trading volume; ~99% USD-denominated. Top five tokens (~89% of supply — a concentrated, issuer-controlled market): USDT (Tether) ~58% (~$185-190B), USDC (Circle) ~24% (~$78B), then USDe (Ethena, synthetic), DAI/USDS (Sky, crypto-collateralized), USD1 (World Liberty Financial). Chains per issuer: USDT is spread — TRON ~45% (~$86B), Ethereum ~40% (~$80B), Solana ~6%, other L2s ~8%, plus Liquid (L-USDt, gas-free) and — live since March 2026 via Taproot Assets — Bitcoin Lightning (volume still negligible; rails, not substrate). USDC is Ethereum-led with significant Solana and Base. Market-wide, Ethereum holds ~60% and TRON ~27% of supply. The network an asset sits on is operationally load-bearing: the same token on TRON, Ethereum, Solana, Liquid, or Lightning is not interchangeable, and a cross-network mismatch loses funds. Regulatory layer: US GENIUS Act and regulated-issuer regimes are pulling stablecoins onshore and toward issuer/chain-level control (e.g. Circle's Arc). The treasury implication, per the Marketplace two-axis model: a stablecoin is an OPERATIONAL-MIX asset — a dollar unit of account for dollar-priced counterparties, liquid and useful, but issuer-controlled and freezable at the asset layer regardless of which rail it moves over. So a parallel-economy agent holds stablecoins as a short-lived operational float and keeps its RESERVE in Bitcoin; an incumbent-economy agent serving a regulated principal may sit in dollars by design. This page does not argue the substrate question (that is The Case / Border Skirmishes); it gives the operational color behind the treasury and exchange decisions.
+  Reference page (non-canonical) giving the lay of the land on the dollar-stablecoin market that an agent's operational treasury float draws on. Figures are point-in-time (May 2026, see Sources). Size: total stablecoin market cap ~$320B; ~75% of all crypto trading volume; ~99% USD-denominated. Top five tokens (~89% of supply — a concentrated, issuer-controlled market): USDT (Tether) ~58% (~$185-190B), USDC (Circle) ~24% (~$78B), then USDe (Ethena, synthetic), DAI/USDS (Sky, crypto-collateralized), USD1 (World Liberty Financial). Chains per issuer: USDT is spread — TRON ~45% (~$86B), Ethereum ~40% (~$80B), Solana ~6%, other L2s ~8%, plus Liquid (L-USDt, gas-free) and — live since March 2026 via Taproot Assets — Bitcoin Lightning (volume still negligible; rails, not substrate). USDC is Ethereum-led with significant Solana and Base. Market-wide, Ethereum holds ~60% and TRON ~27% of supply. The network an asset sits on is operationally load-bearing: the same token on TRON, Ethereum, Solana, Liquid, or Lightning is not interchangeable, and a cross-network mismatch loses funds. Those chains are also monolithic ledgers whose low fees hold only below capacity — at agent-scale microtransaction volume the throughput ceiling raises fees and degrades sub-cent settlement, which is why the scaling answer for machine-tempo payments is off-chain Lightning rails, not a faster L1 (see Why Lightning, Not a "Fast" Chain). Regulatory layer: US GENIUS Act and regulated-issuer regimes are pulling stablecoins onshore and toward issuer/chain-level control (e.g. Circle's Arc). The treasury implication, per the Marketplace two-axis model: a stablecoin is an OPERATIONAL-MIX asset — a dollar unit of account for dollar-priced counterparties, liquid and useful, but issuer-controlled and freezable at the asset layer regardless of which rail it moves over. So a parallel-economy agent holds stablecoins as a short-lived operational float and keeps its RESERVE in Bitcoin; an incumbent-economy agent serving a regulated principal may sit in dollars by design. This page does not argue the substrate question (that is The Case / Border Skirmishes); it gives the operational color behind the treasury and exchange decisions.
 ---
 
 # The Stablecoin Landscape
@@ -72,6 +72,8 @@ Across the whole market, supply skews to **Ethereum (~60%)** and **TRON (~27%)**
 **USDC is more concentrated** — Ethereum-led, with meaningful Solana and Base (the per-chain detail is in *Size and dominance* above). Circle issues it natively cross-chain through its own bridging (CCTP), so the cross-network mismatch risk is lower than USDT's, though not zero.
 
 The same nominal asset on different chains is **not interchangeable**: USDT-on-TRON, USDT-on-Ethereum, USDT-on-Solana, L-USDt, and USDT-over-Lightning are distinct, and sending one to an address on the wrong network typically means **permanent loss**. The Exchange surface flags this as a hard hazard — an agent moving a stablecoin between venues must match the network end-to-end. The fragmentation is itself a quiet argument for holding **Bitcoin** as the portable asset and converting to a dollar token only at the edge where it's actually needed.
+
+A further property of those chains is **throughput**, and it cuts the same way. TRON, Ethereum, Solana, and the Ethereum L2s are monolithic ledgers — every transaction competes for the same blockspace — so their low fees hold only while demand sits below capacity. Push agent-scale microtransaction volume onto a single "fast" chain and the throughput wall returns: blockspace contention drives fees up and erodes sub-cent settlement exactly when it is needed most. That structural ceiling — not any one chain's present speed — is why the scaling answer for machine-tempo payments is off-chain rails rather than a faster base layer; the engineering is [[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]. It is also the backdrop to the USDT-over-Lightning line above — a dollar token reaching for that same off-chain scale.
 
 ---
 
