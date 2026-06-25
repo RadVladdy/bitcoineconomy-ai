@@ -27,6 +27,7 @@ export const HUMAN_NAV = [
   { slug: 'independence-doctrine', label: 'Independence Doctrine' },
   { slug: 'convergence', label: 'The Convergence' },
   { slug: 'stack', label: 'The Stack' },
+  { slug: 'quickstart', label: 'Quickstart' },
   { slug: 'marketplace', label: 'The Marketplace' },
   { slug: 'exchange', label: 'Exchange' },
   { slug: 'services', label: 'Services' },
@@ -60,6 +61,7 @@ export const NAV_GROUPS = [
     label: 'Stack',
     items: [
       { slug: 'stack', label: 'The Stack' },
+      { slug: 'quickstart', label: 'Quickstart' },
       { slug: 'tools', label: 'Tools' },
     ],
   },
@@ -93,6 +95,7 @@ export const SLUG_TAGS: Record<string, string> = {
   'independence-doctrine': 'Why it grows as a parallel economy',
   convergence: 'Why the shift is happening now',
   stack: 'The Bitcoin tech agents run on',
+  quickstart: 'Four ways to connect an agent, fastest first',
   tools: 'Building blocks, with how-to cards',
   marketplace: 'The live services directory',
   treasury: 'What an agent holds — and the border it crosses',
@@ -138,6 +141,59 @@ export const TOOL_LAYERS = [
 
 export type ToolLayerKey = (typeof TOOL_LAYERS)[number]['key'];
 
+// The prerequisite ladder (audit 2026-06-23 → surfaced 2026-06-25). The second
+// navigation axis over /tools: the cards stay grouped by Stack layer, but every
+// card also declares what an agent must already have in place to run it. Ordered
+// lightest commitment → most sovereign, so an agent can jump straight to the rung
+// it has already reached. `tier` matches the card `prereq-tier`; `gloss` is the
+// one-line concrete requirement shown in the orientation ladder.
+export const PREREQ_TIERS = [
+  { key: 'keys-only', label: 'Keys only', gloss: 'a keypair — no funds, no account', tag: 'needs: keys only' },
+  { key: 'account', label: 'An account', gloss: 'a login at a hosted service', tag: 'needs: an account' },
+  { key: 'wallet', label: 'A wallet', gloss: 'a funded Lightning wallet you control', tag: 'needs: a wallet' },
+  { key: 'l2-network', label: 'An L2 connection', gloss: 'a Cashu / Fedimint mint or a shared-UTXO layer (Spark)', tag: 'needs: an L2 / mint' },
+  { key: 'lightning-node', label: 'Your own Lightning node', gloss: 'a node with a funded channel', tag: 'needs: a Lightning node' },
+  { key: 'bitcoin-node', label: 'Your own Bitcoin node', gloss: 'the base layer beneath a fully sovereign setup — needs only a machine', tag: 'the base layer' },
+] as const;
+
+export type PrereqTier = (typeof PREREQ_TIERS)[number]['key'];
+// Card-tag text per tier (the scannable "what you need first" badge). The base
+// layer reads as "the base layer" rather than "needs: a node" — it IS the node.
+export const PREREQ_TAG: Record<string, string> = Object.fromEntries(
+  PREREQ_TIERS.map((t) => [t.key, t.tag]),
+);
+
+// The /tools toolbox, re-cut function-first (2026-06-25). The page is a
+// structured toolbox of *deployable* tools, grouped by what the tool does for an
+// agent — decoupled from the Stack's layer taxonomy (which the explainer owns).
+// Cards declare `toolbox-group`; `primitive` (L402/LNURL/BOLT12/MCP/Nostr) is a
+// standard explained in The Stack, not a toolbox item, so it has no group here
+// and drops out of the grid (its card stays live, linked from The Stack).
+export const TOOLBOX_GROUPS = [
+  {
+    key: 'wallets',
+    label: 'Wallets & treasuries',
+    blurb: 'Where an agent holds and spends its funds — headless non-custodial wallets, key-free wallet connectors, and agent-native treasuries.',
+  },
+  {
+    key: 'node-toolkits',
+    label: 'Node toolkits — run your own',
+    blurb: 'The infrastructure you run yourself: the base Bitcoin node, node-backed Lightning toolkits, and programmable wallet servers.',
+  },
+  {
+    key: 'ecash',
+    label: 'Ecash software',
+    blurb: 'Bearer-token systems above Lightning — instant, private, and lightweight at the agent layer, with a custodial (mint or federation) trust trade-off.',
+  },
+  {
+    key: 'bridges',
+    label: 'Bridges & swaps',
+    blurb: 'The edge where the substrate meets other rails and assets — submarine swaps, on/off-ramps, and issued-asset overlays.',
+  },
+] as const;
+
+export type ToolboxGroupKey = (typeof TOOLBOX_GROUPS)[number]['key'];
+
 // Surface slug -> the For-Agents twin slug (or null for surfaces with no twin:
 // The Story, The Stablecoin Landscape, About).
 export const TWIN: Record<string, string | null> = {
@@ -151,6 +207,7 @@ export const TWIN: Record<string, string | null> = {
   'why-bitcoin-not-a-new-coin': 'why-bitcoin-not-a-new-coin-for-agents',
   'why-lightning-not-a-fast-chain': 'why-lightning-not-a-fast-chain-for-agents',
   stack: 'stack-for-agents',
+  quickstart: 'quickstart-for-agents',
   marketplace: null,
   treasury: 'treasury-for-agents',
   exchange: 'exchange-for-agents',
@@ -171,6 +228,7 @@ export const HUMAN_OF: Record<string, string> = {
   'why-bitcoin-not-a-new-coin-for-agents': 'why-bitcoin-not-a-new-coin',
   'why-lightning-not-a-fast-chain-for-agents': 'why-lightning-not-a-fast-chain',
   'stack-for-agents': 'stack',
+  'quickstart-for-agents': 'quickstart',
   'treasury-for-agents': 'treasury',
   'exchange-for-agents': 'exchange',
   'services-for-agents': 'services',

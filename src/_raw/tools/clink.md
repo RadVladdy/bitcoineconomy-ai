@@ -2,6 +2,7 @@
 name: CLINK (+ Lightning.Pub)
 slug: clink
 layer: integration
+toolbox-group: node-toolkits
 tagline: ShockNet's open standards for Lightning payments over Nostr — static offers, direct debits, and delegated spending permissions, addressed to NIP-05 identities, no web server required.
 tool-type: protocol
 maintainer: ShockNet

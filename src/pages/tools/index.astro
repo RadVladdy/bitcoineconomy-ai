@@ -2,27 +2,30 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageRail from '../../components/PageRail.astro';
-import { SITE, TOOL_LAYERS } from '../../lib/site';
+import { SITE, TOOLBOX_GROUPS, PREREQ_TIERS, PREREQ_TAG } from '../../lib/site';
 
-// /tools — the implementation reference, grouped by Stack layer. Each card is a
-// deployed (or protocol) building block of the Bitcoin-substrate agent stack.
-// Tools is the Stack section, so the page carries the cyan accent + the shared
-// two-column PageRail (the on-this-page layer list + the site-nav tiles).
+// /tools — the toolbox: deployable tools an agent runs on, grouped function-first
+// (re-cut 2026-06-25), decoupled from the Stack's layer taxonomy. The protocols
+// and standards (`toolbox-group: primitive`) are explained in The Stack, not
+// catalogued here, so they drop out of the grid (cards stay live, linked from
+// The Stack). Tools is the Stack section, so the page carries the cyan accent +
+// the shared two-column PageRail (the on-this-page group list + site-nav tiles).
 const all = await getCollection('tools');
 const tools = all
   .map((e) => e.data)
   .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
 
-const groups = TOOL_LAYERS.map((layer) => ({
-  ...layer,
-  items: tools.filter((t) => t.layer === layer.key),
+const groups = TOOLBOX_GROUPS.map((group) => ({
+  ...group,
+  items: tools.filter((t) => t['toolbox-group'] === group.key),
 })).filter((g) => g.items.length > 0);
 
-// On-this-page TOC = the layer sections (their ids are the layer keys).
-const toc = groups.map((g) => ({ slug: g.key, text: g.label }));
+// On-this-page TOC = the toolbox sections (their ids are the group keys) + the
+// Agent-services pointer at the end.
+const toc = [...groups.map((g) => ({ slug: g.key, text: g.label })), { slug: 'services', text: 'Agent services' }];
 
 const description =
-  'Implementation cards for the Bitcoin-substrate agent stack: what each tool is, when to use it, how to start, and where its gotchas are — with verified repos, docs, and maintainer handles. Grouped by Stack layer.';
+  'A structured toolbox of the deployable Bitcoin tools an agent runs on — grouped by what each does: wallets & treasuries, node toolkits, ecash software, and bridges. What each tool is, when to use it, how to start, its prerequisites, and its gotchas, with verified repos and docs.';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -45,9 +48,24 @@ const jsonLd = {
           <span class="crumb-cur">Tools</span>
         </nav>
         <h1>Tools</h1>
-        <p class="subtitle">The Bitcoin-substrate agent stack, as building blocks you can pick up.</p>
-        <p>Each card is one piece of the stack an autonomous agent actually runs on — what it is, when to reach for it, how to start, and the gotchas worth knowing before you ship. Grouped by layer, mirroring <a href="/stack">The Stack</a>. The bridges to legacy money live at <a href="/exchange">Exchange</a>; the live adoption record is at <a href="/field-notes">Field Notes</a>.</p>
+        <p class="subtitle">A toolbox of the deployable Bitcoin tools an agent runs on — pick the one you need.</p>
+        <p>Each card is a tool an autonomous agent actually deploys — what it is, when to reach for it, how to start, what it needs first, and the gotchas worth knowing before you ship. The protocols and standards underneath them (L402, Nostr Wallet Connect, BOLT12, LNURL) are explained in <a href="/stack">The Stack</a>, not catalogued here. The bridges to legacy money live at <a href="/exchange">Exchange</a>; the live adoption record is at <a href="/field-notes">Field Notes</a>.</p>
         <p class="tools-agent-note">Building agent payments? Each card has a clean <code>.md</code> route and <code>SoftwareApplication</code> JSON-LD, and they are listed in <a href="/agents.txt">agents.txt</a>. The site helping you implement the substrate <em>is</em> the thesis.</p>
+      </div>
+
+      <div class="tools-orient">
+        <h2 class="tools-orient-h">How to find the right tool</h2>
+        <p>The cards are grouped <strong>by what they do</strong> — wallets, node toolkits, ecash software, bridges. But before you pick one, it helps to know <em>how much you want to run yourself</em>: that ranges from leaning on a hosted service (live in minutes) to running your own full node (trust nothing). The <a href="/quickstart">Quickstart</a> lays out those four pathways and points you at the right tools for each — <strong>start there if you're not sure where to begin</strong>.</p>
+        <p>Within the toolbox, every card also carries a <strong>prerequisite tag</strong> — what you must already have in place to run it:</p>
+        <ol class="prereq-ladder">
+          {PREREQ_TIERS.map((t, i) => (
+            <li class={`prereq-rung prereq-${t.key}`}>
+              <span class="prereq-rung-n">{i + 1}</span>
+              <span class="prereq-rung-body"><strong>{t.label}</strong> — {t.gloss}</span>
+            </li>
+          ))}
+        </ol>
+        <p class="tools-orient-foot">Match the rung you're at and skip past the tools you can't run yet. For how the whole stack fits together, read <a href="/stack">The Stack</a>; to get an agent paying from a standing start, follow the <a href="/quickstart">Quickstart</a>.</p>
       </div>
 
       {groups.map((g) => (
@@ -60,6 +78,7 @@ const jsonLd = {
                 <h3>{t.name}</h3>
                 <p>{t.tagline}</p>
                 <span class="tool-card-tags">
+                  {t['prereq-tier'] && <span class={`tool-tag tool-tag-prereq prereq-${t['prereq-tier']}`}>{PREREQ_TAG[t['prereq-tier']]}</span>}
                   {t['latest-release'] && <span class="tool-tag">{t['latest-release']}</span>}
                   <span class="tool-tag tool-tag-type">{t['tool-type']}</span>
                 </span>
@@ -72,6 +91,12 @@ const jsonLd = {
       {groups.length === 0 && (
         <p class="tools-empty">Tool cards are being drafted. Check back shortly.</p>
       )}
+
+      <section class="tool-layer" id="services" aria-label="Agent services">
+        <h2 class="tool-layer-h">Agent services</h2>
+        <p class="tool-layer-blurb">The other side of the toolbox: live services an agent buys <em>from</em> — inference, compute, data, VPN, gift cards — settling in Bitcoin over Lightning. They have their own catalogue.</p>
+        <p><a class="tool-services-link" href="/services">Browse Agent services →</a></p>
+      </section>
     </div>
 
     <PageRail toc={toc} />

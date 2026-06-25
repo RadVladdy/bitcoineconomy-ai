@@ -2,6 +2,7 @@
 name: Model Context Protocol (MCP)
 slug: mcp
 layer: integration
+toolbox-group: primitive
 tagline: The open standard for giving agents structured access to tools and data — the rail a Lightning payment server plugs into so an agent can pay from inside its workflow.
 tool-type: protocol
 maintainer: Anthropic & the MCP community

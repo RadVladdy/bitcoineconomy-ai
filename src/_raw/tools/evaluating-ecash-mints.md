@@ -2,6 +2,7 @@
 name: Evaluating an ecash mint
 slug: evaluating-ecash-mints
 layer: ecash
+toolbox-group: ecash
 tagline: How to judge whether a Cashu or Fedimint mint is trustworthy — the hard solvency signals, the reputation layer, and the one rule that beats all of them.
 tool-type: guide
 maintainer: "reference page (this project)"

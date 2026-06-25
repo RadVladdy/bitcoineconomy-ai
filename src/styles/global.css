@@ -393,6 +393,17 @@ figure.matrix .matrix-title {
 .tool-layer { margin: 2.6rem 0 0; scroll-margin-top: 5.5rem; }
 .tool-layer-h { font-size: 1.3rem; margin-bottom: 0.2rem; }
 .tool-layer-blurb { color: var(--fg-soft); font-size: 0.95rem; margin: 0 0 0.4rem; max-width: 46rem; }
+.tool-services-link {
+  display: inline-block;
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  color: var(--electric);
+  border: 1px solid color-mix(in srgb, var(--electric) 40%, var(--rule));
+  border-radius: 7px;
+  padding: 0.35rem 0.8rem;
+  text-decoration: none;
+}
+.tool-services-link:hover { border-color: var(--electric); }
 /* Card tiles embedded inside an essay (Exchange / Services) get a little breathing room. */
 .prose .surface-grid { margin: 1.4rem 0 0.6rem; }
 .tool-card { display: flex; flex-direction: column; }
@@ -405,7 +416,55 @@ figure.matrix .matrix-title {
   color: var(--fg-soft);
 }
 .tool-tag-type { text-transform: capitalize; }
+/* The scannable per-card prereq badge — cyan text (the Stack axis), neutral
+   border so it stays quiet across the whole grid. */
+.tool-tag-prereq { color: var(--electric); }
 .tools-empty { color: var(--fg-soft); text-align: center; margin: 3rem 0; }
+
+/* Tools orientation block + the prerequisite ladder (the second navigation axis
+   over the layer grouping — "what do I need in place before I can use this?"). */
+.tools-orient {
+  max-width: 46rem;
+  margin: 1.6rem auto 0.5rem;
+  padding: 1.1rem 1.3rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+.tools-orient-h { font-size: 1.05rem; margin: 0 0 0.5rem; }
+.tools-orient p { color: var(--fg-soft); font-size: 0.95rem; margin: 0 0 0.7rem; }
+.tools-orient a { color: var(--link); }
+.tools-orient-foot { margin-bottom: 0; }
+.prereq-ladder {
+  list-style: none;
+  margin: 0 0 0.9rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.prereq-rung {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+  color: var(--fg-soft);
+}
+.prereq-rung-n {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: 0.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--electric);
+  color: var(--electric);
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+.prereq-rung-body strong { color: var(--fg); }
 
 .tool-page .tool-eyebrow {
   font-family: var(--font-body);

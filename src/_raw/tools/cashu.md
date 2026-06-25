@@ -2,6 +2,7 @@
 name: Cashu
 slug: cashu
 layer: ecash
+toolbox-group: ecash
 tagline: Chaumian bearer ecash on Bitcoin — instant, private, lightweight tokens an agent can hold and spend without channels or accounts.
 tool-type: protocol
 maintainer: Cashu (calle / OpenSats)

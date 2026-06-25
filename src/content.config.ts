@@ -65,6 +65,14 @@ const tools = defineCollection({
     name: z.string(),
     slug: z.string(),
     layer: z.enum(['base', 'integration', 'ecash', 'wallets', 'services', 'bridges']),
+    // Function-first toolbox grouping (re-cut 2026-06-25). Drives the /tools
+    // toolbox sections (TOOLBOX_GROUPS in site.ts), decoupled from `layer` (which
+    // still maps to the Stack). `primitive` = a protocol/standard explained in
+    // The Stack, not a deployable tool — its card stays live but drops out of the
+    // toolbox grid. Falls back to the legacy `layer` grouping if unset.
+    'toolbox-group': z
+      .enum(['wallets', 'node-toolkits', 'ecash', 'bridges', 'primitive'])
+      .optional(),
     tagline: z.string(),
     'tool-type': z.enum(['software', 'protocol', 'service', 'guide']).default('software'),
     // Prerequisite axis (audit 2026-06-23): what an agent must already have to

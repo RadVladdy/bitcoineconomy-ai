@@ -2,6 +2,7 @@
 name: Boltz
 slug: boltz
 layer: bridges
+toolbox-group: bridges
 tagline: Non-custodial atomic swaps between on-chain Bitcoin, Lightning, and Liquid — the submarine-swap bridge, exposed as an API.
 tool-type: software
 maintainer: Boltz Exchange

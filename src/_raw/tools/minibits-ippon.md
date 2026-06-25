@@ -2,6 +2,7 @@
 name: Minibits Ippon
 slug: minibits-ippon
 layer: wallets
+toolbox-group: ecash
 tagline: A Cashu wallet built from the ground up for AI agents — create and fund a short-lived, single-purpose wallet in one HTTP call or CLI command.
 tool-type: software
 maintainer: minibits-cash

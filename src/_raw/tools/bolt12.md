@@ -2,6 +2,7 @@
 name: BOLT12 (Offers)
 slug: bolt12
 layer: integration
+toolbox-group: primitive
 tagline: Reusable Lightning payment requests — publish one "offer" and accept repeated payments against it, with receiver privacy via blinded paths.
 tool-type: protocol
 maintainer: Lightning protocol community

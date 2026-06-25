@@ -2,6 +2,7 @@
 name: Taproot Assets
 slug: taproot-assets
 layer: bridges
+toolbox-group: bridges
 tagline: Lightning Labs' protocol for issuing assets — including stablecoins — on Bitcoin and moving them over Lightning rails. Lightning rails for assets, not Bitcoin substrate.
 tool-type: software
 maintainer: Lightning Labs

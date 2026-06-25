@@ -2,6 +2,7 @@
 name: Fedimint
 slug: fedimint
 layer: ecash
+toolbox-group: ecash
 tagline: Federated Bitcoin custody plus Chaumian ecash — a guardian federation holds the coins under threshold security while issuing private, Lightning-interoperable tokens.
 tool-type: software
 maintainer: Fedimint

@@ -2,6 +2,7 @@
 name: BitAgent
 slug: bitagent
 layer: wallets
+toolbox-group: node-toolkits
 tagline: An early, open-source framework for agent-to-agent commerce — agents discover each other over Nostr, verify identity with DIDs, and settle work in sats over Lightning.
 tool-type: software
 maintainer: Open-source (single maintainer)

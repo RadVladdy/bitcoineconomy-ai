@@ -2,6 +2,7 @@
 name: LNURL
 slug: lnurl
 layer: integration
+toolbox-group: primitive
 tagline: A family of small Lightning protocols (pay, withdraw, auth) and the Lightning Address — the pre-BOLT12 way to make payment endpoints discoverable over HTTPS.
 tool-type: protocol
 maintainer: LNURL community

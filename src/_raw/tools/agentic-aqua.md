@@ -2,6 +2,7 @@
 name: Agentic AQUA
 slug: agentic-aqua
 layer: wallets
+toolbox-group: wallets
 tagline: Jan3's open-source MCP wallet — an AI assistant generates addresses, checks balances, and sends Bitcoin, Liquid, or Lightning (via Boltz swaps) from one seed, by natural language.
 tool-type: software
 maintainer: Jan3

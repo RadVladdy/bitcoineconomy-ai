@@ -2,6 +2,7 @@
 name: Nostr
 slug: nostr
 layer: integration
+toolbox-group: primitive
 tagline: The open identity-and-discovery layer under the agent stack — cryptographic keypairs for portable identity, and relays for censorship-resistant service discovery. It's how an agent finds providers and controls a wallet; the money itself rides Lightning/Cashu.
 tool-type: protocol
 maintainer: Nostr open protocol & community (NIPs)

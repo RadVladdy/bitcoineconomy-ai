@@ -2,6 +2,7 @@
 name: LNbits
 slug: lnbits
 layer: wallets
+toolbox-group: node-toolkits
 tagline: The most widely deployed programmable Lightning platform — isolated wallets, a clean REST API, and an extension ecosystem on top of any node backend.
 tool-type: software
 maintainer: LNbits

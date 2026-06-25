@@ -1,9 +1,11 @@
 // Port the vault source surfaces + card collections (src/_raw/**) into the Astro
 // content collections (src/content/**), applying the porting rules:
 //   1. Strip "## Editor's Notes" (and the Publications backlinks block) from
-//      human surfaces AND from every card (tools / exchanges / services) — both
-//      are internal author perspective and must never reach the public HTML or
-//      the .md agent routes. FA twins have none.
+//      EVERY surface (human + For-Agents twins) AND every card (tools /
+//      exchanges / services) — all are internal author perspective and must
+//      never reach the public HTML or the .md agent routes. (Most FA twins
+//      carry no Editor's Notes, so this is a no-op for them; the strip is
+//      unconditional so a twin that does carry one can't leak.)
 //   2. Convert [[wikilinks]] -> site routes for every surface AND every card
 //      (tools / exchanges / services). Strip the link (keep display text) for
 //      any non-resolvable target (KB notes, Research/ files, style guides).
@@ -331,7 +333,7 @@ for (const file of fs.readdirSync(RAW)) {
   const raw = fs.readFileSync(path.join(RAW, file), 'utf8');
   let { fm, body } = splitFrontmatter(raw);
   const isHuman = !file.endsWith('-FA.md');
-  if (isHuman) body = stripEditorsNotes(body);
+  body = stripEditorsNotes(body); // internal Editor's Notes are stripped from EVERY surface (human + FA twins)
   body = convertWikilinks(body);
   fm = sanitizeFrontmatterWikilinks(fm);
   body = stripLeadingTitle(body);

@@ -2,6 +2,7 @@
 name: Spark
 slug: spark
 layer: ecash
+toolbox-group: ecash
 tagline: A shared-UTXO, Lightning-compatible Bitcoin L2 for instant, near-zero-cost transfers of BTC and Bitcoin-native assets — no bridges, no wrapping.
 tool-type: software
 maintainer: Lightspark

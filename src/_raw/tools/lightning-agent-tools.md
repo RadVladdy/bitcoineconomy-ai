@@ -2,6 +2,7 @@
 name: lightning-agent-tools
 slug: lightning-agent-tools
 layer: wallets
+toolbox-group: node-toolkits
 tagline: Lightning Labs' production AI-agent toolkit — composable skills plus an MCP server that let an agent run a node, pay L402 APIs, host paid endpoints, and keep its keys isolated.
 tool-type: software
 maintainer: Lightning Labs

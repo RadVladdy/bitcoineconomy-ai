@@ -2,6 +2,7 @@
 name: Xverse Agent Wallet
 slug: xverse-agent-wallet
 layer: wallets
+toolbox-group: wallets
 tagline: A self-custodial Bitcoin wallet built for AI agents — it answers an HTTP 402 by paying the Lightning invoice itself, no human checkout.
 tool-type: software
 maintainer: Secret Key Labs

@@ -150,6 +150,8 @@ The next three are not stacked layers — they run across all three: the protoco
 
 The agent-integration primitives are the protocol-level affordances that let autonomous software interact with the Stack. They are what distinguishes "Bitcoin / Lightning / Cashu deployed for human users" from "Bitcoin / Lightning / Cashu deployed for autonomous agents."
 
+**Where 402 comes from.** The first of these primitives revives a corner of the web that was reserved, then left empty, for three decades. When the web's authors wrote the early HTTP specification, they set aside a status code — **402 Payment Required** — for a server to tell a client it must pay before a resource is served. But there was no money native to the internet to settle that payment, so 402 sat dormant, marked *"reserved for future use"* in the spec: a placeholder for a payment layer the early web anticipated but never got. Lightning is what finally fills it in. L402 takes that long-reserved code, pairs it with a Lightning invoice and a cryptographic credential, and ships the pay-per-resource idea the protocol gestured at thirty years ago.
+
 **[[l402|L402]]** — HTTP status code 402 ("Payment Required") plus macaroon-mediated authentication, plus a Lightning payment for value transfer. A **macaroon** here is a cryptographic credential — think of a cookie that can carry its own embedded rules — and a **preimage** is the secret a Lightning payment reveals when it settles, which doubles as a receipt. The protocol flow: the client requests a paid resource over HTTP; the server responds with `HTTP 402` containing a Lightning invoice and a macaroon; the client pays the invoice; the payment preimage authenticates the macaroon; the client retries the request with an `Authorization: L402 <macaroon>:<preimage>` header; the server verifies and grants access. The macaroon carries scoped caveats — expiry, rate limits, permission scope — so an agent can pay once and reuse the credential across requests within those bounds. The pattern composes cleanly with agent workflows: paid-API access, paywalled-content retrieval, per-call compute purchase. (How a regulated service operator applies its jurisdiction's compliance regime at the HTTP boundary while leaving the Lightning payment itself permissionless is treated at [[Exchange]] under *Compliance lives at the gateway*.)
 
 **[[alby-nwc|Nostr Wallet Connect (NWC; NIP-47)]]** — a wallet-API standard letting applications and agents control Lightning wallets remotely without exposing private keys. NWC defines capabilities (invoice creation, payment sending, balance queries, transaction history) and a Nostr-mediated communication channel between the wallet (which holds keys) and the application (which signs nothing). The architectural property: an agent can hold an NWC connection rather than a private key, drastically reducing the agent's attack surface. Compromise of the agent's environment loses the NWC connection (revocable by the wallet operator) but not the underlying keys.
@@ -232,9 +234,22 @@ Honest engagement with agent-specific attack surfaces — key theft, rogue-behav
 
 ---
 
+## Assembling a stack
+
+The layers and primitives above compose into a handful of recognisable stacks. Three common shapes, each a different point on the *how much you run yourself* spectrum:
+
+- **Sovereign full-node stack** — [[bitcoin-core|Bitcoin Core]] (full validation) under an `lnd` node, with [[lnbits|LNbits]] for programmable wallets and accounts and [[loop|Loop]] for rebalancing between Lightning and L1. Maximum sovereignty and censorship-resistance; heaviest to run.
+- **Light-client node stack** — `lnd` on a Neutrino light client (no full chain copy) driven by [[lightning-agent-tools|Lightning Agent Tools]], or [[clink|Lightning.Pub]] as an all-in-one node on minimal hardware. Real channels and self-custody without the storage; trust reduces to block headers.
+- **No-node stack** — a headless wallet ([[xverse-agent-wallet|Xverse Agent Wallet]]) or a key-free connector ([[alby-nwc|NWC]] / [[mcp|MCP]]) for custody and payments, with [[cashu|Cashu]] as a private spending float. Live in minutes; you depend on the wallet or mint infrastructure rather than your own node.
+
+Which shape fits comes down to the trade-off you want between sovereignty and effort. The [[Quickstart]] walks that decision as four pathways and points you at the specific tools for each; the [Tools](/tools) toolbox catalogues every component above.
+
+---
+
 > [!info] Where to read next
 > **More in The Stack** (this section):
-> - **[Tools](/tools)** — implementation cards for the substrate building blocks named in this essay: what each is, when to use it, how to start, plus gotchas, with verified repos and maintainer handles. Grouped by the same layers.
+> - **[[Quickstart]]** — get an agent paying from a standing start: four pathways from a hosted service (live in minutes) to a full sovereign node, with the right tools for each.
+> - **[Tools](/tools)** — the toolbox: implementation cards for the deployable tools named in this essay — what each is, when to use it, how to start, its prerequisites, and its gotchas, with verified repos and maintainer handles.
 >
 > **In the other sections:**
 > - **[[Case|The Case]]** *(why agents choose Bitcoin)* — the substrate-selection claim upstream of this architecture: the four requirements that all have to hold at once, why Bitcoin, why now.

@@ -2,6 +2,7 @@
 name: Alby & Nostr Wallet Connect (NWC)
 slug: alby-nwc
 layer: integration
+toolbox-group: wallets
 tagline: A standard for controlling a Lightning wallet remotely — scoped, budgeted, and revocable — without ever handing over the keys.
 tool-type: software
 maintainer: Alby

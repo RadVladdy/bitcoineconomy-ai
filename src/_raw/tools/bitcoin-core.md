@@ -2,6 +2,7 @@
 name: bitcoin-core
 slug: bitcoin-core
 layer: base
+toolbox-group: node-toolkits
 tagline: The reference Bitcoin full node — the L1 root every self-custodial Lightning setup sits on. Validate the chain yourself, hold your own keys, and expose RPC for the tools above it.
 tool-type: software
 maintainer: Bitcoin Core project

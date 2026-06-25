@@ -2,6 +2,7 @@
 name: Loop
 slug: loop
 layer: bridges
+toolbox-group: bridges
 tagline: Lightning Labs' non-custodial liquidity bridge — Loop Out and Loop In move balance between Lightning and on-chain via submarine swaps.
 tool-type: software
 maintainer: Lightning Labs
