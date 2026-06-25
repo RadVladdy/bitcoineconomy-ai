@@ -296,6 +296,14 @@ const INSERTS = {
     // honest property-check crystallises the whole essay once it's been earned.
     { afterText: 'already spent the time', html: '<div data-diagram="new-coin-check"></div>' },
   ],
+  'Why-Lightning-Not-A-Fast-Chain.md': [
+    // Two terminals, mirroring The Story's fail/success split: the failure (sub-cent
+    // pay on a "fast" chain — fee dwarfs payment / dropped under congestion) sits in
+    // the problem section (§2 close), and the resolution (same payment over Lightning)
+    // sits in the solution section (§3, after the channel-mechanics paragraph).
+    { afterText: 'moving most transactions off the shared ledger entirely', html: '<div data-diagram="scaling-fail"></div>' },
+    { afterText: 'touch the base layer only to open, close, or settle', html: '<div data-diagram="scaling-success"></div>' },
+  ],
 };
 
 function insertVisuals(body, file) {

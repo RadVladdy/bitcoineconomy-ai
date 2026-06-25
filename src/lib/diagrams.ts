@@ -473,6 +473,42 @@ export function newCoinCheck(): string {
   });
 }
 
+/* 14 — Why Lightning, not a "fast" chain: the scaling split. Two terminals,
+   mirroring The Story's fail/success pair. scalingFail sits in the problem section
+   (§2): a sub-cent machine payment on a "fast" chain — the fee dwarfs the payment
+   and it's dropped under congestion. scalingSuccess sits in the solution section
+   (§3): the same payment over Lightning, settled in under a second. Same builder +
+   register; the interaction stands alone, the prose narrates. */
+export function scalingFail(): string {
+  return terminalScene({
+    id: 'scaling-fail', outcome: 'fail', title: 'agent · sub-cent pay · a "fast" chain',
+    lines: [
+      { t: 'agent@btc ~ $ pay 0.002 USDC → data-feed.api', kind: 'cmd' },
+      { t: '→ submit micropayment · tx #48,213', kind: 'send' },
+      { t: '← fee ≈ $4.20 to move $0.002 · network congested', kind: 'recv' },
+      { t: '→ fee exceeds payment 2,100× · retry at floor', kind: 'send' },
+      { t: '← underpriced · dropped from mempool · pending…', kind: 'fail' },
+      { t: '✗ loop stalled · SLA missed · 1,204 tx queued', kind: 'fail' },
+    ],
+    caption: 'The problem: a sub-cent machine payment on a "fast" chain. The network fee dwarfs the payment, and under congestion the transaction is dropped — the documented failure mode that stalls a machine-tempo loop.',
+  });
+}
+
+export function scalingSuccess(): string {
+  return terminalScene({
+    id: 'scaling-success', outcome: 'pass', title: 'agent · same payment · Lightning',
+    lines: [
+      { t: 'agent@btc ~ $ pay 0.002 → data-feed.api  [over Lightning]', kind: 'cmd' },
+      { t: '→ route the same payment over Lightning · 3 hops', kind: 'send' },
+      { t: '← PAID · 0.4s · fee < 0.01¢ · no permission', kind: 'pass' },
+      { t: '→ GET /data-feed  [settled]', kind: 'send' },
+      { t: '← 200 OK · data returned', kind: 'recv' },
+      { t: '✓ loop continues · tx #48,214', kind: 'pass' },
+    ],
+    caption: 'The answer: the same payment over Lightning. It routes off-chain and settles in under a second for a fraction of a cent, with no one\'s permission — only periodic settlement ever touches the base layer.',
+  });
+}
+
 export const DIAGRAMS: Record<string, () => string> = {
   stack: stackDiagram,
   'two-tier': twoTierDiagram,
@@ -489,4 +525,6 @@ export const DIAGRAMS: Record<string, () => string> = {
   'services-pay': servicesPay,
   'exchange-swap': exchangeSwap,
   'new-coin-check': newCoinCheck,
+  'scaling-fail': scalingFail,
+  'scaling-success': scalingSuccess,
 };
