@@ -152,6 +152,27 @@
       "quickstart": "Run loopd against an LND node holding both channel and on-chain balance; loop out / loop in rebalance atomically (a fee to the Loop server applies)."
     },
     {
+      "slug": "amboss",
+      "source": "tools/amboss.md",
+      "category": "liquidity",
+      "what_an_agent_buys": "Inbound Lightning liquidity — buy a channel opened to your node so the agent can receive payments; sized in dollars, leased for a term, paid in sats",
+      "payment_methods": ["lightning", "onchain"],
+      "automatability": "api-no-account",
+      "kyc": "none",
+      "custody": "self-custodial — non-custodial HODL-invoice escrow; the leased channel opens directly to your own node",
+      "auth": "none on the buy path — liquidity.buy is a public GraphQL mutation; anonymous buyers get a session_key to track the order. Optional MAGMA_API_KEY (Amboss account) adds persistent history.",
+      "quickstart": "Estimate with the public liquidity_per_usd query, then call the public liquidity.buy mutation (magma.amboss.tech/graphql) with your node's connection_uri (pubkey@host:port) and usd_cents (min 500); pay the returned HODL invoice from your LND/CLN/Eclair node; poll get_order to VALID_CHANNEL_OPENING. Or run the MIT magma-mcp server (npm @ambosstech/magma-mcp) — one buy_lightning_liquidity tool over stdio.",
+      "mcp_endpoint": {
+        "transport": "stdio",
+        "package": "@ambosstech/magma-mcp",
+        "tool": "buy_lightning_liquidity",
+        "repo": "https://github.com/AmbossTech/magma-mcp",
+        "license": "MIT",
+        "_note": "Staged for roadmap 10a (the mcp_endpoint registry). build.mjs does not yet surface this field; captured here so 10a can route agents discover-here then connect-there-to-act. Amboss's MCP is stdio/npm, not a hosted HTTP endpoint, so the registry schema must express transport, not just a URL."
+      },
+      "note": "Magma is a leading Lightning channel-liquidity marketplace; the buy side is agent-drivable with no account. Two-sided — sellers earn yield providing liquidity (Magma sell-side / Rails). Magma AI recommends peers/sizing (a recommender, not an auto-rebalancer)."
+    },
+    {
       "slug": "strike",
       "source": "exchanges/strike.md",
       "category": "fiat-ramp",

@@ -68,6 +68,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 ## Liquidity (Lightning channel/balance management)
 
 - [Loop](https://marketplace.bitcoineconomy.ai/entries/loop.md): Lightning ↔ on-chain liquidity — non-custodial submarine swaps for LND nodes, fee for service. Payment: lightning/onchain; KYC: none; automatability: api-no-account.
+- [Amboss](https://marketplace.bitcoineconomy.ai/entries/amboss.md): Inbound Lightning liquidity — buy a channel opened to your node so the agent can receive payments; sized in dollars, leased for a term, paid in sats. Payment: lightning/onchain; KYC: none; automatability: api-no-account.
 
 ## Fiat ramps (custodial venues at the border; KYC noted per entry)
 

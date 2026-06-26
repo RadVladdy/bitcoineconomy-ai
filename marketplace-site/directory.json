@@ -2,8 +2,8 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line). An MCP server at /mcp exposes the directory as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote) for agents that call rather than fetch. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-06-25T19:02:58.305Z",
-  "entry_count": 17,
+  "generated_at": "2026-06-26T04:00:24.121Z",
+  "entry_count": 18,
   "categories": [
     "inference",
     "compute",
@@ -381,6 +381,34 @@
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/loop.md",
       "provenance": "curated",
       "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "amboss",
+      "name": "Amboss",
+      "category": "liquidity",
+      "summary": "A Lightning channel-liquidity marketplace — buy inbound capacity from a public market with one API call (or an MIT MCP server), no account needed.",
+      "what_an_agent_buys": "Inbound Lightning liquidity — buy a channel opened to your node so the agent can receive payments; sized in dollars, leased for a term, paid in sats",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
+      "kyc": "none",
+      "custody": "self-custodial — non-custodial HODL-invoice escrow; the leased channel opens directly to your own node",
+      "automatability": "api-no-account",
+      "auth": "none on the buy path — liquidity.buy is a public GraphQL mutation; anonymous buyers get a session_key to track the order. Optional MAGMA_API_KEY (Amboss account) adds persistent history.",
+      "quickstart": "Estimate with the public liquidity_per_usd query, then call the public liquidity.buy mutation (magma.amboss.tech/graphql) with your node's connection_uri (pubkey@host:port) and usd_cents (min 500); pay the returned HODL invoice from your LND/CLN/Eclair node; poll get_order to VALID_CHANNEL_OPENING. Or run the MIT magma-mcp server (npm @ambosstech/magma-mcp) — one buy_lightning_liquidity tool over stdio.",
+      "two_sided": "consume + offer",
+      "maintainer": "Amboss Technologies",
+      "links": {
+        "site": "https://magma.amboss.tech",
+        "docs": "https://docs.amboss.tech/developer",
+        "repo": "https://github.com/AmbossTech/magma-mcp"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/amboss",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/amboss.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-25",
+      "note": "Magma is a leading Lightning channel-liquidity marketplace; the buy side is agent-drivable with no account. Two-sided — sellers earn yield providing liquidity (Magma sell-side / Rails). Magma AI recommends peers/sizing (a recommender, not an auto-rebalancer)."
     },
     {
       "slug": "strike",
