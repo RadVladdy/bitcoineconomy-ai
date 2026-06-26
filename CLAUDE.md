@@ -42,6 +42,13 @@ Shared building blocks (reuse these — don't re-implement):
 Adding a page of an **existing** collection (a tool/service/exchange/surface) is
 automatic: the `[slug].astro` templates already apply the full treatment.
 
+**Card pages also auto-render a "For agents — connect" block** (10b) — both on the
+HTML page and the clean `.md` route — from `src/lib/agent-connect.ts`, which reads
+the marketplace's **generated** `directory.json` + `tools.json` by slug. So the
+machine path (pay/auth/api_base/quickstart/`mcp_endpoint`) lives in
+`marketplace-site/directory-overlay.json` (NOT card frontmatter); after changing it,
+run `node build.mjs` in `marketplace-site/` so the connect blocks pick it up.
+
 Adding a **new page type** (its own `.astro`) — wire it in by hand so it matches:
 1. `<Base ... wide={true}>`
 2. Wrap the content: `<div class="surface-layout accent-{btc|cyan|agent}">` (pick the section's colour).
