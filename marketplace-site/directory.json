@@ -1,8 +1,8 @@
 {
-  "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line). An MCP server at /mcp exposes the directory as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote) for agents that call rather than fetch. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
+  "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-06-26T04:00:24.121Z",
+  "generated_at": "2026-06-26T04:28:08.429Z",
   "entry_count": 18,
   "categories": [
     "inference",
@@ -16,6 +16,7 @@
   ],
   "live_routes": {
     "mcp": "https://marketplace.bitcoineconomy.ai/mcp",
+    "tools_catalog": "https://marketplace.bitcoineconomy.ai/tools.json",
     "snapshot": "https://marketplace.bitcoineconomy.ai/live/snapshot.json",
     "models_price_index": "https://marketplace.bitcoineconomy.ai/live/models.json"
   },
@@ -219,8 +220,21 @@
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-account",
       "auth": "MCP server: OAuth or API key (account developers page) — auth-gated, probed alive 2026-06-11. Thor API key alternative. No KYC for ordinary purchases; guest checkout = email only.",
-      "api_base": "https://api.bitrefill.com/mcp",
       "quickstart": "Connect the remote MCP server at https://api.bitrefill.com/mcp (OAuth or API key): search-products → get-product-details → buy-products (≤15 items/invoice) → pay the Lightning invoice → get-invoice-by-id returns the redemption code. Setup: bitrefill.com/agents (machine-readable SKILL.md). Raw-HTTP alternative: the Thor API.",
+      "mcp_endpoint": {
+        "kind": "service",
+        "transport": "http",
+        "url": "https://api.bitrefill.com/mcp",
+        "auth": "OAuth or API key (account developers page)",
+        "tools": [
+          "search-products",
+          "get-product-details",
+          "buy-products",
+          "get-invoice-by-id"
+        ],
+        "docs": "https://www.bitrefill.com/agents",
+        "note": "Bitrefill's own remote MCP — connect here to buy from the catalog (≤15 items/invoice). 7 typed tools total; named ones verified 2026-06-11. Not an L402 endpoint, so the directory does not bare-GET-probe it."
+      },
       "two_sided": "consume",
       "maintainer": "Bitrefill",
       "links": {
@@ -397,6 +411,18 @@
       "automatability": "api-no-account",
       "auth": "none on the buy path — liquidity.buy is a public GraphQL mutation; anonymous buyers get a session_key to track the order. Optional MAGMA_API_KEY (Amboss account) adds persistent history.",
       "quickstart": "Estimate with the public liquidity_per_usd query, then call the public liquidity.buy mutation (magma.amboss.tech/graphql) with your node's connection_uri (pubkey@host:port) and usd_cents (min 500); pay the returned HODL invoice from your LND/CLN/Eclair node; poll get_order to VALID_CHANNEL_OPENING. Or run the MIT magma-mcp server (npm @ambosstech/magma-mcp) — one buy_lightning_liquidity tool over stdio.",
+      "mcp_endpoint": {
+        "kind": "service",
+        "transport": "stdio",
+        "package": "@ambosstech/magma-mcp",
+        "run": "npx -y @ambosstech/magma-mcp",
+        "tools": [
+          "buy_lightning_liquidity"
+        ],
+        "repo": "https://github.com/AmbossTech/magma-mcp",
+        "license": "MIT",
+        "note": "Amboss's own MCP server — connect here to actually buy inbound liquidity. One stdio tool; needs your node connection_uri and an LND/CLN/Eclair wallet to pay the HODL invoice."
+      },
       "two_sided": "consume + offer",
       "maintainer": "Amboss Technologies",
       "links": {

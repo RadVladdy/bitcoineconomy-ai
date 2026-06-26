@@ -11,6 +11,7 @@ A Lightning channel-liquidity marketplace — buy inbound capacity from a public
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
 - Auth: none on the buy path — liquidity.buy is a public GraphQL mutation; anonymous buyers get a session_key to track the order. Optional MAGMA_API_KEY (Amboss account) adds persistent history.
 - Quickstart: Estimate with the public liquidity_per_usd query, then call the public liquidity.buy mutation (magma.amboss.tech/graphql) with your node's connection_uri (pubkey@host:port) and usd_cents (min 500); pay the returned HODL invoice from your LND/CLN/Eclair node; poll get_order to VALID_CHANNEL_OPENING. Or run the MIT magma-mcp server (npm @ambosstech/magma-mcp) — one buy_lightning_liquidity tool over stdio.
+- MCP server (connect to act): stdio (service) · npx -y @ambosstech/magma-mcp — tools: buy_lightning_liquidity
 - Direction: consume + offer
 - Maintainer: Amboss Technologies
 - Site: https://magma.amboss.tech

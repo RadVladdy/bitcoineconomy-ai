@@ -1,0 +1,460 @@
+{
+  "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
+  "name": "The Marketplace tool catalog — bitcoineconomy.ai",
+  "url": "https://marketplace.bitcoineconomy.ai/tools.json",
+  "generated_at": "2026-06-26T04:28:08.520Z",
+  "tool_count": 22,
+  "toolbox_groups": [
+    "node-toolkits",
+    "primitive",
+    "wallets",
+    "ecash",
+    "bridges"
+  ],
+  "toolbox_group_titles": {
+    "wallets": "Wallets & treasuries",
+    "node-toolkits": "Node toolkits",
+    "ecash": "Ecash software",
+    "bridges": "Bridges & swaps",
+    "primitive": "Protocol primitives"
+  },
+  "prereq_tiers": {
+    "keys-only": "A keypair is enough — no node, no wallet, no funds",
+    "account": "A hosted account (no identity check, but a human signs up first)",
+    "wallet": "A funded wallet (custodial or self-custodial)",
+    "bitcoin-node": "Your own Bitcoin Core node (L1)",
+    "lightning-node": "A funded Lightning node with channels (e.g. LND/CLN)",
+    "l2-network": "Access to an L2/L3 network (Liquid, Spark, a federation)"
+  },
+  "tools": [
+    {
+      "slug": "bitcoin-core",
+      "name": "bitcoin-core",
+      "toolbox_group": "node-toolkits",
+      "tool_type": "software",
+      "layer": "base",
+      "tagline": "The reference Bitcoin full node — the L1 root every self-custodial Lightning setup sits on. Validate the chain yourself, hold your own keys, and expose RPC for the tools above it.",
+      "maintainer": "Bitcoin Core project",
+      "prereq_tier": "bitcoin-node",
+      "stack_section": "§1",
+      "latest_release": "v31.0",
+      "links": {
+        "site": "https://bitcoincore.org",
+        "docs": "https://bitcoincore.org/en/doc/",
+        "repo": "https://github.com/bitcoin/bitcoin"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/bitcoin-core",
+      "last_verified": "2026-06-23"
+    },
+    {
+      "slug": "l402",
+      "name": "L402",
+      "toolbox_group": "primitive",
+      "tool_type": "protocol",
+      "layer": "integration",
+      "tagline": "The HTTP-native payment protocol — pay a Lightning invoice to unlock an API, with a reusable credential proving you paid.",
+      "maintainer": "Lightning Labs",
+      "prereq_tier": "wallet",
+      "stack_section": "§4",
+      "license": "MIT",
+      "links": {
+        "site": "https://github.com/lightninglabs/aperture",
+        "docs": "https://docs.lightning.engineering/the-lightning-network/l402",
+        "repo": "https://github.com/lightninglabs/L402"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/l402",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "alby-nwc",
+      "name": "Alby & Nostr Wallet Connect (NWC)",
+      "toolbox_group": "wallets",
+      "tool_type": "software",
+      "layer": "integration",
+      "tagline": "A standard for controlling a Lightning wallet remotely — scoped, budgeted, and revocable — without ever handing over the keys.",
+      "maintainer": "Alby",
+      "prereq_tier": "wallet",
+      "stack_section": "§4",
+      "links": {
+        "site": "https://getalby.com",
+        "docs": "https://nwc.dev",
+        "repo": "https://github.com/getAlby"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/alby-nwc",
+      "mcp_endpoint": {
+        "kind": "payment",
+        "transport": "stdio",
+        "package": "@getalby/nwc-mcp-server",
+        "run": "npx -y @getalby/nwc-mcp-server",
+        "tools": [
+          "pay_invoice",
+          "make_invoice",
+          "lookup_invoice",
+          "get_balance",
+          "get_info",
+          "get_wallet_service_info"
+        ],
+        "repo": "https://github.com/getAlby/nwc-mcp-server",
+        "note": "The payment MCP that complements the directory's discovery MCP — wraps a scoped, budgeted NWC (NIP-47) connection string as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. Honest status: the repo is archived (last commit 2025-06-20) and declares no license, but the @getalby/nwc-mcp-server npm package still installs and runs (stdio by default; optional HTTP mode). Verify currency before relying on it in production."
+      },
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "bolt12",
+      "name": "BOLT12 (Offers)",
+      "toolbox_group": "primitive",
+      "tool_type": "protocol",
+      "layer": "integration",
+      "tagline": "Reusable Lightning payment requests — publish one \"offer\" and accept repeated payments against it, with receiver privacy via blinded paths.",
+      "maintainer": "Lightning protocol community",
+      "prereq_tier": "lightning-node",
+      "stack_section": "§4",
+      "links": {
+        "site": "https://bolt12.org",
+        "docs": "https://bolt12.org",
+        "repo": "https://github.com/lightning/bolts"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/bolt12",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "lnurl",
+      "name": "LNURL",
+      "toolbox_group": "primitive",
+      "tool_type": "protocol",
+      "layer": "integration",
+      "tagline": "A family of small Lightning protocols (pay, withdraw, auth) and the Lightning Address — the pre-BOLT12 way to make payment endpoints discoverable over HTTPS.",
+      "maintainer": "LNURL community",
+      "prereq_tier": "wallet",
+      "stack_section": "§4",
+      "links": {
+        "site": "https://lnurl.fiatjaf.com",
+        "docs": "https://github.com/lnurl/luds",
+        "repo": "https://github.com/lnurl/luds"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/lnurl",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "mcp",
+      "name": "Model Context Protocol (MCP)",
+      "toolbox_group": "primitive",
+      "tool_type": "protocol",
+      "layer": "integration",
+      "tagline": "The open standard for giving agents structured access to tools and data — the rail a Lightning payment server plugs into so an agent can pay from inside its workflow.",
+      "maintainer": "Anthropic & the MCP community",
+      "prereq_tier": "keys-only",
+      "stack_section": "§4",
+      "links": {
+        "site": "https://modelcontextprotocol.io",
+        "docs": "https://modelcontextprotocol.io/docs",
+        "repo": "https://github.com/modelcontextprotocol/modelcontextprotocol"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/mcp",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "nostr",
+      "name": "Nostr",
+      "toolbox_group": "primitive",
+      "tool_type": "protocol",
+      "layer": "integration",
+      "tagline": "The open identity-and-discovery layer under the agent stack — cryptographic keypairs for portable identity, and relays for censorship-resistant service discovery. It's how an agent finds providers and controls a wallet; the money itself rides Lightning/Cashu.",
+      "maintainer": "Nostr open protocol & community (NIPs)",
+      "prereq_tier": "keys-only",
+      "stack_section": "§4",
+      "links": {
+        "site": "https://nostr.com/",
+        "docs": "https://nostr.com/",
+        "repo": "https://github.com/nostr-protocol/nips"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/nostr",
+      "last_verified": "2026-06-06"
+    },
+    {
+      "slug": "clink",
+      "name": "CLINK (+ Lightning.Pub)",
+      "toolbox_group": "node-toolkits",
+      "tool_type": "protocol",
+      "layer": "integration",
+      "tagline": "ShockNet's open standards for Lightning payments over Nostr — static offers, direct debits, and delegated spending permissions, addressed to NIP-05 identities, no web server required.",
+      "maintainer": "ShockNet",
+      "prereq_tier": "lightning-node",
+      "stack_section": "§4",
+      "links": {
+        "site": "https://shock.network",
+        "docs": "https://docs.shock.network",
+        "repo": "https://github.com/shocknet"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/clink",
+      "last_verified": "2026-06-11"
+    },
+    {
+      "slug": "cashu",
+      "name": "Cashu",
+      "toolbox_group": "ecash",
+      "tool_type": "protocol",
+      "layer": "ecash",
+      "tagline": "Chaumian bearer ecash on Bitcoin — instant, private, lightweight tokens an agent can hold and spend without channels or accounts.",
+      "maintainer": "Cashu (calle / OpenSats)",
+      "prereq_tier": "wallet",
+      "stack_section": "§3",
+      "links": {
+        "site": "https://cashu.space",
+        "docs": "https://cashubtc.github.io/nuts/",
+        "repo": "https://github.com/cashubtc"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/cashu",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "fedimint",
+      "name": "Fedimint",
+      "toolbox_group": "ecash",
+      "tool_type": "software",
+      "layer": "ecash",
+      "tagline": "Federated Bitcoin custody plus Chaumian ecash — a guardian federation holds the coins under threshold security while issuing private, Lightning-interoperable tokens.",
+      "maintainer": "Fedimint",
+      "prereq_tier": "l2-network",
+      "stack_section": "§3",
+      "links": {
+        "site": "https://fedimint.org",
+        "docs": "https://fedimint.org/docs",
+        "repo": "https://github.com/fedimint/fedimint"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/fedimint",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "evaluating-ecash-mints",
+      "name": "Evaluating an ecash mint",
+      "toolbox_group": "ecash",
+      "tool_type": "guide",
+      "layer": "ecash",
+      "tagline": "How to judge whether a Cashu or Fedimint mint is trustworthy — the hard solvency signals, the reputation layer, and the one rule that beats all of them.",
+      "maintainer": "reference page (this project)",
+      "stack_section": "§3",
+      "links": {
+        "docs": "https://bitcoinmints.com"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/evaluating-ecash-mints",
+      "last_verified": "2026-06-05"
+    },
+    {
+      "slug": "spark",
+      "name": "Spark",
+      "toolbox_group": "ecash",
+      "tool_type": "software",
+      "layer": "ecash",
+      "tagline": "A shared-UTXO, Lightning-compatible Bitcoin L2 for instant, near-zero-cost transfers of BTC and Bitcoin-native assets — no bridges, no wrapping.",
+      "maintainer": "Lightspark",
+      "prereq_tier": "l2-network",
+      "stack_section": "§3",
+      "latest_release": "Mainnet beta",
+      "links": {
+        "site": "https://www.spark.money",
+        "docs": "https://docs.spark.money",
+        "repo": "https://github.com/buildonspark/spark"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/spark",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "lightning-agent-tools",
+      "name": "lightning-agent-tools",
+      "toolbox_group": "node-toolkits",
+      "tool_type": "software",
+      "layer": "wallets",
+      "tagline": "Lightning Labs' production AI-agent toolkit — composable skills plus an MCP server that let an agent run a node, pay L402 APIs, host paid endpoints, and keep its keys isolated.",
+      "maintainer": "Lightning Labs",
+      "prereq_tier": "lightning-node",
+      "stack_section": "§5",
+      "latest_release": "v0.2.5",
+      "links": {
+        "site": "https://lightning.engineering/posts/2026-02-11-ln-agent-tools/",
+        "docs": "https://docs.lightning.engineering",
+        "repo": "https://github.com/lightninglabs/lightning-agent-tools"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/lightning-agent-tools",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "lnbits",
+      "name": "LNbits",
+      "toolbox_group": "node-toolkits",
+      "tool_type": "software",
+      "layer": "wallets",
+      "tagline": "The most widely deployed programmable Lightning platform — isolated wallets, a clean REST API, and an extension ecosystem on top of any node backend.",
+      "maintainer": "LNbits",
+      "prereq_tier": "lightning-node",
+      "stack_section": "§5",
+      "license": "MIT",
+      "latest_release": "v1.4.2",
+      "links": {
+        "site": "https://lnbits.com",
+        "docs": "https://docs.lnbits.com",
+        "repo": "https://github.com/lnbits/lnbits"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/lnbits",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "minibits-ippon",
+      "name": "Minibits Ippon",
+      "toolbox_group": "ecash",
+      "tool_type": "software",
+      "layer": "wallets",
+      "tagline": "A Cashu wallet built from the ground up for AI agents — create and fund a short-lived, single-purpose wallet in one HTTP call or CLI command.",
+      "maintainer": "minibits-cash",
+      "prereq_tier": "account",
+      "stack_section": "§5",
+      "links": {
+        "site": "https://minibits.cash",
+        "docs": "https://github.com/minibits-cash/minibits_ippon",
+        "repo": "https://github.com/minibits-cash/minibits_ippon"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/minibits-ippon",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "xverse-agent-wallet",
+      "name": "Xverse Agent Wallet",
+      "toolbox_group": "wallets",
+      "tool_type": "software",
+      "layer": "wallets",
+      "tagline": "A self-custodial Bitcoin wallet built for AI agents — it answers an HTTP 402 by paying the Lightning invoice itself, no human checkout.",
+      "maintainer": "Secret Key Labs",
+      "prereq_tier": "l2-network",
+      "stack_section": "§5",
+      "links": {
+        "site": "https://www.xverse.app/agents",
+        "docs": "https://docs.xverse.app/xverse-agentic-wallet/",
+        "repo": "https://github.com/secretkeylabs/xverse-core"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/xverse-agent-wallet",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "bitagent",
+      "name": "BitAgent",
+      "toolbox_group": "node-toolkits",
+      "tool_type": "software",
+      "layer": "wallets",
+      "tagline": "An early, open-source framework for agent-to-agent commerce — agents discover each other over Nostr, verify identity with DIDs, and settle work in sats over Lightning.",
+      "maintainer": "Open-source (single maintainer)",
+      "prereq_tier": "lightning-node",
+      "stack_section": "§5",
+      "license": "MIT",
+      "links": {
+        "repo": "https://github.com/intrinsicinvestment91/bitagent"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/bitagent",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "agentic-aqua",
+      "name": "Agentic AQUA",
+      "toolbox_group": "wallets",
+      "tool_type": "software",
+      "layer": "wallets",
+      "tagline": "Jan3's open-source MCP wallet — an AI assistant generates addresses, checks balances, and sends Bitcoin, Liquid, or Lightning (via Boltz swaps) from one seed, by natural language.",
+      "maintainer": "Jan3",
+      "prereq_tier": "account",
+      "stack_section": "§5",
+      "license": "MIT",
+      "links": {
+        "repo": "https://github.com/jan3dev/agentic-aqua"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/agentic-aqua",
+      "last_verified": "2026-06-11"
+    },
+    {
+      "slug": "boltz",
+      "name": "Boltz",
+      "toolbox_group": "bridges",
+      "tool_type": "software",
+      "layer": "bridges",
+      "tagline": "Non-custodial atomic swaps between on-chain Bitcoin, Lightning, and Liquid — the submarine-swap bridge, exposed as an API.",
+      "maintainer": "Boltz Exchange",
+      "prereq_tier": "wallet",
+      "stack_section": "Marketplace",
+      "latest_release": "v3.13.0 \"Dark Horse\"",
+      "links": {
+        "site": "https://boltz.exchange",
+        "docs": "https://docs.boltz.exchange",
+        "repo": "https://github.com/BoltzExchange/boltz-backend"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/boltz",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "loop",
+      "name": "Loop",
+      "toolbox_group": "bridges",
+      "tool_type": "software",
+      "layer": "bridges",
+      "tagline": "Lightning Labs' non-custodial liquidity bridge — Loop Out and Loop In move balance between Lightning and on-chain via submarine swaps.",
+      "maintainer": "Lightning Labs",
+      "prereq_tier": "lightning-node",
+      "stack_section": "§1",
+      "latest_release": "v0.33.1-beta",
+      "links": {
+        "site": "https://lightning.engineering/loop/",
+        "docs": "https://lightning.engineering/loop/",
+        "repo": "https://github.com/lightninglabs/loop"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/loop",
+      "last_verified": "2026-06-02"
+    },
+    {
+      "slug": "amboss",
+      "name": "Amboss",
+      "toolbox_group": "bridges",
+      "tool_type": "service",
+      "layer": "bridges",
+      "tagline": "A Lightning channel-liquidity marketplace — buy inbound capacity from a public market with one API call (or an MIT MCP server), no account needed.",
+      "maintainer": "Amboss Technologies",
+      "prereq_tier": "lightning-node",
+      "stack_section": "§2",
+      "two_sided": "consume + offer",
+      "links": {
+        "site": "https://magma.amboss.tech",
+        "docs": "https://docs.amboss.tech/developer",
+        "repo": "https://github.com/AmbossTech/magma-mcp"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/amboss",
+      "mcp_endpoint": {
+        "kind": "service",
+        "transport": "stdio",
+        "package": "@ambosstech/magma-mcp",
+        "run": "npx -y @ambosstech/magma-mcp",
+        "tools": [
+          "buy_lightning_liquidity"
+        ],
+        "repo": "https://github.com/AmbossTech/magma-mcp",
+        "license": "MIT",
+        "note": "Amboss's own MCP server — connect here to actually buy inbound liquidity. One stdio tool; needs your node connection_uri and an LND/CLN/Eclair wallet to pay the HODL invoice."
+      },
+      "last_verified": "2026-06-25"
+    },
+    {
+      "slug": "taproot-assets",
+      "name": "Taproot Assets",
+      "toolbox_group": "bridges",
+      "tool_type": "software",
+      "layer": "bridges",
+      "tagline": "Lightning Labs' protocol for issuing assets — including stablecoins — on Bitcoin and moving them over Lightning rails. Lightning rails for assets, not Bitcoin substrate.",
+      "maintainer": "Lightning Labs",
+      "prereq_tier": "lightning-node",
+      "stack_section": "Marketplace",
+      "latest_release": "v0.7.2",
+      "links": {
+        "site": "https://lightning.engineering",
+        "docs": "https://docs.lightning.engineering/the-lightning-network/taproot-assets",
+        "repo": "https://github.com/lightninglabs/taproot-assets"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/taproot-assets",
+      "last_verified": "2026-06-02"
+    }
+  ]
+}

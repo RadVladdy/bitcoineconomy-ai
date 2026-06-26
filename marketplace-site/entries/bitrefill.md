@@ -11,8 +11,8 @@ The Lightning-native bridge to the rest of the digital economy — buy gift card
 - Custody: n/a (pay-and-receive)
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first
 - Auth: MCP server: OAuth or API key (account developers page) — auth-gated, probed alive 2026-06-11. Thor API key alternative. No KYC for ordinary purchases; guest checkout = email only.
-- API base: https://api.bitrefill.com/mcp
 - Quickstart: Connect the remote MCP server at https://api.bitrefill.com/mcp (OAuth or API key): search-products → get-product-details → buy-products (≤15 items/invoice) → pay the Lightning invoice → get-invoice-by-id returns the redemption code. Setup: bitrefill.com/agents (machine-readable SKILL.md). Raw-HTTP alternative: the Thor API.
+- MCP server (connect to act): http (service) · https://api.bitrefill.com/mcp — tools: search-products, get-product-details, buy-products, get-invoice-by-id
 - Direction: consume
 - Maintainer: Bitrefill
 - Site: https://bitrefill.com

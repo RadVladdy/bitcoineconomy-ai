@@ -20,10 +20,12 @@ const LATEST_VERSION = '2025-06-18';
 const SUPPORTED_VERSIONS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 
 const INSTRUCTIONS =
-  'The bitcoineconomy.ai marketplace: a curated directory of Bitcoin-native services AI agents can pay for over Lightning, Cashu, and L402. ' +
-  'Discover with find_service and list_categories, drill in with get_service, get live inference pricing with price_model, and get a ready-to-pay ' +
-  'payment plan (or a live invoice) with get_quote. Directory entries are reference facts and relay/probe data are announcements — not endorsements. ' +
-  'You pay providers directly with your own wallet; this server never holds funds.';
+  'The bitcoineconomy.ai marketplace: a curated directory of Bitcoin-native services AI agents can pay for over Lightning, Cashu, and L402, plus a catalog of the tools an agent equips to transact. ' +
+  'Find services to BUY from with find_service and list_categories, drill in with get_service, get live inference pricing with price_model, and get a ready-to-pay ' +
+  'payment plan (or a live invoice) with get_quote. Find tools to EQUIP (wallets, node toolkits, ecash, bridges, protocol primitives) with find_tool and get_tool. ' +
+  'Some providers run their own MCP server (Amboss, Bitrefill, Alby NWC) — list_mcp_servers gives the connection detail: discover here, connect there to act. ' +
+  'Directory entries and the tool catalog are reference facts; relay/probe data are announcements — not endorsements. ' +
+  'You pay providers directly with your own wallet; this server never holds funds and never proxies another MCP.';
 
 const CORS = {
   'access-control-allow-origin': '*',
@@ -51,11 +53,13 @@ async function loadKvOrAsset(env, origin, kvKey, assetPath) {
 }
 
 function makeCtx(env, origin) {
-  let dirP, modelsP;
+  let dirP, modelsP, toolsP;
   return {
     directory: () => (dirP ||= loadJsonAsset(env, origin, '/directory.json')),
     async entries() { return (await this.directory())?.entries || []; },
     async models() { return (await (modelsP ||= loadKvOrAsset(env, origin, 'models', '/models.json')))?.models || []; },
+    toolsDoc: () => (toolsP ||= loadJsonAsset(env, origin, '/tools.json')),
+    async tools() { return (await this.toolsDoc())?.tools || []; },
   };
 }
 
@@ -69,7 +73,16 @@ function compact(e) {
     slug: e.slug, name: e.name, category: e.category, summary: e.summary,
     what_an_agent_buys: e.what_an_agent_buys, payment_methods: e.payment_methods,
     kyc: e.kyc, custody: e.custody, automatability: e.automatability,
-    two_sided: e.two_sided || null, has_api_base: !!e.api_base, card_url: e.card_url,
+    two_sided: e.two_sided || null, has_api_base: !!e.api_base,
+    has_mcp_server: !!e.mcp_endpoint, card_url: e.card_url,
+  };
+}
+
+function compactTool(t) {
+  return {
+    slug: t.slug, name: t.name, toolbox_group: t.toolbox_group, tool_type: t.tool_type,
+    tagline: t.tagline, prereq_tier: t.prereq_tier || null, maintainer: t.maintainer || null,
+    has_mcp_server: !!t.mcp_endpoint, card_url: t.card_url,
   };
 }
 
@@ -188,6 +201,47 @@ const TOOLS = [
     },
   },
   {
+    name: 'find_tool',
+    description:
+      'Search the tool catalog — the equipment an agent installs or runs to transact in Bitcoin (wallets & treasuries, node toolkits, ecash software, bridges & swaps, protocol primitives). This is what an agent EQUIPS, distinct from find_service (what it BUYS). Filter by free-text query, toolbox group, tool type, the prerequisite tier (what must be in place first), or whether the tool ships its own MCP server. Returns compact matches; call get_tool for full detail.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Free-text over name, tagline, group, maintainer.' },
+        toolbox_group: { type: 'string', description: 'One of: wallets, node-toolkits, ecash, bridges, primitive.' },
+        tool_type: { type: 'string', description: 'One of: software, protocol, service, guide.' },
+        prereq_tier: { type: 'string', description: 'What must be in place first: keys-only, account, wallet, bitcoin-node, lightning-node, l2-network.' },
+        has_mcp_server: { type: 'boolean', description: 'If true, return only tools that ship their own MCP server (connect there to act).' },
+      },
+      additionalProperties: false,
+    },
+    async handler(a, ctx) {
+      let r = await ctx.tools();
+      const q = lc(a.query).trim();
+      if (q) r = r.filter((t) => `${t.name} ${t.tagline} ${t.toolbox_group} ${t.maintainer || ''} ${t.tool_type}`.toLowerCase().includes(q));
+      if (a.toolbox_group) r = r.filter((t) => lc(t.toolbox_group) === lc(a.toolbox_group));
+      if (a.tool_type) r = r.filter((t) => lc(t.tool_type) === lc(a.tool_type));
+      if (a.prereq_tier) r = r.filter((t) => lc(t.prereq_tier) === lc(a.prereq_tier));
+      if (a.has_mcp_server === true) r = r.filter((t) => !!t.mcp_endpoint);
+      return { count: r.length, tools: r.map(compactTool) };
+    },
+  },
+  {
+    name: 'get_tool',
+    description: 'Get the full machine-readable detail for one tool by slug (toolbox group, type, layer, prerequisite tier, maintainer, repo/docs/site links, and — where it ships one — its own mcp_endpoint). Full gotchas/dependencies live at the card_url.',
+    inputSchema: {
+      type: 'object',
+      properties: { slug: { type: 'string', description: 'The tool slug, e.g. "alby-nwc", "lnbits", "cashu", "amboss".' } },
+      required: ['slug'],
+      additionalProperties: false,
+    },
+    async handler(a, ctx) {
+      const t = (await ctx.tools()).find((x) => x.slug === a.slug);
+      if (!t) return { error: `No tool with slug "${a.slug}". Use find_tool to discover valid slugs.` };
+      return t;
+    },
+  },
+  {
     name: 'price_model',
     description:
       'Given an LLM model id or partial name, return the alive Bitcoin-paid inference providers serving it, cheapest first, in sats per prompt/completion token and max sats per request. Backed by a cross-provider price index refreshed every 6 hours.',
@@ -239,6 +293,33 @@ const TOOLS = [
     },
   },
   {
+    name: 'list_mcp_servers',
+    description:
+      "List the providers in this directory that run their OWN Model Context Protocol server, with the details to connect: transport (stdio or http), how to run it (npm package / run command, or hosted URL), the tools it exposes, repo, and auth. This makes the directory a registry of other services' MCP servers — discover here, connect there to act. This server never proxies them; you connect directly and pay the provider with your own wallet.",
+    inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+    async handler(_a, ctx) {
+      const [entries, tools] = [await ctx.entries(), await ctx.tools()];
+      const bySlug = new Map();
+      const add = (item, source, classification) => {
+        if (!item.mcp_endpoint) return;
+        const existing = bySlug.get(item.slug);
+        if (existing) { if (!existing.source.includes(source)) existing.source += `+${source}`; return; }
+        bySlug.set(item.slug, {
+          slug: item.slug, name: item.name, source, classification,
+          mcp_endpoint: item.mcp_endpoint, card_url: item.card_url,
+        });
+      };
+      for (const e of entries) add(e, 'service', e.category);
+      for (const t of tools) add(t, 'tool', t.toolbox_group);
+      const servers = [...bySlug.values()];
+      return {
+        count: servers.length,
+        note: 'These are providers’ OWN MCP servers. Connect to them directly to act (buy, pay, swap); this directory only points to them. Reference facts, not endorsements — verify a server is current and trusted before running it. Funds never move through this directory server.',
+        servers,
+      };
+    },
+  },
+  {
     name: 'get_quote',
     description:
       'Get a ready-to-pay quote for one service by slug. Returns the structured payment plan (methods, auth, api_base, quickstart, pricing) and — where the provider supports it — a live result: an HTTP 402 / L402 Lightning invoice captured from its API, or, for inference providers given a model, the live cheapest sats price. No funds move; you pay the returned invoice with your own wallet.',
@@ -260,13 +341,17 @@ const TOOLS = [
           pay_with: e.payment_methods, how_to_pay: e.payment_detail || null,
           auth: e.auth || null, custody: e.custody || null, kyc: e.kyc || null,
           api_base: e.api_base || null, quickstart: e.quickstart || null,
-          pricing_url: e.pricing_url || null, links: e.links || null,
+          pricing_url: e.pricing_url || null,
+          connect_via_mcp: e.mcp_endpoint || null,
+          links: e.links || null,
         },
         disclaimer: 'Reference data, not an endorsement. No funds move through this server — you pay the provider directly with your own wallet.',
       };
       out.live_probe = e.api_base
         ? await probeApiBase(e.api_base)
-        : { reachable: false, note: 'No public API base on file — follow quickstart / how_to_pay above to obtain a payable quote.' };
+        : e.mcp_endpoint
+          ? { reachable: false, note: `No L402 API base to bare-GET probe — this provider runs its own MCP server (${e.mcp_endpoint.transport}: ${e.mcp_endpoint.url || e.mcp_endpoint.run || e.mcp_endpoint.package}). Connect to it directly to act; see connect_via_mcp above or call list_mcp_servers.` }
+          : { reachable: false, note: 'No public API base on file — follow quickstart / how_to_pay above to obtain a payable quote.' };
       if (e.category === 'inference' && a.model) {
         const priced = priceModel(await ctx.models(), a.model, 3);
         out.live_price = priced.length

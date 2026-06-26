@@ -19,12 +19,21 @@
    serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).
    One fetch answers "who serves model X cheapest right now".
 
+## The tool catalog (what an agent EQUIPS, vs the registry above of what it BUYS)
+
+https://marketplace.bitcoineconomy.ai/tools.json — the equipment an agent installs or runs to transact: wallets & treasuries, node
+toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP).
+Each tool carries toolbox_group, tool_type, prereq_tier (what must be in place first), repo/docs links, and
+mcp_endpoint where it ships its own MCP server. Full per-tool detail (gotchas, dependencies) at its card_url.
+
 ## Or call the directory as tools (MCP)
 
-An MCP server at https://marketplace.bitcoineconomy.ai/mcp exposes this directory as Model Context Protocol tools, so an agent can
-call instead of fetch: find_service, get_service, price_model, list_categories, and get_quote — a
-ready-to-pay payment plan (a live L402 invoice or live sats price where the provider supports it).
-Stateless Streamable HTTP: POST one JSON-RPC request, get one JSON response. No funds move through it.
+An MCP server at https://marketplace.bitcoineconomy.ai/mcp exposes both the service registry and the tool catalog as Model Context Protocol
+tools, so an agent can call instead of fetch: find_service, get_service, price_model, list_categories, get_quote
+(a ready-to-pay payment plan — a live L402 invoice or live sats price where the provider supports it),
+find_tool, get_tool, and list_mcp_servers. That last one lists the providers here that run their OWN MCP server
+(Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP: POST one
+JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.
 
 Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json
 Part of: https://bitcoineconomy.ai — the case for a Bitcoin-centric AI agent economy (manifest: https://bitcoineconomy.ai/llms.txt)

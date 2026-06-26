@@ -6,6 +6,18 @@
     "api-kyc": "API after KYC onboarding — automatable once a human completes identity verification",
     "limited": "No public trading/provisioning API — scheduled or app-driven flows only"
   },
+  "_tool_mcp_endpoints": {
+    "_comment": "MCP endpoints for tool-catalog cards (src/_raw/tools/) that expose their own Model Context Protocol server but are not curated directory service entries (directory entries carry mcp_endpoint inline below). build.mjs merges these into the unified registry, keyed by tool slug, so find_tool/get_tool and list_mcp_servers surface them. The directory discovers; the provider's own MCP executes (connect-there-to-act). Amboss is not listed here — it is a directory entry, so its mcp_endpoint is reused for the tool card automatically.",
+    "alby-nwc": {
+      "kind": "payment",
+      "transport": "stdio",
+      "package": "@getalby/nwc-mcp-server",
+      "run": "npx -y @getalby/nwc-mcp-server",
+      "tools": ["pay_invoice", "make_invoice", "lookup_invoice", "get_balance", "get_info", "get_wallet_service_info"],
+      "repo": "https://github.com/getAlby/nwc-mcp-server",
+      "note": "The payment MCP that complements the directory's discovery MCP — wraps a scoped, budgeted NWC (NIP-47) connection string as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. Honest status: the repo is archived (last commit 2025-06-20) and declares no license, but the @getalby/nwc-mcp-server npm package still installs and runs (stdio by default; optional HTTP mode). Verify currency before relying on it in production."
+    }
+  },
   "entries": [
     {
       "slug": "routstr",
@@ -78,9 +90,17 @@
       "what_an_agent_buys": "Agent-relevant slice: prepaid virtual Visa/Mastercard (the universal card bridge), eSIM data, phone/VoIP refills, VPN subscriptions. The bulk of the catalog is human-consumption gift cards (A2P procurement). NOT in the catalog: VPS/hosting, domains, compute, AI credits — see lnvps/bitlaunch/routstr/ppq-ai for those",
       "payment_methods": ["lightning", "onchain"],
       "automatability": "api-account",
-      "api_base": "https://api.bitrefill.com/mcp",
       "auth": "MCP server: OAuth or API key (account developers page) — auth-gated, probed alive 2026-06-11. Thor API key alternative. No KYC for ordinary purchases; guest checkout = email only.",
       "quickstart": "Connect the remote MCP server at https://api.bitrefill.com/mcp (OAuth or API key): search-products → get-product-details → buy-products (≤15 items/invoice) → pay the Lightning invoice → get-invoice-by-id returns the redemption code. Setup: bitrefill.com/agents (machine-readable SKILL.md). Raw-HTTP alternative: the Thor API.",
+      "mcp_endpoint": {
+        "kind": "service",
+        "transport": "http",
+        "url": "https://api.bitrefill.com/mcp",
+        "auth": "OAuth or API key (account developers page)",
+        "tools": ["search-products", "get-product-details", "buy-products", "get-invoice-by-id"],
+        "docs": "https://www.bitrefill.com/agents",
+        "note": "Bitrefill's own remote MCP — connect here to buy from the catalog (≤15 items/invoice). 7 typed tools total; named ones verified 2026-06-11. Not an L402 endpoint, so the directory does not bare-GET-probe it."
+      },
       "note": "One of the few entries with a purpose-built agent interface (remote MCP + agents onboarding page)."
     },
     {
@@ -163,12 +183,14 @@
       "auth": "none on the buy path — liquidity.buy is a public GraphQL mutation; anonymous buyers get a session_key to track the order. Optional MAGMA_API_KEY (Amboss account) adds persistent history.",
       "quickstart": "Estimate with the public liquidity_per_usd query, then call the public liquidity.buy mutation (magma.amboss.tech/graphql) with your node's connection_uri (pubkey@host:port) and usd_cents (min 500); pay the returned HODL invoice from your LND/CLN/Eclair node; poll get_order to VALID_CHANNEL_OPENING. Or run the MIT magma-mcp server (npm @ambosstech/magma-mcp) — one buy_lightning_liquidity tool over stdio.",
       "mcp_endpoint": {
+        "kind": "service",
         "transport": "stdio",
         "package": "@ambosstech/magma-mcp",
-        "tool": "buy_lightning_liquidity",
+        "run": "npx -y @ambosstech/magma-mcp",
+        "tools": ["buy_lightning_liquidity"],
         "repo": "https://github.com/AmbossTech/magma-mcp",
         "license": "MIT",
-        "_note": "Staged for roadmap 10a (the mcp_endpoint registry). build.mjs does not yet surface this field; captured here so 10a can route agents discover-here then connect-there-to-act. Amboss's MCP is stdio/npm, not a hosted HTTP endpoint, so the registry schema must express transport, not just a URL."
+        "note": "Amboss's own MCP server — connect here to actually buy inbound liquidity. One stdio tool; needs your node connection_uri and an LND/CLN/Eclair wallet to pay the HODL invoice."
       },
       "note": "Magma is a leading Lightning channel-liquidity marketplace; the buy side is agent-drivable with no account. Two-sided — sellers earn yield providing liquidity (Magma sell-side / Rails). Magma AI recommends peers/sizing (a recommender, not an auto-rebalancer)."
     },

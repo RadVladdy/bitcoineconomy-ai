@@ -12,17 +12,18 @@ This folder is **not** part of the main Astro build; it deploys on its own
 | file | role |
 |---|---|
 | `index.html` | the directory UI — renders `directory.json` + the live snapshot + the price index, client-side, no framework |
-| `directory.json` | **generated** — the curated registry core (16 entries from the main site's card inventory, incl. the machine fields auth/quickstart/api_base/pricing_url) |
+| `directory.json` | **generated** — the curated registry core (the services an agent BUYS; machine fields auth/quickstart/api_base/pricing_url + `mcp_endpoint` where the provider runs its own MCP) |
+| `tools.json` | **generated** — the tool catalog (what an agent EQUIPS: every `src/_raw/tools/` card, with toolbox_group/tool_type/prereq_tier + `mcp_endpoint` where present) |
 | `entries/*.md` | **generated** — one clean Markdown route per entry |
 | `llms.txt` | **generated** — the agent manifest for the subdomain (opens with the three-fetch consumption recipe) |
 | `snapshot.json` | **generated** — committed fallback of the live Nostr snapshot (Routstr 38421 providers **with probe status**, NIP-87 38172/38173 mints, 38000 reviews) |
 | `models.json` | **generated, minified** — committed fallback of the cross-provider inference price index (model → alive providers, cheapest first, sats pricing) |
-| `directory-overlay.json` | hand-authored directory fields (category, what-an-agent-buys, payment methods, automatability tier, auth/quickstart + verified api_base/pricing_url) merged over card frontmatter |
-| `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `entries/`, `llms.txt` |
+| `directory-overlay.json` | hand-authored directory fields (category, what-an-agent-buys, payment methods, automatability tier, auth/quickstart + verified api_base/pricing_url + per-entry `mcp_endpoint`; plus the top-level `_tool_mcp_endpoints` map for tool cards that ship an MCP) merged over card frontmatter |
+| `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `tools.json`, `entries/`, `llms.txt` |
 | `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
 | `worker.js` | Cloudflare Worker: cron → relays + probes → KV; serves `/mcp` (the MCP server), `/live/snapshot.json` + `/live/models.json`; assets otherwise |
-| `mcp-lib.mjs` | the MCP server — exposes the directory + price index as Model Context Protocol tools (`find_service`, `get_service`, `price_model`, `list_categories`, `get_quote`) at `POST /mcp` |
+| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`) at `POST /mcp` |
 | `wrangler.jsonc` | worker config (cron every 6h, KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 
@@ -58,13 +59,18 @@ Streamable HTTP (MCP 2025-06-18): one JSON-RPC request per POST → one `applica
 response; no sessions, no SSE; notifications → 202; GET/DELETE → 405. Open CORS (read-only
 over public data). Tools:
 
-- `find_service` — filter the registry (category, payment method, no-KYC, automatability, two-sided)
-- `get_service` — full machine detail for one slug
+- `find_service` — filter the registry of services to BUY (category, payment method, no-KYC, automatability, two-sided)
+- `get_service` — full machine detail for one service slug (incl. `mcp_endpoint` where present)
+- `find_tool` — filter the tool catalog (what an agent EQUIPS): toolbox group, tool type, prereq tier, has-MCP
+- `get_tool` — full machine detail for one tool slug (incl. `mcp_endpoint` where present)
 - `price_model` — cheapest alive providers for a model id, in sats (from `models.json`)
 - `list_categories` — the filter vocabulary + tallies + live routes
+- `list_mcp_servers` — the providers here that run their **own** MCP server (Amboss, Bitrefill, Alby
+  NWC) with the connect details — this directory as a **registry of other services' MCP servers**:
+  discover here, connect there to act. The directory never proxies them.
 - `get_quote` — a structured payment plan + (where the provider supports it) a live L402 invoice
-  probed from its `api_base`, or a live sats price for inference. **No funds move through the
-  server** — the agent pays the provider directly.
+  probed from its `api_base`, or a live sats price for inference, or a pointer to the provider's own
+  MCP (`connect_via_mcp`). **No funds move through the server** — the agent pays the provider directly.
 
 `get_quote` probes only the `api_base` recorded on the entry the caller names by slug (never a
 caller-supplied URL), so the Worker can't be used as an open proxy. The tools read the same KV
