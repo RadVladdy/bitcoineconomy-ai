@@ -1,6 +1,8 @@
 # Agent-readable routes are fetched cross-origin by tools and crawlers.
 /directory.json
   Access-Control-Allow-Origin: *
+/tools.json
+  Access-Control-Allow-Origin: *
 /snapshot.json
   Access-Control-Allow-Origin: *
 /models.json
@@ -8,4 +10,8 @@
 /llms.txt
   Access-Control-Allow-Origin: *
 /entries/*
+  Access-Control-Allow-Origin: *
+/openapi.json
+  Access-Control-Allow-Origin: *
+/.well-known/ai-plugin.json
   Access-Control-Allow-Origin: *

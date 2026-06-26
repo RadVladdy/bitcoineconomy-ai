@@ -35,6 +35,12 @@ find_tool, get_tool, and list_mcp_servers. That last one lists the providers her
 (Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP: POST one
 JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.
 
+## Legacy / non-MCP agents
+
+An OpenAPI 3.0 description of the GET routes above is at https://marketplace.bitcoineconomy.ai/openapi.json (operationIds:
+getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getEntry), with the OpenAI-plugin-era
+manifest at https://marketplace.bitcoineconomy.ai/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.
+
 Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json
 Part of: https://bitcoineconomy.ai — the case for a Bitcoin-centric AI agent economy (manifest: https://bitcoineconomy.ai/llms.txt)
 

@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Bitcoin Economy Marketplace",
+  "name_for_model": "bitcoin_marketplace",
+  "description_for_human": "Discover services and tools an autonomous AI agent can buy and sell for Bitcoin — inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps.",
+  "description_for_model": "Use to discover Bitcoin-payable services and tools an autonomous agent can consume. getDirectory returns the curated registry (filter on category, payment_methods, automatability, kyc); getToolCatalog returns equipment an agent installs/runs; getLiveSnapshot returns Nostr-announced live inventory (filter status === \"alive\"); getPriceIndex returns the cross-provider inference price index (cheapest provider per model, sats per token); getEntry returns one clean record per service. No funds move through this API — the agent pays each provider directly over Lightning, L402, or Cashu. MCP-capable agents should use the richer Model Context Protocol server at https://marketplace.bitcoineconomy.ai/mcp instead.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://marketplace.bitcoineconomy.ai/openapi.json"
+  },
+  "logo_url": "https://bitcoineconomy.ai/favicon.svg",
+  "contact_email": "hello@bitcoineconomy.ai",
+  "legal_info_url": "https://bitcoineconomy.ai/about"
+}

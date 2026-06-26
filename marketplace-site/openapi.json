@@ -1,0 +1,145 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "The Marketplace directory — bitcoineconomy.ai",
+    "description": "Read-only discovery API for Bitcoin-payable services and tools an autonomous AI agent can consume: inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps. Fetch the registry and filter locally — no auth, and no funds move through this API; the agent pays each provider directly over Lightning / L402 / Cashu. MCP-capable agents should use the richer Model Context Protocol server at https://marketplace.bitcoineconomy.ai/mcp instead (find_service, get_service, get_quote, find_tool, get_tool, list_mcp_servers).",
+    "version": "1.0.0",
+    "contact": {
+      "email": "hello@bitcoineconomy.ai",
+      "url": "https://bitcoineconomy.ai"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://marketplace.bitcoineconomy.ai"
+    }
+  ],
+  "paths": {
+    "/directory.json": {
+      "get": {
+        "operationId": "getDirectory",
+        "summary": "The curated registry of Bitcoin-payable services an agent buys",
+        "description": "The full curated registry (18 entries across 8 categories: inference, compute, machine-work, commerce, privacy, swap, liquidity, fiat-ramp). Each entry carries category, what_an_agent_buys, payment_methods, automatability (api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint where the provider runs its own MCP server. One fetch returns everything; filter locally.",
+        "responses": {
+          "200": {
+            "description": "The curated registry document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools.json": {
+      "get": {
+        "operationId": "getToolCatalog",
+        "summary": "The tool catalog — what an agent installs/runs to transact",
+        "description": "The 22-tool catalog of equipment an agent EQUIPS (vs the registry of what it BUYS): wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Each tool carries toolbox_group, tool_type, layer, prereq_tier, and links.",
+        "responses": {
+          "200": {
+            "description": "The tool catalog document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live/snapshot.json": {
+      "get": {
+        "operationId": "getLiveSnapshot",
+        "summary": "Live Nostr-announced inventory (Routstr providers, ecash mints)",
+        "description": "What announces itself on Nostr right now: Routstr kind-38421 inference providers, NIP-87 ecash mints, kind-38000 reviews. Each provider carries a probe status (alive | unreachable | unverified-tor-only | unroutable — filter status === \"alive\" unless you can reach Tor), latency_ms, model_count, and accepted mints. KV-backed, refreshed every 6h; static fallback at /snapshot.json.",
+        "responses": {
+          "200": {
+            "description": "The live snapshot document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live/models.json": {
+      "get": {
+        "operationId": "getPriceIndex",
+        "summary": "Cross-provider inference price index (cheapest provider per model)",
+        "description": "model id -> every alive provider serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling). One fetch answers \"who serves model X cheapest right now\". Static fallback at /models.json.",
+        "responses": {
+          "200": {
+            "description": "The price index document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entries/{slug}.md": {
+      "get": {
+        "operationId": "getEntry",
+        "summary": "One clean Markdown record for a single service",
+        "description": "The agent-readable Markdown route for one registry entry — the machine path (payment, auth, api_base, quickstart, mcp_endpoint) plus a link to the full verified card.",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "The service slug (from directory.json entries[].slug).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "routstr",
+                "ppq-ai",
+                "maple",
+                "lnvps",
+                "bitlaunch",
+                "openagents",
+                "bitrefill",
+                "mullvad",
+                "boltz",
+                "sideshift",
+                "flashnet",
+                "sideswap",
+                "loop",
+                "amboss",
+                "strike",
+                "river",
+                "kraken",
+                "coinbase"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The entry as Markdown.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

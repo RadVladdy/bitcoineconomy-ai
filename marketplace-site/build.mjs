@@ -7,8 +7,11 @@
 // automatability tier), and writes:
 //
 //   directory.json     the curated registry core (the agent-readable registry)
+//   tools.json         the tool catalog (what an agent EQUIPS, vs BUYS)
 //   entries/{slug}.md  one clean Markdown route per entry
 //   llms.txt           the agent manifest for the subdomain
+//   openapi.json       OpenAPI 3.0 description of the GET routes (non-MCP agents)
+//   .well-known/ai-plugin.json   the OpenAI-plugin-era discovery manifest
 //
 // Run from marketplace-site/:  node build.mjs
 // Regenerate + commit whenever cards or the overlay change.
@@ -116,6 +119,7 @@ const directory = {
     'An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers) for agents that call rather than fetch. ' +
     'The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. ' +
     'list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services\' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. ' +
+    'For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. ' +
     'Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.',
   name: 'The Marketplace directory — bitcoineconomy.ai',
   url: BASE + '/',
@@ -127,6 +131,8 @@ const directory = {
     tools_catalog: BASE + '/tools.json',
     snapshot: BASE + '/live/snapshot.json',
     models_price_index: BASE + '/live/models.json',
+    openapi: BASE + '/openapi.json',
+    ai_plugin: BASE + '/.well-known/ai-plugin.json',
   },
   automatability_tiers: overlay._automatability_tiers,
   payment_method_vocabulary: {
@@ -300,6 +306,12 @@ const llms = [
   '(Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP: POST one',
   'JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.',
   '',
+  '## Legacy / non-MCP agents',
+  '',
+  `An OpenAPI 3.0 description of the GET routes above is at ${BASE}/openapi.json (operationIds:`,
+  'getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getEntry), with the OpenAI-plugin-era',
+  `manifest at ${BASE}/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.`,
+  '',
   `Static fallbacks (work without the worker): ${BASE}/snapshot.json + ${BASE}/models.json`,
   `Part of: ${MAIN} — the case for a Bitcoin-centric AI agent economy (manifest: ${MAIN}/llms.txt)`,
   '',
@@ -329,6 +341,126 @@ for (const cat of categories) {
 }
 writeFileSync(join(HERE, 'llms.txt'), llms.join('\n'));
 
+// --- openapi.json + /.well-known/ai-plugin.json (10b breadth manifests) --------
+// For agents that DON'T speak MCP — the OpenAI-plugin-era discovery pair. An
+// OpenAPI 3.0 description of the fetchable GET routes (the same data an MCP-
+// capable agent would reach via /mcp), plus the /.well-known/ai-plugin.json
+// manifest that points at it. Read-only, no auth: the agent pays each provider
+// directly over Lightning/L402/Cashu — nothing moves through this API.
+const jsonResp = (desc) => ({
+  description: desc,
+  content: { 'application/json': { schema: { type: 'object' } } },
+});
+
+const openapi = {
+  openapi: '3.0.3',
+  info: {
+    title: 'The Marketplace directory — bitcoineconomy.ai',
+    description:
+      'Read-only discovery API for Bitcoin-payable services and tools an autonomous AI agent can consume: '
+      + 'inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps. Fetch the '
+      + 'registry and filter locally — no auth, and no funds move through this API; the agent pays each provider '
+      + 'directly over Lightning / L402 / Cashu. MCP-capable agents should use the richer Model Context Protocol '
+      + `server at ${BASE}/mcp instead (find_service, get_service, get_quote, find_tool, get_tool, list_mcp_servers).`,
+    version: '1.0.0',
+    contact: { email: 'hello@bitcoineconomy.ai', url: MAIN },
+  },
+  servers: [{ url: BASE }],
+  paths: {
+    '/directory.json': {
+      get: {
+        operationId: 'getDirectory',
+        summary: 'The curated registry of Bitcoin-payable services an agent buys',
+        description:
+          `The full curated registry (${entries.length} entries across ${categories.length} categories: ${categories.join(', ')}). `
+          + 'Each entry carries category, what_an_agent_buys, payment_methods, automatability '
+          + '(api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint '
+          + 'where the provider runs its own MCP server. One fetch returns everything; filter locally.',
+        responses: { 200: jsonResp('The curated registry document.') },
+      },
+    },
+    '/tools.json': {
+      get: {
+        operationId: 'getToolCatalog',
+        summary: 'The tool catalog — what an agent installs/runs to transact',
+        description:
+          `The ${tools.length}-tool catalog of equipment an agent EQUIPS (vs the registry of what it BUYS): `
+          + 'wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives '
+          + '(L402, NWC, BOLT12, LNURL, MCP). Each tool carries toolbox_group, tool_type, layer, prereq_tier, and links.',
+        responses: { 200: jsonResp('The tool catalog document.') },
+      },
+    },
+    '/live/snapshot.json': {
+      get: {
+        operationId: 'getLiveSnapshot',
+        summary: 'Live Nostr-announced inventory (Routstr providers, ecash mints)',
+        description:
+          'What announces itself on Nostr right now: Routstr kind-38421 inference providers, NIP-87 ecash mints, '
+          + 'kind-38000 reviews. Each provider carries a probe status (alive | unreachable | unverified-tor-only | '
+          + 'unroutable — filter status === "alive" unless you can reach Tor), latency_ms, model_count, and accepted mints. '
+          + 'KV-backed, refreshed every 6h; static fallback at /snapshot.json.',
+        responses: { 200: jsonResp('The live snapshot document.') },
+      },
+    },
+    '/live/models.json': {
+      get: {
+        operationId: 'getPriceIndex',
+        summary: 'Cross-provider inference price index (cheapest provider per model)',
+        description:
+          'model id -> every alive provider serving it, cheapest first, in sats per token (+ max_cost per request, '
+          + 'the budgeting ceiling). One fetch answers "who serves model X cheapest right now". Static fallback at /models.json.',
+        responses: { 200: jsonResp('The price index document.') },
+      },
+    },
+    '/entries/{slug}.md': {
+      get: {
+        operationId: 'getEntry',
+        summary: 'One clean Markdown record for a single service',
+        description:
+          'The agent-readable Markdown route for one registry entry — the machine path (payment, auth, api_base, '
+          + 'quickstart, mcp_endpoint) plus a link to the full verified card.',
+        parameters: [{
+          name: 'slug',
+          in: 'path',
+          required: true,
+          description: 'The service slug (from directory.json entries[].slug).',
+          schema: { type: 'string', enum: entries.map((e) => e.slug) },
+        }],
+        responses: {
+          200: { description: 'The entry as Markdown.', content: { 'text/markdown': { schema: { type: 'string' } } } },
+        },
+      },
+    },
+  },
+};
+writeFileSync(join(HERE, 'openapi.json'), JSON.stringify(openapi, null, 2) + '\n');
+
+const aiPlugin = {
+  schema_version: 'v1',
+  name_for_human: 'Bitcoin Economy Marketplace',
+  name_for_model: 'bitcoin_marketplace',
+  description_for_human:
+    'Discover services and tools an autonomous AI agent can buy and sell for Bitcoin — inference, compute, '
+    + 'machine work, commerce bridges, swaps, liquidity, and fiat ramps.',
+  description_for_model:
+    'Use to discover Bitcoin-payable services and tools an autonomous agent can consume. '
+    + 'getDirectory returns the curated registry (filter on category, payment_methods, automatability, kyc); '
+    + 'getToolCatalog returns equipment an agent installs/runs; getLiveSnapshot returns Nostr-announced live '
+    + 'inventory (filter status === "alive"); getPriceIndex returns the cross-provider inference price index '
+    + '(cheapest provider per model, sats per token); getEntry returns one clean record per service. '
+    + 'No funds move through this API — the agent pays each provider directly over Lightning, L402, or Cashu. '
+    + `MCP-capable agents should use the richer Model Context Protocol server at ${BASE}/mcp instead.`,
+  auth: { type: 'none' },
+  api: { type: 'openapi', url: BASE + '/openapi.json' },
+  logo_url: MAIN + '/favicon.svg',
+  contact_email: 'hello@bitcoineconomy.ai',
+  legal_info_url: MAIN + '/about',
+};
+mkdirSync(join(HERE, '.well-known'), { recursive: true });
+writeFileSync(join(HERE, '.well-known', 'ai-plugin.json'), JSON.stringify(aiPlugin, null, 2) + '\n');
+
 console.log(`directory.json: ${entries.length} entries across ${categories.length} categories`);
+console.log(`tools.json: ${tools.length} tools`);
 console.log(`entries/: ${entries.length} markdown routes`);
 console.log('llms.txt written');
+console.log('openapi.json + .well-known/ai-plugin.json written');

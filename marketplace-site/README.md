@@ -16,10 +16,12 @@ This folder is **not** part of the main Astro build; it deploys on its own
 | `tools.json` | **generated** — the tool catalog (what an agent EQUIPS: every `src/_raw/tools/` card, with toolbox_group/tool_type/prereq_tier + `mcp_endpoint` where present) |
 | `entries/*.md` | **generated** — one clean Markdown route per entry |
 | `llms.txt` | **generated** — the agent manifest for the subdomain (opens with the three-fetch consumption recipe) |
+| `openapi.json` | **generated** — OpenAPI 3.0 description of the GET routes for agents that don't speak MCP (operationIds getDirectory/getToolCatalog/getLiveSnapshot/getPriceIndex/getEntry) |
+| `.well-known/ai-plugin.json` | **generated** — the OpenAI-plugin-era discovery manifest; points legacy/non-MCP agents at `openapi.json` |
 | `snapshot.json` | **generated** — committed fallback of the live Nostr snapshot (Routstr 38421 providers **with probe status**, NIP-87 38172/38173 mints, 38000 reviews) |
 | `models.json` | **generated, minified** — committed fallback of the cross-provider inference price index (model → alive providers, cheapest first, sats pricing) |
 | `directory-overlay.json` | hand-authored directory fields (category, what-an-agent-buys, payment methods, automatability tier, auth/quickstart + verified api_base/pricing_url + per-entry `mcp_endpoint`; plus the top-level `_tool_mcp_endpoints` map for tool cards that ship an MCP) merged over card frontmatter |
-| `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `tools.json`, `entries/`, `llms.txt` |
+| `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `tools.json`, `entries/`, `llms.txt`, `openapi.json`, `.well-known/ai-plugin.json` |
 | `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
 | `worker.js` | Cloudflare Worker: cron → relays + probes → KV; serves `/mcp` (the MCP server), `/live/snapshot.json` + `/live/models.json`; assets otherwise |
