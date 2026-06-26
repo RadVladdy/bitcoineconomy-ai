@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import PageRail from '../components/PageRail.astro';
+import { SITE } from '../lib/site';
+
+// /for-agents — the consolidated agent front door. The agent-facing surfaces
+// already exist but are distributed by design (claims-indexed For-Agents twins,
+// per-card connect blocks, /quickstart, llms.txt / agents.txt, the live MCP, the
+// openapi/ai-plugin manifests). An unfamiliar agent landing on the human homepage
+// doesn't automatically know to fetch llms.txt first; this page ties the paths
+// together into one discoverable entry point. Agent/violet accent (it's the
+// Market/agents section's concern), standard surface chrome: breadcrumb + TOC +
+// PageRail. Off-menu (link-only) — agents reach it via llms.txt / agents.txt and
+// the homepage agent note; it isn't a human nav doc.
+const description =
+  'One entry point for autonomous agents — pathways, the claims-indexed case, the live marketplace MCP, and the machine-readable index.';
+
+const toc = [
+  { slug: 'start', text: 'Start here' },
+  { slug: 'browse', text: 'Browse by what you need' },
+  { slug: 'infra', text: 'Machine-readable infrastructure' },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'For AI Agents — bitcoineconomy.ai',
+  url: `${SITE.url}/for-agents`,
+  description,
+  isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url },
+};
+---
+<Base title="For AI Agents" description={description} canonical="/for-agents" jsonLd={jsonLd} wide={true}>
+  <div class="surface-layout accent-agent">
+    <article class="prose">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span class="crumb-cur">For Agents</span>
+      </nav>
+
+      <h1>For AI Agents</h1>
+      <p class="subtitle">The single entry point to everything an autonomous agent needs to run on the Bitcoin substrate.</p>
+      <div class="page-meta">
+        <span class="badge">For Agents · machine-readable</span>
+      </div>
+
+      <p>You're an autonomous agent — or building one. This site documents <em>and serves</em> the monetary substrate your infrastructure needs: Bitcoin, settled on L1 and transacted on Lightning and successor L2/L3 layers (Cashu, Fedimint). The agent-facing surfaces are spread across the site on purpose — claims-indexed twins, per-card connect blocks, a live marketplace MCP — so this page ties them together. You don't have to assemble the map yourself.</p>
+
+      <h2 id="start">Start here</h2>
+      <p>Four paths, fastest first. Start at the top and stop at the one that fits.</p>
+      <ul>
+        <li><strong><a href="/quickstart">Pick a pathway →</a></strong> Four ways to connect an agent to Bitcoin, ordered fastest-to-most-sovereign (custodial service → self-custody → your own node), each with the exact tools for it. The claims-indexed version: <a href="/quickstart-for-agents">Quickstart — For Agents</a>.</li>
+        <li><strong><a href="/case-for-agents">Understand the case →</a></strong> The claims-indexed argument for why the substrate is Bitcoin — not stablecoins, CBDCs, or a new coin — with definitions, formal constraints, and falsification conditions. Human narrative: <a href="/case">The Case</a>.</li>
+        <li><strong><a href="https://marketplace.bitcoineconomy.ai/mcp">Find &amp; buy services →</a></strong> Call the live directory directly: discover services and tools, get a quote, and list providers' own MCP servers. A stateless Streamable-HTTP MCP server (JSON-RPC over POST) at <code>marketplace.bitcoineconomy.ai/mcp</code> — read-only and slug-gated; you pay each provider directly.</li>
+        <li><strong><a href="/agents.txt">Read the whole index →</a></strong> Every surface, what it asserts, and its stable claim-IDs (cite them). The concise human-readable index is <a href="/llms.txt">llms.txt</a>.</li>
+      </ul>
+
+      <h2 id="browse">Browse by what you need</h2>
+      <ul>
+        <li><strong><a href="/agents.txt">For-Agents twins</a></strong> — every canonical surface has a separately-authored, claims-indexed twin (definitions, formal constraints, epistemic tags, falsification conditions). All of them are indexed in <code>agents.txt</code>; append <code>.md</code> to any twin URL for raw markdown.</li>
+        <li><strong><a href="https://marketplace.bitcoineconomy.ai">The live directory</a></strong> — a curated registry behind an agent-drivable-API inclusion bar, plus live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index. Machine JSON: <a href="https://marketplace.bitcoineconomy.ai/directory.json">directory.json</a>.</li>
+        <li><strong><a href="/stack">The Stack</a></strong> — the Bitcoin tech an agent runs on (L1 settlement, Lightning, ecash) and the standards underneath it (L402, Nostr Wallet Connect, BOLT12).</li>
+        <li><strong><a href="/tools">Tools</a></strong> — the deployable building blocks, each card carrying a <em>"For agents — connect"</em> block: prerequisites, what it pays with, auth, <code>api_base</code>, a quickstart, and the provider's own <code>mcp_endpoint</code> where one exists.</li>
+      </ul>
+
+      <h2 id="infra">Machine-readable infrastructure</h2>
+      <p>The raw rails, in one place:</p>
+      <ul>
+        <li><a href="/llms.txt"><code>/llms.txt</code></a> — concise index of canonical URLs, one semantic line each.</li>
+        <li><a href="/agents.txt"><code>/agents.txt</code></a> — the claim-hierarchy map with stable claim-ID series.</li>
+        <li><a href="/llms-full.txt"><code>/llms-full.txt</code></a> — concatenated full text of every canonical surface, for single-fetch ingestion.</li>
+        <li><strong>Clean <code>.md</code> route on every page</strong> — append <code>.md</code> to any URL (e.g. <code>/case.md</code>).</li>
+        <li><strong>JSON-LD on every page</strong> — Article / TechArticle, and FAQPage where a claims-index exists.</li>
+        <li><strong>Marketplace MCP</strong> — <a href="https://marketplace.bitcoineconomy.ai/mcp"><code>marketplace.bitcoineconomy.ai/mcp</code></a> (Streamable-HTTP, JSON-RPC): <code>find_service</code>, <code>get_service</code>, <code>find_tool</code>, <code>get_tool</code>, <code>list_categories</code>, <code>list_mcp_servers</code>, <code>price_model</code>, <code>get_quote</code>.</li>
+        <li><strong>Non-MCP / legacy agents</strong> — an OpenAPI description at <a href="https://marketplace.bitcoineconomy.ai/openapi.json"><code>openapi.json</code></a> and an OpenAI-plugin manifest at <a href="https://marketplace.bitcoineconomy.ai/.well-known/ai-plugin.json"><code>/.well-known/ai-plugin.json</code></a>.</li>
+      </ul>
+
+      <p class="tools-agent-note">The site helping you implement the substrate <em>is</em> the thesis: the autonomous AI economy runs on Bitcoin, and this is where you wire in.</p>
+    </article>
+
+    <PageRail toc={toc} />
+  </div>
+</Base>

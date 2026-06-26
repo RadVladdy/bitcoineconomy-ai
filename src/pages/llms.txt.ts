@@ -17,6 +17,7 @@ export const GET: APIRoute = async () => {
   lines.push('');
   lines.push(`Site: ${SITE.url}`);
   lines.push(`Handle: ${SITE.handle}`);
+  lines.push(`Agent entry point: ${SITE.url}/for-agents — one page that ties together the pathways, the claims-indexed case, the live marketplace MCP, and this index.`);
   lines.push('Every page below has a clean Markdown route (append `.md`) and a JSON-LD block. Most canonical surfaces have a separately-authored, claims-indexed For-Agents twin.');
   lines.push('');
 
@@ -92,6 +93,7 @@ export const GET: APIRoute = async () => {
 
   lines.push('## Machine infrastructure');
   lines.push('');
+  lines.push(`- [for-agents](${SITE.url}/for-agents): the consolidated agent entry point — pathways, the case, the live marketplace MCP, and the machine-readable index, in one page.`);
   lines.push(`- [llms-full.txt](${SITE.url}/llms-full.txt): concatenated full text of all canonical surfaces for single-fetch ingestion.`);
   lines.push(`- [agents.txt](${SITE.url}/agents.txt): the canonical map oriented to autonomous agents — what each surface asserts, plus the claim-IDs.`);
   lines.push(`- [sitemap.xml](${SITE.url}/sitemap-index.xml): all HTML and .md routes.`);
