@@ -1,0 +1,60 @@
+---
+// AgentConnect.astro — the per-card "For agents — connect" block (roadmap 10b).
+// Renders the machine path (pay/auth/api_base/quickstart, the provider's own MCP)
+// + the marketplace directory/MCP pointers, from the generated connect object.
+// Reference facts only; the same content is appended to the card's clean .md route.
+import type { Connect } from '../lib/agent-connect';
+import { hasRichConnect, mcpEndpointLine } from '../lib/agent-connect';
+
+const { conn } = Astro.props as { conn: Connect };
+const rich = hasRichConnect(conn);
+const m = conn.mcp_endpoint;
+---
+<section class="agent-connect" aria-label="For agents — connect">
+  <h2 class="ac-h">For agents — connect</h2>
+  <p class="ac-lede">
+    {rich
+      ? 'Reach this programmatically — facts, not endorsements; verify before you depend on them.'
+      : 'Catalogued for agents in the marketplace directory.'}
+  </p>
+
+  {rich && (
+    <dl class="ac-grid">
+      {conn.prereq_desc && (
+        <Fragment><dt>Prerequisite</dt><dd>{conn.prereq_desc}{conn.prereq_tier && <> <code>{conn.prereq_tier}</code></>}</dd></Fragment>
+      )}
+      {conn.automatability && (
+        <Fragment><dt>Automatability</dt><dd><code>{conn.automatability}</code></dd></Fragment>
+      )}
+      {conn.payment_methods?.length && (
+        <Fragment><dt>Pay with</dt><dd>{conn.payment_methods.join(', ')}</dd></Fragment>
+      )}
+      {conn.auth && (
+        <Fragment><dt>Auth</dt><dd>{conn.auth}</dd></Fragment>
+      )}
+      {conn.api_base && (
+        <Fragment><dt>API base</dt><dd><code>{conn.api_base}</code></dd></Fragment>
+      )}
+      {conn.pricing_url && (
+        <Fragment><dt>Pricing</dt><dd><a href={conn.pricing_url} rel="noopener" target="_blank">{conn.pricing_url}</a></dd></Fragment>
+      )}
+      {conn.quickstart && (
+        <Fragment><dt>First call</dt><dd>{conn.quickstart}</dd></Fragment>
+      )}
+      {m && (
+        <Fragment>
+          <dt>Connect to act</dt>
+          <dd>
+            <span class="ac-mcp">{mcpEndpointLine(m)}</span>
+            {m.repo && <> · <a href={m.repo} rel="noopener" target="_blank">repo</a></>}
+            {m.note && <span class="ac-note">{m.note}</span>}
+          </dd>
+        </Fragment>
+      )}
+    </dl>
+  )}
+
+  <p class="ac-ptr">
+    In the <a href={`${conn.directory_base}/`} rel="noopener" target="_blank">marketplace directory</a>: call <code>{conn.mcp_call}</code> with slug <code>{conn.slug}</code> at <a href={conn.mcp_url} rel="noopener" target="_blank">/mcp</a>{conn.entry_md && (<> · <a href={conn.entry_md} rel="noopener" target="_blank">entry as data</a></>)} · this card as <a href={conn.card_md}>markdown</a>.
+  </p>
+</section>

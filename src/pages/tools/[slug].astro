@@ -4,6 +4,8 @@ import Base from '../../layouts/Base.astro';
 import PageRail from '../../components/PageRail.astro';
 import { TOOL_LAYERS } from '../../lib/site';
 import { toolJsonLd } from '../../lib/jsonld';
+import AgentConnect from '../../components/AgentConnect.astro';
+import { getConnect } from '../../lib/agent-connect';
 
 export async function getStaticPaths() {
   const all = await getCollection('tools');
@@ -41,6 +43,7 @@ const jsonLd = toolJsonLd({
 });
 
 const mdPath = `/tools/${d.slug}.md`;
+const connect = getConnect(d.slug, 'tools');
 ---
 <Base title={d.name} description={d.tagline} current="tools" canonical={`/tools/${d.slug}`} jsonLd={jsonLd} wide={true}>
   <div class="surface-layout accent-cyan">
@@ -66,6 +69,8 @@ const mdPath = `/tools/${d.slug}.md`;
     )}
 
     <Content />
+
+    {connect && <AgentConnect conn={connect} />}
 
     <aside class="twin-callout">
       <p set:html={`Where this sits in the architecture: <a href="/stack">The Stack</a>. Raw markdown for this card: <a href="${mdPath}">${mdPath}</a>. Release and version fields move fast — confirm against the repo before you depend on them.`} />

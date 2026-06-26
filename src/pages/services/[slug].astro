@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageRail from '../../components/PageRail.astro';
 import { SITE } from '../../lib/site';
+import AgentConnect from '../../components/AgentConnect.astro';
+import { getConnect } from '../../lib/agent-connect';
 
 export async function getStaticPaths() {
   const all = await getCollection('services');
@@ -39,6 +41,7 @@ if (d.maintainer) jsonLd.provider = { '@type': 'Organization', name: d.maintaine
 if (d.category) jsonLd.serviceType = d.category;
 
 const mdPath = `/services/${d.slug}.md`;
+const connect = getConnect(d.slug, 'services');
 ---
 <Base title={d.name} description={d.tagline} current="services" canonical={`/services/${d.slug}`} jsonLd={jsonLd} wide={true}>
   <div class="surface-layout accent-agent">
@@ -65,6 +68,8 @@ const mdPath = `/services/${d.slug}.md`;
     )}
 
     <Content />
+
+    {connect && <AgentConnect conn={connect} />}
 
     <aside class="twin-callout">
       <p set:html={`Where this sits in the section: <a href="/services">Services</a>. Raw markdown for this card: <a href="${mdPath}">${mdPath}</a>. Payment and KYC fields move fast — confirm against the provider before you depend on them.`} />

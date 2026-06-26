@@ -523,6 +523,49 @@ figure.matrix .matrix-title {
 }
 .twin-callout a { font-weight: 600; }
 
+/* ---- Per-card "For agents — connect" block (10b) ----
+   The machine path + the marketplace directory/MCP pointers. Carries the section
+   accent (cyan = Tools/Stack, violet = Services/Exchange/Market). Reference facts. */
+.agent-connect {
+  margin: 2.4rem 0 0;
+  padding: 1.1rem 1.3rem 1.2rem;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--electric);
+  border-radius: 10px;
+  background: var(--bg-soft);
+}
+.accent-cyan .agent-connect { border-left-color: var(--electric); }
+.accent-agent .agent-connect { border-left-color: var(--agent); }
+.accent-btc .agent-connect { border-left-color: var(--orange); }
+.agent-connect .ac-h {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  margin: 0 0 0.35rem;
+  color: var(--electric);
+}
+.accent-agent .agent-connect .ac-h { color: var(--agent); }
+.accent-btc .agent-connect .ac-h { color: var(--orange); }
+.agent-connect .ac-lede { margin: 0 0 0.85rem; font-size: 0.92rem; color: var(--fg-soft); }
+.agent-connect .ac-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.92rem;
+}
+.agent-connect .ac-grid dt { font-weight: 600; color: var(--fg-soft); }
+.agent-connect .ac-grid dd { margin: 0; }
+.agent-connect .ac-mcp { font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.88em; }
+.agent-connect .ac-note { display: block; margin-top: 0.25rem; font-size: 0.84rem; color: var(--fg-soft); }
+.agent-connect .ac-ptr { margin: 0; font-size: 0.88rem; color: var(--fg-soft); }
+.agent-connect code { font-size: 0.86em; }
+@media (max-width: 32rem) {
+  .agent-connect .ac-grid { grid-template-columns: 1fr; gap: 0.1rem 0; }
+  .agent-connect .ac-grid dt { margin-top: 0.5rem; }
+}
+
 /* ---- Homepage ---- */
 .home-hero { padding: 1rem 0 0.5rem; }
 .home-hero-img { width: 100%; height: auto; border-radius: 14px; margin: 0 0 1.8rem; display: block; }

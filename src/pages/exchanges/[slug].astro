@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageRail from '../../components/PageRail.astro';
 import { SITE } from '../../lib/site';
+import AgentConnect from '../../components/AgentConnect.astro';
+import { getConnect } from '../../lib/agent-connect';
 
 export async function getStaticPaths() {
   const all = await getCollection('exchanges');
@@ -50,6 +52,7 @@ const factsRow = [
 ]
   .filter(Boolean)
   .join(' · ');
+const connect = getConnect(d.slug, 'exchanges');
 ---
 <Base title={d.title} description={d.tagline ?? factsRow} current="exchanges" canonical={`/exchanges/${d.slug}`} jsonLd={jsonLd} wide={true}>
   <div class="surface-layout accent-agent">
@@ -76,6 +79,8 @@ const factsRow = [
     )}
 
     <Content />
+
+    {connect && <AgentConnect conn={connect} />}
 
     <aside class="twin-callout">
       <p set:html={`Where this sits in the section: <a href="/exchange">Exchange</a>. Raw markdown for this card: <a href="${mdPath}">${mdPath}</a>. Custody, KYC, and fee fields move fast — confirm against the venue before you depend on them.`} />

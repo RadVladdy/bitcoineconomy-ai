@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
+import { getConnect, connectToMarkdown } from '../../lib/agent-connect';
 
 // Clean `.md` route for every tool card — same path + `.md`, raw published
 // Markdown for direct agent consumption, with a structured frontmatter header.
@@ -29,7 +30,9 @@ export const GET: APIRoute = async ({ props }) => {
     .filter(Boolean)
     .join('\n');
 
-  const out = `---\n${fm}\n---\n\n# ${d.name}\n\n> ${d.tagline}\n\n${entry.body ?? ''}`;
+  const connect = getConnect(d.slug, 'tools');
+  const connectMd = connect ? connectToMarkdown(connect) : '';
+  const out = `---\n${fm}\n---\n\n# ${d.name}\n\n> ${d.tagline}\n\n${entry.body ?? ''}${connectMd}`;
 
   return new Response(out, {
     headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
