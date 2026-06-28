@@ -138,6 +138,7 @@ const CARD_TILES = {
   'Services.md': [
     { needle: 'Featured services', col: 'services', cats: ['machine-work-marketplace', 'inference-marketplace', 'inference-gateway'] },
     { needle: 'Off-the-shelf services', col: 'services', cats: ['payments-bridge', 'vpn-privacy'] },
+    { needle: 'Liquidity & yield', col: 'services', cats: ['liquidity'] },
   ],
 };
 // Insert `block` at the end of the section opened by the heading containing

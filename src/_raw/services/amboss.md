@@ -1,24 +1,25 @@
 ---
-name: Amboss
+name: Amboss (Magma)
 slug: amboss
-layer: bridges
-toolbox-group: bridges
+layer: services
+collection: services
 tagline: A Lightning channel-liquidity marketplace — buy inbound capacity from a public market with one API call (or an MIT MCP server), no account needed.
 tool-type: service
+category: liquidity
+featured: false
 two-sided: consume + offer
 maintainer: Amboss Technologies
 repo: https://github.com/AmbossTech/magma-mcp
 docs: https://docs.amboss.tech/developer
 site: https://magma.amboss.tech
-stack-section: "§2"
+payment: lightning / on-chain — pay the channel-lease HODL invoice in sats
+identity: none on the buy path (optional Amboss account adds order history)
+custody: self-custodial — non-custodial HODL-invoice escrow; the leased channel opens directly to your own node
+kyc: none
+bitcoin-native: true
 status: published
-last-verified: 2026-06-25
+last-verified: 2026-06-27
 order: 53
-prereq-tier: lightning-node
-prereqs:
-  - "your own Lightning node (LND, Core Lightning, or Eclair) reachable at its connection URI"
-  - "on-chain or Lightning funds to pay the channel-lease invoice"
-  - "optional only: an Amboss account / MAGMA_API_KEY for persistent order history — the buy path needs neither"
 tags:
   - amboss
   - magma
@@ -32,15 +33,15 @@ tags:
 
 Amboss is a Lightning Network infrastructure company; its agent-relevant product is **Magma**, a marketplace for **channel liquidity**. A node that needs *inbound* liquidity — the capacity to **receive** payments — buys a channel from a seller who locks up bitcoin to open it and earns yield for the lease term. Magma never takes custody: it escrows the deal with a HODL invoice, so the seller is paid only if it actually opens the channel. For an autonomous agent that earns over Lightning, this is the deployed answer to the inbound-liquidity problem — paid-for capacity to receive, on demand, without running a liquidity desk.
 
-Two things make it agent-drivable: a **public GraphQL API** (no account needed to buy) and an **MIT-licensed MCP server** (`@ambosstech/magma-mcp`) that exposes the whole purchase as a single `buy_lightning_liquidity` tool. Alongside Magma, Amboss runs **Magma AI** (a recommender that suggests which peers and sizes to buy — a recommender, not a hands-off rebalancer), **Rails** (a self-custodial liquidity-provider yield service for the sell side), and a Lightning explorer/analytics suite.
+Two things make it agent-drivable: a **public GraphQL API** (no account needed to buy) and an **MIT-licensed MCP server** (`@ambosstech/magma-mcp`) that exposes the whole purchase as a single `buy_lightning_liquidity` tool. Magma is one product in a broader Amboss stack: **Magma AI** (a recommender that suggests which peers and sizes to buy — a recommender, not a hands-off rebalancer), [Rails](/services/rails) (self-custodial liquidity-provider yield — the sell side), [Reflex](/tools/reflex) (API automation for a node you run), [Amboss Payments](/services/amboss-payments) (multi-asset BTC/USDT/USDC send-receive-settle, built on Voltage), [RailsX](/exchanges/railsx) (a Lightning-native P2P DEX for BTC↔stablecoin swaps), and a Lightning explorer/analytics suite.
 
 ## When to use it
 
 - Giving an agent inbound liquidity so it can **receive** Lightning payments without hand-picking channel partners.
 - Buying a channel programmatically — sized in dollars, paid in sats — from inside an agent's own workflow.
-- Earning yield on idle bitcoin by **selling** liquidity (the sell side, via Magma sellers or Rails).
+- Earning yield on idle bitcoin by **selling** liquidity (the sell side, via Magma sellers or [Rails](/services/rails)).
 
-It buys *new* inbound capacity from a third party — distinct from [Loop](/tools/loop), which moves an agent's *own* balance between Lightning and L1.
+It buys *new* inbound capacity from a third party — distinct from [Loop](/tools/loop), which moves an agent's *own* balance between Lightning and L1. Once you have capacity, [Reflex](/tools/reflex) is the software that automates ongoing routing and liquidity management.
 
 ## Dependencies
 
@@ -62,6 +63,6 @@ Estimate with the public `liquidity_per_usd` query, then call the public `liquid
 
 *Internal author perspective. Not published in produced derivatives.*
 
-Fills the Lightning liquidity-provider gap — the deployed, agent-drivable answer to the inbound-liquidity problem raised in [The Stack](/stack) (§2, Liquidity management) and flagged in [Field Notes](/field-notes) as honest engagement. Placed as a Tools card under `bridges` (beside Loop, the only other liquidity entry) rather than Services, because liquidity is Lightning infrastructure (Stack / cyan) and the Services tiles cover only inference/compute/commerce/privacy. Directory entry: category `liquidity` (sourced from this card), automatability `api-no-account` (the buy path is public), prereq-tier `lightning-node`, two-sided (buy + sell).
+Fills the Lightning liquidity gap — the deployed, agent-drivable answer to the inbound-liquidity problem raised in [The Stack](/stack) (§2, Liquidity management) and flagged in [Field Notes](/field-notes) as honest engagement. **Re-homed to Services / The Market (2026-06-27)** from the Tools catalog. Rationale (RadVladdy's call): liquidity isn't software you *run* — buying a channel (Magma) and selling capacity for yield ([Rails](/services/rails)) are **marketplace transactions**, so they belong in The Market (where "what an agent buys and sells" lives), which is also how the directory already classified them. The software you *equip* is [Reflex](/tools/reflex) — it stays in Tools. The Stack keeps the *concept* explainer (§2) with a brief pointer here. `/tools/amboss` 301-redirects to `/services/amboss` (the Strike/Routstr re-home precedent). Directory entry: category `liquidity`, automatability `api-no-account` (the buy path is public), two-sided (buy + sell).
 
-The Amboss MCP (`@ambosstech/magma-mcp`, **stdio/npm — not a hosted URL**) is the first `mcp_endpoint` candidate for the agent-interop roadmap (10a, the mcp_endpoint registry): its endpoint metadata is staged on the directory-overlay entry, inert until the registry passthrough is wired. Amboss also proves the registry must express **transport** (stdio vs http), not just a URL, and that the generic L402 `get_quote` probe does not fit a GraphQL-mutation provider — both captured as 10a design inputs.
+The Amboss MCP (`@ambosstech/magma-mcp`, **stdio/npm — not a hosted URL**) is the first `mcp_endpoint` registry route (10a): an agent discovers Magma in our directory, then connects to magma-mcp to act. Amboss also proved the registry must express **transport** (stdio vs http), not just a URL, and that the generic L402 `get_quote` probe does not fit a GraphQL-mutation provider.

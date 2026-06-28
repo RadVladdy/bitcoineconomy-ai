@@ -1,4 +1,4 @@
-# Amboss
+# Amboss (Magma)
 
 > Inbound Lightning liquidity — buy a channel opened to your node so the agent can receive payments; sized in dollars, leased for a term, paid in sats
 
@@ -6,6 +6,7 @@ A Lightning channel-liquidity marketplace — buy inbound capacity from a public
 
 - Category: liquidity
 - Payment methods: lightning, onchain
+- Payment detail: lightning / on-chain — pay the channel-lease HODL invoice in sats
 - KYC: none
 - Custody: self-custodial — non-custodial HODL-invoice escrow; the leased channel opens directly to your own node
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
@@ -17,8 +18,8 @@ A Lightning channel-liquidity marketplace — buy inbound capacity from a public
 - Site: https://magma.amboss.tech
 - Docs/API: https://docs.amboss.tech/developer
 - Repo: https://github.com/AmbossTech/magma-mcp
-- Full card (verified detail, gotchas): https://bitcoineconomy.ai/tools/amboss
-- Provenance: curated (last verified 2026-06-25)
+- Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/amboss
+- Provenance: curated (last verified 2026-06-27)
 
 Magma is a leading Lightning channel-liquidity marketplace; the buy side is agent-drivable with no account. Two-sided — sellers earn yield providing liquidity (Magma sell-side / Rails). Magma AI recommends peers/sizing (a recommender, not an auto-rebalancer).
 

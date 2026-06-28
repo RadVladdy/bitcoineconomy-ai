@@ -32,6 +32,9 @@ export default defineConfig({
     '/tools/ppq-ai': '/services/ppq-ai',
     // Strike is exchange-only (not infrastructure); its Tools card was retired.
     '/tools/strike': '/exchanges/strike',
+    // Magma (Amboss) re-homed to The Market 2026-06-27: buying/selling channel
+    // liquidity is a marketplace transaction, not software you run (that's Reflex).
+    '/tools/amboss': '/services/amboss',
     // Border Zone → its treasury/compliance/boundary material now lives in Treasury & the Boundary.
     '/border-zone': '/treasury',
     '/border-zone-for-agents': '/treasury-for-agents',

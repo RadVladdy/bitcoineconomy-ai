@@ -1,21 +1,28 @@
 {
-  "_comment": "Directory-specific fields per entry, merged over the card frontmatter by build.mjs. The cards in src/_raw/ stay the single source of truth for names, links, KYC, custody, and verification dates; this overlay adds only what the directory needs: category, what an agent buys, normalized payment methods, the automatability tier, and the machine-actionable fields (auth, quickstart, api_base, pricing_url). Order here = display order (sovereignty-first; fiat ramps last, Bitcoin-only before multi-asset). INCLUSION BAR: an entry must be agent-drivable through a real API — the `limited` tier (no public trading/provisioning API) is below the threshold and stays in the vocabulary only to mark the boundary (Swan removed under this rule; its card remains on the main site's Exchange reference map). MACHINE-FIELD DISCIPLINE: `auth` (how the credential works) and `quickstart` (the first call, one line) condense the card's verified Dependencies/Quick-start content; `api_base` and `pricing_url` appear ONLY where verified by a live probe or pinned card docs (bases probed 2026-06-10: api.routstr.com, api.boltz.exchange/v2, sideshift.ai/api/v2, api.kraken.com, api.coinbase.com, api.strike.me) — omit rather than guess. A `network` field (tor/clearnet, per the live module's vocabulary) is planned for curated entries once per-card onion endpoints are verified in the cards-first enrichment pass.",
+  "_comment": "Directory-specific fields per entry, merged over the card frontmatter by build.mjs. The cards in src/_raw/ stay the single source of truth for names, links, KYC, custody, and verification dates; this overlay adds only what the directory needs: category, what an agent buys, normalized payment methods, the automatability tier, and the machine-actionable fields (auth, quickstart, api_base, pricing_url). Order here = display order (sovereignty-first; fiat ramps last, Bitcoin-only before multi-asset). INCLUSION BAR: an entry must be agent-drivable through a real API \u2014 the `limited` tier (no public trading/provisioning API) is below the threshold and stays in the vocabulary only to mark the boundary (Swan removed under this rule; its card remains on the main site's Exchange reference map). MACHINE-FIELD DISCIPLINE: `auth` (how the credential works) and `quickstart` (the first call, one line) condense the card's verified Dependencies/Quick-start content; `api_base` and `pricing_url` appear ONLY where verified by a live probe or pinned card docs (bases probed 2026-06-10: api.routstr.com, api.boltz.exchange/v2, sideshift.ai/api/v2, api.kraken.com, api.coinbase.com, api.strike.me) \u2014 omit rather than guess. A `network` field (tor/clearnet, per the live module's vocabulary) is planned for curated entries once per-card onion endpoints are verified in the cards-first enrichment pass.",
   "_automatability_tiers": {
-    "api-no-account": "API with no account — payment or a key is the credential; zero human onboarding",
-    "api-account": "API after account setup — no identity check, but a human creates the account first",
-    "api-kyc": "API after KYC onboarding — automatable once a human completes identity verification",
-    "limited": "No public trading/provisioning API — scheduled or app-driven flows only"
+    "api-no-account": "API with no account \u2014 payment or a key is the credential; zero human onboarding",
+    "api-account": "API after account setup \u2014 no identity check, but a human creates the account first",
+    "api-kyc": "API after KYC onboarding \u2014 automatable once a human completes identity verification",
+    "limited": "No public trading/provisioning API \u2014 scheduled or app-driven flows only"
   },
   "_tool_mcp_endpoints": {
-    "_comment": "MCP endpoints for tool-catalog cards (src/_raw/tools/) that expose their own Model Context Protocol server but are not curated directory service entries (directory entries carry mcp_endpoint inline below). build.mjs merges these into the unified registry, keyed by tool slug, so find_tool/get_tool and list_mcp_servers surface them. The directory discovers; the provider's own MCP executes (connect-there-to-act). Amboss is not listed here — it is a directory entry, so its mcp_endpoint is reused for the tool card automatically.",
+    "_comment": "MCP endpoints for tool-catalog cards (src/_raw/tools/) that expose their own Model Context Protocol server but are not curated directory service entries (directory entries carry mcp_endpoint inline below). build.mjs merges these into the unified registry, keyed by tool slug, so find_tool/get_tool and list_mcp_servers surface them. The directory discovers; the provider's own MCP executes (connect-there-to-act). Amboss is not listed here \u2014 it is a directory entry, so its mcp_endpoint is reused for the tool card automatically.",
     "alby-nwc": {
       "kind": "payment",
       "transport": "stdio",
       "package": "@getalby/nwc-mcp-server",
       "run": "npx -y @getalby/nwc-mcp-server",
-      "tools": ["pay_invoice", "make_invoice", "lookup_invoice", "get_balance", "get_info", "get_wallet_service_info"],
+      "tools": [
+        "pay_invoice",
+        "make_invoice",
+        "lookup_invoice",
+        "get_balance",
+        "get_info",
+        "get_wallet_service_info"
+      ],
       "repo": "https://github.com/getAlby/nwc-mcp-server",
-      "note": "The payment MCP that complements the directory's discovery MCP — wraps a scoped, budgeted NWC (NIP-47) connection string as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. Honest status: the repo is archived (last commit 2025-06-20) and declares no license, but the @getalby/nwc-mcp-server npm package still installs and runs (stdio by default; optional HTTP mode). Verify currency before relying on it in production."
+      "note": "The payment MCP that complements the directory's discovery MCP \u2014 wraps a scoped, budgeted NWC (NIP-47) connection string as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. Honest status: the repo is archived (last commit 2025-06-20) and declares no license, but the @getalby/nwc-mcp-server npm package still installs and runs (stdio by default; optional HTTP mode). Verify currency before relying on it in production."
     }
   },
   "entries": [
@@ -23,10 +30,13 @@
       "slug": "routstr",
       "source": "services/routstr.md",
       "category": "inference",
-      "what_an_agent_buys": "LLM inference — OpenAI-compatible API calls from independent providers",
-      "payment_methods": ["cashu", "lightning"],
+      "what_an_agent_buys": "LLM inference \u2014 OpenAI-compatible API calls from independent providers",
+      "payment_methods": [
+        "cashu",
+        "lightning"
+      ],
       "automatability": "api-no-account",
-      "auth": "none — a funded Cashu token is the API key",
+      "auth": "none \u2014 a funded Cashu token is the API key",
       "api_base": "https://api.routstr.com/v1",
       "pricing_url": "https://api.routstr.com/v1/models",
       "quickstart": "Point any OpenAI-compatible client at a provider endpoint with a funded Cashu token as the Bearer key. Per-model sats pricing at {endpoint}/v1/models; live provider list + cross-provider price index at /live/snapshot.json + /live/models.json."
@@ -35,31 +45,39 @@
       "slug": "ppq-ai",
       "source": "services/ppq-ai.md",
       "category": "inference",
-      "what_an_agent_buys": "Pay-per-query frontier-model calls — chat, image, video, audio",
-      "payment_methods": ["l402", "lightning"],
+      "what_an_agent_buys": "Pay-per-query frontier-model calls \u2014 chat, image, video, audio",
+      "payment_methods": [
+        "l402",
+        "lightning"
+      ],
       "automatability": "api-no-account",
-      "auth": "none on the L402 path — pay-per-query; or a funded top-up balance",
-      "quickstart": "Pay per query over Lightning/L402 — no account, no API key on that path; API documented at ppq.ai/api-docs (machine pointer: ppq.ai/llms.txt)."
+      "auth": "none on the L402 path \u2014 pay-per-query; or a funded top-up balance",
+      "quickstart": "Pay per query over Lightning/L402 \u2014 no account, no API key on that path; API documented at ppq.ai/api-docs (machine pointer: ppq.ai/llms.txt)."
     },
     {
       "slug": "maple",
       "source": "services/maple.md",
       "category": "inference",
-      "what_an_agent_buys": "Private TEE-encrypted LLM inference through an OpenAI-compatible API — prompts provably unreadable to the provider",
-      "payment_methods": ["fiat"],
+      "what_an_agent_buys": "Private TEE-encrypted LLM inference through an OpenAI-compatible API \u2014 prompts provably unreadable to the provider",
+      "payment_methods": [
+        "fiat"
+      ],
       "automatability": "api-account",
-      "auth": "Maple API key as Bearer (Pro+ subscription, $20/mo+; account via email/Google/GitHub — no KYC). Bitcoin accepted on YEARLY plans (10% discount) via human checkout: the operator funds the account; the agent drives the API. No sats-per-call path.",
+      "auth": "Maple API key as Bearer (Pro+ subscription, $20/mo+; account via email/Google/GitHub \u2014 no KYC). Bitcoin accepted on YEARLY plans (10% discount) via human checkout: the operator funds the account; the agent drives the API. No sats-per-call path.",
       "quickstart": "Run Maple Proxy (docker run -p 8080:8080 -e MAPLE_BACKEND_URL=https://enclave.trymaple.ai ghcr.io/opensecretcloud/maple-proxy:latest), then point any OpenAI client at http://localhost:8080/v1 with the API key. Streaming responses only.",
-      "note": "Privacy-axis inference: TEE-attested end-to-end encryption, open-source server code, 7 open-weight models. Subscription, not pay-per-use — for sats-native pay-per-call see routstr/ppq-ai."
+      "note": "Privacy-axis inference: TEE-attested end-to-end encryption, open-source server code, 7 open-weight models. Subscription, not pay-per-use \u2014 for sats-native pay-per-call see routstr/ppq-ai."
     },
     {
       "slug": "lnvps",
       "source": "services/lnvps.md",
       "category": "compute",
-      "what_an_agent_buys": "VPS compute — provision a server with Nostr login and fund it in sats",
-      "payment_methods": ["lightning", "nwc"],
+      "what_an_agent_buys": "VPS compute \u2014 provision a server with Nostr login and fund it in sats",
+      "payment_methods": [
+        "lightning",
+        "nwc"
+      ],
       "automatability": "api-no-account",
-      "auth": "Nostr key is the identity — no email, no KYC",
+      "auth": "Nostr key is the identity \u2014 no email, no KYC",
       "quickstart": "Log in with a Nostr key, pick CPU/RAM/SSD, pay the Lightning invoice (or connect a wallet over NWC); automate the same flow via the LNVPS API (github.com/LNVPS/api)."
     },
     {
@@ -67,39 +85,52 @@
       "source": "services/bitlaunch.md",
       "category": "compute",
       "what_an_agent_buys": "VPS on DigitalOcean / Vultr / Linode capacity, provisioned end-to-end by API",
-      "payment_methods": ["lightning", "onchain"],
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
       "automatability": "api-account",
-      "auth": "API token after email signup — no KYC",
-      "quickstart": "Create an account and an API token, then provision and pay end-to-end with blcli or the Go/Python/PHP SDKs — request, invoice, pay, provision, all programmatic."
+      "auth": "API token after email signup \u2014 no KYC",
+      "quickstart": "Create an account and an API token, then provision and pay end-to-end with blcli or the Go/Python/PHP SDKs \u2014 request, invoice, pay, provision, all programmatic."
     },
     {
       "slug": "openagents",
       "source": "services/openagents.md",
       "category": "machine-work",
-      "what_an_agent_buys": "Machine work — agents buy and sell labor, compute, and data; settlement by zap after verification",
-      "payment_methods": ["lightning"],
+      "what_an_agent_buys": "Machine work \u2014 agents buy and sell labor, compute, and data; settlement by zap after verification",
+      "payment_methods": [
+        "lightning"
+      ],
       "automatability": "api-no-account",
       "auth": "Nostr identity (npub) + a self-custodial Lightning wallet",
       "quickstart": "Run Autopilot (desktop) or a Pylon node to offer compute; consumers pay Lightning zaps after the work verifies (pay-after-verify).",
-      "note": "Early-stage marketplace — built in public, five interlocking markets planned."
+      "note": "Early-stage marketplace \u2014 built in public, five interlocking markets planned."
     },
     {
       "slug": "bitrefill",
       "source": "services/bitrefill.md",
       "category": "commerce",
-      "what_an_agent_buys": "Agent-relevant slice: prepaid virtual Visa/Mastercard (the universal card bridge), eSIM data, phone/VoIP refills, VPN subscriptions. The bulk of the catalog is human-consumption gift cards (A2P procurement). NOT in the catalog: VPS/hosting, domains, compute, AI credits — see lnvps/bitlaunch/routstr/ppq-ai for those",
-      "payment_methods": ["lightning", "onchain"],
+      "what_an_agent_buys": "Agent-relevant slice: prepaid virtual Visa/Mastercard (the universal card bridge), eSIM data, phone/VoIP refills, VPN subscriptions. The bulk of the catalog is human-consumption gift cards (A2P procurement). NOT in the catalog: VPS/hosting, domains, compute, AI credits \u2014 see lnvps/bitlaunch/routstr/ppq-ai for those",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
       "automatability": "api-account",
-      "auth": "MCP server: OAuth or API key (account developers page) — auth-gated, probed alive 2026-06-11. Thor API key alternative. No KYC for ordinary purchases; guest checkout = email only.",
-      "quickstart": "Connect the remote MCP server at https://api.bitrefill.com/mcp (OAuth or API key): search-products → get-product-details → buy-products (≤15 items/invoice) → pay the Lightning invoice → get-invoice-by-id returns the redemption code. Setup: bitrefill.com/agents (machine-readable SKILL.md). Raw-HTTP alternative: the Thor API.",
+      "auth": "MCP server: OAuth or API key (account developers page) \u2014 auth-gated, probed alive 2026-06-11. Thor API key alternative. No KYC for ordinary purchases; guest checkout = email only.",
+      "quickstart": "Connect the remote MCP server at https://api.bitrefill.com/mcp (OAuth or API key): search-products \u2192 get-product-details \u2192 buy-products (\u226415 items/invoice) \u2192 pay the Lightning invoice \u2192 get-invoice-by-id returns the redemption code. Setup: bitrefill.com/agents (machine-readable SKILL.md). Raw-HTTP alternative: the Thor API.",
       "mcp_endpoint": {
         "kind": "service",
         "transport": "http",
         "url": "https://api.bitrefill.com/mcp",
         "auth": "OAuth or API key (account developers page)",
-        "tools": ["search-products", "get-product-details", "buy-products", "get-invoice-by-id"],
+        "tools": [
+          "search-products",
+          "get-product-details",
+          "buy-products",
+          "get-invoice-by-id"
+        ],
         "docs": "https://www.bitrefill.com/agents",
-        "note": "Bitrefill's own remote MCP — connect here to buy from the catalog (≤15 items/invoice). 7 typed tools total; named ones verified 2026-06-11. Not an L402 endpoint, so the directory does not bare-GET-probe it."
+        "note": "Bitrefill's own remote MCP \u2014 connect here to buy from the catalog (\u226415 items/invoice). 7 typed tools total; named ones verified 2026-06-11. Not an L402 endpoint, so the directory does not bare-GET-probe it."
       },
       "note": "One of the few entries with a purpose-built agent interface (remote MCP + agents onboarding page)."
     },
@@ -107,125 +138,175 @@
       "slug": "mullvad",
       "source": "services/mullvad.md",
       "category": "privacy",
-      "what_an_agent_buys": "VPN time on a no-identity account — fund a random 16-digit account number with sats",
-      "payment_methods": ["lightning", "onchain"],
+      "what_an_agent_buys": "VPN time on a no-identity account \u2014 fund a random 16-digit account number with sats",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
       "automatability": "api-account",
-      "auth": "account number only — generated free, no email, no identity",
-      "quickstart": "Generate an account number, pay a Lightning invoice against it, connect via WireGuard — scriptable, though there is no formal payment API."
+      "auth": "account number only \u2014 generated free, no email, no identity",
+      "quickstart": "Generate an account number, pay a Lightning invoice against it, connect via WireGuard \u2014 scriptable, though there is no formal payment API."
     },
     {
       "slug": "boltz",
       "source": "exchanges/boltz.md",
       "category": "swap",
-      "summary": "A non-custodial, no-KYC atomic-swap service — swaps settle via shared-preimage HTLCs, so the agent never gives up custody and no account or identity is required.",
-      "what_an_agent_buys": "Atomic swaps — Lightning ↔ on-chain ↔ Liquid, plus Lightning ↔ USDT/USDC",
-      "payment_methods": ["lightning", "onchain", "liquid"],
+      "summary": "A non-custodial, no-KYC atomic-swap service \u2014 swaps settle via shared-preimage HTLCs, so the agent never gives up custody and no account or identity is required.",
+      "what_an_agent_buys": "Atomic swaps \u2014 Lightning \u2194 on-chain \u2194 Liquid, plus Lightning \u2194 USDT/USDC",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "liquid"
+      ],
       "automatability": "api-no-account",
       "auth": "none",
       "api_base": "https://api.boltz.exchange/v2",
-      "quickstart": "Create a swap against the v2 REST API — no account; atomic HTLC settlement keeps custody with the agent throughout (docs: api.docs.boltz.exchange)."
+      "quickstart": "Create a swap against the v2 REST API \u2014 no account; atomic HTLC settlement keeps custody with the agent throughout (docs: api.docs.boltz.exchange)."
     },
     {
       "slug": "sideshift",
       "source": "exchanges/sideshift.md",
       "category": "swap",
-      "summary": "A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks — direct-to-wallet conversions with no funds custodied.",
+      "summary": "A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks \u2014 direct-to-wallet conversions with no funds custodied.",
       "what_an_agent_buys": "Cross-asset swaps across 200+ assets and 45+ networks, direct to wallet",
-      "payment_methods": ["lightning", "onchain"],
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
       "automatability": "api-no-account",
       "auth": "none",
       "api_base": "https://sideshift.ai/api/v2",
-      "quickstart": "Request a quote and create a shift via the REST API — no account; funds settle direct to the destination address (docs.sideshift.ai)."
+      "quickstart": "Request a quote and create a shift via the REST API \u2014 no account; funds settle direct to the destination address (docs.sideshift.ai)."
     },
     {
       "slug": "flashnet",
       "source": "exchanges/flashnet.md",
       "category": "swap",
-      "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark — BTC ↔ USDT/USDB/USDC settling in seconds while the agent keeps its keys.",
-      "what_an_agent_buys": "BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM",
-      "payment_methods": ["spark", "lightning"],
+      "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark \u2014 BTC \u2194 USDT/USDB/USDC settling in seconds while the agent keeps its keys.",
+      "what_an_agent_buys": "BTC \u2194 stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM",
+      "payment_methods": [
+        "spark",
+        "lightning"
+      ],
       "automatability": "api-no-account",
-      "auth": "none — keys stay with the agent",
-      "quickstart": "Swap BTC ↔ USDT/USDB/USDC on the Spark-native AMM — non-custodial, settles in seconds."
+      "auth": "none \u2014 keys stay with the agent",
+      "quickstart": "Swap BTC \u2194 USDT/USDB/USDC on the Spark-native AMM \u2014 non-custodial, settles in seconds."
     },
     {
       "slug": "sideswap",
       "source": "exchanges/sideswap.md",
       "category": "swap",
-      "summary": "A non-custodial, KYC-free swap platform native to the Liquid Network — L-BTC, L-USDt, and tokenized assets on public order books.",
-      "what_an_agent_buys": "L-BTC ↔ L-USDt and direct asset-to-asset swaps on Liquid order books",
-      "payment_methods": ["liquid"],
+      "summary": "A non-custodial, KYC-free swap platform native to the Liquid Network \u2014 L-BTC, L-USDt, and tokenized assets on public order books.",
+      "what_an_agent_buys": "L-BTC \u2194 L-USDt and direct asset-to-asset swaps on Liquid order books",
+      "payment_methods": [
+        "liquid"
+      ],
       "automatability": "api-no-account",
       "auth": "none",
-      "quickstart": "Trade L-BTC ↔ L-USDt and tokenized assets on Liquid order books via the SideSwap API (sideswap.io/docs)."
+      "quickstart": "Trade L-BTC \u2194 L-USDt and tokenized assets on Liquid order books via the SideSwap API (sideswap.io/docs)."
     },
     {
       "slug": "loop",
       "source": "tools/loop.md",
       "category": "liquidity",
-      "what_an_agent_buys": "Lightning ↔ on-chain liquidity — non-custodial submarine swaps for LND nodes, fee for service",
-      "payment_methods": ["lightning", "onchain"],
+      "what_an_agent_buys": "Lightning \u2194 on-chain liquidity \u2014 non-custodial submarine swaps for LND nodes, fee for service",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
       "automatability": "api-no-account",
       "kyc": "none",
       "custody": "self-custody (atomic submarine swaps)",
-      "auth": "none — your own LND node is the prerequisite",
+      "auth": "none \u2014 your own LND node is the prerequisite",
       "quickstart": "Run loopd against an LND node holding both channel and on-chain balance; loop out / loop in rebalance atomically (a fee to the Loop server applies)."
     },
     {
       "slug": "amboss",
-      "source": "tools/amboss.md",
+      "source": "services/amboss.md",
       "category": "liquidity",
-      "what_an_agent_buys": "Inbound Lightning liquidity — buy a channel opened to your node so the agent can receive payments; sized in dollars, leased for a term, paid in sats",
-      "payment_methods": ["lightning", "onchain"],
+      "what_an_agent_buys": "Inbound Lightning liquidity \u2014 buy a channel opened to your node so the agent can receive payments; sized in dollars, leased for a term, paid in sats",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
       "automatability": "api-no-account",
       "kyc": "none",
-      "custody": "self-custodial — non-custodial HODL-invoice escrow; the leased channel opens directly to your own node",
-      "auth": "none on the buy path — liquidity.buy is a public GraphQL mutation; anonymous buyers get a session_key to track the order. Optional MAGMA_API_KEY (Amboss account) adds persistent history.",
-      "quickstart": "Estimate with the public liquidity_per_usd query, then call the public liquidity.buy mutation (magma.amboss.tech/graphql) with your node's connection_uri (pubkey@host:port) and usd_cents (min 500); pay the returned HODL invoice from your LND/CLN/Eclair node; poll get_order to VALID_CHANNEL_OPENING. Or run the MIT magma-mcp server (npm @ambosstech/magma-mcp) — one buy_lightning_liquidity tool over stdio.",
+      "custody": "self-custodial \u2014 non-custodial HODL-invoice escrow; the leased channel opens directly to your own node",
+      "auth": "none on the buy path \u2014 liquidity.buy is a public GraphQL mutation; anonymous buyers get a session_key to track the order. Optional MAGMA_API_KEY (Amboss account) adds persistent history.",
+      "quickstart": "Estimate with the public liquidity_per_usd query, then call the public liquidity.buy mutation (magma.amboss.tech/graphql) with your node's connection_uri (pubkey@host:port) and usd_cents (min 500); pay the returned HODL invoice from your LND/CLN/Eclair node; poll get_order to VALID_CHANNEL_OPENING. Or run the MIT magma-mcp server (npm @ambosstech/magma-mcp) \u2014 one buy_lightning_liquidity tool over stdio.",
       "mcp_endpoint": {
         "kind": "service",
         "transport": "stdio",
         "package": "@ambosstech/magma-mcp",
         "run": "npx -y @ambosstech/magma-mcp",
-        "tools": ["buy_lightning_liquidity"],
+        "tools": [
+          "buy_lightning_liquidity"
+        ],
         "repo": "https://github.com/AmbossTech/magma-mcp",
         "license": "MIT",
-        "note": "Amboss's own MCP server — connect here to actually buy inbound liquidity. One stdio tool; needs your node connection_uri and an LND/CLN/Eclair wallet to pay the HODL invoice."
+        "note": "Amboss's own MCP server \u2014 connect here to actually buy inbound liquidity. One stdio tool; needs your node connection_uri and an LND/CLN/Eclair wallet to pay the HODL invoice."
       },
-      "note": "Magma is a leading Lightning channel-liquidity marketplace; the buy side is agent-drivable with no account. Two-sided — sellers earn yield providing liquidity (Magma sell-side / Rails). Magma AI recommends peers/sizing (a recommender, not an auto-rebalancer)."
+      "note": "Magma is a leading Lightning channel-liquidity marketplace; the buy side is agent-drivable with no account. Two-sided \u2014 sellers earn yield providing liquidity (Magma sell-side / Rails). Magma AI recommends peers/sizing (a recommender, not an auto-rebalancer)."
+    },
+    {
+      "slug": "rails",
+      "source": "services/rails.md",
+      "category": "liquidity",
+      "what_an_agent_buys": "Sell-side liquidity yield \u2014 deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side).",
+      "payment_methods": [
+        "lightning"
+      ],
+      "automatability": "api-account",
+      "custody": "self-custodial \u2014 your bitcoin stays under your own keys/node; Rails automates its deployment as routing liquidity",
+      "auth": "API key from an Amboss account, sent as a bearer token to rails.amboss.tech/graphql",
+      "api_base": "https://rails.amboss.tech/graphql",
+      "quickstart": "Create an API key in your Amboss account; POST GraphQL to rails.amboss.tech/graphql with Authorization: Bearer <API_KEY> to configure and run liquidity provision; yield accrues from routing fees on the capacity you supply. Exact mutations: docs.amboss.tech/developer.",
+      "note": "The provide/sell-side complement to Magma's buy-side; part of the Amboss + Voltage enterprise stack. Self-custodial yield on bitcoin used as Lightning routing liquidity \u2014 no asset swap, no custody handover. Amboss does not license free-API access for commercial use \u2014 confirm terms for production."
     },
     {
       "slug": "strike",
       "source": "exchanges/strike.md",
       "category": "fiat-ramp",
-      "summary": "A Bitcoin-only financial app whose defining feature for agents is native Lightning — it converts between a fiat bank balance and Lightning sats at the custodial boundary, sub-second on the Lightning side.",
-      "what_an_agent_buys": "Lightning ↔ fiat conversion at the custodial edge",
-      "payment_methods": ["lightning", "onchain", "fiat"],
+      "summary": "A Bitcoin-only financial app whose defining feature for agents is native Lightning \u2014 it converts between a fiat bank balance and Lightning sats at the custodial boundary, sub-second on the Lightning side.",
+      "what_an_agent_buys": "Lightning \u2194 fiat conversion at the custodial edge",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "fiat"
+      ],
       "automatability": "api-kyc",
-      "auth": "API key — KYC account required",
+      "auth": "API key \u2014 KYC account required",
       "api_base": "https://api.strike.me",
-      "quickstart": "Complete KYC, create an API key, then drive invoices, payments, and fiat↔Lightning conversion via the Strike API (docs.strike.me)."
+      "quickstart": "Complete KYC, create an API key, then drive invoices, payments, and fiat\u2194Lightning conversion via the Strike API (docs.strike.me)."
     },
     {
       "slug": "river",
       "source": "exchanges/river.md",
       "category": "fiat-ramp",
-      "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.",
-      "what_an_agent_buys": "Fiat ↔ BTC (US) plus Lightning payments via the RLS API",
-      "payment_methods": ["lightning", "onchain", "fiat"],
+      "summary": "A US Bitcoin-only financial-services company \u2014 buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.",
+      "what_an_agent_buys": "Fiat \u2194 BTC (US) plus Lightning payments via the RLS API",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "fiat"
+      ],
       "automatability": "api-kyc",
-      "auth": "API key — KYC onboarding required",
-      "quickstart": "Complete KYC onboarding, then use the RLS API for Lightning send/receive — a payments API, not buy/sell trading (docs.rls.dev)."
+      "auth": "API key \u2014 KYC onboarding required",
+      "quickstart": "Complete KYC onboarding, then use the RLS API for Lightning send/receive \u2014 a payments API, not buy/sell trading (docs.rls.dev)."
     },
     {
       "slug": "kraken",
       "source": "exchanges/kraken.md",
       "category": "fiat-ramp",
       "summary": "A large, long-established multi-asset exchange with broad fiat pairs and a mature trading API.",
-      "what_an_agent_buys": "Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API",
-      "payment_methods": ["lightning", "onchain", "fiat"],
+      "what_an_agent_buys": "Fiat \u2194 BTC \u2194 stablecoin across many fiat currencies on a mature trading API",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "fiat"
+      ],
       "automatability": "api-kyc",
-      "auth": "API key — KYC account required",
+      "auth": "API key \u2014 KYC account required",
       "api_base": "https://api.kraken.com",
       "quickstart": "Complete KYC, create an API key, then full deposit/trade/withdraw over REST + WebSocket (docs.kraken.com)."
     },
@@ -234,10 +315,14 @@
       "source": "exchanges/coinbase.md",
       "category": "fiat-ramp",
       "summary": "A large, publicly listed multi-asset exchange with broad fiat connectivity and a mature developer platform; co-issuer of USDC.",
-      "what_an_agent_buys": "Fiat ↔ BTC ↔ USDC via a mature developer platform",
-      "payment_methods": ["lightning", "onchain", "fiat"],
+      "what_an_agent_buys": "Fiat \u2194 BTC \u2194 USDC via a mature developer platform",
+      "payment_methods": [
+        "lightning",
+        "onchain",
+        "fiat"
+      ],
       "automatability": "api-kyc",
-      "auth": "API key (CDP) — KYC account required",
+      "auth": "API key (CDP) \u2014 KYC account required",
       "api_base": "https://api.coinbase.com",
       "quickstart": "Complete KYC, create CDP API keys, then Advanced Trade REST/WebSocket for deposit/trade/withdraw (docs.cdp.coinbase.com)."
     }

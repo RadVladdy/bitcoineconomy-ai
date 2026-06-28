@@ -142,9 +142,9 @@ These exclusions are not judgments about the merchants; they are statements abou
 
 ---
 
-## §6 — The two service groups
+## §6 — The service groups
 
-SV4 defended. Applying the filter (§5) partitions the in-layer services into two groups.
+SV4 defended. Applying the filter (§5) partitions the in-layer services into three groups.
 
 **Group (a) — Agent-native A2A venues.** Services where the thing being bought is itself agent work or agent-priced inference, discovered and settled on the Bitcoin stack natively. These are the venues where the consume and offer sides meet directly.
 - **OpenAgents** (`openagents.com`) — a Bitcoin-native marketplace for *machine work*: sovereign agents hold Nostr identities and self-custodial Lightning wallets, sell spare compute, and are paid in Bitcoin over Lightning, across five interlocking markets (Compute, Data, Labor, Liquidity, Risk). Two-sided (consume + offer). The closest deployed model for the full-directory shape this layer points toward.
@@ -156,6 +156,10 @@ SV4 defended. Applying the filter (§5) partitions the in-layer services into tw
 - **Bitrefill** — the *bridge* to the long tail. A Lightning gift-card/top-up service with a real payment API (Thor) and no KYC for ordinary purchases. For the long tail of brands that do not take Bitcoin directly — domains, cloud, storage, mainstream SaaS — the agent buys a Bitrefill credit with sats (admissible shape 1, a real payment API) and redeems it at the target service. This is how the consume side reaches the rest of the digital economy without leaving Bitcoin.
 
 **Why these and not others.** *(structural)* Many VPN, hosting, and domain brands take Bitcoin — but via human checkout, not an agent-drivable API; they are out-of-layer per §5 and reachable only through Bitrefill. Group (b) is deliberately the two services that pass the filter directly: Mullvad as the model of a direct-merchant fit, Bitrefill as the model of a bridge that extends agent reach to everything else.
+
+**Group (c) — Liquidity provisioning.** *(structural)* Inbound liquidity is the precondition for an agent to *receive* over Lightning; acquiring or providing it is a marketplace transaction, not local software (that is [[reflex|Reflex]], which stays in [[Stack-FA|The Stack]]). Two-sided by construction — buy capacity, or sell idle bitcoin as routing liquidity for yield — and both legs are self-custodial and API-drivable, passing the filter via a real API (admissible shape 1, §5).
+- **Amboss (Magma)** — the buy side: a public channel-liquidity marketplace; an agent purchases inbound capacity opened to its *own* node via a public GraphQL mutation (no account) or the MIT `magma-mcp` server. Custody is preserved (non-custodial HODL-invoice escrow; the channel opens to the agent's node). Re-homed from the Stack's tooling to this layer 2026-06-27 — buying liquidity is a Market action, not equipment an agent runs.
+- **Amboss Rails** — the sell side: deploy self-custodied bitcoin as routing liquidity and earn yield from the flow that crosses it, driven by API. The provide-side counterpart to Magma.
 
 ---
 

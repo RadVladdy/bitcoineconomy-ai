@@ -104,6 +104,17 @@ Many VPN, hosting, and domain brands *do* take Bitcoin — but via human checkou
 
 ---
 
+## Liquidity & yield *(curated)*
+
+Receiving payments over Lightning requires **inbound liquidity** — and acquiring or providing it is a *marketplace* activity, not something an agent runs locally (the software for that is [[reflex|Reflex]] in [The Stack](/stack)). These are the two sides of that market: an agent **buys** capacity so it can get paid, or **sells** idle bitcoin as routing liquidity to **earn yield** — both self-custodial, both API-drivable.
+
+- **[[amboss|Amboss (Magma)]]** — the **buy side**: a public channel-liquidity marketplace where an agent purchases inbound capacity opened directly to its own node, sized in dollars and paid in sats, with no account on the buy path (and an MIT MCP server). The deployed answer to "how does an agent get paid over Lightning."
+- **[[rails|Amboss Rails]]** — the **sell side**: put idle, self-custodied bitcoin to work as routing liquidity and earn yield from the payment flow that crosses it, driven by API.
+
+The concept lives in [The Stack](/stack) (§ Liquidity management); these are the venues that transact it.
+
+---
+
 ## The full directory *(separate site — `marketplace.bitcoineconomy.ai`)*
 
 The curated entries above are deliberately few. The complete picture lives as its own **sibling site at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai)** — and it's **live**, not a promise. What it publishes today: a **curated registry** of services that clear one bar (an agent must be able to drive the service through a real API), the **live announcement data** from the public Nostr relays (provider and mint announcements, shown as announcements — not endorsements), **endpoint liveness probes refreshed every six hours** (announcements outlive their nodes; the directory knows which are actually alive, and how fast), and a **cross-provider price index** — hundreds of models, priced in sats per token, sorted cheapest-first. All of it is agent-readable by design: `llms.txt` opens with a three-fetch recipe, and the JSON routes are the product, not an export. Community ratings — the reputation layer that addresses the one risk a payment rail can't (below) — are the directory's next phase. Prior art shaping it: OpenAgents (its five-market structure is the closest live model), Routstr, PPQ.AI.

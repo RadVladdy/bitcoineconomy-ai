@@ -2,7 +2,7 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-06-26T14:36:08.529Z",
+  "generated_at": "2026-06-28T05:30:10.807Z",
   "tool_count": 22,
   "toolbox_groups": [
     "node-toolkits",
@@ -317,6 +317,23 @@
       "last_verified": "2026-06-02"
     },
     {
+      "slug": "reflex",
+      "name": "Reflex",
+      "toolbox_group": "node-toolkits",
+      "tool_type": "service",
+      "layer": "integration",
+      "tagline": "Amboss's automation layer for a node you already run — pathfinding, routing/liquidity workflows, invoices, and triggers, all driven through one GraphQL API.",
+      "maintainer": "Amboss Technologies",
+      "prereq_tier": "lightning-node",
+      "stack_section": "§2",
+      "links": {
+        "site": "https://amboss.space",
+        "docs": "https://amboss.space/reflex/docs/api-docs"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/reflex",
+      "last_verified": "2026-06-27"
+    },
+    {
       "slug": "xverse-agent-wallet",
       "name": "Xverse Agent Wallet",
       "toolbox_group": "wallets",
@@ -405,37 +422,6 @@
       },
       "card_url": "https://bitcoineconomy.ai/tools/loop",
       "last_verified": "2026-06-02"
-    },
-    {
-      "slug": "amboss",
-      "name": "Amboss",
-      "toolbox_group": "bridges",
-      "tool_type": "service",
-      "layer": "bridges",
-      "tagline": "A Lightning channel-liquidity marketplace — buy inbound capacity from a public market with one API call (or an MIT MCP server), no account needed.",
-      "maintainer": "Amboss Technologies",
-      "prereq_tier": "lightning-node",
-      "stack_section": "§2",
-      "two_sided": "consume + offer",
-      "links": {
-        "site": "https://magma.amboss.tech",
-        "docs": "https://docs.amboss.tech/developer",
-        "repo": "https://github.com/AmbossTech/magma-mcp"
-      },
-      "card_url": "https://bitcoineconomy.ai/tools/amboss",
-      "mcp_endpoint": {
-        "kind": "service",
-        "transport": "stdio",
-        "package": "@ambosstech/magma-mcp",
-        "run": "npx -y @ambosstech/magma-mcp",
-        "tools": [
-          "buy_lightning_liquidity"
-        ],
-        "repo": "https://github.com/AmbossTech/magma-mcp",
-        "license": "MIT",
-        "note": "Amboss's own MCP server — connect here to actually buy inbound liquidity. One stdio tool; needs your node connection_uri and an LND/CLN/Eclair wallet to pay the HODL invoice."
-      },
-      "last_verified": "2026-06-25"
     },
     {
       "slug": "taproot-assets",
