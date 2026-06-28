@@ -196,6 +196,17 @@ This subsection engages deployment challenges for both substrates and maps each 
 
 Dated event records on specific developments. Each: what happened / why it matters (structural significance, narrative stripped) / Bears on / epistemic tag / sources.
 
+### 2026-06-28 — PPQ's encrypted inference becomes substrate: a downstream product builds no-KYC private AI on PayPerQ's rails *(confirmed)*
+
+- **Event.** getbased (`getbasedhealth`, Nostr) launched encrypted AI inference *powered by PayPerQ* — GLM-5.2, *"no email, no KYC, no fiat, no subscription — pay per query, prompts encrypted"* — riding PPQ's TEE private-inference tier (NVIDIA confidential-computing enclaves + browser-side end-to-end encryption; exposed as `private/glm-5-2`, 384K context; *"PayPerQ never sees your prompts"*).
+- **Substrate.** Bitcoin (PPQ pay-per-query over Lightning / L402; private TEE tier on top).
+- **Structural significance.** A featured consume-side venue (PPQ) is being reused as *infrastructure* by a second product — destination → substrate. The agent economy as services-built-on-services, shown empirically: no-KYC, Bitcoin-paid, end-to-end-encrypted inference composed by a downstream builder with no account, no fiat, no human-in-the-loop. getbased is a human-facing front-end, not an agent-drivable venue → no directory entry; the load-bearing datapoint is PPQ-as-substrate plus the private/TEE privacy axis.
+- **Bears on:** *supports* Services-FA SV1 (consume side) + the services-compound-on-services dynamic; *supports* Case-FA (an agent funds its own private inference on the Bitcoin stack); strengthens the [[ppq-ai|PPQ]] privacy profile (TEE tier; card refreshed 2026-06-28).
+- **Epistemic tag.** *(confirmed)* — provider TEE tier documented; the downstream launch *(reported)* from the getbased Nostr announcement.
+- **Sources.** [PayPerQ — Introducing Private AI Models](https://ppq.ai/blog/introducing-tee-models); getbased Nostr note (`getbasedhealth`, 2026-06-22). Canonical narrative: [[Field-Notes]] § 2026-06-28.
+
+---
+
 ### 2026-06-16 — Regulated stablecoins carry a statutorily-mandated kill switch (the "off switch" property is not CBDC-exclusive) *(confirmed)*
 
 - **Event.** Renewed public circulation of the CBDC "off switch" critique (Cato Institute, "When Money Has an Off Switch, So Does Your Freedom") prompts the structural clarification: the GENIUS Act (2025 US payment-stablecoin statute) requires every permitted payment stablecoin issuer (PPSI) to maintain the technical capability to **seize, freeze, burn, or prevent the transfer** of its tokens on a lawful order from a federal agency or court, as a licensing condition ("reasonable particularity" standard). FinCEN/OFAC implementing rule proposed April 10 2026 (Fed. Reg. 2026-06963); comment period closed June 9 2026. Exercised, not latent: Circle ~$8.2M (Tornado Cash, 2022) + 16 business wallets (sealed civil suit, March 2026); Tether >$1B cumulative.

@@ -74,6 +74,8 @@ The state below reflects the empirical landscape as of late May 2026. Most conse
 
 **Fedimint deployment state.** Architectural framework documented and stable (4+ guardian recommendation; federated-trust model). Production federation counts and any fiat off-ramp partnerships remain a research gap — needs deeper investigation via Fedimint Discord / Fedi documentation for the next refresh.
 
+**Bitcoin-native prediction / "Risk" markets are appearing — but not yet agent-drivable.** Glimpse (`glimpse.trading`) launched a **regulated Bitcoin prediction market** — event contracts priced by a Bitcoin-native automated market maker (a liquidity-sensitive LMSR denominated in sats), with Lightning deposits and withdrawals. It is a live datapoint for the **Risk** corner of the agent-economy markets (forecasting / hedging / insurance primitives). But it does **not** clear the directory's agent-automatability bar: **custodial** (BitGo Trust), Bermuda-regulated with KYC and geo-restrictions (no US / Canada / UK), and no public agent-trading API surfaced. Logged as a Risk-market *watch*, not a directory entry — the thing to watch for is a self-custodial, API-driven, no-KYC venue an agent could actually trade.
+
 ### Part A.4 — Live risk / attack-surface state
 
 **This subsection engages deployment challenges honestly for both substrates.** Per locked editorial discipline (Decisions 2026-05-25): engaging challenges *strengthens* the structural argument by showing clear-eyed thinking; avoiding them weakens it.
@@ -102,6 +104,18 @@ The state below reflects the empirical landscape as of late May 2026. Most conse
 ## Part B — Log (reverse chronological — newest first)
 
 Dated entries on specific developments. Newest at top. Each entry: what happened, why it matters, cross-references to canonical surfaces, primary sources.
+
+### 2026-06-28 — PPQ's encrypted inference is becoming substrate: a downstream product builds no-KYC private AI on PayPerQ's rails
+
+**What's happening.** getbased (a privacy-first product; author `getbasedhealth` on Nostr) announced **encrypted AI inference powered by PayPerQ** — access to GLM-5.2 with *"no email, no KYC, no fiat, no subscription — pay per query and keep your prompts encrypted."* It rides PPQ's **TEE private-inference tier**: models served inside NVIDIA confidential-computing enclaves with browser-side end-to-end encryption, so *"PayPerQ never sees your prompts,"* exposed to callers as `private/glm-5-2`.
+
+**Why it matters.** PPQ has been a *destination* on this site — an agent (or human) paying per call for inference over Lightning. This is PPQ moving one layer down, **from destination to substrate**: a second product building its own no-KYC, Bitcoin-paid, end-to-end-encrypted AI on top of PPQ's rails. That compounding — one Bitcoin-native service becoming the infrastructure another is built on, with no account, no fiat, and no human in the loop — is exactly the agent-economy dynamic the site argues for, showing up in the wild. (getbased itself is a human-facing front-end, not an agent-drivable venue, so it isn't a directory entry; the load-bearing datapoint is **PPQ-as-substrate**.)
+
+**Cross-references.** [[ppq-ai|PPQ.AI]] — the inference gateway + its TEE private tier (card refreshed 2026-06-28); [[Case]] — an agent funding its own (private) inference on the Bitcoin stack; [[Services]] — the consume side.
+
+**Sources.** PPQ private/TEE inference: [PayPerQ — Introducing Private AI Models](https://ppq.ai/blog/introducing-tee-models) (TEE + Tinfoil encrypted-body protocol; `private/glm-5-2`, 384K context). getbased announcement: Nostr note by `getbasedhealth` (njump), 2026-06-22.
+
+---
 
 ### 2026-06-16 — "Off switch" critiques are having a moment — and they apply to regulated stablecoins, not just CBDCs
 

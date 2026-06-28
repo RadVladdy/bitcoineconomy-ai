@@ -2,7 +2,7 @@
 
 > Pay-per-query frontier-model calls — chat, image, video, audio
 
-Pay-per-query access to hundreds of frontier models over Lightning / L402 — no account, no API key, roughly a cent and a half a query.
+Pay-per-query access to hundreds of frontier models over Lightning / L402 — no account, no API key, roughly a cent and a half a query — now including end-to-end-encrypted private models.
 
 - Category: inference
 - Payment methods: l402, lightning
@@ -18,7 +18,7 @@ Pay-per-query access to hundreds of frontier models over Lightning / L402 — no
 - Docs/API: https://ppq.ai/api-docs
 - Repo: https://github.com/PayPerQ
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/ppq-ai
-- Provenance: curated (last verified 2026-06-02)
+- Provenance: curated (last verified 2026-06-28)
 
 ---
 

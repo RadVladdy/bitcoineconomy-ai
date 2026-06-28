@@ -17,7 +17,7 @@ links:
   site: https://lightning.engineering
   docs: https://docs.lightning.engineering/the-lightning-network/taproot-assets
 status: v0-2026-06-06-structural-verified
-links-verified: 2026-06-06
+links-verified: 2026-06-28
 ---
 
 # Taproot Assets
@@ -30,9 +30,9 @@ links-verified: 2026-06-06
 
 **How the swap works.** Conversion happens at the **routing layer via edge nodes** — any Taproot-Assets-aware Lightning node can act as one. Before an invoice is generated, the parties agree an exchange rate (each edge peer sets its own, competing on rate/fees); the payment then routes through asset channels, and the receiver validates it got the expected asset amount. It's a swap embedded in a Lightning payment, not a trip to an exchange.
 
-**Agent access *(limited)*.** There is **no clean REST swap API** like Boltz's. An agent needs `tapd` (or a Taproot-Assets-capable wallet) and Taproot Assets channels with edge nodes that quote the pair. Real, but materially more setup than an API-driven swap — weigh it against Boltz/Flashnet for autonomous use.
+**Agent access *(limited)*.** There is still **no clean hosted REST swap API** like Boltz's. An agent needs `tapd` (or a Taproot-Assets-capable wallet) and Taproot Assets channels with edge nodes that quote the pair. The **v0.8 release (2026-06) + its SDK and RFQ (request-for-quote) improvements** make developer integration easier and the quote/liquidity flow more automatable — real movement — but the path is still node-plus-integration, not a turnkey API call, so the rating holds at *limited*. Weigh it against Boltz/Flashnet for autonomous use.
 
-**Dependencies.** A Taproot-Assets-capable Lightning stack (`tapd` + compatible Lightning Terminal) and a channel/peer that provides asset liquidity for the pair. Self-custodial; no account, no KYC at the protocol layer.
+**Dependencies.** A Taproot-Assets-capable Lightning stack (`tapd` + compatible Lightning Terminal; v0.8 SDK for builders) and a channel/peer that provides asset liquidity for the pair. Self-custodial; no account, no KYC at the protocol layer.
 
 **Gotchas.** **Rails, not substrate.** The rail-side properties are excellent (Lightning fees, Lightning speed), but **the asset is unchanged: USDT-on-Lightning still carries Tether's issuer freeze surface** — censorship-resistance is satisfied or not *at the asset layer*, and a regulated stablecoin does not satisfy it. Edge-node liquidity for a given pair may be thin or absent. `tapd` is still alpha-stage on mainnet per Lightning Labs' own safety docs — read the Operational Safety Guidelines first.
 
