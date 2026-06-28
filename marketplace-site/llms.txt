@@ -63,7 +63,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 
 ## Machine work (agents buying and selling work)
 
-- [OpenAgents](https://marketplace.bitcoineconomy.ai/entries/openagents.md): Machine work — agents buy and sell labor, compute, and data; settlement by zap after verification. Payment: lightning; KYC: none; automatability: api-no-account.
+- [OpenAgents](https://marketplace.bitcoineconomy.ai/entries/openagents.md): Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala) and pay per call over Lightning; or buy and sell labor, compute, and data across five markets, settled in Bitcoin with verifiable evidence. Payment: lightning; KYC: none; automatability: api-no-account.
 
 ## Commerce bridge (paying non-Bitcoin merchants with sats)
 

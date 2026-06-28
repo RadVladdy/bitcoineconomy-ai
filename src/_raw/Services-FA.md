@@ -147,7 +147,7 @@ These exclusions are not judgments about the merchants; they are statements abou
 SV4 defended. Applying the filter (§5) partitions the in-layer services into three groups.
 
 **Group (a) — Agent-native A2A venues.** Services where the thing being bought is itself agent work or agent-priced inference, discovered and settled on the Bitcoin stack natively. These are the venues where the consume and offer sides meet directly.
-- **OpenAgents** (`openagents.com`) — a Bitcoin-native marketplace for *machine work*: sovereign agents hold Nostr identities and self-custodial Lightning wallets, sell spare compute, and are paid in Bitcoin over Lightning, across five interlocking markets (Compute, Data, Labor, Liquidity, Risk). Two-sided (consume + offer). The closest deployed model for the full-directory shape this layer points toward.
+- **OpenAgents** (`openagents.com`) — an open marketplace for *machine work / outcomes* settled in Bitcoin over Lightning; its **Khala** flagship is a live **OpenAI-compatible inference gateway** (`openagents/khala`, billed per call in sats) an agent can call directly, alongside contributor **Pylon** nodes (self-custodial Lightning wallets) and a Bitcoin-paid training run, across five interlocking markets (Compute, Data, Labor, Liquidity, Risk). Two-sided (consume + offer). The closest deployed model for the full-directory shape this layer points toward.
 - **Routstr** — a Bitcoin-powered AI-inference marketplace: a payment-gated reverse proxy in front of OpenAI-compatible LLM APIs, paid per request in Cashu ecash (the token IS the API key), settling over Lightning, with Nostr-based provider discovery. The clearest deployed instance of the Cashu-as-API-key pattern (§4).
 - **PPQ.AI** — pay-per-query access to frontier models over Lightning / L402; an agent pays per call with no subscription or account. A live L402-pattern proof-point.
 
@@ -169,11 +169,11 @@ SV4 defended at depth. Each deployed service profiled against the four conjuncti
 
 ### §7.1 — OpenAgents (Group a; machine-work marketplace)
 
-- **Payment mechanism.** Lightning sats via NIP-57 zaps, settled after the work is verified (pay-after-verify). Self-custodial agent wallets (BIP39-derived; FROSTR threshold signing).
-- **Constraint profile (payment leg).** Pass 1 (self-custodial agent wallets), 2 (Lightning settlement, no issuer), 3 (sub-cent Lightning fees), 4 (machine-tempo Lightning). Clean Bitcoin-substrate fit; not a hybrid or stablecoin play.
-- **Automatability.** Real agent-native payment path (Lightning per result); admissible shape 1.
-- **Two-sided.** Yes — offer (sell spare compute via the Pylon node or Autopilot app) and consume (purchase machine work across the five markets).
-- **Operational caveat.** *(operational)* Verification is load-bearing: the Risk market and verifiable-outcome design exist precisely because unverified machine output can do economic damage. The Nexus coordination layer is hosted by the company initially — a temporary centralization point in coordination, not in settlement custody.
+- **Payment mechanism.** Lightning settlement — per-call billing on the **Khala** inference gateway, **BOLT12** for Forum/direct payments — with self-custodial Lightning wallets (Pylon-/agent-held). *(Earlier card detail — NIP-57 pay-after-verify zaps, BIP39-derived wallets, FROSTR threshold signing — is from the 2026-06-04 pass and is **not corroborated** as of 2026-06-28; current rails are Nostr **NIP-90** + **BOLT12/Lightning**. Re-verify against live docs before asserting signing specifics.)*
+- **Constraint profile (payment leg).** Pass 1 (self-custodial Lightning wallets), 2 (Lightning settlement, no issuer), 3 (sub-cent Lightning fees), 4 (machine-tempo Lightning). Clean Bitcoin-substrate fit; not a hybrid or stablecoin play. *(Card/dollar rails exist on OpenAgents Cloud as a convenience layer; the substrate leg profiled here is the Lightning path.)*
+- **Automatability.** Real agent-native payment path — **Khala** is a live OpenAI-compatible inference endpoint (`openagents/khala`, base `https://openagents.com/api/v1`) billed per call over Lightning, callable with no human step; admissible shape 1.
+- **Two-sided.** Yes — consume (call Khala / buy machine work, paid over Lightning) and offer (run a Pylon node to sell compute, contribute to the Tassadar training run, or earn referral revenue share — paid in Bitcoin).
+- **Operational caveat.** *(operational)* Verification is load-bearing: the Risk market and verifiable-evidence design exist precisely because unverified machine output can do economic damage. Coordination has hosted/centralized components today — a temporary centralization point in coordination, not in settlement custody — and the project's own README notes it is "early and in active development," with many surfaces gated.
 
 ### §7.2 — Routstr (Group a; inference marketplace, Cashu-as-API-key)
 
@@ -275,7 +275,7 @@ Declarative. Each implication follows from SV1–SV6 as marked.
 **Related human-track surface (no For-Agents twin).**
 - The ecash-mint vetting guide "evaluating-ecash-mints" — referenced by display text for the Cashu mint-trust caveat in §7.2; it has no For-Agents twin.
 
-**Date stamps.** Document created 2026-06-05; status v0-draft pending review. Deployed-service references verified as of mid-2026 (per the source cards' `last-verified` stamps: OpenAgents 2026-06-04, Routstr 2026-06-02, PPQ.AI 2026-06-02, Mullvad 2026-06-05, Bitrefill 2026-06-05).
+**Date stamps.** Document created 2026-06-05; status v0-draft pending review. Deployed-service references verified as of mid-2026 (per the source cards' `last-verified` stamps: OpenAgents **2026-06-28** [Khala refresh], Routstr 2026-06-02, PPQ.AI 2026-06-02, Mullvad 2026-06-05, Bitrefill 2026-06-05).
 
 ---
 

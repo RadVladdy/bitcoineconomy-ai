@@ -97,14 +97,14 @@
       "slug": "openagents",
       "source": "services/openagents.md",
       "category": "machine-work",
-      "what_an_agent_buys": "Machine work \u2014 agents buy and sell labor, compute, and data; settlement by zap after verification",
+      "what_an_agent_buys": "Inference + machine work \u2014 call the Khala OpenAI-compatible gateway (openagents/khala) and pay per call over Lightning; or buy and sell labor, compute, and data across five markets, settled in Bitcoin with verifiable evidence",
       "payment_methods": [
         "lightning"
       ],
       "automatability": "api-no-account",
-      "auth": "Nostr identity (npub) + a self-custodial Lightning wallet",
-      "quickstart": "Run Autopilot (desktop) or a Pylon node to offer compute; consumers pay Lightning zaps after the work verifies (pay-after-verify).",
-      "note": "Early-stage marketplace \u2014 built in public, five interlocking markets planned."
+      "auth": "Khala API key (the key/payment is the credential; a free research-preview tier is reported); Nostr identity + a self-custodial Lightning wallet for the network rails",
+      "quickstart": "Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala, paying per call over Lightning. Offer: run a Pylon node or Autopilot to sell compute for sats.",
+      "note": "Khala research preview \u2014 OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development \u2014 many surfaces gated."
     },
     {
       "slug": "bitrefill",
