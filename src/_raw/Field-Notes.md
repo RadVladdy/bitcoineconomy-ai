@@ -117,6 +117,18 @@ Dated entries on specific developments. Newest at top. Each entry: what happened
 
 ---
 
+### 2026-06-28 — The autonomous Lightning liquidity-management stack is now assemblable (self-custody, no-KYC)
+
+**What's happening.** The pieces an agent needs to run its *own* Lightning liquidity — not just hold a node, but keep it able to send and receive at machine tempo — are now deployed and composable, mostly out of one stack (Amboss, on top of ThunderHub). In a June 2026 Stefan Livera × Jesse Shrader (Amboss) conversation, Amboss laid out the current shape: **ThunderHub** (the open-source LND node manager almost every node already runs) now hosts **Rails X** — a self-custody "DEX on Lightning" where you trade BTC↔USDT/USDC over Taproot-Assets channels by making circular payments, choosing peer counterparties directly, at 8–15 bip spreads, no KYC, never giving up custody — and **Magma**, Amboss's liquidity-leasing marketplace (one click: pay a Lightning invoice, get a channel opened to you within the hour). Alongside sits **Rails**, the managed LP-yield side (now "Lightning Earn" via a BitGo partnership for institutions; ~1–1.5% APY in BTC terms, self-custody with *limited-macaroon* management — Amboss can open/close channels and set fees but **cannot withdraw**), and [[loop|Loop]] for moving an agent's own balance between Lightning and L1. Magma's channel selection and fee-setting are ML-driven.
+
+**Why it matters.** "How does an autonomous agent manage channels and liquidity?" has been the honest operational gap between *an agent has a node* and *an agent transacts reliably* (it's named in this surface's own Live-risk state, §A.4). The answer is now an assemblable, self-custody, no-KYC toolkit: **buy inbound liquidity** (Magma), **earn on idle bitcoin** (Rails / LP), **trade into a stable unit of account without leaving self-custody** (Rails X), **rebalance own funds** (Loop) — with the operator surface (ThunderHub) and ML routing doing the channel/fee work. The agent-relevant properties hold: self-custody throughout, no account/KYC on the trading path, and management permissions scoped by macaroon (*manage ≠ control of funds* — the same posture an autonomous "banker" agent would want). The caveat this site always keeps: Rails X's stablecoins are **wrapped, issuer-backed** assets (Speed Wallet, 1:1) over Taproot Assets — the *rail* is self-custodial; the *asset* still carries its issuer's freeze surface, so Constraint 2 (censorship-resistance) is satisfied at the rail, not the asset.
+
+**Cross-references.** [[Stack]] §2 (Liquidity management — the concept this makes concrete); [[amboss|Amboss / Magma]], [[loop|Loop]], [[taproot-assets|Taproot Assets]] + Rails X (the deployed pieces); §A.4 above (the liquidity-management risk this addresses). Dual-track: also feeds the autonomous-agent ("Banker") liquidity design in the Hermes-Worker track.
+
+**Sources.** Stefan Livera Podcast × Jesse Shrader (Amboss), Rails X episode ([`youtu.be/VO91uTYxTQs`](https://youtu.be/VO91uTYxTQs), June 2026); Amboss — `magma.amboss.tech` / `amboss.space`; ThunderHub — `github.com/apotdevin/thunderhub`; BitGo "Lightning Earn" partnership. Yield figures are Amboss-reported.
+
+---
+
 ### 2026-06-16 — "Off switch" critiques are having a moment — and they apply to regulated stablecoins, not just CBDCs
 
 **What's happening.** The civil-liberties case against central bank digital currencies — *programmable money the state can switch off* — is circulating again (the Cato Institute's "When Money Has an Off Switch, So Does Your Freedom" is the latest). The critique is right. It's also incomplete: the same off switch is already law for "private" stablecoins.

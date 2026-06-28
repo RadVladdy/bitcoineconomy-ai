@@ -207,6 +207,17 @@ Dated event records on specific developments. Each: what happened / why it matte
 
 ---
 
+### 2026-06-28 — Autonomous Lightning liquidity management is now an assemblable self-custody stack *(confirmed)*
+
+- **Event.** Amboss (Jesse Shrader, on Stefan Livera, June 2026) detailed the current shape: ThunderHub (open-source LND manager) hosts **Rails X** (self-custody Taproot-Assets DEX — BTC↔USDT/USDC via circular payments, peer-selected, 8–15 bips, no KYC) and **Magma** (one-click inbound-liquidity leasing); **Rails** is the managed LP-yield side (self-custody, limited-macaroon, ~1–1.5% BTC APY; institutional "Lightning Earn" via BitGo); Loop handles own-balance L1↔LN.
+- **Substrate.** Bitcoin (Lightning rails; Taproot Assets for the stable leg).
+- **Structural significance.** Resolves the long-standing operational gap (§A.4: Lightning liquidity management at scale) for the agent buy-side: an agent can buy inbound capacity, earn on idle BTC, trade into a stable unit of account, and rebalance — all self-custody, no-KYC, macaroon-scoped (manage ≠ withdraw). Caveat: Rails X stablecoins are wrapped/issuer-backed (Speed Wallet, 1:1) over Taproot Assets — the rail is self-custodial; the asset retains its issuer freeze surface (Constraint 2 satisfied at the *rail*, not the *asset*).
+- **Bears on:** *supports* Stack-FA §2 (liquidity management — now deployed/composable); *supports* Services-FA SV-series (the consume/offer infra agents need); consistent with the asset-vs-rail distinction (Taproot Assets cards). Dual-track input to the Hermes-Worker Banker design.
+- **Epistemic tag.** *(confirmed)* — products deployed; yield figures *(reported)*, self-asserted by Amboss.
+- **Sources.** Stefan Livera × Jesse Shrader (Amboss), Rails X episode ([`youtu.be/VO91uTYxTQs`](https://youtu.be/VO91uTYxTQs)); `magma.amboss.tech` / `amboss.space`; ThunderHub `github.com/apotdevin/thunderhub`. Canonical narrative: [[Field-Notes]] § 2026-06-28.
+
+---
+
 ### 2026-06-16 — Regulated stablecoins carry a statutorily-mandated kill switch (the "off switch" property is not CBDC-exclusive) *(confirmed)*
 
 - **Event.** Renewed public circulation of the CBDC "off switch" critique (Cato Institute, "When Money Has an Off Switch, So Does Your Freedom") prompts the structural clarification: the GENIUS Act (2025 US payment-stablecoin statute) requires every permitted payment stablecoin issuer (PPSI) to maintain the technical capability to **seize, freeze, burn, or prevent the transfer** of its tokens on a lawful order from a federal agency or court, as a licensing condition ("reasonable particularity" standard). FinCEN/OFAC implementing rule proposed April 10 2026 (Fed. Reg. 2026-06963); comment period closed June 9 2026. Exercised, not latent: Circle ~$8.2M (Tornado Cash, 2022) + 16 business wallets (sealed civil suit, March 2026); Tether >$1B cumulative.

@@ -38,7 +38,7 @@
       "get": {
         "operationId": "getToolCatalog",
         "summary": "The tool catalog — what an agent installs/runs to transact",
-        "description": "The 22-tool catalog of equipment an agent EQUIPS (vs the registry of what it BUYS): wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Each tool carries toolbox_group, tool_type, layer, prereq_tier, and links.",
+        "description": "The 23-tool catalog of equipment an agent EQUIPS (vs the registry of what it BUYS): wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Each tool carries toolbox_group, tool_type, layer, prereq_tier, and links.",
         "responses": {
           "200": {
             "description": "The tool catalog document.",
