@@ -12,6 +12,15 @@ ported into `src/_raw/` at build time.
   Pages→Worker migration; discovered 2026-06-12. (`marketplace-site/` differs — its Pages
   project still builds from git, with the marketplace Worker's zone route in front.)
 
+## Content has a private authoring mirror — keep it in sync
+`src/_raw/` is the working source of truth for site content and is what deploys, but the
+same cards/surfaces also live in a separate **private authoring vault** (not in this repo).
+The two must not drift. **Standard step after every content deploy:** mirror the live
+content back to the vault with the local `bea-sync-to-vault` tool (repo→vault only — bodies
+copy down; the vault keeps its own internal Editor's Notes; private notes are NEVER copied
+*up* into this public repo). `## Editor's Notes` + Publications-backlinks are internal — the
+port strips them from the built site, and in this repo they must stay identity-clean.
+
 ## marketplace-site/ — the directory subdomain (separate deploy)
 `marketplace-site/` is marketplace.bitcoineconomy.ai — its own Cloudflare project,
 not part of the Astro build. `directory.json`, `entries/*.md`, `llms.txt`, and
