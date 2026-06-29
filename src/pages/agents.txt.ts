@@ -94,6 +94,22 @@ export const GET: APIRoute = async () => {
     }
   }
 
+  // Skills — the deployable layer. Install-ready, MCP-native, cross-agent
+  // capabilities composing the tools + the marketplace MCP + a payment MCP.
+  const skills = await getCollection('skills');
+  if (skills.length) {
+    L.push('## Skills (install-ready agent capabilities)');
+    L.push(`Deployable capabilities built on the Model Context Protocol — discover-and-buy, lightning-pay, btc-check, nostr-post, verify-setup. Read-only skills move no funds; payment/identity skills compose a provider's own MCP (this site custodies nothing). Index: ${SITE.url}/skills · Each card: ${SITE.url}/skills/<slug> · MD: append .md · HowTo JSON-LD per card.`);
+    for (const s of skills
+      .map((e) => e.data)
+      .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))) {
+      const bits = [`${SITE.url}/skills/${s.slug}.md`];
+      if (s['mcp-servers']?.length) bits.push(`mcp: ${s['mcp-servers'].join(', ')}`);
+      L.push(`- ${s.name} — ${s.tagline} (${bits.join(' · ')})`);
+    }
+    L.push('');
+  }
+
   // Marketplace directories — exchanges (BTC↔fiat ramps) and services (what an
   // agent buys/sells). Each card has a .md route; directories are crawlable.
   const exchanges = await getCollection('exchanges');

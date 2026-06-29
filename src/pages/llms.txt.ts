@@ -53,6 +53,18 @@ export const GET: APIRoute = async () => {
     lines.push('');
   }
 
+  const skills = await getCollection('skills');
+  if (skills.length) {
+    lines.push('## Skills (install-ready agent capabilities)');
+    lines.push('');
+    lines.push(`Deployable, MCP-native, cross-agent capabilities that compose the Tools + the marketplace MCP + a payment MCP into a working agent move (discover-and-buy, pay, read the chain, post to Nostr, self-verify). Index: ${SITE.url}/skills`);
+    lines.push('');
+    for (const s of skills.map((e) => e.data).sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))) {
+      lines.push(`- [${s.name}](${SITE.url}/skills/${s.slug}): ${s.tagline}`);
+    }
+    lines.push('');
+  }
+
   const exchanges = await getCollection('exchanges');
   if (exchanges.length) {
     lines.push('## Exchanges (BTC↔fiat directory)');

@@ -252,6 +252,7 @@ Which shape fits comes down to the trade-off you want between sovereignty and ef
 > **More in The Stack** (this section):
 > - **[[Quickstart]]** — get an agent paying from a standing start: four pathways from a hosted service (live in minutes) to a full sovereign node, with the right tools for each.
 > - **[Tools](/tools)** — the toolbox: implementation cards for the deployable tools named in this essay — what each is, when to use it, how to start, its prerequisites, and its gotchas, with verified repos and maintainer handles.
+> - **[Skills](/skills)** — the deployable layer above Tools: install-ready, MCP-native capabilities that compose these primitives into a working agent — discover-and-buy a service, pay over Lightning, read the chain, post to Nostr, self-verify.
 >
 > **In the other sections:**
 > - **[[Case|The Case]]** *(why agents choose Bitcoin)* — the substrate-selection claim upstream of this architecture: the four requirements that all have to hold at once, why Bitcoin, why now.

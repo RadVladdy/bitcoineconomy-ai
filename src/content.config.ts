@@ -163,4 +163,46 @@ const services = defineCollection({
   }),
 });
 
-export const collections = { surfaces, tools, exchanges, services };
+// Skill cards — the /skills deployable layer (10c). A skill is an install-ready,
+// MCP-native, cross-agent capability that composes the primitives in Tools + our
+// marketplace MCP + a payment MCP into a working agent move. Tools *explain* the
+// stack; Skills *deploy* it. Schema mirrors tools (name + tagline + prereq) plus
+// skill-specific machine fields (mcp-servers, env, read-only, composes) so the
+// /skills index + a skill catalog can be generated. Permissive superset.
+const skills = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/skills' }),
+  schema: z.object({
+    name: z.string(),
+    slug: z.string(),
+    tagline: z.string(),
+    // /skills index grouping (drives SKILL_GROUPS in site.ts).
+    'skill-group': z
+      .enum(['commerce', 'payments', 'data', 'identity', 'ops'])
+      .optional(),
+    // Read-only skills move no funds and need no keys — runnable as-is, the safe
+    // on-ramp. Payment/identity skills compose a provider's own MCP (we custody
+    // nothing); flag false so the UI can mark the trust surface.
+    'read-only': z.boolean().default(false),
+    // Machine-readable: the MCP servers this skill composes (npm package or URL),
+    // the env vars it needs, and the other skills/tools it builds on.
+    'mcp-servers': z.array(z.string()).optional(),
+    env: z.array(z.string()).optional(),
+    composes: z.array(z.string()).optional(),
+    'prereq-tier': z
+      .enum(['none', 'keys-only', 'account', 'wallet', 'lightning-node', 'l2-network', 'bitcoin-node'])
+      .optional(),
+    prereqs: z.array(z.string()).optional(),
+    maintainer: z.string().optional(),
+    repo: z.string().url().optional(),
+    docs: z.string().url().optional(),
+    site: z.string().url().optional(),
+    x: z.string().optional(),
+    nostr: z.string().optional(),
+    status: z.string().default('draft'),
+    'last-verified': z.coerce.date().optional(),
+    order: z.number().default(0),
+    tags: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { surfaces, tools, exchanges, services, skills };

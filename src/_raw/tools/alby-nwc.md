@@ -32,12 +32,12 @@ tags:
 
 Nostr Wallet Connect (NWC, **NIP-47**) is an open protocol that lets an application or agent control a Lightning wallet remotely — create invoices, send payments, check balances — without ever holding the wallet's private keys. The wallet (which holds the keys and signs) and the app (which signs nothing) talk over Nostr relays. The agent holds a revocable, scoped connection string instead of a key, which drastically shrinks its attack surface.
 
-**Alby** is the primary builder and promoter of the standard: the Alby browser extension, Alby Hub (a self-custodial node manager), a JavaScript SDK, and — most relevant for agents — the `nwc-mcp-server`, which exposes NWC payments to Claude, Cursor, or n8n as MCP tools.
+**Alby** is the primary builder and promoter of the standard: the Alby browser extension, Alby Hub (a self-custodial node manager), a JavaScript SDK, and — most relevant for agents — **Alby MCP** (`@getalby/mcp`), which exposes NWC payments (plus LNURL and L402 knowledge) to Claude, Cursor, Hermes, or n8n as MCP tools. (The earlier `nwc-mcp-server` is archived and now points users to `@getalby/mcp`.)
 
 ## When to use it
 
 - Giving an agent the ability to pay without giving it custody of keys.
-- Wiring Lightning payments into an MCP-capable agent (Claude, Cursor, n8n) via `nwc-mcp-server`.
+- Wiring Lightning payments into an MCP-capable agent (Claude, Cursor, Hermes, n8n) via Alby MCP (`@getalby/mcp`).
 - Any app that needs delegated, budget-limited spend from a wallet the user still controls.
 
 ## Dependencies
@@ -46,7 +46,7 @@ A Lightning wallet or node that speaks NWC (Alby Hub, or any NIP-47-compatible w
 
 ## Quick start
 
-Connect an MCP-capable agent to a wallet with Alby's [nwc-mcp-server](https://github.com/getAlby/nwc-mcp-server): generate an NWC connection string from Alby Hub (or any NWC-compatible wallet) with a spending budget, then point the MCP server at it. The agent gets payment tools; the keys stay in the wallet.
+Connect an MCP-capable agent to a wallet with [Alby MCP](https://github.com/getAlby/mcp) (`npx -y @getalby/mcp`): generate an NWC connection string from Alby Hub (or any NWC-compatible wallet) with a spending budget, then point the MCP server at it via `NWC_CONNECTION_STRING`. The agent gets payment tools; the keys stay in the wallet. For the ready-made agent recipe, see the [lightning-pay](/skills/lightning-pay) skill.
 
 ## Gotchas
 

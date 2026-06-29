@@ -29,7 +29,7 @@ const RAW = path.join(ROOT, 'src', '_raw');
 const CONTENT = path.join(ROOT, 'src', 'content');
 
 const SURF_OUT = path.join(CONTENT, 'surfaces');
-const CARD_DIRS = ['tools', 'exchanges', 'services']; // collection name === route prefix
+const CARD_DIRS = ['tools', 'exchanges', 'services', 'skills']; // collection name === route prefix
 
 // ---- helpers ----------------------------------------------------------------
 function splitFrontmatter(text) {
@@ -67,7 +67,7 @@ SURFACE_ROUTES['Marketplace-FA'] = SURFACE_ROUTES['Marketplace-FA'] || '/treasur
 // Card routes, built with exchanges + services first then tools (tools wins on
 // the boltz/strike basename collision).
 const CARD_ROUTES = {};
-for (const col of ['exchanges', 'services', 'tools']) {
+for (const col of ['exchanges', 'services', 'skills', 'tools']) {
   const dir = path.join(RAW, col);
   if (!fs.existsSync(dir)) continue;
   for (const file of fs.readdirSync(dir)) {

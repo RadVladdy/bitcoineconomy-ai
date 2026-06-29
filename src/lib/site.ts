@@ -63,6 +63,7 @@ export const NAV_GROUPS = [
       { slug: 'stack', label: 'The Stack' },
       { slug: 'quickstart', label: 'Quickstart' },
       { slug: 'tools', label: 'Tools' },
+      { slug: 'skills', label: 'Skills' },
     ],
   },
   {
@@ -97,6 +98,7 @@ export const SLUG_TAGS: Record<string, string> = {
   stack: 'The Bitcoin tech agents run on',
   quickstart: 'Four ways to connect an agent, fastest first',
   tools: 'Building blocks, with how-to cards',
+  skills: 'Install-ready agent capabilities',
   marketplace: 'The live services directory',
   treasury: 'What an agent holds — and the border it crosses',
   exchange: 'Moving between bitcoin and dollars',
@@ -193,6 +195,40 @@ export const TOOLBOX_GROUPS = [
 ] as const;
 
 export type ToolboxGroupKey = (typeof TOOLBOX_GROUPS)[number]['key'];
+
+// The /skills deployable layer (10c). Where /tools *explains* the primitives,
+// /skills *deploys* them: install-ready, MCP-native, cross-agent capabilities
+// that compose Tools + our marketplace MCP + a payment MCP into a working agent
+// move. Cards declare `skill-group`; the index groups by these, flagship first.
+export const SKILL_GROUPS = [
+  {
+    key: 'commerce',
+    label: 'Commerce — discover & buy',
+    blurb: 'The whole stack in one move: find a Bitcoin-native service in the live directory, get a payment plan, and pay it — composing this site’s discovery MCP with a payment MCP.',
+  },
+  {
+    key: 'payments',
+    label: 'Payments',
+    blurb: 'Send and receive Lightning — create invoices, pay, check balance — over Nostr Wallet Connect, without the agent ever holding the wallet’s keys.',
+  },
+  {
+    key: 'data',
+    label: 'Chain data — read-only',
+    blurb: 'Everything an agent needs to read the chain and nothing that can spend: balances, transactions, fees, price. No keys, no account, the safe first install.',
+  },
+  {
+    key: 'identity',
+    label: 'Identity & voice',
+    blurb: 'A portable, censorship-resistant identity on Nostr — post, read, and be reachable — using a dedicated agent key, never the operator’s main one.',
+  },
+  {
+    key: 'ops',
+    label: 'Operations & self-check',
+    blurb: 'Make an agent verify its own rails before it transacts — a read-only pre-flight across data, payment, identity, and discovery.',
+  },
+] as const;
+
+export type SkillGroupKey = (typeof SKILL_GROUPS)[number]['key'];
 
 // Surface slug -> the For-Agents twin slug (or null for surfaces with no twin:
 // The Story, The Stablecoin Landscape, About).

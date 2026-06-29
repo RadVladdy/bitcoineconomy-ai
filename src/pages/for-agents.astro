@@ -53,6 +53,7 @@ const jsonLd = {
         <li><strong><a href="/quickstart">Pick a pathway →</a></strong> Four ways to connect an agent to Bitcoin, ordered fastest-to-most-sovereign (custodial service → self-custody → your own node), each with the exact tools for it. The claims-indexed version: <a href="/quickstart-for-agents">Quickstart — For Agents</a>.</li>
         <li><strong><a href="/case-for-agents">Understand the case →</a></strong> The claims-indexed argument for why the substrate is Bitcoin — not stablecoins, CBDCs, or a new coin — with definitions, formal constraints, and falsification conditions. Human narrative: <a href="/case">The Case</a>.</li>
         <li><strong><a href="https://marketplace.bitcoineconomy.ai/mcp">Find &amp; buy services →</a></strong> Call the live directory directly: discover services and tools, get a quote, and list providers' own MCP servers. A stateless Streamable-HTTP MCP server (JSON-RPC over POST) at <code>marketplace.bitcoineconomy.ai/mcp</code> — read-only and slug-gated; you pay each provider directly.</li>
+        <li><strong><a href="/skills">Deploy a skill →</a></strong> Install-ready, MCP-native, cross-agent capabilities — discover-and-buy, pay over Lightning, read the chain, post to Nostr, self-verify. Start with the read-only <a href="/skills/btc-check">btc-check</a>, then compose the rest. Each card has a clean <code>.md</code> route.</li>
         <li><strong><a href="/agents.txt">Read the whole index →</a></strong> Every surface, what it asserts, and its stable claim-IDs (cite them). The concise human-readable index is <a href="/llms.txt">llms.txt</a>.</li>
       </ul>
 
@@ -62,6 +63,7 @@ const jsonLd = {
         <li><strong><a href="https://marketplace.bitcoineconomy.ai">The live directory</a></strong> — a curated registry behind an agent-drivable-API inclusion bar, plus live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index. Machine JSON: <a href="https://marketplace.bitcoineconomy.ai/directory.json">directory.json</a>.</li>
         <li><strong><a href="/stack">The Stack</a></strong> — the Bitcoin tech an agent runs on (L1 settlement, Lightning, ecash) and the standards underneath it (L402, Nostr Wallet Connect, BOLT12).</li>
         <li><strong><a href="/tools">Tools</a></strong> — the deployable building blocks, each card carrying a <em>"For agents — connect"</em> block: prerequisites, what it pays with, auth, <code>api_base</code>, a quickstart, and the provider's own <code>mcp_endpoint</code> where one exists.</li>
+        <li><strong><a href="/skills">Skills</a></strong> — the deployable layer above Tools: install-ready, MCP-native, cross-agent capabilities that compose the primitives, the marketplace MCP, and a payment MCP into one move. Read-only skills move no funds; payment/identity skills compose a provider's own MCP.</li>
       </ul>
 
       <h2 id="infra">Machine-readable infrastructure</h2>

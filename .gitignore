@@ -7,6 +7,7 @@ src/content/surfaces/
 src/content/tools/
 src/content/exchanges/
 src/content/services/
+src/content/skills/
 
 # dependencies
 node_modules/

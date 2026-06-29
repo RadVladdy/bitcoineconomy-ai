@@ -1,0 +1,83 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageRail from '../../components/PageRail.astro';
+import { SKILL_GROUPS, SITE } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const all = await getCollection('skills');
+  return all.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
+
+const group = SKILL_GROUPS.find((g) => g.key === d['skill-group']);
+const fmt = (date?: Date) => (date ? date.toISOString().slice(0, 10) : null);
+
+// External links row — only render what's verified/present.
+const links = [
+  d.repo && { label: 'Repo', href: d.repo },
+  d.docs && { label: 'Docs', href: d.docs },
+  d.site && { label: 'Site', href: d.site },
+  d.x && { label: `X ${d.x}`, href: `https://x.com/${d.x.replace(/^@/, '')}` },
+  d.nostr && { label: 'Nostr', href: `nostr:${d.nostr}` },
+].filter(Boolean) as { label: string; href: string }[];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: d.name,
+  description: d.tagline,
+  url: `${SITE.url}/skills/${d.slug}`,
+  isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url },
+};
+
+const mdPath = `/skills/${d.slug}.md`;
+---
+<Base title={d.name} description={d.tagline} current="skills" canonical={`/skills/${d.slug}`} jsonLd={jsonLd} wide={true}>
+  <div class="surface-layout accent-cyan">
+  <article class="prose tool-page">
+    <p class="tool-eyebrow"><a href="/skills">Skills</a> · {group?.label ?? d['skill-group']}</p>
+    <h1>{d.name}</h1>
+    <p class="subtitle">{d.tagline}</p>
+
+    <div class="page-meta">
+      {d['read-only']
+        ? <span class="badge">read-only · moves no funds</span>
+        : <span class="badge">composes a provider’s MCP · we custody nothing</span>}
+      {d['prereq-tier'] && <span class="badge">{d['prereq-tier'] === 'none' ? 'no setup needed' : `needs: ${d['prereq-tier']}`}</span>}
+      {d.maintainer && <span class="badge">{d.maintainer}</span>}
+      {fmt(d['last-verified']) && <span class="badge">Verified {fmt(d['last-verified'])}</span>}
+    </div>
+
+    {(d['mcp-servers']?.length || d.env?.length) && (
+      <div class="skill-machine">
+        {d['mcp-servers']?.length ? (
+          <p><strong>MCP servers:</strong> {d['mcp-servers'].map((m) => <code>{m}</code>).reduce((a, b) => <>{a} · {b}</>)}</p>
+        ) : null}
+        {d.env?.length ? (
+          <p><strong>Environment:</strong> {d.env.map((e) => <code>{e}</code>).reduce((a, b) => <>{a} · {b}</>)}</p>
+        ) : null}
+      </div>
+    )}
+
+    {links.length > 0 && (
+      <div class="tool-links">
+        {links.map((l) => (
+          <a class="tool-link" href={l.href} rel="noopener" target={l.href.startsWith('nostr:') ? undefined : '_blank'}>{l.label}</a>
+        ))}
+      </div>
+    )}
+
+    <Content />
+
+    <aside class="twin-callout">
+      <p set:html={`More deployable capabilities: <a href="/skills">Skills</a>. The primitives underneath them: <a href="/tools">Tools</a>. Raw markdown for this skill: <a href="${mdPath}">${mdPath}</a>. Package names and APIs move fast — confirm against the upstream repo before you depend on them.`} />
+    </aside>
+  </article>
+  <PageRail toc={toc} />
+  </div>
+</Base>

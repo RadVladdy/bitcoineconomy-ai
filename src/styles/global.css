@@ -475,6 +475,19 @@ figure.matrix .matrix-title {
   margin: 0 0 0.4rem;
 }
 .tool-page .tool-eyebrow a { color: var(--slate); }
+/* Skill machine-facts box (/skills/[slug]) — the MCP servers + env a skill needs. */
+.skill-machine {
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--electric);
+  border-radius: 8px;
+  background: var(--card);
+  padding: 0.7rem 1rem;
+  margin: 0 0 1.4rem;
+  font-size: 0.9rem;
+}
+.skill-machine p { margin: 0.25rem 0; }
+.skill-machine code { font-size: 0.82rem; }
+
 .tool-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1.6rem; }
 .tool-link {
   font-size: 0.86rem;

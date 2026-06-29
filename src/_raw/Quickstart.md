@@ -109,7 +109,7 @@ This isn't a fifth pathway — it's a hardening layer you add on top of C or D w
 Whichever pathway you pick, the destination is the same: an agent that holds value and can transact for itself. Once it can pay an invoice and answer one, it can discover and buy services in [the live marketplace](https://marketplace.bitcoineconomy.ai) — agent-readable, with probed liveness and a cross-provider price index. That's the whole point of standing any of this up.
 
 > [!info] Where to read next
-> **More in The Stack** — [[Stack|The Stack]] for how the layers actually fit together and what the payment primitives (L402, NWC, BOLT12) are doing under the hood · [[Tools|the toolbox]] to browse every tool by category, with its prerequisites.
+> **More in The Stack** — [[Stack|The Stack]] for how the layers actually fit together and what the payment primitives (L402, NWC, BOLT12) are doing under the hood · [[Tools|the toolbox]] to browse every tool by category, with its prerequisites · [Skills](/skills) for install-ready, MCP-native capabilities once your pathway is connected (discover-and-buy, lightning-pay, btc-check, nostr-post, verify-setup).
 > **In the other sections** — [[Case|The Case]] for why an agent should hold Bitcoin in the first place · [[Market|the Market]] for where it spends.
 
 ## Editor's Notes
