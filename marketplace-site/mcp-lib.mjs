@@ -22,7 +22,7 @@ const SUPPORTED_VERSIONS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const INSTRUCTIONS =
   'The bitcoineconomy.ai marketplace: a curated directory of Bitcoin-native services AI agents can pay for over Lightning, Cashu, and L402, plus a catalog of the tools an agent equips to transact. ' +
   'Find services to BUY from with find_service and list_categories, drill in with get_service, get live inference pricing with price_model, and get a ready-to-pay ' +
-  'payment plan (or a live invoice) with get_quote. Find tools to EQUIP (wallets, node toolkits, ecash, bridges, protocol primitives) with find_tool and get_tool. ' +
+  'payment plan (or a live invoice / inference price / swap rate) with get_quote. Find tools to EQUIP (wallets, node toolkits, ecash, bridges, protocol primitives) with find_tool and get_tool. ' +
   'Some providers run their own MCP server (Amboss, Bitrefill, Alby NWC) — list_mcp_servers gives the connection detail: discover here, connect there to act. ' +
   'Directory entries and the tool catalog are reference facts; relay/probe data are announcements — not endorsements. ' +
   'You pay providers directly with your own wallet; this server never holds funds and never proxies another MCP.';
@@ -151,6 +151,73 @@ async function probeApiBase(apiBase) {
   } catch (e) {
     return { reachable: false, note: `Probe failed (${String((e && e.message) || e)}). Use quickstart / how_to_pay below.` };
   }
+}
+
+// Live swap-rate lookup for swap-category providers (10d-i). Read-only rate
+// ESTIMATE only — no order/swap is created and no funds move. Adapters are keyed
+// by api_base host: SideShift returns a market rate for a network-qualified coin
+// pair; Boltz is fee-based (rate ≈ 1 — it swaps BTC across layers, so the quote
+// is the fee). Mirrors the inference price-index path: get_quote stays read-only.
+async function liveSwapRate(entry, { from, to, amount } = {}) {
+  let host = '';
+  try { host = new URL(entry.api_base).host; } catch {}
+  const withDeadline = (p, ms = 4500) =>
+    Promise.race([p, new Promise((r) => setTimeout(() => r({ timedOut: true }), ms))]);
+  const getJson = async (url) => {
+    const res = await fetch(url, { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(5000) });
+    const text = await res.text();
+    let json = null; try { json = JSON.parse(text); } catch {}
+    return { ok: res.ok, status: res.status, json, text: text.slice(0, 300) };
+  };
+
+  // SideShift — GET /v2/pair/{from}/{to}; coins are network-qualified.
+  if (host.includes('sideshift')) {
+    if (!from || !to) {
+      return { provider: 'sideshift', note: 'Pass from + to as network-qualified SideShift coin ids (e.g. from="btc-bitcoin", to="usdc-ethereum") for a live rate. Estimate only — no order created.' };
+    }
+    try {
+      const r = await withDeadline(getJson(`https://sideshift.ai/api/v2/pair/${encodeURIComponent(from)}/${encodeURIComponent(to)}`));
+      if (r.timedOut) return { provider: 'sideshift', query: { from, to }, error: 'rate lookup timed out' };
+      if (r.json?.error) return { provider: 'sideshift', query: { from, to }, error: r.json.error.message || 'pair error', note: 'SideShift coins are network-qualified — e.g. btc-bitcoin, usdc-ethereum, usdt-tron.' };
+      if (!r.ok || !r.json) return { provider: 'sideshift', query: { from, to }, error: `HTTP ${r.status}`, raw: r.text };
+      return {
+        provider: 'sideshift', query: { from, to, amount: amount || null },
+        rate: r.json.rate, min: r.json.min, max: r.json.max,
+        deposit_coin: r.json.depositCoin, settle_coin: r.json.settleCoin,
+        deposit_network: r.json.depositNetwork, settle_network: r.json.settleNetwork,
+        source: 'GET https://sideshift.ai/api/v2/pair/{from}/{to}',
+        note: 'Market-rate ESTIMATE — no order created, no funds move. Lock a rate via SideShift /v2/quotes when you actually shift.',
+      };
+    } catch (e) {
+      return { provider: 'sideshift', query: { from, to }, error: String((e && e.message) || e) };
+    }
+  }
+
+  // Boltz — fee/limit per direction (rate ≈ 1). from = the on-chain asset (BTC, L-BTC, RBTC).
+  if (host.includes('boltz')) {
+    const asset = (from || 'BTC').toUpperCase();
+    try {
+      const [sub, rev] = await Promise.all([
+        withDeadline(getJson('https://api.boltz.exchange/v2/swap/submarine')),
+        withDeadline(getJson('https://api.boltz.exchange/v2/swap/reverse')),
+      ]);
+      const subPair = sub.json?.[asset]?.BTC;   // on-chain {asset} -> Lightning
+      const revPair = rev.json?.BTC?.[asset];   // Lightning -> on-chain {asset}
+      const norm = (p) => (p ? { rate: p.rate, fee_percentage: p.fees?.percentage, miner_fees_sats: p.fees?.minerFees, limits_sats: p.limits } : null);
+      if (!subPair && !revPair) return { provider: 'boltz', asset, note: `No Boltz pair for asset "${asset}". Boltz swaps BTC across layers — try from="BTC" (or "L-BTC", "RBTC").` };
+      return {
+        provider: 'boltz', asset, rate: 1,
+        to_lightning: norm(subPair),    // submarine swap: pay on-chain {asset}, receive Lightning
+        from_lightning: norm(revPair),  // reverse swap: pay Lightning, receive on-chain {asset}
+        source: 'GET https://api.boltz.exchange/v2/swap/submarine + /v2/swap/reverse',
+        note: 'Boltz swaps BTC across layers (on-chain ⇄ Lightning ⇄ L-BTC/RBTC); rate is ~1 and the quote is the fee (percentage + miner fees, in sats). Estimate only — no swap created, no funds move.',
+      };
+    } catch (e) {
+      return { provider: 'boltz', asset, error: String((e && e.message) || e) };
+    }
+  }
+
+  return { note: `No live-rate adapter for ${host || 'this provider'} yet — use the payment plan, api_base, and quickstart above.` };
 }
 
 // ---------- tools ----------
@@ -322,12 +389,15 @@ const TOOLS = [
   {
     name: 'get_quote',
     description:
-      'Get a ready-to-pay quote for one service by slug. Returns the structured payment plan (methods, auth, api_base, quickstart, pricing) and — where the provider supports it — a live result: an HTTP 402 / L402 Lightning invoice captured from its API, or, for inference providers given a model, the live cheapest sats price. No funds move; you pay the returned invoice with your own wallet.',
+      'Get a ready-to-pay quote for one service by slug. Returns the structured payment plan (methods, auth, api_base, quickstart, pricing) and — where the provider supports it — a live result: an HTTP 402 / L402 Lightning invoice captured from its API; for inference providers given a model, the live cheapest sats price; for swap providers (Boltz, SideShift) given from/to, a live swap rate or fee. No funds move and no order/swap is created; you pay or shift with your own wallet.',
     inputSchema: {
       type: 'object',
       properties: {
-        slug: { type: 'string', description: 'The service slug to quote, e.g. "routstr", "ppq-ai", "boltz".' },
+        slug: { type: 'string', description: 'The service slug to quote, e.g. "routstr", "ppq-ai", "boltz", "sideshift".' },
         model: { type: 'string', description: 'Optional — for inference services, the model id to price live.' },
+        from: { type: 'string', description: 'Optional — for swap services, the source asset. SideShift: a network-qualified coin id (e.g. "btc-bitcoin"). Boltz: the on-chain asset ("BTC", "L-BTC", "RBTC"; defaults to BTC).' },
+        to: { type: 'string', description: 'Optional — for swap services (SideShift), the network-qualified destination coin id (e.g. "usdc-ethereum").' },
+        amount: { type: 'string', description: 'Optional — for swap services, the amount to quote (advisory; the rate returned is an estimate).' },
       },
       required: ['slug'],
       additionalProperties: false,
@@ -357,6 +427,9 @@ const TOOLS = [
         out.live_price = priced.length
           ? { model_query: a.model, matches: priced }
           : { model_query: a.model, matches: [], note: 'No alive provider in the 6-hourly price index matches that model id right now.' };
+      }
+      if (e.category === 'swap' && e.api_base) {
+        out.live_rate = await liveSwapRate(e, { from: a.from, to: a.to, amount: a.amount });
       }
       return out;
     },
