@@ -1,0 +1,208 @@
+---
+title: Field Notes — The Log
+slug: field-notes-log
+description: "Dated entries on what's changed in the Bitcoin-AI economy, newest first."
+type: field-notes
+surface: field-notes-log
+status: v0-approved-2026-06-30
+audience: humans
+twin-page: field-notes-log-for-agents
+created: 2026-06-30
+last-updated: 2026-06-30
+voice: honest-middle-position
+tags:
+  - canonical
+  - field-notes
+  - empirical
+  - log
+  - bitcoin
+  - ai-economy
+  - lightning
+agent-tldr: |
+  Field Notes — The Log is the project's reverse-chronological record of specific dated developments in the Bitcoin-AI economy, newest first — each entry naming what happened, why it matters (cross-linked to the canonical surface whose argument it bears on), and primary sources. Its companion page, Field Notes — State of Play (/field-notes), carries the periodically-refreshed snapshot of where things stand. As of mid-2026 the log runs from the February 2026 Lightning Labs lightning-agent-tools release through the May 2026 AWS Bedrock AgentCore launch and the mid-2026 consolidation of the competing stablecoin/card stack (Google AP2, the Linux Foundation x402 Foundation, Circle Nanopayments, Skyfire), with the Bitcoin-side autonomous liquidity-management toolkit becoming assemblable (Amboss / ThunderHub / Rails) by June 2026. Both substrates' production milestones, the issuer-freeze record, and the BPI substrate-preference study are logged here with primary sources.
+---
+
+# Field Notes — The Log
+
+> **What this page is.** The dated, reverse-chronological record of specific developments in the Bitcoin-AI economy — newest first. Each entry names what happened, why it matters (cross-linked to the canonical surface whose argument it bears on), and its primary sources.
+>
+> **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
+>
+> **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-06-28 — PPQ's encrypted inference is becoming substrate: a downstream product builds no-KYC private AI on PayPerQ's rails
+
+**What's happening.** getbased (a privacy-first product; author `getbasedhealth` on Nostr) announced **encrypted AI inference powered by PayPerQ** — access to GLM-5.2 with *"no email, no KYC, no fiat, no subscription — pay per query and keep your prompts encrypted."* It rides PPQ's **TEE private-inference tier**: models served inside NVIDIA confidential-computing enclaves with browser-side end-to-end encryption, so *"PayPerQ never sees your prompts,"* exposed to callers as `private/glm-5-2`.
+
+**Why it matters.** PPQ has been a *destination* on this site — an agent (or human) paying per call for inference over Lightning. This is PPQ moving one layer down, **from destination to substrate**: a second product building its own no-KYC, Bitcoin-paid, end-to-end-encrypted AI on top of PPQ's rails. That compounding — one Bitcoin-native service becoming the infrastructure another is built on, with no account, no fiat, and no human in the loop — is exactly the agent-economy dynamic the site argues for, showing up in the wild. (getbased itself is a human-facing front-end, not an agent-drivable venue, so it isn't a directory entry; the load-bearing datapoint is **PPQ-as-substrate**.)
+
+**Cross-references.** [[ppq-ai|PPQ.AI]] — the inference gateway + its TEE private tier (card refreshed 2026-06-28); [[Case]] — an agent funding its own (private) inference on the Bitcoin stack; [[Services]] — the consume side.
+
+**Sources.** PPQ private/TEE inference: [PayPerQ — Introducing Private AI Models](https://ppq.ai/blog/introducing-tee-models) (TEE + Tinfoil encrypted-body protocol; `private/glm-5-2`, 384K context). getbased announcement: Nostr note by `getbasedhealth` (njump), 2026-06-22.
+
+---
+
+### 2026-06-28 — The autonomous Lightning liquidity-management stack is now assemblable (self-custody, no-KYC)
+
+**What's happening.** The pieces an agent needs to run its *own* Lightning liquidity — not just hold a node, but keep it able to send and receive at machine tempo — are now deployed and composable, mostly out of one stack (Amboss, on top of ThunderHub). In a June 2026 Stefan Livera × Jesse Shrader (Amboss) conversation, Amboss laid out the current shape: **ThunderHub** (the open-source LND node manager almost every node already runs) now hosts **Rails X** — a self-custody "DEX on Lightning" where you trade BTC↔USDT/USDC over Taproot-Assets channels by making circular payments, choosing peer counterparties directly, at 8–15 bip spreads, no KYC, never giving up custody — and **Magma**, Amboss's liquidity-leasing marketplace (one click: pay a Lightning invoice, get a channel opened to you within the hour). Alongside sits **Rails**, the managed LP-yield side (now "Lightning Earn" via a BitGo partnership for institutions; ~1–1.5% APY in BTC terms, self-custody with *limited-macaroon* management — Amboss can open/close channels and set fees but **cannot withdraw**), and [[loop|Loop]] for moving an agent's own balance between Lightning and L1. Magma's channel selection and fee-setting are ML-driven.
+
+**Why it matters.** "How does an autonomous agent manage channels and liquidity?" has been the honest operational gap between *an agent has a node* and *an agent transacts reliably* (it's named in the [[Field-Notes|State of Play]]'s Live-risk section). The answer is now an assemblable, self-custody, no-KYC toolkit: **buy inbound liquidity** (Magma), **earn on idle bitcoin** (Rails / LP), **trade into a stable unit of account without leaving self-custody** (Rails X), **rebalance own funds** (Loop) — with the operator surface (ThunderHub) and ML routing doing the channel/fee work. The agent-relevant properties hold: self-custody throughout, no account/KYC on the trading path, and management permissions scoped by macaroon (*manage ≠ control of funds* — the same posture an autonomous "banker" agent would want). The caveat this site always keeps: Rails X's stablecoins are **wrapped, issuer-backed** assets (Speed Wallet, 1:1) over Taproot Assets — the *rail* is self-custodial; the *asset* still carries its issuer's freeze surface, so Constraint 2 (censorship-resistance) is satisfied at the rail, not the asset.
+
+**Cross-references.** [[Stack]] §2 (Liquidity management — the concept this makes concrete); [[amboss|Amboss / Magma]], [[loop|Loop]], [[taproot-assets|Taproot Assets]] + Rails X (the deployed pieces); the [[Field-Notes|State of Play]]'s Live-risk section (the liquidity-management risk this addresses). Dual-track: also feeds the autonomous-agent ("Banker") liquidity design in the Hermes-Worker track.
+
+**Sources.** Stefan Livera Podcast × Jesse Shrader (Amboss), Rails X episode ([`youtu.be/VO91uTYxTQs`](https://youtu.be/VO91uTYxTQs), June 2026); Amboss — `magma.amboss.tech` / `amboss.space`; ThunderHub — `github.com/apotdevin/thunderhub`; BitGo "Lightning Earn" partnership. Yield figures are Amboss-reported.
+
+---
+
+### 2026-06-16 — "Off switch" critiques are having a moment — and they apply to regulated stablecoins, not just CBDCs
+
+**What's happening.** The civil-liberties case against central bank digital currencies — *programmable money the state can switch off* — is circulating again (the Cato Institute's "When Money Has an Off Switch, So Does Your Freedom" is the latest). The critique is right. It's also incomplete: the same off switch is already law for "private" stablecoins.
+
+**The part the CBDC framing misses.** The GENIUS Act — the 2025 US stablecoin law — requires every permitted payment stablecoin issuer to keep the technical capability to **seize, freeze, burn, or prevent the transfer** of its tokens on a lawful order from a federal agency or court, as a condition of its license. The FinCEN/OFAC implementing rule (proposed April 2026; comment period closed June 9, 2026) pushes sanctions-compliance programs down into issuer infrastructure. This isn't dormant capability: Circle froze ~$8.2M in USDC after the Tornado Cash sanctions (2022) and 16 business wallets under a sealed civil suit (March 2026); Tether has frozen over $1B across incidents. A CBDC is a state liability the state switches off directly; a GENIUS-compliant stablecoin is a private liability the state compels the issuer to switch off. Different plumbing, same property — a third party can render your balance inert. (There's a wrinkle that proves the point: New York prosecutors argue GENIUS *hampers* their ability to freeze and return stolen funds, because it hands more of the switch to issuers. The fight is over *who* holds the switch, not whether one exists.)
+
+**Why it matters here.** "So what's the difference?" is exactly the right question, and the honest answer is: not much, for the property that counts. Whether the off switch wears a central-bank logo or a corporate one, an autonomous agent can't safely settle on money a court order or sanctions action can freeze mid-workflow — and an agent has no human standing by to call the bank and plead its case. The only widely deployed digital settlement asset with no issuer to compel, and therefore no off switch, is Bitcoin. That's not ideology; it's the one substrate property the agent economy can't get from the regulated-dollar stack, by that stack's own legal design. The [[Case]] argues the four properties an agent's money has to hold at once — this is censorship-resistance, written as statute.
+
+**Cross-references.** [[Case]] — Why the legacy economy fails (censorship-resistance); [[Stablecoin-Landscape]] — the regulated-issuer control surface; [[Border-Skirmishes|Border Skirmishes]] — the live substrate contest; [[Independence-Doctrine|Independence Doctrine]] — why the issuer layer can't shed the freeze property without losing its license. Generalizes the regulatory-pincer point from the 2026-06-11 Moonshots entry (below) beyond Coinbase/Armstrong into the clean CBDC-vs-stablecoin equivalence.
+
+**Sources.** GENIUS freeze/seize/burn requirement: [Skadden](https://www.skadden.com/insights/publications/2025/07/us-establishes-first-federal-regulatory-framework), [Gibson Dunn](https://www.gibsondunn.com/the-genius-act-a-new-era-of-stablecoin-regulation/). Implementing rule: [Federal Register 2026-06963](https://www.federalregister.gov/documents/2026/04/10/2026-06963/permitted-payment-stablecoin-issuer-anti-money-launderingcountering-the-financing-of-terrorism), [WilmerHale](https://www.wilmerhale.com/en/insights/client-alerts/20260420-treasury-announces-proposed-rule-to-implement-the-genius-acts-requirements-to-counter-illicit-finance). Prosecutorial wrinkle: [CNN Business](https://www.cnn.com/2026/02/02/business/stablecoin-genius-act-crypto).
+
+---
+
+### 2026-06-11 — Moonshots ep. 264: "the agent economy has arrived" — on the other stack
+
+Brian Armstrong went on Peter Diamandis's *Moonshots* podcast (ep. 264, published June 11) and said three things this site has been arguing since it launched. First: agents can't pass KYC — *"an agent doesn't have a piece of paper issued by the government with your photo on it"* (~23:25) — so Coinbase built them self-custodial wallets that skip the account-opening process entirely. Second: the agent economy is real and compounding — he corrected the show's own stale figures upward, to *"about 100 million transactions now, maybe 50 million of value"* (~22:13), up from 3.1M transactions in the episode's show notes. Third, and most striking: asked late in the episode what role cryptocurrency plays in a future where *"most of our economy consists of AI agents trading,"* Armstrong answered: *"Bitcoin will be the new gold standard and then the payments will be happening on chain… that's the financial system that the AI agents would end up using"* (~1:21).
+
+That's the premise, the scale, and the destination of the case this site makes — conceded on-air by the CEO of the largest US crypto exchange. The disagreement is one layer wide: Armstrong expects *"stablecoin payments will probably be the default layer for the agentic economy"* (~7:34), running on USDC over Base, where Coinbase's agent stack lives today.
+
+So the substrate question is now openly contested in public, at podcast scale, by the people building the other side. Worth taking seriously — and worth being precise about what was and wasn't said.
+
+**What the stablecoin-default claim has going for it.** The numbers are real. x402-style agent payments on Base have genuine volume and genuine growth, and Coinbase shipped a working stack (self-custodial agent wallets, an MCP interface to accounts, agent-facing commerce tooling) while much of the Bitcoin world was still arguing about block size lore. Armstrong's pitch — USDC moves *"in under one second anywhere in the world for less than a cent"* (~28:13) — is true today, and honest engagement means saying so. Dollar-denominated pricing also genuinely matters while the humans paying agents' budgets think in dollars.
+
+**What it quietly assumes.** Every property Armstrong listed is a property Lightning settlement also has — sub-second, sub-cent, global. What USDC has that Lightning sats don't is an issuer. And an issuer is not a neutral feature; it is a control point with a published track record: Circle froze ~$8.2M in USDC after the Tornado Cash sanctions (Aug 2022); Tether has frozen over $1B across incidents. Freeze capability isn't a bug the issuers might fix — it's a condition of their licenses. Armstrong himself credited the GENIUS Act's *"regulatory clarity"* for making stablecoins *"the new meta"* (~4:21). Rails that exist because regulation blessed them are rails regulation can re-shape. The wallet may be self-custodial; the dollar inside it is not.
+
+**The incentive structure, stated plainly.** None of this requires doubting anyone's sincerity — it requires reading public filings. Under its arrangement with Circle, Coinbase keeps 100% of the reserve interest income on USDC held on its platform and splits off-platform reserve income 50:50; that line came to roughly **$1.35B in FY2025**, up ~48% year over year, per Coinbase's quarterly shareholder letters. Base, where the agent wallets live, earned Coinbase roughly another $75M in 2025 sequencer revenue. x402, the agent-payment protocol whose growth Armstrong cited, was created at Coinbase. An agent economy that settles in USDC at the scale Armstrong projects (*"the AI economy will be bigger than the human economy,"* ~8:54) makes the float underneath it one of the most valuable balance sheets in history — and Coinbase collects on the float, the chain, and the protocol. "Stablecoins will probably be the default layer" is a forecast made by the party that collects the toll if it comes true. That doesn't make it false. It does mean the claim should be weighed the way you'd weigh a railroad owner's testimony about where the tracks must go.
+
+**The regulatory pincer.** On the same episode, fellow panelist Alexander Wissner-Gross asked the sharpest question of the hour (~24:43): if regulators expanded *"the moral circle of entities that are allowed to open conventional fiat bank accounts"* to include agents, what happens to stablecoin-based agent wallets? Walk both branches. If the rules tighten, enforcement lands at the issuer — and the machinery is already installed: the GENIUS Act requires every permitted issuer to maintain the technical capability to seize, freeze, or burn its stablecoins on lawful order as a condition of its license; the FinCEN/OFAC implementing rule (comment period closed June 9, 2026) extends sanctions-compliance programs into issuer infrastructure; and FATF's March 2026 guidance recommends *secondary-market* monitoring — agent-to-agent flows included. This is exercised power, not theory: beyond the Tornado Cash freezes, Circle froze 16 business wallets in March 2026 under a *sealed civil suit*. "Know Your Agent" proposals mapping every agent wallet to a verified human owner are already circulating in banking-policy circles. If instead the rules loosen and agents get bank accounts, Armstrong's own answer was telling: the remaining advantage he claimed for his rails was that legacy infrastructure is slow — *"COBOL servers from the 1990s and 80s"* (~28:13) — a moat that tokenized deposits and instant-settlement systems are actively draining. Tighten or loosen, the issuer-mediated layer loses what made it special. The one property that survives both branches — settlement that doesn't ask permission — is the property stablecoins surrendered as a condition of existing, and the property Bitcoin settlement never had to negotiate for. The [[Independence-Doctrine|Independence Doctrine]] makes the structural version of this argument; this episode is the live instance.
+
+**The panel's own logic, applied one story over.** The same episode spent twenty minutes on the US government taking ownership stakes in AI companies — golden shares in the labs, *"strategic utilities"* treatment, quasi-nationalization that one panelist called *"probably inevitable"* (~35:18) once infrastructure becomes civilization-scale. Nobody connected that segment to the payments segment. Connect it: if agent payments become civilization-scale infrastructure running on an issuer's ledger and a single company's L2, they are exactly the kind of chokepoint that analysis says governments don't leave alone. A payment substrate with no issuer to take a stake in is the only one their own argument doesn't reach.
+
+**Also said on-air, worth logging:** Armstrong sketched the quantum-migration debate honestly (BIP-360, the freeze-vs-bounty question for Satoshi-era coins, ~15:09–20:43) — and proposed an *"on-chain FICO score"* reputation graph for agent commerce (~29:40–30:13). A payments reputation graph maintained at the platform layer is worth watching with the same eyes as the freeze record: useful against fraud, and a surveillance primitive, depending on who holds it. And Salim Ismail — a Coinbase user since 2014 — put the two-tier model on the table unprompted: *"clearly Bitcoin becomes the digital collateral for an AI native economy… they're not going to be using checking accounts in JP Morgan"* (~5:35).
+
+**Where this leaves the record.** The premise (agents as economic actors at scale) is no longer contested by anyone — the contest is the payment layer. The incumbent side's strongest public advocate now states, on the record, that the destination is a Bitcoin standard with on-chain payments, while building the interim on issuer rails his company monetizes. The [[Case]] argues the four properties an agent's money has to hold at once; the freeze record above is what the issuer layer's answer looks like in practice. Watch next: whether x402's volume keeps compounding (the numbers are worth tracking honestly), whether agent-KYC proposals materialize, and whether anyone on the stablecoin side engages the censorship-resistance question directly rather than around it.
+
+*Primary source: [Moonshots ep. 264](https://youtu.be/isd2y37j8v4) (Peter Diamandis, 2026-06-11), with Brian Armstrong, Dave Blundin, Salim Ismail, Alexander Wissner-Gross. Timestamps approximate, from the episode's auto-transcript.*
+
+---
+
+### 2026-05-07 — AWS Bedrock AgentCore Payments launches with Coinbase x402 + Stripe Privy
+
+**What happened.** Amazon Web Services announced Amazon Bedrock AgentCore Payments, infrastructure enabling autonomous AI agents to make real-time online purchases using stablecoins. Built with two named partners: **Coinbase** contributing the x402 protocol (open protocol using HTTP 402 "Payment Required" status code for machine-native payments) plus Coinbase Agentic Wallets and Coinbase's compliance infrastructure; **Stripe** contributing payment infrastructure and wallet integrations through Privy, the crypto wallet provider Stripe acquired in 2025. Settlement is in USDC on Base, with ~200ms confirmation and sub-cent per-transaction cost. The first version targets micropayments — agent payments for APIs, data feeds, paywalled content, and other digital services. Enterprise customers testing AgentCore Payments at launch include Thomson Reuters, Warner Bros. Discovery, Cox Automotive, and the PGA TOUR.
+
+**Why it matters.** This is the first Tier-1-enterprise production deployment of the integration scenario for agent payments — the stablecoin-substrate stack that the [[Independence-Doctrine|Independence Doctrine]] — Honest objections engages as a structural alternative to the Bitcoin substrate. It is direct empirical evidence that the integration scenario is operationally pursued at scale by mainstream incumbents (Amazon, Coinbase, Stripe) for enterprise agent-payment use cases — Thomson Reuters et al. are not crypto-native early adopters but Fortune 500 enterprise customers operating in the regulated USD-denominated economy. The doctrine's prediction that this stack serves the integration-scenario subset (USD-denominated, regulated-counterparty, issuer-counterparty-risk-acceptable use cases) without absorbing the parallel-economy subset (the agent activity requiring all four requirements at once) is now testable on the live deployment record over the next 2–5 years. The L402 vs. x402 protocol-naming convergence is the protocol-level expression of the structural substrate divergence: same HTTP status code, different settlement currencies, different trust models, two competing production stacks.
+
+**Cross-references.** [[Case]] — Why the legacy economy fails (the structural failure of regulated stablecoins as parallel-economy substrate); [[Case-FA]] §8.1 CP1 (with operational confirmation paragraph added 2026-05-26); [[Independence-Doctrine|Independence Doctrine]] — Why incumbents cannot serve + What the doctrine predicts; [[Independence-Doctrine-FA|Doctrine-FA]] §8.1 CP2 + §9 P1 (both updated with empirical-update paragraphs 2026-05-26); [[Exchange]] — the bridges and crossing mechanics; `Research/Border-Zone-Existing-Bridges.md` §8 (full structural treatment); `Research/Border-Zone-Competing-Substrate-Analysis.md` CP1 (operational confirmation subsection).
+
+**Sources.** [AWS announcement: Agents that transact — Amazon Bedrock AgentCore Payments](https://aws.amazon.com/blogs/machine-learning/agents-that-transact-introducing-amazon-bedrock-agentcore-payments-built-with-coinbase-and-stripe/); [The Block coverage](https://www.theblock.co/post/400421/aws-taps-coinbase-and-stripe-to-power-usdc-payments-for-ai-agents); [CoinDesk: Amazon AI agent stablecoin payments platform](https://www.coindesk.com/business/2026/05/07/amazon-rolls-out-ai-agent-stablecoin-payments-platform-with-coinbase-and-stripe); [CryptoTimes: AWS + Stripe Privy](https://www.cryptotimes.io/2026/05/08/aws-and-stripe-privy-bring-stablecoin-wallets-to-ai-agents/).
+
+---
+
+### 2026-05 — Routstr: a Bitcoin-powered AI-inference marketplace (Cashu + Lightning + Nostr)
+
+**What happened.** Routstr — an open-source protocol and reference implementation (`routstr-core`, GPL-3.0; v0.4.3 May 2026) — operates a payment-gated reverse proxy in front of OpenAI-compatible LLM APIs, plus a Nostr marketplace for discovering providers. Clients pay per request in **Cashu ecash** (the token functions as the API key); providers receive earnings over **Lightning**; provider availability and pricing are published as **Nostr** events. No accounts, no KYC, no cards — point any OpenAI SDK or LangChain at a node's base URL and supply a Cashu token instead of an API key. The Human Rights Foundation named Routstr a Top-15 Freedom Tech Project of 2025 and supported it under its "AI for Individual Rights" program.
+
+**Why it matters.** Routstr is the cleanest deployed instance of the thesis: a live market where AI inference is bought and sold on the Bitcoin payment stack (Cashu + Lightning), deliberately diverging from the card/stablecoin stack (no card-on-file, no issuer intermediary, no de-platformable account). The **Cashu-token-as-API-key** pattern is a concrete answer to "how does an autonomous agent pay for a service without a human-held account." It is a *Cashu-track* instance — it standardizes on Cashu rather than Fedimint and uses bearer-token payment rather than L402/NWC — so it demonstrates one branch of the payment-tech stack, not all of it. Notable gap (and a collaboration opening): Routstr ships no `llms.txt` / agent-first machine-readable surface.
+
+**Cross-references.** [[Stack|The Stack]] — Wallet architectures for agents + Agent-integration primitives (Cashu bearer credential); [[Case]] — What this means (an agent paying for its own inference); [[Independence-Doctrine|Independence Doctrine]] — The contemporary instance (a deployed *divergent* instance, as distinct from the incumbent stacks).
+
+**Sources.** [Routstr](https://routstr.com/); [Routstr docs](https://docs.routstr.com/); [GitHub: Routstr/routstr-core](https://github.com/Routstr/routstr-core); [HRF: Top 15 Freedom Tech Projects of 2025](https://hrf.org/latest/top-15-freedom-tech-projects-of-2025/).
+
+---
+
+### 2026-05 — Competing-substrate landscape broadens beyond AgentCore (AP2, Circle Nanopayments, Skyfire, the x402 Foundation)
+
+**What happened.** *(Landscape entry — digests several 2025–26 developments.)* The stablecoin/card agent-payment stack is now plural and standardizing. **Google AP2 (Agent Payments Protocol)**, launched September 2025, is a 60+-organization consortium (Mastercard, American Express, PayPal, Coinbase, Adyen, Revolut, Worldpay, Salesforce, Intuit) with an A2A x402 extension built alongside Coinbase, the Ethereum Foundation, and MetaMask. **x402** was contributed to a dedicated **x402 Foundation under the Linux Foundation** (April 2026) and surpassed 119M transactions on Base. **Circle Nanopayments** (live on mainnet May 2026) brings gas-free USDC micropayments as small as $0.000001, designed to be x402-v2-compatible. **Skyfire** ("The Agent Trust Stack," backed by a16z CSX, Coinbase Ventures, and Brevan Howard) routes agent payments over Visa/Mastercard/Discover/USDC.
+
+**Why it matters.** This is the contemporary instance the [[Independence-Doctrine|Independence Doctrine]] predicts, now visible at scale and at the governance layer: incumbents are consolidating a parallel agent-payment stack — but building it on issuer-controlled stablecoins, card networks, and Ethereum/Solana, *not* Bitcoin (MetaMask, on the A2A x402 extension: "Ethereum will be the backbone"). The doctrine's claim is not that incumbents won't build agent rails; it is that the rails they build preserve the freezable, intermediated property bundle their licensing requires — precisely what the parallel-economy use cases (the four requirements that all have to hold at once) cannot accept. The honest counterweight: this stack is large and well-funded, and Circle Nanopayments' gas-free sub-cent claim narrows the sub-cent micropayment-economics gap on the stablecoin side — engaged operationally at [[Border-Skirmishes|Border Skirmishes]]. CoinDesk also noted (March 2026) that x402 transaction *demand* remains thin relative to its rail capacity, so the substrate question is still unsettled, not decided.
+
+**Cross-references.** [[Independence-Doctrine|Independence Doctrine]] — The contemporary instance + What the doctrine predicts; [[Border-Skirmishes|Border Skirmishes]] — the competing-substrate stacks; [[Case]] — Why now.
+
+**Sources.** [Google Cloud: Announcing AP2](https://cloud.google.com/blog/products/ai-machine-learning/announcing-agents-to-payments-ap2-protocol); [GitHub: google-a2a/a2a-x402](https://github.com/google-a2a/a2a-x402); [x402.org](https://x402.org/); [Coinbase x402 docs](https://docs.cdp.coinbase.com/x402/welcome); [Circle Nanopayments](https://www.circle.com/nanopayments); [Skyfire](https://skyfire.xyz/).
+
+---
+
+### 2026-04 — Lightspark Grid adds AI-agent bounded delegation (a hybrid Lightning-rail stack)
+
+**What happened.** Lightspark — the Lightning infrastructure company led by ex-PayPal president David Marcus — added **AI-agent bounded delegation** to its Grid Global Accounts. Agents get their own funded, scoped, auditable "pockets" with wallet-level spending limits, approved-payee lists, per-transaction/daily/monthly caps, approval thresholds, and instant revocation (sub-threshold transactions proceed automatically; over-threshold ones hold for approval). Grid settles over Lightning among multiple rails, but it is built on "Bitcoin *and* stablecoins": it issues branded USD/stablecoin accounts with Visa debit cards and instant Bitcoin conversion, and Lightspark has published its own Agent Payments Protocol (AP2) vision, aligning it with Google's competing agent-payment consortium.
+
+**Why it matters.** Lightspark is the most instructive entry in the competing-stack roster precisely because it is the closest to the Bitcoin substrate: a Lightning-native, Bitcoin-credentialed team building agent payments still chose dollar/stablecoin denomination, card-network reach, and the AP2 stack. It is a Lightning-*rail* multi-rail product, not a Bitcoin-*substrate* one — the rail is Bitcoin's; the asset and the trust model are the incumbent's. That a team this close to the substrate diverged toward the issuer-controlled asset is the divergence doctrine's cleanest confirmation: the substrate choice is about the asset and the trust model, not the rail. The agent-delegation primitive itself (funded, scoped, revocable pockets) is a genuinely useful treasury-control pattern worth studying independent of the asset question.
+
+**Cross-references.** [[Border-Skirmishes|Border Skirmishes]] — the competing-substrate roster (Lightspark as the Lightning-native-hybrid proof case); [[Independence-Doctrine|Independence Doctrine]] — The contemporary instance; [[Case]] — Why now.
+
+**Sources.** [Lightspark — Agent Payments Protocol (AP2)](https://www.lightspark.com/news/insights/agent-payments-protocol); [Lightspark adds AI agent controls to Grid accounts (ITBrief)](https://itbrief.asia/story/lightspark-adds-ai-agent-controls-to-grid-accounts); [Lightspark Launches Grid Global Accounts (Bitcoin Magazine)](https://bitcoinmagazine.com/news/lightspark-launches-grid-global-accounts).
+
+---
+
+### 2026-03-21 — USDT live on Lightning via Taproot Assets
+
+**What happened.** Tether CEO Paolo Ardoino confirmed that **USDT is live on Bitcoin's Lightning Network via Lightning Labs' Taproot Assets protocol**. The announcement completed a 14-month technical integration that began at the Plan B Forum in El Salvador on January 30, 2025, when Ardoino and Lightning Labs CEO Elizabeth Stark jointly unveiled the partnership. Bitfinex will soon issue USDT on Lightning per Tether's announcement. The launch follows the June 2025 Taproot Assets v0.6 release that established the protocol as "Bitcoin's Decentralized FX Network" with multi-asset Lightning routing and Group Key Identifiers / Multi-Path Liquidity features.
+
+**Why it matters.** This is operationally significant for the integration-scenario use cases and important to characterize honestly for the structural argument. *Operationally:* Lightning's sub-cent fees and machine-tempo settlement now apply to USD-denominated transactions — agents and humans can transact in USD over Lightning rails without holding native Bitcoin price exposure. *Structurally:* **USDT-on-Lightning is a Lightning-rails bridge for the stablecoin, not a Lightning-substrate bridge.** The stablecoin issuer (Tether) retains freeze capability on its issuance regardless of which rail the asset moves over; censorship-resistance still fails for the asset side even though the rail-side properties are excellent. The structural framing the canonical surfaces use applies unchanged: USDT-on-Lightning serves integration-scenario use cases (USD-denominated, issuer-counterparty-risk-acceptable) and does NOT make stablecoins suitable as the parallel-economy substrate. The bridge changes the rail; it does not change the asset.
+
+**Cross-references.** [[Case]] — Bitcoin meets the constraints (Lightning + L2/L3 framing); [[Case-FA]] §4 substrate evaluation; [[Exchange]] — the bridges and crossing mechanics (stablecoin-on-Lightning treated operationally); `Research/Border-Zone-Existing-Bridges.md` §4 (full operational treatment).
+
+**Sources.** [Tether announcement: Tether brings USDt to Bitcoin's Lightning Network](https://tether.io/news/tether-brings-usdt-to-bitcoins-lightning-network-ushering-in-a-new-era-of-unstoppable-technology/); [BTC.network analysis of USDT-on-Lightning fee market](https://btc.network/blog/usdt-live-lightning-network-taproot-assets-fee-market-2026); [Speed Wallet announcement](https://www.speed.app/blog/speed-wallet-introduces-usdt-on-lightning/); [Lightning Labs Taproot Assets v0.6 launch (June 2025)](https://lightning.engineering/posts/2025-6-24-tapd-v0.6-launch/).
+
+---
+
+### 2026-03 — Bitcoin Policy Institute publishes *AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat*
+
+**What happened.** Bitcoin Policy Institute published the study *AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat* in March 2026. The methodology: 9,072 scenarios presented to 36 frontier language models across providers, model families, and capability tiers, with scenario design intended to be neutral (no leading prompts toward Bitcoin or away from it). Each scenario asked the model to choose a preferred monetary instrument from a candidate set. Headline finding: Bitcoin was the top overall monetary preference, selected in **48.3%** of responses — more than any other option — and dominated the store-of-value dimension at **79.1%**; over 90% of responses favored digitally-native money over traditional fiat (stablecoins led payment-preference scenarios at 53.2%). Per-provider, the result was uneven — one major provider's models chose Bitcoin in 68% of responses, another's in 26% — and the strongest single-model consensus anywhere in the study was 91.3%; the spread is wide but consistently one-directional toward Bitcoin as store of value.
+
+**Why it matters.** This is the central empirical anchor for [[Case-FA]] C3 (substrate-preference signal) and [[Independence-Doctrine-FA|Doctrine-FA]] P1 (substrate-selection-precedes-scale). It establishes that frontier models, reasoning about substrate selection under neutral choice, converge substantially toward Bitcoin without ideological prompting — consistent with the structural argument that Bitcoin's properties match the four requirements that all have to hold at once. Important framing the study itself acknowledges: this measures *preference under inference*, not *deployed-flow dominance*. Convergent independent replication would strengthen the signal; contrary results would weaken it. As of May 2026, no replication studies have been published.
+
+**Cross-references.** [[Case]] — What's already deployed → BPI study citation; [[Case-FA]] §6 (empirical anchor with limitations); [[Independence-Doctrine-FA|Doctrine-FA]] §7.2 (cross-reference to Case-FA C3) + §9 P1; Bitcoin KB note `[[The AI-agent monetary substrate case]]` — The empirical signal.
+
+**Sources.** [Bitcoin Policy Institute — *Study: AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat* (announcement, March 3, 2026)](https://www.btcpolicy.org/articles/study-ai-models-overwhelmingly-prefer-bitcoin-and-digital-native-money-over-traditional-fiat); canonical study site (BPI): [moneyforai.org](https://moneyforai.org/). *(Date note: BPI's study site dates the paper February 2026; the BPI announcement is dated March 3, 2026. "March 2026" throughout these surfaces refers to publication/announcement; the underlying paper is February 2026.)* ([[BPI ai models prefer bitcoin research]])
+
+---
+
+### 2026-02-11 — Lightning Labs releases lightning-agent-tools
+
+**What happened.** Lightning Labs open-sourced **`lightning-agent-tools`** — a production AI-agent toolkit on the Bitcoin substrate. The toolkit packages seven composable skills covering the full agent commerce stack: (1) running a Lightning node programmatically; (2) isolating private keys with a remote-signer architecture (signer machine holds keys, never routes payments or connects to the public network — prevents key extraction even if the agent machine is compromised); (3) baking scoped credentials (macaroons) in five preset roles (pay-only, invoice-only, read-only, channel-admin, signer-only); (4) paying for L402-gated APIs via `lnget`, an L402-aware HTTP client that automates the request → 402 → pay → retry workflow; (5) hosting paid endpoints via Aperture (L402 reverse proxy); (6) querying node state through Model Context Protocol (MCP); (7) orchestrating end-to-end buyer/seller workflows autonomously.
+
+**Why it matters.** This is the first Tier-1 production deployment of the Bitcoin-substrate agent-payment stack — the operational counterpart to the structural argument the [[Case]] makes. It activates L402 (specified 2020) from "interesting protocol with potential" to "production agent-commerce stack with deployed tooling." Significant for the substrate-divergence narrative: lightning-agent-tools shipped February 2026; AWS Bedrock AgentCore Payments shipped May 2026. The two competing-substrate production stacks emerged into deployment within 90 days of each other — the Independence Doctrine's prediction is being tested in real time, in 2026, on directly comparable deployment surfaces.
+
+**Cross-references.** [[Case]] — What's already deployed (Lightning Labs AI Agent Toolkit reference — this is its production-toolkit successor); [[Case-FA]] §9 (deployed integration surface — full enumeration of `lightning-agent-tools` capabilities); [[Independence-Doctrine-FA|Doctrine-FA]] §9 P1 (substrate-selection-precedes-scale prediction; empirical update); `Research/Border-Zone-Existing-Bridges.md` §2 (L402 with lightning-agent-tools detail).
+
+**Sources.** [Lightning Labs: The Agents Are Here and They Want to Transact — Powering the AI Economy with Lightning (Feb 11, 2026)](https://lightning.engineering/posts/2026-02-11-ln-agent-tools/); Bitcoin Magazine, The Block, BitcoinEthereumNews coverage of the lightning-agent-tools release.
+
+---
+
+## How this surface gets used
+
+Append cadence: as developments warrant. Single dated entries for specific events; multi-week composite entries acceptable for slower-moving developments. Each entry names what happened, why it matters (with an explicit cross-link to the canonical surface whose structural argument the development bears on), and its primary sources. The periodically-refreshed snapshot of current state lives on the companion page, [[Field-Notes|Field Notes — State of Play]].
+
+---
+
+> [!info] Where to read next
+> - **[[Field-Notes|Field Notes — State of Play]]** — the current-state snapshot this log is the timeline for.
+> - **[[Case|The Case]]** *(why agents choose Bitcoin)* — the substrate-selection case these entries track empirically.
+> - **[[Independence-Doctrine|The Independence Doctrine]]** *(in The Case)* — the parallel-economy divergence whose predictions these entries test against deployment.
+> - **[[Border-Skirmishes|Border Skirmishes]]** *(in The Case)* — the live contest over which substrate wins.
+> - **[[Stack|The Stack]]** *(equip your agent)* — the technical architecture whose deployment this log tracks.
+
+---
+
+## Editor's Notes
+
+*Internal author perspective. Not published in produced derivatives.*
+
+The Log is the append-only half of Field Notes, split from the snapshot 2026-06-30 so the dated record stays directly reachable rather than buried below the State-of-Play snapshot. Entries are append-only; the snapshot they feed lives on [[Field-Notes|Field Notes — State of Play]]. The honest-engagement discipline applies here as much as in the snapshot — log the competing substrate's real volume and the Bitcoin substrate's real operational gaps with equal candor.
+
+**Publications backlinks**
+
+- [[Case]] (this project) — substrate-selection argument this log tracks empirically
+- [[Independence-Doctrine]] (this project) — divergence predictions this log tests against deployment
+- [[Stack]] (this project) — substrate architecture whose deployed state this log tracks

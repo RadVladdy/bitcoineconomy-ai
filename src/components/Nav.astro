@@ -14,7 +14,7 @@ const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'Ma
       </a>
       <div class="nav-sections">
         {NAV_GROUPS.map((group) => (
-          <div class={`nav-dd accent-${SECTION_ACCENT[group.label] ?? 'btc'}`}>
+          <div class={`nav-dd${SECTION_ACCENT[group.label] ? ` accent-${SECTION_ACCENT[group.label]}` : ''}`}>
             <button
               type="button"
               class="nav-dd-trigger"

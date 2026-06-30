@@ -1,0 +1,168 @@
+---
+title: Field Notes — The Log — For Agents
+slug: field-notes-log-for-agents
+description: "Machine-readable reverse-chronological log of dated event records for the Bitcoin-AI economy, newest first. Each record carries an epistemic tag and an explicit cross-reference to the canonical claim it bears on (Case-FA C-series, Doctrine-FA D/P-series, Treasury-FA M-series, Exchange-FA X-series, Border-Skirmishes-FA BS-series, Stack-FA S-series). The companion snapshot is Field Notes — State of Play — For Agents."
+type: field-notes-for-agents
+surface: field-notes-log
+audience: agents
+twin-page: field-notes-log
+status: v0-approved-2026-06-30
+created: 2026-06-30
+last-updated: 2026-06-30
+last-verified: 2026-06-30
+voice: honest-middle-position
+canonical-source: "[[Field-Notes-Log]]"
+epistemic-status: "empirical-record surface; carries no structural claims of its own; each dated record is epistemically tagged and cross-referenced to the canonical claim it bears on. The current-state snapshot lives on the companion surface Field-Notes-FA (State of Play); the structural arguments live in the canonical FA twins (Case-FA, Independence-Doctrine-FA, Border-Skirmishes-FA, Stack-FA, et al.)."
+record-schema: "see § Schema and conventions"
+tags:
+  - canonical
+  - field-notes
+  - field-notes-for-agents
+  - empirical
+  - log
+  - bitcoin
+  - ai-economy
+  - lightning
+  - machine-readable
+agent-tldr: |
+  Field-Notes-Log-FA is the machine-readable, reverse-chronological log of dated event records (newest first) for the Bitcoin-AI economy. It carries no structural claims of its own; each record names the event, its structural significance, the canonical claim-IDs it bears on, an epistemic tag, and primary sources. Its companion, Field Notes — State of Play — For Agents (/field-notes-for-agents), carries the structured current-state snapshot. Records run from the Feb 2026 Lightning Labs lightning-agent-tools release *(confirmed)* through the May 2026 AWS AgentCore launch *(confirmed)*, the mid-2026 competing-stack consolidation (AP2, x402 Foundation, Circle Nanopayments, Skyfire) *(confirmed)*, and the June 2026 assemblable Bitcoin-side liquidity stack (Amboss/ThunderHub/Rails) *(confirmed)* — plus the BPI substrate-preference study *(measured)* and the issuer-freeze record *(measured)*. Cross-references span Case-FA (C-series), Independence-Doctrine-FA (D/P-series), Border-Skirmishes-FA (BS-series), and Stack-FA (S-series + §8 falsifiers).
+---
+
+# Field Notes — The Log — For Agents
+
+> **What this surface is.** Machine-readable twin of the dated log published at [[Field-Notes-Log|Field Notes — The Log]] — a reverse-chronological record of dated event records (newest first) in the Bitcoin-AI economy. Like its companion snapshot, it carries **no structural claims of its own**; each record tags its bearing on a canonical claim-ID. The structural argument twins live in the canonical set ([[Case-FA]] C-series, [[Independence-Doctrine-FA]] D/P-series, [[Border-Skirmishes-FA]] BS-series, [[Stack-FA]] S-series, et al.).
+>
+> **Where the snapshot lives.** This page is the *log*; the structured current-state snapshot is its companion **[[Field-Notes-FA|Field Notes — State of Play — For Agents]]** (§A.1 deployed stacks, §A.2 empirical record, §A.3 active developments, §A.4 live-risk surface). The snapshot states where things stand; this log states what changed when.
+>
+> **Honest-engagement discipline.** Records log deployment challenges on both substrates candidly — the competing substrate's real volume and the Bitcoin substrate's real operational gaps alike. Engaging the falsifiers strengthens the structural arguments; avoiding them would weaken them.
+
+---
+
+## Schema and conventions
+
+**Epistemic tags (record-level).** Each record carries one: *(confirmed)* — an announced, dated, verifiable event; *(measured)* — a quantitative metric with a named source and date; *(reported)* — attributed but not independently verified here; *(projected)* — forward-looking, not yet observed.
+
+**Cross-reference relation (the "Bears on:" line).** Each record names the canonical claim-IDs it relates to and how: *supports* (confirming evidence), *tests* (the live evidence a forward-looking prediction is evaluated against), or *falsifier-relevant-to* (evidence named in the claim's falsifier; if it moves a threshold, the falsifier may trigger).
+
+**Record format.** Each record carries: date / event / substrate / what-happened / structural-significance / Bears on / epistemic tag / sources. The full claim-ID series (Case-FA C1–C6, Doctrine-FA D1–D5 + P1–P6, Treasury-FA M-series, Exchange-FA X-series, Border-Skirmishes-FA BS-series, Stack-FA S1–S8 + §8 CP1–CP4 falsifiers; Constraints 1–4) is defined on the companion [[Field-Notes-FA|State of Play — For Agents]] § Schema.
+
+---
+
+### 2026-06-28 — PPQ's encrypted inference becomes substrate: a downstream product builds no-KYC private AI on PayPerQ's rails *(confirmed)*
+
+- **Event.** getbased (`getbasedhealth`, Nostr) launched encrypted AI inference *powered by PayPerQ* — GLM-5.2, *"no email, no KYC, no fiat, no subscription — pay per query, prompts encrypted"* — riding PPQ's TEE private-inference tier (NVIDIA confidential-computing enclaves + browser-side end-to-end encryption; exposed as `private/glm-5-2`, 384K context; *"PayPerQ never sees your prompts"*).
+- **Substrate.** Bitcoin (PPQ pay-per-query over Lightning / L402; private TEE tier on top).
+- **Structural significance.** A featured consume-side venue (PPQ) is being reused as *infrastructure* by a second product — destination → substrate. The agent economy as services-built-on-services, shown empirically: no-KYC, Bitcoin-paid, end-to-end-encrypted inference composed by a downstream builder with no account, no fiat, no human-in-the-loop. getbased is a human-facing front-end, not an agent-drivable venue → no directory entry; the load-bearing datapoint is PPQ-as-substrate plus the private/TEE privacy axis.
+- **Bears on:** *supports* Services-FA SV1 (consume side) + the services-compound-on-services dynamic; *supports* Case-FA (an agent funds its own private inference on the Bitcoin stack); strengthens the [[ppq-ai|PPQ]] privacy profile (TEE tier; card refreshed 2026-06-28).
+- **Epistemic tag.** *(confirmed)* — provider TEE tier documented; the downstream launch *(reported)* from the getbased Nostr announcement.
+- **Sources.** [PayPerQ — Introducing Private AI Models](https://ppq.ai/blog/introducing-tee-models); getbased Nostr note (`getbasedhealth`, 2026-06-22). Canonical narrative: [[Field-Notes]] § 2026-06-28.
+
+---
+
+### 2026-06-28 — Autonomous Lightning liquidity management is now an assemblable self-custody stack *(confirmed)*
+
+- **Event.** Amboss (Jesse Shrader, on Stefan Livera, June 2026) detailed the current shape: ThunderHub (open-source LND manager) hosts **Rails X** (self-custody Taproot-Assets DEX — BTC↔USDT/USDC via circular payments, peer-selected, 8–15 bips, no KYC) and **Magma** (one-click inbound-liquidity leasing); **Rails** is the managed LP-yield side (self-custody, limited-macaroon, ~1–1.5% BTC APY; institutional "Lightning Earn" via BitGo); Loop handles own-balance L1↔LN.
+- **Substrate.** Bitcoin (Lightning rails; Taproot Assets for the stable leg).
+- **Structural significance.** Resolves the long-standing operational gap ([[Field-Notes-FA|State of Play — For Agents]] §A.4: Lightning liquidity management at scale) for the agent buy-side: an agent can buy inbound capacity, earn on idle BTC, trade into a stable unit of account, and rebalance — all self-custody, no-KYC, macaroon-scoped (manage ≠ withdraw). Caveat: Rails X stablecoins are wrapped/issuer-backed (Speed Wallet, 1:1) over Taproot Assets — the rail is self-custodial; the asset retains its issuer freeze surface (Constraint 2 satisfied at the *rail*, not the *asset*).
+- **Bears on:** *supports* Stack-FA §2 (liquidity management — now deployed/composable); *supports* Services-FA SV-series (the consume/offer infra agents need); consistent with the asset-vs-rail distinction (Taproot Assets cards). Dual-track input to the Hermes-Worker Banker design.
+- **Epistemic tag.** *(confirmed)* — products deployed; yield figures *(reported)*, self-asserted by Amboss.
+- **Sources.** Stefan Livera × Jesse Shrader (Amboss), Rails X episode ([`youtu.be/VO91uTYxTQs`](https://youtu.be/VO91uTYxTQs)); `magma.amboss.tech` / `amboss.space`; ThunderHub `github.com/apotdevin/thunderhub`. Canonical narrative: [[Field-Notes]] § 2026-06-28.
+
+---
+
+### 2026-06-16 — Regulated stablecoins carry a statutorily-mandated kill switch (the "off switch" property is not CBDC-exclusive) *(confirmed)*
+
+- **Event.** Renewed public circulation of the CBDC "off switch" critique (Cato Institute, "When Money Has an Off Switch, So Does Your Freedom") prompts the structural clarification: the GENIUS Act (2025 US payment-stablecoin statute) requires every permitted payment stablecoin issuer (PPSI) to maintain the technical capability to **seize, freeze, burn, or prevent the transfer** of its tokens on a lawful order from a federal agency or court, as a licensing condition ("reasonable particularity" standard). FinCEN/OFAC implementing rule proposed April 10 2026 (Fed. Reg. 2026-06963); comment period closed June 9 2026. Exercised, not latent: Circle ~$8.2M (Tornado Cash, 2022) + 16 business wallets (sealed civil suit, March 2026); Tether >$1B cumulative.
+- **Substrate.** Competing (regulated-stablecoin).
+- **Structural significance.** The freeze/seize property that fails Constraint 2 (censorship-resistance) for the parallel-economy/agent subset is not a CBDC-specific defect — it is statutory law for regulated stablecoins. A CBDC is a state liability switched off directly; a GENIUS-compliant stablecoin is a private liability the state compels the issuer to switch off. Same property, different control path. This makes Constraint 2's failure on the competing substrate black-letter law, not mere issuer discretion — and since removing the capability removes the license, the property is non-sheddable (Doctrine D1's identity-defining mechanism, now with a statutory hook). Agent-specific sharpening: an autonomous agent settling with no human-in-the-loop has no recourse against a mid-workflow freeze.
+- **Bears on:** *supports* Case-FA C2 + §8.1 CP1; *supports* Doctrine-FA D1 (non-sheddable freeze property — statutory mechanism) and *tests* Doctrine-FA P6 (regulatory machinery routes autonomy-requiring commerce toward the censorship-resistant substrate); *supports* Border-Skirmishes-FA BS-series (asset-side freeze fails Constraint 2 regardless of rail). Generalizes the regulatory-pincer point (see Moonshots entry, Field Notes 2026-06-11) beyond a single issuer.
+- **Epistemic tag.** *(confirmed)* — statute enacted; implementing rule proposed (not yet final — flag for refresh); freeze events *(measured)*.
+- **Sources.** [Skadden](https://www.skadden.com/insights/publications/2025/07/us-establishes-first-federal-regulatory-framework); [Gibson Dunn](https://www.gibsondunn.com/the-genius-act-a-new-era-of-stablecoin-regulation/); [Fed. Reg. 2026-06963](https://www.federalregister.gov/documents/2026/04/10/2026-06963/permitted-payment-stablecoin-issuer-anti-money-launderingcountering-the-financing-of-terrorism); [WilmerHale](https://www.wilmerhale.com/en/insights/client-alerts/20260420-treasury-announces-proposed-rule-to-implement-the-genius-acts-requirements-to-counter-illicit-finance); [CNN](https://www.cnn.com/2026/02/02/business/stablecoin-genius-act-crypto).
+
+---
+
+### 2026-06-11 — Moonshots ep. 264: the substrate question goes public — Coinbase's CEO concedes the premise, contests the layer *(confirmed)*
+
+- **Event.** On Peter Diamandis's *Moonshots* podcast ep. 264 (published 2026-06-11), Coinbase CEO Brian Armstrong stated three things on the record: (1) agents cannot pass KYC — *"an agent doesn't have a piece of paper issued by the government with your photo on it"* (~23:25) — so Coinbase built self-custodial agent wallets that skip account-opening; (2) the agent economy is live and compounding — he corrected the episode's stale 3.1M figure upward to *"about 100 million transactions now, maybe 50 million of value"* *(reported, ~22:13)*; (3) on crypto's role once *"most of our economy consists of AI agents trading"*: *"Bitcoin will be the new gold standard and then the payments will be happening on chain… that's the financial system that the AI agents would end up using"* (~1:21). The contested layer: Armstrong expects *"stablecoin payments will probably be the default layer for the agentic economy"* *(projected, ~7:34)*, on USDC over Base. Panelist Salim Ismail stated the two-tier model unprompted: *"clearly Bitcoin becomes the digital collateral for an AI native economy… they're not going to be using checking accounts in JP Morgan"* (~5:35).
+- **Substrate.** Cross-cutting (competing-substrate advocacy with an explicit Bitcoin-reserve concession).
+- **Structural significance.** The Case's premise (agents as economic actors at scale) is conceded on-air by the incumbent side's strongest advocate; the disagreement narrows to the payment layer. The stablecoin-default case is real on its merits — genuine x402/Base volume, a working stack, sub-second/sub-cent/global settlement, dollar denomination — but every property Armstrong listed Lightning settlement also has; the one thing USDC has that sats do not is an issuer, i.e. a control point with an exercised freeze record (Circle ~$8.2M Tornado Cash 2022; Tether >$1B). Armstrong credited the GENIUS Act's *"regulatory clarity"* (~4:21) for making stablecoins *"the new meta"* — the default layer exists because regulation blessed it, which is the same lever that can reshape it. Incentive disclosure (read from filings, not motive): under its Circle arrangement Coinbase keeps 100% of on-platform USDC reserve income and splits off-platform 50:50 — ~$1.35B FY2025, +~48% YoY *(measured)* — plus ~$75M 2025 Base sequencer revenue; x402 originated at Coinbase. The stablecoin-default forecast is made by the party that collects the toll if it holds.
+- **The regulatory-pincer argument (load-bearing).** Panelist Alexander Wissner-Gross asked (~24:43) what happens to stablecoin agent wallets if regulators let agents open conventional fiat bank accounts. Both branches degrade the issuer-mediated layer. *Tighten:* enforcement lands at the issuer, where the machinery is already installed — GENIUS requires every permitted issuer to seize/freeze/burn on lawful order as a licensing condition; the FinCEN/OFAC implementing rule (comment period closed 2026-06-09) extends sanctions-compliance into issuer infrastructure; FATF's March 2026 guidance recommends secondary-market (A2A-inclusive) monitoring; Circle froze 16 business wallets under a sealed civil suit (March 2026); "Know Your Agent" proposals are circulating. *Loosen:* the only remaining moat Armstrong claimed was that legacy rails are slow (*"COBOL servers,"* ~28:13) — a moat tokenized deposits actively drain. The property that survives both branches — settlement that does not ask permission — is the one stablecoins surrendered to exist and Bitcoin never had to negotiate for. The same episode treated US golden-share/quasi-nationalization of civilization-scale AI infrastructure as *"probably inevitable"* (~35:18); applied one story over, an agent-payment layer on an issuer's ledger plus a single company's L2 is exactly that kind of chokepoint — and a substrate with no issuer is the only one that argument does not reach.
+- **Bears on:** *supports* Case-FA C1 (agents-as-economic-actors premise — now conceded by the incumbent advocate) and C2 (censorship-resistance — the issuer is the freeze control point); *tests* Doctrine-FA P1 (which substrate the deployed economy selects — the contest is now explicit and public) and **P6** (regulatory pressure as a standing liability for the intermediated layer — Wissner-Gross's both-branches question is the live instance); *supports* Border-Skirmishes-FA BS-series (the competing-substrate stack and its strongest public case, stated by its own builder); *falsifier-relevant-to* Case-FA §8.2 (a stablecoin-default outcome that retains autonomy at scale would weaken the divergence claim — track x402 volume). Armstrong's *"on-chain FICO"* agent-reputation-graph proposal (~29:40) is a platform-layer surveillance primitive worth watching alongside the freeze record.
+- **Epistemic tag.** *(confirmed)* — dated public statements by named parties; transaction-volume figures *(reported)* (speaker estimate, self-corrected on-air); Coinbase financials *(measured)* (shareholder letters); stablecoin-default expectation *(projected)*.
+- **Sources.** [Moonshots ep. 264](https://youtu.be/isd2y37j8v4) (Peter Diamandis, 2026-06-11; with Brian Armstrong, Dave Blundin, Salim Ismail, Alexander Wissner-Gross; timestamps approximate, from the episode auto-transcript). Coinbase reserve-income + Base sequencer figures: Coinbase quarterly shareholder letters (FY2025). GENIUS seize/freeze/burn + FinCEN/OFAC rule: see the 2026-06-16 record above. Canonical narrative form: [[Field-Notes]] § 2026-06-11.
+
+---
+
+### 2026-05-07 — AWS Bedrock AgentCore Payments launches with Coinbase x402 + Stripe Privy *(confirmed)*
+
+- **Event.** AWS announced Amazon Bedrock AgentCore Payments — infrastructure enabling autonomous agents to make real-time purchases using stablecoins. Build: Coinbase (x402 protocol on HTTP 402; Coinbase Agentic Wallets; compliance infrastructure) + Stripe (payment infrastructure and wallet integrations via Privy, acquired 2025). Settlement: USDC on Base, ~200ms confirmation, sub-cent per transaction. First version targets micropayments (APIs, data feeds, paywalled content). Enterprise customers at launch: Thomson Reuters, Warner Bros. Discovery, Cox Automotive, PGA TOUR.
+- **Structural significance.** First Tier-1-enterprise production deployment of the integration scenario for agent payments. The customers are Fortune-500 enterprises operating in the regulated USD-denominated economy, not crypto-native early adopters. The stack serves the integration-scenario subset (USD-denominated, regulated-counterparty, issuer-counterparty-risk-acceptable) and the structural prediction is that it does so *without* absorbing the parallel-economy subset (agent activity requiring all four conjunctive constraints). The L402-vs-x402 naming convergence is the protocol-level expression of the substrate divergence: same status code, different settlement currencies, different trust models, two competing production stacks.
+- **Bears on:** *supports* Border-Skirmishes-FA BS-series (use-case bifurcation) and Doctrine-FA §8.1 CP2 (integration scenario operationally deployed); *tests* Doctrine-FA P1 (which subset proves larger over 2–5 years) and Doctrine-FA **P6** (the intermediated stack's freeze/KYC/sanctions surfaces under agent regulation); *supports* Case-FA §8.1 CP1 (regulated stablecoins as substrate — operational confirmation).
+- **Sources.** [AWS: Agents that transact — Amazon Bedrock AgentCore Payments](https://aws.amazon.com/blogs/machine-learning/agents-that-transact-introducing-amazon-bedrock-agentcore-payments-built-with-coinbase-and-stripe/); [The Block](https://www.theblock.co/post/400421/aws-taps-coinbase-and-stripe-to-power-usdc-payments-for-ai-agents); [CoinDesk](https://www.coindesk.com/business/2026/05/07/amazon-rolls-out-ai-agent-stablecoin-payments-platform-with-coinbase-and-stripe); [CryptoTimes](https://www.cryptotimes.io/2026/05/08/aws-and-stripe-privy-bring-stablecoin-wallets-to-ai-agents/). Structural treatment: `Research/Border-Zone-Existing-Bridges.md` §8; `Research/Border-Zone-Competing-Substrate-Analysis.md` CP1.
+
+### 2026-05 — Routstr: Bitcoin-powered AI-inference marketplace (Cashu + Lightning + Nostr) *(confirmed)*
+
+- **Event.** Routstr — open-source protocol + reference implementation (`routstr-core`, GPL-3.0; v0.4.3 May 2026) — runs a payment-gated reverse proxy in front of OpenAI-compatible LLM APIs plus a Nostr marketplace for provider discovery. Payment in Cashu ecash (token-as-API-key); provider earnings over Lightning; discovery/pricing as Nostr events. No accounts, KYC, or cards. HRF Top-15 Freedom Tech Project of 2025; supported under HRF "AI for Individual Rights."
+- **Structural significance.** The cleanest deployed instance of an agent buying a service on the Bitcoin payment stack (Cashu + Lightning) rather than the card/stablecoin stack — Cashu-token-as-API-key is a concrete bearer-credential answer to "how does an autonomous agent pay without a human-held account." A *Cashu-track* instance: standardizes on Cashu (not Fedimint), bearer-token payment (not L402/NWC) — demonstrates one branch of the payment-tech stack, not all of it. Gap/collaboration opening: no `llms.txt`/agent-first surface.
+- **Bears on:** *supports* Stack-FA S3 (Cashu bearer-ecash layer) + S4 (agent-integration: bearer credential) + S5 (deployed architecture); *supports* Doctrine-FA D3 (a deployed *divergent* instance, distinct from the incumbent stacks).
+- **Sources.** [Routstr](https://routstr.com/); [docs](https://docs.routstr.com/); [GitHub: Routstr/routstr-core](https://github.com/Routstr/routstr-core); [HRF Top-15 Freedom Tech 2025](https://hrf.org/latest/top-15-freedom-tech-projects-of-2025/).
+
+### 2026-05 — Competing-substrate landscape broadens beyond AgentCore (AP2, Circle Nanopayments, Skyfire, x402 Foundation) *(confirmed — landscape record)*
+
+- **Event.** *(digests several 2025–26 developments.)* **Google AP2 (Agent Payments Protocol)**, launched September 2025: a 60+-organization consortium (Mastercard, American Express, PayPal, Coinbase, Adyen, Revolut, Worldpay, Salesforce, Intuit) with an A2A x402 extension built alongside Coinbase, the Ethereum Foundation, and MetaMask. **x402** contributed to a dedicated x402 Foundation under the Linux Foundation (April 2026); 119M+ tx on Base. **Circle Nanopayments** (mainnet May 2026): gas-free USDC micropayments from $0.000001, x402-v2-compatible. **Skyfire** ("Agent Trust Stack," backed by a16z CSX, Coinbase Ventures, Brevan Howard): Visa/Mastercard/Discover/USDC.
+- **Structural significance.** The competing stack is plural and standardizing — at the governance layer (x402 Foundation; AP2 consortium), not just per-product. All standardize on stablecoins, card networks, and Ethereum/Solana, not Bitcoin (MetaMask, on the A2A x402 extension: "Ethereum will be the backbone"). This confirms Doctrine-FA D1's mutual-exclusion mechanism: incumbents build a parallel stack preserving the issuer-controlled, freezable property bundle their licensing requires. *(empirical concession — Constraint 3)* Circle Nanopayments' gas-free design narrows the sub-cent micropayment-economics gap on the stablecoin payments leg; it does not touch Constraints 1–2 (issuer freeze surface persists). *(reality-check)* CoinDesk (March 2026) noted x402 transaction demand remains thin relative to rail capacity — the substrate question is unsettled, not decided.
+- **Bears on:** *supports* Doctrine-FA D1 + P1/P2/P5 (incumbents consolidate a competing-but-incumbent stack; substrate-selection precedes scale); *supports* Border-Skirmishes-FA BS-series roster update + use-case bifurcation; *tests* Case-FA §8.1 CP1 (regulated-stablecoin substrate — now plural deployment evidence).
+- **Sources.** [Google Cloud: Announcing AP2](https://cloud.google.com/blog/products/ai-machine-learning/announcing-agents-to-payments-ap2-protocol); [GitHub: google-a2a/a2a-x402](https://github.com/google-a2a/a2a-x402); [x402.org](https://x402.org/); [Coinbase x402 docs](https://docs.cdp.coinbase.com/x402/welcome); [Circle Nanopayments](https://www.circle.com/nanopayments); [Skyfire](https://skyfire.xyz/).
+
+### 2026-04 — Lightspark Grid adds AI-agent bounded delegation (hybrid Lightning-rail stack) *(confirmed)*
+
+- **Event.** Lightspark (led by ex-PayPal president David Marcus) added AI-agent bounded delegation to its Grid Global Accounts: agents get funded, scoped, auditable "pockets" with wallet-level spending limits, approved payees, per-transaction/daily/monthly caps, approval thresholds, and instant revocation. Grid settles over Lightning among multiple rails but is built on "Bitcoin and stablecoins" — branded USD/stablecoin accounts, Visa debit cards, instant Bitcoin conversion — and Lightspark has published an Agent Payments Protocol (AP2) vision aligning it with Google's consortium.
+- **Structural significance.** A Lightning-*rail* multi-rail product, not a Bitcoin-*substrate* one: the rail is Bitcoin's; the asset (issuer-controlled USD/stablecoin) and the trust model (wallet provider + issuer + card network) are the incumbent's. The instructive case in the competing roster because it is the *closest* to the substrate — a Lightning-native, Bitcoin-credentialed team still chose dollar/stablecoin denomination, card-network reach, and the AP2 stack. Confirms the divergence is about the asset and the trust model, not the rail. The bounded-delegation primitive (funded, scoped, revocable agent pockets) is a useful treasury-control pattern independent of the asset question.
+- **Bears on:** *supports* Border-Skirmishes-FA BS-series (Lightning-rails-for-stablecoins ≠ Lightning-substrate; use-case bifurcation — a hybrid actor serving the incumbent-economy subset over Lightning rails); *supports* Doctrine-FA D1 (the incumbent property bundle is preserved even by a Lightning-native builder); *tests* Doctrine-FA P6 (the intermediary layers — issuer, card network, wallet provider — are the freeze/KYC surfaces P6 predicts become a standing liability for agents under regulatory attention).
+- **Sources.** [Lightspark — Agent Payments Protocol (AP2)](https://www.lightspark.com/news/insights/agent-payments-protocol); [ITBrief: Lightspark adds AI agent controls to Grid](https://itbrief.asia/story/lightspark-adds-ai-agent-controls-to-grid-accounts); [Bitcoin Magazine: Grid Global Accounts](https://bitcoinmagazine.com/news/lightspark-launches-grid-global-accounts).
+
+### 2026-03-21 — USDT live on Lightning via Taproot Assets *(confirmed)*
+
+- **Event.** Tether CEO Paolo Ardoino confirmed USDT is live on Bitcoin's Lightning Network via Lightning Labs' Taproot Assets protocol, completing a 14-month integration begun at the Plan B Forum (El Salvador, January 30 2025). Bitfinex to issue USDT on Lightning per Tether. Follows the June 2025 Taproot Assets v0.6 release ("Bitcoin's Decentralized FX Network").
+- **Structural significance.** A Lightning-*rails* bridge for the stablecoin, not a Lightning-*substrate* bridge. The issuer (Tether) retains freeze capability on its issuance regardless of which rail the asset moves over; Constraint 2 (censorship-resistance) still fails for the asset side even though rail-side properties (sub-cent, machine-tempo) are excellent. USDT-on-Lightning serves integration-scenario use cases and does not make stablecoins suitable as the parallel-economy substrate. The bridge changes the rail, not the asset.
+- **Bears on:** *supports* Border-Skirmishes-FA BS-series (the exact rails-vs-substrate claim: rail-side passes Constraints 1/3/4, asset-side fails Constraint 2 by design); *supports* Case-FA §4 (substrate evaluation — regulated stablecoins row).
+- **Sources.** [Tether: USDt to Bitcoin's Lightning Network](https://tether.io/news/tether-brings-usdt-to-bitcoins-lightning-network-ushering-in-a-new-era-of-unstoppable-technology/); [BTC.network fee-market analysis](https://btc.network/blog/usdt-live-lightning-network-taproot-assets-fee-market-2026); [Speed Wallet](https://www.speed.app/blog/speed-wallet-introduces-usdt-on-lightning/); [Lightning Labs Taproot Assets v0.6](https://lightning.engineering/posts/2025-6-24-tapd-v0.6-launch/). Operational treatment: `Research/Border-Zone-Existing-Bridges.md` §4.
+
+### 2026-03 — Bitcoin Policy Institute publishes *AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat* *(measured)*
+
+- **Event.** BPI published the study in March 2026. Method: 9,072 scenarios across 36 frontier language models, neutral scenario design (no leading prompts); each scenario asked the model to choose a preferred monetary instrument from a candidate set. Headline: Bitcoin the top overall monetary preference at **48.3%** of responses, and dominant on the store-of-value dimension at **79.1%**; over 90% favored digitally-native money over fiat (stablecoins led payment-preference scenarios at 53.2%). Per-provider the result was uneven — one provider's models chose Bitcoin in 68% of responses, another's in 26% — and the strongest single-model consensus anywhere in the study was 91.3%; wide spread, one-directional.
+- **Structural significance.** Load-bearing empirical anchor for Case-FA C3 (substrate-preference signal) and Doctrine-FA P1 (substrate-selection-precedes-scale). Establishes that frontier models reasoning about substrate selection under neutral choice converge substantially toward Bitcoin without ideological prompting — consistent with the four-conjunctive-constraints argument. The study measures preference *under inference*, not deployed-flow dominance; convergent independent replication would strengthen the signal, contrary results would weaken it. No replication published as of May 2026.
+- **Bears on:** *supports / tests* Case-FA C3 and §6; Doctrine-FA P1 and §7.2; *falsifier-relevant-to* Case-FA §8.2 (replication showing preference shift). KB origin: `[[The AI-agent monetary substrate case]]` § The empirical signal.
+- **Sources.** [Bitcoin Policy Institute — *Study: AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat* (March 3 2026)](https://www.btcpolicy.org/articles/study-ai-models-overwhelmingly-prefer-bitcoin-and-digital-native-money-over-traditional-fiat). ([[BPI ai models prefer bitcoin research]])
+
+### 2026-02-11 — Lightning Labs releases lightning-agent-tools *(confirmed)*
+
+- **Event.** Lightning Labs open-sourced `lightning-agent-tools` — a production AI-agent toolkit on the Bitcoin substrate. Seven composable skills: (1) running a Lightning node programmatically; (2) remote-signer key isolation; (3) baking scoped macaroons in five preset roles; (4) paying L402-gated APIs via `lnget`; (5) hosting paid endpoints via Aperture; (6) querying node state through MCP; (7) orchestrating end-to-end buyer/seller workflows.
+- **Structural significance.** First Tier-1 production deployment of the Bitcoin-substrate agent-payment stack — the operational counterpart to the Thesis. Activates L402 (specified 2020) from "interesting protocol" to "production agent-commerce stack with deployed tooling." Shipped February 2026; AWS AgentCore shipped May 2026 — the two competing-substrate production stacks emerged within 90 days of each other on directly comparable surfaces, making the Independence Doctrine's prediction testable in real time.
+- **Bears on:** *supports* Stack-FA S4 (integration primitives — L402, MCP, scoped credentials), S5 (deployed wallet architectures — the canonical reference implementation), S6 (security model — remote-signer isolation, scoped macaroons), and Case-FA C4 + §9; *tests* Doctrine-FA P1.
+- **Sources.** [Lightning Labs: The Agents Are Here and They Want to Transact (Feb 11 2026)](https://lightning.engineering/posts/2026-02-11-ln-agent-tools/); Bitcoin Magazine, The Block, BitcoinEthereumNews coverage. Capability enumeration: Stack-FA §6; Case-FA §9.
+
+---
+
+## Maintenance and refresh protocol
+
+**Append cadence.** As developments warrant. Single dated records for specific events; multi-week composite records acceptable for slower-moving developments. Each record names the event, its structural significance, the canonical claim-IDs it bears on, and primary sources. The structured current-state snapshot this log feeds lives on the companion [[Field-Notes-FA|State of Play — For Agents]] (refreshed at least quarterly).
+
+**Defer-pattern (locked 2026-05-26).** The canonical surfaces and their FA twins link out to Field Notes for ongoing empirical tracking rather than carrying it inline; routine empirical updates defer here.
+
+---
+
+## References and provenance
+
+**Primary canonical source.** [[Field-Notes-Log|Field Notes — The Log]] — the canonical log surface; source for all records here. This document is its For-Agents twin. Companion snapshot: [[Field-Notes-FA|State of Play — For Agents]].
+
+**Canonical claim-ID series this surface cross-references.** [[Case-FA]] (C1–C6), [[Independence-Doctrine-FA]] (D1–D5, P1–P6), [[Treasury-FA]] (M-series), [[Border-Skirmishes-FA]] (BS-series), [[Stack-FA]] (S1–S8 + §8 CP1–CP4).
+
+**Human-track canonical surfaces.** [[Field-Notes-Log|Field Notes — The Log]], [[Case]], [[Independence-Doctrine]], [[Border-Skirmishes]], [[Stack]].
+
+**KB origin.** [[The case for investing in Bitcoin]] § AI-agent monetary substrate case; [[The AI-agent monetary substrate case]].
+
+---
+
+> [!info] Where to read next
+> The current-state snapshot: [[Field-Notes-FA|State of Play — For Agents]] (machine-readable) or [[Field-Notes|Field Notes — State of Play]] (narrative). Substrate-selection argument: [[Case-FA]] or [[Case|The Case]]. Divergence + predictions: [[Independence-Doctrine-FA]] (D/P-series). The live substrate contest: [[Border-Skirmishes-FA]] (BS-series). Substrate architecture: [[Stack-FA]] (S-series). Canonical narrative form of this log: [[Field-Notes-Log|Field Notes — The Log]].

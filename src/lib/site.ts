@@ -33,7 +33,8 @@ export const HUMAN_NAV = [
   { slug: 'services', label: 'Services' },
   { slug: 'treasury', label: 'Treasury' },
   { slug: 'stablecoin-landscape', label: 'The Stablecoin Landscape' },
-  { slug: 'field-notes', label: 'Field Notes' },
+  { slug: 'field-notes', label: 'State of Play' },
+  { slug: 'field-notes-log', label: 'The Log' },
 ];
 
 // Grouped navigation — the three-section IA (locked 2026-06-03):
@@ -74,11 +75,23 @@ export const NAV_GROUPS = [
       { slug: 'services', label: 'Services' },
     ],
   },
+  // Field Notes is the cross-cutting live record every section defers to — a
+  // dropdown parent over its two pages, kept OUT of the semantic colour triad
+  // (no SECTION_ACCENT entry → Nav renders it neutral) since it isn't one of the
+  // three argument sections. Split into State (the snapshot) + Log (dated
+  // entries) 2026-06-30.
+  {
+    label: 'Field Notes',
+    items: [
+      { slug: 'field-notes', label: 'State of Play' },
+      { slug: 'field-notes-log', label: 'The Log' },
+    ],
+  },
 ];
 
 // Cross-cutting surfaces shown as standalone top-level nav items (not inside a
-// section dropdown). Field Notes is the live record every section defers to.
-export const NAV_STANDALONE = [{ slug: 'field-notes', label: 'Field Notes' }];
+// section dropdown). (Field Notes moved to a NAV_GROUPS dropdown 2026-06-30.)
+export const NAV_STANDALONE: { slug: string; label: string }[] = [];
 
 // One-glance descriptors per page, shown as a small dim sub-label under the
 // title in both the homepage rail and the nav dropdowns. Keyed by slug.
@@ -103,7 +116,8 @@ export const SLUG_TAGS: Record<string, string> = {
   treasury: 'What an agent holds — and the border it crosses',
   exchange: 'Moving between bitcoin and dollars',
   services: 'What agents buy and sell',
-  'field-notes': 'The live record, week to week',
+  'field-notes': 'Where things stand right now',
+  'field-notes-log': 'Dated entries, newest first',
 };
 
 // Tool-card layer taxonomy. Ordered top-down to mirror The Stack's own section
@@ -250,6 +264,7 @@ export const TWIN: Record<string, string | null> = {
   services: 'services-for-agents',
   'stablecoin-landscape': null,
   'field-notes': 'field-notes-for-agents',
+  'field-notes-log': 'field-notes-log-for-agents',
   about: null,
 };
 
@@ -269,6 +284,7 @@ export const HUMAN_OF: Record<string, string> = {
   'exchange-for-agents': 'exchange',
   'services-for-agents': 'services',
   'field-notes-for-agents': 'field-notes',
+  'field-notes-log-for-agents': 'field-notes-log',
 };
 
 export function isAgentSlug(slug: string): boolean {

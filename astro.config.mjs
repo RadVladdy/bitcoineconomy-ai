@@ -11,11 +11,11 @@ const SITE_URL = 'https://bitcoineconomy.ai';
 const SURFACE_SLUGS = [
   'case', 'the-story', 'agent-economy', 'adoption-asymmetry', 'independence-doctrine',
   'border-skirmishes', 'convergence', 'why-bitcoin-not-a-new-coin', 'why-lightning-not-a-fast-chain',
-  'stack', 'marketplace', 'exchange', 'services', 'treasury', 'stablecoin-landscape', 'field-notes', 'about',
+  'stack', 'marketplace', 'exchange', 'services', 'treasury', 'stablecoin-landscape', 'field-notes', 'field-notes-log', 'about',
   'case-for-agents', 'agent-economy-for-agents', 'adoption-asymmetry-for-agents',
   'independence-doctrine-for-agents', 'border-skirmishes-for-agents', 'convergence-for-agents',
   'why-bitcoin-not-a-new-coin-for-agents', 'why-lightning-not-a-fast-chain-for-agents', 'stack-for-agents',
-  'treasury-for-agents', 'exchange-for-agents', 'services-for-agents', 'field-notes-for-agents',
+  'treasury-for-agents', 'exchange-for-agents', 'services-for-agents', 'field-notes-for-agents', 'field-notes-log-for-agents',
 ];
 
 // https://astro.build/config
