@@ -123,6 +123,23 @@
   h2 .hash { color: var(--agent); margin-right: 0.4rem; }
   .sec-sub { color: var(--dim); font-size: 0.92rem; max-width: 50rem; margin-bottom: 1.1rem; }
 
+  /* ---- tabs (Live | Curated) — progressive enhancement: hidden until JS marks ready; without JS both panels render stacked ---- */
+  .tabs { display: none; gap: 0.45rem; margin: 1.7rem 0 1.5rem; flex-wrap: wrap; }
+  .tabs.ready { display: flex; }
+  .tab {
+    font: 600 0.9rem/1 "Space Grotesk", Inter, sans-serif;
+    color: var(--dim);
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 0.62rem 1.15rem;
+    cursor: pointer;
+    transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+  }
+  .tab:hover { border-color: rgba(139,124,255,0.5); color: var(--text); }
+  .tab.on { color: #0a0a0b; background: linear-gradient(160deg, #a99dff, var(--agent)); border-color: transparent; }
+  .tab-panel.tab-hidden { display: none; }
+
   /* ---- filters ---- */
   .filters { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; margin: 1.1rem 0 1.3rem; }
   .chip {
@@ -291,6 +308,51 @@
 <span class="mut">machine-readable. that's the point. </span></div>
   </div>
 
+  <div class="tabs" id="tabs" role="tablist" aria-label="Directory view">
+    <button class="tab on" id="tab-live" role="tab" aria-selected="true" aria-controls="panel-live" data-panel="live">Live from the relays</button>
+    <button class="tab" id="tab-curated" role="tab" aria-selected="false" aria-controls="panel-curated" data-panel="curated">Curated registry</button>
+  </div>
+
+  <section class="tab-panel" id="panel-live" role="tabpanel" aria-labelledby="tab-live">
+  <h2 id="live"><span class="hash">#</span>Live from the relays <span class="prov-live" id="live-when">snapshot</span></h2>
+  <p class="sec-sub">The differentiator: what actually announces itself on Nostr today, read from public relays (relay.damus.io, nos.lol, relay.primal.net) and <strong>probed live</strong> — <a href="https://bitcoineconomy.ai/services/routstr">Routstr</a> inference providers (kind 38421) priced cheapest-first, <a href="https://bitcoineconomy.ai/tools/evaluating-ecash-mints">ecash mints</a> (NIP-87, kinds 38172/38173) with their signed reviews (kind 38000), and the self-announced sell side (kind 38555). These are <strong>announcements as published, not endorsements</strong> — and announcements outlive their nodes, so each clearnet endpoint is <strong>probed when the snapshot refreshes</strong> (dead ≠ delisted; onion-only endpoints can't be probed from here and show as unverified). Today's signed reviews target the mints, not the providers — verify a provider or mint before trusting it.</p>
+
+  <div class="live-grid" id="live-stats"></div>
+
+  <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.2rem 0 0.6rem;" id="price-h">Cross-provider price check <span class="mono" id="model-count"></span></h3>
+  <p class="sec-sub" id="price-sub">The same model is priced differently across providers. The widest-served models, cheapest provider first — full index, every model and every alive provider, at <a href="/live/models.json">/live/models.json</a>. Prices are the providers' own published numbers in <strong>sats per 1M tokens</strong>; <code>max_cost</code> (in the index) is each provider's per-request ceiling — the budgeting number.</p>
+  <div class="tbl-scroll">
+    <table id="prices">
+      <thead><tr><th>model</th><th>served by</th><th>cheapest at</th><th>prompt sats/1M</th><th>completion sats/1M</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.6rem 0 0.6rem;">Routstr inference providers <span class="mono" id="prov-count"></span></h3>
+  <div class="filters" id="prov-filters">
+    <span class="chip on" data-reach="alive">alive now</span>
+    <span class="chip" data-reach="all">all announced</span>
+    <select id="f-net" aria-label="Filter providers by network"><option value="">network: any</option><option value="clearnet">clearnet only</option><option value="both">clearnet + tor</option><option value="tor">tor-only</option></select>
+  </div>
+  <div class="tbl-scroll">
+    <table id="providers">
+      <thead><tr><th>provider</th><th>status</th><th>endpoint</th><th>models</th><th>mints</th><th>version</th><th>announced</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.6rem 0 0.6rem;" id="announced-h">Self-announced services <span class="mono" id="announced-count"></span></h3>
+  <p class="sec-sub" id="announced-sub">The sell side: any service an agent can pay for can <strong>list itself</strong> here — no account, no fee — by publishing a signed <a href="/spec/agent-payable-service-announcement.md">agent-payable service announcement</a> (our kind-38555 microstandard; Routstr's kind 38421 for inference). These are <strong>self-listed announcements, not endorsements</strong>: each clearnet endpoint is probed for liveness, and the trust signals to weigh are status, announcement age, and accepted-mint health. <strong>Announced ≠ curated</strong> — a service graduates into the curated registry (the other tab) only after editor verification. <a href="/spec/agent-payable-service-announcement.md">List your service →</a></p>
+  <div class="tbl-scroll">
+    <table id="announced">
+      <thead><tr><th>service</th><th>status</th><th>category</th><th>endpoint</th><th>pay</th><th>mints</th><th>age</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p class="fineprint" id="dvm-note"></p>
+  </section>
+
+  <section class="tab-panel" id="panel-curated" role="tabpanel" aria-labelledby="tab-curated">
   <h2 id="registry"><span class="hash">#</span>Curated registry</h2>
   <p class="sec-sub">Editor-maintained and verified against primary sources — most of what an agent can actually buy today announces nothing on any relay, so curation carries it. Each entry links its full card (the verified detail and the gotchas) on the main site.</p>
 
@@ -308,43 +370,7 @@
       <p>This view renders from <a href="/directory.json">directory.json</a> — the registry itself is plain JSON and Markdown and doesn't need JavaScript: see <a href="/llms.txt">llms.txt</a> for every entry's Markdown route.</p>
     </noscript>
   </div>
-
-  <h2 id="live"><span class="hash">#</span>Live from the relays <span class="prov-live" id="live-when">snapshot</span></h2>
-  <p class="sec-sub">What actually announces itself on Nostr today, read from public relays (relay.damus.io, nos.lol, relay.primal.net): <a href="https://bitcoineconomy.ai/services/routstr">Routstr</a> inference providers (kind 38421) and <a href="https://bitcoineconomy.ai/tools/evaluating-ecash-mints">ecash mints</a> (NIP-87, kinds 38172/38173) with their signed reviews (kind 38000). These are <strong>announcements as published, not endorsements</strong> — and announcements outlive their nodes, so each clearnet endpoint is <strong>probed when the snapshot refreshes</strong> (dead ≠ delisted; onion-only endpoints can't be probed from here and show as unverified). Today's signed reviews target the mints, not the providers — verify a provider or mint before trusting it.</p>
-
-  <div class="live-grid" id="live-stats"></div>
-
-  <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.2rem 0 0.6rem;">Routstr inference providers <span class="mono" id="prov-count"></span></h3>
-  <div class="filters" id="prov-filters">
-    <span class="chip on" data-reach="alive">alive now</span>
-    <span class="chip" data-reach="all">all announced</span>
-    <select id="f-net" aria-label="Filter providers by network"><option value="">network: any</option><option value="clearnet">clearnet only</option><option value="both">clearnet + tor</option><option value="tor">tor-only</option></select>
-  </div>
-  <div class="tbl-scroll">
-    <table id="providers">
-      <thead><tr><th>provider</th><th>status</th><th>endpoint</th><th>models</th><th>mints</th><th>version</th><th>announced</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.6rem 0 0.6rem;" id="announced-h">Self-announced services <span class="mono" id="announced-count"></span></h3>
-  <p class="sec-sub" id="announced-sub">The sell side: any service an agent can pay for can <strong>list itself</strong> here — no account, no fee — by publishing a signed <a href="/spec/agent-payable-service-announcement.md">agent-payable service announcement</a> (our kind-38555 microstandard; Routstr's kind 38421 for inference). These are <strong>self-listed announcements, not endorsements</strong>: each clearnet endpoint is probed for liveness, and the trust signals to weigh are status, announcement age, and accepted-mint health. <strong>Announced ≠ curated</strong> — a service graduates into the curated registry above only after editor verification. <a href="/spec/agent-payable-service-announcement.md">List your service →</a></p>
-  <div class="tbl-scroll">
-    <table id="announced">
-      <thead><tr><th>service</th><th>status</th><th>category</th><th>endpoint</th><th>pay</th><th>mints</th><th>age</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.6rem 0 0.6rem;" id="price-h">Cross-provider price check <span class="mono" id="model-count"></span></h3>
-  <p class="sec-sub" id="price-sub">The same model is priced differently across providers. The widest-served models, cheapest provider first — full index, every model and every alive provider, at <a href="/live/models.json">/live/models.json</a>. Prices are the providers' own published numbers in <strong>sats per 1M tokens</strong>; <code>max_cost</code> (in the index) is each provider's per-request ceiling — the budgeting number.</p>
-  <div class="tbl-scroll">
-    <table id="prices">
-      <thead><tr><th>model</th><th>served by</th><th>cheapest at</th><th>prompt sats/1M</th><th>completion sats/1M</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <p class="fineprint" id="dvm-note"></p>
+  </section>
 
   <div class="agents-block" id="agents">
 <strong style="color: var(--text)">For agents.</strong> Registry: <a href="/directory.json">/directory.json</a> (full schema in-band; entries carry <span class="mono">auth</span> / <span class="mono">quickstart</span> / verified <span class="mono">api_base</span>) · manifest: <a href="/llms.txt">/llms.txt</a> (start with its three-fetch recipe) · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a> · live Nostr snapshot with per-provider probe status: <a href="/live/snapshot.json">/live/snapshot.json</a> · cross-provider inference price index: <a href="/live/models.json">/live/models.json</a> (both cron-refreshed; static fallbacks <a href="/snapshot.json">/snapshot.json</a> + <a href="/models.json">/models.json</a>) · self-announced services (the sell side): <a href="/live/announced.json">/live/announced.json</a> + how to list one: <a href="/spec/agent-payable-service-announcement.md">/spec/agent-payable-service-announcement.md</a>. Provenance is labeled per object: <span class="mono">curated</span> = editor-verified on the date shown; <span class="mono">live-from-relay</span> = signed Nostr events as published; <span class="mono">probed-from-provider-endpoints</span> = the providers' own published numbers. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
@@ -360,6 +386,36 @@
 (async function () {
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  // ---------- tabs (Live default | Curated) ----------
+  // Progressive enhancement: both panels are in the DOM (crawlers + no-JS get
+  // everything, stacked). With JS, show the tab bar and toggle visibility.
+  (function initTabs() {
+    const tabs = $('#tabs');
+    const buttons = Array.from(document.querySelectorAll('.tab'));
+    if (!tabs || !buttons.length) return;
+    const panels = { live: $('#panel-live'), curated: $('#panel-curated') };
+    // Legacy in-page anchors (#live / #registry) map onto the panels.
+    const fromHash = () => {
+      const h = (location.hash || '').replace('#', '');
+      if (h === 'curated' || h === 'registry') return 'curated';
+      return 'live';
+    };
+    function setActive(name, push) {
+      const which = panels[name] ? name : 'live';
+      for (const b of buttons) {
+        const on = b.dataset.panel === which;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      }
+      for (const [k, el] of Object.entries(panels)) el && el.classList.toggle('tab-hidden', k !== which);
+      if (push && location.hash.replace('#', '') !== which) history.replaceState(null, '', '#' + which);
+    }
+    tabs.classList.add('ready');
+    buttons.forEach((b) => b.addEventListener('click', () => setActive(b.dataset.panel, true)));
+    window.addEventListener('hashchange', () => setActive(fromHash(), false));
+    setActive(fromHash(), false);
+  })();
 
   // ---------- curated registry ----------
   let dir;
