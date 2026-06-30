@@ -15,9 +15,25 @@ export const RELAYS = [
 
 const THIRTY_DAYS = 30 * 24 * 60 * 60;
 
+// Our own "agent-payable service announcement" microstandard — a parameterized-
+// replaceable kind (30000–39999, replaceable by (kind, pubkey, d)) that reuses
+// Routstr's tag grammar (d/u/mint/version) and adds the directory's machine-
+// actionable fields (k category, pay methods, auth, pricing). 38421 stays the
+// kind for INFERENCE (Routstr); this is the GENERAL case (commerce, compute,
+// swap, machine-work, privacy, liquidity, fiat-ramp) — exactly the use-case
+// microstandard the NIP-90 deprecation note invites. Kind chosen by two checks:
+// (1) clear of the official NIP kind index (only 38172/38173/38383 are allocated
+// in 38xxx; 38383 is NIP-69 Mostro P2P orders) and clear of Routstr's 38421; and
+// (2) clear of live relay traffic — a live query showed 38501 already carries ~17
+// unrelated events in the wild (an unregistered kind in use), so it was rejected
+// for this one, which the same query found empty. Spec at
+// /spec/agent-payable-service-announcement.md.
+export const KIND_ANNOUNCE = 38555;
+
 export function makeFilters(nowSec) {
   return {
     routstr: { kinds: [38421], limit: 500 },
+    announced: { kinds: [KIND_ANNOUNCE], limit: 500 },
     cashu: { kinds: [38172], limit: 500 },
     fedimint: { kinds: [38173], limit: 500 },
     reviews: { kinds: [38000], limit: 500 },
@@ -95,6 +111,52 @@ function parseContentName(ev) {
   } catch { return undefined; }
 }
 
+function parseContentObj(ev) {
+  try { const c = JSON.parse(ev.content); return c && typeof c === 'object' ? c : {}; }
+  catch { return {}; }
+}
+
+// The 8-term category vocabulary the directory curates on; an announcement's `k`
+// tag is normalized into it (unknown values pass through, labeled, never dropped).
+const ANNOUNCE_CATEGORIES = ['inference', 'compute', 'machine-work', 'commerce', 'privacy', 'swap', 'liquidity', 'fiat-ramp'];
+
+// Parse one kind-38555 event into the directory's announced-service shape. Tag
+// grammar (reused from Routstr where it overlaps): d=service id · u=endpoint(s) ·
+// mint=accepted Cashu mint(s) · version. Our additions: k=category · pay=payment
+// method(s) · auth · pricing=pricing url. Descriptive fields ride in content JSON.
+function parseAnnounced(ev) {
+  const c = parseContentObj(ev);
+  const urls = tag(ev, 'u');
+  const k = (tag(ev, 'k')[0] || c.category || '').toLowerCase();
+  const links = {};
+  if (c.links && typeof c.links === 'object') {
+    if (c.links.site) links.site = String(c.links.site);
+    if (c.links.docs) links.docs = String(c.links.docs);
+    if (c.links.repo) links.repo = String(c.links.repo);
+  }
+  const d = tag(ev, 'd')[0];
+  return {
+    slug: d ? `announced:${d}` : `announced:${ev.pubkey.slice(0, 12)}`,
+    d,
+    name: parseContentName(ev) || c.name,
+    category: ANNOUNCE_CATEGORIES.includes(k) ? k : (k || undefined),
+    summary: c.summary || undefined,
+    what_an_agent_buys: c.what_an_agent_buys || undefined,
+    urls,
+    network: networkOf(urls),
+    api_base: clearnetBase(urls),
+    payment_methods: tag(ev, 'pay').map((p) => p.toLowerCase()),
+    accepted_mints: tag(ev, 'mint'),
+    auth: tag(ev, 'auth')[0] || c.auth || undefined,
+    pricing_url: tag(ev, 'pricing')[0] || c.pricing_url || undefined,
+    quickstart: c.quickstart || undefined,
+    version: tag(ev, 'version')[0],
+    links,
+    pubkey: ev.pubkey,
+    updated_at: ev.created_at,
+  };
+}
+
 export function buildSnapshot(perRelayResults, { source, generatedAt }) {
   const bySub = {};
   const seenIds = new Set();
@@ -107,11 +169,25 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
   }
 
   const routstr = dedupeReplaceable(bySub.routstr ?? []);
+  const announced = dedupeReplaceable(bySub.announced ?? []).map(parseAnnounced);
   const cashu = dedupeReplaceable(bySub.cashu ?? []);
   const fedimint = dedupeReplaceable(bySub.fedimint ?? []);
   const handlers = dedupeReplaceable(bySub.handlers ?? []);
   const reviews = bySub.reviews ?? [];
   const dvmjobs = bySub.dvmjobs ?? [];
+
+  // Trust cold-start signals computed at snapshot time (probed liveness is folded
+  // in later by applyAnnouncedProbes): announcement age, and accepted-mint health —
+  // a join against the NIP-87 mints this same snapshot already carries, so a
+  // claimed mint that is itself a known/announced mint counts as healthy.
+  const nowSec = Math.floor(new Date(generatedAt).getTime() / 1000) || 0;
+  const knownMints = new Set(cashu.map((ev) => (tag(ev, 'u')[0] || '').replace(/\/+$/, '')).filter(Boolean));
+  for (const s of announced) {
+    s.announcement_age_days = s.updated_at ? Math.max(0, Math.round((nowSec - s.updated_at) / 86400)) : null;
+    const claimed = (s.accepted_mints || []).map((u) => u.replace(/\/+$/, ''));
+    s.mint_health = { claimed: claimed.length, healthy: claimed.filter((u) => knownMints.has(u)).length };
+  }
+  announced.sort((a, b) => (b.updated_at ?? 0) - (a.updated_at ?? 0));
 
   const dvmByKind = {};
   for (const ev of dvmjobs) dvmByKind[ev.kind] = (dvmByKind[ev.kind] ?? 0) + 1;
@@ -144,6 +220,13 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
             updated_at: ev.created_at,
           };
         }).sort((a, b) => b.updated_at - a.updated_at),
+      },
+      announced: {
+        kind: KIND_ANNOUNCE,
+        spec: 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md',
+        count: announced.length,
+        note: 'Self-announced, agent-payable services published with our "agent-payable service announcement" microstandard (kind ' + KIND_ANNOUNCE + '). Announced ≠ curated: these are permissionless announcements taken as published, not endorsements, and graduate to the curated registry only via verification. Trust signals per entry: probe status, announcement_age_days, mint_health.',
+        services: announced,
       },
       mints: {
         kinds: [38172, 38173],
@@ -268,6 +351,81 @@ export function applyProbes(snapshot, probeResults, { probedAt }) {
   mod.probe = {
     probed_at: probedAt,
     method: 'GET {clearnet endpoint}/v1/models, 10s timeout; onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint (e.g. localhost)',
+    alive: counts.alive,
+    unreachable: counts.unreachable,
+    unverified_tor_only: counts['unverified-tor-only'],
+    unroutable: counts.unroutable,
+    note: 'status reflects the probe moment only; dead ≠ delisted — announcements remain the source of record',
+  };
+  return snapshot;
+}
+
+// L402 (formerly LSAT): a 402 response carries `WWW-Authenticate: L402 macaroon="..",
+// invoice="lnbc.."`. Shared by the announced-service probe here and get_quote's
+// api_base probe in mcp-lib.mjs (one detector, one behaviour).
+export function detectL402(status, wwwAuth = '', body = '') {
+  const isL402 = status === 402 || /\b(l402|lsat)\b/i.test(wwwAuth);
+  if (!isL402) return null;
+  const invoice = (`${wwwAuth}\n${body}`.match(/ln(bc|tb|bcrt)[0-9a-z]{50,}/i) || [])[0] || null;
+  const macaroon = (wwwAuth.match(/macaroon="?([^",\s]+)"?/i) || [])[1] || null;
+  return { detected: true, invoice, macaroon, www_authenticate: wwwAuth || null };
+}
+
+// Generalized liveness probe for announced services (the general case — they are
+// NOT all OpenAI-compatible, so unlike probeProviders we do a bare GET on the
+// clearnet endpoint and record reachability + an L402 challenge where one is
+// served). Onion-only → unverified-tor-only; no routable endpoint → unroutable.
+// Same honesty vocabulary as the Routstr probe; dead ≠ delisted.
+export async function probeAnnounced(services, { timeoutMs = 8000, concurrency = 8, fetchFn = fetch } = {}) {
+  const results = new Map();
+  const queue = [...services];
+  async function lane() {
+    while (queue.length) {
+      const s = queue.shift();
+      const base = clearnetBase(s.urls);
+      if (!base) {
+        const onion = (s.urls ?? []).some((u) => /\.onion/i.test(u));
+        results.set(s.slug, { status: onion ? 'unverified-tor-only' : 'unroutable' });
+        continue;
+      }
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
+      const t0 = Date.now();
+      try {
+        const res = await fetchFn(base, { signal: ctrl.signal, headers: { accept: 'application/json, text/plain;q=0.9, */*;q=0.5' } });
+        let body = '';
+        try { body = (await res.text()).slice(0, 4000); } catch {}
+        const l402 = detectL402(res.status, res.headers.get('www-authenticate') || '', body);
+        results.set(s.slug, { status: 'alive', latency_ms: Math.round(Date.now() - t0), http_status: res.status, endpoint: base, ...(l402 ? { l402 } : {}) });
+      } catch {
+        results.set(s.slug, { status: 'unreachable', endpoint: base });
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, Math.max(queue.length, 1)) }, lane));
+  return results;
+}
+
+// Folds announced-service probe results into the snapshot in place: per-service
+// status/latency/http_status (+ any captured L402) + a module-level probe summary.
+export function applyAnnouncedProbes(snapshot, probeResults, { probedAt }) {
+  const mod = snapshot.modules?.announced;
+  if (!mod) return snapshot;
+  const counts = { alive: 0, unreachable: 0, 'unverified-tor-only': 0, unroutable: 0 };
+  for (const s of mod.services) {
+    const r = probeResults.get(s.slug);
+    if (!r) continue;
+    s.status = r.status;
+    if (r.latency_ms !== undefined) s.latency_ms = r.latency_ms;
+    if (r.http_status !== undefined) s.http_status = r.http_status;
+    if (r.l402) s.l402 = r.l402;
+    counts[r.status] = (counts[r.status] ?? 0) + 1;
+  }
+  mod.probe = {
+    probed_at: probedAt,
+    method: 'GET {clearnet endpoint}, 8s timeout; an L402 challenge is captured where served. Onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint.',
     alive: counts.alive,
     unreachable: counts.unreachable,
     unverified_tor_only: counts['unverified-tor-only'],

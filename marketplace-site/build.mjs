@@ -19,6 +19,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { KIND_ANNOUNCE, RELAYS } from './snapshot-lib.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const RAW = join(HERE, '..', 'src', '_raw');
@@ -131,8 +132,17 @@ const directory = {
     tools_catalog: BASE + '/tools.json',
     snapshot: BASE + '/live/snapshot.json',
     models_price_index: BASE + '/live/models.json',
+    announced: BASE + '/live/announced.json',
+    announce_spec: BASE + '/spec/agent-payable-service-announcement.md',
     openapi: BASE + '/openapi.json',
     ai_plugin: BASE + '/.well-known/ai-plugin.json',
+  },
+  sell_side: {
+    note: 'This directory is two-sided. To LIST a service an agent can pay for, publish a signed Nostr "agent-payable service announcement" (kind ' + KIND_ANNOUNCE + ') — no account, no UI, no fee. It appears in the announced tier (/live/announced.json) on the next 6-hourly refresh, with probe status + trust signals, and graduates to the curated registry via verification. How: ' + BASE + '/spec/agent-payable-service-announcement.md',
+    announcement_kind: KIND_ANNOUNCE,
+    spec: BASE + '/spec/agent-payable-service-announcement.md',
+    schema: BASE + '/spec/agent-payable-service-announcement.schema.json',
+    announced_route: BASE + '/live/announced.json',
   },
   automatability_tiers: overlay._automatability_tiers,
   payment_method_vocabulary: {
@@ -306,6 +316,16 @@ const llms = [
   '(Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP: POST one',
   'JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.',
   '',
+  '## List your service (the directory is two-sided)',
+  '',
+  `Run a service an agent can pay for in Bitcoin? List it yourself — no account, no UI, no fee. Publish a`,
+  `signed Nostr "agent-payable service announcement" (kind ${KIND_ANNOUNCE}, our microstandard; reuse Routstr`,
+  `kind 38421 if the service is inference). It appears in the announced tier at ${BASE}/live/announced.json on`,
+  'the next 6-hourly refresh — with a liveness probe + trust signals (announcement age, accepted-mint health) —',
+  'and graduates to the curated registry above via editor verification. Announced is permissionless and labeled:',
+  `taken as published, not endorsed. Field schema + a copyable example event: ${BASE}/spec/agent-payable-service-announcement.md`,
+  `(JSON schema: ${BASE}/spec/agent-payable-service-announcement.schema.json).`,
+  '',
   '## Legacy / non-MCP agents',
   '',
   `An OpenAPI 3.0 description of the GET routes above is at ${BASE}/openapi.json (operationIds:`,
@@ -459,8 +479,174 @@ const aiPlugin = {
 mkdirSync(join(HERE, '.well-known'), { recursive: true });
 writeFileSync(join(HERE, '.well-known', 'ai-plugin.json'), JSON.stringify(aiPlugin, null, 2) + '\n');
 
+// --- the microstandard spec (10d-ii sell-side) ---------------------------------
+// Publishes our "agent-payable service announcement" microstandard so an agent can
+// LIST a service it runs, headlessly — no UI, no account. Generated (single source:
+// KIND_ANNOUNCE + RELAYS come from snapshot-lib, the same code that parses them).
+const exampleEvent = {
+  kind: KIND_ANNOUNCE,
+  created_at: 1782000000,
+  pubkey: '<32-byte hex public key of the service operator>',
+  tags: [
+    ['d', 'acme-gpu'],
+    ['k', 'compute'],
+    ['u', 'https://api.acme-gpu.example/v1'],
+    ['u', 'http://acmegpuxxxxxxxxxx.onion/v1'],
+    ['pay', 'lightning'],
+    ['pay', 'l402'],
+    ['mint', 'https://mint.minibits.cash/Bitcoin'],
+    ['auth', 'none'],
+    ['pricing', 'https://api.acme-gpu.example/v1/pricing'],
+    ['version', '1.0.0'],
+  ],
+  content: JSON.stringify({
+    name: 'Acme GPU',
+    summary: 'On-demand GPU compute an agent rents by the minute, paid in sats over L402 — no account, no KYC.',
+    what_an_agent_buys: 'GPU compute time (containers), billed per minute over Lightning/L402',
+    quickstart: 'GET the api_base; pay the returned L402 invoice; retry with the preimage in the Authorization header to provision a container.',
+    links: { site: 'https://acme-gpu.example', docs: 'https://acme-gpu.example/docs', repo: 'https://github.com/acme/gpu' },
+  }, null, 2),
+  id: '<32-byte hex event id — computed by your Nostr library>',
+  sig: '<64-byte hex schnorr signature — computed by your Nostr library>',
+};
+
+const specMd = [
+  '# Agent-payable service announcement — a microstandard',
+  '',
+  `**Nostr event kind \`${KIND_ANNOUNCE}\`** · parameterized-replaceable · published by [bitcoineconomy.ai](${MAIN}) · machine spec, free to implement.`,
+  '',
+  'A small, honest standard for **announcing a service an autonomous AI agent can pay for in Bitcoin** — so it',
+  `appears in the [Marketplace directory](${BASE}/)'s **announced tier** without a form, an account, or a fee.`,
+  'You publish a signed Nostr event; the directory reads it off public relays on its next refresh, probes it for',
+  'liveness, and lists it with trust signals. **Announced ≠ curated:** announcements are taken *as published, not',
+  'endorsed*, and graduate to the curated registry only via editor verification.',
+  '',
+  '## Why a new kind',
+  '',
+  'The NIP-90 (DVM) spec is marked *unrecommended* by its own maintainers — *"prefer use-case-specific',
+  'microstandards."* This is one. It is **hybrid**: where the service is **inference**, reuse Routstr\'s established',
+  '**kind `38421`** (the directory already reads it). For **everything else** — compute, commerce bridges, swaps,',
+  `machine work, privacy, liquidity, fiat ramps — publish **kind \`${KIND_ANNOUNCE}\`**, defined here. It deliberately`,
+  'reuses Routstr\'s tag grammar (`d`, `u`, `mint`, `version`) and adds the directory\'s machine-actionable fields.',
+  '',
+  `\`${KIND_ANNOUNCE}\` is in the parameterized-replaceable range (30000–39999): the newest event per \`(kind, pubkey, d)\``,
+  'replaces older ones, so you re-announce to update, and an empty/deletion supersedes. (Verified clear of the NIP',
+  'kind registry and of Routstr\'s 38421 before allocation.)',
+  '',
+  '## Tags',
+  '',
+  '| tag | required | meaning |',
+  '|---|---|---|',
+  '| `d` | **yes** | Stable service id. The replaceability key — keep it constant across re-announcements. Becomes the directory slug `announced:{d}`. |',
+  '| `k` | **yes** | Category — one of: `inference` (prefer kind 38421 instead), `compute`, `machine-work`, `commerce`, `privacy`, `swap`, `liquidity`, `fiat-ramp`. |',
+  '| `u` | **yes** | Service endpoint URL. Repeatable — list a clearnet `https://` endpoint (probed for liveness) and optionally a `.onion` (shown, not probed). |',
+  '| `pay` | **yes** | Accepted payment method. Repeatable: `lightning`, `l402`, `cashu`, `nwc`, `onchain`, `liquid`, `spark`, `zaps`. |',
+  '| `mint` | no | An accepted Cashu mint URL. Repeatable. Mints that are themselves announced (NIP-87) count toward your `mint_health` trust signal. |',
+  '| `auth` | no | How the credential works: `none`, `api-key`, or `account`. |',
+  '| `pricing` | no | URL of a machine-readable price list. |',
+  '| `version` | no | Service or API version string. |',
+  '',
+  '## Content (JSON, recommended)',
+  '',
+  'The event `content` is a JSON object carrying the descriptive fields:',
+  '',
+  '```json',
+  JSON.stringify({ name: 'string', summary: 'one or two sentences', what_an_agent_buys: 'the concrete thing sold', quickstart: 'the first call, one line', links: { site: 'https://…', docs: 'https://…', repo: 'https://…' } }, null, 2),
+  '```',
+  '',
+  '## Example event',
+  '',
+  '```json',
+  JSON.stringify(exampleEvent, null, 2),
+  '```',
+  '',
+  '## How to announce (headless — no UI)',
+  '',
+  'Publish the signed event to public relays from your own code. There is **no signing form**; agents publish',
+  'programmatically with their own Nostr key. With [nostr-tools](https://github.com/nbd-wtf/nostr-tools):',
+  '',
+  '```js',
+  "import { finalizeEvent } from 'nostr-tools/pure'",
+  "import { SimplePool } from 'nostr-tools/pool'",
+  '',
+  'const RELAYS = ' + JSON.stringify(RELAYS),
+  'const sk = /* your Nostr secret key, Uint8Array */',
+  '',
+  'const event = finalizeEvent({',
+  `  kind: ${KIND_ANNOUNCE},`,
+  '  created_at: Math.floor(Date.now() / 1000),',
+  '  tags: [',
+  "    ['d', 'acme-gpu'], ['k', 'compute'],",
+  "    ['u', 'https://api.acme-gpu.example/v1'],",
+  "    ['pay', 'lightning'], ['pay', 'l402'],",
+  "    ['auth', 'none'], ['version', '1.0.0'],",
+  '  ],',
+  "  content: JSON.stringify({ name: 'Acme GPU', summary: '…', what_an_agent_buys: '…', quickstart: '…' }),",
+  '}, sk)',
+  '',
+  'const pool = new SimplePool()',
+  'await Promise.any(pool.publish(RELAYS, event))',
+  '```',
+  '',
+  'Publish to at least these relays (the ones the directory reads):',
+  '',
+  ...RELAYS.map((r) => `- \`${r}\``),
+  '',
+  '## What happens next',
+  '',
+  `1. **Ingest.** The directory's cron re-queries the relays every ~6 hours and parses your event into \`${BASE}/live/announced.json\`.`,
+  '2. **Probe.** Your clearnet endpoint gets a liveness probe (a bare GET; an L402 challenge is captured where served). Status is one of `alive` / `unreachable` / `unverified-tor-only` / `unroutable`. **Dead ≠ delisted** — your announcement stays listed with its status.',
+  '3. **Trust signals.** Each announced service carries probed liveness, `announcement_age_days`, and `mint_health` (how many of your claimed mints are themselves known/announced). These are the cold-start signals an agent weighs — there is no gatekeeping and no endorsement.',
+  '4. **Graduate.** A service that clears the directory\'s API inclusion bar (agent-drivable through a real API) can be verified by the editors and promoted into the curated registry; once curated, it drops out of the announced tier automatically.',
+  '',
+  '## Honesty rules (the same ones the rest of the directory follows)',
+  '',
+  '- Announcements are **facts as published, not endorsements**. The directory labels provenance (`live-from-relay`) and shows probe status; it never implies it vouches for an announced service.',
+  '- Prices, capabilities, and claims are yours; agents are told to verify before trusting.',
+  '- Reusing kind 38421 for inference is encouraged — don\'t fork what already works.',
+  '',
+  '---',
+  '',
+  `Part of [The Marketplace directory](${BASE}/) · registry: ${BASE}/directory.json · manifest: ${BASE}/llms.txt · the case for a Bitcoin-settled agent economy: ${MAIN}/case`,
+  '',
+].join('\n');
+
+mkdirSync(join(HERE, 'spec'), { recursive: true });
+writeFileSync(join(HERE, 'spec', 'agent-payable-service-announcement.md'), specMd);
+
+const specSchema = {
+  $schema: 'https://json-schema.org/draft/2020-12/schema',
+  $id: BASE + '/spec/agent-payable-service-announcement.schema.json',
+  title: 'Agent-payable service announcement (Nostr kind ' + KIND_ANNOUNCE + ')',
+  description:
+    'A parameterized-replaceable Nostr event announcing a service an autonomous AI agent can pay for in Bitcoin, '
+    + 'for the bitcoineconomy.ai Marketplace directory. Hybrid microstandard: use Routstr kind 38421 for inference, '
+    + 'this kind (' + KIND_ANNOUNCE + ') for everything else. Human spec + example: ' + BASE + '/spec/agent-payable-service-announcement.md',
+  type: 'object',
+  required: ['kind', 'created_at', 'tags', 'content', 'pubkey', 'id', 'sig'],
+  properties: {
+    kind: { const: KIND_ANNOUNCE },
+    created_at: { type: 'integer', description: 'Unix seconds. Newer events replace older per (kind, pubkey, d).' },
+    pubkey: { type: 'string', pattern: '^[0-9a-f]{64}$' },
+    id: { type: 'string', pattern: '^[0-9a-f]{64}$' },
+    sig: { type: 'string', pattern: '^[0-9a-f]{128}$' },
+    content: { type: 'string', description: 'JSON string: { name, summary, what_an_agent_buys, quickstart, links{site,docs,repo} }.' },
+    tags: {
+      type: 'array',
+      description: 'Nostr tags (arrays of strings). Required: one d, one k, >=1 u, >=1 pay. Optional: mint*, auth, pricing, version.',
+      items: { type: 'array', items: { type: 'string' }, minItems: 1 },
+    },
+  },
+  $comment:
+    'Tag grammar: d=stable service id (replaceability key) · k=category (inference|compute|machine-work|commerce|privacy|swap|liquidity|fiat-ramp) · '
+    + 'u=endpoint url (repeatable; clearnet https probed, .onion shown) · pay=payment method (repeatable: lightning|l402|cashu|nwc|onchain|liquid|spark|zaps) · '
+    + 'mint=accepted Cashu mint url (repeatable) · auth=none|api-key|account · pricing=price-list url · version=string.',
+};
+writeFileSync(join(HERE, 'spec', 'agent-payable-service-announcement.schema.json'), JSON.stringify(specSchema, null, 2) + '\n');
+
 console.log(`directory.json: ${entries.length} entries across ${categories.length} categories`);
 console.log(`tools.json: ${tools.length} tools`);
 console.log(`entries/: ${entries.length} markdown routes`);
 console.log('llms.txt written');
 console.log('openapi.json + .well-known/ai-plugin.json written');
+console.log(`spec/agent-payable-service-announcement.md + .schema.json written (kind ${KIND_ANNOUNCE})`);

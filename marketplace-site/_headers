@@ -15,3 +15,5 @@
   Access-Control-Allow-Origin: *
 /.well-known/ai-plugin.json
   Access-Control-Allow-Origin: *
+/spec/*
+  Access-Control-Allow-Origin: *

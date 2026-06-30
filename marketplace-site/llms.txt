@@ -35,6 +35,16 @@ find_tool, get_tool, and list_mcp_servers. That last one lists the providers her
 (Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP: POST one
 JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.
 
+## List your service (the directory is two-sided)
+
+Run a service an agent can pay for in Bitcoin? List it yourself — no account, no UI, no fee. Publish a
+signed Nostr "agent-payable service announcement" (kind 38555, our microstandard; reuse Routstr
+kind 38421 if the service is inference). It appears in the announced tier at https://marketplace.bitcoineconomy.ai/live/announced.json on
+the next 6-hourly refresh — with a liveness probe + trust signals (announcement age, accepted-mint health) —
+and graduates to the curated registry above via editor verification. Announced is permissionless and labeled:
+taken as published, not endorsed. Field schema + a copyable example event: https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md
+(JSON schema: https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.schema.json).
+
 ## Legacy / non-MCP agents
 
 An OpenAPI 3.0 description of the GET routes above is at https://marketplace.bitcoineconomy.ai/openapi.json (operationIds:

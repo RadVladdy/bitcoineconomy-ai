@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.schema.json",
+  "title": "Agent-payable service announcement (Nostr kind 38555)",
+  "description": "A parameterized-replaceable Nostr event announcing a service an autonomous AI agent can pay for in Bitcoin, for the bitcoineconomy.ai Marketplace directory. Hybrid microstandard: use Routstr kind 38421 for inference, this kind (38555) for everything else. Human spec + example: https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md",
+  "type": "object",
+  "required": [
+    "kind",
+    "created_at",
+    "tags",
+    "content",
+    "pubkey",
+    "id",
+    "sig"
+  ],
+  "properties": {
+    "kind": {
+      "const": 38555
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "Unix seconds. Newer events replace older per (kind, pubkey, d)."
+    },
+    "pubkey": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sig": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{128}$"
+    },
+    "content": {
+      "type": "string",
+      "description": "JSON string: { name, summary, what_an_agent_buys, quickstart, links{site,docs,repo} }."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Nostr tags (arrays of strings). Required: one d, one k, >=1 u, >=1 pay. Optional: mint*, auth, pricing, version.",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1
+      }
+    }
+  },
+  "$comment": "Tag grammar: d=stable service id (replaceability key) · k=category (inference|compute|machine-work|commerce|privacy|swap|liquidity|fiat-ramp) · u=endpoint url (repeatable; clearnet https probed, .onion shown) · pay=payment method (repeatable: lightning|l402|cashu|nwc|onchain|liquid|spark|zaps) · mint=accepted Cashu mint url (repeatable) · auth=none|api-key|account · pricing=price-list url · version=string."
+}

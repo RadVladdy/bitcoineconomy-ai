@@ -16,7 +16,7 @@
 import { writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex } from './snapshot-lib.mjs';
+import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes } from './snapshot-lib.mjs';
 
 const connectNode = (url) => new Promise((resolve, reject) => {
   const ws = new WebSocket(url);
@@ -40,6 +40,10 @@ const modelsIndex = buildModelsIndex(snapshot.modules.routstr.providers, probes,
   source: 'sample-relays.mjs (static models index)',
 });
 
+console.log('probing announced services (kind 38555) …');
+const annProbes = await probeAnnounced(snapshot.modules.announced.services);
+applyAnnouncedProbes(snapshot, annProbes, { probedAt: new Date().toISOString() });
+
 const m = snapshot.modules;
 console.log('=== relay status ===');
 for (const r of snapshot.relays) console.log(`  ${r.url}: ${r.status}${r.unfinished.length ? ' (unfinished: ' + r.unfinished.join(',') + ')' : ''}`);
@@ -50,6 +54,12 @@ for (const p of m.routstr.providers.slice(0, 40)) {
   console.log(`    - ${p.name ?? '(unnamed)'} | ${probe} | ${p.network} | mints=${p.mints?.length ?? 0} | v=${p.version ?? '?'} | ${new Date(p.updated_at * 1000).toISOString().slice(0, 10)}`);
 }
 console.log(`  Models price-indexed across alive providers: ${modelsIndex.model_count}`);
+const ap = m.announced.probe;
+console.log(`  Self-announced services (38555): ${m.announced.count}${ap ? ` — probe: ${ap.alive} alive · ${ap.unreachable} unreachable · ${ap.unverified_tor_only} tor-only · ${ap.unroutable} unroutable` : ''}`);
+for (const s of m.announced.services.slice(0, 20)) {
+  const probe = s.status === 'alive' ? `ALIVE ${s.latency_ms}ms` : s.status ?? '?';
+  console.log(`    - ${s.name ?? s.d ?? '(unnamed)'} [${s.category ?? '?'}] | ${probe} | ${s.network} | mints=${s.mint_health?.healthy ?? 0}/${s.mint_health?.claimed ?? 0} | age=${s.announcement_age_days ?? '?'}d`);
+}
 console.log(`  Cashu mint announcements (38172): ${m.mints.cashu_count}`);
 console.log(`  Fedimint announcements (38173): ${m.mints.fedimint_count}`);
 console.log(`  Recommendations/reviews (38000): ${m.reviews.count}  by target kind: ${JSON.stringify(m.reviews.by_target_kind)}`);

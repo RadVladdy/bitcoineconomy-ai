@@ -15,7 +15,10 @@
 // so the Worker can't be turned into an open proxy. No funds move through here; the
 // agent pays the returned invoice with its own wallet.
 
+import { detectL402 } from './snapshot-lib.mjs';
+
 const SERVER_INFO = { name: 'bitcoineconomy-marketplace', version: '1.0.0' };
+const ANNOUNCE_SPEC_URL = 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md';
 const LATEST_VERSION = '2025-06-18';
 const SUPPORTED_VERSIONS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 
@@ -24,7 +27,8 @@ const INSTRUCTIONS =
   'Find services to BUY from with find_service and list_categories, drill in with get_service, get live inference pricing with price_model, and get a ready-to-pay ' +
   'payment plan (or a live invoice / inference price / swap rate) with get_quote. Find tools to EQUIP (wallets, node toolkits, ecash, bridges, protocol primitives) with find_tool and get_tool. ' +
   'Some providers run their own MCP server (Amboss, Bitrefill, Alby NWC) — list_mcp_servers gives the connection detail: discover here, connect there to act. ' +
-  'Directory entries and the tool catalog are reference facts; relay/probe data are announcements — not endorsements. ' +
+  'The directory is two-sided: services can also SELL here by publishing a signed kind-38555 "agent-payable service announcement" — find_service tier="announced" surfaces those (self-listed, probed-but-unverified), and the spec to publish one is at ' + ANNOUNCE_SPEC_URL + '. ' +
+  'Directory entries and the tool catalog are reference facts; relay/probe data and announced entries are announcements — not endorsements. ' +
   'You pay providers directly with your own wallet; this server never holds funds and never proxies another MCP.';
 
 const CORS = {
@@ -53,13 +57,17 @@ async function loadKvOrAsset(env, origin, kvKey, assetPath) {
 }
 
 function makeCtx(env, origin) {
-  let dirP, modelsP, toolsP;
+  let dirP, modelsP, toolsP, snapP;
   return {
     directory: () => (dirP ||= loadJsonAsset(env, origin, '/directory.json')),
     async entries() { return (await this.directory())?.entries || []; },
     async models() { return (await (modelsP ||= loadKvOrAsset(env, origin, 'models', '/models.json')))?.models || []; },
     toolsDoc: () => (toolsP ||= loadJsonAsset(env, origin, '/tools.json')),
     async tools() { return (await this.toolsDoc())?.tools || []; },
+    snapshot: () => (snapP ||= loadKvOrAsset(env, origin, 'snapshot', '/snapshot.json')),
+    // The announced tier: self-listed services (our microstandard, kind 38555),
+    // probed-but-unverified — announcements, not endorsements.
+    async announced() { return (await this.snapshot())?.modules?.announced?.services || []; },
   };
 }
 
@@ -75,6 +83,19 @@ function compact(e) {
     kyc: e.kyc, custody: e.custody, automatability: e.automatability,
     two_sided: e.two_sided || null, has_api_base: !!e.api_base,
     has_mcp_server: !!e.mcp_endpoint, card_url: e.card_url,
+  };
+}
+
+function compactAnnounced(s) {
+  return {
+    slug: s.slug, name: s.name || null, category: s.category || null, summary: s.summary || null,
+    what_an_agent_buys: s.what_an_agent_buys || null, payment_methods: s.payment_methods || [],
+    tier: 'announced', provenance: 'live-from-relay',
+    status: s.status || 'unprobed',
+    announcement_age_days: s.announcement_age_days ?? null,
+    mint_health: s.mint_health || null,
+    has_api_base: !!s.api_base, has_mcp_server: false,
+    announce_spec: ANNOUNCE_SPEC_URL,
   };
 }
 
@@ -114,14 +135,7 @@ function priceModel(models, query, limit) {
     });
 }
 
-// L402 (formerly LSAT): a 402 response carries `WWW-Authenticate: L402 macaroon="..", invoice="lnbc.."`.
-function detectL402(status, wwwAuth, body) {
-  const isL402 = status === 402 || /\b(l402|lsat)\b/i.test(wwwAuth);
-  if (!isL402) return null;
-  const invoice = (`${wwwAuth}\n${body}`.match(/ln(bc|tb|bcrt)[0-9a-z]{50,}/i) || [])[0] || null;
-  const macaroon = (wwwAuth.match(/macaroon="?([^",\s]+)"?/i) || [])[1] || null;
-  return { detected: true, invoice, macaroon, www_authenticate: wwwAuth || null };
-}
+// detectL402 is shared with snapshot-lib's announced-service probe (one detector).
 
 async function probeApiBase(apiBase) {
   // Hard deadline via Promise.race so a slow/hanging endpoint can never stall the
@@ -226,45 +240,83 @@ const TOOLS = [
   {
     name: 'find_service',
     description:
-      'Search the curated marketplace directory of Bitcoin-native services AI agents can buy from. Filter by free-text query, category, payment method, KYC, automatability tier, or whether the agent can also sell through it. Returns compact matches; call get_service for full detail.',
+      'Search the marketplace directory of Bitcoin-native services AI agents can buy from. Defaults to the curated tier (editor-verified). Set tier="announced" or "all" to also see self-listed services (published via our kind-38555 microstandard) — those are probed-but-unverified announcements, NOT endorsements; each carries tier, provenance, probe status, announcement age, and mint-health so you never confuse them with curated entries. Filter by free-text query, category, payment method, KYC, automatability tier, or whether the agent can also sell through it. Returns compact matches; call get_service for full detail.',
     inputSchema: {
       type: 'object',
       properties: {
         query: { type: 'string', description: 'Free-text over name, summary, what-an-agent-buys, category.' },
         category: { type: 'string', description: 'One of: inference, compute, machine-work, commerce, privacy, swap, liquidity, fiat-ramp.' },
         payment_method: { type: 'string', description: 'One of: lightning, onchain, cashu, l402, nwc, liquid, spark, fiat.' },
-        no_kyc: { type: 'boolean', description: 'If true, return only services that need no KYC.' },
-        automatability: { type: 'string', description: 'One of: api-no-account, api-account, api-kyc.' },
-        two_sided: { type: 'boolean', description: 'If true, return only services an agent can also sell/offer through.' },
+        no_kyc: { type: 'boolean', description: 'If true, return only services that need no KYC (curated tier only — announced entries do not carry a verified KYC field).' },
+        automatability: { type: 'string', description: 'One of: api-no-account, api-account, api-kyc (curated tier only).' },
+        two_sided: { type: 'boolean', description: 'If true, return only services an agent can also sell/offer through (curated tier only).' },
+        tier: { type: 'string', description: 'Which tier to search: "curated" (default, editor-verified), "announced" (self-listed via kind 38555, probed-but-unverified), or "all".' },
       },
       additionalProperties: false,
     },
     async handler(a, ctx) {
-      let r = await ctx.entries();
+      const tier = lc(a.tier).trim() || 'curated';
       const q = lc(a.query).trim();
-      if (q) r = r.filter((e) => `${e.name} ${e.summary} ${e.what_an_agent_buys} ${e.category} ${(e.payment_methods || []).join(' ')}`.toLowerCase().includes(q));
-      if (a.category) r = r.filter((e) => lc(e.category) === lc(a.category));
-      if (a.payment_method) r = r.filter((e) => (e.payment_methods || []).map(lc).includes(lc(a.payment_method)));
-      if (a.no_kyc === true) r = r.filter(isNoKyc);
-      if (a.automatability) r = r.filter((e) => lc(e.automatability) === lc(a.automatability));
-      if (a.two_sided === true) r = r.filter((e) => /offer/i.test(String(e.two_sided || '')));
-      return { count: r.length, services: r.map(compact) };
+      const curatedWanted = tier === 'curated' || tier === 'all';
+      const announcedWanted = tier === 'announced' || tier === 'all';
+
+      let curated = [];
+      if (curatedWanted) {
+        let r = await ctx.entries();
+        if (q) r = r.filter((e) => `${e.name} ${e.summary} ${e.what_an_agent_buys} ${e.category} ${(e.payment_methods || []).join(' ')}`.toLowerCase().includes(q));
+        if (a.category) r = r.filter((e) => lc(e.category) === lc(a.category));
+        if (a.payment_method) r = r.filter((e) => (e.payment_methods || []).map(lc).includes(lc(a.payment_method)));
+        if (a.no_kyc === true) r = r.filter(isNoKyc);
+        if (a.automatability) r = r.filter((e) => lc(e.automatability) === lc(a.automatability));
+        if (a.two_sided === true) r = r.filter((e) => /offer/i.test(String(e.two_sided || '')));
+        curated = r.map((e) => ({ tier: 'curated', provenance: 'curated', ...compact(e) }));
+      }
+
+      let announced = [];
+      if (announcedWanted) {
+        // KYC/automatability/two_sided are curated-only verified fields — applying
+        // them to announced entries would silently drop honest results, so the
+        // announced tier filters only on what an announcement actually carries.
+        let r = await ctx.announced();
+        if (q) r = r.filter((s) => `${s.name || ''} ${s.summary || ''} ${s.what_an_agent_buys || ''} ${s.category || ''} ${(s.payment_methods || []).join(' ')}`.toLowerCase().includes(q));
+        if (a.category) r = r.filter((s) => lc(s.category) === lc(a.category));
+        if (a.payment_method) r = r.filter((s) => (s.payment_methods || []).map(lc).includes(lc(a.payment_method)));
+        announced = r.map(compactAnnounced);
+      }
+
+      return {
+        tier,
+        count: curated.length + announced.length,
+        ...(announcedWanted ? { announced_note: 'Announced entries are self-listed (kind 38555) and probed-but-unverified — announcements, not endorsements. Weigh status, announcement_age_days, and mint_health; verify before trusting. To list a service: ' + ANNOUNCE_SPEC_URL } : {}),
+        services: [...curated, ...announced],
+      };
     },
   },
   {
     name: 'get_service',
-    description: 'Get the full machine-readable detail for one marketplace service by slug (api_base, auth, payment methods, custody/KYC, quickstart, pricing, links).',
+    description: 'Get the full machine-readable detail for one marketplace service by slug (api_base, auth, payment methods, custody/KYC, quickstart, pricing, links). Resolves both curated slugs (e.g. "routstr") and announced slugs ("announced:{id}", self-listed via kind 38555 — returned with probe status + trust signals + the announcements-not-endorsements caveat).',
     inputSchema: {
       type: 'object',
-      properties: { slug: { type: 'string', description: 'The service slug, e.g. "routstr", "boltz", "bitrefill".' } },
+      properties: { slug: { type: 'string', description: 'The service slug, e.g. "routstr", "boltz", "bitrefill", or an announced slug "announced:acme-gpu".' } },
       required: ['slug'],
       additionalProperties: false,
     },
     async handler(a, ctx) {
+      // Announced entries are namespaced "announced:…"; route by that, else curated.
+      if (/^announced:/i.test(String(a.slug))) {
+        const s = (await ctx.announced()).find((x) => x.slug === a.slug);
+        if (!s) return { error: `No announced service with slug "${a.slug}". It may have been replaced or expired off the relays. Use find_service tier="announced" for the current list.` };
+        return {
+          tier: 'announced', provenance: 'live-from-relay',
+          disclaimer: 'Self-listed via the kind-38555 microstandard — an announcement as published, NOT an endorsement. Weigh status / announcement_age_days / mint_health and verify before trusting.',
+          announce_spec: ANNOUNCE_SPEC_URL,
+          ...s,
+        };
+      }
       const e = (await ctx.entries()).find((x) => x.slug === a.slug);
-      if (!e) return { error: `No service with slug "${a.slug}". Use find_service or list_categories to discover valid slugs.` };
+      if (!e) return { error: `No service with slug "${a.slug}". Use find_service or list_categories to discover valid slugs (announced services use "announced:{id}").` };
       const { entry_md, ...rest } = e; // drop the heavy markdown blob; card_url/links point to it
-      return rest;
+      return { tier: 'curated', ...rest };
     },
   },
   {
@@ -335,11 +387,12 @@ const TOOLS = [
   },
   {
     name: 'list_categories',
-    description: 'List the marketplace vocabulary and live tallies (categories, payment methods, automatability tiers, KYC) so you can target find_service, plus the live JSON routes.',
+    description: 'List the marketplace vocabulary and live tallies (categories, payment methods, automatability tiers, KYC) so you can target find_service, plus the count of self-announced services and the live JSON routes.',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
     async handler(_a, ctx) {
       const dir = await ctx.directory();
       const entries = dir?.entries || [];
+      const announced = await ctx.announced();
       const tally = (fn) => entries.reduce((m, e) => { const k = fn(e) ?? '(none)'; m[k] = (m[k] || 0) + 1; return m; }, {});
       const pm = {};
       for (const e of entries) for (const p of e.payment_methods || []) pm[p] = (pm[p] || 0) + 1;
@@ -350,6 +403,10 @@ const TOOLS = [
         automatability_tiers: tally((e) => e.automatability),
         kyc: tally((e) => e.kyc),
         two_sided: tally((e) => e.two_sided),
+        announced_tier: {
+          count: announced.length,
+          note: 'Self-listed services via the kind-38555 microstandard (probed-but-unverified — announcements, not endorsements). Query with find_service tier="announced". List your own service: ' + ANNOUNCE_SPEC_URL,
+        },
         vocabulary: {
           categories: dir?.categories,
           automatability_tiers: dir?.automatability_tiers,

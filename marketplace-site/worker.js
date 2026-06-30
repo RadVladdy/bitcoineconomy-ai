@@ -20,7 +20,7 @@
 // simply keeps the previous snapshot. If that happens persistently, upgrade the
 // plan or refresh via the local CLI (`node sample-relays.mjs --write`) instead.
 
-import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex } from './snapshot-lib.mjs';
+import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes } from './snapshot-lib.mjs';
 import { handleMcp } from './mcp-lib.mjs';
 
 const KV_SNAPSHOT = 'snapshot';
@@ -42,6 +42,39 @@ async function takeSnapshot() {
     source: 'worker-cron',
     generatedAt: new Date().toISOString(),
   });
+}
+
+// The announced tier lives inside the snapshot's modules.announced; project it
+// out as its own route so an agent can fetch just the self-announced services
+// (with their probe status + trust signals) without parsing the whole snapshot.
+async function serveAnnounced(env, origin) {
+  const headers = {
+    'content-type': 'application/json; charset=utf-8',
+    'access-control-allow-origin': '*',
+    'cache-control': 'public, max-age=300',
+  };
+  let snap = null;
+  try {
+    const kv = await env.SNAPSHOT?.get(KV_SNAPSHOT);
+    if (kv) snap = JSON.parse(kv);
+  } catch {}
+  // Fall back to the committed asset if KV is empty OR predates the announced
+  // module (the window between this deploy and the first cron that writes it).
+  if (!snap?.modules?.announced) {
+    try {
+      const asset = await env.ASSETS.fetch(new URL('/snapshot.json', origin));
+      if (asset.ok) snap = await asset.json();
+    } catch {}
+  }
+  const mod = snap?.modules?.announced;
+  if (!mod) return new Response(JSON.stringify({ error: 'announced tier unavailable' }), { status: 503, headers });
+  return new Response(JSON.stringify({
+    $schema_note: 'Self-announced, agent-payable services published with the bitcoineconomy.ai "agent-payable service announcement" microstandard (Nostr kind ' + mod.kind + '). Permissionless and announced ≠ curated: taken as published, not endorsements; they graduate to the curated registry (/directory.json) only via verification. Trust signals per service: probe status (alive | unreachable | unverified-tor-only | unroutable), announcement_age_days, mint_health. Spec: ' + mod.spec + '. Part of https://marketplace.bitcoineconomy.ai.',
+    generated_at: snap.generated_at,
+    source: snap.source,
+    provenance: 'live-from-relay',
+    ...mod,
+  }), { headers });
 }
 
 async function serveLive(env, origin, kvKey, fallbackPath) {
@@ -77,6 +110,14 @@ export default {
       });
     } catch {}
 
+    // Probe the self-announced services (our microstandard, kind 38555) with the
+    // generic liveness probe — independent of the inference probe above, and
+    // likewise non-fatal.
+    try {
+      const aProbes = await probeAnnounced(snapshot.modules.announced.services);
+      applyAnnouncedProbes(snapshot, aProbes, { probedAt: new Date().toISOString() });
+    } catch {}
+
     await env.SNAPSHOT.put(KV_SNAPSHOT, JSON.stringify(snapshot));
     // Same rule for the index: keep the previous one rather than store nothing.
     if (modelsIndex && modelsIndex.providers_alive > 0) {
@@ -89,6 +130,7 @@ export default {
     if (url.pathname === '/mcp' || url.pathname === '/mcp/') return handleMcp(request, env, url.origin);
     if (url.pathname === '/live/snapshot.json') return serveLive(env, url.origin, KV_SNAPSHOT, '/snapshot.json');
     if (url.pathname === '/live/models.json') return serveLive(env, url.origin, KV_MODELS, '/models.json');
+    if (url.pathname === '/live/announced.json') return serveAnnounced(env, url.origin);
     return env.ASSETS.fetch(request);
   },
 };
