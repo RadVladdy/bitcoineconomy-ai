@@ -4,11 +4,11 @@ slug: field-notes-log
 description: "Dated entries on what's changed in the Bitcoin-AI economy, newest first."
 type: field-notes
 surface: field-notes-log
-status: v0-approved-2026-06-30
+status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
-created: 2026-06-30
-last-updated: 2026-06-30
+created: 2026-06-29
+last-updated: 2026-06-29
 voice: honest-middle-position
 tags:
   - canonical
@@ -199,7 +199,7 @@ Append cadence: as developments warrant. Single dated entries for specific event
 
 *Internal author perspective. Not published in produced derivatives.*
 
-The Log is the append-only half of Field Notes, split from the snapshot 2026-06-30 so the dated record stays directly reachable rather than buried below the State-of-Play snapshot. Entries are append-only; the snapshot they feed lives on [[Field-Notes|Field Notes — State of Play]]. The honest-engagement discipline applies here as much as in the snapshot — log the competing substrate's real volume and the Bitcoin substrate's real operational gaps with equal candor.
+The Log is the append-only half of Field Notes, split from the snapshot 2026-06-29 so the dated record stays directly reachable rather than buried below the State-of-Play snapshot. Entries are append-only; the snapshot they feed lives on [[Field-Notes|Field Notes — State of Play]]. The honest-engagement discipline applies here as much as in the snapshot — log the competing substrate's real volume and the Bitcoin substrate's real operational gaps with equal candor.
 
 **Publications backlinks**
 

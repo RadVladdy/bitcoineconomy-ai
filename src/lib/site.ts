@@ -79,7 +79,7 @@ export const NAV_GROUPS = [
   // dropdown parent over its two pages, kept OUT of the semantic colour triad
   // (no SECTION_ACCENT entry → Nav renders it neutral) since it isn't one of the
   // three argument sections. Split into State (the snapshot) + Log (dated
-  // entries) 2026-06-30.
+  // entries) 2026-06-29.
   {
     label: 'Field Notes',
     items: [
@@ -90,7 +90,7 @@ export const NAV_GROUPS = [
 ];
 
 // Cross-cutting surfaces shown as standalone top-level nav items (not inside a
-// section dropdown). (Field Notes moved to a NAV_GROUPS dropdown 2026-06-30.)
+// section dropdown). (Field Notes moved to a NAV_GROUPS dropdown 2026-06-29.)
 export const NAV_STANDALONE: { slug: string; label: string }[] = [];
 
 // One-glance descriptors per page, shown as a small dim sub-label under the

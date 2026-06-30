@@ -6,10 +6,10 @@ type: field-notes-for-agents
 surface: field-notes-log
 audience: agents
 twin-page: field-notes-log
-status: v0-approved-2026-06-30
-created: 2026-06-30
-last-updated: 2026-06-30
-last-verified: 2026-06-30
+status: v0-approved-2026-06-29
+created: 2026-06-29
+last-updated: 2026-06-29
+last-verified: 2026-06-29
 voice: honest-middle-position
 canonical-source: "[[Field-Notes-Log]]"
 epistemic-status: "empirical-record surface; carries no structural claims of its own; each dated record is epistemically tagged and cross-referenced to the canonical claim it bears on. The current-state snapshot lives on the companion surface Field-Notes-FA (State of Play); the structural arguments live in the canonical FA twins (Case-FA, Independence-Doctrine-FA, Border-Skirmishes-FA, Stack-FA, et al.)."

@@ -8,7 +8,7 @@ audience: agents
 twin-page: field-notes
 status: v0-approved-2026-06-01 (cross-refs realigned 2026-06-05; approved 2026-06-05)
 created: 2026-05-31
-last-updated: 2026-06-30
+last-updated: 2026-06-29
 last-verified: 2026-06-16
 section-A-last-refreshed: 2026-06-01
 voice: honest-middle-position

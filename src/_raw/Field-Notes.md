@@ -8,7 +8,7 @@ status: v0-approved-2026-05-26
 audience: humans
 twin-page: field-notes-for-agents
 created: 2026-05-26
-last-updated: 2026-06-30
+last-updated: 2026-06-29
 section-A-last-refreshed: 2026-06-01
 voice: honest-middle-position
 tags:
@@ -128,7 +128,7 @@ Field Notes is the project's pressure valve: it lets the canonical surfaces stay
 
 The honest-engagement discipline lives most visibly here, in the Live-risk section — engaging the Bitcoin-substrate-side challenges (Lightning liquidity management, Fedimint federated-trust, single-mint Cashu failure, the agent custody attack surface) as candidly as the competing-substrate failures. That is the editorial line that keeps the project credible rather than promotional; sweeping the challenges under the rug would weaken the thesis, not protect it.
 
-Maintenance note: this snapshot is dated (`section-A-last-refreshed`), refreshed quarterly or on a significant deployment shift; the dated Log is append-only and now its own page ([[Field-Notes-Log]], split 2026-06-30). The BPI study citation was corrected 2026-05-30 (the prior title and URL were both wrong). The figure labels were corrected project-wide 2026-05-30: verified against the BPI article, 48.3% is Bitcoin's *overall* top preference and 79.1% is the store-of-value figure — the prior "store of value" label on 48.3% and the unsourced "8.9% fiat" number were both wrong, propagated from the v2.1 research synthesis; the article reports ">90% favored digitally-native money over fiat" rather than a single fiat percentage.
+Maintenance note: this snapshot is dated (`section-A-last-refreshed`), refreshed quarterly or on a significant deployment shift; the dated Log is append-only and now its own page ([[Field-Notes-Log]], split 2026-06-29). The BPI study citation was corrected 2026-05-30 (the prior title and URL were both wrong). The figure labels were corrected project-wide 2026-05-30: verified against the BPI article, 48.3% is Bitcoin's *overall* top preference and 79.1% is the store-of-value figure — the prior "store of value" label on 48.3% and the unsourced "8.9% fiat" number were both wrong, propagated from the v2.1 research synthesis; the article reports ">90% favored digitally-native money over fiat" rather than a single fiat percentage.
 
 **Publications backlinks**
 
