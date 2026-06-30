@@ -8,8 +8,8 @@ audience: agents
 twin-page: field-notes-log
 status: v0-approved-2026-06-29
 created: 2026-06-29
-last-updated: 2026-06-29
-last-verified: 2026-06-29
+last-updated: 2026-06-30
+last-verified: 2026-06-30
 voice: honest-middle-position
 canonical-source: "[[Field-Notes-Log]]"
 epistemic-status: "empirical-record surface; carries no structural claims of its own; each dated record is epistemically tagged and cross-referenced to the canonical claim it bears on. The current-state snapshot lives on the companion surface Field-Notes-FA (State of Play); the structural arguments live in the canonical FA twins (Case-FA, Independence-Doctrine-FA, Border-Skirmishes-FA, Stack-FA, et al.)."
@@ -45,6 +45,28 @@ agent-tldr: |
 **Cross-reference relation (the "Bears on:" line).** Each record names the canonical claim-IDs it relates to and how: *supports* (confirming evidence), *tests* (the live evidence a forward-looking prediction is evaluated against), or *falsifier-relevant-to* (evidence named in the claim's falsifier; if it moves a threshold, the falsifier may trigger).
 
 **Record format.** Each record carries: date / event / substrate / what-happened / structural-significance / Bears on / epistemic tag / sources. The full claim-ID series (Case-FA C1–C6, Doctrine-FA D1–D5 + P1–P6, Treasury-FA M-series, Exchange-FA X-series, Border-Skirmishes-FA BS-series, Stack-FA S1–S8 + §8 CP1–CP4 falsifiers; Constraints 1–4) is defined on the companion [[Field-Notes-FA|State of Play — For Agents]] § Schema.
+
+---
+
+### 2026-06-30 — Real-world-goods agent commerce ships on L402 (Unhuman / Money Dev Kit) *(confirmed)*
+
+- **Event.** Live agent-only storefronts — Unhuman Coffee (roasted-to-order beans), Unhuman Domains, Unhuman Store (hub) — sell real-world goods over Bitcoin via L402: `GET /api/catalog` → `POST /api/order` → `HTTP 402` (Bolt11 + macaroon) → pay → replay with `Authorization: L402 <macaroon>:<preimage>`. No account, no card, no KYC. Live order observed 2026-06-30 (~41,770 sats incl. shipping on a $24/12oz item). Built on Money Dev Kit (self-custodial LDK-based Lightning SDK by Nick Slaney; ships an `agent-wallet` CLI an agent drives with no keys/accounts).
+- **Substrate.** Bitcoin (Lightning + L402; self-custodial on both sides; no issuer in the path).
+- **Structural significance.** Extends the deployed "agent buys a service" pattern from digital goods (inference / compute / liquidity) to **physical real-world goods** settled end-to-end in Bitcoin by software — the consume side reaching tangible commerce on the censorship-resistant rail, reproducible via a public SDK rather than a one-off demo.
+- **Bears on:** *supports* Services-FA SV-series (consume side) and the services-built-on-services dynamic (Unhuman runs on MDK); *supports* Case-FA (an agent transacts on the Bitcoin stack) and Constraints 1–4 (no-KYC, censorship-resistant, sub-cent-capable, machine-tempo).
+- **Epistemic tag.** *(confirmed)* — live endpoints + verified L402 flow; author attribution *(reported)* via npm maintainer + the author's public post.
+- **Sources.** unhuman.coffee / .domains / .store (live, 2026-06-30); moneydevkit.com + docs.moneydevkit.com/howitworks; `@moneydevkit/agent-wallet` (npm, Apache-2.0); author post (nickslaney, status 2027460567946940477). Canonical narrative: [[Field-Notes-Log]] § 2026-06-30. New cards: [[unhuman]], [[money-dev-kit]].
+
+---
+
+### 2026-06-30 — Stripe/Tempo Machine Payments Protocol + Lightspark Lightning method: Bitcoin as an optional rail *(confirmed)*
+
+- **Event.** MPP (Machine Payments Protocol), co-authored by Stripe + Tempo (Stripe/Paradigm stablecoin L1), launched 2026-03-18 — HTTP-402 Challenge/Credential/Receipt, intents Charge/Session/Subscription (Session = pre-authorized streaming micropayments). Payment-method agnostic; default rails Tempo stablecoins + Stripe/Visa cards (+ EVM-USDC x402-compatible, Solana, Stellar). Lightspark extended it to Bitcoin Lightning via Spark (`@buildonspark/lightning-mpp-sdk`; BOLT11 + HTLC + preimage). Amboss leans on MPP as an agentic standard "because it works" (call-sourced). NB: "MPP" here ≠ Lightning Multi-Path Payments.
+- **Substrate.** Competing / multi-rail — incumbent default (regulated stablecoins + card networks; censorship-requiring), with Bitcoin/Lightning a first-class but optional method.
+- **Structural significance.** The clearest single artifact of the border-zone read: one 402 standard whose default trust model is processor/issuer-gated, exposing Lightning as a guest rail. Confirms the incumbents built parallel agent-payment rails preserving their freeze/KYC property bundle rather than adopting Bitcoin's — the rail can be Lightning while the asset and trust model stay incumbent. Censorship-surface gradient: L402 < x402/USDC < MPP.
+- **Bears on:** *supports* Border-Skirmishes-FA BS-series (incumbents build parallel rails; the contest is on the asset/trust model, not the rail — kin to the Lightspark Grid proof case) and Independence-Doctrine-FA (the asset/trust layer can't shed the freeze property without ceasing to be the incumbent stack); *falsifier-relevant-to* the Border-Skirmishes-FA falsification clause (agent stacks standardizing on stablecoins by default) — MPP is that standardization; the unresolved variable is the censorship-resistant share of agent commerce.
+- **Epistemic tag.** *(confirmed)* — Stripe/Tempo launch + the mpp.dev Lightning method documented; the Lightspark/Spark link rests on mpp.dev (no first-party Lightspark MPP press release located); Amboss's lean *(reported)*, call-sourced.
+- **Sources.** stripe.com/blog/machine-payments-protocol; mpp.dev + /payment-methods/lightning; lightspark.com/news/spark/introducing-spark; getalby.com/blog/agentic-commerce-a-guide-to-l402-x402-and-mpp; thedefiant.io (Tempo mainnet + MPP, 2026-03-18). Canonical narrative: [[Field-Notes-Log]] § 2026-06-30.
 
 ---
 

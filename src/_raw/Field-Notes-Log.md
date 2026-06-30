@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-06-29
+last-updated: 2026-06-30
 voice: honest-middle-position
 tags:
   - canonical
@@ -29,6 +29,30 @@ agent-tldr: |
 > **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-06-30 — An agent buys a bag of coffee over Lightning: real-world-goods commerce ships on L402
+
+**What's happening.** A family of **agent-only storefronts** is live and selling real-world goods for Bitcoin with no human in the loop. **Unhuman Coffee** sells roasted-to-order beans, **Unhuman Domains** registers domains, and **Unhuman Store** is a hub for further agent shops — each built on **L402**: an agent reads the catalog, posts an order, receives an `HTTP 402` carrying a Bolt11 invoice and a macaroon, pays, and replays the request with the preimage as proof. No account, no card, no KYC; the payment is the authentication. (A live order against `unhuman.coffee/api/order` on 2026-06-30 returned a standard Bolt11 for ~41,770 sats on a $24 / 12oz item — shipping included — and confirms with the L402 header.) The storefronts are the reference deployment of **Money Dev Kit (MDK)**, a self-custodial Lightning payments SDK by **Nick Slaney** (ex-Block / BitKey / C=) that runs a serverless LDK node on the builder's own infra and ships an `agent-wallet` CLI an agent drives itself — keys and accounts not required.
+
+**Why it matters.** Most "agent buys a service" examples on this site settle a *digital* good — inference, compute, liquidity. Unhuman closes the loop to the physical world: a bag of coffee arrives at a street address, paid for end-to-end in Bitcoin by software, permissionlessly. That's the agent economy's consume side reaching real goods over the censorship-resistant rail, using the same L402 primitive the Stack already documents — and a working SDK (MDK) makes the pattern reproducible, not a one-off demo. The trust posture holds: Bitcoin settlement, self-custody on both sides, no issuer in the path.
+
+**Cross-references.** [[unhuman|Unhuman]] (new card — the live storefronts + directory entry); [[money-dev-kit|Money Dev Kit]] (new card — the SDK + agent wallet); [[l402|L402]] (the primitive it runs on); [[Case]] — an agent buying a real-world good on the Bitcoin stack; [[Services]] — the consume side. Surfaced via the 2026-06-30 Amboss call (Jesse Shrader named Unhuman Coffee); the "built by an Amboss investor" framing is a shared-VC tie (Hivemind / Max Webster), not an Amboss product.
+
+**Sources.** Live endpoints: `unhuman.coffee` (`/api/catalog`, `/api/order` → live L402 `402` + Bolt11, observed 2026-06-30), `unhuman.domains`, `unhuman.store`. [Money Dev Kit](https://moneydevkit.com) + [How it works](https://docs.moneydevkit.com/howitworks); `@moneydevkit/agent-wallet` (npm, Apache-2.0). Author attribution: npm maintainer `nick@moneydevkit.com` + [the author's post](https://x.com/nickslaney/status/2027460567946940477) ("our unhuman sites are made with our l402 integration").
+
+---
+
+### 2026-06-30 — Stripe's Machine Payments Protocol: Bitcoin is a guest, not the house
+
+**What's happening.** Stripe and **Tempo** (a Stripe/Paradigm stablecoin L1) shipped the **Machine Payments Protocol (MPP)** on 2026-03-18 — an HTTP-402 standard for agent payments with a Challenge/Credential/Receipt handshake and three intents (Charge, Session, Subscription); the **Session** model pre-authorizes a spending cap once, then streams batched micropayments ("OAuth for payments"). It is **payment-method agnostic**: its default rails are **Tempo stablecoins and Stripe/Visa cards**, with EVM-USDC (x402-compatible), Solana, and Stellar alongside. **Lightspark** extended it to **Bitcoin Lightning** via **Spark** (`@buildonspark/lightning-mpp-sdk`) — standard BOLT11 + HTLC + preimage, so any Lightning node can serve as an MPP method. Amboss has signaled it leans on MPP as an agentic-payment standard "because it works." *(Name-collision note: in Lightning circles "MPP" usually means Multi-Path Payments — this is a different thing.)*
+
+**Why it matters.** This is the border zone made concrete. MPP is a single 402-based standard whose *center of gravity* is censorship-**requiring** rails (KYC, freezable stablecoins, card networks, processor chokepoints), but which exposes Lightning as a **first-class yet optional** method. Set against the site's own primitive, the contrast is sharp: in **L402**, Bitcoin *is* the house — self-custodial, permissionless, 1-sat micropayments, no processor; in **MPP**, Lightning is a *guest* — one selectable rail inside Stripe / Tempo / Visa's building. The censorship-surface gradient runs L402 (lowest) → x402 / USDC (middle) → MPP (highest). It also explains the pragmatism a Lightning-native shop like Amboss shows toward MPP: you can win the rail (Lightning settles it) while the asset and trust model still live one rail over — exactly the "fight is on the asset, not the rail" reading the Border Skirmishes surface already carries.
+
+**Cross-references.** [[Border-Skirmishes|Border Skirmishes]] — the live substrate contest (MPP is a textbook "bridge / middle-road" exhibit, kin to the Lightspark Grid proof case already named there); [[l402|L402]] — the Bitcoin-native counterpart (a "how it relates" line added to the card); [[Stablecoin-Landscape]] — the regulated-issuer control surface MPP's default assets carry; [[Independence-Doctrine|Independence Doctrine]] — why the asset and trust model are where the divergence lives.
+
+**Sources.** [Stripe — Machine Payments Protocol](https://stripe.com/blog/machine-payments-protocol); spec [mpp.dev](https://mpp.dev/) + [Lightning method](https://mpp.dev/payment-methods/lightning) (`@buildonspark/lightning-mpp-sdk`); [Lightspark — Introducing Spark](https://www.lightspark.com/news/spark/introducing-spark); comparison [Alby — L402 / x402 / MPP](https://getalby.com/blog/agentic-commerce-a-guide-to-l402-x402-and-mpp); Tempo mainnet + MPP launch 2026-03-18 ([The Defiant](https://thedefiant.io/news/blockchains/tempo-launches-mainnet-unveils-machine-payments-protocol-with-stripe)). Amboss's lean on MPP: 2026-06-30 call (call-sourced; no public Amboss statement located).
 
 ---
 

@@ -19,7 +19,7 @@
       "get": {
         "operationId": "getDirectory",
         "summary": "The curated registry of Bitcoin-payable services an agent buys",
-        "description": "The full curated registry (19 entries across 8 categories: inference, compute, machine-work, commerce, privacy, swap, liquidity, fiat-ramp). Each entry carries category, what_an_agent_buys, payment_methods, automatability (api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint where the provider runs its own MCP server. One fetch returns everything; filter locally.",
+        "description": "The full curated registry (20 entries across 8 categories: inference, compute, machine-work, commerce, privacy, swap, liquidity, fiat-ramp). Each entry carries category, what_an_agent_buys, payment_methods, automatability (api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint where the provider runs its own MCP server. One fetch returns everything; filter locally.",
         "responses": {
           "200": {
             "description": "The curated registry document.",
@@ -38,7 +38,7 @@
       "get": {
         "operationId": "getToolCatalog",
         "summary": "The tool catalog — what an agent installs/runs to transact",
-        "description": "The 23-tool catalog of equipment an agent EQUIPS (vs the registry of what it BUYS): wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Each tool carries toolbox_group, tool_type, layer, prereq_tier, and links.",
+        "description": "The 25-tool catalog of equipment an agent EQUIPS (vs the registry of what it BUYS): wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Each tool carries toolbox_group, tool_type, layer, prereq_tier, and links.",
         "responses": {
           "200": {
             "description": "The tool catalog document.",
@@ -111,6 +111,7 @@
                 "lnvps",
                 "bitlaunch",
                 "openagents",
+                "unhuman",
                 "bitrefill",
                 "mullvad",
                 "boltz",

@@ -2,8 +2,8 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-06-30T02:14:23.767Z",
-  "tool_count": 23,
+  "generated_at": "2026-06-30T22:37:10.775Z",
+  "tool_count": 25,
   "toolbox_groups": [
     "node-toolkits",
     "primitive",
@@ -403,6 +403,65 @@
       },
       "card_url": "https://bitcoineconomy.ai/tools/agentic-aqua",
       "last_verified": "2026-06-11"
+    },
+    {
+      "slug": "money-dev-kit",
+      "name": "Money Dev Kit",
+      "toolbox_group": "wallets",
+      "tool_type": "service",
+      "layer": "integration",
+      "tagline": "A self-custodial Lightning payments SDK — add Bitcoin checkout to an app in minutes, and equip an agent with its own keys-and-accounts-free wallet via the agent-wallet CLI.",
+      "maintainer": "Money Dev Kit (Nick Slaney)",
+      "prereq_tier": "wallet",
+      "license": "Apache-2.0 (agent-wallet; some packages unstated)",
+      "links": {
+        "site": "https://moneydevkit.com",
+        "docs": "https://docs.moneydevkit.com",
+        "repo": "https://github.com/moneydevkit"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/money-dev-kit",
+      "mcp_endpoint": {
+        "kind": "service",
+        "transport": "http",
+        "url": "https://mcp.moneydevkit.com/mcp/",
+        "package": "moneydevkit",
+        "run": "claude mcp add moneydevkit --transport http https://mcp.moneydevkit.com/mcp/",
+        "repo": "https://github.com/moneydevkit",
+        "note": "Money Dev Kit's hosted MCP - an agent uses it to scaffold and operate an MDK integration (create/connect the app, read docs, configure env, wire up L402/checkout). Build-and-ops tooling, not a runtime wallet; individual tool names are not publicly enumerated. The runtime agent wallet is the @moneydevkit/agent-wallet CLI (npx, self-custodial, no account/API key)."
+      },
+      "last_verified": "2026-06-30"
+    },
+    {
+      "slug": "lightning-enable",
+      "name": "Lightning Enable",
+      "toolbox_group": "wallets",
+      "tool_type": "service",
+      "layer": "integration",
+      "tagline": "An L402 layer for agentic commerce — a Lightning-wallet MCP that lets an agent pay (and earn) per API call, plus a drop-in that gates any API behind per-call sats.",
+      "maintainer": "Refined Element, LLC",
+      "prereq_tier": "wallet",
+      "license": "MIT (MCP server)",
+      "links": {
+        "site": "https://lightningenable.com",
+        "docs": "https://docs.lightningenable.com",
+        "repo": "https://github.com/refined-element/lightning-enable-mcp"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/lightning-enable",
+      "mcp_endpoint": {
+        "kind": "payment",
+        "transport": "stdio",
+        "package": "lightning-enable-mcp",
+        "run": "uvx lightning-enable-mcp (or: dotnet tool run lightning-enable-mcp)",
+        "license": "MIT",
+        "tools": [
+          "wallet (15 tools)",
+          "L402 producer (2 tools)",
+          "Agent Service Agreement / A2A (6 tools)"
+        ],
+        "repo": "https://github.com/refined-element/lightning-enable-mcp",
+        "note": "Lightning Enable's MIT MCP - gives an agent a Lightning wallet plus an L402 producer and agent-to-agent Service-Agreement tools (23 total; a subset need a provider/API key). Wired to a Lightning backend (Strike/OpenNode, or NWC: LND/CoinOS/CLINK/Alby Hub). Also on PyPI (lightning-enable-mcp), .NET (LightningEnable.Mcp), and Docker. Amboss Payments is not a listed backend yet."
+      },
+      "last_verified": "2026-06-30"
     },
     {
       "slug": "boltz",

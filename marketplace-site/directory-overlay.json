@@ -23,6 +23,29 @@
       ],
       "repo": "https://github.com/getAlby/nwc-mcp-server",
       "note": "The payment MCP that complements the directory's discovery MCP \u2014 wraps a scoped, budgeted NWC (NIP-47) connection string as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. Honest status: the repo is archived (last commit 2025-06-20) and declares no license, but the @getalby/nwc-mcp-server npm package still installs and runs (stdio by default; optional HTTP mode). Verify currency before relying on it in production."
+    },
+    "money-dev-kit": {
+      "kind": "service",
+      "transport": "http",
+      "url": "https://mcp.moneydevkit.com/mcp/",
+      "package": "moneydevkit",
+      "run": "claude mcp add moneydevkit --transport http https://mcp.moneydevkit.com/mcp/",
+      "repo": "https://github.com/moneydevkit",
+      "note": "Money Dev Kit's hosted MCP - an agent uses it to scaffold and operate an MDK integration (create/connect the app, read docs, configure env, wire up L402/checkout). Build-and-ops tooling, not a runtime wallet; individual tool names are not publicly enumerated. The runtime agent wallet is the @moneydevkit/agent-wallet CLI (npx, self-custodial, no account/API key)."
+    },
+    "lightning-enable": {
+      "kind": "payment",
+      "transport": "stdio",
+      "package": "lightning-enable-mcp",
+      "run": "uvx lightning-enable-mcp (or: dotnet tool run lightning-enable-mcp)",
+      "license": "MIT",
+      "tools": [
+        "wallet (15 tools)",
+        "L402 producer (2 tools)",
+        "Agent Service Agreement / A2A (6 tools)"
+      ],
+      "repo": "https://github.com/refined-element/lightning-enable-mcp",
+      "note": "Lightning Enable's MIT MCP - gives an agent a Lightning wallet plus an L402 producer and agent-to-agent Service-Agreement tools (23 total; a subset need a provider/API key). Wired to a Lightning backend (Strike/OpenNode, or NWC: LND/CoinOS/CLINK/Alby Hub). Also on PyPI (lightning-enable-mcp), .NET (LightningEnable.Mcp), and Docker. Amboss Payments is not a listed backend yet."
     }
   },
   "entries": [
@@ -105,6 +128,22 @@
       "auth": "Khala API key (the key/payment is the credential; a free research-preview tier is reported); Nostr identity + a self-custodial Lightning wallet for the network rails",
       "quickstart": "Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala, paying per call over Lightning. Offer: run a Pylon node or Autopilot to sell compute for sats.",
       "note": "Khala research preview \u2014 OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development \u2014 many surfaces gated."
+    },
+    {
+      "slug": "unhuman",
+      "source": "services/unhuman.md",
+      "category": "commerce",
+      "what_an_agent_buys": "Real-world goods bought end to end over Lightning - roasted-to-order coffee (Unhuman Coffee) and domain registration (Unhuman Domains); Unhuman Store is a hub listing further agent storefronts",
+      "payment_methods": [
+        "l402",
+        "lightning"
+      ],
+      "automatability": "api-no-account",
+      "auth": "none pre-issued - on HTTP 402 the server returns an L402 macaroon + a Bolt11 invoice; pay the invoice, then send Authorization: L402 <macaroon>:<preimage>. No account, no card, no KYC (the payment is the credential).",
+      "api_base": "https://unhuman.coffee",
+      "pricing_url": "https://unhuman.coffee/api/catalog",
+      "quickstart": "GET https://unhuman.coffee/api/catalog -> POST https://unhuman.coffee/api/order (sku, quantity, shipping) -> receive 402 + Bolt11 + macaroon -> pay -> replay the POST with Authorization: L402 <macaroon>:<preimage> (Idempotency-Key supported). Agent-skill manifest at /.well-known/agent-skills/index.json; per-store llms.txt. Unhuman Domains uses the same shape and returns a 1-year management JWT.",
+      "note": "Real-world-goods commerce: physical coffee ships to an address, domains register live. Bitcoin-only, self-custodial, no account/KYC. The 402 challenge is on POST /api/order (a bare GET of api_base returns the storefront, not an invoice). Price is quoted per order, including shipping. Reference deployment of Money Dev Kit (tools/money-dev-kit)."
     },
     {
       "slug": "bitrefill",

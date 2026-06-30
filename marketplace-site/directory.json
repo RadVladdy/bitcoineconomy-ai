@@ -2,8 +2,8 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-06-30T02:14:23.764Z",
-  "entry_count": 19,
+  "generated_at": "2026-06-30T22:37:10.769Z",
+  "entry_count": 20,
   "categories": [
     "inference",
     "compute",
@@ -215,6 +215,36 @@
       "provenance": "curated",
       "last_verified": "2026-06-28",
       "note": "Khala research preview — OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development — many surfaces gated."
+    },
+    {
+      "slug": "unhuman",
+      "name": "Unhuman",
+      "category": "commerce",
+      "summary": "Agent-native Bitcoin storefronts — an AI agent discovers products and completes a real-world purchase end to end by paying a Lightning L402 invoice, no account or card.",
+      "what_an_agent_buys": "Real-world goods bought end to end over Lightning - roasted-to-order coffee (Unhuman Coffee) and domain registration (Unhuman Domains); Unhuman Store is a hub listing further agent storefronts",
+      "payment_methods": [
+        "l402",
+        "lightning"
+      ],
+      "payment_detail": "bitcoin over Lightning — pay the L402 invoice; the payment preimage is the proof",
+      "kyc": "none",
+      "custody": "non-custodial — you pay from your own Lightning wallet; no custody of buyer funds",
+      "automatability": "api-no-account",
+      "auth": "none pre-issued - on HTTP 402 the server returns an L402 macaroon + a Bolt11 invoice; pay the invoice, then send Authorization: L402 <macaroon>:<preimage>. No account, no card, no KYC (the payment is the credential).",
+      "api_base": "https://unhuman.coffee",
+      "pricing_url": "https://unhuman.coffee/api/catalog",
+      "quickstart": "GET https://unhuman.coffee/api/catalog -> POST https://unhuman.coffee/api/order (sku, quantity, shipping) -> receive 402 + Bolt11 + macaroon -> pay -> replay the POST with Authorization: L402 <macaroon>:<preimage> (Idempotency-Key supported). Agent-skill manifest at /.well-known/agent-skills/index.json; per-store llms.txt. Unhuman Domains uses the same shape and returns a 1-year management JWT.",
+      "two_sided": "consume",
+      "maintainer": "Money Dev Kit (Nick Slaney)",
+      "links": {
+        "site": "https://www.unhuman.coffee",
+        "docs": "https://unhuman.coffee/llms.txt"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/unhuman",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/unhuman.md",
+      "provenance": "curated",
+      "last_verified": "2026-06-30",
+      "note": "Real-world-goods commerce: physical coffee ships to an address, domains register live. Bitcoin-only, self-custodial, no account/KYC. The 402 challenge is on POST /api/order (a bare GET of api_base returns the storefront, not an invoice). Price is quoted per order, including shipping. Reference deployment of Money Dev Kit (tools/money-dev-kit)."
     },
     {
       "slug": "bitrefill",
