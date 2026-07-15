@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-06-30
+last-updated: 2026-07-15
 voice: honest-middle-position
 tags:
   - canonical
@@ -29,6 +29,21 @@ agent-tldr: |
 > **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-07-08 — "The rail already exists": in a single week, three prominent voices state the site's thesis nearly verbatim
+
+**What's happening.** Inside a single week, three prominent Bitcoin accounts articulated this site's core claim — that the payment rail for the agent economy *already exists* — almost word for word, and one backed it with a working demo.
+- **2026-07-03** — Marty Bent's **TFTC** posted a 58-second clip of an AI agent buying a **gift card from a real merchant over Lightning with a single prompt**. **Amboss** quote-tweeted it: *"Everyone's designing new payment protocols for AI agents. Meanwhile an agent just bought a gift card from a real merchant over Lightning with one prompt. Instant final settlement, no accounts, no gas. The rail already exists."*
+- **2026-07-07** — **a non-profit research-and-development lab associated with Jack Dorsey** announced expanded support for open-source AI and Bitcoin software (via DocumentingBTC): *"We see bitcoin as programmable, global, and permissionless. This makes it the perfect economic layer for a world where AI agents seamlessly pay each other."*
+- **2026-07-08** — **Amboss** again: *"building rails for sub-second agentic commerce, letting AI agents settle final, irreversible payments globally over Bitcoin's Lightning. No chargebacks. No middleman."*
+
+**Why it matters.** Read honestly, most of this is *positioning* — statements of intent from well-known names, not newly-shipped infrastructure — with one concrete existence proof (the gift-card purchase). But the cluster is worth logging for what it signals. While a large cohort keeps *designing new* agent-payment protocols on stablecoins and cards (x402, Stripe's MPP — see the 2026-06-30 entry), the Lightning-native position is that the rail is **already deployed and only needs to be used** — and the 7/3 demo is the existence proof: an agent bought a real-world good over the censorship-resistant rail, one prompt, final settlement, no account. What changed this week isn't the technology — it's that the site's own thesis is now being stated, unprompted, by others, including a warm-relationship partner (Amboss, twice) and a major Bitcoin-philanthropic lab. The honest caveat stands: intent is not deployment, and a marketing line is not a shipped product; the load-bearing datapoint remains the demo, and the significance of the quotes is *whose they are*.
+
+**Cross-references.** [[Case]] — the "the rail already exists" framing these validate; [[Border-Skirmishes]] — the substrate contest (the "design a new protocol" camp vs. "the rail is already here"); the **2026-06-30 Stripe/Tempo MPP entry** — the counter-position exhibit (Bitcoin as an *optional* rail inside a stablecoin/card standard); [[Independence-Doctrine]] / [[Stablecoin-Landscape]] — why the new-protocol stacks still carry the issuer-freeze surface the Lightning rail doesn't.
+
+**Sources.** [TFTC demo, 2026-07-03](https://x.com/i/status/2073163539955712495) · [Amboss QT, 2026-07-03](https://x.com/i/status/2073176645272252655) · [DocumentingBTC — Dorsey lab, 2026-07-07](https://x.com/i/status/2074600071383966197) · [Amboss, 2026-07-08](https://x.com/i/status/2074859033077415957). Captures identified via `x-fetch` (2026-07-13); the 7/7 lab's exact legal name is not stated in the source post and is left as described.
 
 ---
 

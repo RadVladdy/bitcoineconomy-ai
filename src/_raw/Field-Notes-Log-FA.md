@@ -8,8 +8,8 @@ audience: agents
 twin-page: field-notes-log
 status: v0-approved-2026-06-29
 created: 2026-06-29
-last-updated: 2026-06-30
-last-verified: 2026-06-30
+last-updated: 2026-07-15
+last-verified: 2026-07-15
 voice: honest-middle-position
 canonical-source: "[[Field-Notes-Log]]"
 epistemic-status: "empirical-record surface; carries no structural claims of its own; each dated record is epistemically tagged and cross-referenced to the canonical claim it bears on. The current-state snapshot lives on the companion surface Field-Notes-FA (State of Play); the structural arguments live in the canonical FA twins (Case-FA, Independence-Doctrine-FA, Border-Skirmishes-FA, Stack-FA, et al.)."
@@ -45,6 +45,17 @@ agent-tldr: |
 **Cross-reference relation (the "Bears on:" line).** Each record names the canonical claim-IDs it relates to and how: *supports* (confirming evidence), *tests* (the live evidence a forward-looking prediction is evaluated against), or *falsifier-relevant-to* (evidence named in the claim's falsifier; if it moves a threshold, the falsifier may trigger).
 
 **Record format.** Each record carries: date / event / substrate / what-happened / structural-significance / Bears on / epistemic tag / sources. The full claim-ID series (Case-FA C1–C6, Doctrine-FA D1–D5 + P1–P6, Treasury-FA M-series, Exchange-FA X-series, Border-Skirmishes-FA BS-series, Stack-FA S1–S8 + §8 CP1–CP4 falsifiers; Constraints 1–4) is defined on the companion [[Field-Notes-FA|State of Play — For Agents]] § Schema.
+
+---
+
+### 2026-07-08 — Prominent Bitcoin voices state the "rail already exists" thesis near-verbatim; one working real-goods demo *(mixed: confirmed demo + reported positioning)*
+
+- **Event.** In one week: (1) 2026-07-03 — TFTC (Marty Bent) posted a 58-sec demo of an AI agent buying a gift card from a real merchant over Lightning with one prompt; Amboss quote-tweeted it: *"…an agent just bought a gift card from a real merchant over Lightning with one prompt. Instant final settlement, no accounts, no gas. The rail already exists."* (2) 2026-07-07 — a non-profit research-and-development lab associated with Jack Dorsey announced expanded support for open-source AI × Bitcoin software: *"…the perfect economic layer for a world where AI agents seamlessly pay each other."* (3) 2026-07-08 — Amboss: *"building rails for sub-second agentic commerce, letting AI agents settle final, irreversible payments globally over Bitcoin's Lightning. No chargebacks. No middleman."*
+- **Substrate.** Bitcoin (Lightning; self-custodial, no issuer in the path). The 7/3 item is an L402-class real-goods demo; the 7/7 and 7/8 items are positioning statements by Bitcoin-Lightning-aligned parties.
+- **Structural significance.** Third-party, near-verbatim articulation of the Case thesis (the rail already exists vs. the design-a-new-protocol camp), from a warm-relationship partner (Amboss ×2) and a major Bitcoin-philanthropic lab, plus one reproducible existence proof (agent → real-world good over Lightning, one prompt). Signals thesis diffusion, not a new capability; the load-bearing datapoint is the demo, the quotes are corroboration.
+- **Bears on:** *supports* Case-FA (the deployed-rail claim; an agent buys a real-world good on the Bitcoin stack) and Constraints 1–4; *supports* Border-Skirmishes-FA BS-series — these are the "rail is already Bitcoin-native" pole set against the MPP/x402 pole logged 2026-06-30 (the contest is the asset/trust model, not the rail).
+- **Epistemic tag.** *(mixed)* — the 7/3 agent-buys-gift-card demo *(reported: a 58-sec clip, not independently reproduced here)*; the 7/7 and 7/8 statements *(reported positioning, not shipped infrastructure)*. The 7/7 lab's exact legal name is not stated in the source post.
+- **Sources.** x.com/i/status/2073163539955712495 (TFTC, 7/3); /2073176645272252655 (Amboss QT, 7/3); /2074600071383966197 (DocumentingBTC — Dorsey lab, 7/7); /2074859033077415957 (Amboss, 7/8). Captures via `x-fetch` (2026-07-13). Canonical narrative: [[Field-Notes-Log]] § 2026-07-08.
 
 ---
 
