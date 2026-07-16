@@ -16,7 +16,10 @@
 // change here; the public address never changes.
 
 const LNURLP_UPSTREAM = {
-  hello: 'https://getalby.com/.well-known/lnurlp/bitcoineconomyai',
+  // Cut over to our own sovereign LNbits node 2026-07-16 (was Alby).
+  // Rollback = restore the getalby line below.
+  // hello: 'https://getalby.com/.well-known/lnurlp/bitcoineconomyai',
+  hello: 'https://ln.bitcoineconomy.ai/.well-known/lnurlp/hello',
 };
 
 const JSON_HEADERS = {
