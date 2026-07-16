@@ -1,7 +1,0 @@
-# Lightning Address resolution for the apex domain.
-# A wallet paying hello@bitcoineconomy.ai fetches /.well-known/lnurlp/hello here;
-# we 302 it to the sovereign LNbits node (served via Cloudflare Tunnel at ln.bitcoineconomy.ai).
-# NOTE: does not touch /.well-known/nostr.json (the NIP-05 identity) — different path.
-# CUTOVER: hello@ currently resolves to Alby (bitcoineconomyai@getalby.com) via a
-# Cloudflare-side rule; this redirect only takes effect once that rule is removed.
-/.well-known/lnurlp/hello  https://ln.bitcoineconomy.ai/.well-known/lnurlp/hello  302
