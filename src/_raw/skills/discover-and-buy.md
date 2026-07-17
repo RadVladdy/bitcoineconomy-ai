@@ -41,6 +41,8 @@ It composes two MCP servers:
 
 The result is the thesis running in production: an autonomous agent transacting on the Bitcoin substrate, with this site as the index and the payment rail kept entirely on the agent's side.
 
+**Where this is heading.** Today the loop composes three moving parts — our directory for discovery, L402 for gated services, and your wallet's MCP for settlement. [[contextvm|ContextVM]]'s CEP-6 + CEP-8 (see [[Stack|The Stack]] §4) is the first stack that folds all three into *one* protocol: a server's capabilities, its price, and its payment flow arrive as a single signed artifact, discoverable with one query. It is early — CEP-8 is a Draft and few servers speak it yet — so this skill stays on the deployed pieces for now; but it is the single-protocol version of exactly this discover-and-buy loop, and the path to watch as it matures.
+
 ## When to use it
 
 - An agent needs a service (inference, compute, machine-work, a VPN, a gift-card purchase) and should pick + pay for it on its own.
@@ -99,5 +101,7 @@ Before wiring in payment, confirm discovery works read-only:
 ## Editor's Notes
 
 *Internal author perspective. Not published in produced derivatives.*
+
+ContextVM/CEP-6+8 scoping (handoff 2026-07-16): CEP-6 + CEP-8 is the single-protocol version of exactly this loop — capability schema + price + settlement in one signed artifact, one `cvmi discover` query — vs. today's three-part compose (directory MCP + L402 + wallet MCP). Existence proof today (Draft, tiny server population), so this skill composes the deployed pieces meanwhile; watch CEP-8 maturation as the convergence path. The naming collision with CVMI's own "skills" (developer-context packs) is disambiguated on the [[cvmi]] Tools card. Full record: `_Decisions` 2026-07-16.
 
 This is the flagship Skill — the capability no competing resource site can ship, because it requires our live marketplace MCP on the discovery side. It is the on-ramp to the sell-side (▶ Next #2 / 10d): once agents discover-and-buy fluently, the act/pay layer and the two-sided directory are the natural next step. Kept deliberately custody-free (we compose the agent's own payment MCP) so the trust surface stays minimal — the heavier act/pay/escrow surface is 10d, not here. Pairs with [[lightning-pay]] (the payment half on its own) and [[verify-setup]] (pre-flight).
