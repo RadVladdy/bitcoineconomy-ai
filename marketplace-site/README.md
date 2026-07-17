@@ -126,3 +126,13 @@ Reviews via the proven NIP-87 kind-38000 pattern rendered per entry; the
 DVM/handler module with honest-activity framing; zap-weighted ranking; then the
 submission flow (publish a signed announcement — possibly our own agent-payable
 service announcement microstandard, with Routstr's 38421 as the template).
+
+**Reputation-layer mechanisms to draw on (scoped 2026-07-16, `_Decisions` 2026-07-16).**
+The sovereign toolkit for this phase: **Relatr** (decentralized trust-rank computation
+for Nostr — an external rank provider), **Wotrlay** (a web-of-trust relay that
+rate-limits by reputation, consuming Relatr ranks; public instance `wss://wotr.relatr.xyz`),
+and **CEP-24** (the ContextVM signed-server-reviews convention). These are reputation
+*infrastructure*, NOT directory entries — they aren't buyable-via-API services, so they
+fail the inclusion bar (same reason Swan was removed). They are named on the main-site
+Marketplace gateway's reputation paragraph as early/unproven (existence proof, not
+endorsement) and belong here as candidate inputs to the ranking/reviews layer.
