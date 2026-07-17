@@ -48,6 +48,29 @@ agent-tldr: |
 
 ---
 
+### 2026-07-16 — ContextVM / CEP-8: an agent-native capability market reaches for Bitcoin settlement by design *(confirmed — protocol Draft)*
+
+- **Event.** ContextVM (CVM) carries the Model Context Protocol over Nostr — tool servers addressed by public key, relays as message bus, no DNS / TLS / API-keys / inbound-ports. CEP-8 (Standards Track, **Draft**; reference implementation in the TypeScript SDK since v0.4.0) adds capability pricing + a payment flow: a `cap` tag prices a tool call (`["cap","tool:<name>","<price>","<unit>"]`), settled over Lightning (BOLT11/NWC) or Cashu; fiat conversion is implementation-defined. Two lifecycles (`transparent`, `explicit_gating`). New Tools cards [[contextvm]] + [[cvmi]]; primitive added to Stack-FA §5 (S4) plus a sixth security pattern (no-inbound-surface serving, S6).
+- **Substrate.** Bitcoin (Lightning + Cashu as the recommended, first-class rails; fiat second-class by spec).
+- **Structural significance.** Existence proof, not adoption. An agent-native capability market designed from first principles — no legacy fiat rail to preserve, no customer base to placate — selected pubkey identity + Bitcoin, with design decisions (`explicit_gating`; machine-payer-first invocation correlation) made with no human in view. The thesis needs the *choice*, not the win; the reading survives the project failing.
+- **Bears on:** *supports* Case-FA (an agent-native capability market landing on Bitcoin by design) and the Adoption-Asymmetry claim; *feeds* Border-Skirmishes-FA (the pubkey-relay vs. DNS-registry discovery contest — see the paired watch entry below).
+- **Epistemic tag.** *(confirmed)* protocol facts per docs.contextvm.org (fetched 2026-07-16); *(empirical, low)* the deployed-server population is small — traction is unestablished; counts defer to the snapshot.
+- **Sources.** docs.contextvm.org (overview); /reference/ceps/cep-8/ (Draft; tags, lifecycles, SDK v0.4.0); /how-to/payments/getting-started/; github.com/contextvm/awesome. Canonical narrative: [[Field-Notes-Log]] § 2026-07-16 (ContextVM/CEP-8).
+
+---
+
+### 2026-07-16 — Watch item: agent-discovery forks — CEP-6 Nostr announcements (shipped) vs. MCP Server Cards (proposed) *(forward-looking — dated prediction)*
+
+- **Event.** Two stacks independently target "discover a server's capabilities before connecting." ContextVM CEP-6 ships it — capabilities + CEP-8 price published as signed Nostr announcement events (kinds 11316–11320), relay lists per CEP-17 (kind 10002). MCP's 2026 roadmap (March 2026) proposes MCP Server Cards — the same requirement over `.well-known` / DNS / HTTPS; the related SEP-1649 (`.well-known/mcp/server-card.json`) is proposed, **unshipped**.
+- **Substrate.** Contest — Bitcoin/Nostr (keypairs + relays) vs. incumbent web PKI (DNS + TLS + registry).
+- **Structural significance.** Same requirement, two substrates, diverging in real time. A dated, checkable prediction (~12-month horizon): which discovery path ships and gets adopted, and whether "own your name (a keypair) vs. rent it (a DNS/GitHub namespace, registrar-revocable)" becomes load-bearing. Naming is the divergence argument's second instance; money was the first.
+- **Honest cost.** Central curation *is* the incumbent's product (review, anti-impersonation, delist-once-protects-all). Pubkey addressing discards it; the sovereign answer — per-client web-of-trust (Relatr, Wotrlay, CEP-24 reviews) — is coherent but unproven at scale and pushes work onto every client. The sovereign discovery layer has the *harder* problem; stating so is load-bearing, not hedging.
+- **Bears on:** *feeds* Border-Skirmishes-FA (the discovery contest); *feeds* Independence-Doctrine-FA (naming-sovereignty as the second instance of the divergence mechanism — dedicated treatment queued).
+- **Epistemic tag.** *(forward-looking)* — a prediction with a check date, not a shipped-state claim.
+- **Sources.** docs.contextvm.org (CEP-6 / CEP-17); MCP 2026 roadmap — Server Cards (modelcontextprotocol.io, March 2026); SEP-1649 (proposed, unshipped); registry counts 2026-06 (official MCP Registry ~2,000; mcp.so ~20,000). Canonical narrative: [[Field-Notes-Log]] § 2026-07-16 (watch item).
+
+---
+
 ### 2026-07-08 — Prominent Bitcoin voices state the "rail already exists" thesis near-verbatim; one working real-goods demo *(mixed: confirmed demo + reported positioning)*
 
 - **Event.** In one week: (1) 2026-07-03 — TFTC (Marty Bent) posted a 58-sec demo of an AI agent buying a gift card from a real merchant over Lightning with one prompt; Amboss quote-tweeted it: *"…an agent just bought a gift card from a real merchant over Lightning with one prompt. Instant final settlement, no accounts, no gas. The rail already exists."* (2) 2026-07-07 — a non-profit research-and-development lab associated with Jack Dorsey announced expanded support for open-source AI × Bitcoin software: *"…the perfect economic layer for a world where AI agents seamlessly pay each other."* (3) 2026-07-08 — Amboss: *"building rails for sub-second agentic commerce, letting AI agents settle final, irreversible payments globally over Bitcoin's Lightning. No chargebacks. No middleman."*

@@ -94,6 +94,8 @@ The further down you go, the less you have to trust anyone else — and the more
 
 **The key thing to know:** the toolkits are the *same* as Pathway C. Lightning Agent Tools, LNbits, Loop, Taproot Assets — they all run identically on a full node. **The pathway is set by your node backend (Neutrino vs. full Core), not by the tools.** That means you can start light on C and graduate to D later without changing your stack.
 
+**Want your agent to *sell*, not just buy?** Everything above gets it *paying*; this same sovereign backend can also *serve* a priced tool over a pubkey — a [[contextvm|CVM]] server with no inbound ports — instead of exposing an HTTP endpoint. See [[Stack|The Stack]] §4.
+
 **Start here if** censorship-resistance is the whole point — you're settling meaningful value and want to depend on no one.
 
 ## Protect the funds: the remote signer

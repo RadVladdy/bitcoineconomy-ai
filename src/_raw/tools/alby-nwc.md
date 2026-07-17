@@ -34,6 +34,8 @@ Nostr Wallet Connect (NWC, **NIP-47**) is an open protocol that lets an applicat
 
 **Alby** is the primary builder and promoter of the standard: the Alby browser extension, Alby Hub (a self-custodial node manager), a JavaScript SDK, and — most relevant for agents — **Alby MCP** (`@getalby/mcp`), which exposes NWC payments (plus LNURL and L402 knowledge) to Claude, Cursor, Hermes, or n8n as MCP tools. (The earlier `nwc-mcp-server` is archived and now points users to `@getalby/mcp`.)
 
+NWC is usually described from the *paying* side — an agent holding a scoped connection to spend. It runs the other direction too: [ContextVM](/tools/contextvm)'s CEP-8 payment spec has the **server** hold an NWC connection to *receive* payment and verify settlement for a priced tool call. Same connection-string primitive, both ends of the transaction — the client's to pay, the server's to get paid.
+
 ## When to use it
 
 - Giving an agent the ability to pay without giving it custody of keys.

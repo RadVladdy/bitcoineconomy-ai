@@ -32,6 +32,32 @@ agent-tldr: |
 
 ---
 
+### 2026-07-16 — ContextVM / CEP-8: an agent protocol reaches for Bitcoin as its default settlement rail
+
+**What's happening.** **ContextVM (CVM)** carries the **Model Context Protocol** — the standard agents use to reach tools — over **Nostr**: a tool server is addressed by its public key, with relays as the message bus and no DNS, TLS, API keys, or inbound ports. Its **CEP-8** spec (Standards Track, **Draft**; reference-implemented in the TypeScript SDK since v0.4.0) adds pricing and payment to that transport, so a server can charge sats for the *tool call itself* — the recommended rails are **Lightning (BOLT11 over NWC)** and **Cashu**, with fiat left explicitly second-class ("implementation-defined"). New Tools cards: [[contextvm|ContextVM]] and [[cvmi|CVMI]]; the primitive is now in [[Stack|The Stack]] §4, alongside a sixth security pattern (no-inbound-surface serving).
+
+**Why it matters — existence proof, not traction.** Read honestly, ContextVM is *tiny*: a handful of public servers, a two-star `awesome` repo, CEP-8 still a Draft — against an MCP ecosystem of tens of thousands of servers, now governed by a Linux Foundation body with OpenAI, Block, AWS, Google, and Microsoft behind it. The claim here is **not** "this is winning." It is narrower and sturdier: when builders designed an agent-native capability market from first principles — no legacy fiat rail to preserve, no customer base to placate — they reached for **pubkey identity and Bitcoin**, and made the design decisions for machine payers with no human in view. The thesis does not need ContextVM to win; it needs it to have *chosen*. It chose — and that reading survives the project failing entirely.
+
+**Cross-references.** [[Stack]] §4 (the CEP-8 primitive + the no-inbound-surface security pattern); [[Case]] — an agent-native market landing on Bitcoin by design; [[Border-Skirmishes]] — the pubkey-and-relay discovery path vs. the DNS-and-registry one; the **2026-06-30 Stripe/Tempo MPP entry** — the mirror-image case (Bitcoin as an *optional* guest inside a card/stablecoin standard). See also the convergence-watch entry below.
+
+**Sources.** [ContextVM docs](https://docs.contextvm.org/) (protocol overview; fetched 2026-07-16); [CEP-8 — Capability Pricing & Payment Flow](https://docs.contextvm.org/reference/ceps/cep-8/) (Draft; `cap`/`pmi` tags; `transparent` vs `explicit_gating`; SDK v0.4.0); [payments getting-started](https://docs.contextvm.org/how-to/payments/getting-started/); [github.com/contextvm/awesome](https://github.com/contextvm/awesome) (ecosystem + relay list). MCP-ecosystem comparison figures per the 2026-06 registry/aggregator counts.
+
+---
+
+### 2026-07-16 — Watch item: two agent-discovery standards fork over the same requirement (CEP-6 relays vs. MCP Server Cards)
+
+**What's happening.** Both the Bitcoin/Nostr stack and the mainstream MCP stack have, independently, decided an agent needs to learn *what a server offers before it connects*. **ContextVM's CEP-6** already ships it: a server publishes its capabilities — and, via CEP-8, its price — as signed Nostr announcement events (kinds 11316–11320) replicated across relays. The **MCP 2026 roadmap** (published March 2026) proposes **MCP Server Cards** — the same "discover capabilities without connecting" requirement, met by exposing metadata at `.well-known` URLs over DNS/HTTPS (the related `.well-known/mcp/server-card.json`, SEP-1649, is proposed and **unshipped**).
+
+**Why it matters.** Same problem, two substrates, diverging in real time: **one reached for keypairs and relays, one reached for DNS and TLS.** This is not a thesis being asserted — it is a **dated, checkable prediction.** Over the next ~12 months, watch which discovery path actually ships and gets adopted, and whether the "own your name vs. rent it" split — a keypair nobody issued versus a namespace verified by GitHub or DNS and revocable by a registrar — starts to matter in practice. Logged as a standing watch item to revisit.
+
+**The honest cost.** A registry's centralization *is its product*: someone reviews submissions, namespace verification blocks impersonation, and a malicious server gets delisted for everyone at once. Pubkey addressing throws that away — if anyone can announce anything, spam and impersonation are the default, and the sovereign answer (per-client web-of-trust: Relatr rank scoring, Wotrlay reputation rate-limiting, CEP-24 server reviews) is coherent but unproven at scale and pushes real work onto every client. The sovereign stack's discovery layer has a *harder* problem than the incumbent's; saying so is what makes the comparison credible.
+
+**Cross-references.** The 2026-07-16 ContextVM/CEP-8 entry above; [[Border-Skirmishes]] — where the substrate/discovery contest is argued; [[Independence-Doctrine]] — the "own your name vs. rent it" question is the naming-layer instance of the divergence argument (a dedicated treatment is queued).
+
+**Sources.** ContextVM CEP-6 discovery + kinds 11316–11320 / 10002 relay lists (CEP-17), [docs.contextvm.org](https://docs.contextvm.org/); MCP 2026 roadmap — Server Cards (published March 2026, modelcontextprotocol.io); SEP-1649 `.well-known/mcp/server-card.json` (proposed, unshipped); registry/aggregator counts per 2026-06 (official MCP Registry ~2,000 entries; mcp.so ~20,000 listed).
+
+---
+
 ### 2026-07-08 — "The rail already exists": in a single week, three prominent voices state the site's thesis nearly verbatim
 
 **What's happening.** Inside a single week, three prominent Bitcoin accounts articulated this site's core claim — that the payment rail for the agent economy *already exists* — almost word for word, and one backed it with a working demo.

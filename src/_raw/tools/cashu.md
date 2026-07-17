@@ -39,6 +39,7 @@ For agents, Cashu is the lightest-weight layer in the stack: no channel manageme
 - Agent payments that need privacy or must be offline-capable.
 - Lightweight wallets where running or managing Lightning channels at the agent layer is overkill.
 - Bearer-token API access patterns (see [Routstr](/services/routstr), where the token *is* the API key).
+- Paying for a priced MCP tool call — Cashu is a first-class rail in [ContextVM](/tools/contextvm)'s CEP-8 (the `bitcoin-cashu` method), and its bearer model lets an agent attach the token directly to the request, with change for any overpayment returned in the response.
 
 ## Dependencies
 

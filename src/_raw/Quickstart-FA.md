@@ -110,6 +110,7 @@ Fields per pathway: `runs` · `custody` · `trust` · `time-to-live` · `ops` ·
 - **time-to-live:** days (incl. initial sync). **ops:** high. **sovereignty:** maximum.
 - **tools:** identical to Pathway C, on a full-node backend (incl. CLN-based stacks, which require this pathway).
 - **structural note:** the toolkit and the sovereignty level are independent — the same LN toolkit runs on a light client or a full node. The pathway is set by the **node backend** (Neutrino vs full Core), not by tool choice; C→D graduation changes only the backend.
+- **serving note:** *(structural)* the four pathways connect an agent to *pay*. The same full-node backend can also *serve* a priced capability with no inbound surface — a ContextVM (CVM) server addressed by pubkey rather than an HTTP endpoint (Stack-FA §5, CEP-8). This is the sell-side use of the sovereign stack; the buy-side pathways are unchanged.
 
 ### §3.S — Remote-signer overlay *(QP6, hardens C/D)*
 - **runs:** a watch-only node (initiates payments) + a separate isolated signer (holds keys); scoped macaroons.

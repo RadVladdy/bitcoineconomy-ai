@@ -32,6 +32,8 @@ The Model Context Protocol is an open standard for connecting AI applications to
 
 MCP is the connective tissue; the Lightning MCP servers are what make payments a first-class agent capability.
 
+MCP is also transport-agnostic. Carried over Nostr — the [ContextVM](/tools/contextvm) approach — the same typed tool schemas become **pubkey-addressed** (reached by a public key, not a domain or IP) and, through its **CEP-8** pricing spec, **chargeable per call**: schema, price, and discovery in one signed event, with no DNS record or API key. See [The Stack](/stack) §4 for how that sits alongside L402.
+
 ## When to use it
 
 - Exposing Lightning operations to an MCP-capable agent as structured tools.
