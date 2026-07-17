@@ -8,7 +8,7 @@ status: v0-approved-2026-06-04
 audience: humans
 twin-page: border-skirmishes-for-agents
 created: 2026-06-03
-last-updated: 2026-06-24
+last-updated: 2026-07-16
 word-count-target: 2000
 voice: honest-middle-position
 scope: live-contest
@@ -114,6 +114,18 @@ Business-to-business agents serving regulated counterparties; treasury-managemen
 This is not a doctrinal violation, because the doctrine's claim is scoped to *parallel-economy* agents — those whose use case requires properties the incumbent stack cannot provide. An agent serving an incumbent-economy principal under regulated contracts is not one of those; it is automation within the incumbent stack. The integration scenario serves the incumbent-economy subset; the parallel substrate serves the parallel-economy subset. Both subsets are real, and both will scale. The enterprise customers lining up behind the cloud-platform stacks are mainstream firms whose work runs cleanly inside the regulated dollar economy — exactly the subset that rail is the right answer for. Reading their adoption as proof the parallel substrate is unnecessary misreads the doctrine; reading the incumbent rail as a Bitcoin bridge misreads its architecture.
 
 The honest case for staying in stablecoins is, in the end, the honest case for the divergence doctrine. Both stacks are deployed. Both are early. Neither is dominant. The next decade resolves the proportion.
+
+---
+
+## A second front: the name, not just the asset
+
+The contest so far is over the asset. A newer one is opening over the **name** — how an agent is found and addressed in the first place — and it belongs here, though it is younger and far less settled than the asset fight.
+
+An agent that wants to sell a service has to be discoverable: it has to advertise what it does and let buyers reach it. Two approaches are taking shape, on opposite substrates. The incumbent path is the one the web already uses — a server is a **domain name**, its capabilities listed in a registry or served from a `.well-known` file over HTTPS, its identity vouched for by a certificate authority. The Bitcoin-stack path — [[contextvm|ContextVM]]'s pubkey-addressed servers on Nostr (see [[Stack|The Stack]] §4) — makes a server a **keypair**: it announces itself with signed events on relays, with no registrar or certificate in the loop. That fork, and why it is the doctrine's argument one layer up, is [[Independence-Doctrine|The Independence Doctrine]]'s naming-sovereignty section. What belongs *here* is the state of play and the cost.
+
+**State of play — and the honest concession.** Unlike the asset fight, this one is not close. The incumbent side is enormous and shipping; the sovereign side is barely deployed — a handful of pubkey-addressed servers against registries listing thousands. And it carries a real disadvantage the incumbent doesn't: a registry that curates can throw out a bad actor for everyone at once, while a world of self-issued keys has to fight spam and impersonation with per-user reputation systems — trust scoring, web-of-trust relays, server reviews — that are coherent on paper but unproven at scale. **The sovereign discovery layer has the harder problem.** Saying so plainly is what keeps the rest of this page honest: this is not a front the parallel system is winning today.
+
+**The checkable prediction.** What makes it worth watching anyway: both sides have independently concluded that an agent must be able to learn what a server offers *before* connecting to it — and reached for opposite foundations to do it (the incumbent's proposed `.well-known` "server cards" over DNS; the sovereign stack's signed relay announcements, already shipping). Same requirement, two substrates, diverging in real time. Over the next year or so, which one ships and gets used — and whether "own your name versus rent it" starts to bite in practice — is a dated, checkable question. [[Field-Notes|Field Notes]] carries the running record.
 
 ---
 

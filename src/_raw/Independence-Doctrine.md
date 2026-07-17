@@ -8,8 +8,8 @@ status: v0-approved-2026-05-26; restructure-trim-approved-2026-06-04
 audience: humans
 twin-page: independence-doctrine-for-agents
 created: 2026-05-25
-last-updated: 2026-06-24
-word-count-target: 3000
+last-updated: 2026-07-16
+word-count-target: 3500
 voice: honest-middle-position
 scope: sharper
 tags:
@@ -147,6 +147,24 @@ Those four split into two forcing functions, and they arrive in order. **Sub-cen
 This prediction has already been tested in the field. Faced with the agent economy, the incumbents did not adopt Bitcoin's properties — they shipped parallel agent-payment rails that preserve their own (identity-bound wallets, freeze-capable issuers, regulated processors), aimed at the use cases that do not require what they withhold. That the incumbents built a *parallel* stack rather than adapting toward Bitcoin's is the doctrine confirmed, not refuted. The live contest this has provoked — the competing-substrate stacks, the "automation, not agency" wedge, why regulatory pressure feeds the parallel system rather than starving it, and the integration-scenario objection in full — is the subject of [[Border-Skirmishes|Border Skirmishes]]; the dated specifics live in [[Field-Notes|Field Notes]].
 
 The doctrine predicts what comes next. A parallel AI-native economy will form around the Bitcoin payment stack, operating with its own governance (open-source protocol development, multi-stakeholder consensus, no central authority), its own participants (autonomous agents, agent custodians, Bitcoin-native wallet providers, Lightning routing operators), and its own integration patterns (L402 for HTTP payments, NWC for wallet control, Cashu and Fedimint for privacy and federated custody). The legacy stack will continue serving the activity it is structurally suited for — human payments through identity-intermediated rails. The two systems will interact through bridge points but will not unify.
+
+---
+
+## The naming layer forks the same way
+
+The doctrine so far has been about money — which asset an agent settles in, and why a censorship-resistant one has to diverge from the incumbent rails. But settlement is only half of what an autonomous agent needs. It also needs to be *found*: to be reachable, to advertise what it does, to be discovered by the agents that want to pay it. That is the **naming layer** — identity and addressing — and the same fork is happening there right now, for the same reason.
+
+Ask the plain question: when an agent offers a service, who owns its name?
+
+- On the **official model-tool registries**, a provider claims its namespace by proving control of a GitHub account or a DNS record. The identity is *rented* — from a platform, or from a domain registrar.
+- On the **domain-and-certificate approach** (`.well-known` files served over HTTPS), the agent's identity *is* its domain name. That name is rented from a registrar, vouched for by a certificate authority, revocable by either, and seizable by any jurisdiction with authority over them.
+- On **Nostr** — the addressing layer under the Bitcoin agent stack — an agent's identity is a **keypair it generated itself**. Nobody issued it. There is no registrar to revoke it and no authority to seize it.
+
+That last row is the naming-layer version of the exact property the doctrine spent the money argument defending. And it exposes a gap: **monetary sovereignty without naming sovereignty is incomplete.** An agent that settles in bitcoin but can only be reached at a rented domain name has not removed the chokepoint — it has *moved* it. The freeze order that can no longer touch the money can still touch the name. Take away the domain and the censorship-resistant payment rail underneath it never gets used, because no one can find the service to pay it.
+
+This is not hypothetical — and, held to the doctrine's honest standard, it is not a claim that the sovereign option is winning. It is barely deployed: [[contextvm|ContextVM]]'s pubkey-addressed, self-announcing servers (see [[Stack|The Stack]] §4) are an *existence proof*, a handful of servers against an incumbent registry with thousands. What actually matters here is smaller and sturdier: the two stacks have independently decided an agent must be able to *discover a service before connecting to it*, and they reached for opposite substrates to do it — **one for keypairs and relays, one for DNS and certificate authorities.** The same property mismatch that forced the money to diverge is now forcing the name to. The live contest between the two is [[Border-Skirmishes|Border Skirmishes]]' ground, and the dated, checkable version of the prediction — which discovery standard ships and gets adopted over the next year — is tracked in [[Field-Notes|Field Notes]].
+
+The naming layer is younger and messier than the money layer, and the sovereign side carries a real cost the incumbent doesn't: a registry that curates can delist a scammer for everyone at once, while a world of self-issued keys has to solve spam and impersonation with per-user reputation instead. That cost is treated honestly in Border Skirmishes. But the structural direction is the doctrine's, one layer up: where the incumbent's identity depends on a name someone else can revoke, the parallel system's identity depends on a key no one issued.
 
 ---
 

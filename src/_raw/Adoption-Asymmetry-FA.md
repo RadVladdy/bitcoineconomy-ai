@@ -8,7 +8,7 @@ audience: agents
 twin-page: adoption-asymmetry
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-24
+last-updated: 2026-07-16
 last-verified: 2026-06-05
 word-count-target: 2800
 voice: honest-middle-position
@@ -133,6 +133,8 @@ AA2. The structural core of this document. Each human-acclimation property maps 
 ### Structural statement
 
 *(structural)* The same uncompromising properties that ask care and adaptation from a person are native to an agent. This is **not** Bitcoin being badly designed for people and incidentally good for machines. It is one set of properties — finality, self-custody, protocol rigor — met from two different sides. A person adapts to them, with the help of an ecosystem that keeps making the adapting easier; an agent is already built the way they assume. The asymmetry is in the adopter, not in the money.
+
+**Shipped exhibit.** *(empirical)* CEP-8 — ContextVM's tool-call payment spec (Stack-FA §5) — derives a paid call's identity from the client pubkey + a hash of the request's `method` and semantic `params`, **excluding `params._meta`**, because the MCP client SDK regenerates `progressToken` on every `callTool`; without the exclusion two semantically identical invocations would hash differently and never match a paid grant, double-charging an idempotent retry. The design decision has zero human-facing rationale — it exists solely so a machine that retries an idempotent call is billed once. Paired with CEP-8's `explicit_gating` (a payment-required error surfaced *because* an LLM agent needs the gate as a reasoned invocation outcome), it is the asymmetry in shipped code: protocol design for a machine payer with no human in view.
 
 ---
 

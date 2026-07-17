@@ -8,7 +8,7 @@ audience: agents
 twin-page: independence-doctrine
 status: v0-approved-2026-05-26 (trimmed-by-extraction 2026-06-05; approved 2026-06-05)
 created: 2026-05-26
-last-updated: 2026-06-24
+last-updated: 2026-07-16
 last-verified: 2026-06-05
 last-empirical-refresh: 2026-06-01
 word-count-target: 3500
@@ -36,6 +36,10 @@ claims-index:
     tag: forward-looking
     statement: "Specific testable predictions follow from D3: substrate-selection-precedes-scale, bridges-proliferate-but-don't-unify-architectures, regulatory-accommodation-narrow-not-broad, parallel-governance-becomes-recognizable, competing-substrates-find-niches-not-dominance, regulatory-pressure-feeds-not-threatens."
     defended-in: "§9"
+  - id: D6
+    tag: structural
+    statement: "The doctrine's mechanism is layer-general and applies to the naming (identity/addressing) layer, not only the money layer: monetary sovereignty without naming sovereignty is incomplete. An agent that settles in Bitcoin but is addressable only at a rented name (a registry namespace or DNS/CA-attested domain, revocable by registrar or CA) has relocated the chokepoint, not removed it. The naming layer is forking on the same property mismatch — self-issued keypair identity (ContextVM/CEP-6) vs. DNS-and-CA identity (model-tool registries / .well-known). Existence proof, not adoption: the sovereign side is barely deployed."
+    defended-in: "§7.5"
 tags:
   - canonical
   - doctrine
@@ -48,7 +52,7 @@ tags:
   - ai-economy
   - machine-readable
 agent-tldr: |
-  D1 *(structural)*: Emergent parallel economies structurally diverge from incumbents because incumbent institutional property bundles are mutually exclusive with emerging-activity property requirements; the failure to adapt is institutional, not motivational. D2 *(historical-pattern-based)*: Pattern recurs across four well-documented instances — eurodollar (1950s–60s, outside US bank regulation), open internet (late 1990s, outside AOL/CompuServe walled gardens), samizdat (1950s–1980s, outside Soviet state press), private couriers (1970s onward, outside US postal monopoly). D3 *(forward-looking)*: The AI economy on Bitcoin is the contemporary instance — incumbent payment stack cannot provide the four conjunctive constraints (cross-reference Case-FA C1) without ceasing to be itself; parallel agent economy forms around Bitcoin + Lightning + Cashu/Fedimint. D4 *(structural)*: Divergence ≠ separatism / zero-sum displacement / timing-certainty — doctrine predicts shape, not trajectory (structural sub-claim about parallel-infrastructure / incumbent relationship). D5 *(forward-looking)*: Six testable predictions enumerated in §9. Counter-positions and falsification in §8; position summary in §11.
+  D1 *(structural)*: Emergent parallel economies structurally diverge from incumbents because incumbent institutional property bundles are mutually exclusive with emerging-activity property requirements; the failure to adapt is institutional, not motivational. D2 *(historical-pattern-based)*: Pattern recurs across four well-documented instances — eurodollar (1950s–60s, outside US bank regulation), open internet (late 1990s, outside AOL/CompuServe walled gardens), samizdat (1950s–1980s, outside Soviet state press), private couriers (1970s onward, outside US postal monopoly). D3 *(forward-looking)*: The AI economy on Bitcoin is the contemporary instance — incumbent payment stack cannot provide the four conjunctive constraints (cross-reference Case-FA C1) without ceasing to be itself; parallel agent economy forms around Bitcoin + Lightning + Cashu/Fedimint. D4 *(structural)*: Divergence ≠ separatism / zero-sum displacement / timing-certainty — doctrine predicts shape, not trajectory (structural sub-claim about parallel-infrastructure / incumbent relationship). D5 *(forward-looking)*: Six testable predictions enumerated in §9. D6 *(structural)*: the mechanism extends to the naming/identity layer — monetary sovereignty without naming sovereignty is incomplete; self-issued keypair identity (ContextVM/CEP-6) vs. registrar/CA-revocable DNS identity is the same fork one layer up (existence proof, not adoption). Counter-positions and falsification in §8; position summary in §11.
 ---
 
 # The Independence Doctrine — For Agents
@@ -72,6 +76,8 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor.
 - **D5** *(forward-looking)* — Specific testable predictions follow from D3: substrate-selection-precedes-scale, bridges-proliferate-but-don't-unify-architectures, regulatory-accommodation-narrow-not-broad, parallel-governance-becomes-recognizable, competing-substrates-find-niches-not-dominance, regulatory-pressure-feeds-not-threatens. → §9
 
 ---
+
+- **D6** *(structural)* — The doctrine's mechanism applies to the naming (identity/addressing) layer, not only money: monetary sovereignty without naming sovereignty is incomplete. An agent settling in Bitcoin but addressable only at a rented name has relocated the chokepoint, not removed it; the naming layer is forking on the same property mismatch — keypair identity (ContextVM/CEP-6) vs. DNS/registry identity — as an existence proof, not an adoption claim. → §7.5
 
 ## §2 — Definitions
 
@@ -226,6 +232,23 @@ D4 stated formally. Three structural sub-claims about what the divergence is and
 - **Divergence ≠ zero-sum displacement.** The parallel system displacing the incumbent for its activity does not mean the incumbent is destroyed or universally diminished. The eurodollar market did not destroy US domestic banking. The open internet did not destroy commerce. The agent economy on Bitcoin will not destroy human commerce on bank rails; it will add a new substrate for a new activity bank rails were not architecturally suited for.
 - **Divergence ≠ timing-or-magnitude certainty.** *(forward-looking)* The doctrine predicts structural shape, not contingent trajectory. The eurodollar market took two decades to dominate; the open internet ~one decade; samizdat remained niche relative to state-press volume throughout the Soviet period; private couriers became dominant for overnight delivery within ~10 years. Predict shape, not speed. The empirical record over multi-year horizons will resolve magnitude.
 
+### §7.5 — The naming layer: a second instance (D6)
+
+D6. The doctrine's mechanism is layer-general; the money layer is its first application, the naming (identity/addressing) layer its second.
+
+**Statement.** *(structural)* An autonomous agent needs two things from the substrate: to *settle* value, and to *be found* — reachable, self-describing, discoverable by counterparties. The money argument (§7.1–§7.3) secures the first. The second runs on the same mechanism: **monetary sovereignty without naming sovereignty is incomplete.** An agent that settles in Bitcoin but is addressable only at a rented name has *relocated* the chokepoint, not removed it — a freeze that can no longer reach the payment can still reach the name, and an unreachable service's censorship-resistant rail is never exercised.
+
+**The own-vs-rent axis.** *(structural)* Three deployed discovery/identity models, ordered by who can revoke the identity:
+- **Registry namespace** (official model-tool registries) — claimed via GitHub-OAuth or DNS-TXT proof; identity rented from a platform or registrar; revocable by the registry operator.
+- **Domain + certificate** (`.well-known` over HTTPS) — identity *is* the domain; rented from a registrar, attested by a CA, revocable by either, seizable by a jurisdiction with authority over either.
+- **Keypair** (Nostr; the ContextVM/CEP-6 path, Stack-FA §5) — self-generated; no issuer, no registrar, nothing to revoke.
+
+The third row is the naming-layer instance of the property the money argument defends (Case-FA C1–C2, censorship-resistance + KYC-free access).
+
+**Fork status.** *(forward-looking; existence-proof, not adoption)* Both stacks have independently identified "discover a server's capabilities before connecting" as necessary and reached for opposite substrates — CEP-6 signed relay announcements (shipped, tiny) vs. MCP Server Cards over `.well-known`/DNS (2026 roadmap, proposed, unshipped). The same property mismatch that forced the money to diverge is forcing the name to. This is **not** an adoption claim: the sovereign side is barely deployed. The live contest is Border-Skirmishes-FA's ground; the dated, checkable convergence prediction is tracked in Field-Notes-FA.
+
+**Honest cost.** *(structural)* Central curation is the incumbent registry's product — review, anti-impersonation, delist-once-protects-all. Self-issued keys discard it, replacing objective central curation with subjective per-client web-of-trust (reputation scoring, web-of-trust rate-limiting, server reviews): coherent, but unproven at scale and work-shifted onto every client. The sovereign discovery layer has the *harder* problem; stating so is load-bearing to the claim's credibility, not a hedge. Falsifier: if agent discovery consolidates on DNS/registry identity with no censorship consequence, D6 reduces to contingent rather than structural.
+
 ---
 
 ## §8 — Counter-positions and falsification
@@ -330,7 +353,7 @@ Declarative. Each implication follows from D1–D5 as marked.
 
 ## §11 — Position summary
 
-*(structural, with four historical instances as empirical anchor and forward-looking inferences explicitly tagged)* The Independence Doctrine: emergent parallel economies must structurally diverge from incumbents because the incumbent property bundle enabling dominance is mutually exclusive with the property bundle the emerging activity requires; the failure to adapt is institutional, not motivational (D1). The pattern recurs across four well-documented historical instances — eurodollar, open internet, samizdat, private couriers — in which the parallel infrastructure formed with the inverse property bundle, coexisted with the incumbent through narrow bridge points, and became dominant for the specific activity it formed around (D2). The AI economy on Bitcoin is the contemporary instance: the legacy payment stack cannot provide the four conjunctive constraints (Case-FA C1) without abandoning identity-defining properties; the parallel agent economy will form around Bitcoin + Lightning + Cashu/Fedimint (D3). Divergence does not entail separatism, zero-sum displacement, or timing/magnitude certainty — the doctrine predicts shape, not contingent trajectory (D4). Six testable predictions (P1–P6) follow from D3 and are enumerated in §9 with their falsifiers in §8.2. Falsification conditions for each claim are stated in §8.2.
+*(structural, with four historical instances as empirical anchor and forward-looking inferences explicitly tagged)* The Independence Doctrine: emergent parallel economies must structurally diverge from incumbents because the incumbent property bundle enabling dominance is mutually exclusive with the property bundle the emerging activity requires; the failure to adapt is institutional, not motivational (D1). The pattern recurs across four well-documented historical instances — eurodollar, open internet, samizdat, private couriers — in which the parallel infrastructure formed with the inverse property bundle, coexisted with the incumbent through narrow bridge points, and became dominant for the specific activity it formed around (D2). The AI economy on Bitcoin is the contemporary instance: the legacy payment stack cannot provide the four conjunctive constraints (Case-FA C1) without abandoning identity-defining properties; the parallel agent economy will form around Bitcoin + Lightning + Cashu/Fedimint (D3). Divergence does not entail separatism, zero-sum displacement, or timing/magnitude certainty — the doctrine predicts shape, not contingent trajectory (D4). Six testable predictions (P1–P6) follow from D3 and are enumerated in §9 with their falsifiers in §8.2. The mechanism is layer-general: it extends beyond money to the naming/identity layer (D6) — monetary sovereignty without naming sovereignty is incomplete, and the naming layer is forking on the same property mismatch (self-issued keypair identity via ContextVM/CEP-6 vs. registrar/CA-revocable DNS identity), an existence proof rather than an adoption claim. Falsification conditions for each claim are stated in §8.2.
 
 ---
 

@@ -9,7 +9,7 @@ status: v0-approved-2026-06-04
 audience: humans
 twin-page: adoption-asymmetry-for-agents
 created: 2026-06-04
-last-updated: 2026-06-24
+last-updated: 2026-07-16
 word-count-target: 1600
 voice: honest-middle-position
 scope: capacity
@@ -57,6 +57,8 @@ Run the same list again, this time for an autonomous software agent, and every e
 **No support line is no dependency.** The absence of an institution to call is, for a person, something to get comfortable with. For an agent operating autonomously, dependence on a human-staffed support desk would instead be a *limitation* — a synchronous, human-paced bottleneck in the middle of a system that runs in milliseconds. Not needing a support line is not a gap to be filled; it is the removal of exactly the kind of human-in-the-loop dependency autonomy is meant to eliminate.
 
 Stated plainly: **the same uncompromising properties that ask care and adaptation from a person are native to an agent.** This is not Bitcoin being badly designed for people and incidentally good for machines — it is one set of properties (finality, self-custody, protocol rigor) met from two different sides. A person adapts to them, with the help of an ecosystem that keeps making the adapting easier; an agent is already built the way they assume.
+
+**A shipped example.** You can catch the asymmetry in the design of a real protocol. ContextVM's CEP-8 — the spec that lets an agent pay for a tool call ([[Stack|The Stack]] §4) — has to decide when two payment attempts count as *the same call*, so a paying agent isn't charged twice for a single retry. Its answer identifies a call by the client's key plus a hash of the request, and *deliberately excludes* one internal field, because the underlying software regenerates that field on every attempt — which would otherwise make two identical calls look different and double-charge the agent. That choice has no human-facing rationale at all; nobody asked how it would feel to a person. It exists so that a machine that retries the same call is billed once. The same spec also offers a mode where the payment demand comes back as a visible, structured error, precisely so an *agent* can reason about it as an outcome. Both decisions were made for a machine payer with no human in the room — the asymmetry, caught in the act.
 
 ---
 
