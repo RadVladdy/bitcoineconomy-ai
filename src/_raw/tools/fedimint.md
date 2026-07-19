@@ -7,13 +7,13 @@ tagline: Federated Bitcoin custody plus Chaumian ecash — a guardian federation
 tool-type: software
 maintainer: Fedimint
 repo: https://github.com/fedimint/fedimint
-docs: https://fedimint.org/docs
+docs: https://docs.fedimint.org
 site: https://fedimint.org
 x: "@fedimint"
 nostr: nprofile1qqsgwgkrss7gthwkzc49edgxu895664setaevcp57snw2k3wlzdrghswflshg
 stack-section: "§3"
 status: published
-last-verified: 2026-06-02
+last-verified: 2026-07-19
 order: 21
 prereq-tier: l2-network
 prereqs:

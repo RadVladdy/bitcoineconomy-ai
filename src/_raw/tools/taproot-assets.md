@@ -11,9 +11,10 @@ docs: https://docs.lightning.engineering/the-lightning-network/taproot-assets
 site: https://lightning.engineering
 x: "@lightning"
 latest-release: v0.8
+release-date: "2026-06-08"
 stack-section: "Marketplace"
 status: published
-last-verified: 2026-06-28
+last-verified: 2026-07-19
 order: 53
 prereq-tier: lightning-node
 prereqs:

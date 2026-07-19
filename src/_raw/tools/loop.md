@@ -10,11 +10,11 @@ repo: https://github.com/lightninglabs/loop
 docs: https://lightning.engineering/loop/
 site: https://lightning.engineering/loop/
 x: "@lightning"
-latest-release: v0.33.1-beta
-release-date: "2026-05-26"
+latest-release: v0.33.3-beta
+release-date: "2026-06-21"
 stack-section: "§1"
 status: published
-last-verified: 2026-06-02
+last-verified: 2026-07-19
 order: 52
 prereq-tier: lightning-node
 prereqs:

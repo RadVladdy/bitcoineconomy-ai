@@ -14,7 +14,7 @@ latest-release: v3.13.0 "Dark Horse"
 release-date: "2026-05-08"
 stack-section: "Marketplace"
 status: published
-last-verified: 2026-06-02
+last-verified: 2026-07-19
 order: 51
 prereq-tier: wallet
 prereqs:

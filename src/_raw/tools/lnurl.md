@@ -8,10 +8,9 @@ tool-type: protocol
 maintainer: LNURL community
 repo: https://github.com/lnurl/luds
 docs: https://github.com/lnurl/luds
-site: https://lnurl.fiatjaf.com
 stack-section: "§4"
 status: published
-last-verified: 2026-06-02
+last-verified: 2026-07-19
 order: 13
 prereq-tier: wallet
 prereqs:
@@ -52,7 +51,7 @@ A Lightning wallet or client that supports the LUDs you rely on (support is per-
 
 ## Quick start
 
-Implement against the LUD specs at `github.com/lnurl/luds` (e.g. LUD-06 for pay, LUD-16 for Lightning Address). The codec/playground at `lnurl.fiatjaf.com` helps with encoding. Most Lightning libraries and wallet platforms (incl. LNbits) expose LNURL/Lightning-Address endpoints out of the box.
+Implement against the LUD specs at `github.com/lnurl/luds` (e.g. LUD-06 for pay, LUD-16 for Lightning Address). Most Lightning libraries and wallet platforms (incl. LNbits) expose LNURL/Lightning-Address endpoints out of the box.
 
 ## Gotchas
 

@@ -9,10 +9,11 @@ maintainer: Bitcoin Core project
 repo: https://github.com/bitcoin/bitcoin
 docs: https://bitcoincore.org/en/doc/
 site: https://bitcoincore.org
-latest-release: v31.0
+latest-release: v31.1
+release-date: "2026-07-08"
 stack-section: "§1"
 status: published
-last-verified: 2026-06-23
+last-verified: 2026-07-19
 order: 10
 prereq-tier: bitcoin-node
 prereqs:

@@ -14,7 +14,7 @@ latest-release: v0.2.5
 release-date: "2026-02-11"
 stack-section: "§5"
 status: published
-last-verified: 2026-06-02
+last-verified: 2026-07-19
 order: 30
 prereq-tier: lightning-node
 prereqs:
