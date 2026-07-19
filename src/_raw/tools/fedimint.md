@@ -47,7 +47,7 @@ A Fedimint client and a federation to join — trust is distributed across its g
 
 ## Quick start
 
-Clone `github.com/fedimint/fedimint` and follow the developer docs at `fedimint.org/docs` to run a federation or build against the modules; the Fedi operator docs cover running guardians in production. Check the repo's releases page for the current version and per-module maturity before deploying.
+Clone `github.com/fedimint/fedimint` and follow the developer docs at `docs.fedimint.org` to run a federation or build against the modules; the Fedi operator docs cover running guardians in production. Check the repo's releases page for the current version and per-module maturity before deploying.
 
 ## Gotchas
 
