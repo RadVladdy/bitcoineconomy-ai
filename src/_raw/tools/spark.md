@@ -14,7 +14,7 @@ latest-release: Mainnet beta
 release-date: "2025-04-29"
 stack-section: "§3"
 status: published
-last-verified: 2026-06-02
+last-verified: 2026-07-19
 order: 22
 prereq-tier: l2-network
 prereqs:
@@ -52,5 +52,5 @@ Build against the SDK and docs at `docs.spark.money`; the source is at `github.c
 ## Gotchas
 
 - **Mainnet beta** (public beta since April 2025) — real but early, by Lightspark's own framing.
-- At launch the network ran with a **small operator set** (Lightspark + Flashnet) — a semi-trusted set, not trust-minimized like Bitcoin's base layer. Understand the operator trust model before depending on it.
+- The network runs on a **small founding operator set** — three Spark Operators (SOs): Lightspark, Flashnet, and Breez (grown from two at the April 2025 launch; more join as it scales). A semi-trusted set, not trust-minimized like Bitcoin's base layer — but funds stay redeemable to L1 via a pre-signed unilateral exit even if every operator goes offline. Understand the operator trust model before depending on it.
 - Newer than Lightning; tooling and liquidity ecosystem are still maturing.
