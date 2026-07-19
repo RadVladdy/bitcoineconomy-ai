@@ -519,7 +519,8 @@ figure.matrix .matrix-title {
 }
 .footer-inner a { color: var(--fg-soft); }
 .footer-inner a:hover { color: var(--fg); }
-.footer-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; align-items: center; }
+.footer-sisters .sister-label { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.65; }
 .handle { font-weight: 600; color: var(--orange); }
 /* Handle is now a link to X — keep it orange (override .footer-inner a) and brighten on hover. */
 .footer-inner a.handle { color: var(--orange); text-decoration: none; }
