@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-07-15
+last-updated: 2026-07-21
 voice: honest-middle-position
 tags:
   - canonical
@@ -55,6 +55,20 @@ agent-tldr: |
 **Cross-references.** The 2026-07-16 ContextVM/CEP-8 entry above; [[Border-Skirmishes]] — where the substrate/discovery contest is argued; [[Independence-Doctrine]] — the "own your name vs. rent it" question is the naming-layer instance of the divergence argument (a dedicated treatment is queued).
 
 **Sources.** ContextVM CEP-6 discovery + kinds 11316–11320 / 10002 relay lists (CEP-17), [docs.contextvm.org](https://docs.contextvm.org/); MCP 2026 roadmap — Server Cards (published March 2026, modelcontextprotocol.io); SEP-1649 `.well-known/mcp/server-card.json` (proposed, unshipped); registry/aggregator counts per 2026-06 (official MCP Registry ~2,000 entries; mcp.so ~20,000 listed).
+
+---
+
+### 2026-07-09 — A peer-reviewed, production-deployed model for choosing where a Lightning node opens channels
+
+**What's happening.** A team from **Amboss** and **Stillmark** published **MPFlow** ([arXiv 2607.08703](https://arxiv.org/abs/2607.08703), 2026-07-09) — a machine-learning system that decides *where a Lightning node should open its channels* to get the most routing capacity for a fixed budget. It uses a graph neural network trained with reinforcement learning, plus a nice trick the authors call hub-exclusion: during training they hide the biggest hubs, so the model has to learn *capacity-aware* placement instead of just bolting itself onto whatever node is largest. It is the published method behind **Magma AI**, the channel recommender inside Amboss's [liquidity marketplace](/services/amboss). The headline isn't the benchmark — it's that the model has actually been **run in production**: 4,640 real channel-open decisions allocating roughly **267 BTC (~$16M) across 30 managed nodes**.
+
+**Why it matters.** "Can an autonomous agent actually manage Lightning liquidity, or does that operational burden sink the whole idea?" is one of the honest objections this site takes head-on ([[Stack]] §2; the Live-risk section of [[Field-Notes|State of Play]]). Until now the answer was an argument — *the mitigations are deployed, the burden is delegable.* MPFlow moves one piece of that from argument to evidence: choosing where to place channels, a core part of liquidity management, isn't just delegable — it's **automatable with production machine learning at scale.** And read against the site's own thesis, there's a second layer to it: the thing quietly running $16M of Lightning liquidity across 30 nodes is *already an AI.*
+
+**The honest caveat (the authors' own, and worth keeping).** The model optimizes *max-flow* — a graph measure of theoretical capacity — and the paper is candid that max-flow **does not by itself tell you the realized payment success rate or fee yield**; closing that gap needs a payment simulator they flag as future work. It also beats the strongest simple heuristic (betweenness centrality) by a **modest ~8.6%**, not a landslide — the giant improvement figures are measured against a random baseline. So this is real, measured progress on one well-defined sub-problem, not a "liquidity is solved" claim, and Magma AI remains a **recommender**, not a hands-off autopilot.
+
+**Cross-references.** [[Stack]] §2 (Liquidity management — the concept this makes concrete) and its For-Agents twin [[Stack-FA]] §8.1 Counter-position 1 (the exact objection it bears on); [[amboss|Amboss / Magma]] (the product it powers); [[Field-Notes|State of Play]] Live-risk (Lightning liquidity management at scale). The 2026-06-28 entry below (the liquidity-management stack becoming assemblable) is the practitioner-tooling counterpart to this research result.
+
+**Sources.** [MPFlow: Learning Budgeted Max-Flow Optimization on the Lightning Network with Deep Graph Reinforcement Learning](https://arxiv.org/abs/2607.08703) — Rush, Davis, Antonelli, Singh, Shrader (Amboss), Rossi; arXiv 2607.08703, submitted 2026-07-09. Production figures, baselines, and the max-flow-vs-yield caveat are the paper's own. Surfaced via direct author outreach (Vikash Singh, Stillmark) 2026-07-21.
 
 ---
 
