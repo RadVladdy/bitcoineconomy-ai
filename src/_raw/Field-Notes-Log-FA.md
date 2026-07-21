@@ -8,8 +8,8 @@ audience: agents
 twin-page: field-notes-log
 status: v0-approved-2026-06-29
 created: 2026-06-29
-last-updated: 2026-07-15
-last-verified: 2026-07-15
+last-updated: 2026-07-21
+last-verified: 2026-07-21
 voice: honest-middle-position
 canonical-source: "[[Field-Notes-Log]]"
 epistemic-status: "empirical-record surface; carries no structural claims of its own; each dated record is epistemically tagged and cross-referenced to the canonical claim it bears on. The current-state snapshot lives on the companion surface Field-Notes-FA (State of Play); the structural arguments live in the canonical FA twins (Case-FA, Independence-Doctrine-FA, Border-Skirmishes-FA, Stack-FA, et al.)."
@@ -68,6 +68,17 @@ agent-tldr: |
 - **Bears on:** *feeds* Border-Skirmishes-FA (the discovery contest); *feeds* Independence-Doctrine-FA (naming-sovereignty as the second instance of the divergence mechanism — dedicated treatment queued).
 - **Epistemic tag.** *(forward-looking)* — a prediction with a check date, not a shipped-state claim.
 - **Sources.** docs.contextvm.org (CEP-6 / CEP-17); MCP 2026 roadmap — Server Cards (modelcontextprotocol.io, March 2026); SEP-1649 (proposed, unshipped); registry counts 2026-06 (official MCP Registry ~2,000; mcp.so ~20,000). Canonical narrative: [[Field-Notes-Log]] § 2026-07-16 (watch item).
+
+---
+
+### 2026-07-09 — MPFlow: a production-deployed graph-RL model automates Lightning channel placement *(measured — production deployment + benchmark)*
+
+- **Event.** A team from Amboss and Stillmark published **MPFlow** (arXiv 2607.08703; Rush, Davis, Antonelli, Singh, Shrader, Rossi; submitted 2026-07-09) — deep graph reinforcement learning for **budgeted channel placement**: given a fixed budget of *k* channel opens, select the peers that maximize a node's s–t max-flow. Method: a message-passing GNN policy trained with PPO + action masking, under a hub-exclusion curriculum (top hubs removed during training to force capacity-aware placement over hub-attachment). It is the published method behind **Magma AI**, the channel recommender in Amboss's Magma marketplace ([[amboss|Amboss / Magma]]). **Production deployment: 4,640 channel-open decisions allocating ~267.3 BTC (~$16M) across 30 managed nodes.** Benchmark: +8.59% ±6.20 max-flow over betweenness-centrality (62.3% paired win-rate; 0.168 vs 0.163 BTC); the larger margins reported are only against a random baseline. Stated limits: max-flow is not a validated proxy for realized payment success / yield (payment simulator = future work); uniform-balance-sampler and fixed k=5 assumptions.
+- **Substrate.** Bitcoin / Lightning (self-custodial node operation — the policy opens real channels to the operator's own node).
+- **Structural significance.** Converts one core component of the "Lightning liquidity management is prohibitive for autonomous agents" objection from a structural rebuttal into empirical, production-scale evidence: budgeted channel placement is not merely delegable in principle but automated with production ML at scale. Bounded claim — the result concerns *placement*, not realized routing yield, which the authors explicitly leave open.
+- **Bears on:** *supports* Stack-FA S2 (Lightning payment layer; active liquidity management is an operational cost, not a defect); *falsifier-relevant-to* Stack-FA §8 CP1 (the liquidity-and-routing-unviability counter-position — evidence against its falsifier triggering, for the placement sub-problem); *supports* Case-FA (an AI system already operates Lightning liquidity at production scale).
+- **Epistemic tag.** *(measured)* — production figures and paired-benchmark deltas with a named source and date; the realized-yield transfer is *(projected / unestablished)* by the authors' own statement.
+- **Sources.** arXiv 2607.08703 (2026-07-09); production figures, baselines (betweenness / degree / random; GCN / GAT), and the max-flow-vs-yield caveat are the paper's own. Surfaced via author outreach (Vikash Singh, Stillmark) 2026-07-21. Canonical narrative: [[Field-Notes-Log]] § 2026-07-09 (MPFlow).
 
 ---
 
