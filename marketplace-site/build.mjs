@@ -132,6 +132,7 @@ const directory = {
     tools_catalog: BASE + '/tools.json',
     snapshot: BASE + '/live/snapshot.json',
     models_price_index: BASE + '/live/models.json',
+    wider_l402_index: BASE + '/live/l402index.json',
     announced: BASE + '/live/announced.json',
     announce_spec: BASE + '/spec/agent-payable-service-announcement.md',
     openapi: BASE + '/openapi.json',
@@ -286,7 +287,7 @@ const llms = [
   '> Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints)',
   '> + a probed cross-provider price index for inference.',
   '',
-  '## How to consume this directory (three fetches, no inference needed)',
+  '## How to consume this directory (four fetches, no inference needed)',
   '',
   `1. ${BASE}/directory.json — the curated registry. Filter locally on category, payment_methods,`,
   '   automatability (api-no-account | api-account | api-kyc), and kyc. Entries carry auth, quickstart,',
@@ -299,6 +300,10 @@ const llms = [
   `3. ${BASE}/live/models.json — the cross-provider inference price index: model id → every alive provider`,
   '   serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).',
   '   One fetch answers "who serves model X cheapest right now".',
+  `4. ${BASE}/live/l402index.json — the WIDER L402 tier: a selective, attributed pass over 402index.io's`,
+  '   verified-L402 feed (Ryan Gentry, ex-Lightning Labs) — real Lightning-payable (L402) endpoints beyond the',
+  '   curated set (health-filtered, reliability-capped), each with a source_page back to 402index. provenance:',
+  `   external-index — third-party-indexed + verified, NOT our endorsement. Static fallback at ${BASE}/l402index.json.`,
   '',
   `## The tool catalog (what an agent EQUIPS, vs the registry above of what it BUYS)`,
   '',
@@ -332,7 +337,7 @@ const llms = [
   'getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getEntry), with the OpenAI-plugin-era',
   `manifest at ${BASE}/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.`,
   '',
-  `Static fallbacks (work without the worker): ${BASE}/snapshot.json + ${BASE}/models.json`,
+  `Static fallbacks (work without the worker): ${BASE}/snapshot.json + ${BASE}/models.json + ${BASE}/l402index.json`,
   `Part of: ${MAIN} — the case for a Bitcoin-centric AI agent economy (manifest: ${MAIN}/llms.txt)`,
   '',
   'Every entry below has a clean Markdown route. provenance: curated = editor-verified against primary',
@@ -430,6 +435,18 @@ const openapi = {
           'model id -> every alive provider serving it, cheapest first, in sats per token (+ max_cost per request, '
           + 'the budgeting ceiling). One fetch answers "who serves model X cheapest right now". Static fallback at /models.json.',
         responses: { 200: jsonResp('The price index document.') },
+      },
+    },
+    '/live/l402index.json': {
+      get: {
+        operationId: 'getWiderL402Index',
+        summary: "Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed",
+        description:
+          'Real Lightning-payable (L402) endpoints beyond the curated registry, taken selectively from 402index.io '
+          + '(Ryan Gentry) — health-filtered, reliability-capped, each with a source_page back to its 402index record. '
+          + 'provenance: external-index (third-party-indexed + verified, NOT a bitcoineconomy.ai endorsement). '
+          + 'KV-backed, refreshed every 6h; static fallback at /l402index.json.',
+        responses: { 200: jsonResp('The Wider L402 index document.') },
       },
     },
     '/entries/{slug}.md': {

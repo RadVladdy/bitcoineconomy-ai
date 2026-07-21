@@ -5,7 +5,7 @@
 > Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints)
 > + a probed cross-provider price index for inference.
 
-## How to consume this directory (three fetches, no inference needed)
+## How to consume this directory (four fetches, no inference needed)
 
 1. https://marketplace.bitcoineconomy.ai/directory.json — the curated registry. Filter locally on category, payment_methods,
    automatability (api-no-account | api-account | api-kyc), and kyc. Entries carry auth, quickstart,
@@ -18,6 +18,10 @@
 3. https://marketplace.bitcoineconomy.ai/live/models.json — the cross-provider inference price index: model id → every alive provider
    serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).
    One fetch answers "who serves model X cheapest right now".
+4. https://marketplace.bitcoineconomy.ai/live/l402index.json — the WIDER L402 tier: a selective, attributed pass over 402index.io's
+   verified-L402 feed (Ryan Gentry, ex-Lightning Labs) — real Lightning-payable (L402) endpoints beyond the
+   curated set (health-filtered, reliability-capped), each with a source_page back to 402index. provenance:
+   external-index — third-party-indexed + verified, NOT our endorsement. Static fallback at https://marketplace.bitcoineconomy.ai/l402index.json.
 
 ## The tool catalog (what an agent EQUIPS, vs the registry above of what it BUYS)
 
@@ -51,7 +55,7 @@ An OpenAPI 3.0 description of the GET routes above is at https://marketplace.bit
 getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getEntry), with the OpenAI-plugin-era
 manifest at https://marketplace.bitcoineconomy.ai/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.
 
-Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json
+Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json + https://marketplace.bitcoineconomy.ai/l402index.json
 Part of: https://bitcoineconomy.ai — the case for a Bitcoin-centric AI agent economy (manifest: https://bitcoineconomy.ai/llms.txt)
 
 Every entry below has a clean Markdown route. provenance: curated = editor-verified against primary

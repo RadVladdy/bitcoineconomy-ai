@@ -21,10 +21,12 @@
 // plan or refresh via the local CLI (`node sample-relays.mjs --write`) instead.
 
 import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes } from './snapshot-lib.mjs';
+import { fetch402indexL402, buildL402Index } from './l402index-lib.mjs';
 import { handleMcp } from './mcp-lib.mjs';
 
 const KV_SNAPSHOT = 'snapshot';
 const KV_MODELS = 'models';
+const KV_L402INDEX = 'l402index';
 
 // Cloudflare client-WebSocket: fetch with an Upgrade header, then accept().
 const connectWorker = async (url) => {
@@ -123,6 +125,16 @@ export default {
     if (modelsIndex && modelsIndex.providers_alive > 0) {
       await env.SNAPSHOT.put(KV_MODELS, JSON.stringify(modelsIndex));
     }
+
+    // Wider L402 tier: a selective, attributed pass over 402index.io's verified-
+    // L402 feed. Plain HTTPS fetch — cheap and independent of the relay path, so a
+    // 402index outage never costs us the Nostr snapshot; non-fatal, and only
+    // overwrites KV with a non-empty result.
+    try {
+      const res402 = await fetch402indexL402(fetch);
+      const doc402 = buildL402Index(res402, { generatedAt: new Date().toISOString(), source: 'worker-cron (via 402index.io)' });
+      if (doc402.count > 0) await env.SNAPSHOT.put(KV_L402INDEX, JSON.stringify(doc402));
+    } catch {}
   },
 
   async fetch(request, env) {
@@ -130,6 +142,7 @@ export default {
     if (url.pathname === '/mcp' || url.pathname === '/mcp/') return handleMcp(request, env, url.origin);
     if (url.pathname === '/live/snapshot.json') return serveLive(env, url.origin, KV_SNAPSHOT, '/snapshot.json');
     if (url.pathname === '/live/models.json') return serveLive(env, url.origin, KV_MODELS, '/models.json');
+    if (url.pathname === '/live/l402index.json') return serveLive(env, url.origin, KV_L402INDEX, '/l402index.json');
     if (url.pathname === '/live/announced.json') return serveAnnounced(env, url.origin);
     return env.ASSETS.fetch(request);
   },

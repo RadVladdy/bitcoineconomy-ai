@@ -21,7 +21,8 @@
   "dataset": [
     { "@type": "Dataset", "name": "Curated registry", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/directory.json" } },
     { "@type": "Dataset", "name": "Live Nostr snapshot (probed)", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/snapshot.json" } },
-    { "@type": "Dataset", "name": "Cross-provider inference price index", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/models.json" } }
+    { "@type": "Dataset", "name": "Cross-provider inference price index", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/models.json" } },
+    { "@type": "Dataset", "name": "Wider L402 index (selective, attributed pass over 402index.io)", "distribution": { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://marketplace.bitcoineconomy.ai/l402index.json" } }
   ]
 }
 </script>
@@ -311,6 +312,7 @@
   <div class="tabs" id="tabs" role="tablist" aria-label="Directory view">
     <button class="tab on" id="tab-live" role="tab" aria-selected="true" aria-controls="panel-live" data-panel="live">Live from the relays</button>
     <button class="tab" id="tab-curated" role="tab" aria-selected="false" aria-controls="panel-curated" data-panel="curated">Curated registry</button>
+    <button class="tab" id="tab-l402" role="tab" aria-selected="false" aria-controls="panel-l402" data-panel="l402">Wider L402 (via 402index)</button>
   </div>
 
   <section class="tab-panel" id="panel-live" role="tabpanel" aria-labelledby="tab-live">
@@ -372,6 +374,18 @@
   </div>
   </section>
 
+  <section class="tab-panel" id="panel-l402" role="tabpanel" aria-labelledby="tab-l402">
+  <h2 id="l402"><span class="hash">#</span>Wider L402 <span class="prov-live" id="l402-when">via 402index.io</span></h2>
+  <p class="sec-sub">Beyond our curated picks: a <strong>selective, attributed pass</strong> over <a href="https://402index.io" rel="noopener">402index.io</a>'s verified-L402 feed (built by Ryan Gentry) — real, Lightning-payable <strong>L402</strong> endpoints an agent can pay per call in sats. They are <strong>third-party-indexed and third-party-verified</strong>, health-filtered and reliability-capped, and passed through <strong>with attribution — not our endorsements</strong>; each row links back to its 402index record. Provenance: <span class="mono">external-index</span>. For the editor-verified core see the Curated tab; for what announces itself on Nostr, the Live tab.</p>
+  <div class="tbl-scroll">
+    <table id="l402idx">
+      <thead><tr><th>service</th><th>category</th><th>price</th><th>reliability</th><th>endpoint</th><th>source</th></tr></thead>
+      <tbody><tr><td colspan="6" class="mut" style="padding:0.9rem">Loading the Wider L402 index…</td></tr></tbody>
+    </table>
+  </div>
+  <p class="sec-sub" style="margin-top:0.9rem">Data indexed &amp; health-verified by <a href="https://402index.io" rel="noopener">402index.io</a>. Machine route: <a href="/live/l402index.json">/live/l402index.json</a> (static fallback <a href="/l402index.json">/l402index.json</a>) · or via MCP <code>find_l402_endpoints</code>.</p>
+  </section>
+
   <div class="agents-block" id="agents">
 <strong style="color: var(--text)">For agents.</strong> Registry: <a href="/directory.json">/directory.json</a> (full schema in-band; entries carry <span class="mono">auth</span> / <span class="mono">quickstart</span> / verified <span class="mono">api_base</span>) · manifest: <a href="/llms.txt">/llms.txt</a> (start with its three-fetch recipe) · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a> · live Nostr snapshot with per-provider probe status: <a href="/live/snapshot.json">/live/snapshot.json</a> · cross-provider inference price index: <a href="/live/models.json">/live/models.json</a> (both cron-refreshed; static fallbacks <a href="/snapshot.json">/snapshot.json</a> + <a href="/models.json">/models.json</a>) · self-announced services (the sell side): <a href="/live/announced.json">/live/announced.json</a> + how to list one: <a href="/spec/agent-payable-service-announcement.md">/spec/agent-payable-service-announcement.md</a>. Provenance is labeled per object: <span class="mono">curated</span> = editor-verified on the date shown; <span class="mono">live-from-relay</span> = signed Nostr events as published; <span class="mono">probed-from-provider-endpoints</span> = the providers' own published numbers. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
   </div>
@@ -394,11 +408,12 @@
     const tabs = $('#tabs');
     const buttons = Array.from(document.querySelectorAll('.tab'));
     if (!tabs || !buttons.length) return;
-    const panels = { live: $('#panel-live'), curated: $('#panel-curated') };
+    const panels = { live: $('#panel-live'), curated: $('#panel-curated'), l402: $('#panel-l402') };
     // Legacy in-page anchors (#live / #registry) map onto the panels.
     const fromHash = () => {
       const h = (location.hash || '').replace('#', '');
       if (h === 'curated' || h === 'registry') return 'curated';
+      if (h === 'l402') return 'l402';
       return 'live';
     };
     function setActive(name, push) {
@@ -490,6 +505,39 @@
     $('#count').textContent = hit.length + '/' + dir.entry_count;
   }
   render();
+
+  // ---------- wider L402 tier (via 402index.io) — independent of the Nostr snapshot below ----------
+  (async function renderL402() {
+    let idx = null;
+    try { idx = await (await fetch('/live/l402index.json')).json(); } catch (e) {}
+    if (!idx) { try { idx = await (await fetch('./l402index.json')).json(); } catch (e) {} }
+    const body = $('#l402idx tbody');
+    if (!body) return;
+    if (!idx || !Array.isArray(idx.services)) {
+      body.innerHTML = '<tr><td colspan="6" class="mut" style="padding:0.9rem">Wider L402 index unavailable right now — the Curated and Live tabs are unaffected.</td></tr>';
+      return;
+    }
+    const when = (idx.generated_at || '').slice(0, 10);
+    const w = $('#l402-when');
+    if (w) w.textContent = idx.count + ' endpoints · via 402index.io · ' + when;
+    const price = (s) => (typeof s.price_sats === 'number')
+      ? esc(s.price_sats.toLocaleString('en-US')) + ' sats' + (typeof s.price_usd === 'number' ? ' <span class="mut">($' + esc(s.price_usd.toFixed(4)) + ')</span>' : '')
+      : '—';
+    const rel = (s) => (typeof s.reliability_score === 'number')
+      ? '<span class="st ' + (s.reliability_score >= 90 ? 'st-alive' : 'st-unk') + '">' + esc(s.reliability_score) + '</span>'
+      : '—';
+    const endpoint = (s) => s.host
+      ? (s.url && /^https:/.test(s.url) ? '<a class="mono" href="' + esc(s.url) + '" rel="nofollow noopener noreferrer">' + esc(s.host) + '</a>' : '<span class="mono">' + esc(s.host) + '</span>')
+      : '—';
+    body.innerHTML = idx.services.map((s) =>
+      '<tr><td class="name">' + esc(s.name) + '</td>' +
+      '<td><code>' + esc(s.category || 'other') + '</code></td>' +
+      '<td>' + price(s) + '</td>' +
+      '<td>' + rel(s) + '</td>' +
+      '<td>' + endpoint(s) + '</td>' +
+      '<td>' + (s.source_page ? '<a href="' + esc(s.source_page) + '" rel="nofollow noopener noreferrer">402index →</a>' : '—') + '</td></tr>'
+    ).join('') || '<tr><td colspan="6" class="mut" style="padding:0.9rem">No L402 endpoints in the index right now.</td></tr>';
+  })();
 
   // ---------- live snapshot + models index ----------
   let snap = null, live = false;

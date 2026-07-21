@@ -29,6 +29,7 @@ const INSTRUCTIONS =
   'Some providers run their own MCP server (Amboss, Bitrefill, Alby NWC) — list_mcp_servers gives the connection detail: discover here, connect there to act. ' +
   'The directory is two-sided: services can also SELL here by publishing a signed kind-38555 "agent-payable service announcement" — find_service tier="announced" surfaces those (self-listed, probed-but-unverified), and the spec to publish one is at ' + ANNOUNCE_SPEC_URL + '. ' +
   'Directory entries and the tool catalog are reference facts; relay/probe data and announced entries are announcements — not endorsements. ' +
+  "find_l402_endpoints searches a Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed (external-index provenance, third-party-verified, NOT endorsements) — real Lightning-payable endpoints beyond the curated set. " +
   'You pay providers directly with your own wallet; this server never holds funds and never proxies another MCP.';
 
 const CORS = {
@@ -57,7 +58,7 @@ async function loadKvOrAsset(env, origin, kvKey, assetPath) {
 }
 
 function makeCtx(env, origin) {
-  let dirP, modelsP, toolsP, snapP;
+  let dirP, modelsP, toolsP, snapP, l402P;
   return {
     directory: () => (dirP ||= loadJsonAsset(env, origin, '/directory.json')),
     async entries() { return (await this.directory())?.entries || []; },
@@ -68,6 +69,9 @@ function makeCtx(env, origin) {
     // The announced tier: self-listed services (our microstandard, kind 38555),
     // probed-but-unverified — announcements, not endorsements.
     async announced() { return (await this.snapshot())?.modules?.announced?.services || []; },
+    // The Wider L402 tier: a selective, attributed pass over 402index.io's
+    // verified-L402 feed — external-index provenance, NOT endorsements.
+    l402index: () => (l402P ||= loadKvOrAsset(env, origin, 'l402index', '/l402index.json')),
   };
 }
 
@@ -489,6 +493,51 @@ const TOOLS = [
         out.live_rate = await liveSwapRate(e, { from: a.from, to: a.to, amount: a.amount });
       }
       return out;
+    },
+  },
+  {
+    name: 'find_l402_endpoints',
+    description:
+      "Search the Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed (Ryan Gentry, ex-Lightning Labs). These are real Lightning-payable (L402) endpoints BEYOND the curated registry: health-filtered and reliability-capped, each with a source_page back to its 402index.io record. provenance is external-index — third-party-indexed and third-party-verified, NOT bitcoineconomy.ai endorsements; verify at the source before trusting. Filter by free-text query, category (e.g. ai/llm, ai/image, ai/video, ai/code, ai/text), or a max price in sats. For the curated, editor-verified services use find_service instead.",
+    inputSchema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Free-text match on name / provider / category.' },
+        category: { type: 'string', description: 'Prefix match on the 402index category (e.g. "ai/llm", "ai/image", "ai/video", "ai").' },
+        max_price_sats: { type: 'number', description: 'Only endpoints whose per-call price in sats is at or below this.' },
+        limit: { type: 'number', description: 'Max results (default 25, max 60).' },
+      },
+    },
+    handler: async (a, ctx) => {
+      const doc = await ctx.l402index();
+      if (!doc || !Array.isArray(doc.services)) {
+        return { error: 'Wider L402 index unavailable right now — the curated registry (find_service) is unaffected.' };
+      }
+      const q = lc(a.query).trim();
+      const cat = lc(a.category).trim();
+      const lim = Math.max(1, Math.min(a.limit || 25, 60));
+      const hits = doc.services.filter((s) =>
+        (!q || lc(`${s.name} ${s.provider} ${s.category}`).includes(q)) &&
+        (!cat || lc(s.category).startsWith(cat)) &&
+        (a.max_price_sats == null || (typeof s.price_sats === 'number' && s.price_sats <= a.max_price_sats))
+      ).slice(0, lim);
+      return {
+        tier: 'wider-l402',
+        provenance: 'external-index',
+        attribution: doc.attribution,
+        note: "Third-party-indexed + verified by 402index.io, passed through with attribution — NOT endorsements. Each result's source_page links to its 402index.io record; verify before trusting. Curated, editor-verified services: use find_service.",
+        generated_at: doc.generated_at,
+        count: hits.length,
+        of_indexed: doc.count,
+        services: hits.map((s) => ({
+          name: s.name, provider: s.provider, category: s.category,
+          url: s.url, price_sats: s.price_sats, price_usd: s.price_usd,
+          payment: `${s.payment_asset}/${s.payment_network} (L402)`,
+          reliability_score: s.reliability_score, health_status: s.health_status,
+          http_method: s.http_method, source_page: s.source_page,
+          tier: 'wider-l402', provenance: 'external-index',
+        })),
+      };
     },
   },
 ];

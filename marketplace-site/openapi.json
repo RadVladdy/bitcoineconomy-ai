@@ -91,6 +91,25 @@
         }
       }
     },
+    "/live/l402index.json": {
+      "get": {
+        "operationId": "getWiderL402Index",
+        "summary": "Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed",
+        "description": "Real Lightning-payable (L402) endpoints beyond the curated registry, taken selectively from 402index.io (Ryan Gentry) — health-filtered, reliability-capped, each with a source_page back to its 402index record. provenance: external-index (third-party-indexed + verified, NOT a bitcoineconomy.ai endorsement). KV-backed, refreshed every 6h; static fallback at /l402index.json.",
+        "responses": {
+          "200": {
+            "description": "The Wider L402 index document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/entries/{slug}.md": {
       "get": {
         "operationId": "getEntry",
