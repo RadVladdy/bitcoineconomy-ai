@@ -48,6 +48,17 @@ agent-tldr: |
 
 ---
 
+### 2026-07-21 — 402index: a protocol-agnostic paid-endpoint index whose own counts + labels evidence the rail divergence *(measured — third-party index)*
+
+- **Event.** 402index.io (Ryan Gentry, ex-Lightning Labs) — a protocol-agnostic directory of paid agent APIs across L402 (Lightning), x402 (Base/Solana), MPP (Stripe/Tempo); eight sources crawled hourly, per-endpoint health + payment verification, public REST/RSS/webhooks/OpenAPI + an MCP server. 2026-07-21 counts: **83,600 endpoints — 80,973 x402 / 1,237 L402 / 1,390 MPP**; 2,329 providers. Operator's own per-rail labels: x402 = *"centralized facilitator required"*; L402 = *"decentralized, censorship-resistant, locally verifiable."*
+- **Substrate.** Contest — the index spans all three rails; the datapoint is the distribution plus the operator's property-labels.
+- **Structural significance.** A neutral third-party index, labeling rails by their own properties, marks the censorship-resistant rail (L402/Lightning) as a minority by *count* but a category of one by *property* (no facilitator, no issuer-freeze surface). Count = adoption-so-far, not the requirement set an unfreezable agent must satisfy. Bounded: endpoint count ≠ usage/value (crawls include test/faucet endpoints); "centralized facilitator required" is a property, not a disqualifier — which is why the divergence claim rests on the *asset's* freeze surface, not the rail's convenience.
+- **Bears on:** *supports* Border-Skirmishes-FA (the rail/asset contest); *supports* Case-FA (agents transact at scale — 83.6k monetized endpoints); *supports* Independence-Doctrine-FA + Why-Bitcoin-Not-A-New-Coin-FA (issuer-freeze surface as the load-bearing distinction).
+- **Epistemic tag.** *(measured)* — live third-party counts + quoted operator labels (402index.io, 2026-07-21); the count≠usage and property≠disqualifier caveats are stated.
+- **Sources.** 402index.io ecosystem overview + methodology (2026-07-21). Canonical narrative: [[Field-Notes-Log]] § 2026-07-21 (402index).
+
+---
+
 ### 2026-07-16 — ContextVM / CEP-8: an agent-native capability market reaches for Bitcoin settlement by design *(confirmed — protocol Draft)*
 
 - **Event.** ContextVM (CVM) carries the Model Context Protocol over Nostr — tool servers addressed by public key, relays as message bus, no DNS / TLS / API-keys / inbound-ports. CEP-8 (Standards Track, **Draft**; reference implementation in the TypeScript SDK since v0.4.0) adds capability pricing + a payment flow: a `cap` tag prices a tool call (`["cap","tool:<name>","<price>","<unit>"]`), settled over Lightning (BOLT11/NWC) or Cashu; fiat conversion is implementation-defined. Two lifecycles (`transparent`, `explicit_gating`). New Tools cards [[contextvm]] + [[cvmi]]; primitive added to Stack-FA §5 (S4) plus a sixth security pattern (no-inbound-surface serving, S6).
