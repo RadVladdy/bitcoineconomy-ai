@@ -19,7 +19,7 @@ A Lightning channel-liquidity marketplace — buy inbound capacity from a public
 - Docs/API: https://docs.amboss.tech/developer
 - Repo: https://github.com/AmbossTech/magma-mcp
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/amboss
-- Provenance: curated (last verified 2026-06-27)
+- Provenance: curated (last verified 2026-07-21)
 
 Magma is a leading Lightning channel-liquidity marketplace; the buy side is agent-drivable with no account. Two-sided — sellers earn yield providing liquidity (Magma sell-side / Rails). Magma AI recommends peers/sizing (a recommender, not an auto-rebalancer).
 

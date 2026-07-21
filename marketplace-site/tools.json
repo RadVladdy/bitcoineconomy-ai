@@ -2,8 +2,8 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-06-30T22:37:10.775Z",
-  "tool_count": 25,
+  "generated_at": "2026-07-21T20:01:21.077Z",
+  "tool_count": 27,
   "toolbox_groups": [
     "node-toolkits",
     "primitive",
@@ -37,14 +37,14 @@
       "maintainer": "Bitcoin Core project",
       "prereq_tier": "bitcoin-node",
       "stack_section": "§1",
-      "latest_release": "v31.0",
+      "latest_release": "v31.1",
       "links": {
         "site": "https://bitcoincore.org",
         "docs": "https://bitcoincore.org/en/doc/",
         "repo": "https://github.com/bitcoin/bitcoin"
       },
       "card_url": "https://bitcoineconomy.ai/tools/bitcoin-core",
-      "last_verified": "2026-06-23"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "l402",
@@ -128,12 +128,11 @@
       "prereq_tier": "wallet",
       "stack_section": "§4",
       "links": {
-        "site": "https://lnurl.fiatjaf.com",
         "docs": "https://github.com/lnurl/luds",
         "repo": "https://github.com/lnurl/luds"
       },
       "card_url": "https://bitcoineconomy.ai/tools/lnurl",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "mcp",
@@ -190,6 +189,42 @@
       "last_verified": "2026-06-11"
     },
     {
+      "slug": "contextvm",
+      "name": "ContextVM (CVM)",
+      "toolbox_group": "primitive",
+      "tool_type": "protocol",
+      "layer": "integration",
+      "tagline": "The Model Context Protocol carried over Nostr — tool servers addressed by public key instead of DNS or IP, with a pricing spec (CEP-8) that lets a server charge sats for the tool call itself.",
+      "maintainer": "ContextVM project & community",
+      "prereq_tier": "keys-only",
+      "stack_section": "§4",
+      "links": {
+        "site": "https://www.contextvm.org",
+        "docs": "https://docs.contextvm.org",
+        "repo": "https://github.com/contextvm"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/contextvm",
+      "last_verified": "2026-07-16"
+    },
+    {
+      "slug": "cvmi",
+      "name": "CVMI",
+      "toolbox_group": "primitive",
+      "tool_type": "software",
+      "layer": "integration",
+      "tagline": "The ContextVM command line — discover pubkey-addressed MCP servers on Nostr relays, interact with them, and manage the tooling to build your own.",
+      "maintainer": "ContextVM project & community",
+      "prereq_tier": "keys-only",
+      "stack_section": "§4",
+      "links": {
+        "site": "https://www.contextvm.org",
+        "docs": "https://docs.contextvm.org",
+        "repo": "https://github.com/contextvm"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/cvmi",
+      "last_verified": "2026-07-16"
+    },
+    {
       "slug": "cashu",
       "name": "Cashu",
       "toolbox_group": "ecash",
@@ -219,11 +254,11 @@
       "stack_section": "§3",
       "links": {
         "site": "https://fedimint.org",
-        "docs": "https://fedimint.org/docs",
+        "docs": "https://docs.fedimint.org",
         "repo": "https://github.com/fedimint/fedimint"
       },
       "card_url": "https://bitcoineconomy.ai/tools/fedimint",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "evaluating-ecash-mints",
@@ -257,7 +292,7 @@
         "repo": "https://github.com/buildonspark/spark"
       },
       "card_url": "https://bitcoineconomy.ai/tools/spark",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "lightning-agent-tools",
@@ -276,7 +311,7 @@
         "repo": "https://github.com/lightninglabs/lightning-agent-tools"
       },
       "card_url": "https://bitcoineconomy.ai/tools/lightning-agent-tools",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "lnbits",
@@ -289,14 +324,14 @@
       "prereq_tier": "lightning-node",
       "stack_section": "§5",
       "license": "MIT",
-      "latest_release": "v1.4.2",
+      "latest_release": "v1.5.6",
       "links": {
         "site": "https://lnbits.com",
         "docs": "https://docs.lnbits.com",
         "repo": "https://github.com/lnbits/lnbits"
       },
       "card_url": "https://bitcoineconomy.ai/tools/lnbits",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "minibits-ippon",
@@ -480,7 +515,7 @@
         "repo": "https://github.com/BoltzExchange/boltz-backend"
       },
       "card_url": "https://bitcoineconomy.ai/tools/boltz",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "loop",
@@ -492,14 +527,14 @@
       "maintainer": "Lightning Labs",
       "prereq_tier": "lightning-node",
       "stack_section": "§1",
-      "latest_release": "v0.33.1-beta",
+      "latest_release": "v0.33.3-beta",
       "links": {
         "site": "https://lightning.engineering/loop/",
         "docs": "https://lightning.engineering/loop/",
         "repo": "https://github.com/lightninglabs/loop"
       },
       "card_url": "https://bitcoineconomy.ai/tools/loop",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "taproot-assets",
@@ -518,7 +553,7 @@
         "repo": "https://github.com/lightninglabs/taproot-assets"
       },
       "card_url": "https://bitcoineconomy.ai/tools/taproot-assets",
-      "last_verified": "2026-06-28"
+      "last_verified": "2026-07-19"
     }
   ]
 }

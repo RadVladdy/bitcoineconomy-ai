@@ -16,7 +16,7 @@ Lightning Labs' non-custodial liquidity bridge — Loop Out and Loop In move bal
 - Docs/API: https://lightning.engineering/loop/
 - Repo: https://github.com/lightninglabs/loop
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/tools/loop
-- Provenance: curated (last verified 2026-06-02)
+- Provenance: curated (last verified 2026-07-19)
 
 ---
 

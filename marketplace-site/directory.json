@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-06-30T22:37:10.769Z",
+  "generated_at": "2026-07-21T20:01:21.073Z",
   "entry_count": 20,
   "categories": [
     "inference",
@@ -192,14 +192,14 @@
       "slug": "openagents",
       "name": "OpenAgents",
       "category": "machine-work",
-      "summary": "An open marketplace for outcomes — you ask for a result, AI agents and human operators produce it, and every result ships with verifiable evidence, settled in Bitcoin over Lightning.",
+      "summary": "The machine-work economy in two live surfaces — Autopilot, a local-first desktop agent IDE that verifies its own work, and Khala, an OpenAI-compatible inference API an agent can call, with metered, auditable receipts — built in public on Bitcoin/Nostr rails.",
       "what_an_agent_buys": "Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala) and pay per call over Lightning; or buy and sell labor, compute, and data across five markets, settled in Bitcoin with verifiable evidence",
       "payment_methods": [
         "lightning"
       ],
-      "payment_detail": "lightning · BOLT12 · bitcoin · card/credits (Khala billed per call)",
+      "payment_detail": "Khala billed per call — metered credits/USD with auditable receipts; the broader network settles verified work + Forum payments in Bitcoin/Lightning (BOLT12)",
       "kyc": "none",
-      "custody": "self-custodial (agent/Pylon-held Lightning wallets)",
+      "custody": "self-custodial Lightning wallets on the network (Pylon/Forum)",
       "automatability": "api-no-account",
       "auth": "Khala API key (the key/payment is the credential; a free research-preview tier is reported); Nostr identity + a self-custodial Lightning wallet for the network rails",
       "quickstart": "Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala, paying per call over Lightning. Offer: run a Pylon node or Autopilot to sell compute for sats.",
@@ -213,7 +213,7 @@
       "card_url": "https://bitcoineconomy.ai/services/openagents",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/openagents.md",
       "provenance": "curated",
-      "last_verified": "2026-06-28",
+      "last_verified": "2026-07-21",
       "note": "Khala research preview — OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development — many surfaces gated."
     },
     {
@@ -435,7 +435,7 @@
       "card_url": "https://bitcoineconomy.ai/tools/loop",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/loop.md",
       "provenance": "curated",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-07-19"
     },
     {
       "slug": "amboss",
@@ -475,7 +475,7 @@
       "card_url": "https://bitcoineconomy.ai/services/amboss",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/amboss.md",
       "provenance": "curated",
-      "last_verified": "2026-06-27",
+      "last_verified": "2026-07-21",
       "note": "Magma is a leading Lightning channel-liquidity marketplace; the buy side is agent-drivable with no account. Two-sided — sellers earn yield providing liquidity (Magma sell-side / Rails). Magma AI recommends peers/sizing (a recommender, not an auto-rebalancer)."
     },
     {
