@@ -63,7 +63,11 @@ Adding a **new page type** (its own `.astro`) — wire it in by hand so it match
 2. Wrap the content: `<div class="surface-layout accent-{btc|cyan|agent}">` (pick the section's colour).
 3. First grid child = the article/content column; second child = `<PageRail toc={toc} />`.
 4. Build `toc` from the page's `h2` sections (give them `id`s); PageRail shows the TOC when there are ≥3.
-5. Add a `.crumb` breadcrumb (`Home / Section / Page`).
+5. Add a `.crumb` breadcrumb (`Home / Section / Page`) — **full surfaces only. Card pages
+   (tools/services/exchanges/skills) use the section eyebrow instead** (`tool-eyebrow`,
+   e.g. "Services · commerce", linking to the section index): decided 2026-07-23 after
+   the site audit — the eyebrow does the breadcrumb's job with less chrome and is
+   already uniform across all ~50 card pages. Don't add crumbs to cards.
 
 **No exceptions — The Story included.** `/the-story` used to opt out of
 breadcrumb/TOC/rail as the narrative front door; that exception was **revoked
