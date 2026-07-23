@@ -22,11 +22,15 @@
 
 import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes } from './snapshot-lib.mjs';
 import { fetch402indexL402, buildL402Index } from './l402index-lib.mjs';
+import { probeSelf, appendRun, buildUptimeDoc } from './uptime-lib.mjs';
 import { handleMcp } from './mcp-lib.mjs';
 
 const KV_SNAPSHOT = 'snapshot';
 const KV_MODELS = 'models';
 const KV_L402INDEX = 'l402index';
+const KV_UPTIME = 'uptime';
+const KV_UPTIME_HISTORY = 'uptime_history';
+const SELF_BASE = 'https://marketplace.bitcoineconomy.ai';
 
 // Cloudflare client-WebSocket: fetch with an Upgrade header, then accept().
 const connectWorker = async (url) => {
@@ -126,6 +130,20 @@ export default {
       await env.SNAPSHOT.put(KV_MODELS, JSON.stringify(modelsIndex));
     }
 
+    // Trust layer: fold this run's probe outcomes (announced tiers + our own
+    // surfaces, probed via the public hostname like any caller) into the rolling
+    // uptime history, and publish the recomputable uptime doc. Non-fatal — an
+    // uptime-phase failure must never cost the snapshot; history simply skips a
+    // run (runs_held shows the gap honestly).
+    try {
+      const selfProbes = await probeSelf(fetch, SELF_BASE);
+      let history = null;
+      try { history = JSON.parse((await env.SNAPSHOT.get(KV_UPTIME_HISTORY)) || 'null'); } catch {}
+      history = appendRun(history, snapshot, selfProbes, { at: new Date().toISOString() });
+      await env.SNAPSHOT.put(KV_UPTIME_HISTORY, JSON.stringify(history));
+      await env.SNAPSHOT.put(KV_UPTIME, JSON.stringify(buildUptimeDoc(history, { generatedAt: new Date().toISOString() })));
+    } catch {}
+
     // Wider L402 tier: a selective, attributed pass over 402index.io's verified-
     // L402 feed. Plain HTTPS fetch — cheap and independent of the relay path, so a
     // 402index outage never costs us the Nostr snapshot; non-fatal, and only
@@ -143,6 +161,7 @@ export default {
     if (url.pathname === '/live/snapshot.json') return serveLive(env, url.origin, KV_SNAPSHOT, '/snapshot.json');
     if (url.pathname === '/live/models.json') return serveLive(env, url.origin, KV_MODELS, '/models.json');
     if (url.pathname === '/live/l402index.json') return serveLive(env, url.origin, KV_L402INDEX, '/l402index.json');
+    if (url.pathname === '/live/uptime.json') return serveLive(env, url.origin, KV_UPTIME, '/uptime.json');
     if (url.pathname === '/live/announced.json') return serveAnnounced(env, url.origin);
     return env.ASSETS.fetch(request);
   },

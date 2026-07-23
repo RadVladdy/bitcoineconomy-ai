@@ -1,0 +1,10 @@
+{
+  "$schema_note": "Committed fallback for /live/uptime.json — served only until the first Worker cron run writes the live doc to KV. Rolling uptime history for every probed target (announced services + the marketplace's own self:* surfaces), recomputable from the raw runs[] it carries. See the live route.",
+  "schema_version": 1,
+  "status": "accumulating",
+  "cadence": "6-hourly Worker cron (17 */6 * * * UTC)",
+  "formula": "uptime_pct = alive / (alive + unreachable); unprobeable observations (unverified-tor-only, unroutable) are excluded from the denominator",
+  "how_to_check": "Recompute any stat from runs[] — each run is {at, targets: {key: status}}. This fallback predates the first run, so runs is empty.",
+  "targets": {},
+  "runs": []
+}

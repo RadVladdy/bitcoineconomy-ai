@@ -22,6 +22,10 @@
    verified-L402 feed (Ryan Gentry, ex-Lightning Labs) — real Lightning-payable (L402) endpoints beyond the
    curated set (health-filtered, reliability-capped), each with a source_page back to 402index. provenance:
    external-index — third-party-indexed + verified, NOT our endorsement. Static fallback at https://marketplace.bitcoineconomy.ai/l402index.json.
+5. https://marketplace.bitcoineconomy.ai/live/uptime.json — rolling uptime history for every probed target, INCLUDING the marketplace's own
+   surfaces (self:* rows — no green by assertion). RECOMPUTABLE, NOT A SCORE: the doc carries the raw per-run
+   observations (runs[]), the exact formula, and explicit denominators — recompute any stat rather than trust it.
+   Snapshot digests are Nostr-signed + Bitcoin-anchored nightly (OpenTimestamps) — anchor records at /anchors/.
 
 ## The tool catalog (what an agent EQUIPS, vs the registry above of what it BUYS)
 
@@ -52,7 +56,7 @@ taken as published, not endorsed. Field schema + a copyable example event: https
 ## Legacy / non-MCP agents
 
 An OpenAPI 3.0 description of the GET routes above is at https://marketplace.bitcoineconomy.ai/openapi.json (operationIds:
-getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getEntry), with the OpenAI-plugin-era
+getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getUptimeHistory, getEntry), with the OpenAI-plugin-era
 manifest at https://marketplace.bitcoineconomy.ai/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.
 
 Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json + https://marketplace.bitcoineconomy.ai/l402index.json

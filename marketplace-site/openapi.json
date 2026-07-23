@@ -110,6 +110,25 @@
         }
       }
     },
+    "/live/uptime.json": {
+      "get": {
+        "operationId": "getUptimeHistory",
+        "summary": "Rolling uptime history for every probed target — recomputable, self-inclusive, Bitcoin-anchored",
+        "description": "Per-target rolling uptime over the 6-hourly probe cron, including the marketplace's own surfaces (self:* rows). Recomputable, not a score: carries the raw per-run observations (runs[]), the exact formula, and explicit denominators (unprobeable observations are excluded and counted separately). Nightly anchor runs sign snapshot digests to Nostr and stamp them into Bitcoin via OpenTimestamps (records at /anchors/), making the history tamper-evident. KV-backed; static placeholder at /uptime.json until the first cron.",
+        "responses": {
+          "200": {
+            "description": "The uptime history document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/entries/{slug}.md": {
       "get": {
         "operationId": "getEntry",

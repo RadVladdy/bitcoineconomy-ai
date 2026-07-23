@@ -53,6 +53,31 @@ That one fetch answers "who serves model X cheapest right now".
 don't-overwrite-good-data rule keeps the previous KV snapshot; persistent failure
 → upgrade the plan or refresh via `node sample-relays.mjs --write` instead.
 
+## The trust layer (Phase 2, first slice — uptime + anchors)
+
+Design rule (2026-07-23, from the invinoveritas structure teardown in the project
+notes): **never publish a bare trust score — publish the raw inputs, the formula,
+and the anchors, so a skeptic recomputes it.**
+
+- **`/live/uptime.json`** (`uptime-lib.mjs`) — rolling per-target uptime over the
+  6-hourly cron, covering the announced tiers **and the marketplace's own
+  surfaces** (`self:*` rows probed via the public hostname — no green by
+  assertion). The doc carries the raw `runs[]` observations, the explicit
+  formula, and per-target denominators (unprobeable ≠ down; excluded and counted
+  separately). History lives in KV (`uptime_history`, capped ~30 days); the
+  committed `uptime.json` is the pre-first-cron placeholder. `schema_version` +
+  `how_to_check` ship inline — every trust artifact self-describes.
+- **`anchors/`** — nightly tamper-evidence, produced by the box-side
+  `~/bin/marketplace-anchor` cron (NOT the worker): sha256 digests of the live
+  surfaces → a kind-8555 Nostr event signed by the dedicated anchor infra key
+  (regular kind, so relay copies are third-party we-can't-back-date evidence) →
+  the event's NIP-01 canonical serialization stamped into Bitcoin via
+  OpenTimestamps (`sha256(<event_id>.evt) == event_id`, so
+  `ots verify -d <event_id> <event_id>.evt.ots` needs no trust in us) →
+  committed + pushed to this public repo (`anchors/index.json` carries the
+  records + `how_to_check`). Reviews (NIP-87) remain the next Phase-2 build;
+  per the adopted folds they must ship recomputable the same way.
+
 ## The MCP server (`/mcp`)
 
 `mcp-lib.mjs` exposes the directory as a **Model Context Protocol** server at `POST /mcp` on

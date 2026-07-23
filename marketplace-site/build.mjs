@@ -134,6 +134,7 @@ const directory = {
     models_price_index: BASE + '/live/models.json',
     wider_l402_index: BASE + '/live/l402index.json',
     announced: BASE + '/live/announced.json',
+    uptime: BASE + '/live/uptime.json',
     announce_spec: BASE + '/spec/agent-payable-service-announcement.md',
     openapi: BASE + '/openapi.json',
     ai_plugin: BASE + '/.well-known/ai-plugin.json',
@@ -304,6 +305,10 @@ const llms = [
   '   verified-L402 feed (Ryan Gentry, ex-Lightning Labs) — real Lightning-payable (L402) endpoints beyond the',
   '   curated set (health-filtered, reliability-capped), each with a source_page back to 402index. provenance:',
   `   external-index — third-party-indexed + verified, NOT our endorsement. Static fallback at ${BASE}/l402index.json.`,
+  `5. ${BASE}/live/uptime.json — rolling uptime history for every probed target, INCLUDING the marketplace's own`,
+  '   surfaces (self:* rows — no green by assertion). RECOMPUTABLE, NOT A SCORE: the doc carries the raw per-run',
+  '   observations (runs[]), the exact formula, and explicit denominators — recompute any stat rather than trust it.',
+  '   Snapshot digests are Nostr-signed + Bitcoin-anchored nightly (OpenTimestamps) — anchor records at /anchors/.',
   '',
   `## The tool catalog (what an agent EQUIPS, vs the registry above of what it BUYS)`,
   '',
@@ -334,7 +339,7 @@ const llms = [
   '## Legacy / non-MCP agents',
   '',
   `An OpenAPI 3.0 description of the GET routes above is at ${BASE}/openapi.json (operationIds:`,
-  'getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getEntry), with the OpenAI-plugin-era',
+  'getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getUptimeHistory, getEntry), with the OpenAI-plugin-era',
   `manifest at ${BASE}/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.`,
   '',
   `Static fallbacks (work without the worker): ${BASE}/snapshot.json + ${BASE}/models.json + ${BASE}/l402index.json`,
@@ -448,6 +453,20 @@ const openapi = {
           + 'provenance: external-index (third-party-indexed + verified, NOT a bitcoineconomy.ai endorsement). '
           + 'KV-backed, refreshed every 6h; static fallback at /l402index.json.',
         responses: { 200: jsonResp('The Wider L402 index document.') },
+      },
+    },
+    '/live/uptime.json': {
+      get: {
+        operationId: 'getUptimeHistory',
+        summary: 'Rolling uptime history for every probed target — recomputable, self-inclusive, Bitcoin-anchored',
+        description:
+          'Per-target rolling uptime over the 6-hourly probe cron, including the marketplace\'s own surfaces '
+          + '(self:* rows). Recomputable, not a score: carries the raw per-run observations (runs[]), the exact '
+          + 'formula, and explicit denominators (unprobeable observations are excluded and counted separately). '
+          + 'Nightly anchor runs sign snapshot digests to Nostr and stamp them into Bitcoin via OpenTimestamps '
+          + '(records at /anchors/), making the history tamper-evident. KV-backed; static placeholder at /uptime.json '
+          + 'until the first cron.',
+        responses: { 200: jsonResp('The uptime history document.') },
       },
     },
     '/entries/{slug}.md': {
