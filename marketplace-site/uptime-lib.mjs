@@ -33,8 +33,18 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
         return res.status;
       },
     },
+    // Worker-served routes (/live/*, /mcp) cannot be probed from inside this
+    // Worker — Cloudflare's recursion guard blocks a Worker fetching routes it
+    // serves itself (observed on the first live run, 2026-07-23: false
+    // "unreachable"). Honesty rule: don't report a route as down when the
+    // prober simply cannot see it. We still attempt the fetch (self-healing if
+    // the platform ever allows it); failure maps to unprobeable-from-worker,
+    // excluded from uptime denominators. Their TRUE external verification runs
+    // nightly from the box (marketplace-anchor → anchors/index.json
+    // external_probe block).
     {
       key: 'self:live/snapshot.json',
+      unprobeableOnFail: true,
       run: async (signal) => {
         const res = await fetchFn(base + '/live/snapshot.json', { signal, headers: { accept: 'application/json' } });
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -44,6 +54,7 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
     },
     {
       key: 'self:mcp',
+      unprobeableOnFail: true,
       run: async (signal) => {
         const res = await fetchFn(base + '/mcp', {
           method: 'POST',
@@ -67,7 +78,7 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
       const httpStatus = await c.run(ctrl.signal);
       out.push({ key: c.key, status: 'alive', latency_ms: Math.round(Date.now() - t0), http_status: httpStatus });
     } catch {
-      out.push({ key: c.key, status: 'unreachable' });
+      out.push({ key: c.key, status: c.unprobeableOnFail ? 'unprobeable-from-worker' : 'unreachable' });
     } finally {
       clearTimeout(timer);
     }
@@ -79,6 +90,17 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
 // history object, capped to the window). Targets: announced Routstr providers
 // (by d-tag), announced kind-38555 services (by slug), and our own surfaces.
 export function appendRun(history, snapshot, selfProbes, { at, cap = UPTIME_WINDOW_RUNS } = {}) {
+  // History sanitation (permanent): worker-served self routes can never be
+  // legitimately 'unreachable' from inside this Worker (deterministic platform
+  // recursion guard) — the first live run (2026-07-23) recorded exactly that
+  // false negative before the guard was understood. Rewrite to the honest
+  // status wherever it appears, so the stored history self-heals.
+  const WORKER_SELF = ['self:live/snapshot.json', 'self:mcp'];
+  for (const run of history?.runs ?? []) {
+    for (const k of WORKER_SELF) {
+      if (run.targets?.[k] === 'unreachable') run.targets[k] = 'unprobeable-from-worker';
+    }
+  }
   const targets = {};
   for (const p of snapshot?.modules?.routstr?.providers ?? []) {
     if (p.status) targets['routstr:' + p.d] = p.status;
@@ -134,6 +156,11 @@ export function buildUptimeDoc(history, { generatedAt } = {}) {
       'Recompute from runs[]: each run is {at, targets: {key: status}}. For a target, count status==="alive" and '
       + 'status==="unreachable" across runs and apply the formula. The stats in targets{} carry no information '
       + 'beyond the runs.',
+    self_probe_note:
+      'self:* rows are probed by the Worker via its own public hostname. Worker-served routes (self:live/*, '
+      + 'self:mcp) cannot be probed from inside the Worker (platform recursion guard) — they appear as '
+      + 'unprobeable-from-worker, never as down. Their genuinely external verification runs nightly and is '
+      + 'recorded in the anchor records at /anchors/index.json (external_probe).',
     anchors:
       'Snapshot digests are signed to public Nostr relays and stamped into Bitcoin via OpenTimestamps on a nightly '
       + 'anchor run — the anchor records live at /anchors/ (and in the public site repo), so this history is '

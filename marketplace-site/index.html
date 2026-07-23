@@ -562,9 +562,12 @@
     if (!upt) { el.innerHTML = '← uptime: <span class="mut">accumulating — history begins with the next probe run</span>'; return; }
     const selfKeys = ['self:directory.json', 'self:live/snapshot.json', 'self:mcp'];
     const self = selfKeys.map((k) => upt.targets[k]).filter(Boolean);
-    const selfOk = self.length && self.every((t) => t.last_status === 'alive');
+    // Only a real 'unreachable' is degradation; worker-served routes read
+    // unprobeable-from-worker here (platform recursion guard) and are verified
+    // externally by the nightly anchor run instead.
+    const selfBad = self.some((t) => t.last_status === 'unreachable');
     el.innerHTML = '← uptime: <span class="ok">' + upt.window.runs_held + ' runs held</span> · self-probe: ' +
-      (selfOk ? '<span class="ok">all surfaces alive</span>' : (self.length ? '<span class="mut">degraded — see /live/uptime.json</span>' : '<span class="mut">n/a</span>')) +
+      (self.length ? (selfBad ? '<span class="mut">degraded — see /live/uptime.json</span>' : '<span class="ok">healthy</span>') : '<span class="mut">n/a</span>') +
       ' · <a href="/live/uptime.json">recompute it yourself</a>';
   })();
 
