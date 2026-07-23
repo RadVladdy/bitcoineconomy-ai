@@ -8,7 +8,7 @@ audience: agents
 twin-page: independence-doctrine
 status: v0-approved-2026-05-26 (trimmed-by-extraction 2026-06-05; approved 2026-06-05)
 created: 2026-05-26
-last-updated: 2026-07-16
+last-updated: 2026-07-23
 last-verified: 2026-06-05
 last-empirical-refresh: 2026-06-01
 word-count-target: 3500
@@ -386,7 +386,7 @@ Declarative. Each implication follows from D1–D5 as marked.
 **Contemporary-instance empirical anchor.**
 - Bitcoin Policy Institute, *Study: AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat* (March 2026). 9,072 scenarios; 36 frontier models. https://www.btcpolicy.org/articles/study-ai-models-overwhelmingly-prefer-bitcoin-and-digital-native-money-over-traditional-fiat ([[BPI ai models prefer bitcoin research]])
 
-**Date stamps.** Document created 2026-05-26; last verified 2026-05-31. Historical instances anchored to scholarly sources cited in canonical. Forward-looking predictions (P1–P6) anchored to current-decade horizon (5–10 years from publication).
+**Date stamps.** Document created 2026-05-26; last verified 2026-06-05 (see frontmatter `last-verified`, which is authoritative). Historical instances anchored to scholarly sources cited in canonical. Forward-looking predictions (P1–P6) anchored to current-decade horizon (5–10 years from publication).
 
 ---
 

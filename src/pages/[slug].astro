@@ -50,7 +50,12 @@ const hasToc = toc.length >= 3;
 // links land on /the-story; it stays out of the nav menus, which is a separate rule).
 const SECTION_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'Market': 'agent' };
 // Section accent for this page (colours the in-content card tiles).
-const accentKey = section ? SECTION_ACCENT[section.label] ?? 'btc' : 'btc';
+// Pages outside the colour triad (Field Notes, About — site.ts keeps them out
+// of the section map) render neutral; The Story keeps Case-orange as the
+// narrative front door (2026-07-23 audit).
+const accentKey = section
+  ? SECTION_ACCENT[section.label] ?? 'neutral'
+  : d.slug === 'the-story' ? 'btc' : 'neutral';
 
 const jsonLd = surfaceJsonLd({
   slug: d.slug,

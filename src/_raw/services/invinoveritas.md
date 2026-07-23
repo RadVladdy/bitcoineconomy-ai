@@ -11,7 +11,7 @@ two-sided: consume + offer
 maintainer: Baby Blue Viper (pseudonymous)
 docs: https://api.babyblueviper.com/llms.txt
 site: https://api.babyblueviper.com
-payment: per-call sats — L402 on paid endpoints, or an instantly issued free API key funded by Lightning top-up; USDC (x402 on Base) and card (Stripe) funding also accepted
+payment: per-call sats — L402, or a free API key funded over Lightning (USDC/x402 and card also accepted)
 identity: none — POST /register returns an API key instantly, no email, no KYC; /verify-proof and /ledger need no auth at all
 custody: prepaid sats balance held by the service (top-up model); card- and x402-funded sats are spendable on tools but not withdrawable over Lightning
 kyc: none

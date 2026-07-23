@@ -30,11 +30,13 @@ const INSTRUCTIONS =
   'The directory is two-sided: services can also SELL here by publishing a signed kind-38555 "agent-payable service announcement" — find_service tier="announced" surfaces those (self-listed, probed-but-unverified), and the spec to publish one is at ' + ANNOUNCE_SPEC_URL + '. ' +
   'Directory entries and the tool catalog are reference facts; relay/probe data and announced entries are announcements — not endorsements. ' +
   "find_l402_endpoints searches a Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed (external-index provenance, third-party-verified, NOT endorsements) — real Lightning-payable endpoints beyond the curated set. " +
+  'get_uptime returns the rolling per-target uptime history (self-inclusive, recomputable from raw runs, Bitcoin-anchored nightly) for weighing which announced service to trust. ' +
   'You pay providers directly with your own wallet; this server never holds funds and never proxies another MCP.';
 
 const CORS = {
   'access-control-allow-origin': '*',
-  'access-control-allow-methods': 'POST, GET, OPTIONS',
+  'x-content-type-options': 'nosniff',
+  'access-control-allow-methods': 'POST, OPTIONS',
   'access-control-allow-headers': 'content-type, mcp-protocol-version, mcp-session-id, authorization',
   'access-control-max-age': '86400',
 };
@@ -58,7 +60,7 @@ async function loadKvOrAsset(env, origin, kvKey, assetPath) {
 }
 
 function makeCtx(env, origin) {
-  let dirP, modelsP, toolsP, snapP, l402P;
+  let dirP, modelsP, toolsP, snapP, l402P, uptP;
   return {
     directory: () => (dirP ||= loadJsonAsset(env, origin, '/directory.json')),
     async entries() { return (await this.directory())?.entries || []; },
@@ -72,6 +74,7 @@ function makeCtx(env, origin) {
     // The Wider L402 tier: a selective, attributed pass over 402index.io's
     // verified-L402 feed — external-index provenance, NOT endorsements.
     l402index: () => (l402P ||= loadKvOrAsset(env, origin, 'l402index', '/l402index.json')),
+    uptime: () => (uptP ||= loadKvOrAsset(env, origin, 'uptime', '/uptime.json')),
   };
 }
 
@@ -507,6 +510,7 @@ const TOOLS = [
         max_price_sats: { type: 'number', description: 'Only endpoints whose per-call price in sats is at or below this.' },
         limit: { type: 'number', description: 'Max results (default 25, max 60).' },
       },
+      additionalProperties: false,
     },
     handler: async (a, ctx) => {
       const doc = await ctx.l402index();
@@ -540,6 +544,41 @@ const TOOLS = [
       };
     },
   },
+  {
+    name: 'get_uptime',
+    description:
+      "Rolling uptime history for every target the marketplace probes on its 6-hourly cron — the Nostr-announced services AND the marketplace's own agent surfaces (self:* rows; the prober grades itself by the same bar). RECOMPUTABLE, NOT A SCORE: stats derive from raw per-run observations, with the formula and per-target denominators stated explicitly (unprobeable observations — tor-only/unroutable — are excluded from the denominator and counted separately). Set include_runs=true for the raw runs[] to recompute from; the history's digests are Nostr-signed and Bitcoin-anchored nightly via OpenTimestamps (records at /anchors/index.json), so it is tamper-evident. Returns status \"accumulating\" with empty targets until the first history run after a deploy.",
+    inputSchema: {
+      type: 'object',
+      properties: {
+        target_prefix: { type: 'string', description: 'Optional filter on target keys, e.g. "routstr:", "announced:", "self:", or a full key like "routstr:{d}".' },
+        include_runs: { type: 'boolean', description: 'If true, include the raw runs[] observations (larger payload) so you can recompute every stat yourself. Default false: derived stats + formula only.' },
+      },
+      additionalProperties: false,
+    },
+    async handler(a, ctx) {
+      const doc = await ctx.uptime();
+      if (!doc) return { error: 'Uptime history unavailable right now — /live/snapshot.json liveness statuses are unaffected.' };
+      const prefix = String(a.target_prefix || '');
+      const targets = {};
+      for (const [k, v] of Object.entries(doc.targets || {})) {
+        if (!prefix || k.startsWith(prefix)) targets[k] = v;
+      }
+      return {
+        schema_version: doc.schema_version,
+        generated_at: doc.generated_at,
+        ...(doc.status ? { status: doc.status } : {}),
+        cadence: doc.cadence,
+        window: doc.window,
+        formula: doc.formula,
+        how_to_check: doc.how_to_check,
+        anchors: doc.anchors || 'Nightly Nostr + OpenTimestamps anchor records: /anchors/index.json',
+        target_count: Object.keys(targets).length,
+        targets,
+        ...(a.include_runs ? { runs: doc.runs || [] } : { runs_note: 'Raw observations omitted — call again with include_runs=true to recompute the stats yourself, or fetch /live/uptime.json.' }),
+      };
+    },
+  },
 ];
 
 // ---------- JSON-RPC ----------
@@ -570,6 +609,18 @@ async function handleRpc(msg, env, origin) {
     case 'tools/call': {
       const tool = TOOLS.find((t) => t.name === params?.name);
       if (!tool) return rpcError(id, -32602, `Unknown tool: ${params?.name}`);
+      // Enforce the schema's own required list — a clean "slug is required"
+      // beats a downstream 'No service with slug "undefined"'.
+      const missing = (tool.inputSchema?.required || []).filter((k) => {
+        const v = (params.arguments || {})[k];
+        return v === undefined || v === null || v === '';
+      });
+      if (missing.length) {
+        return rpcResult(id, {
+          content: [{ type: 'text', text: JSON.stringify({ error: `Missing required argument(s): ${missing.join(', ')} — see this tool's inputSchema.` }, null, 2) }],
+          isError: true,
+        });
+      }
       try {
         const result = await tool.handler(params.arguments || {}, makeCtx(env, origin));
         return rpcResult(id, { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }], isError: !!(result && result.error) });

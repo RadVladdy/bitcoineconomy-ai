@@ -23,8 +23,6 @@ status: v0-2026-06-03-structural-verified
 links-verified: 2026-06-06 (structural + API verified — RLS is a Lightning-payments API, not buy/sell; fees deferred to the venue)
 ---
 
-# River
-
 **What it is.** A US Bitcoin-only financial-services company — buy, sell, hold, and (for some products) Lightning send/receive. No altcoins. Oriented toward serious accumulation and institutional/business accounts as well as retail.
 
 **What it bridges.** Fiat (US bank, wire) ↔ BTC. On-chain and, for supported flows, Lightning.

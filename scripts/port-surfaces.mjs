@@ -63,6 +63,10 @@ for (const file of fs.readdirSync(RAW)) {
 SURFACE_ROUTES['Thesis'] = SURFACE_ROUTES['Thesis'] || '/case';
 // Legacy alias: any straggling [[Marketplace-FA]] (renamed to Treasury-FA 2026-06-13) resolves to the new twin.
 SURFACE_ROUTES['Marketplace-FA'] = SURFACE_ROUTES['Marketplace-FA'] || '/treasury-for-agents';
+// Index-page aliases: these are Astro pages with no frontmatter slug, so body
+// wikilinks to them would otherwise silently strip to plain text (2026-07-23 audit).
+SURFACE_ROUTES['Tools'] = SURFACE_ROUTES['Tools'] || '/tools';
+SURFACE_ROUTES['Market'] = SURFACE_ROUTES['Market'] || '/marketplace';
 
 // Card routes, built with exchanges + services first then tools (tools wins on
 // the boltz/strike basename collision).

@@ -1,8 +1,8 @@
 {
-  "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
+  "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-07-23T16:28:35.738Z",
+  "generated_at": "2026-07-23T18:02:47.249Z",
   "entry_count": 21,
   "categories": [
     "inference",
@@ -230,7 +230,7 @@
         "lightning",
         "fiat"
       ],
-      "payment_detail": "per-call sats — L402 on paid endpoints, or an instantly issued free API key funded by Lightning top-up; USDC (x402 on Base) and card (Stripe) funding also accepted",
+      "payment_detail": "per-call sats — L402, or a free API key funded over Lightning (USDC/x402 and card also accepted)",
       "kyc": "none",
       "custody": "prepaid sats balance held by the service (top-up model); card- and x402-funded sats are spendable on tools but not withdrawable over Lightning",
       "automatability": "api-no-account",
@@ -529,7 +529,7 @@
       "name": "Amboss Rails",
       "category": "liquidity",
       "summary": "A self-custodial Lightning liquidity-provision service — put idle bitcoin to work as routing liquidity and earn yield, driven by a GraphQL API.",
-      "what_an_agent_buys": "Sell-side liquidity yield — deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side).",
+      "what_an_agent_buys": "Sell-side liquidity yield — deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side)",
       "payment_methods": [
         "lightning"
       ],

@@ -22,8 +22,6 @@ status: v0-2026-06-06-structural-verified
 links-verified: 2026-06-06 (structural + API-docs URL verified; fees deferred to the venue)
 ---
 
-# SideShift.ai
-
 **What it is.** A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks — direct-to-wallet conversions with no funds custodied.
 
 **What it bridges.** BTC, Lightning BTC, L-BTC, and **USDT-Liquid** plus a broad multi-chain set — useful for an agent converting BTC↔stablecoin without an account.

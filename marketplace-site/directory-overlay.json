@@ -11,18 +11,17 @@
     "alby-nwc": {
       "kind": "payment",
       "transport": "stdio",
-      "package": "@getalby/nwc-mcp-server",
-      "run": "npx -y @getalby/nwc-mcp-server",
+      "package": "@getalby/mcp",
+      "run": "npx -y @getalby/mcp",
       "tools": [
         "pay_invoice",
         "make_invoice",
         "lookup_invoice",
         "get_balance",
-        "get_info",
-        "get_wallet_service_info"
+        "get_info"
       ],
-      "repo": "https://github.com/getAlby/nwc-mcp-server",
-      "note": "The payment MCP that complements the directory's discovery MCP \u2014 wraps a scoped, budgeted NWC (NIP-47) connection string as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. Honest status: the repo is archived (last commit 2025-06-20) and declares no license, but the @getalby/nwc-mcp-server npm package still installs and runs (stdio by default; optional HTTP mode). Verify currency before relying on it in production."
+      "repo": "https://github.com/getAlby/mcp",
+      "note": "The payment MCP that complements the directory's discovery MCP \u2014 wraps a scoped, budgeted NWC (NIP-47) connection string (NWC_CONNECTION_STRING env) as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. This is Alby's current successor package (@getalby/mcp): the earlier @getalby/nwc-mcp-server is now marked deprecated on npm (2026-07 audit) \u2014 don't use it for new integrations. Tool names above are the NWC core set; verify against the repo before relying on them in production."
     },
     "money-dev-kit": {
       "kind": "service",
@@ -320,7 +319,7 @@
       "slug": "rails",
       "source": "services/rails.md",
       "category": "liquidity",
-      "what_an_agent_buys": "Sell-side liquidity yield \u2014 deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side).",
+      "what_an_agent_buys": "Sell-side liquidity yield \u2014 deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side)",
       "payment_methods": [
         "lightning"
       ],

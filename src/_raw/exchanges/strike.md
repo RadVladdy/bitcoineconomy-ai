@@ -23,8 +23,6 @@ status: v0-2026-06-03-structural-verified
 links-verified: 2026-06-06 (structural + API-docs URL verified; fees/exact-coverage deferred to the venue)
 ---
 
-# Strike
-
 **What it is.** A Bitcoin financial app for buying, selling, sending, and receiving — Bitcoin-only, no altcoins. Its defining feature for agents is **native Lightning**: it converts between a fiat bank balance and Lightning sats at the custodial boundary, sub-second on the Lightning side.
 
 **What it bridges.** Fiat (bank account, card) ↔ BTC, and **Lightning ↔ fiat** directly — the closest thing to a machine-tempo off-ramp in deployment.

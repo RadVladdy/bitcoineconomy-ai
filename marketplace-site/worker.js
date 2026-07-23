@@ -57,6 +57,7 @@ async function serveAnnounced(env, origin) {
   const headers = {
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-origin': '*',
+    'x-content-type-options': 'nosniff',
     'cache-control': 'public, max-age=300',
   };
   let snap = null;
@@ -87,6 +88,7 @@ async function serveLive(env, origin, kvKey, fallbackPath) {
   const headers = {
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-origin': '*',
+    'x-content-type-options': 'nosniff',
     'cache-control': 'public, max-age=300',
   };
   const kv = await env.SNAPSHOT?.get(kvKey);

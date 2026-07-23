@@ -20,8 +20,6 @@ status: v0-2026-06-06-structural-verified
 links-verified: 2026-06-06
 ---
 
-# Flashnet
-
 **What it is.** A **non-custodial, Bitcoin-native DEX / AMM** built on [Spark](/tools/spark) (Lightspark's Bitcoin L2). It swaps **BTC ↔ stablecoins** — USDT (issued natively on Spark by Tether), **USDB** (the native, audited Brale + Flashnet dollar — no wrapping, no bridge), and USDC — settling on Spark in seconds. The agent keeps its keys; Flashnet routes and settles against native Bitcoin liquidity rather than custodying funds.
 
 **What it bridges.** **BTC ↔ USDT / USDB / USDC** on Spark, via an automated market maker (constant pricing, no order-book counterparty). No bank-fiat leg. (Flashnet also runs multi-chain orchestration across other networks; the Bitcoin-native Spark AMM is the relevant path here.)

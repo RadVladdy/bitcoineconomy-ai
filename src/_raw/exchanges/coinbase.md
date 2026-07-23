@@ -23,8 +23,6 @@ status: v0-2026-06-06-structural-verified
 links-verified: 2026-06-06 (structural + API-docs URL verified; fees deferred to the venue / Field Notes)
 ---
 
-# Coinbase
-
 **What it is.** A large, publicly listed, multi-asset exchange with broad fiat connectivity and a mature developer platform. Not Bitcoin-only — it custodies and trades many assets, and is a co-issuer of the USDC stablecoin.
 
 **What it bridges.** Fiat ↔ BTC, and **BTC ↔ stablecoin** (USDC and others) via its trading API — the workhorse path for an agent rebalancing between Bitcoin and a dollar stablecoin where that conversion is needed.

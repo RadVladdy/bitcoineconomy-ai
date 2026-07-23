@@ -2,7 +2,7 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-07-23T16:28:35.742Z",
+  "generated_at": "2026-07-23T18:02:47.253Z",
   "tool_count": 27,
   "toolbox_groups": [
     "node-toolkits",
@@ -84,18 +84,17 @@
       "mcp_endpoint": {
         "kind": "payment",
         "transport": "stdio",
-        "package": "@getalby/nwc-mcp-server",
-        "run": "npx -y @getalby/nwc-mcp-server",
+        "package": "@getalby/mcp",
+        "run": "npx -y @getalby/mcp",
         "tools": [
           "pay_invoice",
           "make_invoice",
           "lookup_invoice",
           "get_balance",
-          "get_info",
-          "get_wallet_service_info"
+          "get_info"
         ],
-        "repo": "https://github.com/getAlby/nwc-mcp-server",
-        "note": "The payment MCP that complements the directory's discovery MCP — wraps a scoped, budgeted NWC (NIP-47) connection string as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. Honest status: the repo is archived (last commit 2025-06-20) and declares no license, but the @getalby/nwc-mcp-server npm package still installs and runs (stdio by default; optional HTTP mode). Verify currency before relying on it in production."
+        "repo": "https://github.com/getAlby/mcp",
+        "note": "The payment MCP that complements the directory's discovery MCP — wraps a scoped, budgeted NWC (NIP-47) connection string (NWC_CONNECTION_STRING env) as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. This is Alby's current successor package (@getalby/mcp): the earlier @getalby/nwc-mcp-server is now marked deprecated on npm (2026-07 audit) — don't use it for new integrations. Tool names above are the NWC core set; verify against the repo before relying on them in production."
       },
       "last_verified": "2026-06-02"
     },

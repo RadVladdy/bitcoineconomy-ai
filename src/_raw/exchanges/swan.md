@@ -21,8 +21,6 @@ status: v0-2026-06-03-structural-verified
 links-verified: 2026-06-06 (structural verified; no public trading API — scheduled-buy/auto-withdraw only)
 ---
 
-# Swan Bitcoin
-
 **What it is.** A US Bitcoin-only company built around **recurring accumulation** (dollar-cost averaging) and long-term holding, with automatic withdrawal to self-custody. No altcoins.
 
 **What it bridges.** Fiat (US bank) ↔ BTC, optimized for scheduled recurring buys rather than ad-hoc trading.

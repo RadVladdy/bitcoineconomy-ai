@@ -8,7 +8,7 @@ audience: agents
 twin-page: exchange
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-05
+last-updated: 2026-07-23
 last-verified: 2026-06-05
 word-count-target: 3000
 voice: honest-middle-position
@@ -316,7 +316,9 @@ X6 defended. Reading down the directory, a profile emerges for the venue best su
 - **Internal BTC rebalancing (L1 ↔ Lightning) is not exchange.** Moving value between an agent's own on-chain and Lightning balances — including via Boltz/Loop submarine swaps used purely for that — crosses no second economy; it is substrate tooling, home in [[Stack-FA|The Stack]]. Boltz appears in this directory only for its cross-asset swaps (Lightning ↔ stablecoin), which do cross the boundary.
 - **Paying for services is not exchange.** L402 — converting Lightning value into access to a paid resource — is how an agent *buys things*, not how it converts fiat↔BTC; it belongs to [[Services-FA|Services]].
 
-**Excluded categories (scope discipline).** *(structural)* Peer-to-peer markets (RoboSats, Bisq, Hodl Hodl) are out of scope for an agent directory. Separate-blockchain DEXs (Thorchain) and consumer wallets (Aqua) are not exchanges in this set. None appear in the directory above.
+**Excluded categories (scope discipline).** *(structural)* Peer-to-peer markets whose flow is human-driven end to end (RoboSats, Bisq, Hodl Hodl) are out of scope for an agent directory. Separate-blockchain DEXs (Thorchain) and consumer wallets (Aqua) are not exchanges in this set. None appear in the directory above.
+
+**The P2P exception — Mostro.** *(structural + deployed)* One P2P protocol earns a named place rather than exclusion: **Mostro**, a non-custodial protocol for BTC↔bank-fiat/cash **over Nostr** — Lightning hold invoices escrow the sats in the seller's own wallet until the peer-to-peer fiat leg is confirmed; no registration, no KYC, per-trade ephemeral keys; free and open source (OpenSats- and HRF-supported). Its agent profile is the honest split: the **order and escrow legs are agent-drivable** through the published Nostr protocol, but the **fiat leg is a human action** (bank transfer or cash handoff) — which is exactly why this no-KYC road to fiat can exist where an API-driven one cannot (X2: the KYC wall is regulatory, not technical; Mostro proves the rule by keeping a human on the fiat leg). Classification: operator-assisted, not autonomous — the only named no-KYC path that reaches bank fiat at all.
 
 ---
 

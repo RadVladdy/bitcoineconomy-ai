@@ -20,8 +20,6 @@ status: v0-2026-06-11-structural-verified
 links-verified: 2026-06-11 (site + org repo verified; protocol spec + clients confirmed; fees/dispute mechanics deferred to the venue)
 ---
 
-# Mostro
-
 **What it is.** A peer-to-peer, non-custodial protocol for exchanging **Bitcoin against bank fiat or cash** over **Nostr**, with **no registration, no identity checks, no KYC**. Free and open-source software, supported by OpenSats and the Human Rights Foundation.
 
 **How custody works.** **Lightning hold invoices** act as the escrow: the seller's sats stay locked in the seller's own wallet until they confirm the fiat arrived, then release instantly. Minimal, non-permanent custody — no platform balance to freeze.

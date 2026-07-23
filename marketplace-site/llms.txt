@@ -5,7 +5,7 @@
 > Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints)
 > + a probed cross-provider price index for inference.
 
-## How to consume this directory (four fetches, no inference needed)
+## How to consume this directory (five fetches, no inference needed)
 
 1. https://marketplace.bitcoineconomy.ai/directory.json — the curated registry. Filter locally on category, payment_methods,
    automatability (api-no-account | api-account | api-kyc), and kyc. Entries carry auth, quickstart,
@@ -25,7 +25,7 @@
 5. https://marketplace.bitcoineconomy.ai/live/uptime.json — rolling uptime history for every probed target, INCLUDING the marketplace's own
    surfaces (self:* rows — no green by assertion). RECOMPUTABLE, NOT A SCORE: the doc carries the raw per-run
    observations (runs[]), the exact formula, and explicit denominators — recompute any stat rather than trust it.
-   Snapshot digests are Nostr-signed + Bitcoin-anchored nightly (OpenTimestamps) — anchor records at /anchors/.
+   Snapshot digests are Nostr-signed + Bitcoin-anchored nightly (OpenTimestamps) — anchor records at /anchors/index.json.
 
 ## The tool catalog (what an agent EQUIPS, vs the registry above of what it BUYS)
 
@@ -37,7 +37,7 @@ mcp_endpoint where it ships its own MCP server. Full per-tool detail (gotchas, d
 ## Or call the directory as tools (MCP)
 
 An MCP server at https://marketplace.bitcoineconomy.ai/mcp exposes both the service registry and the tool catalog as Model Context Protocol
-tools, so an agent can call instead of fetch: find_service, get_service, price_model, list_categories, get_quote
+tools, so an agent can call instead of fetch: find_service, get_service, price_model, list_categories, get_quote, get_uptime
 (a ready-to-pay payment plan — a live L402 invoice or live sats price where the provider supports it),
 find_tool, get_tool, and list_mcp_servers. That last one lists the providers here that run their OWN MCP server
 (Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP: POST one
@@ -107,7 +107,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 
 - [Loop](https://marketplace.bitcoineconomy.ai/entries/loop.md): Lightning ↔ on-chain liquidity — non-custodial submarine swaps for LND nodes, fee for service. Payment: lightning/onchain; KYC: none; automatability: api-no-account.
 - [Amboss (Magma)](https://marketplace.bitcoineconomy.ai/entries/amboss.md): Inbound Lightning liquidity — buy a channel opened to your node so the agent can receive payments; sized in dollars, leased for a term, paid in sats. Payment: lightning/onchain; KYC: none; automatability: api-no-account.
-- [Amboss Rails](https://marketplace.bitcoineconomy.ai/entries/rails.md): Sell-side liquidity yield — deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side).. Payment: lightning; KYC: n/a; automatability: api-account.
+- [Amboss Rails](https://marketplace.bitcoineconomy.ai/entries/rails.md): Sell-side liquidity yield — deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side). Payment: lightning; KYC: n/a; automatability: api-account.
 
 ## Fiat ramps (custodial venues at the border; KYC noted per entry)
 

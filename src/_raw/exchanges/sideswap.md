@@ -21,8 +21,6 @@ status: v0-2026-06-03-structural-verified
 links-verified: 2026-06-03
 ---
 
-# SideSwap
-
 **What it is.** A non-custodial, KYC-free swap platform native to the **Liquid Network** — settlement infrastructure for L-BTC, L-USDt, and tokenized assets, with public order books (maker limit orders, taker market orders).
 
 **What it bridges.** L-BTC ↔ L-USDt and direct asset-to-asset swaps on Liquid (no intermediate conversion).

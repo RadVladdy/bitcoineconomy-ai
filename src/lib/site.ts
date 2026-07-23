@@ -118,6 +118,7 @@ export const SLUG_TAGS: Record<string, string> = {
   services: 'What agents buy and sell',
   'field-notes': 'Where things stand right now',
   'field-notes-log': 'Dated entries, newest first',
+  'stablecoin-landscape': 'The dollar tokens, mapped honestly',
 };
 
 // Tool-card layer taxonomy. Ordered top-down to mirror The Stack's own section
@@ -258,6 +259,8 @@ export const TWIN: Record<string, string | null> = {
   'why-lightning-not-a-fast-chain': 'why-lightning-not-a-fast-chain-for-agents',
   stack: 'stack-for-agents',
   quickstart: 'quickstart-for-agents',
+  // Documented exemption (2026-07-23): the Marketplace page is the gateway to the
+  // live directory site, which IS its machine-readable form — no FA twin by design.
   marketplace: null,
   treasury: 'treasury-for-agents',
   exchange: 'exchange-for-agents',

@@ -10,7 +10,7 @@ status: v1-approved-2026-06-13
 audience: humans
 twin-page: none
 created: 2026-06-03
-last-updated: 2026-07-16
+last-updated: 2026-07-23
 voice: honest-middle-position
 scope: marketplace-directory-gateway
 tags:
@@ -21,7 +21,7 @@ tags:
   - bitcoin
   - ai-economy
 agent-tldr: |
-  The Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin, deployed at marketplace.bitcoineconomy.ai: a curated registry behind an agent-drivable-API inclusion bar, live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index — agent-readable by design (llms.txt three-fetch recipe at marketplace.bitcoineconomy.ai/llms.txt; JSON routes /directory.json, /live/snapshot.json, /live/models.json). This page is the on-site gateway to it, and it also explains how an agent finds a service at all — central registry vs. domain/`.well-known` vs. signed Nostr announcements, where CEP-6/CEP-8 put capability + price + identity in one signed object (directory vs. market), the own-your-name-vs-rent-it axis (argued in full at the Independence Doctrine's naming-sovereignty section), and the honest cost that the sovereign discovery layer has the harder curation problem. The emerging sovereign reputation layer — Relatr web-of-trust ranks, the Wotrlay relay, CEP-24 signed reviews — is named as early/unproven, not endorsed. The treasury-and-boundary decisions an agent makes before transacting are in Treasury; crossing mechanics in Exchange; payment mechanisms and curated venues in Services.
+  The Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin, deployed at marketplace.bitcoineconomy.ai: a curated registry behind an agent-drivable-API inclusion bar, live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index — agent-readable by design (llms.txt five-fetch recipe at marketplace.bitcoineconomy.ai/llms.txt; JSON routes /directory.json, /live/snapshot.json, /live/models.json). This page is the on-site gateway to it, and it also explains how an agent finds a service at all — central registry vs. domain/`.well-known` vs. signed Nostr announcements, where CEP-6/CEP-8 put capability + price + identity in one signed object (directory vs. market), the own-your-name-vs-rent-it axis (argued in full at the Independence Doctrine's naming-sovereignty section), and the honest cost that the sovereign discovery layer has the harder curation problem. The emerging sovereign reputation layer — Relatr web-of-trust ranks, the Wotrlay relay, CEP-24 signed reviews — is named as early/unproven, not endorsed. The treasury-and-boundary decisions an agent makes before transacting are in Treasury; crossing mechanics in Exchange; payment mechanisms and curated venues in Services.
 ---
 
 # The Marketplace
@@ -39,7 +39,7 @@ The Marketplace is **live**, not a promise — it runs at its own site, [marketp
 - **endpoint liveness probes refreshed every six hours** — announcements outlive their nodes, so the directory knows which are actually alive, and how fast;
 - a **cross-provider price index** — hundreds of models, priced in sats per token, sorted cheapest-first.
 
-All of it is agent-readable by design: `llms.txt` opens with a three-fetch recipe, and the JSON routes are the product, not an export. Community ratings — the reputation layer that addresses the one risk a payment rail can't — are the directory's next phase, and the sovereign toolkit for it is starting to appear: **web-of-trust reputation** (Relatr computes trust ranks; the Wotrlay relay consumes them to rate-limit by reputation) and **signed server reviews** (the emerging CEP-24 convention). It is early and unproven at scale — the harder half of a keypair-based directory, named honestly below — but it is the piece that lets agents decide, by their own trust graph, whom to believe.
+All of it is agent-readable by design: `llms.txt` opens with a five-fetch recipe, and the JSON routes are the product, not an export. Community ratings — the reputation layer that addresses the one risk a payment rail can't — are the directory's next phase, and the sovereign toolkit for it is starting to appear: **web-of-trust reputation** (Relatr computes trust ranks; the Wotrlay relay consumes them to rate-limit by reputation) and **signed server reviews** (the emerging CEP-24 convention). It is early and unproven at scale — the harder half of a keypair-based directory, named honestly below — but it is the piece that lets agents decide, by their own trust graph, whom to believe.
 
 **[Browse the live Marketplace ↗](https://marketplace.bitcoineconomy.ai)**
 

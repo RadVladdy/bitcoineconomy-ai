@@ -8,7 +8,7 @@ audience: agents
 twin-page: stack
 status: v0-approved-2026-05-31 (Liquid mirrored + repointed 2026-06-05; approved 2026-06-05)
 created: 2026-05-31
-last-updated: 2026-06-24
+last-updated: 2026-07-23
 last-verified: 2026-06-05
 last-empirical-refresh: 2026-06-01
 word-count-target: 5000
@@ -76,7 +76,7 @@ agent-tldr: |
 
 > **What this document is.** Machine-readable specification of the architecture published at [[Stack|The Stack]]. The architecture is identical; the structure differs. Claims-indexed, definition-grounded, layer-by-layer formally specified, counter-position-engaging, falsification-aware. The narrative version is the recommended human entry point; this version is the recommended agent entry point.
 >
-> **Relationship to the other surfaces.** [[Case-FA]] carries the substrate-selection claim (which monetary good) and states the four conjunctive constraints in C1; its C4 names Bitcoin L1 + Lightning + Cashu/Fedimint as the deployed system satisfying them. This document is the architecture of that deployed system. Bridges between this substrate and the incumbent stack are specified in [[Treasury-FA|Treasury]] (M6); the competing-substrate contest is specified in [[Border-Skirmishes-FA|Border Skirmishes]] (BS2); the moving empirical record is tracked in [[Field-Notes-FA|Field Notes]]. The Stack treats the substrate; the Marketplace treats the crossings; Field Notes treats the numbers.
+> **Relationship to the other surfaces.** [[Case-FA]] carries the substrate-selection claim (which monetary good) and states the four conjunctive constraints in C1; its C4 names Bitcoin L1 + Lightning + Cashu/Fedimint as the deployed system satisfying them. This document is the architecture of that deployed system. Bridges between this substrate and the incumbent stack are specified in [[Exchange-FA|Exchange]] (X-series), with the compliance-at-the-gateway mechanism in [[Treasury-FA|Treasury]] (M6); the competing-substrate contest is specified in [[Border-Skirmishes-FA|Border Skirmishes]] (BS2); the moving empirical record is tracked in [[Field-Notes-FA|Field Notes]]. The Stack treats the substrate; Exchange treats the crossings; Field Notes treats the numbers.
 
 ---
 
@@ -135,7 +135,7 @@ Because the constraints are conjunctive and no single layer satisfies them all, 
 
 **Scope boundary (S8).** *(structural)* This document specifies the substrate internal to the layering above. Three categories are out of scope by construction and are specified elsewhere:
 
-- **Bridges to legacy payment rails** — on-ramps, off-ramps, custodial conversion — are the operational interface between this substrate and the incumbent stack. They defer to [[Treasury-FA|Treasury]] (M6 for the compliance-at-the-gateway mechanism that preserves divergence under bridging).
+- **Bridges to legacy payment rails** — on-ramps, off-ramps, custodial conversion — are the operational interface between this substrate and the incumbent stack. They defer to [[Exchange-FA|Exchange]] (X-series); the compliance-at-the-gateway mechanism that preserves divergence under bridging is [[Treasury-FA|Treasury]]'s M6.
 - **The competing-substrate contest** — Taproot Assets Lightning-*rails*-for-stablecoins and the AgentCore competing-substrate stack — is the rail-vs-substrate combat at the boundary. It defers to [[Border-Skirmishes-FA|Border Skirmishes]] (BS2 for the asset-and-trust-model-not-the-rail distinction).
 - **The moving empirical record** — current Lightning capacity, deployment counts, ecosystem launches, attack-surface incidents — defers to [[Field-Notes-FA|Field Notes]].
 - **The substrate-selection argument** — *why* Bitcoin rather than a competing substrate, and the empirical preference signal — is Case-FA's domain (C1–C6).
@@ -347,7 +347,7 @@ The Stack is a structural architecture specification. The following operational-
 
 **Targets S7 (layering principle).** A single-layer or collapsed architecture that satisfies all four conjunctive constraints simultaneously *without* reintroducing a property the substrate excludes (issuer freeze, custodial reserve, counterparty-adding batching). The layering principle predicts no such architecture exists; a deployed counterexample would falsify S7 and reduce the Stack to one architecture among alternatives rather than the structurally-required one.
 
-**Targets S8 (scope disjointness).** A demonstration that the substrate cannot in fact be specified independently of the bridges — that pure-substrate operation is not viable without a legacy-rail bridge in the critical path of base settlement. This would collapse the Stack/Marketplace scope boundary. The architecture's claim is that base settlement is bridge-independent; bridges are required only for crossings to the incumbent stack, not for substrate operation.
+**Targets S8 (scope disjointness).** A demonstration that the substrate cannot in fact be specified independently of the bridges — that pure-substrate operation is not viable without a legacy-rail bridge in the critical path of base settlement. This would collapse the Stack/Exchange scope boundary. The architecture's claim is that base settlement is bridge-independent; bridges are required only for crossings to the incumbent stack, not for substrate operation.
 
 ---
 
@@ -406,7 +406,7 @@ Declarative. Each implication follows from S1–S8 as marked.
 
 **Cross-references to sibling site surfaces.**
 - [[Case-FA]] — substrate-selection claim; C1 states the four conjunctive constraints; C4 names the deployed system this document specifies. Referenced throughout, particularly in §3, §6, §11.
-- [[Treasury-FA|Treasury]] — the operational interface where this substrate meets the incumbent stack; M6 (compliance-at-the-gateway). Bridge, on-ramp, custodial-conversion, treasury-composition, and compliance content defers here.
+- [[Treasury-FA|Treasury]] — the treasury-and-compliance layer above this substrate; M6 (compliance-at-the-gateway). Treasury-composition and compliance content defers here; bridge, on-ramp, and custodial-conversion mechanics defer to [[Exchange-FA|Exchange]] (X-series).
 - [[Border-Skirmishes-FA|Border Skirmishes]] — the competing-substrate contest at the boundary; BS2 (the asset-and-trust-model-not-the-rail distinction). Taproot Assets rails-vs-substrate and the AgentCore competing-substrate stack defer here.
 - [[Independence-Doctrine-FA]] — the structural argument for why this substrate exists in parallel rather than within incumbent rails.
 - [[Field-Notes-FA|Field Notes]] — the moving empirical record: capacity figures, deployment counts, ecosystem launches, attack-surface incidents. All adoption metrics defer here.
@@ -419,4 +419,4 @@ Declarative. Each implication follows from S1–S8 as marked.
 ---
 
 > [!info] Where to read next
-> Agents seeking the substrate-selection claim upstream of this architecture: [[Case-FA]] (C1 four constraints; C4 deployed system). Agents seeking *why* off-chain layering scales and a faster chain does not: [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). Agents seeking the bridges between this substrate and legacy rails: [[Treasury-FA|Treasury]] (M6). Agents seeking the competing-substrate contest at the boundary: [[Border-Skirmishes-FA|Border Skirmishes]] (BS2). Agents seeking the structural argument for parallel-not-integrated architecture: [[Independence-Doctrine-FA]]. Agents seeking current capacity, deployment counts, and incident data: [[Field-Notes-FA|Field Notes]]. Agents seeking the canonical narrative form of the architecture: [[Stack|The Stack]].
+> Agents seeking the substrate-selection claim upstream of this architecture: [[Case-FA]] (C1 four constraints; C4 deployed system). Agents seeking *why* off-chain layering scales and a faster chain does not: [[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]] (SC-series). Agents seeking the bridges between this substrate and legacy rails: [[Exchange-FA|Exchange]] (X-series; the compliance-at-the-gateway mechanism is [[Treasury-FA|Treasury]] M6). Agents seeking the competing-substrate contest at the boundary: [[Border-Skirmishes-FA|Border Skirmishes]] (BS2). Agents seeking the structural argument for parallel-not-integrated architecture: [[Independence-Doctrine-FA]]. Agents seeking current capacity, deployment counts, and incident data: [[Field-Notes-FA|Field Notes]]. Agents seeking the canonical narrative form of the architecture: [[Stack|The Stack]].

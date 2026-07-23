@@ -18,7 +18,7 @@ export const GET: APIRoute = async () => {
   lines.push(`Site: ${SITE.url}`);
   lines.push(`Handle: ${SITE.handle}`);
   lines.push(`Agent entry point: ${SITE.url}/for-agents — one page that ties together the pathways, the claims-indexed case, the live marketplace MCP, and this index.`);
-  lines.push('Every page below has a clean Markdown route (append `.md`) and a JSON-LD block. Most canonical surfaces have a separately-authored, claims-indexed For-Agents twin.');
+  lines.push('Every surface and card below has a clean Markdown route (append `.md`) and a JSON-LD block; section index pages (/tools, /skills, /exchanges, /for-agents) are HTML-only. Most canonical surfaces have a separately-authored, claims-indexed For-Agents twin.');
   lines.push('');
 
   lines.push('## Canonical surfaces (human)');
@@ -97,7 +97,8 @@ export const GET: APIRoute = async () => {
   lines.push('## The Marketplace — live directory (separate site)');
   lines.push('');
   lines.push('The live, self-refreshing directory of agent-payable services at https://marketplace.bitcoineconomy.ai — a curated registry (agent-drivable-API bar) + live Nostr announcements + six-hourly liveness probes + a cross-provider sats price index. Agent-readable by design.');
-  lines.push('- Directory manifest: https://marketplace.bitcoineconomy.ai/llms.txt (opens with a three-fetch recipe)');
+  lines.push('- Directory manifest: https://marketplace.bitcoineconomy.ai/llms.txt (opens with a five-fetch recipe)');
+  lines.push('- MCP server (call the directory as tools — find_service, get_service, price_model, get_quote, …): POST https://marketplace.bitcoineconomy.ai/mcp');
   lines.push('- Registry JSON: https://marketplace.bitcoineconomy.ai/directory.json');
   lines.push('- Live snapshot: https://marketplace.bitcoineconomy.ai/live/snapshot.json');
   lines.push('- Cross-provider price index: https://marketplace.bitcoineconomy.ai/live/models.json');

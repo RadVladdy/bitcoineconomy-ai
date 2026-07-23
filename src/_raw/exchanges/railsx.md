@@ -19,8 +19,6 @@ status: v0-2026-06-27-structural-verified
 links-verified: 2026-06-27 (structural; no public trading API documented — app/venue-driven)
 ---
 
-# RailsX
-
 **What it is.** Amboss's Lightning-native, peer-to-peer decentralized exchange (launched January 2026), executing **bitcoin ↔ stablecoin** trades entirely over the Lightning Network — no separate chain and no custodial order book.
 
 **What it bridges.** Bitcoin ↔ stablecoins, connecting those pairs toward the global FX market. (Confirm the exact supported pairs on the venue — the asset list above reflects the Amboss stack's stablecoins and should be re-verified.)

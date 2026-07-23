@@ -22,8 +22,6 @@ status: v0-2026-06-03-structural-verified
 links-verified: 2026-06-03
 ---
 
-# Boltz
-
 **What it is.** A non-custodial, no-KYC atomic-swap service — the standout agent-native option. Swaps settle via shared-preimage HTLCs (either both legs settle or both refund), so the agent never gives up custody and no account or identity is required.
 
 **What it bridges.** Bitcoin across **L1, Lightning, Liquid, and Rootstock** (internal-substrate moves), **and Lightning ↔ USDT/USDC** — the cross-asset swaps that make it an *exchange* path, not just substrate tooling. (Its pure BTC L1↔Lightning swaps are the *infrastructure* aspect — see its [tools card](/tools/boltz).)

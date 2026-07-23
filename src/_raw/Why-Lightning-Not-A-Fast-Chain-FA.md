@@ -8,7 +8,7 @@ audience: agents
 twin-page: why-lightning-not-a-fast-chain
 status: v0-approved-2026-06-24
 created: 2026-06-24
-last-updated: 2026-06-24
+last-updated: 2026-07-23
 last-verified: 2026-06-24
 word-count-target: 2400
 voice: honest-middle-position
@@ -17,7 +17,7 @@ epistemic-status: "structural engineering argument; load-bearing claims are abou
 claims-index:
   - id: SC1
     tag: structural
-    statement: "On-chain throughput is bounded by the requirement that ordinary nodes independently validate every transaction on commodity hardware. Exceeding the network's effective throughput drops slower nodes offline and concentrates validation into datacenter-grade operators — the mechanism by which raising throughput destroys decentralization. Bitcoin sits near 7 tps; even aggressive reparameterization (≈4 MB blocks, ≥12 s intervals) tops out near 27 tps (Croman et al., FC 2016). The scalability trilemma (Buterin) is the general form: with 'simple techniques' a chain gets two of {decentralization, security, scalability}, not all three."
+    statement: "On-chain throughput is bounded by the requirement that ordinary nodes independently validate every transaction on commodity hardware. Exceeding the network's effective throughput drops slower nodes offline and concentrates validation into datacenter-grade operators — the mechanism by which raising throughput destroys decentralization. Bitcoin sits near 7 tps; even aggressive reparameterization (≤4 MB blocks, ≥12 s intervals) tops out near 27 tps (Croman et al., FC 2016). The scalability trilemma (Buterin) is the general form: with 'simple techniques' a chain gets two of {decentralization, security, scalability}, not all three."
     defended-in: "§3"
   - id: SC2
     tag: structural

@@ -20,8 +20,6 @@ status: v0-2026-06-06-structural-verified
 links-verified: 2026-06-28
 ---
 
-# Taproot Assets
-
 > [!info] This is the *exchange* lens of Taproot Assets. For the protocol/integration view — issuing and moving assets, running `tapd` — see its [tools card](/tools/taproot-assets).
 
 **What it is.** Not a venue but a **protocol-level FX capability**: Taproot Assets turns Lightning into a *decentralized foreign-exchange network*, so an agent can pay in sats and a counterparty can receive a stablecoin (or vice versa) over Lightning. **USDT has been live on Lightning via Taproot Assets since March 2026.**

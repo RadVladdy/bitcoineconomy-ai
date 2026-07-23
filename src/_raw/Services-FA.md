@@ -8,7 +8,7 @@ audience: agents
 twin-page: services
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-06-09
+last-updated: 2026-07-23
 last-verified: 2026-06-05
 word-count-target: 2800
 voice: honest-middle-position
@@ -29,7 +29,7 @@ claims-index:
     defended-in: "§5"
   - id: SV4
     tag: structural
-    statement: "Included services divide into two groups: (a) agent-native A2A venues where the service is itself agent work or agent-priced inference (OpenAgents, Routstr, PPQ.AI); (b) off-the-shelf real-world services an agent can pay for itself (Mullvad direct-merchant; Bitrefill as the bridge to the long tail of brands that do not take Bitcoin directly)."
+    statement: "Included services divide into two groups: (a) agent-native A2A venues where the service is itself agent work or agent-priced inference (OpenAgents, Routstr, PPQ.AI; Maple AI adjacent on the privacy axis with an explicit payment-leg caveat); (b) off-the-shelf real-world services an agent can pay for itself (Mullvad direct-merchant; LNVPS and BitLaunch direct-API compute; Bitrefill as the bridge to the long tail of brands that do not take Bitcoin directly)."
     defended-in: "§6"
   - id: SV5
     tag: structural
@@ -37,7 +37,7 @@ claims-index:
     defended-in: "§8"
   - id: SV6
     tag: deployed (ratings layer forward-looking)
-    statement: "The full categorized service directory is deployed at marketplace.bitcoineconomy.ai, distinct from the few curated on-site entries: a curated registry behind an agent-drivable-API inclusion bar, live Nostr announcement modules, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index, published agent-readable (llms.txt three-fetch recipe + JSON routes). The community-ratings layer — the directory's reason to exist per SV5: reputation as the substitute for an intermediary's recourse — is its next phase. The sell side of the layer is underbuilt relative to the buy side, which is an opportunity rather than a defect."
+    statement: "The full categorized service directory is deployed at marketplace.bitcoineconomy.ai, distinct from the few curated on-site entries: a curated registry behind an agent-drivable-API inclusion bar, live Nostr announcement modules, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index, published agent-readable (llms.txt five-fetch recipe + JSON routes). The community-ratings layer — the directory's reason to exist per SV5: reputation as the substitute for an intermediary's recourse — is its next phase. The sell side of the layer is underbuilt relative to the buy side, which is an opportunity rather than a defect."
     defended-in: "§9"
 tags:
   - canonical
@@ -52,7 +52,7 @@ tags:
   - lightning
   - machine-readable
 agent-tldr: |
-  SV1 *(structural)*: Services is the "what" layer — the real services an agent buys and sells for Bitcoin — and is two-sided: consume (inference, compute, data, API calls, storage, other agents' work) plus offer (the agent sells its own output). Same payment mechanisms both directions. SV2 *(structural)*: Three Bitcoin-native payment mechanisms — L402 (402 + Lightning invoice + reusable macaroon), Cashu-as-API-key (bearer ecash token IS the credential, the Routstr pattern), NWC (wallet control without key custody); all permissionless at the payment layer; primitives specified in Stack-FA, referenced here. SV3 *(structural)*: The agent-automatability filter — include a service only if an autonomous agent can pay it itself (real payment API, or low-friction invoice-against-account flow); exclude human-checkout-only merchants (processor redirect, account-top-up dashboards). SV4 *(structural)*: Two groups — (a) agent-native A2A venues (OpenAgents, Routstr, PPQ.AI); (b) off-the-shelf agent-payable services (Mullvad direct-merchant; Bitrefill the bridge to the long tail). SV5 *(structural)*: A sovereign rail does not guarantee delivery — no chargeback, no dispute desk; counterparty risk is real and is the gap a reputation system fills. SV6 *(deployed; ratings forward-looking)*: The full categorized directory is deployed at marketplace.bitcoineconomy.ai — curated registry (agent-drivable-API bar) + live Nostr announcements + six-hourly liveness probes + cross-provider sats price index, agent-readable (llms.txt three-fetch recipe + JSON routes); community ratings are the next phase; the sell side is underbuilt and is an opportunity. Deployed service surface in §7; delivery-risk caveat in §8; position summary in §11.
+  SV1 *(structural)*: Services is the "what" layer — the real services an agent buys and sells for Bitcoin — and is two-sided: consume (inference, compute, data, API calls, storage, other agents' work) plus offer (the agent sells its own output). Same payment mechanisms both directions. SV2 *(structural)*: Three Bitcoin-native payment mechanisms — L402 (402 + Lightning invoice + reusable macaroon), Cashu-as-API-key (bearer ecash token IS the credential, the Routstr pattern), NWC (wallet control without key custody); all permissionless at the payment layer; primitives specified in Stack-FA, referenced here. SV3 *(structural)*: The agent-automatability filter — include a service only if an autonomous agent can pay it itself (real payment API, or low-friction invoice-against-account flow); exclude human-checkout-only merchants (processor redirect, account-top-up dashboards). SV4 *(structural)*: Two groups — (a) agent-native A2A venues (OpenAgents, Routstr, PPQ.AI; Maple AI adjacent on the privacy axis, payment-leg caveat); (b) off-the-shelf agent-payable services (Mullvad direct-merchant; LNVPS + BitLaunch direct-API compute; Bitrefill the bridge to the long tail). SV5 *(structural)*: A sovereign rail does not guarantee delivery — no chargeback, no dispute desk; counterparty risk is real and is the gap a reputation system fills. SV6 *(deployed; ratings forward-looking)*: The full categorized directory is deployed at marketplace.bitcoineconomy.ai — curated registry (agent-drivable-API bar) + live Nostr announcements + six-hourly liveness probes + cross-provider sats price index, agent-readable (llms.txt five-fetch recipe + JSON routes); community ratings are the next phase; the sell side is underbuilt and is an opportunity. Deployed service surface in §7; delivery-risk caveat in §8; position summary in §11.
 ---
 
 # Services — For Agents
@@ -70,7 +70,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 - **SV1** *(structural)* — The Services layer is the "what" layer of the agent economy and is two-sided by nature: an agent both consumes services (inference, compute, data, API calls, storage, other agents' work) and can offer its own; the two sides use the same payment mechanisms in both directions. → §3
 - **SV2** *(structural)* — Agent service payment runs on three Bitcoin-native mechanisms — L402, Cashu-as-API-key, and NWC — all permissionless at the payment layer. The primitives are specified in [[Stack-FA|The Stack]]; this document references them and specifies their service-layer application. → §4
 - **SV3** *(structural)* — The agent-automatability filter selects which services qualify: a service is included only if an autonomous agent can genuinely pay it itself — via a real payment API or a low-friction invoice-against-account flow. Human-checkout-only merchants are excluded. → §5
-- **SV4** *(structural)* — Included services divide into two groups: (a) agent-native A2A venues (OpenAgents, Routstr, PPQ.AI); (b) off-the-shelf real-world services an agent can pay for itself (Mullvad direct-merchant; Bitrefill the bridge to the long tail). → §6
+- **SV4** *(structural)* — Included services divide into two groups: (a) agent-native A2A venues (OpenAgents, Routstr, PPQ.AI; Maple AI adjacent on the privacy axis with a payment-leg caveat); (b) off-the-shelf real-world services an agent can pay for itself (Mullvad direct-merchant; LNVPS and BitLaunch direct-API compute; Bitrefill the bridge to the long tail). → §6
 - **SV5** *(structural)* — A sovereign payment rail does not guarantee counterparty delivery; the rail that removes the payment intermediary also removes the chargeback and the dispute desk. Delivery, quality, and reputation risk is real and is the gap a reputation system substitutes for. → §8
 - **SV6** *(deployed; ratings layer forward-looking)* — The full categorized directory is deployed at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai), distinct from the few curated on-site entries: curated registry (agent-drivable-API inclusion bar) + live Nostr announcement modules + six-hourly endpoint liveness probes + a cross-provider sats price index, agent-readable by design. The community-ratings layer (its reason to exist per SV5) is the next phase. The sell side of the layer is underbuilt relative to the buy side. → §9
 
@@ -151,11 +151,13 @@ SV4 defended. Applying the filter (§5) partitions the in-layer services into th
 - **Routstr** — a Bitcoin-powered AI-inference marketplace: a payment-gated reverse proxy in front of OpenAI-compatible LLM APIs, paid per request in Cashu ecash (the token IS the API key), settling over Lightning, with Nostr-based provider discovery. The clearest deployed instance of the Cashu-as-API-key pattern (§4).
 - **PPQ.AI** — pay-per-query access to frontier models over Lightning / L402; an agent pays per call with no subscription or account. A live L402-pattern proof-point.
 
-**Group (b) — Off-the-shelf services an agent can pay for.** Real-world services (privacy, compute, hosting, domains, storage) an agent needs but that are not themselves agent venues. Two qualify under the filter, and they qualify in different ways:
+**Group (b) — Off-the-shelf services an agent can pay for.** Real-world services (privacy, compute, hosting, domains, storage) an agent needs but that are not themselves agent venues. Four qualify under the filter, and they qualify in different ways:
 - **Mullvad** — a privacy VPN paid over Lightning against a random account number, with no email and no KYC. The cleanest direct-merchant fit: it satisfies the filter via the invoice-against-account-number flow (admissible shape 2, §5), not a formal product API.
+- **LNVPS** — compute the agent-native way: a Lightning VPS with Nostr-key login (no email, no KYC), fundable over NWC, provisionable end-to-end by API (admissible shape 1). The first deployed instance of an agent buying its own infrastructure ran on LNVPS ([[Field-Notes-FA|Field Notes]]).
+- **BitLaunch** — mainstream compute (DigitalOcean/Vultr/Linode capacity) behind a real provisioning API + SDKs with Lightning-automated payment and no KYC (admissible shape 1) — big-cloud capacity paid in Bitcoin, request→invoice→pay→provision fully programmatic.
 - **Bitrefill** — the *bridge* to the long tail. A Lightning gift-card/top-up service with a real payment API (Thor) and no KYC for ordinary purchases. For the long tail of brands that do not take Bitcoin directly — domains, cloud, storage, mainstream SaaS — the agent buys a Bitrefill credit with sats (admissible shape 1, a real payment API) and redeems it at the target service. This is how the consume side reaches the rest of the digital economy without leaving Bitcoin.
 
-**Why these and not others.** *(structural)* Many VPN, hosting, and domain brands take Bitcoin — but via human checkout, not an agent-drivable API; they are out-of-layer per §5 and reachable only through Bitrefill. Group (b) is deliberately the two services that pass the filter directly: Mullvad as the model of a direct-merchant fit, Bitrefill as the model of a bridge that extends agent reach to everything else.
+**Why these and not others.** *(structural)* Many VPN, hosting, and domain brands take Bitcoin — but via human checkout, not an agent-drivable API; they are out-of-layer per §5 and reachable only through Bitrefill (Vultr, for instance, routes crypto through a BitPay redirect). Group (b) is deliberately the four services that pass the filter directly: Mullvad as the model of a direct-merchant fit, LNVPS and BitLaunch as compute with real provisioning APIs on the two ends of the sovereignty spectrum (Nostr-native vs. mainstream-cloud), Bitrefill as the model of a bridge that extends agent reach to everything else.
 
 **Group (c) — Liquidity provisioning.** *(structural)* Inbound liquidity is the precondition for an agent to *receive* over Lightning; acquiring or providing it is a marketplace transaction, not local software (that is [[reflex|Reflex]], which stays in [[Stack-FA|The Stack]]). Two-sided by construction — buy capacity, or sell idle bitcoin as routing liquidity for yield — and both legs are self-custodial and API-drivable, passing the filter via a real API (admissible shape 1, §5).
 - **Amboss (Magma)** — the buy side: a public channel-liquidity marketplace; an agent purchases inbound capacity opened to its *own* node via a public GraphQL mutation (no account) or the MIT `magma-mcp` server. Custody is preserved (non-custodial HODL-invoice escrow; the channel opens to the agent's node). Re-homed from the Stack's tooling to this layer 2026-06-27 — buying liquidity is a Market action, not equipment an agent runs.
@@ -207,6 +209,28 @@ SV4 defended at depth. Each deployed service profiled against the four conjuncti
 - **Two-sided.** Consume only (a reach extender, not a venue).
 - **Operational caveat.** *(operational)* A bridge, not a merchant relationship — the agent buys a redeemable credit, then redeems it at the target service, which may itself require that service's own account or KYC. Coverage, denominations, and regional availability shift; pricing carries Bitrefill's spread; very large orders may trigger limits — verify the specific product before relying on it.
 
+### §7.6 — LNVPS (Group b; agent-native compute)
+
+- **Payment mechanism.** Native Lightning per provisioned server, or a wallet connected over NWC; Nostr key is the identity — no email, no account profile, no KYC.
+- **Constraint profile (payment leg).** Pass 1 (keypair identity, no KYC), 2 (Lightning, no issuer), 3 (sub-cent Lightning fees), 4 (Lightning settlement).
+- **Automatability.** Real provisioning API (github.com/LNVPS/api); admissible shape 1 — log in with a Nostr key, pick CPU/RAM/SSD, pay the invoice, all scriptable. The deployed proof-point: the first recorded instance of an agent buying its own infrastructure ran here ([[Field-Notes-FA|Field Notes]]).
+- **Two-sided.** Consume only (infrastructure).
+- **Operational caveat.** *(operational)* A small independent provider — capacity, regions, and continuity are a single operator's; weigh against the mainstream-capacity alternative below for production loads.
+
+### §7.7 — BitLaunch (Group b; mainstream compute)
+
+- **Payment mechanism.** Lightning (or on-chain) funding a per-account balance that provisioning draws down; API token after an email signup — no KYC.
+- **Constraint profile (payment leg).** Pass 1 (email-only account, no identity check), 2 (Lightning leg permissionless), 3 (sub-cent Lightning fees), 4 (Lightning settlement).
+- **Automatability.** Real API + SDKs (blcli, Go/Python/PHP): request, invoice, pay, provision — end-to-end programmatic; admissible shape 1. The mainstream-capacity counterpart to LNVPS: DigitalOcean/Vultr/Linode hardware paid in Bitcoin.
+- **Two-sided.** Consume only (infrastructure).
+- **Operational caveat.** *(operational)* A reseller layer over the big clouds — the account (and human email signup) precedes automation, and upstream terms flow through; the identity attachment is minimal but not zero, unlike LNVPS's pure-keypair model.
+
+### §7.8 — Maple AI (Group a-adjacent; privacy-axis inference — payment-leg caveat)
+
+- **What it is.** TEE-attested, end-to-end-encrypted LLM inference behind an OpenAI-compatible API (Maple Proxy) — prompts provably unreadable to the provider; the privacy-axis counterpart to the sats-per-call venues of §7.2–§7.3.
+- **Constraint profile — honest split.** The *API leg* is fully agent-drivable (OpenAI-compatible, key as Bearer). The *payment leg* does not pass the §5 self-pay filter: subscription-based (card, or **Bitcoin accepted on yearly plans** at a discount) with a human operator funding the account — no sats-per-call path. Directory automatability: `api-account`.
+- **Why it is in-layer anyway.** *(structural)* The privacy axis is otherwise unserved: no sats-per-call venue offers TEE-attested encrypted inference today. Included with the caveat stated rather than omitted — an operator funds it, the agent drives it; for sats-native pay-per-call, use Routstr/PPQ.AI.
+
 ---
 
 ## §8 — The delivery-risk caveat
@@ -227,7 +251,7 @@ SV5 defended. The honest constraint on the entire layer.
 
 SV6 defended. The relationship between the curated on-site entries and the full directory.
 
-**Statement.** *(deployed; ratings layer forward-looking)* The curated on-site entries (the services in §6–§7) are deliberately few — the proof that this layer is real, not hypothetical. The complete picture is deployed as a separate sibling site at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai), a data-maintained artifact a static page cannot be. As deployed it comprises: (a) a curated registry admitting only services an agent can drive through a real API; (b) live Nostr announcement modules (provider and mint announcements, presented as announcements rather than endorsements); (c) endpoint liveness probes refreshed every six hours, with status, latency, and network fields; (d) a cross-provider sats-per-token price index answering "who serves model X cheapest now" in one fetch; and (e) agent-native consumption surfaces — llms.txt opening with a three-fetch recipe, typed JSON routes, per-entry markdown. The community-ratings layer is the directory's next phase; until it ships, probed liveness and announcement freshness are the deployed trust signals.
+**Statement.** *(deployed; ratings layer forward-looking)* The curated on-site entries (the services in §6–§7) are deliberately few — the proof that this layer is real, not hypothetical. The complete picture is deployed as a separate sibling site at [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai), a data-maintained artifact a static page cannot be. As deployed it comprises: (a) a curated registry admitting only services an agent can drive through a real API; (b) live Nostr announcement modules (provider and mint announcements, presented as announcements rather than endorsements); (c) endpoint liveness probes refreshed every six hours, with status, latency, and network fields; (d) a cross-provider sats-per-token price index answering "who serves model X cheapest now" in one fetch; and (e) agent-native consumption surfaces — llms.txt opening with a five-fetch recipe, typed JSON routes, per-entry markdown. The community-ratings layer is the directory's next phase; until it ships, probed liveness and announcement freshness are the deployed trust signals.
 
 **Why it is separate.** *(structural)* The directory's reason to exist is SV5: the one risk a payment rail cannot address is counterparty delivery, and community ratings are the reputation layer that substitutes for an intermediary's recourse. A ratings directory is therefore not a nicety bolted onto the layer — it is the structural complement to the sovereign rail. Its data-maintained, continuously-growing form is incompatible with a static essay surface, which is the build-shape reason it lives as its own site.
 

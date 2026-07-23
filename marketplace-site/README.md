@@ -25,7 +25,7 @@ This folder is **not** part of the main Astro build; it deploys on its own
 | `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
 | `worker.js` | Cloudflare Worker: cron → relays + probes → KV; serves `/mcp` (the MCP server), `/live/snapshot.json` + `/live/models.json`; assets otherwise |
-| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`) at `POST /mcp` |
+| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`) at `POST /mcp` |
 | `wrangler.jsonc` | worker config (cron every 6h, KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 

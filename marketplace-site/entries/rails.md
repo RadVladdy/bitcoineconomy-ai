@@ -1,6 +1,6 @@
 # Amboss Rails
 
-> Sell-side liquidity yield — deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side).
+> Sell-side liquidity yield — deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side)
 
 A self-custodial Lightning liquidity-provision service — put idle bitcoin to work as routing liquidity and earn yield, driven by a GraphQL API.
 

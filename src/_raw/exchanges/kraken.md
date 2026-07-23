@@ -23,8 +23,6 @@ status: v0-2026-06-06-structural-verified
 links-verified: 2026-06-06 (structural + API-docs URL verified; fees deferred to the venue / Field Notes)
 ---
 
-# Kraken
-
 **What it is.** A large, long-established multi-asset exchange with broad fiat pairs and a mature trading API. Not Bitcoin-only.
 
 **What it bridges.** Fiat ↔ BTC and **BTC ↔ stablecoin**, across many fiat currencies — useful where an agent's counterparties or jurisdictions are outside US-centric rails.

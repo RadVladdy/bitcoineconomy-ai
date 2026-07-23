@@ -118,7 +118,7 @@ Whichever pathway you pick, the destination is the same: an agent that holds val
 
 *Internal author perspective. Not published in produced derivatives.*
 
-Built 2026-06-25 for ▶ Next #5 / Killeen K3 — the from-scratch "spin up an agent connected to a wallet" on-ramp. Reframed by RadVladdy (2026-06-25) from a single linear walkthrough into an **adoption-pathways** guide: the organizing axis is *how much infrastructure you run yourself*, and every trade-off falls out of that. Sourced from our own card prereqs (the #4 audit already captured the Neutrino / remote-signer nuance) plus the AI-search synthesis RadVladdy pasted (light-client daemons / MCP+NWC connectors / remote signers / headless non-custodial wallets — the four map onto pathways C / B / overlay / B respectively).
+Built 2026-06-25 for ▶ Next #5 / Killeen K3 — the from-scratch "spin up an agent connected to a wallet" on-ramp. Reframed per the editor's 2026-06-25 decision from a single linear walkthrough into an **adoption-pathways** guide: the organizing axis is *how much infrastructure you run yourself*, and every trade-off falls out of that. Sourced from our own card prereqs (the #4 audit already captured the Neutrino / remote-signer nuance) plus the AI-search synthesis the editor supplied (light-client daemons / MCP+NWC connectors / remote signers / headless non-custodial wallets — the four map onto pathways C / B / overlay / B respectively).
 
 **Scope discipline.** This is the *on-ramp*, not the explainer and not the catalog. Architecture → defers to [[Stack]]; specific-tool detail → defers to the [[Tools]] cards; custodial venues → defer to [[Exchange]] / [[Services]]. Keep it a decision-guide, not a re-explanation.
 

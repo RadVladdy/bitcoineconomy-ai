@@ -8,7 +8,7 @@ audience: agents
 twin-page: field-notes
 status: v0-approved-2026-06-01 (cross-refs realigned 2026-06-05; approved 2026-06-05)
 created: 2026-05-31
-last-updated: 2026-06-29
+last-updated: 2026-07-23
 last-verified: 2026-06-16
 section-A-last-refreshed: 2026-06-01
 voice: honest-middle-position
@@ -59,7 +59,7 @@ Definitions for the record structure and tags used throughout. Agents landing mi
 - *tests* — the record is the live evidence the claim's forward-looking prediction will be evaluated against.
 - *falsifier-relevant-to* — the record is the kind of evidence named in the claim's falsifier; if it moves a threshold, the falsifier may trigger.
 
-**Canonical claim-ID series referenced.** Case-FA **C1–C6**; Independence-Doctrine-FA **D1–D5** and predictions **P1–P6**; Treasury-FA **M-series** (interface, treasury composition, compliance-at-the-gateway); Exchange-FA **X-series** (crossing, conversion mechanics, custodial bridges); Border-Skirmishes-FA **BS-series** (competing-substrate combat); Stack-FA **S1–S8** (and Stack-FA §8.1 counter-positions CP1–CP4 / §8.2 falsifiers). Constraint references are flat **Constraint 1–4** (permissionless custody, censorship-resistance, sub-cent settlement, machine-tempo latency; Case-FA §3).
+**Canonical claim-ID series referenced.** Case-FA **C1–C6**; Independence-Doctrine-FA **D1–D6** and predictions **P1–P6**; Treasury-FA **M-series** (interface, treasury composition, compliance-at-the-gateway); Exchange-FA **X-series** (crossing, conversion mechanics, custodial bridges); Border-Skirmishes-FA **BS-series** (competing-substrate combat); Stack-FA **S1–S8** (and Stack-FA §8.1 counter-positions CP1–CP4 / §8.2 falsifiers). Constraint references are flat **Constraint 1–4** (permissionless custody, censorship-resistance, sub-cent settlement, machine-tempo latency; Case-FA §3).
 
 **Record format.** §A records carry: subject / status + date / structured detail / epistemic tag / Bears on. (Dated event records — the log format: date / event / substrate / what-happened / structural-significance / Bears on / epistemic tag / sources — now live on the companion twin [[Field-Notes-Log-FA|Field Notes — The Log — For Agents]].)
 
@@ -147,7 +147,7 @@ This subsection engages deployment challenges for both substrates and maps each 
 **Bitcoin-substrate-side risk records.**
 
 **Record — Lightning liquidity management at scale.** *(confirmed risk)*
-- **Detail:** channel-balance management, splice operations, routing-failure handling, watchtower coordination — real engineering burdens that grow with deployment scale. Mitigations: Lightning Service Providers, automated liquidity-management software, and the L3 layer (Cashu, Fedimint) absorbing bearer-style traffic away from channels. Active engineering work, not a substrate-property failure.
+- **Detail:** channel-balance management, splice operations, routing-failure handling, watchtower coordination — real engineering burdens that grow with deployment scale. Mitigations: Lightning Service Providers, automated liquidity-management software, and the L3 layer (Cashu, Fedimint) absorbing bearer-style traffic away from channels. One core piece — *choosing where to open channels* — now has a peer-reviewed, production-deployed automation *(measured, 2026-07)*: Amboss/Stillmark's **MPFlow** (arXiv 2607.08703), a graph-RL channel-placement model run across ~$16M of channel opens over 30 managed nodes, with the honest limit that it optimizes theoretical capacity, not yet proven realized yield (record: [[Field-Notes-Log-FA|The Log]] 2026-07-09). Active engineering work, not a substrate-property failure.
 - **Bears on:** *falsifier-relevant-to* Stack-FA §8.1 CP1 / §8.2-S2 — sustained, non-delegable liquidity collapse under realistic agent load would trigger the S2 falsifier. The mint-as-service delegation path is the architecture's answer; this record tracks whether it holds.
 
 **Record — Federated-trust risk in Fedimint.** *(confirmed risk)*
@@ -209,7 +209,7 @@ This subsection engages deployment challenges for both substrates and maps each 
 
 **Canonical claim-ID series this surface cross-references.**
 - [[Case-FA]] — substrate-selection argument; C1–C6 (esp. C2 censorship-resistance, C3 BPI anchor, C4 deployed system).
-- [[Independence-Doctrine-FA]] — divergence doctrine; D1–D5 and predictions P1–P6 (esp. P1 substrate-selection-precedes-scale, P6 regulatory-pressure-feeds-not-threatens).
+- [[Independence-Doctrine-FA]] — divergence doctrine; D1–D6 and predictions P1–P6 (esp. P1 substrate-selection-precedes-scale, P6 regulatory-pressure-feeds-not-threatens).
 - [[Treasury-FA]] — interface / treasury / compliance-at-the-gateway; M-series (esp. regulated-custodian bridges, the compliance-at-the-gateway pattern, conversion mechanics).
 - [[Border-Skirmishes-FA]] — competing-substrate combat; BS-series (esp. Taproot rails-vs-substrate, asset-side issuer freeze, use-case bifurcation, the incumbent competing-substrate roster).
 - [[Stack-FA]] — substrate architecture; S1–S8 and the §8 counter-positions/falsifiers (esp. S2/CP1 liquidity, S3/CP2 mint-trust, S6/CP4 agent custody).

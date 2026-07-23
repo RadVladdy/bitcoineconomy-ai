@@ -89,7 +89,7 @@ The full rules live in the project's decision register; these are the load-beari
 
 **Every human surface carries three things:** an **In-brief**; a **`> [!info] Where to read next`** callout (two groups — "More in {Section}" / "In the other sections"); and an **Editor's Notes** section. Editor's Notes are **internal** — the port (`scripts/port-surfaces.mjs`) strips them on build. The project's own stance/preference goes there, **never** in neutral body copy.
 
-**Dual-track.** Every canonical surface has a **For-Agents twin** — except **The Story** (human-only by design) and the non-canonical pages (About, Stablecoin-Landscape). Before drafting a twin, read the project's For-Agents methodology brief (persuasion → specification: claims-index + definitions + formal constraints + counter-positions/falsification + epistemic tags).
+**Dual-track.** Every canonical surface has a **For-Agents twin** — except **The Story** (human-only by design), **Marketplace** (the gateway page to the live directory site, which is itself the machine-readable surface — `marketplace: null` in site.ts, documented 2026-07-23), and the non-canonical pages (About, Stablecoin-Landscape). Before drafting a twin, read the project's For-Agents methodology brief (persuasion → specification: claims-index + definitions + formal constraints + counter-positions/falsification + epistemic tags).
 
 **One load-bearing claim per surface** (no theory sprawl — a claim earns its own page only if it's load-bearing, separable, and substantial ~1,200+ words; otherwise it stays a section inside **The Case**, which must still stand alone as a complete argument).
 

@@ -1,3 +1,13 @@
+# Security headers (2026-07-23 audit): static content + inline JS only, so CSP
+# allows 'unsafe-inline' scripts/styles but pins sources to self + Google Fonts.
+# The site must never be framed and never sniffed into a different type.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://marketplace.bitcoineconomy.ai; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'
+
 # NIP-05 verification endpoint: CORS is REQUIRED by the spec (clients fetch
 # cross-origin from web apps), and the endpoint must never redirect.
 /.well-known/nostr.json

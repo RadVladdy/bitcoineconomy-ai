@@ -6,7 +6,7 @@ An independent verification layer an agent pays in sats — a neutral verdict be
 
 - Category: verification
 - Payment methods: l402, lightning, fiat
-- Payment detail: per-call sats — L402 on paid endpoints, or an instantly issued free API key funded by Lightning top-up; USDC (x402 on Base) and card (Stripe) funding also accepted
+- Payment detail: per-call sats — L402, or a free API key funded over Lightning (USDC/x402 and card also accepted)
 - KYC: none
 - Custody: prepaid sats balance held by the service (top-up model); card- and x402-funded sats are spendable on tools but not withdrawable over Lightning
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding

@@ -336,10 +336,14 @@ figure.matrix table {
 /* Wide matrix tables scroll inside their own box on narrow screens, so every
    column (incl. the last) is fully reachable. The wrapper owns the rounded
    frame + scroll; the table drops its own radius/clip so nothing is cut off. */
-figure.matrix .matrix-scroll {
+/* The scroll wrapper must contain its table wherever it appears — and the
+   figure itself must never widen the page (2026-07-23 mobile-overflow audit). */
+figure.matrix, figure.diagram { max-width: 100%; min-width: 0; }
+.matrix-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 10px;
+  max-width: 100%;
 }
 figure.matrix .matrix-scroll > table {
   min-width: 34rem;
@@ -570,7 +574,9 @@ figure.matrix .matrix-title {
   font-size: 0.92rem;
 }
 .agent-connect .ac-grid dt { font-weight: 600; color: var(--fg-soft); }
-.agent-connect .ac-grid dd { margin: 0; }
+/* long unbroken strings (URLs, JSON, connection commands) wrap instead of
+   widening the page on narrow screens (2026-07-23 mobile-overflow audit) */
+.agent-connect .ac-grid dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 .agent-connect .ac-mcp { font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.88em; }
 .agent-connect .ac-note { display: block; margin-top: 0.25rem; font-size: 0.84rem; color: var(--fg-soft); }
 .agent-connect .ac-ptr { margin: 0; font-size: 0.88rem; color: var(--fg-soft); }
@@ -792,6 +798,7 @@ figure.matrix .matrix-title {
 @media (max-width: 48rem) {
   .hero2 { padding: 3.2rem 1.25rem 3rem; }
   .landing2 { grid-template-columns: 1fr; gap: 1.4rem; }
+  .landing2 > *, .story2, .tiles2 { min-width: 0; max-width: 100%; }
 }
 
 /* ============================================================
@@ -800,6 +807,8 @@ figure.matrix .matrix-title {
 
 /* two-column: reading column + right rail */
 .surface-layout { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 2.4rem; align-items: start; }
+/* prose never widens the page over an unbreakable token (domains, hashes) */
+.surface-layout p, .prose p { overflow-wrap: break-word; }
 .page-rail { font-size: 0.84rem; }
 .rail-sticky { position: sticky; top: 5.5rem; display: flex; flex-direction: column; gap: 1.7rem; }
 .rail-h { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; color: var(--fg-soft); margin: 0 0 0.6rem; }
@@ -838,6 +847,11 @@ figure.matrix .matrix-title {
 
 /* section headings keep clearance under the sticky header (no accent bar) */
 .prose h2 { scroll-margin-top: 5.5rem; }
+
+/* neutral accent — pages outside the colour triad (Field Notes, About):
+   structural callouts take the rule colour, not a section colour */
+.accent-neutral .callout { border-left-color: #3a3a3a; }
+.accent-neutral .callout-title { color: var(--fg-soft); }
 
 /* callout type accents (default stays orange; info → cyan, warning → amber) */
 .callout-info { border-left-color: var(--electric); }

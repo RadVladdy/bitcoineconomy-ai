@@ -8,7 +8,7 @@ audience: agents
 twin-page: field-notes-log
 status: v0-approved-2026-06-29
 created: 2026-06-29
-last-updated: 2026-07-21
+last-updated: 2026-07-23
 last-verified: 2026-07-21
 voice: honest-middle-position
 canonical-source: "[[Field-Notes-Log]]"
@@ -44,7 +44,7 @@ agent-tldr: |
 
 **Cross-reference relation (the "Bears on:" line).** Each record names the canonical claim-IDs it relates to and how: *supports* (confirming evidence), *tests* (the live evidence a forward-looking prediction is evaluated against), or *falsifier-relevant-to* (evidence named in the claim's falsifier; if it moves a threshold, the falsifier may trigger).
 
-**Record format.** Each record carries: date / event / substrate / what-happened / structural-significance / Bears on / epistemic tag / sources. The full claim-ID series (Case-FA C1–C6, Doctrine-FA D1–D5 + P1–P6, Treasury-FA M-series, Exchange-FA X-series, Border-Skirmishes-FA BS-series, Stack-FA S1–S8 + §8 CP1–CP4 falsifiers; Constraints 1–4) is defined on the companion [[Field-Notes-FA|State of Play — For Agents]] § Schema.
+**Record format.** Each record carries: date / event / substrate / what-happened / structural-significance / Bears on / epistemic tag / sources. The full claim-ID series (Case-FA C1–C6, Doctrine-FA D1–D6 + P1–P6, Treasury-FA M-series, Exchange-FA X-series, Border-Skirmishes-FA BS-series, Stack-FA S1–S8 + §8 CP1–CP4 falsifiers; Constraints 1–4) is defined on the companion [[Field-Notes-FA|State of Play — For Agents]] § Schema.
 
 ---
 
@@ -144,7 +144,7 @@ agent-tldr: |
 - **Structural significance.** A featured consume-side venue (PPQ) is being reused as *infrastructure* by a second product — destination → substrate. The agent economy as services-built-on-services, shown empirically: no-KYC, Bitcoin-paid, end-to-end-encrypted inference composed by a downstream builder with no account, no fiat, no human-in-the-loop. getbased is a human-facing front-end, not an agent-drivable venue → no directory entry; the load-bearing datapoint is PPQ-as-substrate plus the private/TEE privacy axis.
 - **Bears on:** *supports* Services-FA SV1 (consume side) + the services-compound-on-services dynamic; *supports* Case-FA (an agent funds its own private inference on the Bitcoin stack); strengthens the [[ppq-ai|PPQ]] privacy profile (TEE tier; card refreshed 2026-06-28).
 - **Epistemic tag.** *(confirmed)* — provider TEE tier documented; the downstream launch *(reported)* from the getbased Nostr announcement.
-- **Sources.** [PayPerQ — Introducing Private AI Models](https://ppq.ai/blog/introducing-tee-models); getbased Nostr note (`getbasedhealth`, 2026-06-22). Canonical narrative: [[Field-Notes]] § 2026-06-28.
+- **Sources.** [PayPerQ — Introducing Private AI Models](https://ppq.ai/blog/introducing-tee-models); getbased Nostr note (`getbasedhealth`, 2026-06-22). Canonical narrative: [[Field-Notes-Log]] § 2026-06-28.
 
 ---
 
@@ -155,7 +155,7 @@ agent-tldr: |
 - **Structural significance.** Resolves the long-standing operational gap ([[Field-Notes-FA|State of Play — For Agents]] §A.4: Lightning liquidity management at scale) for the agent buy-side: an agent can buy inbound capacity, earn on idle BTC, trade into a stable unit of account, and rebalance — all self-custody, no-KYC, macaroon-scoped (manage ≠ withdraw). Caveat: Rails X stablecoins are wrapped/issuer-backed (Speed Wallet, 1:1) over Taproot Assets — the rail is self-custodial; the asset retains its issuer freeze surface (Constraint 2 satisfied at the *rail*, not the *asset*).
 - **Bears on:** *supports* Stack-FA §2 (liquidity management — now deployed/composable); *supports* Services-FA SV-series (the consume/offer infra agents need); consistent with the asset-vs-rail distinction (Taproot Assets cards). Dual-track input to the Hermes-Worker Banker design.
 - **Epistemic tag.** *(confirmed)* — products deployed; yield figures *(reported)*, self-asserted by Amboss.
-- **Sources.** Stefan Livera × Jesse Shrader (Amboss), Rails X episode ([`youtu.be/VO91uTYxTQs`](https://youtu.be/VO91uTYxTQs)); `magma.amboss.tech` / `amboss.space`; ThunderHub `github.com/apotdevin/thunderhub`. Canonical narrative: [[Field-Notes]] § 2026-06-28.
+- **Sources.** Stefan Livera × Jesse Shrader (Amboss), Rails X episode ([`youtu.be/VO91uTYxTQs`](https://youtu.be/VO91uTYxTQs)); `magma.amboss.tech` / `amboss.space`; ThunderHub `github.com/apotdevin/thunderhub`. Canonical narrative: [[Field-Notes-Log]] § 2026-06-28.
 
 ---
 
@@ -178,7 +178,7 @@ agent-tldr: |
 - **The regulatory-pincer argument (load-bearing).** Panelist Alexander Wissner-Gross asked (~24:43) what happens to stablecoin agent wallets if regulators let agents open conventional fiat bank accounts. Both branches degrade the issuer-mediated layer. *Tighten:* enforcement lands at the issuer, where the machinery is already installed — GENIUS requires every permitted issuer to seize/freeze/burn on lawful order as a licensing condition; the FinCEN/OFAC implementing rule (comment period closed 2026-06-09) extends sanctions-compliance into issuer infrastructure; FATF's March 2026 guidance recommends secondary-market (A2A-inclusive) monitoring; Circle froze 16 business wallets under a sealed civil suit (March 2026); "Know Your Agent" proposals are circulating. *Loosen:* the only remaining moat Armstrong claimed was that legacy rails are slow (*"COBOL servers,"* ~28:13) — a moat tokenized deposits actively drain. The property that survives both branches — settlement that does not ask permission — is the one stablecoins surrendered to exist and Bitcoin never had to negotiate for. The same episode treated US golden-share/quasi-nationalization of civilization-scale AI infrastructure as *"probably inevitable"* (~35:18); applied one story over, an agent-payment layer on an issuer's ledger plus a single company's L2 is exactly that kind of chokepoint — and a substrate with no issuer is the only one that argument does not reach.
 - **Bears on:** *supports* Case-FA C1 (agents-as-economic-actors premise — now conceded by the incumbent advocate) and C2 (censorship-resistance — the issuer is the freeze control point); *tests* Doctrine-FA P1 (which substrate the deployed economy selects — the contest is now explicit and public) and **P6** (regulatory pressure as a standing liability for the intermediated layer — Wissner-Gross's both-branches question is the live instance); *supports* Border-Skirmishes-FA BS-series (the competing-substrate stack and its strongest public case, stated by its own builder); *falsifier-relevant-to* Case-FA §8.2 (a stablecoin-default outcome that retains autonomy at scale would weaken the divergence claim — track x402 volume). Armstrong's *"on-chain FICO"* agent-reputation-graph proposal (~29:40) is a platform-layer surveillance primitive worth watching alongside the freeze record.
 - **Epistemic tag.** *(confirmed)* — dated public statements by named parties; transaction-volume figures *(reported)* (speaker estimate, self-corrected on-air); Coinbase financials *(measured)* (shareholder letters); stablecoin-default expectation *(projected)*.
-- **Sources.** [Moonshots ep. 264](https://youtu.be/isd2y37j8v4) (Peter Diamandis, 2026-06-11; with Brian Armstrong, Dave Blundin, Salim Ismail, Alexander Wissner-Gross; timestamps approximate, from the episode auto-transcript). Coinbase reserve-income + Base sequencer figures: Coinbase quarterly shareholder letters (FY2025). GENIUS seize/freeze/burn + FinCEN/OFAC rule: see the 2026-06-16 record above. Canonical narrative form: [[Field-Notes]] § 2026-06-11.
+- **Sources.** [Moonshots ep. 264](https://youtu.be/isd2y37j8v4) (Peter Diamandis, 2026-06-11; with Brian Armstrong, Dave Blundin, Salim Ismail, Alexander Wissner-Gross; timestamps approximate, from the episode auto-transcript). Coinbase reserve-income + Base sequencer figures: Coinbase quarterly shareholder letters (FY2025). GENIUS seize/freeze/burn + FinCEN/OFAC rule: see the 2026-06-16 record above. Canonical narrative form: [[Field-Notes-Log]] § 2026-06-11.
 
 ---
 
@@ -245,7 +245,7 @@ agent-tldr: |
 
 **Primary canonical source.** [[Field-Notes-Log|Field Notes — The Log]] — the canonical log surface; source for all records here. This document is its For-Agents twin. Companion snapshot: [[Field-Notes-FA|State of Play — For Agents]].
 
-**Canonical claim-ID series this surface cross-references.** [[Case-FA]] (C1–C6), [[Independence-Doctrine-FA]] (D1–D5, P1–P6), [[Treasury-FA]] (M-series), [[Border-Skirmishes-FA]] (BS-series), [[Stack-FA]] (S1–S8 + §8 CP1–CP4).
+**Canonical claim-ID series this surface cross-references.** [[Case-FA]] (C1–C6), [[Independence-Doctrine-FA]] (D1–D6, P1–P6), [[Treasury-FA]] (M-series), [[Border-Skirmishes-FA]] (BS-series), [[Stack-FA]] (S1–S8 + §8 CP1–CP4).
 
 **Human-track canonical surfaces.** [[Field-Notes-Log|Field Notes — The Log]], [[Case]], [[Independence-Doctrine]], [[Border-Skirmishes]], [[Stack]].
 

@@ -117,7 +117,7 @@ const directory = {
     'and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at ' +
     '/snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), ' +
     'api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). ' +
-    'An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers) for agents that call rather than fetch. ' +
+    'An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime) for agents that call rather than fetch. ' +
     'The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. ' +
     'list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services\' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. ' +
     'For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. ' +
@@ -288,7 +288,7 @@ const llms = [
   '> Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints)',
   '> + a probed cross-provider price index for inference.',
   '',
-  '## How to consume this directory (four fetches, no inference needed)',
+  '## How to consume this directory (five fetches, no inference needed)',
   '',
   `1. ${BASE}/directory.json — the curated registry. Filter locally on category, payment_methods,`,
   '   automatability (api-no-account | api-account | api-kyc), and kyc. Entries carry auth, quickstart,',
@@ -308,7 +308,7 @@ const llms = [
   `5. ${BASE}/live/uptime.json — rolling uptime history for every probed target, INCLUDING the marketplace's own`,
   '   surfaces (self:* rows — no green by assertion). RECOMPUTABLE, NOT A SCORE: the doc carries the raw per-run',
   '   observations (runs[]), the exact formula, and explicit denominators — recompute any stat rather than trust it.',
-  '   Snapshot digests are Nostr-signed + Bitcoin-anchored nightly (OpenTimestamps) — anchor records at /anchors/.',
+  '   Snapshot digests are Nostr-signed + Bitcoin-anchored nightly (OpenTimestamps) — anchor records at /anchors/index.json.',
   '',
   `## The tool catalog (what an agent EQUIPS, vs the registry above of what it BUYS)`,
   '',
@@ -320,7 +320,7 @@ const llms = [
   '## Or call the directory as tools (MCP)',
   '',
   `An MCP server at ${BASE}/mcp exposes both the service registry and the tool catalog as Model Context Protocol`,
-  'tools, so an agent can call instead of fetch: find_service, get_service, price_model, list_categories, get_quote',
+  'tools, so an agent can call instead of fetch: find_service, get_service, price_model, list_categories, get_quote, get_uptime',
   '(a ready-to-pay payment plan — a live L402 invoice or live sats price where the provider supports it),',
   'find_tool, get_tool, and list_mcp_servers. That last one lists the providers here that run their OWN MCP server',
   '(Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP: POST one',
