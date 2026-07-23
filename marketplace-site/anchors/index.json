@@ -1,0 +1,24 @@
+{
+ "$schema_note": "Anchor records for the marketplace trust layer. Each record: a Nostr event (kind 8555, signed by the marketplace-anchor pubkey below) carrying sha256 digests of the live agent surfaces at fetch time, published to public relays, its canonical serialization stored as <event_id>.evt (sha256(.evt) == event_id per NIP-01) and stamped into Bitcoin via OpenTimestamps (<event_id>.evt.ots). how_to_check: (1) sha256 the .evt file and confirm it equals the event id; (2) verify the event signature against anchor_pubkey (NIP-01 schnorr); (3) ots verify -d <event_id> <event_id>.evt.ots against any Bitcoin explorer; (4) fetch the event by id from the listed relays for the third-party copy. The repo history of this folder is itself an additional weak anchor.",
+ "schema_version": 1,
+ "anchor_pubkey": "ae6673d804ad325c7fbdad9413bc90f97ae26a5e16b6e4bf993ddc951cba889a",
+ "records": [
+  {
+   "date": "2026-07-23",
+   "event_id": "6181a5a55b6fdc2d2f4d5c9dec27c90016b6ed9f6bfe08fbf2afe8a335e806f6",
+   "created_at": 1784824218,
+   "digests": {
+    "/live/snapshot.json": "246cd596f11be30fe6a864bc9afaa85be928c5b1278f877aaffce1c98b5e0015",
+    "/live/models.json": "09d08f06848e93d8ad4456dddd48221172830f63c2abc232179c42f4217fea91",
+    "/live/uptime.json": "bda6a1dde1fb9456fd7af0c6fc5a9012b14e5849e81051c5653f9e7f493135dd"
+   },
+   "relays": [
+    "wss://relay.damus.io",
+    "wss://nos.lol",
+    "wss://relay.primal.net"
+   ],
+   "relay_publish_ok": true,
+   "ots": "pending"
+  }
+ ]
+}
