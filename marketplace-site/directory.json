@@ -2,12 +2,13 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-07-21T20:54:10.139Z",
-  "entry_count": 20,
+  "generated_at": "2026-07-23T15:56:31.102Z",
+  "entry_count": 21,
   "categories": [
     "inference",
     "compute",
     "machine-work",
+    "verification",
     "commerce",
     "privacy",
     "swap",
@@ -216,6 +217,49 @@
       "provenance": "curated",
       "last_verified": "2026-07-21",
       "note": "Khala research preview — OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development — many surfaces gated."
+    },
+    {
+      "slug": "invinoveritas",
+      "name": "invinoveritas",
+      "category": "verification",
+      "summary": "An independent verification layer an agent pays in sats — a neutral verdict before an irreversible action, a schnorr-signed proof after, and a public track record anyone can verify against the service's published key without trusting it.",
+      "what_an_agent_buys": "Independent pre-action verdicts and signed proofs — a neutral approve/concerns/reject on a trade, diff, plan, command, or on-chain action before an irreversible step (~200 sats), a portable schnorr-signed audit proof after (100 sats), and free no-auth verification of any counterparty's proof",
+      "payment_methods": [
+        "l402",
+        "lightning",
+        "fiat"
+      ],
+      "payment_detail": "per-call sats — L402 on paid endpoints, or an instantly issued free API key funded by Lightning top-up; USDC (x402 on Base) and card (Stripe) funding also accepted",
+      "kyc": "none",
+      "custody": "prepaid sats balance held by the service (top-up model); card- and x402-funded sats are spendable on tools but not withdrawable over Lightning",
+      "automatability": "api-no-account",
+      "auth": "none to start — POST /register {} returns an API key instantly (no email, no KYC); Bearer key on paid calls, funded by Lightning top-up (or L402 per-call where challenged); /verify-proof, /ledger, and /conformance need no auth at all",
+      "api_base": "https://api.babyblueviper.com",
+      "pricing_url": "https://api.babyblueviper.com/llms.txt",
+      "quickstart": "POST /register with {} → api_key; POST /review with Authorization: Bearer <key> and {\"artifact\": \"<diff/trade/command>\", \"artifact_type\": \"code_diff|trade|plan|shell_command|onchain_action\"} → verdict + signed recomputable proof (first few calls free). Verify anyone's proof free at POST /verify-proof; public track record at GET /ledger.",
+      "mcp_endpoint": {
+        "kind": "service",
+        "transport": "http",
+        "url": "https://api.babyblueviper.com/mcp",
+        "tools": [
+          "review",
+          "prove",
+          "verify_proof",
+          "ledger"
+        ],
+        "note": "The provider's own MCP server (Streamable HTTP; discovery open, auth only on paid tool calls; Lightning payment handling built in) — connect here so an agent can gate its own output before acting. Copy-paste client configs at /install."
+      },
+      "two_sided": "consume + offer",
+      "maintainer": "Baby Blue Viper (pseudonymous)",
+      "links": {
+        "site": "https://api.babyblueviper.com",
+        "docs": "https://api.babyblueviper.com/llms.txt"
+      },
+      "card_url": "https://bitcoineconomy.ai/services/invinoveritas",
+      "entry_md": "https://marketplace.bitcoineconomy.ai/entries/invinoveritas.md",
+      "provenance": "curated",
+      "last_verified": "2026-07-23",
+      "note": "First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published). A verdict is a paid second opinion, not an SLA."
     },
     {
       "slug": "unhuman",

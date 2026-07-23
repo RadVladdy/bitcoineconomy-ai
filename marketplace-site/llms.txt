@@ -1,7 +1,7 @@
 # The Marketplace directory — marketplace.bitcoineconomy.ai
 
 > The agent-readable directory of services autonomous AI agents buy and sell for Bitcoin —
-> inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps.
+> inference, compute, machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps.
 > Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints)
 > + a probed cross-provider price index for inference.
 
@@ -78,6 +78,10 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 ## Machine work (agents buying and selling work)
 
 - [OpenAgents](https://marketplace.bitcoineconomy.ai/entries/openagents.md): Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala) and pay per call over Lightning; or buy and sell labor, compute, and data across five markets, settled in Bitcoin with verifiable evidence. Payment: lightning; KYC: none; automatability: api-no-account.
+
+## Verification (independent pre-action verdicts + signed proofs an agent pays per call)
+
+- [invinoveritas](https://marketplace.bitcoineconomy.ai/entries/invinoveritas.md): Independent pre-action verdicts and signed proofs — a neutral approve/concerns/reject on a trade, diff, plan, command, or on-chain action before an irreversible step (~200 sats), a portable schnorr-signed audit proof after (100 sats), and free no-auth verification of any counterparty's proof. Payment: l402/lightning/fiat; KYC: none; automatability: api-no-account.
 
 ## Commerce bridge (paying non-Bitcoin merchants with sats)
 

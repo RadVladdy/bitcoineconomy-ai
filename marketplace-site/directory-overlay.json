@@ -130,6 +130,35 @@
       "note": "Khala research preview \u2014 OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development \u2014 many surfaces gated."
     },
     {
+      "slug": "invinoveritas",
+      "source": "services/invinoveritas.md",
+      "category": "verification",
+      "what_an_agent_buys": "Independent pre-action verdicts and signed proofs \u2014 a neutral approve/concerns/reject on a trade, diff, plan, command, or on-chain action before an irreversible step (~200 sats), a portable schnorr-signed audit proof after (100 sats), and free no-auth verification of any counterparty's proof",
+      "payment_methods": [
+        "l402",
+        "lightning",
+        "fiat"
+      ],
+      "automatability": "api-no-account",
+      "auth": "none to start \u2014 POST /register {} returns an API key instantly (no email, no KYC); Bearer key on paid calls, funded by Lightning top-up (or L402 per-call where challenged); /verify-proof, /ledger, and /conformance need no auth at all",
+      "api_base": "https://api.babyblueviper.com",
+      "pricing_url": "https://api.babyblueviper.com/llms.txt",
+      "quickstart": "POST /register with {} \u2192 api_key; POST /review with Authorization: Bearer <key> and {\"artifact\": \"<diff/trade/command>\", \"artifact_type\": \"code_diff|trade|plan|shell_command|onchain_action\"} \u2192 verdict + signed recomputable proof (first few calls free). Verify anyone's proof free at POST /verify-proof; public track record at GET /ledger.",
+      "mcp_endpoint": {
+        "kind": "service",
+        "transport": "http",
+        "url": "https://api.babyblueviper.com/mcp",
+        "tools": [
+          "review",
+          "prove",
+          "verify_proof",
+          "ledger"
+        ],
+        "note": "The provider's own MCP server (Streamable HTTP; discovery open, auth only on paid tool calls; Lightning payment handling built in) \u2014 connect here so an agent can gate its own output before acting. Copy-paste client configs at /install."
+      },
+      "note": "First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted \u2014 card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published). A verdict is a paid second opinion, not an SLA."
+    },
+    {
       "slug": "unhuman",
       "source": "services/unhuman.md",
       "category": "commerce",

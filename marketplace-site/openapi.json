@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "The Marketplace directory — bitcoineconomy.ai",
-    "description": "Read-only discovery API for Bitcoin-payable services and tools an autonomous AI agent can consume: inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps. Fetch the registry and filter locally — no auth, and no funds move through this API; the agent pays each provider directly over Lightning / L402 / Cashu. MCP-capable agents should use the richer Model Context Protocol server at https://marketplace.bitcoineconomy.ai/mcp instead (find_service, get_service, get_quote, find_tool, get_tool, list_mcp_servers).",
+    "description": "Read-only discovery API for Bitcoin-payable services and tools an autonomous AI agent can consume: inference, compute, machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps. Fetch the registry and filter locally — no auth, and no funds move through this API; the agent pays each provider directly over Lightning / L402 / Cashu. MCP-capable agents should use the richer Model Context Protocol server at https://marketplace.bitcoineconomy.ai/mcp instead (find_service, get_service, get_quote, find_tool, get_tool, list_mcp_servers).",
     "version": "1.0.0",
     "contact": {
       "email": "hello@bitcoineconomy.ai",
@@ -19,7 +19,7 @@
       "get": {
         "operationId": "getDirectory",
         "summary": "The curated registry of Bitcoin-payable services an agent buys",
-        "description": "The full curated registry (20 entries across 8 categories: inference, compute, machine-work, commerce, privacy, swap, liquidity, fiat-ramp). Each entry carries category, what_an_agent_buys, payment_methods, automatability (api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint where the provider runs its own MCP server. One fetch returns everything; filter locally.",
+        "description": "The full curated registry (21 entries across 9 categories: inference, compute, machine-work, verification, commerce, privacy, swap, liquidity, fiat-ramp). Each entry carries category, what_an_agent_buys, payment_methods, automatability (api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint where the provider runs its own MCP server. One fetch returns everything; filter locally.",
         "responses": {
           "200": {
             "description": "The curated registry document.",
@@ -130,6 +130,7 @@
                 "lnvps",
                 "bitlaunch",
                 "openagents",
+                "invinoveritas",
                 "unhuman",
                 "bitrefill",
                 "mullvad",

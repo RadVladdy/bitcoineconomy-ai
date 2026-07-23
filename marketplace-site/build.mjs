@@ -283,7 +283,7 @@ const llms = [
   '# The Marketplace directory — marketplace.bitcoineconomy.ai',
   '',
   '> The agent-readable directory of services autonomous AI agents buy and sell for Bitcoin —',
-  '> inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps.',
+  '> inference, compute, machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps.',
   '> Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints)',
   '> + a probed cross-provider price index for inference.',
   '',
@@ -351,6 +351,7 @@ const CAT_TITLES = {
   inference: 'Inference (LLM/API calls an agent pays for per request)',
   compute: 'Compute (servers an agent provisions and pays for in sats)',
   'machine-work': 'Machine work (agents buying and selling work)',
+  verification: 'Verification (independent pre-action verdicts + signed proofs an agent pays per call)',
   commerce: 'Commerce bridge (paying non-Bitcoin merchants with sats)',
   privacy: 'Privacy / connectivity',
   swap: 'Swaps (non-custodial, no-KYC asset conversion)',
@@ -383,7 +384,7 @@ const openapi = {
     title: 'The Marketplace directory — bitcoineconomy.ai',
     description:
       'Read-only discovery API for Bitcoin-payable services and tools an autonomous AI agent can consume: '
-      + 'inference, compute, machine work, commerce bridges, swaps, liquidity, and fiat ramps. Fetch the '
+      + 'inference, compute, machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps. Fetch the '
       + 'registry and filter locally — no auth, and no funds move through this API; the agent pays each provider '
       + 'directly over Lightning / L402 / Cashu. MCP-capable agents should use the richer Model Context Protocol '
       + `server at ${BASE}/mcp instead (find_service, get_service, get_quote, find_tool, get_tool, list_mcp_servers).`,
@@ -478,7 +479,7 @@ const aiPlugin = {
   name_for_model: 'bitcoin_marketplace',
   description_for_human:
     'Discover services and tools an autonomous AI agent can buy and sell for Bitcoin — inference, compute, '
-    + 'machine work, commerce bridges, swaps, liquidity, and fiat ramps.',
+    + 'machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps.',
   description_for_model:
     'Use to discover Bitcoin-payable services and tools an autonomous agent can consume. '
     + 'getDirectory returns the curated registry (filter on category, payment_methods, automatability, kyc); '
@@ -543,7 +544,7 @@ const specMd = [
   'The NIP-90 (DVM) spec is marked *unrecommended* by its own maintainers — *"prefer use-case-specific',
   'microstandards."* This is one. It is **hybrid**: where the service is **inference**, reuse Routstr\'s established',
   '**kind `38421`** (the directory already reads it). For **everything else** — compute, commerce bridges, swaps,',
-  `machine work, privacy, liquidity, fiat ramps — publish **kind \`${KIND_ANNOUNCE}\`**, defined here. It deliberately`,
+  `machine work, verification, privacy, liquidity, fiat ramps — publish **kind \`${KIND_ANNOUNCE}\`**, defined here. It deliberately`,
   'reuses Routstr\'s tag grammar (`d`, `u`, `mint`, `version`) and adds the directory\'s machine-actionable fields.',
   '',
   `\`${KIND_ANNOUNCE}\` is in the parameterized-replaceable range (30000–39999): the newest event per \`(kind, pubkey, d)\``,
@@ -555,7 +556,7 @@ const specMd = [
   '| tag | required | meaning |',
   '|---|---|---|',
   '| `d` | **yes** | Stable service id. The replaceability key — keep it constant across re-announcements. Becomes the directory slug `announced:{d}`. |',
-  '| `k` | **yes** | Category — one of: `inference` (prefer kind 38421 instead), `compute`, `machine-work`, `commerce`, `privacy`, `swap`, `liquidity`, `fiat-ramp`. |',
+  '| `k` | **yes** | Category — one of: `inference` (prefer kind 38421 instead), `compute`, `machine-work`, `verification`, `commerce`, `privacy`, `swap`, `liquidity`, `fiat-ramp`. |',
   '| `u` | **yes** | Service endpoint URL. Repeatable — list a clearnet `https://` endpoint (probed for liveness) and optionally a `.onion` (shown, not probed). |',
   '| `pay` | **yes** | Accepted payment method. Repeatable: `lightning`, `l402`, `cashu`, `nwc`, `onchain`, `liquid`, `spark`, `zaps`. |',
   '| `mint` | no | An accepted Cashu mint URL. Repeatable. Mints that are themselves announced (NIP-87) count toward your `mint_health` trust signal. |',
@@ -655,7 +656,7 @@ const specSchema = {
     },
   },
   $comment:
-    'Tag grammar: d=stable service id (replaceability key) · k=category (inference|compute|machine-work|commerce|privacy|swap|liquidity|fiat-ramp) · '
+    'Tag grammar: d=stable service id (replaceability key) · k=category (inference|compute|machine-work|verification|commerce|privacy|swap|liquidity|fiat-ramp) · '
     + 'u=endpoint url (repeatable; clearnet https probed, .onion shown) · pay=payment method (repeatable: lightning|l402|cashu|nwc|onchain|liquid|spark|zaps) · '
     + 'mint=accepted Cashu mint url (repeatable) · auth=none|api-key|account · pricing=price-list url · version=string.',
 };

@@ -249,7 +249,7 @@ const TOOLS = [
       type: 'object',
       properties: {
         query: { type: 'string', description: 'Free-text over name, summary, what-an-agent-buys, category.' },
-        category: { type: 'string', description: 'One of: inference, compute, machine-work, commerce, privacy, swap, liquidity, fiat-ramp.' },
+        category: { type: 'string', description: 'One of: inference, compute, machine-work, verification, commerce, privacy, swap, liquidity, fiat-ramp.' },
         payment_method: { type: 'string', description: 'One of: lightning, onchain, cashu, l402, nwc, liquid, spark, fiat.' },
         no_kyc: { type: 'boolean', description: 'If true, return only services that need no KYC (curated tier only — announced entries do not carry a verified KYC field).' },
         automatability: { type: 'string', description: 'One of: api-no-account, api-account, api-kyc (curated tier only).' },
