@@ -17,3 +17,7 @@
   Access-Control-Allow-Origin: *
 /spec/*
   Access-Control-Allow-Origin: *
+/uptime.json
+  Access-Control-Allow-Origin: *
+/anchors/*
+  Access-Control-Allow-Origin: *

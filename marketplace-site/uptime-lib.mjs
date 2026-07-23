@@ -83,8 +83,10 @@ export function appendRun(history, snapshot, selfProbes, { at, cap = UPTIME_WIND
   for (const p of snapshot?.modules?.routstr?.providers ?? []) {
     if (p.status) targets['routstr:' + p.d] = p.status;
   }
+  // Announced-service slugs are already namespaced by the snapshot shaper
+  // ("announced:{d}") — use them as-is.
   for (const s of snapshot?.modules?.announced?.services ?? []) {
-    if (s.status) targets['announced:' + s.slug] = s.status;
+    if (s.status && s.slug) targets[s.slug] = s.status;
   }
   for (const sp of selfProbes ?? []) targets[sp.key] = sp.status;
   const runs = [...(history?.runs ?? []), { at, targets }].slice(-cap);

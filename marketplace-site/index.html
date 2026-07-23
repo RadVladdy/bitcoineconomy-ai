@@ -305,6 +305,7 @@
 <span class="p" id="t-curated">← registry: … curated entries</span>
 <span class="p" id="t-live">← relays: connecting …</span>
 <span class="p" id="t-probe">← probe: …</span>
+<span class="p" id="t-uptime">← uptime: …</span>
 <span class="a">→ fetch /directory.json + /live/models.json</span>
 <span class="mut">machine-readable. that's the point. </span></div>
   </div>
@@ -387,7 +388,7 @@
   </section>
 
   <div class="agents-block" id="agents">
-<strong style="color: var(--text)">For agents.</strong> Registry: <a href="/directory.json">/directory.json</a> (full schema in-band; entries carry <span class="mono">auth</span> / <span class="mono">quickstart</span> / verified <span class="mono">api_base</span>) · manifest: <a href="/llms.txt">/llms.txt</a> (start with its three-fetch recipe) · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a> · live Nostr snapshot with per-provider probe status: <a href="/live/snapshot.json">/live/snapshot.json</a> · cross-provider inference price index: <a href="/live/models.json">/live/models.json</a> (both cron-refreshed; static fallbacks <a href="/snapshot.json">/snapshot.json</a> + <a href="/models.json">/models.json</a>) · self-announced services (the sell side): <a href="/live/announced.json">/live/announced.json</a> + how to list one: <a href="/spec/agent-payable-service-announcement.md">/spec/agent-payable-service-announcement.md</a>. Provenance is labeled per object: <span class="mono">curated</span> = editor-verified on the date shown; <span class="mono">live-from-relay</span> = signed Nostr events as published; <span class="mono">probed-from-provider-endpoints</span> = the providers' own published numbers. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
+<strong style="color: var(--text)">For agents.</strong> Registry: <a href="/directory.json">/directory.json</a> (full schema in-band; entries carry <span class="mono">auth</span> / <span class="mono">quickstart</span> / verified <span class="mono">api_base</span>) · manifest: <a href="/llms.txt">/llms.txt</a> (start with its three-fetch recipe) · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a> · live Nostr snapshot with per-provider probe status: <a href="/live/snapshot.json">/live/snapshot.json</a> · cross-provider inference price index: <a href="/live/models.json">/live/models.json</a> (both cron-refreshed; static fallbacks <a href="/snapshot.json">/snapshot.json</a> + <a href="/models.json">/models.json</a>) · self-announced services (the sell side): <a href="/live/announced.json">/live/announced.json</a> + how to list one: <a href="/spec/agent-payable-service-announcement.md">/spec/agent-payable-service-announcement.md</a> · rolling uptime history, self-inclusive and recomputable from its raw runs: <a href="/live/uptime.json">/live/uptime.json</a> · nightly Bitcoin-anchored digests of these surfaces (Nostr + OpenTimestamps — the history is tamper-evident): <a href="/anchors/index.json">/anchors/index.json</a>. Provenance is labeled per object: <span class="mono">curated</span> = editor-verified on the date shown; <span class="mono">live-from-relay</span> = signed Nostr events as published; <span class="mono">probed-from-provider-endpoints</span> = the providers' own published numbers. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
   </div>
 </main>
 
@@ -540,6 +541,33 @@
   })();
 
   // ---------- live snapshot + models index ----------
+  // Trust layer: the rolling uptime history (recomputable — raw runs ship in the
+  // doc; the UI shows the derived % with its denominator). Absent pre-first-cron.
+  let upt = null;
+  try {
+    const u = await (await fetch('/live/uptime.json')).json();
+    if (u && u.targets && u.runs && u.runs.length) upt = u;
+  } catch (e) {}
+  function uptCell(key) {
+    const t = upt && upt.targets && upt.targets[key];
+    if (!t || t.uptime_pct == null || t.uptime_denominator < 4) return '';
+    return '<br/><span class="lat" title="Rolling uptime over the last ' + t.uptime_denominator +
+      ' probeable 6-hourly probes — recompute it yourself from the raw runs in /live/uptime.json">' +
+      '▮ ' + t.uptime_pct + '% up · n=' + t.uptime_denominator + '</span>';
+  }
+
+  (function () {
+    const el = $('#t-uptime');
+    if (!el) return;
+    if (!upt) { el.innerHTML = '← uptime: <span class="mut">accumulating — history begins with the next probe run</span>'; return; }
+    const selfKeys = ['self:directory.json', 'self:live/snapshot.json', 'self:mcp'];
+    const self = selfKeys.map((k) => upt.targets[k]).filter(Boolean);
+    const selfOk = self.length && self.every((t) => t.last_status === 'alive');
+    el.innerHTML = '← uptime: <span class="ok">' + upt.window.runs_held + ' runs held</span> · self-probe: ' +
+      (selfOk ? '<span class="ok">all surfaces alive</span>' : (self.length ? '<span class="mut">degraded — see /live/uptime.json</span>' : '<span class="mut">n/a</span>')) +
+      ' · <a href="/live/uptime.json">recompute it yourself</a>';
+  })();
+
   let snap = null, live = false;
   try { snap = await (await fetch('/live/snapshot.json')).json(); live = true; } catch (e) {}
   if (!snap) { try { snap = await (await fetch('./snapshot.json')).json(); } catch (e) {} }
@@ -598,9 +626,10 @@
   });
   $('#f-net').addEventListener('change', (ev) => { pstate.net = ev.target.value; renderProviders(SHOW); });
 
-  function statusCell(p) {
-    if (p.status === 'alive') return '<span class="st st-alive">● alive</span><br/><span class="lat">' + esc(p.latency_ms) + ' ms</span>';
-    if (p.status === 'unreachable') return '<span class="st st-dead">✗ unreachable</span>';
+  function statusCell(p, uptKey) {
+    const up = uptKey ? uptCell(uptKey) : '';
+    if (p.status === 'alive') return '<span class="st st-alive">● alive</span><br/><span class="lat">' + esc(p.latency_ms) + ' ms</span>' + up;
+    if (p.status === 'unreachable') return '<span class="st st-dead">✗ unreachable</span>' + up;
     if (p.status === 'unverified-tor-only') return '<span class="st st-tor" title="Announced with only an onion endpoint — not probeable from this infrastructure">◌ tor-only, unverified</span>';
     if (p.status === 'unroutable') return '<span class="st st-dead" title="Announced with no publicly routable endpoint (e.g. localhost)">✗ unroutable</span>';
     return '<span class="st st-unk">unprobed</span>';
@@ -611,7 +640,7 @@
         ? '<a class="mono" href="' + esc(u) + '" rel="nofollow noopener noreferrer">' + esc(u.replace(/^https:\/\//, '')) + '</a>'
         : '<span class="mono">' + esc(u.length > 42 ? u.slice(0, 39) + '…' : u) + '</span>'
     ).join('<br/>');
-    return '<tr><td class="name">' + esc(p.name || '(unnamed)') + '</td><td>' + statusCell(p) + '</td><td>' + (urls || '—') + '</td>' +
+    return '<tr><td class="name">' + esc(p.name || '(unnamed)') + '</td><td>' + statusCell(p, 'routstr:' + p.d) + '</td><td>' + (urls || '—') + '</td>' +
       '<td>' + (p.model_count ?? '—') + '</td>' +
       '<td>' + (p.mints ? p.mints.length : 0) + '</td><td><code>' + esc(p.version || '?') + '</code></td>' +
       '<td>' + esc(new Date((p.updated_at || 0) * 1000).toISOString().slice(0, 10)) + '</td></tr>';
@@ -654,7 +683,7 @@
   }
   function annRow(s) {
     return '<tr><td class="name">' + esc(s.name || s.d || '(unnamed)') + '</td>' +
-      '<td>' + statusCell(s) + '</td>' +
+      '<td>' + statusCell(s, s.slug) + '</td>' +
       '<td><code>' + esc(s.category || '?') + '</code></td>' +
       '<td>' + annEndpoint(s) + '</td>' +
       '<td>' + esc((s.payment_methods || []).join(', ') || '—') + '</td>' +
