@@ -344,7 +344,14 @@ figure.matrix, figure.diagram { max-width: 100%; min-width: 0; }
   -webkit-overflow-scrolling: touch;
   border-radius: 10px;
   max-width: 100%;
+  /* absolutely-positioned descendants (the cells' .sr-only labels) must be
+     contained by THIS box, or they escape the scroll clip and pan the whole
+     page sideways on phones (root-caused live, 2026-07-23 audit) */
+  position: relative;
 }
+/* belt-and-braces: nothing may pan the page horizontally — residual overflow
+   clips at main (clip, not hidden: no scroll container, sticky rail unaffected) */
+main { overflow-x: clip; }
 figure.matrix .matrix-scroll > table {
   min-width: 34rem;
   border-radius: 0;
