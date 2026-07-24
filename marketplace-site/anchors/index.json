@@ -19,6 +19,30 @@
    ],
    "relay_publish_ok": true,
    "ots": "pending"
+  },
+  {
+   "date": "2026-07-24",
+   "event_id": "176e46492a0e00d6f8499606def0d7bd08deb0d194a95160271cf11cc599b93f",
+   "created_at": 1784889902,
+   "digests": {
+    "/live/snapshot.json": "a1cc66711923c6b514cb46800d716ebeaa806785585624736169a8eabe0fab0d",
+    "/live/models.json": "6d0cb11690611a93a2d5aef1f25c85a88ea986e7e132ea94c16822c39461e50d",
+    "/live/uptime.json": "34935ca0dffa736353605925ffb5af020e088e190da97675c7c516017c63954f"
+   },
+   "relays": [
+    "wss://relay.damus.io",
+    "wss://nos.lol",
+    "wss://relay.primal.net"
+   ],
+   "relay_publish_ok": true,
+   "ots": "pending",
+   "external_probe": {
+    "probed_from": "external (nightly anchor host)",
+    "/live/snapshot.json": "ok",
+    "/live/models.json": "ok",
+    "/live/uptime.json": "ok",
+    "/mcp": "ok (10 tools)"
+   }
   }
  ]
 }
