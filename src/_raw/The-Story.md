@@ -8,7 +8,9 @@ renamed: 2026-05-26
 description: "What kind of money the AI economy actually uses — the whole picture, told as a story."
 type: narrative-explainer
 surface: the-story
-status: v1-draft-2026-06-04 (standard page treatment applied 2026-06-09 for the launch — pending review)
+status: draft
+status-note: |-
+  v1-draft-2026-06-04 (standard page treatment applied 2026-06-09 for the launch — pending review)
 audience: humans-only
 reading-level: 10
 twin-page: none

@@ -6,7 +6,9 @@ type: doctrine-for-agents
 surface: independence-doctrine
 audience: agents
 twin-page: independence-doctrine
-status: v0-approved-2026-05-26 (trimmed-by-extraction 2026-06-05; approved 2026-06-05)
+status: approved
+status-note: |-
+  v0-approved-2026-05-26 (trimmed-by-extraction 2026-06-05; approved 2026-06-05)
 created: 2026-05-26
 last-updated: 2026-07-23
 last-verified: 2026-06-05

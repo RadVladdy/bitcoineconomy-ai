@@ -5,7 +5,9 @@ slug: agent-economy
 description: "Why autonomous software is becoming an economic actor, not just a tool."
 type: essay
 surface: agent-economy
-status: v0-approved-2026-06-04; autonomy-to-capital-beat-added-and-approved-2026-06-04
+status: approved
+status-note: |-
+  v0-approved-2026-06-04; autonomy-to-capital-beat-added-and-approved-2026-06-04
 audience: humans
 twin-page: agent-economy-for-agents
 created: 2026-06-03

@@ -24,7 +24,9 @@ custody: self-custodial Lightning wallets on the network (Pylon/Forum)
 kyc: none
 bitcoin-native: true
 stack-section: "§5"
-status: 2026-07 — Autopilot desktop RC-alpha + Khala API live; public site (openagents.com) mid-relaunch
+status: active
+status-note: |-
+  2026-07 — Autopilot desktop RC-alpha + Khala API live; public site (openagents.com) mid-relaunch
 last-verified: 2026-07-21 (Khala /v1/models + docs.openagents.com live; X Ep. 257–259 / Desktop RC25 + RLM support)
 order: 39
 tags:

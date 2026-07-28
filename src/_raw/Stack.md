@@ -4,7 +4,9 @@ slug: stack
 description: "The Bitcoin substrate every agent payment runs on — L1, Lightning, ecash."
 type: essay
 surface: stack
-status: v0-approved-2026-05-30; liquid-honorable-mention-approved-2026-06-04
+status: approved
+status-note: |-
+  v0-approved-2026-05-30; liquid-honorable-mention-approved-2026-06-04
 audience: humans
 twin-page: stack-for-agents
 created: 2026-05-26

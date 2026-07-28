@@ -6,7 +6,9 @@ type: stack-for-agents
 surface: stack
 audience: agents
 twin-page: stack
-status: v0-approved-2026-05-31 (Liquid mirrored + repointed 2026-06-05; approved 2026-06-05)
+status: approved
+status-note: |-
+  v0-approved-2026-05-31 (Liquid mirrored + repointed 2026-06-05; approved 2026-06-05)
 created: 2026-05-31
 last-updated: 2026-07-23
 last-verified: 2026-06-05

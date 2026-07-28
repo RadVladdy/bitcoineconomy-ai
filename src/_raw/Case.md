@@ -5,7 +5,9 @@ slug: case
 description: "The case for a Bitcoin-centric AI agent economy."
 type: case
 surface: case
-status: v0-approved-2026-06-04 (renamed Thesis.md->Case.md, slug thesis->case 2026-06-05)
+status: approved
+status-note: |-
+  v0-approved-2026-06-04 (renamed Thesis.md->Case.md, slug thesis->case 2026-06-05)
 audience: humans
 twin-page: case-for-agents
 created: 2026-05-25
