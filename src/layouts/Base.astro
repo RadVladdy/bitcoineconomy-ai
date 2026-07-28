@@ -45,6 +45,11 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     {ld.map((obj) => (
       <script type="application/ld+json" set:html={JSON.stringify(obj)} />
     ))}
+      <!-- Cloudflare Web Analytics - cookieless, no personal data.
+         Hard-wired because the zone's auto-install does not reach
+         Pages-served responses, so the beacon never actually landed. -->
+    <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "ddc6f7e3a204485b955eff70b8485dcb"}'></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
