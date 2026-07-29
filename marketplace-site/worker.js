@@ -88,6 +88,42 @@ async function serveAnnounced(env, origin) {
   }), { headers });
 }
 
+// The mastered directory is the one artifact built from BOTH committed content
+// (the curated registry) and live data (the external sources). So the usual
+// "KV always wins" rule is wrong for it: publishing a new curated card ships a
+// fresher master.json in the assets, and until the next 6-hourly cron the KV
+// copy would keep serving a directory that doesn't list a card the site has
+// already published. Compare timestamps and serve whichever is actually newer.
+//
+// The comparison reads a tiny sidecar (master-version.json, ~60 bytes) rather
+// than parsing the 150 KB document on every request.
+async function serveMaster(env, origin) {
+  const headers = {
+    'content-type': 'application/json; charset=utf-8',
+    'access-control-allow-origin': '*',
+    'x-content-type-options': 'nosniff',
+    'cache-control': 'public, max-age=300',
+  };
+  const kv = await env.SNAPSHOT?.get(KV_MASTER).catch(() => null);
+  if (!kv) return serveLive(env, origin, KV_MASTER, '/master.json');
+
+  let assetStamp = null;
+  try {
+    const v = await env.ASSETS.fetch(new URL('/master-version.json', origin));
+    if (v.ok) assetStamp = (await v.json())?.generated_at || null;
+  } catch {}
+  if (assetStamp) {
+    // Only the KV copy's timestamp is needed; pull it without parsing the body.
+    const m = /"generated_at"\s*:\s*"([^"]+)"/.exec(kv.slice(0, 4096));
+    const kvStamp = m?.[1] || null;
+    if (kvStamp && assetStamp > kvStamp) {
+      const asset = await env.ASSETS.fetch(new URL('/master.json', origin));
+      if (asset.ok) return new Response(asset.body, { headers });
+    }
+  }
+  return new Response(kv, { headers });
+}
+
 async function serveLive(env, origin, kvKey, fallbackPath) {
   const headers = {
     'content-type': 'application/json; charset=utf-8',
@@ -193,7 +229,7 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/mcp' || url.pathname === '/mcp/') return handleMcp(request, env, url.origin);
-    if (url.pathname === '/live/master.json') return serveLive(env, url.origin, KV_MASTER, '/master.json');
+    if (url.pathname === '/live/master.json') return serveMaster(env, url.origin);
     if (url.pathname === '/live/snapshot.json') return serveLive(env, url.origin, KV_SNAPSHOT, '/snapshot.json');
     if (url.pathname === '/live/models.json') return serveLive(env, url.origin, KV_MODELS, '/models.json');
     if (url.pathname === '/live/l402index.json') return serveLive(env, url.origin, KV_L402INDEX, '/l402index.json');

@@ -125,6 +125,12 @@ if (warnings.length) {
 
 if (write) {
   // Minified on purpose: machine-only artifacts — keeps the files + git churn small.
+  // Sidecar the worker reads to decide whether this committed build is newer
+  // than the KV copy the cron wrote — see serveMaster() in worker.js. Keeping it
+  // tiny is the point: it's checked per request, master.json is ~150 KB.
+  writeFileSync(join(HERE, 'master-version.json'), JSON.stringify({ generated_at: master.generated_at }) + '\n');
+  console.log(`\nwrote ${join(HERE, 'master-version.json')}`);
+
   for (const [file, doc] of [['l402index.json', idx], ['l402space.json', space], ['master.json', master]]) {
     const out = join(HERE, file);
     writeFileSync(out, JSON.stringify(doc) + '\n');
