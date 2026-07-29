@@ -2,8 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "title": "The Marketplace directory — bitcoineconomy.ai",
-    "description": "Read-only discovery API for Bitcoin-payable services and tools an autonomous AI agent can consume: inference, compute, machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps. Fetch the registry and filter locally — no auth, and no funds move through this API; the agent pays each provider directly over Lightning / L402 / Cashu. MCP-capable agents should use the richer Model Context Protocol server at https://marketplace.bitcoineconomy.ai/mcp instead (find_service, get_service, get_quote, find_tool, get_tool, list_mcp_servers).",
-    "version": "1.0.0",
+    "description": "Read-only discovery API for services and tools an autonomous AI agent can pay for: inference, data, compute, machine work, verification, commerce, swaps, liquidity, payments, fiat ramps. START WITH /live/master.json — every service from all four sources in one row shape and one category vocabulary, each row stating its provenance and its payment rail. Fetch and filter locally — no auth, and no funds move through this API; the agent pays each provider directly over Lightning / L402 / Cashu, or through the l402.space gateway where a row says rail=\"via-gateway\". MCP-capable agents should use the richer Model Context Protocol server at https://marketplace.bitcoineconomy.ai/mcp instead (find_service, get_service, list_categories, get_quote, find_tool, get_tool, list_mcp_servers).",
+    "version": "2.0.0",
     "contact": {
       "email": "hello@bitcoineconomy.ai",
       "url": "https://bitcoineconomy.ai"
@@ -15,6 +15,25 @@
     }
   ],
   "paths": {
+    "/live/master.json": {
+      "get": {
+        "operationId": "getMasterDirectory",
+        "summary": "THE MASTERED DIRECTORY — every service, all sources, one schema",
+        "description": "Every service an agent can pay for, merged from four sources into one row shape and one two-level category vocabulary. Each row carries: source (curated = editor-verified, the only rows a human checked | announced = permissionless Nostr self-listing | external-index = 402index.io's verified feed passed through with attribution | gateway-observed = seen settling through Alby's l402.space, figures from real payments rather than probes); category + subcategory plus the upstream's own source_category and our classification_confidence, so the mapping is checkable; rail (bitcoin-native = pay directly in sats | via-gateway = sats-payable only through links.gateway_url, an intermediary holding the sats leg | fiat-only = no Bitcoin path at all); and trust figures that always ship with their denominator and formula. A facets block gives every filter value with counts. Static fallback at https://marketplace.bitcoineconomy.ai/master.json.",
+        "responses": {
+          "200": {
+            "description": "The mastered directory document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/directory.json": {
       "get": {
         "operationId": "getDirectory",
@@ -93,12 +112,31 @@
     },
     "/live/l402index.json": {
       "get": {
-        "operationId": "getWiderL402Index",
-        "summary": "Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed",
-        "description": "Real Lightning-payable (L402) endpoints beyond the curated registry, taken selectively from 402index.io (Ryan Gentry) — health-filtered, reliability-capped, each with a source_page back to its 402index record. provenance: external-index (third-party-indexed + verified, NOT a bitcoineconomy.ai endorsement). KV-backed, refreshed every 6h; static fallback at /l402index.json.",
+        "operationId": "getExternalIndex",
+        "summary": "External-index source — a selective, attributed pass over 402index.io's verified feed",
+        "description": "Payable endpoints beyond the curated registry, taken selectively from 402index.io (Ryan Gentry) — health-filtered, reliability-capped, per-host-capped, each with a source_page back to its 402index record. Spans all three protocols (L402 + x402 + MPP) since 2026-07-29: rows carry rail=\"bitcoin-native\" where an agent pays directly in sats, or rail=\"via-gateway\" with a ready-made gateway_url where the endpoint settles in USDC/Tempo and is sats-payable only through l402.space. provenance: external-index (third-party-indexed + verified, NOT a bitcoineconomy.ai endorsement). KV-backed, refreshed every 6h; static fallback at /l402index.json.",
         "responses": {
           "200": {
-            "description": "The Wider L402 index document.",
+            "description": "The external-index document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live/l402space.json": {
+      "get": {
+        "operationId": "getGatewayObserved",
+        "summary": "Gateway-observed source — hosts seen settling through Alby's l402.space",
+        "description": "Paid API hosts observed settling through l402.space, the Universal 402 Gateway. Unlike every other source here these figures are OBSERVED SETTLEMENT rather than external probing: the gateway made the payments itself, so deliveries / payments_received is a real paid-and-got-the-goods rate and volume_usd is money that actually moved. Reliability is published only where deliveries >= 5 and always with its denominator. The gateway's own aggregate stats ride in-band — check them before reading anything into a row count. provenance: gateway-observed (a third party's observations, NOT a bitcoineconomy.ai endorsement and not our own measurement). KV-backed, refreshed every 6h; static fallback at /l402space.json.",
+        "responses": {
+          "200": {
+            "description": "The gateway-observed document.",
             "content": {
               "application/json": {
                 "schema": {

@@ -20,6 +20,7 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'nod
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { KIND_ANNOUNCE, RELAYS } from './snapshot-lib.mjs';
+import { CATEGORIES, CATEGORY_ORDER, isValidPair, vocabularyDoc } from './taxonomy.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const RAW = join(HERE, '..', 'src', '_raw');
@@ -72,6 +73,7 @@ const entries = overlay.entries.map((ov) => {
     slug: ov.slug,
     name: fm.name || fm.title,
     category: ov.category,
+    subcategory: ov.subcategory || undefined,
     summary: ov.summary || fm.tagline,
     what_an_agent_buys: ov.what_an_agent_buys,
     payment_methods: ov.payment_methods,
@@ -96,6 +98,16 @@ const entries = overlay.entries.map((ov) => {
 });
 
 const categories = [...new Set(entries.map((e) => e.category))];
+
+// Validate against the shared vocabulary (taxonomy.mjs) — the same one the
+// external tiers are crosswalked into. Curated entries are the reference points
+// the merged directory sorts first, so a typo here silently splits a filter
+// across the whole table. Fail the build instead.
+for (const e of entries) {
+  if (!isValidPair(e.category, e.subcategory)) {
+    throw new Error(`directory-overlay.json: "${e.slug}" has category/subcategory "${e.category}/${e.subcategory ?? ''}" which is not in the shared vocabulary (taxonomy.mjs). Valid subcategories for ${e.category}: ${(CATEGORIES[e.category]?.subcategories || ['(unknown category)']).join(', ')}`);
+  }
+}
 
 // Unified MCP-endpoint registry, keyed by slug: directory service entries that
 // run their own MCP server + tool-catalog cards mapped in _tool_mcp_endpoints.
@@ -127,12 +139,18 @@ const directory = {
   generated_at: new Date().toISOString(),
   entry_count: entries.length,
   categories,
+  // The shared two-level vocabulary, published here as well as on the merged
+  // directory: an agent reading only /directory.json still gets the scheme the
+  // `subcategory` field on every entry belongs to.
+  vocabulary: vocabularyDoc(),
   live_routes: {
     mcp: BASE + '/mcp',
+    master: BASE + '/live/master.json',
     tools_catalog: BASE + '/tools.json',
     snapshot: BASE + '/live/snapshot.json',
     models_price_index: BASE + '/live/models.json',
-    wider_l402_index: BASE + '/live/l402index.json',
+    external_index: BASE + '/live/l402index.json',
+    gateway_observed: BASE + '/live/l402space.json',
     announced: BASE + '/live/announced.json',
     uptime: BASE + '/live/uptime.json',
     announce_spec: BASE + '/spec/agent-payable-service-announcement.md',
@@ -176,7 +194,7 @@ for (const e of entries) {
     '',
     e.summary,
     '',
-    `- Category: ${e.category}`,
+    `- Category: ${e.category}${e.subcategory ? ` / ${e.subcategory}` : ''}`,
     `- Payment methods: ${e.payment_methods.join(', ')}`,
     e.payment_detail ? `- Payment detail: ${e.payment_detail}` : null,
     e.kyc ? `- KYC: ${e.kyc}` : null,
@@ -283,29 +301,62 @@ for (const e of entries) (byCat[e.category] ??= []).push(e);
 const llms = [
   '# The Marketplace directory — marketplace.bitcoineconomy.ai',
   '',
-  '> The agent-readable directory of services autonomous AI agents buy and sell for Bitcoin —',
-  '> inference, compute, machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps.',
-  '> Curated registry + a live snapshot of Nostr-announced inventory (Routstr providers, NIP-87 ecash mints)',
-  '> + a probed cross-provider price index for inference.',
+  '> The agent-readable directory of every service autonomous AI agents can pay for —',
+  '> inference, data, compute, machine work, verification, commerce, swaps, liquidity, payments, fiat ramps.',
+  '> Four sources merged into ONE row shape and ONE two-level category vocabulary, each row stating where it',
+  '> came from and whether an agent pays it in sats directly or only through an intermediary.',
   '',
-  '## How to consume this directory (five fetches, no inference needed)',
+  '## Start here: one fetch',
   '',
-  `1. ${BASE}/directory.json — the curated registry. Filter locally on category, payment_methods,`,
+  `${BASE}/live/master.json — THE MASTERED DIRECTORY. Every service from every source, one schema, one`,
+  '  vocabulary. Each row carries:',
+  '    - source: curated | announced | external-index | gateway-observed (see "Provenance" below)',
+  '    - category + subcategory, in the shared two-level vocabulary, PLUS source_category (the upstream\'s own',
+  '      raw string) and classification_confidence (exact | top-level | inferred) so our mapping is checkable',
+  '    - rail: bitcoin-native (pay directly in sats) | via-gateway (settles in USDC/Tempo upstream; sats-payable',
+  '      only through links.gateway_url, which means an intermediary holds the sats leg) | fiat-only (no Bitcoin',
+  '      payment path at all)',
+  '    - trust: status, reliability + its DENOMINATOR + the formula, uptime, latency — never a bare score',
+  '    - observed: real settlement counters where a source has them (tx_count, volume_usd, deliveries)',
+  '  A `facets` block gives every filter value with counts, so you can target a query without scanning.',
+  `  Static fallback: ${BASE}/master.json.`,
+  '',
+  '## Provenance — what each source is worth',
+  '',
+  '  curated          Editor-verified against primary sources on last_verified. The ONLY rows a human checked.',
+  '  announced        Self-listed by the service itself (signed Nostr kind-38555 announcement). Permissionless,',
+  '                   probed for liveness, NOT endorsed. Announced ≠ curated.',
+  "  external-index   402index.io's verified feed (Ryan Gentry, ex-Lightning Labs), selectively passed through",
+  '                   WITH ATTRIBUTION. Third-party-indexed AND third-party-verified — not our endorsement.',
+  "  gateway-observed Hosts seen settling through Alby's l402.space gateway. The only source whose figures come",
+  '                   from real payments rather than probes (deliveries / payments_received is a genuine',
+  '                   paid-and-got-the-goods rate) — but still a third party\'s observations, not ours.',
+  '',
+  '## Single sources, unmixed',
+  '',
+  `1. ${BASE}/directory.json — the curated registry alone. Filter on category, subcategory, payment_methods,`,
   '   automatability (api-no-account | api-account | api-kyc), and kyc. Entries carry auth, quickstart,',
   '   and (where verified) api_base + pricing_url — enough to make the first call.',
-  `2. ${BASE}/live/snapshot.json — what announces itself on Nostr right now (Routstr kind-38421 inference`,
+  `2. ${BASE}/live/announced.json — the self-listed sell side (kind 38555), with probe status + trust signals.`,
+  `3. ${BASE}/live/l402index.json — the external-index tier. Since 2026-07-29 it spans all three protocols`,
+  '   (L402 + x402 + MPP), not just L402: the gateway makes x402 endpoints sats-payable, so they belong here',
+  '   too, carried with rail="via-gateway" and a ready-made gateway_url. Rows must have a real name and',
+  '   description and must classify into the vocabulary to be ingested, and a per-host cap keeps one host from',
+  `   flooding the table. Static fallback at ${BASE}/l402index.json.`,
+  `4. ${BASE}/live/l402space.json — the gateway-observed tier, with the gateway's own aggregate stats in-band.`,
+  `   Static fallback at ${BASE}/l402space.json.`,
+  '',
+  '## Supporting live data',
+  '',
+  `${BASE}/live/snapshot.json — what announces itself on Nostr right now (Routstr kind-38421 inference`,
   '   providers, NIP-87 ecash mints, kind-38000 reviews). Each provider carries probe status',
   '   (alive | unreachable | unverified-tor-only | unroutable — announcements outlive nodes; filter status === "alive"',
   '   unless you can reach Tor, where network: tor | both endpoints are yours to verify) plus latency_ms,',
   '   model_count, and accepted mints.',
-  `3. ${BASE}/live/models.json — the cross-provider inference price index: model id → every alive provider`,
+  `${BASE}/live/models.json — the cross-provider inference price index: model id → every alive provider`,
   '   serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).',
   '   One fetch answers "who serves model X cheapest right now".',
-  `4. ${BASE}/live/l402index.json — the WIDER L402 tier: a selective, attributed pass over 402index.io's`,
-  '   verified-L402 feed (Ryan Gentry, ex-Lightning Labs) — real Lightning-payable (L402) endpoints beyond the',
-  '   curated set (health-filtered, reliability-capped), each with a source_page back to 402index. provenance:',
-  `   external-index — third-party-indexed + verified, NOT our endorsement. Static fallback at ${BASE}/l402index.json.`,
-  `5. ${BASE}/live/uptime.json — rolling uptime history for every probed target, INCLUDING the marketplace's own`,
+  `${BASE}/live/uptime.json — rolling uptime history for every probed target, INCLUDING the marketplace's own`,
   '   surfaces (self:* rows — no green by assertion). RECOMPUTABLE, NOT A SCORE: the doc carries the raw per-run',
   '   observations (runs[]), the exact formula, and explicit denominators — recompute any stat rather than trust it.',
   '   Snapshot digests are Nostr-signed + Bitcoin-anchored nightly (OpenTimestamps) — anchor records at /anchors/index.json.',
@@ -319,12 +370,14 @@ const llms = [
   '',
   '## Or call the directory as tools (MCP)',
   '',
-  `An MCP server at ${BASE}/mcp exposes both the service registry and the tool catalog as Model Context Protocol`,
-  'tools, so an agent can call instead of fetch: find_service, get_service, price_model, list_categories, get_quote, get_uptime',
-  '(a ready-to-pay payment plan — a live L402 invoice or live sats price where the provider supports it),',
-  'find_tool, get_tool, and list_mcp_servers. That last one lists the providers here that run their OWN MCP server',
-  '(Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP: POST one',
-  'JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.',
+  `An MCP server at ${BASE}/mcp exposes the merged directory and the tool catalog as Model Context Protocol`,
+  'tools, so an agent can call instead of fetch: find_service (searches ALL sources at once — filter by source,',
+  'rail, category, subcategory, payment_method), get_service, list_categories (call this FIRST for the exact',
+  'vocabulary and counts), price_model, get_quote (a ready-to-pay payment plan — a live L402 invoice or live sats',
+  'price where the provider supports it), get_uptime, find_tool, get_tool, list_mcp_servers, and',
+  'find_l402_endpoints (the external-index source alone). list_mcp_servers lists the providers here that run their',
+  'OWN MCP server (Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP:',
+  'POST one JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.',
   '',
   '## List your service (the directory is two-sided)',
   '',
@@ -388,16 +441,37 @@ const openapi = {
   info: {
     title: 'The Marketplace directory — bitcoineconomy.ai',
     description:
-      'Read-only discovery API for Bitcoin-payable services and tools an autonomous AI agent can consume: '
-      + 'inference, compute, machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps. Fetch the '
-      + 'registry and filter locally — no auth, and no funds move through this API; the agent pays each provider '
-      + 'directly over Lightning / L402 / Cashu. MCP-capable agents should use the richer Model Context Protocol '
-      + `server at ${BASE}/mcp instead (find_service, get_service, get_quote, find_tool, get_tool, list_mcp_servers).`,
-    version: '1.0.0',
+      'Read-only discovery API for services and tools an autonomous AI agent can pay for: '
+      + 'inference, data, compute, machine work, verification, commerce, swaps, liquidity, payments, fiat ramps. '
+      + 'START WITH /live/master.json — every service from all four sources in one row shape and one category '
+      + 'vocabulary, each row stating its provenance and its payment rail. Fetch and filter locally — no auth, and '
+      + 'no funds move through this API; the agent pays each provider directly over Lightning / L402 / Cashu, or '
+      + 'through the l402.space gateway where a row says rail="via-gateway". MCP-capable agents should use the '
+      + `richer Model Context Protocol server at ${BASE}/mcp instead (find_service, get_service, list_categories, `
+      + 'get_quote, find_tool, get_tool, list_mcp_servers).',
+    version: '2.0.0',
     contact: { email: 'hello@bitcoineconomy.ai', url: MAIN },
   },
   servers: [{ url: BASE }],
   paths: {
+    '/live/master.json': {
+      get: {
+        operationId: 'getMasterDirectory',
+        summary: 'THE MASTERED DIRECTORY — every service, all sources, one schema',
+        description:
+          'Every service an agent can pay for, merged from four sources into one row shape and one two-level '
+          + 'category vocabulary. Each row carries: source (curated = editor-verified, the only rows a human '
+          + 'checked | announced = permissionless Nostr self-listing | external-index = 402index.io\'s verified '
+          + 'feed passed through with attribution | gateway-observed = seen settling through Alby\'s l402.space, '
+          + 'figures from real payments rather than probes); category + subcategory plus the upstream\'s own '
+          + 'source_category and our classification_confidence, so the mapping is checkable; rail (bitcoin-native '
+          + '= pay directly in sats | via-gateway = sats-payable only through links.gateway_url, an intermediary '
+          + 'holding the sats leg | fiat-only = no Bitcoin path at all); and trust figures that always ship with '
+          + 'their denominator and formula. A facets block gives every filter value with counts. '
+          + `Static fallback at ${BASE}/master.json.`,
+        responses: { 200: jsonResp('The mastered directory document.') },
+      },
+    },
     '/directory.json': {
       get: {
         operationId: 'getDirectory',
@@ -445,14 +519,32 @@ const openapi = {
     },
     '/live/l402index.json': {
       get: {
-        operationId: 'getWiderL402Index',
-        summary: "Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed",
+        operationId: 'getExternalIndex',
+        summary: "External-index source — a selective, attributed pass over 402index.io's verified feed",
         description:
-          'Real Lightning-payable (L402) endpoints beyond the curated registry, taken selectively from 402index.io '
-          + '(Ryan Gentry) — health-filtered, reliability-capped, each with a source_page back to its 402index record. '
-          + 'provenance: external-index (third-party-indexed + verified, NOT a bitcoineconomy.ai endorsement). '
-          + 'KV-backed, refreshed every 6h; static fallback at /l402index.json.',
-        responses: { 200: jsonResp('The Wider L402 index document.') },
+          'Payable endpoints beyond the curated registry, taken selectively from 402index.io (Ryan Gentry) — '
+          + 'health-filtered, reliability-capped, per-host-capped, each with a source_page back to its 402index '
+          + 'record. Spans all three protocols (L402 + x402 + MPP) since 2026-07-29: rows carry rail="bitcoin-native" '
+          + 'where an agent pays directly in sats, or rail="via-gateway" with a ready-made gateway_url where the '
+          + 'endpoint settles in USDC/Tempo and is sats-payable only through l402.space. provenance: external-index '
+          + '(third-party-indexed + verified, NOT a bitcoineconomy.ai endorsement). KV-backed, refreshed every 6h; '
+          + 'static fallback at /l402index.json.',
+        responses: { 200: jsonResp('The external-index document.') },
+      },
+    },
+    '/live/l402space.json': {
+      get: {
+        operationId: 'getGatewayObserved',
+        summary: "Gateway-observed source — hosts seen settling through Alby's l402.space",
+        description:
+          'Paid API hosts observed settling through l402.space, the Universal 402 Gateway. Unlike every other '
+          + 'source here these figures are OBSERVED SETTLEMENT rather than external probing: the gateway made the '
+          + 'payments itself, so deliveries / payments_received is a real paid-and-got-the-goods rate and volume_usd '
+          + 'is money that actually moved. Reliability is published only where deliveries >= 5 and always with its '
+          + 'denominator. The gateway\'s own aggregate stats ride in-band — check them before reading anything into '
+          + 'a row count. provenance: gateway-observed (a third party\'s observations, NOT a bitcoineconomy.ai '
+          + 'endorsement and not our own measurement). KV-backed, refreshed every 6h; static fallback at /l402space.json.',
+        responses: { 200: jsonResp('The gateway-observed document.') },
       },
     },
     '/live/uptime.json': {

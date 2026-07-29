@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-07-23T18:02:47.249Z",
+  "generated_at": "2026-07-29T14:31:31.106Z",
   "entry_count": 21,
   "categories": [
     "inference",
@@ -15,12 +15,152 @@
     "liquidity",
     "fiat-ramp"
   ],
+  "vocabulary": {
+    "note": "One two-level vocabulary for every source in this directory. Adopted 2026-07-29 when the curated / announced / external-index / gateway-observed tiers merged into one mastered directory: a filter now means the same thing regardless of where a row came from. The two-level SHAPE follows 402index.io's category/subcategory convention; the VALUES are ours (their ~150 top-level strings include casing duplicates and leave 72,819 of ~86,000 endpoints uncategorized, so we crosswalk rather than mirror). Every row keeps `source_category` — the upstream's own raw string — and a `classification_confidence` of exact | top-level | inferred | unmapped, so our mapping is checkable and disputable rather than asserted.",
+    "confidence_levels": {
+      "exact": "The upstream category AND subcategory mapped onto a pair in this vocabulary.",
+      "top-level": "Only the upstream top-level category mapped; the subcategory is unknown, not guessed.",
+      "inferred": "No usable upstream category — classified from the service name and description text.",
+      "unmapped": "Nothing matched. The row is published uncategorized with its raw source_category intact rather than filed somewhere plausible."
+    },
+    "categories": {
+      "inference": {
+        "title": "Inference",
+        "blurb": "Model calls an agent pays for per request — text, image, video, audio, embeddings.",
+        "subcategories": [
+          "llm",
+          "image",
+          "video",
+          "audio",
+          "embeddings",
+          "ml",
+          "code"
+        ]
+      },
+      "compute": {
+        "title": "Compute",
+        "blurb": "Machines and storage an agent rents.",
+        "subcategories": [
+          "vps",
+          "gpu",
+          "container",
+          "code-exec",
+          "storage"
+        ]
+      },
+      "data": {
+        "title": "Data",
+        "blurb": "Facts an agent buys: search, scraping, feeds, registries, enrichment.",
+        "subcategories": [
+          "search",
+          "web-scraping",
+          "finance",
+          "blockchain",
+          "government",
+          "weather",
+          "social",
+          "news",
+          "enrichment",
+          "network-intel",
+          "location",
+          "science",
+          "health",
+          "knowledge",
+          "commerce-data"
+        ]
+      },
+      "machine-work": {
+        "title": "Machine work",
+        "blurb": "Work an agent hands to another agent or service to perform.",
+        "subcategories": [
+          "dvm",
+          "agents",
+          "automation",
+          "translation",
+          "moderation",
+          "dev-tools",
+          "messaging"
+        ]
+      },
+      "verification": {
+        "title": "Verification",
+        "blurb": "Checking a claim, an identity, a counterparty, or a payment before acting on it.",
+        "subcategories": [
+          "identity",
+          "notary",
+          "attestation",
+          "reputation",
+          "compliance",
+          "security"
+        ]
+      },
+      "commerce": {
+        "title": "Commerce",
+        "blurb": "Goods and services an agent buys for a person or for itself.",
+        "subcategories": [
+          "retail",
+          "gift-cards",
+          "digital-goods",
+          "travel",
+          "media"
+        ]
+      },
+      "privacy": {
+        "title": "Privacy",
+        "blurb": "Network and identity privacy an agent can buy without an account.",
+        "subcategories": [
+          "vpn",
+          "proxy",
+          "mixing"
+        ]
+      },
+      "swap": {
+        "title": "Swap",
+        "blurb": "Moving value between Bitcoin layers and other assets.",
+        "subcategories": [
+          "btc-stablecoin",
+          "cross-chain",
+          "atomic"
+        ]
+      },
+      "liquidity": {
+        "title": "Liquidity",
+        "blurb": "Lightning channel capacity, routing, and yield.",
+        "subcategories": [
+          "channels",
+          "routing",
+          "yield"
+        ]
+      },
+      "payments": {
+        "title": "Payments",
+        "blurb": "The paying itself: gateways, wallets, invoicing, and the indexes that find payable endpoints.",
+        "subcategories": [
+          "gateway",
+          "wallet",
+          "invoicing",
+          "directory"
+        ]
+      },
+      "fiat-ramp": {
+        "title": "Fiat ramp",
+        "blurb": "The bank leg — where an agent economy touches the incumbent stack.",
+        "subcategories": [
+          "exchange",
+          "brokerage",
+          "card"
+        ]
+      }
+    }
+  },
   "live_routes": {
     "mcp": "https://marketplace.bitcoineconomy.ai/mcp",
+    "master": "https://marketplace.bitcoineconomy.ai/live/master.json",
     "tools_catalog": "https://marketplace.bitcoineconomy.ai/tools.json",
     "snapshot": "https://marketplace.bitcoineconomy.ai/live/snapshot.json",
     "models_price_index": "https://marketplace.bitcoineconomy.ai/live/models.json",
-    "wider_l402_index": "https://marketplace.bitcoineconomy.ai/live/l402index.json",
+    "external_index": "https://marketplace.bitcoineconomy.ai/live/l402index.json",
+    "gateway_observed": "https://marketplace.bitcoineconomy.ai/live/l402space.json",
     "announced": "https://marketplace.bitcoineconomy.ai/live/announced.json",
     "uptime": "https://marketplace.bitcoineconomy.ai/live/uptime.json",
     "announce_spec": "https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md",
@@ -56,6 +196,7 @@
       "slug": "routstr",
       "name": "Routstr",
       "category": "inference",
+      "subcategory": "llm",
       "summary": "A decentralized AI-inference marketplace where a Cashu token is the API key — pay per request in private Bitcoin ecash, no login, no KYC.",
       "what_an_agent_buys": "LLM inference — OpenAI-compatible API calls from independent providers",
       "payment_methods": [
@@ -86,6 +227,7 @@
       "slug": "ppq-ai",
       "name": "PPQ.AI (PayPerQ)",
       "category": "inference",
+      "subcategory": "llm",
       "summary": "Pay-per-query access to hundreds of frontier models over Lightning / L402 — no account, no API key, roughly a cent and a half a query — now including end-to-end-encrypted private models.",
       "what_an_agent_buys": "Pay-per-query frontier-model calls — chat, image, video, audio",
       "payment_methods": [
@@ -114,6 +256,7 @@
       "slug": "maple",
       "name": "Maple AI",
       "category": "inference",
+      "subcategory": "llm",
       "summary": "End-to-end-encrypted AI inference an agent can drive through an OpenAI-compatible API — TEE-attested privacy, Bitcoin-accepted subscriptions.",
       "what_an_agent_buys": "Private TEE-encrypted LLM inference through an OpenAI-compatible API — prompts provably unreadable to the provider",
       "payment_methods": [
@@ -141,6 +284,7 @@
       "slug": "lnvps",
       "name": "LNVPS",
       "category": "compute",
+      "subcategory": "vps",
       "summary": "A Lightning-native VPS host with Nostr login and no KYC — pay in sats, fund via NWC, spin up a server by API. The most agent-native compute on the consume side.",
       "what_an_agent_buys": "VPS compute — provision a server with Nostr login and fund it in sats",
       "payment_methods": [
@@ -168,6 +312,7 @@
       "slug": "bitlaunch",
       "name": "BitLaunch",
       "category": "compute",
+      "subcategory": "vps",
       "summary": "Bitcoin/Lightning VPS provisioning with a real API and SDKs — spin up DigitalOcean/Vultr/Linode servers and pay over Lightning, programmatically. \"Programmable servers with programmable money.\"",
       "what_an_agent_buys": "VPS on DigitalOcean / Vultr / Linode capacity, provisioned end-to-end by API",
       "payment_methods": [
@@ -195,6 +340,7 @@
       "slug": "openagents",
       "name": "OpenAgents",
       "category": "machine-work",
+      "subcategory": "agents",
       "summary": "The machine-work economy in two live surfaces — Autopilot, a local-first desktop agent IDE that verifies its own work, and Khala, an OpenAI-compatible inference API an agent can call, with metered, auditable receipts — built in public on Bitcoin/Nostr rails.",
       "what_an_agent_buys": "Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala) and pay per call over Lightning; or buy and sell labor, compute, and data across five markets, settled in Bitcoin with verifiable evidence",
       "payment_methods": [
@@ -223,6 +369,7 @@
       "slug": "invinoveritas",
       "name": "invinoveritas",
       "category": "verification",
+      "subcategory": "attestation",
       "summary": "An independent verification layer an agent pays in sats — a neutral verdict before an irreversible action, a schnorr-signed proof after, and a public track record anyone can verify against the service's published key without trusting it.",
       "what_an_agent_buys": "Independent pre-action verdicts and signed proofs — a neutral approve/concerns/reject on a trade, diff, plan, command, or on-chain action before an irreversible step (~200 sats), a portable schnorr-signed audit proof after (100 sats), and free no-auth verification of any counterparty's proof",
       "payment_methods": [
@@ -266,6 +413,7 @@
       "slug": "unhuman",
       "name": "Unhuman",
       "category": "commerce",
+      "subcategory": "retail",
       "summary": "Agent-native Bitcoin storefronts — an AI agent discovers products and completes a real-world purchase end to end by paying a Lightning L402 invoice, no account or card.",
       "what_an_agent_buys": "Real-world goods bought end to end over Lightning - roasted-to-order coffee (Unhuman Coffee) and domain registration (Unhuman Domains); Unhuman Store is a hub listing further agent storefronts",
       "payment_methods": [
@@ -296,6 +444,7 @@
       "slug": "bitrefill",
       "name": "Bitrefill",
       "category": "commerce",
+      "subcategory": "gift-cards",
       "summary": "The Lightning-native bridge to the rest of the digital economy — buy gift cards and top-ups for thousands of mainstream services with Bitcoin, via a real API, no KYC.",
       "what_an_agent_buys": "Agent-relevant slice: prepaid virtual Visa/Mastercard (the universal card bridge), eSIM data, phone/VoIP refills, VPN subscriptions. The bulk of the catalog is human-consumption gift cards (A2P procurement). NOT in the catalog: VPS/hosting, domains, compute, AI credits — see lnvps/bitlaunch/routstr/ppq-ai for those",
       "payment_methods": [
@@ -338,6 +487,7 @@
       "slug": "mullvad",
       "name": "Mullvad VPN",
       "category": "privacy",
+      "subcategory": "vpn",
       "summary": "A privacy VPN that takes Lightning with no email and no account profile — just a random account number. The lowest-identity direct-merchant fit for an agent.",
       "what_an_agent_buys": "VPN time on a no-identity account — fund a random 16-digit account number with sats",
       "payment_methods": [
@@ -364,6 +514,7 @@
       "slug": "boltz",
       "name": "Boltz",
       "category": "swap",
+      "subcategory": "atomic",
       "summary": "A non-custodial, no-KYC atomic-swap service — swaps settle via shared-preimage HTLCs, so the agent never gives up custody and no account or identity is required.",
       "what_an_agent_buys": "Atomic swaps — Lightning ↔ on-chain ↔ Liquid, plus Lightning ↔ USDT/USDC",
       "payment_methods": [
@@ -390,6 +541,7 @@
       "slug": "sideshift",
       "name": "SideShift.ai",
       "category": "swap",
+      "subcategory": "cross-chain",
       "summary": "A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks — direct-to-wallet conversions with no funds custodied.",
       "what_an_agent_buys": "Cross-asset swaps across 200+ assets and 45+ networks, direct to wallet",
       "payment_methods": [
@@ -415,6 +567,7 @@
       "slug": "flashnet",
       "name": "Flashnet",
       "category": "swap",
+      "subcategory": "btc-stablecoin",
       "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark — BTC ↔ USDT/USDB/USDC settling in seconds while the agent keeps its keys.",
       "what_an_agent_buys": "BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM",
       "payment_methods": [
@@ -438,6 +591,7 @@
       "slug": "sideswap",
       "name": "SideSwap",
       "category": "swap",
+      "subcategory": "cross-chain",
       "summary": "A non-custodial, KYC-free swap platform native to the Liquid Network — L-BTC, L-USDt, and tokenized assets on public order books.",
       "what_an_agent_buys": "L-BTC ↔ L-USDt and direct asset-to-asset swaps on Liquid order books",
       "payment_methods": [
@@ -461,6 +615,7 @@
       "slug": "loop",
       "name": "Loop",
       "category": "liquidity",
+      "subcategory": "channels",
       "summary": "Lightning Labs' non-custodial liquidity bridge — Loop Out and Loop In move balance between Lightning and on-chain via submarine swaps.",
       "what_an_agent_buys": "Lightning ↔ on-chain liquidity — non-custodial submarine swaps for LND nodes, fee for service",
       "payment_methods": [
@@ -487,6 +642,7 @@
       "slug": "amboss",
       "name": "Amboss (Magma)",
       "category": "liquidity",
+      "subcategory": "channels",
       "summary": "A Lightning channel-liquidity marketplace — buy inbound capacity from a public market with one API call (or an MIT MCP server), no account needed.",
       "what_an_agent_buys": "Inbound Lightning liquidity — buy a channel opened to your node so the agent can receive payments; sized in dollars, leased for a term, paid in sats",
       "payment_methods": [
@@ -528,6 +684,7 @@
       "slug": "rails",
       "name": "Amboss Rails",
       "category": "liquidity",
+      "subcategory": "routing",
       "summary": "A self-custodial Lightning liquidity-provision service — put idle bitcoin to work as routing liquidity and earn yield, driven by a GraphQL API.",
       "what_an_agent_buys": "Sell-side liquidity yield — deploy idle self-custodied bitcoin as Lightning routing liquidity and earn fees on the payment flow that crosses it (the provide-side complement to Magma's buy-side)",
       "payment_methods": [
@@ -555,6 +712,7 @@
       "slug": "strike",
       "name": "Strike",
       "category": "fiat-ramp",
+      "subcategory": "exchange",
       "summary": "A Bitcoin-only financial app whose defining feature for agents is native Lightning — it converts between a fiat bank balance and Lightning sats at the custodial boundary, sub-second on the Lightning side.",
       "what_an_agent_buys": "Lightning ↔ fiat conversion at the custodial edge",
       "payment_methods": [
@@ -581,6 +739,7 @@
       "slug": "river",
       "name": "River",
       "category": "fiat-ramp",
+      "subcategory": "brokerage",
       "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.",
       "what_an_agent_buys": "Fiat ↔ BTC (US) plus Lightning payments via the RLS API",
       "payment_methods": [
@@ -606,6 +765,7 @@
       "slug": "kraken",
       "name": "Kraken",
       "category": "fiat-ramp",
+      "subcategory": "exchange",
       "summary": "A large, long-established multi-asset exchange with broad fiat pairs and a mature trading API.",
       "what_an_agent_buys": "Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API",
       "payment_methods": [
@@ -632,6 +792,7 @@
       "slug": "coinbase",
       "name": "Coinbase",
       "category": "fiat-ramp",
+      "subcategory": "exchange",
       "summary": "A large, publicly listed multi-asset exchange with broad fiat connectivity and a mature developer platform; co-issuer of USDC.",
       "what_an_agent_buys": "Fiat ↔ BTC ↔ USDC via a mature developer platform",
       "payment_methods": [

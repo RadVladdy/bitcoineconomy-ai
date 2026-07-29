@@ -1,37 +1,80 @@
 # marketplace-site — marketplace.bitcoineconomy.ai
 
 The Marketplace **directory**: the agent-readable registry of services autonomous
-agents buy and sell for Bitcoin. Phase 1 architecture (see the build plan in the
-project notes): **curated registry core + live Nostr modules + a snapshot layer**.
+agents buy and sell for Bitcoin.
 
 This folder is **not** part of the main Astro build; it deploys on its own
 (currently a Cloudflare Pages project; Worker migration steps below).
+
+## ONE directory, four sources (merged 2026-07-29)
+
+The directory used to be **three tabs** — "Live from the relays", "Curated
+registry", "Wider L402 (via 402index)" — each with its own row shape, its own
+category strings, and its own intro paragraph. A reader looking for "inference I
+can pay for in sats" had to check three places and reconcile three vocabularies,
+and one tab rendered an empty table because nobody had self-listed yet. Three
+directories is a hodgepodge, not a directory.
+
+Now there is **one table**. Where a row came from is a `source` **filter**:
+
+| source | what it means |
+|---|---|
+| `curated` | Editor-verified against primary sources. The only rows a human checked. Sorts first. |
+| `announced` | Self-listed via a signed Nostr kind-38555 announcement. Permissionless, probed, **not endorsed**. |
+| `external-index` | 402index.io's verified feed, selectively passed through **with attribution**. Third-party-indexed AND third-party-verified. |
+| `gateway-observed` | Hosts seen settling through Alby's **l402.space** gateway — the only source whose figures come from *real payments* rather than probes. |
+
+Every row also carries a **`rail`**, because "payable" is not one thing:
+
+- `bitcoin-native` — the agent pays directly in sats.
+- `via-gateway` — settles in USDC/Tempo upstream; sats-payable only through
+  `links.gateway_url` (l402.space). A real payment route **and** a custodial hop.
+  Stated per row rather than averaged into "payable".
+- `fiat-only` — no Bitcoin path at all. An agent holding sats cannot buy it.
+
+**One category vocabulary** (`taxonomy.mjs`) spans all four sources. The two-level
+`category/subcategory` *shape* follows 402index's convention — that detail was
+worth adopting. Their *values* were not: ~150 top-level strings with casing
+duplicates (`AI`/`ai`, `Security`/`security`) and 72,819 of ~86,000 endpoints
+filed as `uncategorized`, most with no description at all. So we crosswalk theirs
+onto ours, and **every row keeps `source_category`** (their raw string) plus a
+`classification_confidence` of exact | top-level | inferred — the mapping is
+checkable and disputable, not asserted. A row that won't classify isn't ingested,
+which is also the noise filter: it's why there are no uncategorized rows here.
 
 ## What's here
 
 | file | role |
 |---|---|
-| `index.html` | the directory UI — renders `directory.json` + the live snapshot + the price index, client-side, no framework |
+| `index.html` | the directory UI — renders `master.json` as one filterable table, plus the supporting live inventory below it; client-side, no framework |
+| `taxonomy.mjs` | **the shared category vocabulary** — 11 top-level categories + subcategories, the 402index crosswalk, and the keyword classifier for sources that publish no category at all (l402.space). Imported by the build, the ingest libs, and the announcement spec |
+| `master-lib.mjs` | the merge — normalizes all four sources into ONE row shape, dedupes across sources (never within one), sorts curated-then-Bitcoin-native, and emits the `facets` block the UI and MCP filter on |
+| `master.json` | **generated** — committed fallback of the mastered directory |
+| `l402space-lib.mjs` / `l402space.json` | the gateway-observed source: l402.space's `/api/services` + `/api/stats`, merged per host |
 | `directory.json` | **generated** — the curated registry core (the services an agent BUYS; machine fields auth/quickstart/api_base/pricing_url + `mcp_endpoint` where the provider runs its own MCP) |
 | `tools.json` | **generated** — the tool catalog (what an agent EQUIPS: every `src/_raw/tools/` card, with toolbox_group/tool_type/prereq_tier + `mcp_endpoint` where present) |
 | `entries/*.md` | **generated** — one clean Markdown route per entry |
-| `llms.txt` | **generated** — the agent manifest for the subdomain (opens with the three-fetch consumption recipe) |
-| `openapi.json` | **generated** — OpenAPI 3.0 description of the GET routes for agents that don't speak MCP (operationIds getDirectory/getToolCatalog/getLiveSnapshot/getPriceIndex/getEntry) |
+| `llms.txt` | **generated** — the agent manifest for the subdomain (opens with the one-fetch `master.json` recipe, then the per-source documents) |
+| `openapi.json` | **generated** — OpenAPI 3.0 description of the GET routes for agents that don't speak MCP (operationIds getMasterDirectory/getDirectory/getToolCatalog/getLiveSnapshot/getPriceIndex/getExternalIndex/getGatewayObserved/getUptimeHistory/getEntry) |
 | `.well-known/ai-plugin.json` | **generated** — the OpenAI-plugin-era discovery manifest; points legacy/non-MCP agents at `openapi.json` |
 | `snapshot.json` | **generated** — committed fallback of the live Nostr snapshot (Routstr 38421 providers **with probe status**, NIP-87 38172/38173 mints, 38000 reviews) |
 | `models.json` | **generated, minified** — committed fallback of the cross-provider inference price index (model → alive providers, cheapest first, sats pricing) |
-| `directory-overlay.json` | hand-authored directory fields (category, what-an-agent-buys, payment methods, automatability tier, auth/quickstart + verified api_base/pricing_url + per-entry `mcp_endpoint`; plus the top-level `_tool_mcp_endpoints` map for tool cards that ship an MCP) merged over card frontmatter |
+| `directory-overlay.json` | hand-authored directory fields (category **+ subcategory** — validated against `taxonomy.mjs` at build time, so a typo fails the build rather than silently splitting a filter; what-an-agent-buys, payment methods, automatability tier, auth/quickstart + verified api_base/pricing_url + per-entry `mcp_endpoint`; plus the top-level `_tool_mcp_endpoints` map for tool cards that ship an MCP) merged over card frontmatter |
 | `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `tools.json`, `entries/`, `llms.txt`, `openapi.json`, `.well-known/ai-plugin.json` |
+| `fetch-external.mjs` | local CLI for the two OUTSIDE sources + the merge: `--write` regenerates `l402index.json`, `l402space.json` and `master.json`. Both upstreams flake (402index 502s intermittently), so each query retries and **a tier that comes back empty keeps its previous committed document and warns** — an empty tier reads as "nothing to sell here", which would be a lie. (Replaced `fetch-402index.mjs`, which only did a third of this.) |
+| `l402index-lib.mjs` | the external-index source: 402index.io's feed, all three protocols. Reliability-sorted queries are host-dominated (their top 400 verified L402 rows come from **six** hosts, 375 of them `llm402.ai`), so it also queries per-category for breadth, then applies a per-host cap and a per-category cap. Dropped counts are published, never silently truncated |
 | `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
-| `worker.js` | Cloudflare Worker: cron → relays + probes → KV; serves `/mcp` (the MCP server), `/live/snapshot.json` + `/live/models.json`; assets otherwise |
+| `worker.js` | Cloudflare Worker: cron → relays + probes + the two external sources → KV, then builds `master.json` from whatever that run produced (falling back per-tier to its last good KV copy, so one flaky upstream can't blank a tier); serves `/mcp` and every `/live/*` route; assets otherwise |
 | `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`) at `POST /mcp` |
 | `wrangler.jsonc` | worker config (cron every 6h, KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 
 **Never hand-edit the generated files.** Change a card in `src/_raw/` or
 `directory-overlay.json`, then run `node build.mjs` from this folder.
-Refresh the committed live fallbacks occasionally with `node sample-relays.mjs --write`.
+Refresh the committed fallbacks occasionally with `node sample-relays.mjs --write`
+(relays + price index) and `node fetch-external.mjs --write` (the two external
+sources + `master.json`). Read the warnings the latter prints before committing.
 
 ## The agent-decision layer (probes + price index)
 

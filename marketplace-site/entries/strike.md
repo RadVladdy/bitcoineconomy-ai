@@ -4,7 +4,7 @@
 
 A Bitcoin-only financial app whose defining feature for agents is native Lightning — it converts between a fiat bank balance and Lightning sats at the custodial boundary, sub-second on the Lightning side.
 
-- Category: fiat-ramp
+- Category: fiat-ramp / exchange
 - Payment methods: lightning, onchain, fiat
 - KYC: required
 - Custody: custodial

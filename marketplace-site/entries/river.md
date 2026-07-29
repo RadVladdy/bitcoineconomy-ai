@@ -4,7 +4,7 @@
 
 A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.
 
-- Category: fiat-ramp
+- Category: fiat-ramp / brokerage
 - Payment methods: lightning, onchain, fiat
 - KYC: required
 - Custody: custodial

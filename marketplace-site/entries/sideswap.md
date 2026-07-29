@@ -4,7 +4,7 @@
 
 A non-custodial, KYC-free swap platform native to the Liquid Network — L-BTC, L-USDt, and tokenized assets on public order books.
 
-- Category: swap
+- Category: swap / cross-chain
 - Payment methods: liquid
 - KYC: none
 - Custody: self-custody

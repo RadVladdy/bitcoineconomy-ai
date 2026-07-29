@@ -4,7 +4,7 @@
 
 A self-custodial Lightning liquidity-provision service — put idle bitcoin to work as routing liquidity and earn yield, driven by a GraphQL API.
 
-- Category: liquidity
+- Category: liquidity / routing
 - Payment methods: lightning
 - Payment detail: no fee to use; you earn yield from routing fees on bitcoin you provide as liquidity
 - Custody: self-custodial — your bitcoin stays under your own keys/node; Rails automates its deployment as routing liquidity

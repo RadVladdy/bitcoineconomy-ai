@@ -4,7 +4,7 @@
 
 A Lightning-native VPS host with Nostr login and no KYC — pay in sats, fund via NWC, spin up a server by API. The most agent-native compute on the consume side.
 
-- Category: compute
+- Category: compute / vps
 - Payment methods: lightning, nwc
 - Payment detail: Lightning (sats), fundable via NWC; no card
 - KYC: none

@@ -4,7 +4,7 @@
 
 The machine-work economy in two live surfaces — Autopilot, a local-first desktop agent IDE that verifies its own work, and Khala, an OpenAI-compatible inference API an agent can call, with metered, auditable receipts — built in public on Bitcoin/Nostr rails.
 
-- Category: machine-work
+- Category: machine-work / agents
 - Payment methods: lightning
 - Payment detail: Khala billed per call — metered credits/USD with auditable receipts; the broader network settles verified work + Forum payments in Bitcoin/Lightning (BOLT12)
 - KYC: none

@@ -13,6 +13,8 @@ export const RELAYS = [
   'wss://relay.primal.net',
 ];
 
+import { CATEGORY_ORDER } from './taxonomy.mjs';
+
 const THIRTY_DAYS = 30 * 24 * 60 * 60;
 
 // Our own "agent-payable service announcement" microstandard — a parameterized-
@@ -118,7 +120,11 @@ function parseContentObj(ev) {
 
 // The 8-term category vocabulary the directory curates on; an announcement's `k`
 // tag is normalized into it (unknown values pass through, labeled, never dropped).
-const ANNOUNCE_CATEGORIES = ['inference', 'compute', 'machine-work', 'commerce', 'privacy', 'swap', 'liquidity', 'fiat-ramp'];
+// Drawn from the shared vocabulary (taxonomy.mjs) so a self-listing service and
+// a curated entry are filed under the same words — the spec's `k` tag and the
+// directory's `category` field are one vocabulary, not two. Unknown values still
+// pass through labeled rather than being dropped (see parseAnnounced).
+const ANNOUNCE_CATEGORIES = CATEGORY_ORDER;
 
 // Parse one kind-38555 event into the directory's announced-service shape. Tag
 // grammar (reused from Routstr where it overlaps): d=service id · u=endpoint(s) ·

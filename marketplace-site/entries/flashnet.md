@@ -4,7 +4,7 @@
 
 A non-custodial, Bitcoin-native DEX/AMM built on Spark — BTC ↔ USDT/USDB/USDC settling in seconds while the agent keeps its keys.
 
-- Category: swap
+- Category: swap / btc-stablecoin
 - Payment methods: spark, lightning
 - KYC: none
 - Custody: self-custody

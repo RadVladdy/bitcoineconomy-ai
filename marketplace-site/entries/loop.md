@@ -4,7 +4,7 @@
 
 Lightning Labs' non-custodial liquidity bridge — Loop Out and Loop In move balance between Lightning and on-chain via submarine swaps.
 
-- Category: liquidity
+- Category: liquidity / channels
 - Payment methods: lightning, onchain
 - KYC: none
 - Custody: self-custody (atomic submarine swaps)

@@ -4,7 +4,7 @@
 
 End-to-end-encrypted AI inference an agent can drive through an OpenAI-compatible API — TEE-attested privacy, Bitcoin-accepted subscriptions.
 
-- Category: inference
+- Category: inference / llm
 - Payment methods: fiat
 - Payment detail: subscription (card, or Bitcoin on yearly plans at a 10% discount) + usage credits
 - KYC: none

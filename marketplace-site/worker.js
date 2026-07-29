@@ -21,13 +21,17 @@
 // plan or refresh via the local CLI (`node sample-relays.mjs --write`) instead.
 
 import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes } from './snapshot-lib.mjs';
-import { fetch402indexL402, buildL402Index } from './l402index-lib.mjs';
+import { fetch402index, buildL402Index } from './l402index-lib.mjs';
+import { fetchL402Space, buildL402SpaceDoc } from './l402space-lib.mjs';
+import { buildMaster } from './master-lib.mjs';
 import { probeSelf, appendRun, buildUptimeDoc } from './uptime-lib.mjs';
 import { handleMcp } from './mcp-lib.mjs';
 
 const KV_SNAPSHOT = 'snapshot';
 const KV_MODELS = 'models';
 const KV_L402INDEX = 'l402index';
+const KV_L402SPACE = 'l402space';
+const KV_MASTER = 'master';
 const KV_UPTIME = 'uptime';
 const KV_UPTIME_HISTORY = 'uptime_history';
 const SELF_BASE = 'https://marketplace.bitcoineconomy.ai';
@@ -146,23 +150,54 @@ export default {
       await env.SNAPSHOT.put(KV_UPTIME, JSON.stringify(buildUptimeDoc(history, { generatedAt: new Date().toISOString() })));
     } catch {}
 
-    // Wider L402 tier: a selective, attributed pass over 402index.io's verified-
-    // L402 feed. Plain HTTPS fetch — cheap and independent of the relay path, so a
-    // 402index outage never costs us the Nostr snapshot; non-fatal, and only
-    // overwrites KV with a non-empty result.
+    // External tiers: 402index.io's verified feed and Alby's l402.space gateway.
+    // Plain HTTPS fetches — cheap and independent of the relay path, so an outage
+    // at either never costs us the Nostr snapshot. Each is non-fatal and only
+    // overwrites KV with a non-empty result (don't-overwrite-good-data).
+    let doc402 = null;
+    let docSpace = null;
     try {
-      const res402 = await fetch402indexL402(fetch);
-      const doc402 = buildL402Index(res402, { generatedAt: new Date().toISOString(), source: 'worker-cron (via 402index.io)' });
-      if (doc402.count > 0) await env.SNAPSHOT.put(KV_L402INDEX, JSON.stringify(doc402));
+      const d = buildL402Index(await fetch402index(fetch), { generatedAt: new Date().toISOString(), source: 'worker-cron (via 402index.io)' });
+      if (d.count > 0) { doc402 = d; await env.SNAPSHOT.put(KV_L402INDEX, JSON.stringify(d)); }
+    } catch {}
+    try {
+      const d = buildL402SpaceDoc(await fetchL402Space(fetch), { generatedAt: new Date().toISOString(), source: 'worker-cron (via l402.space)' });
+      if (d.count > 0) { docSpace = d; await env.SNAPSHOT.put(KV_L402SPACE, JSON.stringify(d)); }
+    } catch {}
+
+    // The mastered directory: all four sources merged into one row shape and one
+    // category vocabulary. Built last, from whatever this run produced — and for
+    // any tier that failed THIS run, from its last good KV copy, so one flaky
+    // upstream doesn't blank a whole tier of the merged table. A tier with no
+    // data at all is simply absent, and master.json's `sources` block reports
+    // `available: false` rather than the table silently shrinking.
+    try {
+      const lastGood = async (key, fresh) => {
+        if (fresh) return fresh;
+        try { return JSON.parse((await env.SNAPSHOT.get(key)) || 'null'); } catch { return null; }
+      };
+      const [directory, uptimeDoc, idx, space] = await Promise.all([
+        env.ASSETS.fetch(new URL('/directory.json', SELF_BASE)).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+        lastGood(KV_UPTIME, null),
+        lastGood(KV_L402INDEX, doc402),
+        lastGood(KV_L402SPACE, docSpace),
+      ]);
+      const master = buildMaster(
+        { directory, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc },
+        { generatedAt: new Date().toISOString(), base: SELF_BASE },
+      );
+      if (master.count > 0) await env.SNAPSHOT.put(KV_MASTER, JSON.stringify(master));
     } catch {}
   },
 
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/mcp' || url.pathname === '/mcp/') return handleMcp(request, env, url.origin);
+    if (url.pathname === '/live/master.json') return serveLive(env, url.origin, KV_MASTER, '/master.json');
     if (url.pathname === '/live/snapshot.json') return serveLive(env, url.origin, KV_SNAPSHOT, '/snapshot.json');
     if (url.pathname === '/live/models.json') return serveLive(env, url.origin, KV_MODELS, '/models.json');
     if (url.pathname === '/live/l402index.json') return serveLive(env, url.origin, KV_L402INDEX, '/l402index.json');
+    if (url.pathname === '/live/l402space.json') return serveLive(env, url.origin, KV_L402SPACE, '/l402space.json');
     if (url.pathname === '/live/uptime.json') return serveLive(env, url.origin, KV_UPTIME, '/uptime.json');
     if (url.pathname === '/live/announced.json') return serveAnnounced(env, url.origin);
     return env.ASSETS.fetch(request);

@@ -4,7 +4,7 @@
 
 An independent verification layer an agent pays in sats — a neutral verdict before an irreversible action, a schnorr-signed proof after, and a public track record anyone can verify against the service's published key without trusting it.
 
-- Category: verification
+- Category: verification / attestation
 - Payment methods: l402, lightning, fiat
 - Payment detail: per-call sats — L402, or a free API key funded over Lightning (USDC/x402 and card also accepted)
 - KYC: none

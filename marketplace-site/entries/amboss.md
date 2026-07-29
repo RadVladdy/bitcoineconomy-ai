@@ -4,7 +4,7 @@
 
 A Lightning channel-liquidity marketplace — buy inbound capacity from a public market with one API call (or an MIT MCP server), no account needed.
 
-- Category: liquidity
+- Category: liquidity / channels
 - Payment methods: lightning, onchain
 - Payment detail: lightning / on-chain — pay the channel-lease HODL invoice in sats
 - KYC: none

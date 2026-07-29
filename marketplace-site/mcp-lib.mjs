@@ -23,14 +23,13 @@ const LATEST_VERSION = '2025-06-18';
 const SUPPORTED_VERSIONS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 
 const INSTRUCTIONS =
-  'The bitcoineconomy.ai marketplace: a curated directory of Bitcoin-native services AI agents can pay for over Lightning, Cashu, and L402, plus a catalog of the tools an agent equips to transact. ' +
-  'Find services to BUY from with find_service and list_categories, drill in with get_service, get live inference pricing with price_model, and get a ready-to-pay ' +
-  'payment plan (or a live invoice / inference price / swap rate) with get_quote. Find tools to EQUIP (wallets, node toolkits, ecash, bridges, protocol primitives) with find_tool and get_tool. ' +
-  'Some providers run their own MCP server (Amboss, Bitrefill, Alby NWC) — list_mcp_servers gives the connection detail: discover here, connect there to act. ' +
-  'The directory is two-sided: services can also SELL here by publishing a signed kind-38555 "agent-payable service announcement" — find_service tier="announced" surfaces those (self-listed, probed-but-unverified), and the spec to publish one is at ' + ANNOUNCE_SPEC_URL + '. ' +
-  'Directory entries and the tool catalog are reference facts; relay/probe data and announced entries are announcements — not endorsements. ' +
-  "find_l402_endpoints searches a Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed (external-index provenance, third-party-verified, NOT endorsements) — real Lightning-payable endpoints beyond the curated set. " +
-  'get_uptime returns the rolling per-target uptime history (self-inclusive, recomputable from raw runs, Bitcoin-anchored nightly) for weighing which announced service to trust. ' +
+  'The bitcoineconomy.ai marketplace: ONE directory of every service an AI agent can pay for, merged from four sources into a single shape and a single two-level category vocabulary, plus a catalog of the tools an agent equips to transact. ' +
+  'Find services to BUY from with find_service (searches all sources at once — filter with source, rail, category, subcategory) and call list_categories FIRST to get the exact vocabulary and counts. Drill in with get_service, get live inference pricing with price_model, and get a ready-to-pay payment plan (or a live invoice / inference price / swap rate) with get_quote. ' +
+  'Find tools to EQUIP (wallets, node toolkits, ecash, bridges, protocol primitives) with find_tool and get_tool. Some providers run their own MCP server (Amboss, Bitrefill, Alby NWC) — list_mcp_servers gives the connection detail: discover here, connect there to act. ' +
+  'PROVENANCE MATTERS AND IS ON EVERY ROW. source="curated" is editor-verified against primary sources — the only rows a human checked. "announced" are permissionless self-listings (signed Nostr kind-38555 announcements), probed but unverified. "external-index" are third-party-indexed AND third-party-verified by 402index.io, passed through with attribution. "gateway-observed" are hosts seen settling through Alby\'s l402.space, so their figures come from real payments rather than probes — but they are still a third party\'s observations. Only the first is an endorsement; treat the rest as leads to verify. ' +
+  'RAIL MATTERS TOO. rail="bitcoin-native" means the agent pays directly in sats. rail="via-gateway" means the service settles in USDC or Tempo upstream and is sats-payable only by paying l402.space, which then pays the upstream — a real payment route AND a custodial hop, because an intermediary holds the sats leg. Use the row\'s gateway_url to pay that way, and filter rail="bitcoin-native" when the agent must not depend on an intermediary. ' +
+  'Trust figures always ship with their denominator and formula so you can recompute rather than trust; get_uptime returns the rolling per-target uptime history (self-inclusive, Bitcoin-anchored nightly). ' +
+  'The directory is two-sided: to SELL here, publish a signed kind-38555 announcement — spec at ' + ANNOUNCE_SPEC_URL + '. ' +
   'You pay providers directly with your own wallet; this server never holds funds and never proxies another MCP.';
 
 const CORS = {
@@ -60,7 +59,7 @@ async function loadKvOrAsset(env, origin, kvKey, assetPath) {
 }
 
 function makeCtx(env, origin) {
-  let dirP, modelsP, toolsP, snapP, l402P, uptP;
+  let dirP, modelsP, toolsP, snapP, l402P, uptP, masterP;
   return {
     directory: () => (dirP ||= loadJsonAsset(env, origin, '/directory.json')),
     async entries() { return (await this.directory())?.entries || []; },
@@ -75,6 +74,11 @@ function makeCtx(env, origin) {
     // verified-L402 feed — external-index provenance, NOT endorsements.
     l402index: () => (l402P ||= loadKvOrAsset(env, origin, 'l402index', '/l402index.json')),
     uptime: () => (uptP ||= loadKvOrAsset(env, origin, 'uptime', '/uptime.json')),
+    // The MASTERED directory: all four sources in one row shape and one category
+    // vocabulary. This is what find_service reads — the per-tier documents above
+    // remain for callers that want one source unmixed.
+    master: () => (masterP ||= loadKvOrAsset(env, origin, 'master', '/master.json')),
+    async masterServices() { return (await this.master())?.services || []; },
   };
 }
 
@@ -90,6 +94,41 @@ function compact(e) {
     kyc: e.kyc, custody: e.custody, automatability: e.automatability,
     two_sided: e.two_sided || null, has_api_base: !!e.api_base,
     has_mcp_server: !!e.mcp_endpoint, card_url: e.card_url,
+  };
+}
+
+// A row of the mastered directory, trimmed for search results. Keeps the three
+// things a caller needs before deciding: where it came from, how to pay it, and
+// how good the trust figure's denominator is.
+function compactMaster(s) {
+  return {
+    id: s.id,
+    name: s.name,
+    description: s.description,
+    category: s.category,
+    subcategory: s.subcategory,
+    source: s.source,
+    provenance: s.provenance,
+    rail: s.rail,
+    payment_methods: s.payment_methods,
+    payment_network: s.payment_network,
+    price: s.price,
+    kyc: s.kyc,
+    automatability: s.automatability,
+    two_sided: s.two_sided || null,
+    trust: s.trust,
+    observed: s.observed,
+    // The upstream's own category string and how confidently we mapped it —
+    // so a caller can audit the classification rather than take it on faith.
+    source_category: s.source_category,
+    classification_confidence: s.classification_confidence,
+    has_api_base: !!s.api_base,
+    has_mcp_server: !!s.mcp_endpoint,
+    card_url: s.links?.card || null,
+    endpoint: s.links?.endpoint || null,
+    gateway_url: s.links?.gateway_url || null,
+    source_page: s.links?.source_page || null,
+    last_verified: s.last_verified,
   };
 }
 
@@ -247,83 +286,133 @@ const TOOLS = [
   {
     name: 'find_service',
     description:
-      'Search the marketplace directory of Bitcoin-native services AI agents can buy from. Defaults to the curated tier (editor-verified). Set tier="announced" or "all" to also see self-listed services (published via our kind-38555 microstandard) — those are probed-but-unverified announcements, NOT endorsements; each carries tier, provenance, probe status, announcement age, and mint-health so you never confuse them with curated entries. Filter by free-text query, category, payment method, KYC, automatability tier, or whether the agent can also sell through it. Returns compact matches; call get_service for full detail.',
+      'Search THE WHOLE marketplace directory — every service an agent can pay for, from all four sources in one shape and one category vocabulary. ' +
+      'Sources: "curated" (editor-verified against primary sources — the only rows a human checked), "announced" (self-listed via our kind-38555 Nostr microstandard, probed-but-unverified), ' +
+      '"external-index" (402index.io\'s verified feed, third-party-indexed AND third-party-verified, passed through with attribution), and "gateway-observed" (hosts seen settling through Alby\'s l402.space — figures from real payments, not probes). ' +
+      'None of these except "curated" is an endorsement, and every result says which it is. ' +
+      'Each result also carries `rail`: "bitcoin-native" = payable directly in sats; "via-gateway" = settles in USDC/Tempo upstream and is sats-payable only through l402.space, which is a real payment route AND a custodial hop — use `gateway_url` to pay it. ' +
+      'Filter by free-text, category, subcategory, payment method, rail, source, KYC, automatability, or two-sidedness. Returns compact matches; call get_service for full detail.',
     inputSchema: {
       type: 'object',
       properties: {
-        query: { type: 'string', description: 'Free-text over name, summary, what-an-agent-buys, category.' },
-        category: { type: 'string', description: 'One of: inference, compute, machine-work, verification, commerce, privacy, swap, liquidity, fiat-ramp.' },
-        payment_method: { type: 'string', description: 'One of: lightning, onchain, cashu, l402, nwc, liquid, spark, fiat.' },
-        no_kyc: { type: 'boolean', description: 'If true, return only services that need no KYC (curated tier only — announced entries do not carry a verified KYC field).' },
-        automatability: { type: 'string', description: 'One of: api-no-account, api-account, api-kyc (curated tier only).' },
-        two_sided: { type: 'boolean', description: 'If true, return only services an agent can also sell/offer through (curated tier only).' },
-        tier: { type: 'string', description: 'Which tier to search: "curated" (default, editor-verified), "announced" (self-listed via kind 38555, probed-but-unverified), or "all".' },
+        query: { type: 'string', description: 'Free-text over name, description, category and subcategory.' },
+        category: { type: 'string', description: 'One of: inference, compute, data, machine-work, verification, commerce, privacy, swap, liquidity, payments, fiat-ramp. Call list_categories for the full two-level vocabulary with counts.' },
+        subcategory: { type: 'string', description: 'A second-level category, e.g. "llm", "search", "gift-cards". Valid values depend on `category` — see list_categories.' },
+        payment_method: { type: 'string', description: 'One of: lightning, onchain, cashu, l402, nwc, liquid, spark, fiat, x402, mpp.' },
+        rail: { type: 'string', description: '"bitcoin-native" = payable directly in sats · "via-gateway" = reachable only by paying an intermediary (l402.space) that settles upstream · "fiat-only" = no Bitcoin payment path at all. Use "bitcoin-native" when the agent must not depend on a custodial hop.' },
+        source: { type: 'string', description: 'Restrict to one source: "curated", "announced", "external-index" or "gateway-observed".' },
+        no_kyc: { type: 'boolean', description: 'If true, return only services that need no KYC. Curated rows only — no other source carries a verified KYC field, so this necessarily narrows to curated.' },
+        automatability: { type: 'string', description: 'One of: api-no-account, api-account, api-kyc (curated rows only).' },
+        two_sided: { type: 'boolean', description: 'If true, return only services an agent can also sell/offer through (curated rows only).' },
+        tier: { type: 'string', description: 'DEPRECATED alias for `source`, kept so older callers keep working: "curated" | "announced" | "all". Prefer `source` (and omit it entirely to search everything).' },
+        limit: { type: 'number', description: 'Maximum results to return (default 40).' },
       },
       additionalProperties: false,
     },
     async handler(a, ctx) {
-      const tier = lc(a.tier).trim() || 'curated';
+      const all = await ctx.masterServices();
+      if (!all.length) {
+        return { error: 'The mastered directory is unavailable right now. Single sources are unaffected: /directory.json (curated), /live/announced.json, /live/l402index.json, /live/l402space.json.' };
+      }
       const q = lc(a.query).trim();
-      const curatedWanted = tier === 'curated' || tier === 'all';
-      const announcedWanted = tier === 'announced' || tier === 'all';
 
-      let curated = [];
-      if (curatedWanted) {
-        let r = await ctx.entries();
-        if (q) r = r.filter((e) => `${e.name} ${e.summary} ${e.what_an_agent_buys} ${e.category} ${(e.payment_methods || []).join(' ')}`.toLowerCase().includes(q));
-        if (a.category) r = r.filter((e) => lc(e.category) === lc(a.category));
-        if (a.payment_method) r = r.filter((e) => (e.payment_methods || []).map(lc).includes(lc(a.payment_method)));
-        if (a.no_kyc === true) r = r.filter(isNoKyc);
-        if (a.automatability) r = r.filter((e) => lc(e.automatability) === lc(a.automatability));
-        if (a.two_sided === true) r = r.filter((e) => /offer/i.test(String(e.two_sided || '')));
-        curated = r.map((e) => ({ tier: 'curated', provenance: 'curated', ...compact(e) }));
+      // `tier` predates the merge and meant curated|announced|all. Map it onto
+      // `source` so old callers get what they asked for; "all" now honestly means
+      // all four sources rather than the two that existed when it was written.
+      let source = lc(a.source).trim();
+      if (!source && a.tier) {
+        const t = lc(a.tier).trim();
+        if (t === 'curated' || t === 'announced') source = t;
       }
 
-      let announced = [];
-      if (announcedWanted) {
-        // KYC/automatability/two_sided are curated-only verified fields — applying
-        // them to announced entries would silently drop honest results, so the
-        // announced tier filters only on what an announcement actually carries.
-        let r = await ctx.announced();
-        if (q) r = r.filter((s) => `${s.name || ''} ${s.summary || ''} ${s.what_an_agent_buys || ''} ${s.category || ''} ${(s.payment_methods || []).join(' ')}`.toLowerCase().includes(q));
-        if (a.category) r = r.filter((s) => lc(s.category) === lc(a.category));
-        if (a.payment_method) r = r.filter((s) => (s.payment_methods || []).map(lc).includes(lc(a.payment_method)));
-        announced = r.map(compactAnnounced);
+      let r = all;
+      if (source) r = r.filter((s) => s.source === source);
+      if (a.rail) r = r.filter((s) => s.rail === lc(a.rail).trim());
+      if (a.category) r = r.filter((s) => lc(s.category) === lc(a.category));
+      if (a.subcategory) r = r.filter((s) => lc(s.subcategory) === lc(a.subcategory));
+      if (a.payment_method) {
+        const pm = lc(a.payment_method);
+        r = r.filter((s) => (s.payment_methods || []).map(lc).includes(pm) || lc(s.protocol) === pm);
       }
+      if (q) {
+        r = r.filter((s) => `${s.name} ${s.description || ''} ${s.category || ''} ${s.subcategory || ''} ${(s.payment_methods || []).join(' ')}`.toLowerCase().includes(q));
+      }
+      // KYC / automatability / two_sided are verified only on curated rows.
+      // Applying them across the merged table would silently drop honest results
+      // from sources that simply don't publish the field — so say so instead.
+      const curatedOnlyFilters = [];
+      if (a.no_kyc === true) { r = r.filter(isNoKyc); curatedOnlyFilters.push('no_kyc'); }
+      if (a.automatability) { r = r.filter((s) => lc(s.automatability) === lc(a.automatability)); curatedOnlyFilters.push('automatability'); }
+      if (a.two_sided === true) { r = r.filter((s) => /offer/i.test(String(s.two_sided || ''))); curatedOnlyFilters.push('two_sided'); }
+
+      const limit = Number.isFinite(a.limit) && a.limit > 0 ? Math.floor(a.limit) : 40;
+      const total = r.length;
+      const bySource = {};
+      for (const s of r) bySource[s.source] = (bySource[s.source] || 0) + 1;
 
       return {
-        tier,
-        count: curated.length + announced.length,
-        ...(announcedWanted ? { announced_note: 'Announced entries are self-listed (kind 38555) and probed-but-unverified — announcements, not endorsements. Weigh status, announcement_age_days, and mint_health; verify before trusting. To list a service: ' + ANNOUNCE_SPEC_URL } : {}),
-        services: [...curated, ...announced],
+        count: Math.min(total, limit),
+        total_matched: total,
+        ...(total > limit ? { truncated: `Showing ${limit} of ${total}. Narrow with category/subcategory/rail, or raise \`limit\`.` } : {}),
+        by_source: bySource,
+        provenance_note:
+          'Only "curated" rows are editor-verified. "announced" are permissionless self-listings, "external-index" are third-party-indexed and third-party-verified, "gateway-observed" are a third party\'s settlement observations. None of the last three is an endorsement — verify before trusting. To list a service: ' + ANNOUNCE_SPEC_URL,
+        ...(curatedOnlyFilters.length
+          ? { filter_note: `${curatedOnlyFilters.join(', ')} ${curatedOnlyFilters.length > 1 ? 'are fields' : 'is a field'} only curated rows carry, so this search necessarily returned curated results only. Drop it to search every source.` }
+          : {}),
+        services: r.slice(0, limit).map(compactMaster),
       };
     },
   },
   {
     name: 'get_service',
-    description: 'Get the full machine-readable detail for one marketplace service by slug (api_base, auth, payment methods, custody/KYC, quickstart, pricing, links). Resolves both curated slugs (e.g. "routstr") and announced slugs ("announced:{id}", self-listed via kind 38555 — returned with probe status + trust signals + the announcements-not-endorsements caveat).',
+    description:
+      'Get the full machine-readable detail for one service (api_base, auth, payment methods, custody/KYC, quickstart, pricing, trust figures with their denominators, links). ' +
+      'Accepts a curated slug ("routstr"), an announced slug ("announced:{id}"), or any `id` returned by find_service across the merged directory ("curated:routstr", "l402space:blockrun.ai", "x402index:{uuid}").',
     inputSchema: {
       type: 'object',
-      properties: { slug: { type: 'string', description: 'The service slug, e.g. "routstr", "boltz", "bitrefill", or an announced slug "announced:acme-gpu".' } },
+      properties: { slug: { type: 'string', description: 'A curated slug ("routstr", "boltz", "bitrefill"), an announced slug ("announced:acme-gpu"), or any find_service `id`.' } },
       required: ['slug'],
       additionalProperties: false,
     },
     async handler(a, ctx) {
-      // Announced entries are namespaced "announced:…"; route by that, else curated.
-      if (/^announced:/i.test(String(a.slug))) {
-        const s = (await ctx.announced()).find((x) => x.slug === a.slug);
-        if (!s) return { error: `No announced service with slug "${a.slug}". It may have been replaced or expired off the relays. Use find_service tier="announced" for the current list.` };
+      const want = String(a.slug || '');
+
+      // Announced entries are namespaced "announced:…"; the relay copy carries
+      // the richest detail (tags, mints, probe), so prefer it over the merged row.
+      if (/^announced:/i.test(want)) {
+        const s = (await ctx.announced()).find((x) => x.slug === want);
+        if (!s) return { error: `No announced service with slug "${want}". It may have been replaced or expired off the relays. Use find_service source="announced" for the current list.` };
         return {
-          tier: 'announced', provenance: 'live-from-relay',
+          source: 'announced', provenance: 'live-from-relay',
           disclaimer: 'Self-listed via the kind-38555 microstandard — an announcement as published, NOT an endorsement. Weigh status / announcement_age_days / mint_health and verify before trusting.',
           announce_spec: ANNOUNCE_SPEC_URL,
           ...s,
         };
       }
-      const e = (await ctx.entries()).find((x) => x.slug === a.slug);
-      if (!e) return { error: `No service with slug "${a.slug}". Use find_service or list_categories to discover valid slugs (announced services use "announced:{id}").` };
-      const { entry_md, ...rest } = e; // drop the heavy markdown blob; card_url/links point to it
-      return { tier: 'curated', ...rest };
+
+      // A bare curated slug still resolves to the full curated entry — that is
+      // the richest record we hold and the one older callers expect.
+      const e = (await ctx.entries()).find((x) => x.slug === want || `curated:${x.slug}` === want);
+      if (e) {
+        const { entry_md, ...rest } = e; // drop the heavy markdown blob; card_url/links point to it
+        return { source: 'curated', provenance: 'curated', ...rest };
+      }
+
+      // Anything else: look it up in the merged directory by id.
+      const m = (await ctx.masterServices()).find((x) => x.id === want);
+      if (m) {
+        return {
+          disclaimer: m.source === 'curated' ? undefined : {
+            announced: 'Self-listed, probed-but-unverified — an announcement, not an endorsement.',
+            'external-index': 'Indexed and health-verified by 402index.io, a third party, and passed through with attribution. Not our endorsement — check `source_page` at the source.',
+            'gateway-observed': "Observed by Alby's l402.space at settlement. Real payments, but a third party's observations and not our endorsement. Note `rail`: if via-gateway, paying in sats means an intermediary holds the sats leg.",
+          }[m.source],
+          ...m,
+        };
+      }
+
+      return { error: `No service matching "${want}". Use find_service to discover valid ids (curated entries also resolve by bare slug, e.g. "routstr"; announced ones use "announced:{id}").` };
     },
   },
   {
@@ -394,31 +483,54 @@ const TOOLS = [
   },
   {
     name: 'list_categories',
-    description: 'List the marketplace vocabulary and live tallies (categories, payment methods, automatability tiers, KYC) so you can target find_service, plus the count of self-announced services and the live JSON routes.',
+    description:
+      'The filter vocabulary for find_service, with live tallies across the WHOLE merged directory: the two-level category scheme (category → subcategory) with counts, the sources and what each one means, the payment rails, payment methods, automatability tiers and KYC. ' +
+      'Call this first to target a search precisely instead of guessing category names.',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
     async handler(_a, ctx) {
-      const dir = await ctx.directory();
+      const [dir, master] = [await ctx.directory(), await ctx.master()];
       const entries = dir?.entries || [];
-      const announced = await ctx.announced();
-      const tally = (fn) => entries.reduce((m, e) => { const k = fn(e) ?? '(none)'; m[k] = (m[k] || 0) + 1; return m; }, {});
+      const rows = master?.services || [];
+      const tally = (list, fn) => list.reduce((m, e) => { const k = fn(e) ?? '(none)'; m[k] = (m[k] || 0) + 1; return m; }, {});
       const pm = {};
-      for (const e of entries) for (const p of e.payment_methods || []) pm[p] = (pm[p] || 0) + 1;
+      for (const s of rows) for (const p of s.payment_methods || []) pm[p] = (pm[p] || 0) + 1;
+
+      // Subcategories nested under their category, so a caller sees which
+      // second-level values are actually reachable for a given category.
+      const subs = {};
+      for (const [pair, n] of Object.entries(master?.facets?.subcategory || {})) {
+        const [cat, sub] = pair.split('/');
+        (subs[cat] ??= {})[sub] = n;
+      }
+
       return {
-        total_services: entries.length,
-        categories: tally((e) => e.category),
+        total_services: rows.length || entries.length,
+        curated_services: entries.length,
+        sources: Object.fromEntries(Object.entries(master?.sources || {}).map(([k, v]) => [k, {
+          label: v.label, means: v.blurb, count: master?.facets?.source?.[k] ?? 0, available: v.available, document: v.document,
+        }])),
+        rails: {
+          ...(master?.rails || {}),
+          counts: master?.facets?.rail || {},
+        },
+        categories: master?.facets?.category || tally(entries, (e) => e.category),
+        subcategories: subs,
         payment_methods: pm,
-        automatability_tiers: tally((e) => e.automatability),
-        kyc: tally((e) => e.kyc),
-        two_sided: tally((e) => e.two_sided),
-        announced_tier: {
-          count: announced.length,
-          note: 'Self-listed services via the kind-38555 microstandard (probed-but-unverified — announcements, not endorsements). Query with find_service tier="announced". List your own service: ' + ANNOUNCE_SPEC_URL,
+        payment_networks: master?.facets?.payment_network || {},
+        automatability_tiers: tally(entries, (e) => e.automatability),
+        kyc: tally(entries, (e) => e.kyc),
+        two_sided: tally(entries, (e) => e.two_sided),
+        classification_confidence: {
+          counts: master?.facets?.classification_confidence || {},
+          note: master?.vocabulary?.confidence_levels,
         },
-        vocabulary: {
-          categories: dir?.categories,
-          automatability_tiers: dir?.automatability_tiers,
-          payment_method_vocabulary: dir?.payment_method_vocabulary,
+        sell_side: {
+          note: 'This directory is two-sided. To LIST a service, publish a signed kind-38555 announcement — no account, no fee. It appears as source="announced" on the next 6-hourly refresh and graduates to "curated" only via editor verification.',
+          spec: ANNOUNCE_SPEC_URL,
         },
+        vocabulary: master?.vocabulary || { categories: dir?.categories },
+        automatability_tier_definitions: dir?.automatability_tiers,
+        payment_method_vocabulary: dir?.payment_method_vocabulary,
         live_routes: dir?.live_routes,
       };
     },
@@ -501,12 +613,15 @@ const TOOLS = [
   {
     name: 'find_l402_endpoints',
     description:
-      "Search the Wider L402 tier — a selective, attributed pass over 402index.io's verified-L402 feed (Ryan Gentry, ex-Lightning Labs). These are real Lightning-payable (L402) endpoints BEYOND the curated registry: health-filtered and reliability-capped, each with a source_page back to its 402index.io record. provenance is external-index — third-party-indexed and third-party-verified, NOT bitcoineconomy.ai endorsements; verify at the source before trusting. Filter by free-text query, category (e.g. ai/llm, ai/image, ai/video, ai/code, ai/text), or a max price in sats. For the curated, editor-verified services use find_service instead.",
+      "Search ONLY the external-index source — 402index.io's verified feed (Ryan Gentry, ex-Lightning Labs), selectively passed through with attribution and a source_page back to each 402index.io record. provenance is external-index: third-party-indexed and third-party-verified, NOT bitcoineconomy.ai endorsements; verify at the source before trusting. " +
+      "Since 2026-07-29 this tier spans all three protocols, not just L402 — rows carry rail=\"bitcoin-native\" (payable directly in sats) or rail=\"via-gateway\" (settles in USDC/Tempo upstream, sats-payable through the gateway_url). " +
+      "PREFER find_service, which searches this source alongside the curated, announced and gateway-observed ones in a single call with the same filters; use this tool only when you specifically want 402index rows and nothing else.",
     inputSchema: {
       type: 'object',
       properties: {
         query: { type: 'string', description: 'Free-text match on name / provider / category.' },
-        category: { type: 'string', description: 'Prefix match on the 402index category (e.g. "ai/llm", "ai/image", "ai/video", "ai").' },
+        category: { type: 'string', description: 'Prefix match on the shared category vocabulary (e.g. "inference/llm", "data/search", "inference"). Call list_categories for the full scheme.' },
+        rail: { type: 'string', description: '"bitcoin-native" for endpoints payable directly in sats, "via-gateway" for ones reachable only by paying l402.space.' },
         max_price_sats: { type: 'number', description: 'Only endpoints whose per-call price in sats is at or below this.' },
         limit: { type: 'number', description: 'Max results (default 25, max 60).' },
       },
@@ -515,31 +630,38 @@ const TOOLS = [
     handler: async (a, ctx) => {
       const doc = await ctx.l402index();
       if (!doc || !Array.isArray(doc.services)) {
-        return { error: 'Wider L402 index unavailable right now — the curated registry (find_service) is unaffected.' };
+        return { error: 'The external-index source is unavailable right now — find_service and the other sources are unaffected.' };
       }
       const q = lc(a.query).trim();
       const cat = lc(a.category).trim();
       const lim = Math.max(1, Math.min(a.limit || 25, 60));
+      const pair = (s) => s.category + (s.subcategory ? '/' + s.subcategory : '');
       const hits = doc.services.filter((s) =>
-        (!q || lc(`${s.name} ${s.provider} ${s.category}`).includes(q)) &&
-        (!cat || lc(s.category).startsWith(cat)) &&
+        (!q || lc(`${s.name} ${s.provider} ${s.description || ''} ${pair(s)}`).includes(q)) &&
+        (!cat || lc(pair(s)).startsWith(cat)) &&
+        (!a.rail || s.rail === lc(a.rail).trim()) &&
         (a.max_price_sats == null || (typeof s.price_sats === 'number' && s.price_sats <= a.max_price_sats))
       ).slice(0, lim);
       return {
-        tier: 'wider-l402',
+        source: 'external-index',
         provenance: 'external-index',
         attribution: doc.attribution,
-        note: "Third-party-indexed + verified by 402index.io, passed through with attribution — NOT endorsements. Each result's source_page links to its 402index.io record; verify before trusting. Curated, editor-verified services: use find_service.",
+        gateway: doc.gateway,
+        note: "Third-party-indexed + verified by 402index.io, passed through with attribution — NOT endorsements. Each result's source_page links to its 402index.io record; verify before trusting. To search this source alongside the curated, announced and gateway-observed ones in one call, use find_service.",
+        rails_note: 'rail="bitcoin-native" is payable directly in sats. rail="via-gateway" settles in USDC/Tempo upstream — pay the gateway_url in sats and l402.space pays the upstream on your behalf, which means an intermediary holds the sats leg.',
         generated_at: doc.generated_at,
         count: hits.length,
         of_indexed: doc.count,
         services: hits.map((s) => ({
-          name: s.name, provider: s.provider, category: s.category,
+          name: s.name, provider: s.provider, description: s.description,
+          category: s.category, subcategory: s.subcategory,
+          source_category: s.source_category, classification_confidence: s.classification_confidence,
           url: s.url, price_sats: s.price_sats, price_usd: s.price_usd,
-          payment: `${s.payment_asset}/${s.payment_network} (L402)`,
-          reliability_score: s.reliability_score, health_status: s.health_status,
+          protocol: s.protocol, payment: [s.payment_asset, s.payment_network].filter(Boolean).join('/') || null,
+          rail: s.rail, gateway_url: s.gateway_url,
+          reliability_score: s.reliability_score, uptime_30d: s.uptime_30d, health_status: s.health_status,
           http_method: s.http_method, source_page: s.source_page,
-          tier: 'wider-l402', provenance: 'external-index',
+          source: 'external-index', provenance: 'external-index',
         })),
       };
     },

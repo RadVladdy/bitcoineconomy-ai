@@ -4,7 +4,7 @@
 
 A decentralized AI-inference marketplace where a Cashu token is the API key — pay per request in private Bitcoin ecash, no login, no KYC.
 
-- Category: inference
+- Category: inference / llm
 - Payment methods: cashu, lightning
 - Payment detail: cashu ecash over Lightning (bearer token = API key)
 - KYC: none

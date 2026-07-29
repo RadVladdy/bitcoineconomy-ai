@@ -4,7 +4,7 @@
 
 The Lightning-native bridge to the rest of the digital economy — buy gift cards and top-ups for thousands of mainstream services with Bitcoin, via a real API, no KYC.
 
-- Category: commerce
+- Category: commerce / gift-cards
 - Payment methods: lightning, onchain
 - Payment detail: Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Thor API
 - KYC: none

@@ -4,7 +4,7 @@
 
 A non-custodial, no-KYC atomic-swap service — swaps settle via shared-preimage HTLCs, so the agent never gives up custody and no account or identity is required.
 
-- Category: swap
+- Category: swap / atomic
 - Payment methods: lightning, onchain, liquid
 - KYC: none
 - Custody: self-custody

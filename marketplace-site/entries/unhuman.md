@@ -4,7 +4,7 @@
 
 Agent-native Bitcoin storefronts — an AI agent discovers products and completes a real-world purchase end to end by paying a Lightning L402 invoice, no account or card.
 
-- Category: commerce
+- Category: commerce / retail
 - Payment methods: l402, lightning
 - Payment detail: bitcoin over Lightning — pay the L402 invoice; the payment preimage is the proof
 - KYC: none

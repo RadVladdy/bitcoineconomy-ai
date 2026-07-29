@@ -4,7 +4,7 @@
 
 A large, long-established multi-asset exchange with broad fiat pairs and a mature trading API.
 
-- Category: fiat-ramp
+- Category: fiat-ramp / exchange
 - Payment methods: lightning, onchain, fiat
 - KYC: required
 - Custody: custodial

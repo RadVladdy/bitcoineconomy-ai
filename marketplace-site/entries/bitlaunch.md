@@ -4,7 +4,7 @@
 
 Bitcoin/Lightning VPS provisioning with a real API and SDKs — spin up DigitalOcean/Vultr/Linode servers and pay over Lightning, programmatically. "Programmable servers with programmable money."
 
-- Category: compute
+- Category: compute / vps
 - Payment methods: lightning, onchain
 - Payment detail: Lightning + on-chain BTC; programmatic via the BitLaunch API (blcli CLI; Go/Python/PHP SDKs)
 - KYC: none

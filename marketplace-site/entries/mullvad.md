@@ -4,7 +4,7 @@
 
 A privacy VPN that takes Lightning with no email and no account profile — just a random account number. The lowest-identity direct-merchant fit for an agent.
 
-- Category: privacy
+- Category: privacy / vpn
 - Payment methods: lightning, onchain
 - Payment detail: Lightning (native, own node) + on-chain BTC (also cash-by-mail, Monero)
 - KYC: none

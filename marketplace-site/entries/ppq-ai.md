@@ -4,7 +4,7 @@
 
 Pay-per-query access to hundreds of frontier models over Lightning / L402 — no account, no API key, roughly a cent and a half a query — now including end-to-end-encrypted private models.
 
-- Category: inference
+- Category: inference / llm
 - Payment methods: l402, lightning
 - Payment detail: lightning / L402 (no account)
 - KYC: none (Lightning path)

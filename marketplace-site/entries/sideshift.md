@@ -4,7 +4,7 @@
 
 A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks — direct-to-wallet conversions with no funds custodied.
 
-- Category: swap
+- Category: swap / cross-chain
 - Payment methods: lightning, onchain
 - KYC: none
 - Custody: self-custody

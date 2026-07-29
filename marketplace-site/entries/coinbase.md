@@ -4,7 +4,7 @@
 
 A large, publicly listed multi-asset exchange with broad fiat connectivity and a mature developer platform; co-issuer of USDC.
 
-- Category: fiat-ramp
+- Category: fiat-ramp / exchange
 - Payment methods: lightning, onchain, fiat
 - KYC: required
 - Custody: custodial
