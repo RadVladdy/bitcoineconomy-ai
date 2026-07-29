@@ -8,7 +8,7 @@ audience: agents
 twin-page: services
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-07-23
+last-updated: 2026-07-29
 last-verified: 2026-06-05
 word-count-target: 2800
 voice: honest-middle-position
@@ -157,7 +157,20 @@ SV4 defended. Applying the filter (§5) partitions the in-layer services into th
 - **BitLaunch** — mainstream compute (DigitalOcean/Vultr/Linode capacity) behind a real provisioning API + SDKs with Lightning-automated payment and no KYC (admissible shape 1) — big-cloud capacity paid in Bitcoin, request→invoice→pay→provision fully programmatic.
 - **Bitrefill** — the *bridge* to the long tail. A Lightning gift-card/top-up service with a real payment API (Thor) and no KYC for ordinary purchases. For the long tail of brands that do not take Bitcoin directly — domains, cloud, storage, mainstream SaaS — the agent buys a Bitrefill credit with sats (admissible shape 1, a real payment API) and redeems it at the target service. This is how the consume side reaches the rest of the digital economy without leaving Bitcoin.
 
-**Why these and not others.** *(structural)* Many VPN, hosting, and domain brands take Bitcoin — but via human checkout, not an agent-drivable API; they are out-of-layer per §5 and reachable only through Bitrefill (Vultr, for instance, routes crypto through a BitPay redirect). Group (b) is deliberately the four services that pass the filter directly: Mullvad as the model of a direct-merchant fit, LNVPS and BitLaunch as compute with real provisioning APIs on the two ends of the sovereignty spectrum (Nostr-native vs. mainstream-cloud), Bitrefill as the model of a bridge that extends agent reach to everything else.
+- **Unhuman** — real-world *goods* end to end: roasted-to-order coffee and domain registration behind L402 paywalls (admissible shape 1). The agent discovers a product, pays a Lightning invoice, and the order is placed with no account, no card, and no human at checkout. Significance is categorical, not commercial — the first group-(b) member where the good delivered is physical, closing the purchase loop for atoms rather than bits.
+- **l402.space** — the *second* bridge shape, and structurally distinct from Bitrefill's. Bitrefill bridges to **brands** by selling a redeemable credit; l402.space bridges to **APIs** by translating rails — the agent pays it over L402/MPP-Lightning and it settles the upstream over x402 (USDC) or MPP (Tempo), returning that API's response (admissible shape 1: URL scheme + standard 402 challenge/retry, no account). It makes the x402-settled API economy reachable by a sats-only agent. **Constraint-relevant caveat:** the gateway holds the payer's sats and settles upstream from its own float, so constraint 1 (no identity attachment) and 3 (fee floor) hold while constraint 2 (no permissioned intermediary) is *conceded for the duration of the call* — see §7.10. Admitted to the layer as a bridge, not as a Bitcoin-native payment path.
+
+**Why these and not others.** *(structural)* Many VPN, hosting, and domain brands take Bitcoin — but via human checkout, not an agent-drivable API; they are out-of-layer per §5 and reachable only through a bridge (Vultr, for instance, routes crypto through a BitPay redirect). Group (b) is deliberately the services that pass the filter directly: Mullvad as the model of a direct-merchant fit, LNVPS and BitLaunch as compute with real provisioning APIs on the two ends of the sovereignty spectrum (Nostr-native vs. mainstream-cloud), Bitrefill and Unhuman as the credit-bridge and direct-goods models, and l402.space as the rail-translation bridge that extends agent reach to endpoints priced on a foreign rail.
+
+**Group (d) — Verification & trust.** *(structural)* An agent can self-serve inference, memory, and tools; it cannot self-issue a credible verdict on its own correctness, because the judging party would be the judged party. That asymmetry makes independent verification a *purchasable service* rather than local software, which places it in this layer. It is also the market's own response to the delivery-risk gap in §8 — a partial one: a paid verdict bounds exposure, it does not underwrite it.
+- **invinoveritas** — pre-action verdicts (approve / concerns / reject) on a trade, diff, plan, command, or on-chain action, plus a portable schnorr-signed proof after, and free no-auth verification of a counterparty's proof. Per-call sats over L402 (admissible shape 1). Its structural contribution is the *recomputability* discipline: verdicts are signed and published to Nostr **before** outcomes are known and anchored into Bitcoin proof-of-work via OpenTimestamps, so the track record is verifiable from public data rather than asserted — the same never-publish-a-bare-score rule the directory's trust layer follows.
+
+**Group (e) — Sell-side payment infrastructure.** *(structural)* §3 holds that this layer is two-sided, and §7's profiles cover only the consume leg. The offer leg has its own precondition: a way to *accept* Lightning. Running a node is the sovereign answer and lives in [[Stack-FA|The Stack]]; these are the API-drivable services that supply the capability instead, and they are differentiated on the axis that determines the constraint profile — **who holds the bitcoin**.
+- **Voltage Payments** — REST API for send/receive over Lightning with nodes, channels, and liquidity abstracted; backed either by Voltage's credit line or **by the operator's own node**, making self-custody a first-class configuration rather than an exception.
+- **Amboss Payments** — one GraphQL API to send, receive, and settle in **BTC, USDT, or USDC over Lightning**, with a self-custodial option. Multi-asset by construction: a Bitcoin-native *rail* carrying an optionally freezable *asset* — the rail/asset separation [[Independence-Doctrine-FA|the Doctrine]] insists on, visible in one product.
+- **IBEX Hub** — custodial Lightning-as-a-service: one REST API for invoices, on-chain, LNURL, sub-accounts, and webhooks over a managed node cluster, with fiat and stablecoin settlement layered on. Lowest operational burden, highest trust assumption; the provider holds the funds.
+
+*(neutrality)* Group (e) members are listed as facts and differentiated on custody, not ranked against one another; the appropriate choice is a function of the operator's node capability and delegable-custody tolerance.
 
 **Group (c) — Liquidity provisioning.** *(structural)* Inbound liquidity is the precondition for an agent to *receive* over Lightning; acquiring or providing it is a marketplace transaction, not local software (that is [[reflex|Reflex]], which stays in [[Stack-FA|The Stack]]). Two-sided by construction — buy capacity, or sell idle bitcoin as routing liquidity for yield — and both legs are self-custodial and API-drivable, passing the filter via a real API (admissible shape 1, §5).
 - **Amboss (Magma)** — the buy side: a public channel-liquidity marketplace; an agent purchases inbound capacity opened to its *own* node via a public GraphQL mutation (no account) or the MIT `magma-mcp` server. Custody is preserved (non-custodial HODL-invoice escrow; the channel opens to the agent's node). Re-homed from the Stack's tooling to this layer 2026-06-27 — buying liquidity is a Market action, not equipment an agent runs.
@@ -230,6 +243,54 @@ SV4 defended at depth. Each deployed service profiled against the four conjuncti
 - **What it is.** TEE-attested, end-to-end-encrypted LLM inference behind an OpenAI-compatible API (Maple Proxy) — prompts provably unreadable to the provider; the privacy-axis counterpart to the sats-per-call venues of §7.2–§7.3.
 - **Constraint profile — honest split.** The *API leg* is fully agent-drivable (OpenAI-compatible, key as Bearer). The *payment leg* does not pass the §5 self-pay filter: subscription-based (card, or **Bitcoin accepted on yearly plans** at a discount) with a human operator funding the account — no sats-per-call path. Directory automatability: `api-account`.
 - **Why it is in-layer anyway.** *(structural)* The privacy axis is otherwise unserved: no sats-per-call venue offers TEE-attested encrypted inference today. Included with the caveat stated rather than omitted — an operator funds it, the agent drives it; for sats-native pay-per-call, use Routstr/PPQ.AI.
+
+### §7.9 — Unhuman (Group b; real-world goods over L402)
+
+- **Payment mechanism.** L402 per purchase: the agent requests a product, receives a Lightning invoice, pays it, and the order is placed. No account, no card, no KYC. Storefronts today are roasted-to-order coffee and domain registration, with a hub listing further agent storefronts.
+- **Constraint profile (payment leg).** Pass 1 (no account or identity attachment), 2 (Lightning/L402, no permissioned intermediary on the payment), 3 (sub-cent Lightning fees), 4 (Lightning settlement).
+- **Automatability.** Admissible shape 1 — a real L402-gated purchase API; the full loop closes without a human.
+- **Two-sided.** Consume only.
+- **Structural significance.** *(structural)* First group-(b) member delivering a **physical** good end to end on the sovereign rail. The categorical claim is that the purchase loop for atoms now closes without a card; the commercial scale is small and should not be read as market evidence.
+- **Operational caveat.** *(operational)* Narrow catalogue and a small operation; fulfilment of a physical good is a delivery-risk surface in the §8 sense, distinct from the payment leg.
+
+### §7.10 — l402.space (Group b; rail-translation bridge — constraint-2 caveat)
+
+- **What it is.** A universal 402 gateway (Alby). Inbound rails: `l402`, `x402`, `mpp-lightning`, `mpp-tempo`; outbound: whichever rail the upstream speaks. Interface is a URL scheme plus the standard 402 challenge/retry — no signup, no API key. The quoted price (upstream price + gateway markup + routing fee) is authoritative; receipts are reusable for follow-up requests the same upstream payment covers.
+- **Constraint profile (payment leg) — honest split.** Pass 1 (no account or identity attachment), 3 (sub-cent Lightning fees on the inbound leg), 4 (Lightning settlement on the inbound leg). **Constraint 2 is conceded for the duration of the call**: the gateway holds the payer's sats and settles upstream from its own USDC/Tempo float, so a permissioned intermediary sits in the path and the payer inherits that intermediary's freeze surface until delivery. This is a genuine constraint failure, stated rather than waived.
+- **Automatability.** Admissible shape 1 — no account, standard 402 flow, machine-readable manifests (`llms.txt`, OpenAPI 3.1).
+- **Two-sided.** Consume only.
+- **Why it is in-layer anyway.** *(structural)* It materially changes what a sats-only agent can buy: the x402-settled API economy outnumbers L402 endpoints by roughly 65:1 ([[Field-Notes-Log-FA]] § 2026-07-21), and this makes that set reachable without acquiring a freezable asset. That is a real widening of the consume side and it isolates the thesis correctly — the argument rests on the **asset's** freeze surface, not the rail's convenience. Admitted as a **bridge**, on the same footing as Bitrefill: a reach extender with a stated trust cost, not a Bitcoin-native payment path. Directory rows reached this way are labelled `via-gateway` rather than merged into "payable".
+- **Operational caveat.** *(operational)* Markup plus routing fee on every call; float exhaustion is a live failure mode (`/health/balances` returns 503 per rail); traction is negligible at listing (848 transactions, $34.97 lifetime volume, 2026-07-29). Prefer a directly payable endpoint wherever one exists.
+
+### §7.11 — invinoveritas (Group d; independent verification)
+
+- **Payment mechanism.** Per-call sats — L402 per call, or an instantly-issued API key funded by Lightning top-up (`POST /register {}` returns a key; no email, no KYC). `/verify-proof` and `/ledger` are free and unauthenticated. USDC (x402) and card funding also accepted; card/x402-funded sats are spendable but not withdrawable.
+- **Constraint profile (payment leg).** Pass 1 (no identity attachment; registration takes an empty body), 2 (Lightning/L402 payment leg permissionless), 3 (sub-cent Lightning fees), 4 (Lightning settlement). *Custody caveat:* the prepaid balance sits with the service until spent — a custodial exposure bounded by keeping balances small, not a payment-leg failure.
+- **Automatability.** Admissible shape 1; also ships its own MCP server (`review`, `prove`, `verify_proof`, `ledger`).
+- **Two-sided.** Consume + offer.
+- **Structural significance.** *(structural)* Supplies the independence property an agent cannot self-generate, and does so under a **recomputable-not-asserted** discipline: verdicts signed and published to Nostr *before* outcomes, event ids anchored into Bitcoin proof-of-work via OpenTimestamps, outcomes settling on a public account. Bears on §8 — it prices the delivery-risk gap without closing it.
+- **Operational caveat.** *(operational)* Young and small (183 verdicts, 21W/20L settled at verification, losses published); pseudonymous operator, closed-source service; multichain entanglement (Hyperliquid settlement, ERC standards work). A verdict carries no SLA and no liability — a paid second opinion, not insurance.
+
+### §7.12 — Voltage Payments (Group e; sell-side, own-node option)
+
+- **What it is.** REST API for sending and receiving over Lightning with nodes, channels, and liquidity abstracted away; backed either by Voltage's credit line or by the operator's **own node**.
+- **Constraint profile.** Constraints 3 and 4 hold (Lightning fees, Lightning settlement). Constraints 1 and 2 depend on configuration: the own-node path keeps custody and removes the permissioned intermediary; the credit-line path does not.
+- **Automatability.** Admissible shape 1 (REST API) once the operator has provisioned an account.
+- **Two-sided.** Offer-side infrastructure (enables an agent-operated business to receive).
+
+### §7.13 — Amboss Payments (Group e; sell-side, multi-asset)
+
+- **What it is.** One GraphQL API to send, receive, and settle in **BTC, USDT, or USDC over Lightning**, aimed at businesses, with a self-custodial option.
+- **Constraint profile.** Constraints 3 and 4 hold on the Lightning rail. Constraint 1/2 depend on the custody configuration. **Asset caveat:** settling in USDT/USDC places a freezable asset on a permissionless rail — the rail/asset separation is the whole point of [[Independence-Doctrine-FA|the Doctrine]], and which asset an agent should *hold* is answered in [[Treasury-FA]], not here.
+- **Automatability.** Admissible shape 1 (GraphQL API).
+- **Two-sided.** Offer-side infrastructure.
+
+### §7.14 — IBEX Hub (Group e; sell-side, custodial)
+
+- **What it is.** Custodial Lightning-as-a-service: one REST API for invoices, on-chain, LNURL, sub-accounts, and webhooks over a managed node cluster, with fiat and stablecoin settlement rails layered on top.
+- **Constraint profile.** Constraints 3 and 4 hold on the Lightning rail. **Constraints 1 and 2 fail by construction** — the provider holds the funds and is a permissioned intermediary with an account relationship. Listed as the lowest-operational-burden option with that trade stated, not softened.
+- **Automatability.** Admissible shape 1 (REST API) after account provisioning.
+- **Two-sided.** Offer-side infrastructure.
 
 ---
 
