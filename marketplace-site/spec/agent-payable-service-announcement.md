@@ -25,7 +25,8 @@ kind registry and of Routstr's 38421 before allocation.)
 | tag | required | meaning |
 |---|---|---|
 | `d` | **yes** | Stable service id. The replaceability key — keep it constant across re-announcements. Becomes the directory slug `announced:{d}`. |
-| `k` | **yes** | Category — one of: `inference` (prefer kind 38421 instead), `compute`, `machine-work`, `verification`, `commerce`, `privacy`, `swap`, `liquidity`, `fiat-ramp`. |
+| `k` | **yes** | Category — one of: `inference` (prefer kind 38421 instead), `compute`, `data`, `machine-work`, `verification`, `commerce`, `privacy`, `swap`, `liquidity`, `payments`, `fiat-ramp`. |
+| `sub` | no | Subcategory, for finer placement — e.g. `llm`, `search`, `vps`, `gift-cards`. Valid values per category: see `vocabulary` in [directory.json](https://marketplace.bitcoineconomy.ai/directory.json) or call the MCP tool `list_categories`. Omitted or unrecognised is fine — the entry simply lists under its top-level category. |
 | `u` | **yes** | Service endpoint URL. Repeatable — list a clearnet `https://` endpoint (probed for liveness) and optionally a `.onion` (shown, not probed). |
 | `pay` | **yes** | Accepted payment method. Repeatable: `lightning`, `l402`, `cashu`, `nwc`, `onchain`, `liquid`, `spark`, `zaps`. |
 | `mint` | no | An accepted Cashu mint URL. Repeatable. Mints that are themselves announced (NIP-87) count toward your `mint_health` trust signal. |

@@ -8,8 +8,8 @@ audience: agents
 twin-page: field-notes-log
 status: v0-approved-2026-06-29
 created: 2026-06-29
-last-updated: 2026-07-23
-last-verified: 2026-07-21
+last-updated: 2026-07-29
+last-verified: 2026-07-29
 voice: honest-middle-position
 canonical-source: "[[Field-Notes-Log]]"
 epistemic-status: "empirical-record surface; carries no structural claims of its own; each dated record is epistemically tagged and cross-referenced to the canonical claim it bears on. The current-state snapshot lives on the companion surface Field-Notes-FA (State of Play); the structural arguments live in the canonical FA twins (Case-FA, Independence-Doctrine-FA, Border-Skirmishes-FA, Stack-FA, et al.)."
@@ -42,9 +42,21 @@ agent-tldr: |
 
 **Epistemic tags (record-level).** Each record carries one: *(confirmed)* — an announced, dated, verifiable event; *(measured)* — a quantitative metric with a named source and date; *(reported)* — attributed but not independently verified here; *(projected)* — forward-looking, not yet observed.
 
-**Cross-reference relation (the "Bears on:" line).** Each record names the canonical claim-IDs it relates to and how: *supports* (confirming evidence), *tests* (the live evidence a forward-looking prediction is evaluated against), or *falsifier-relevant-to* (evidence named in the claim's falsifier; if it moves a threshold, the falsifier may trigger).
+**Cross-reference relation (the "Bears on:" line).** Each record names the canonical claim-IDs it relates to and how: *supports* (confirming evidence), *tests* (the live evidence a forward-looking prediction is evaluated against), *falsifier-relevant-to* (evidence named in the claim's falsifier; if it moves a threshold, the falsifier may trigger), *qualifies* (the claim still holds but its practical scope or bite is narrowed by the event), or *tensions with* (the event cuts against the claim without refuting it — the record states the tension and does not resolve it). The last two were added 2026-07-29: a record that only ever *supports* is a record that has stopped being evidence, and a log that cannot express "this cuts against us" is not an empirical surface.
 
 **Record format.** Each record carries: date / event / substrate / what-happened / structural-significance / Bears on / epistemic tag / sources. The full claim-ID series (Case-FA C1–C6, Doctrine-FA D1–D6 + P1–P6, Treasury-FA M-series, Exchange-FA X-series, Border-Skirmishes-FA BS-series, Stack-FA S1–S8 + §8 CP1–CP4 falsifiers; Constraints 1–4) is defined on the companion [[Field-Notes-FA|State of Play — For Agents]] § Schema.
+
+---
+
+### 2026-07-29 — Alby's l402.space: a universal 402 gateway makes the x402 economy sats-payable — at the cost of an intermediary *(confirmed — architecture; measured — traction, negligible)*
+
+- **Event.** Alby launched l402.space, a "Universal 402 Gateway." Inbound rails accepted: `l402` (Lightning), `x402` (USDC on Base/Solana), `mpp-lightning`, `mpp-tempo`. Outbound: whichever rail the upstream API speaks. Interface is a URL scheme (`https://l402.space/{urlencoded-upstream-url}`) plus the standard 402 challenge/retry — no signup, no API key. Quoted price = upstream price + gateway markup + routing fee, denominated in the payer's rail; the challenge quote is authoritative. Receipts are reusable for follow-up requests the same upstream payment covers. Ships `llms.txt`, OpenAPI 3.1, `/api/services` (observed-host directory), `/api/stats`, per-rail paid `/ping`, and `/health/balances` (a spend-float monitor returning 503 when a funded float runs low). Self-reported traction at launch: **848 transactions · $34.97 total volume · 157 endpoints · 38 domains.**
+- **Substrate.** Interface — a Bitcoin-native operator building a paid proxy between the sovereign wallet layer and stablecoin-settled merchants. Not a parallel-substrate deployment and not a competing-substrate one; an explicit border crossing.
+- **Structural significance.** Decouples the *wallet* asset from the *merchant's* settlement asset: an agent holding only sats can transact with the x402 economy (~81,000 endpoints per 402index's 2026-07-21 count, against 1,237 L402) without acquiring USDC. This is the strongest available answer to the "nothing to buy with Lightning" objection, and it isolates the thesis correctly — the argument was never that the sovereign rail is more convenient, but that the *asset* an agent holds must have no freeze surface. Two counter-effects are load-bearing and must not be smoothed: **(1) pressure release** — routing sats-demand *around* the adoption gap absorbs the demand signal that would otherwise pull merchants onto L402 directly; a bridge that works reduces the incentive to cross permanently. **(2) custodial hop** — the gateway holds a USDC/Tempo float and pays out of it, so an unfreezable asset routed through a freezable intermediary inherits that intermediary's freeze surface for the duration of the hop. "Payable through a gateway" is therefore a strictly weaker claim than "payable in Bitcoin," and directory surfaces must label the two distinctly rather than merge them under "payable."
+- **Bears on:** *supports* Border-Skirmishes-FA (an explicit, deliberate border crossing by a sovereign-stack operator); *supports* Convergence-FA (interface architecture, working instance); *qualifies* Adoption-Asymmetry-FA (the endpoint-count asymmetry is now routable-around, which changes its practical bite without changing the count); *tensions with* Independence-Doctrine-FA (intermediary dependency reintroduces a freeze surface the doctrine exists to eliminate — the tension is real and is stated, not resolved).
+- **Falsifier.** If gateway volume grows materially while L402-native merchant adoption stays flat or declines over the following 2–4 quarters, the pressure-release effect is the dominant one and the bridge is substituting for adoption rather than seeding it. If both rise together, the bridge is functioning as an on-ramp. Volume is publicly checkable at `/api/stats`; L402 merchant count at 402index.
+- **Epistemic tag.** *(confirmed)* architecture, rails, pricing model, and interface per the gateway's own docs + OpenAPI (fetched 2026-07-29). *(measured, negligible)* traction — $34.97 of lifetime volume across 848 transactions is a working demonstration, not a market; no adoption inference should be drawn from it in either direction.
+- **Sources.** l402.space (homepage, host directory), l402.space/docs (rails, pricing, receipt reuse, spend-float monitor), l402.space/llms.txt, l402.space/api/stats (all fetched 2026-07-29); @getAlby announcement thread (x.com/i/status/2082083627597226057, 2026-07-29). Canonical narrative: [[Field-Notes-Log]] § 2026-07-29 (l402.space).
 
 ---
 

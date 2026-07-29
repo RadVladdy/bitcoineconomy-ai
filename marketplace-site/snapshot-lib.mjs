@@ -13,7 +13,7 @@ export const RELAYS = [
   'wss://relay.primal.net',
 ];
 
-import { CATEGORY_ORDER } from './taxonomy.mjs';
+import { CATEGORY_ORDER, CATEGORIES } from './taxonomy.mjs';
 
 const THIRTY_DAYS = 30 * 24 * 60 * 60;
 
@@ -118,8 +118,6 @@ function parseContentObj(ev) {
   catch { return {}; }
 }
 
-// The 8-term category vocabulary the directory curates on; an announcement's `k`
-// tag is normalized into it (unknown values pass through, labeled, never dropped).
 // Drawn from the shared vocabulary (taxonomy.mjs) so a self-listing service and
 // a curated entry are filed under the same words — the spec's `k` tag and the
 // directory's `category` field are one vocabulary, not two. Unknown values still
@@ -134,6 +132,12 @@ function parseAnnounced(ev) {
   const c = parseContentObj(ev);
   const urls = tag(ev, 'u');
   const k = (tag(ev, 'k')[0] || c.category || '').toLowerCase();
+  // Optional second-level placement, so a self-listing service lands in the same
+  // two-level scheme as every other row rather than only at the top level.
+  // Unrecognised values are dropped rather than displayed — an announcement can
+  // claim any subcategory it likes, and the vocabulary is ours to keep coherent.
+  const subRaw = (tag(ev, 'sub')[0] || c.subcategory || '').toLowerCase().trim();
+  const sub = subRaw && CATEGORIES[k]?.subcategories.includes(subRaw) ? subRaw : undefined;
   const links = {};
   if (c.links && typeof c.links === 'object') {
     if (c.links.site) links.site = String(c.links.site);
@@ -146,6 +150,7 @@ function parseAnnounced(ev) {
     d,
     name: parseContentName(ev) || c.name,
     category: ANNOUNCE_CATEGORIES.includes(k) ? k : (k || undefined),
+    subcategory: sub,
     summary: c.summary || undefined,
     what_an_agent_buys: c.what_an_agent_buys || undefined,
     urls,

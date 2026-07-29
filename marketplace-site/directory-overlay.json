@@ -348,6 +348,25 @@
       "note": "The provide/sell-side complement to Magma's buy-side; part of the Amboss + Voltage enterprise stack. Self-custodial yield on bitcoin used as Lightning routing liquidity — no asset swap, no custody handover. Amboss does not license free-API access for commercial use — confirm terms for production."
     },
     {
+      "slug": "l402-space",
+      "source": "services/l402-space.md",
+      "category": "payments",
+      "subcategory": "gateway",
+      "what_an_agent_buys": "Access to paid APIs that don't accept bitcoin — pay the gateway in sats over Lightning (L402 or MPP) and it pays the upstream in USDC on Base/Solana or Tempo stablecoins on your behalf, returning that API's response unchanged",
+      "payment_methods": [
+        "l402",
+        "lightning",
+        "x402",
+        "mpp"
+      ],
+      "automatability": "api-no-account",
+      "auth": "none — no signup and no API key; the standard HTTP 402 challenge/retry IS the auth. Pay the challenge over your rail, retry the same URL with that rail's credential header (Authorization: L402 <token>:<preimage> for Lightning). Receipts are reusable for follow-up requests the same upstream payment covers",
+      "api_base": "https://l402.space",
+      "pricing_url": "https://l402.space/docs",
+      "quickstart": "URL-encode the full upstream URL and append it: GET https://l402.space/{encodeURIComponent(upstreamUrl)}. You get a 402 with per-rail challenges and the price in sats + USD; pay over your rail and retry the same URL with its credential header. Test your wallet first with GET /l402/ping (~1 sat). Dedicated single-rail endpoints at /l402/, /x402/, /mpp-lightning/, /mpp-tempo/.",
+      "note": "The gateway-observed source of this directory (/live/l402space.json) is its /api/services feed, and every via-gateway row here carries a gateway_url pointing through it. Custodial hop by design: it holds the sats you pay and settles upstream from its own USDC/Tempo float, so prefer a directly payable endpoint where one exists — rows are labelled bitcoin-native vs via-gateway for exactly this reason. Very early: 848 transactions and $34.97 lifetime volume across 157 endpoints at listing (its own /api/stats, 2026-07-29). Float exhaustion is a live failure mode — /health/balances 503s when a rail's float runs low. Price = upstream price + gateway markup + routing fee; the 402 quote is authoritative."
+    },
+    {
       "slug": "strike",
       "source": "exchanges/strike.md",
       "category": "fiat-ramp",

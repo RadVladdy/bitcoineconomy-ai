@@ -667,7 +667,14 @@ const specMd = [
   '| tag | required | meaning |',
   '|---|---|---|',
   '| `d` | **yes** | Stable service id. The replaceability key — keep it constant across re-announcements. Becomes the directory slug `announced:{d}`. |',
-  '| `k` | **yes** | Category — one of: `inference` (prefer kind 38421 instead), `compute`, `machine-work`, `verification`, `commerce`, `privacy`, `swap`, `liquidity`, `fiat-ramp`. |',
+  // Generated from the shared vocabulary, never hand-listed. This table was
+  // hardcoded to the pre-merge nine categories and silently went stale when
+  // `data` and `payments` were added (2026-07-29) — which meant the single
+  // largest cluster in the directory, data services, had no category it could
+  // legally announce under. A publisher reading the spec is being told what we
+  // will actually accept, so it has to come from the same source as the parser.
+  `| \`k\` | **yes** | Category — one of: ${CATEGORY_ORDER.map((c) => (c === 'inference' ? '`inference` (prefer kind 38421 instead)' : `\`${c}\``)).join(', ')}. |`,
+  `| \`sub\` | no | Subcategory, for finer placement — e.g. ${['llm', 'search', 'vps', 'gift-cards'].map((s) => `\`${s}\``).join(', ')}. Valid values per category: see \`vocabulary\` in [directory.json](${BASE}/directory.json) or call the MCP tool \`list_categories\`. Omitted or unrecognised is fine — the entry simply lists under its top-level category. |`,
   '| `u` | **yes** | Service endpoint URL. Repeatable — list a clearnet `https://` endpoint (probed for liveness) and optionally a `.onion` (shown, not probed). |',
   '| `pay` | **yes** | Accepted payment method. Repeatable: `lightning`, `l402`, `cashu`, `nwc`, `onchain`, `liquid`, `spark`, `zaps`. |',
   '| `mint` | no | An accepted Cashu mint URL. Repeatable. Mints that are themselves announced (NIP-87) count toward your `mint_health` trust signal. |',
@@ -762,7 +769,7 @@ const specSchema = {
     content: { type: 'string', description: 'JSON string: { name, summary, what_an_agent_buys, quickstart, links{site,docs,repo} }.' },
     tags: {
       type: 'array',
-      description: 'Nostr tags (arrays of strings). Required: one d, one k, >=1 u, >=1 pay. Optional: mint*, auth, pricing, version.',
+      description: `Nostr tags (arrays of strings). Required: one d, one k, >=1 u, >=1 pay. Optional: sub, mint*, auth, pricing, version. Valid k values: ${CATEGORY_ORDER.join(', ')}.`,
       items: { type: 'array', items: { type: 'string' }, minItems: 1 },
     },
   },
