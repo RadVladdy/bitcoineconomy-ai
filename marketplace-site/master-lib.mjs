@@ -4,13 +4,11 @@
 // classified in the SAME vocabulary, whatever tier it came from. Where a row
 // came from is a FILTER (`source`), not a separate directory.
 //
-// Why this exists (2026-07-29). The directory had grown three tabs — "Live from
-// the relays", "Curated registry", "Wider L402 (via 402index)" — each with its
-// own row shape, its own category strings, and its own intro paragraph. A reader
-// looking for "inference I can pay for in sats" had to check three places and
-// mentally reconcile three vocabularies, and one of the three tabs was rendering
-// an empty table (nobody had self-listed yet). Three directories is a hodgepodge,
-// not a directory. RadVladdy's call: merge them, keep the detail, filter instead.
+// The invariant this protects: a reader looking for "inference I can pay for in
+// sats" searches ONE place, in ONE vocabulary. Splitting the directory by
+// provenance costs three row shapes, three sets of category strings and three
+// intro paragraphs, and any tier with no members renders an empty table.
+// Provenance is a property OF a row, not a reason to put it somewhere else.
 //
 // The four sources, and what each is actually worth:
 //

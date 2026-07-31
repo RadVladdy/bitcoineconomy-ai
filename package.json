@@ -12,7 +12,8 @@
     "prebuild": "npm run port",
     "build": "rm -rf node_modules/.astro .astro && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
