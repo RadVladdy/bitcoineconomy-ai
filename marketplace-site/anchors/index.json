@@ -211,6 +211,30 @@
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
    }
+  },
+  {
+   "date": "2026-08-01",
+   "event_id": "07fc17377428c20adb45c4e0a31486e1b8490d4f3a84b535714a7543c4902525",
+   "created_at": 1785581102,
+   "digests": {
+    "/live/snapshot.json": "419cf912898e17ece29e7a701d64f25bf26eff6be54b096ca03cdf5aacd00cda",
+    "/live/models.json": "f9d61599e307fe355c7c2b8c38172165fb79d015d9b6bc7877c6fb0b044f6777",
+    "/live/uptime.json": "c60ddb46196ec4fb64de1123fd3f8e8215b4a474727d36a75d41e242d0a54c57"
+   },
+   "relays": [
+    "wss://relay.damus.io",
+    "wss://nos.lol",
+    "wss://relay.primal.net"
+   ],
+   "relay_publish_ok": true,
+   "ots": "pending",
+   "external_probe": {
+    "probed_from": "external (nightly anchor host)",
+    "/live/snapshot.json": "ok",
+    "/live/models.json": "ok",
+    "/live/uptime.json": "ok",
+    "/mcp": "ok (10 tools)"
+   }
   }
  ]
 }
