@@ -32,6 +32,12 @@ const KV_MODELS = 'models';
 const KV_L402INDEX = 'l402index';
 const KV_L402SPACE = 'l402space';
 const KV_MASTER = 'master';
+// Last-good copy of the committed curated registry. The other three master
+// sources are live upstreams that already had a KV fallback; curated is a
+// committed asset and so looked like it could never fail — until it did (see
+// `assetFetch` below), which silently dropped the only editor-verified tier out
+// of the merged table. Cached here so one bad read can't do that again.
+const KV_CURATED = 'curated';
 const KV_UPTIME = 'uptime';
 const KV_UPTIME_HISTORY = 'uptime_history';
 const SELF_BASE = 'https://marketplace.bitcoineconomy.ai';
@@ -88,6 +94,31 @@ async function serveAnnounced(env, origin) {
   }), { headers });
 }
 
+// Read a committed asset.
+//
+// `env.ASSETS.fetch()` must be handed a **Request**. Passing a bare URL (which
+// is what every call site here used to do) fails silently: the promise settles
+// unusably, `r.ok` is never true, and the `.catch(() => null)` around it turns a
+// binding misuse into "the file isn't there." That is what emptied the curated
+// tier out of /live/master.json — `directory.json` was present and served fine
+// on the public route (that path passes the real Request through), while the
+// cron's own read of the same file came back null on every run.
+//
+// Belt and braces: if the binding read still fails, fall back to an ordinary
+// fetch of the public URL. Returns parsed JSON, or null if the file is genuinely
+// unavailable — callers distinguish "absent" from "empty" and say so.
+async function assetJson(env, path, origin) {
+  try {
+    const r = await env.ASSETS.fetch(new Request(new URL(path, origin).toString()));
+    if (r.ok) return await r.json();
+  } catch {}
+  try {
+    const r = await fetch(new URL(path, origin).toString());
+    if (r.ok) return await r.json();
+  } catch {}
+  return null;
+}
+
 // The mastered directory is the one artifact built from BOTH committed content
 // (the curated registry) and live data (the external sources). So the usual
 // "KV always wins" rule is wrong for it: publishing a new curated card ships a
@@ -107,18 +138,14 @@ async function serveMaster(env, origin) {
   const kv = await env.SNAPSHOT?.get(KV_MASTER).catch(() => null);
   if (!kv) return serveLive(env, origin, KV_MASTER, '/master.json');
 
-  let assetStamp = null;
-  try {
-    const v = await env.ASSETS.fetch(new URL('/master-version.json', origin));
-    if (v.ok) assetStamp = (await v.json())?.generated_at || null;
-  } catch {}
+  const assetStamp = (await assetJson(env, '/master-version.json', origin))?.generated_at || null;
   if (assetStamp) {
     // Only the KV copy's timestamp is needed; pull it without parsing the body.
     const m = /"generated_at"\s*:\s*"([^"]+)"/.exec(kv.slice(0, 4096));
     const kvStamp = m?.[1] || null;
     if (kvStamp && assetStamp > kvStamp) {
-      const asset = await env.ASSETS.fetch(new URL('/master.json', origin));
-      if (asset.ok) return new Response(asset.body, { headers });
+      const asset = await assetJson(env, '/master.json', origin);
+      if (asset) return new Response(JSON.stringify(asset), { headers });
     }
   }
   return new Response(kv, { headers });
@@ -134,8 +161,8 @@ async function serveLive(env, origin, kvKey, fallbackPath) {
   const kv = await env.SNAPSHOT?.get(kvKey);
   if (kv) return new Response(kv, { headers });
   // Cron hasn't written yet (or KV unbound) — serve the committed fallback.
-  const asset = await env.ASSETS.fetch(new URL(fallbackPath, origin));
-  if (asset.ok) return new Response(asset.body, { headers });
+  const asset = await assetJson(env, fallbackPath, origin);
+  if (asset) return new Response(JSON.stringify(asset), { headers });
   return new Response(JSON.stringify({ error: kvKey + ' unavailable' }), { status: 503, headers });
 }
 
@@ -212,8 +239,12 @@ export default {
         if (fresh) return fresh;
         try { return JSON.parse((await env.SNAPSHOT.get(key)) || 'null'); } catch { return null; }
       };
+      const freshDirectory = await assetJson(env, '/directory.json', SELF_BASE);
+      if (freshDirectory?.entries?.length) {
+        await env.SNAPSHOT.put(KV_CURATED, JSON.stringify(freshDirectory));
+      }
       const [directory, uptimeDoc, idx, space] = await Promise.all([
-        env.ASSETS.fetch(new URL('/directory.json', SELF_BASE)).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+        lastGood(KV_CURATED, freshDirectory?.entries?.length ? freshDirectory : null),
         lastGood(KV_UPTIME, null),
         lastGood(KV_L402INDEX, doc402),
         lastGood(KV_L402SPACE, docSpace),
@@ -222,7 +253,20 @@ export default {
         { directory, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc },
         { generatedAt: new Date().toISOString(), base: SELF_BASE },
       );
-      if (master.count > 0) await env.SNAPSHOT.put(KV_MASTER, JSON.stringify(master));
+      // A master that lost the curated tier is worse than a stale one: it tells
+      // an agent there are no editor-verified services at all. Only publish a
+      // run that either carries curated rows or never had any to lose.
+      const keptCurated = master.sources?.curated?.rows_contributed > 0;
+      let hadCurated = false;
+      if (!keptCurated) {
+        try {
+          const prev = JSON.parse((await env.SNAPSHOT.get(KV_MASTER)) || 'null');
+          hadCurated = prev?.sources?.curated?.rows_contributed > 0;
+        } catch {}
+      }
+      if (master.count > 0 && (keptCurated || !hadCurated)) {
+        await env.SNAPSHOT.put(KV_MASTER, JSON.stringify(master));
+      }
     } catch {}
   },
 
