@@ -27,17 +27,31 @@ import { buildMaster } from './master-lib.mjs';
 import { probeSelf, appendRun, buildUptimeDoc } from './uptime-lib.mjs';
 import { handleMcp } from './mcp-lib.mjs';
 
+// The curated registry is BUNDLED, not fetched.
+//
+// It is committed content that only ever changes at deploy time, so reading it
+// over the network was always the wrong shape — and in the scheduled() handler
+// it does not work at all. A cron invocation has no inbound request: both
+// `env.ASSETS.fetch()` and an ordinary same-zone `fetch()` of our own
+// /directory.json come back unusable there, while the identical read succeeds
+// in the fetch() handler. The failure is silent, so for a month the 6-hourly
+// merge dropped all 22 editor-verified rows and /live/master.json told agents
+// there were no curated services at all.
+//
+// Importing it removes the failure mode instead of adding fallbacks around it:
+// 46 KB in the bundle, no I/O, impossible to lose, and always exactly as fresh
+// as the deploy — which is the correct semantics, since `npx wrangler deploy`
+// is the only way a directory change goes live anyway.
+//
+// ⚠ Do NOT "optimise" this back into a fetch. It will appear to work, because
+// every path you can test by hand runs in the fetch() handler.
+import DIRECTORY from './directory.json';
+
 const KV_SNAPSHOT = 'snapshot';
 const KV_MODELS = 'models';
 const KV_L402INDEX = 'l402index';
 const KV_L402SPACE = 'l402space';
 const KV_MASTER = 'master';
-// Last-good copy of the committed curated registry. The other three master
-// sources are live upstreams that already had a KV fallback; curated is a
-// committed asset and so looked like it could never fail — until it did (see
-// `assetFetch` below), which silently dropped the only editor-verified tier out
-// of the merged table. Cached here so one bad read can't do that again.
-const KV_CURATED = 'curated';
 const KV_UPTIME = 'uptime';
 const KV_UPTIME_HISTORY = 'uptime_history';
 const SELF_BASE = 'https://marketplace.bitcoineconomy.ai';
@@ -94,19 +108,16 @@ async function serveAnnounced(env, origin) {
   }), { headers });
 }
 
-// Read a committed asset.
+// Read a committed asset — **fetch() handler only.**
 //
-// `env.ASSETS.fetch()` must be handed a **Request**. Passing a bare URL (which
-// is what every call site here used to do) fails silently: the promise settles
-// unusably, `r.ok` is never true, and the `.catch(() => null)` around it turns a
-// binding misuse into "the file isn't there." That is what emptied the curated
-// tier out of /live/master.json — `directory.json` was present and served fine
-// on the public route (that path passes the real Request through), while the
-// cron's own read of the same file came back null on every run.
+// `env.ASSETS.fetch()` must be handed a Request; passing a bare URL (which every
+// call site here used to do) settles unusably, and the `.catch(() => null)`
+// around it turns a binding misuse into "the file isn't there."
 //
-// Belt and braces: if the binding read still fails, fall back to an ordinary
-// fetch of the public URL. Returns parsed JSON, or null if the file is genuinely
-// unavailable — callers distinguish "absent" from "empty" and say so.
+// Fixing that made these reads work here, in the request path. It did NOT make
+// them work in scheduled() — see the DIRECTORY import above for why, and do not
+// call this from a cron. Returns parsed JSON, or null if the file is genuinely
+// unavailable; callers distinguish "absent" from "empty" and say so.
 async function assetJson(env, path, origin) {
   try {
     const r = await env.ASSETS.fetch(new Request(new URL(path, origin).toString()));
@@ -239,32 +250,20 @@ export default {
         if (fresh) return fresh;
         try { return JSON.parse((await env.SNAPSHOT.get(key)) || 'null'); } catch { return null; }
       };
-      const freshDirectory = await assetJson(env, '/directory.json', SELF_BASE);
-      if (freshDirectory?.entries?.length) {
-        await env.SNAPSHOT.put(KV_CURATED, JSON.stringify(freshDirectory));
-      }
-      const [directory, uptimeDoc, idx, space] = await Promise.all([
-        lastGood(KV_CURATED, freshDirectory?.entries?.length ? freshDirectory : null),
+      const [uptimeDoc, idx, space] = await Promise.all([
         lastGood(KV_UPTIME, null),
         lastGood(KV_L402INDEX, doc402),
         lastGood(KV_L402SPACE, docSpace),
       ]);
       const master = buildMaster(
-        { directory, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc },
+        { directory: DIRECTORY, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc },
         { generatedAt: new Date().toISOString(), base: SELF_BASE },
       );
-      // A master that lost the curated tier is worse than a stale one: it tells
-      // an agent there are no editor-verified services at all. Only publish a
-      // run that either carries curated rows or never had any to lose.
+      // Belt and braces on top of the bundled import: a master that lost the
+      // curated tier is worse than a stale one, because it tells an agent there
+      // are no editor-verified services at all. Refuse to publish one.
       const keptCurated = master.sources?.curated?.rows_contributed > 0;
-      let hadCurated = false;
-      if (!keptCurated) {
-        try {
-          const prev = JSON.parse((await env.SNAPSHOT.get(KV_MASTER)) || 'null');
-          hadCurated = prev?.sources?.curated?.rows_contributed > 0;
-        } catch {}
-      }
-      if (master.count > 0 && (keptCurated || !hadCurated)) {
+      if (master.count > 0 && keptCurated) {
         await env.SNAPSHOT.put(KV_MASTER, JSON.stringify(master));
       }
     } catch {}
