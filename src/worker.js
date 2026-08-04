@@ -20,6 +20,10 @@ const LNURLP_UPSTREAM = {
   // Rollback = restore the getalby line below.
   // hello: 'https://getalby.com/.well-known/lnurlp/bitcoineconomyai',
   hello: 'https://ln.bitcoineconomy.ai/.well-known/lnurlp/hello',
+  // Beef — the agent sub-identity (2026-08-04). Its own LNbits wallet, reached
+  // over NWC with a daily budget cap rather than an admin key; separate from the
+  // brand wallet so agent spend never touches org funds.
+  beef: 'https://ln.bitcoineconomy.ai/.well-known/lnurlp/beef',
 };
 
 const JSON_HEADERS = {
