@@ -4,7 +4,7 @@
 
 A Bitcoin derivatives venue on Lightning — perpetual futures and a BTC/synthetic-USD swap, funded and withdrawn over Lightning or on-chain.
 
-- Category: swap
+- Category: trading / derivatives
 - Payment methods: lightning, onchain
 - Custody: custodial-while-trading
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first

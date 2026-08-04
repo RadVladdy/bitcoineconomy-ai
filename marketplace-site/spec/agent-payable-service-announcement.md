@@ -12,8 +12,8 @@ endorsed*, and graduate to the curated registry only via editor verification.
 
 The NIP-90 (DVM) spec is marked *unrecommended* by its own maintainers — *"prefer use-case-specific
 microstandards."* This is one. It is **hybrid**: where the service is **inference**, reuse Routstr's established
-**kind `38421`** (the directory already reads it). For **everything else** — compute, commerce bridges, swaps,
-machine work, verification, privacy, liquidity, fiat ramps — publish **kind `38555`**, defined here. It deliberately
+**kind `38421`** (the directory already reads it). For **everything else** —
+compute, data, machine work, verification, commerce, privacy, swap, trading, liquidity, payments, fiat ramp — publish **kind `38555`**, defined here. It deliberately
 reuses Routstr's tag grammar (`d`, `u`, `mint`, `version`) and adds the directory's machine-actionable fields.
 
 `38555` is in the parameterized-replaceable range (30000–39999): the newest event per `(kind, pubkey, d)`
@@ -25,7 +25,7 @@ kind registry and of Routstr's 38421 before allocation.)
 | tag | required | meaning |
 |---|---|---|
 | `d` | **yes** | Stable service id. The replaceability key — keep it constant across re-announcements. Becomes the directory slug `announced:{d}`. |
-| `k` | **yes** | Category — one of: `inference` (prefer kind 38421 instead), `compute`, `data`, `machine-work`, `verification`, `commerce`, `privacy`, `swap`, `liquidity`, `payments`, `fiat-ramp`. |
+| `k` | **yes** | Category — one of: `inference` (prefer kind 38421 instead), `compute`, `data`, `machine-work`, `verification`, `commerce`, `privacy`, `swap`, `trading`, `liquidity`, `payments`, `fiat-ramp`. |
 | `sub` | no | Subcategory, for finer placement — e.g. `llm`, `search`, `vps`, `gift-cards`. Valid values per category: see `vocabulary` in [directory.json](https://marketplace.bitcoineconomy.ai/directory.json) or call the MCP tool `list_categories`. Omitted or unrecognised is fine — the entry simply lists under its top-level category. |
 | `u` | **yes** | Service endpoint URL. Repeatable — list a clearnet `https://` endpoint (probed for liveness) and optionally a `.onion` (shown, not probed). |
 | `pay` | **yes** | Accepted payment method. Repeatable: `lightning`, `l402`, `cashu`, `nwc`, `onchain`, `liquid`, `spark`, `zaps`. |

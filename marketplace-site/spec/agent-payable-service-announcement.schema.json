@@ -39,7 +39,7 @@
     },
     "tags": {
       "type": "array",
-      "description": "Nostr tags (arrays of strings). Required: one d, one k, >=1 u, >=1 pay. Optional: sub, mint*, auth, pricing, version. Valid k values: inference, compute, data, machine-work, verification, commerce, privacy, swap, liquidity, payments, fiat-ramp.",
+      "description": "Nostr tags (arrays of strings). Required: one d, one k, >=1 u, >=1 pay. Optional: sub, mint*, auth, pricing, version. Valid k values: inference, compute, data, machine-work, verification, commerce, privacy, swap, trading, liquidity, payments, fiat-ramp.",
       "items": {
         "type": "array",
         "items": {

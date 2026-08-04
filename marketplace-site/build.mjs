@@ -654,8 +654,13 @@ const specMd = [
   '',
   'The NIP-90 (DVM) spec is marked *unrecommended* by its own maintainers — *"prefer use-case-specific',
   'microstandards."* This is one. It is **hybrid**: where the service is **inference**, reuse Routstr\'s established',
-  '**kind `38421`** (the directory already reads it). For **everything else** — compute, commerce bridges, swaps,',
-  `machine work, verification, privacy, liquidity, fiat ramps — publish **kind \`${KIND_ANNOUNCE}\`**, defined here. It deliberately`,
+  '**kind `38421`** (the directory already reads it). For **everything else** —',
+  // Generated from the shared vocabulary for the same reason the `k` table below
+  // is: this sentence was hand-listed and had ALREADY gone stale twice, missing
+  // `data` and `payments` (added 2026-07-29) and then `trading` (2026-08-04). A
+  // publisher who reads only this paragraph must not be told a shorter list of
+  // what we accept than the table 20 lines down.
+  `${CATEGORY_ORDER.filter((c) => c !== 'inference').map((c) => CATEGORIES[c].title.toLowerCase()).join(', ')} — publish **kind \`${KIND_ANNOUNCE}\`**, defined here. It deliberately`,
   'reuses Routstr\'s tag grammar (`d`, `u`, `mint`, `version`) and adds the directory\'s machine-actionable fields.',
   '',
   `\`${KIND_ANNOUNCE}\` is in the parameterized-replaceable range (30000–39999): the newest event per \`(kind, pubkey, d)\``,

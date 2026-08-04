@@ -38,7 +38,7 @@
       "get": {
         "operationId": "getDirectory",
         "summary": "The curated registry of Bitcoin-payable services an agent buys",
-        "description": "The full curated registry (23 entries across 10 categories: inference, compute, machine-work, verification, commerce, privacy, swap, liquidity, payments, fiat-ramp). Each entry carries category, what_an_agent_buys, payment_methods, automatability (api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint where the provider runs its own MCP server. One fetch returns everything; filter locally.",
+        "description": "The full curated registry (23 entries across 11 categories: inference, compute, machine-work, verification, commerce, privacy, swap, liquidity, payments, fiat-ramp, trading). Each entry carries category, what_an_agent_buys, payment_methods, automatability (api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint where the provider runs its own MCP server. One fetch returns everything; filter locally.",
         "responses": {
           "200": {
             "description": "The curated registry document.",

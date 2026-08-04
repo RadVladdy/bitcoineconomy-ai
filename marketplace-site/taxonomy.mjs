@@ -73,6 +73,17 @@ export const CATEGORIES = {
     blurb: 'Moving value between Bitcoin layers and other assets.',
     subcategories: ['btc-stablecoin', 'cross-chain', 'atomic'],
   },
+  // Taking or hedging a POSITION is a different economic act from moving value
+  // between layers, and `swap` was covering it only because nothing else did
+  // (LN Markets sat under `swap` with no subcategory as the least-wrong bucket,
+  // flagged rather than stretched silently — 2026-08-03). Added 2026-08-04,
+  // deliberately BEFORE the buy-side spec generates its own category table, so
+  // the published vocabulary changes once instead of twice.
+  trading: {
+    title: 'Trading',
+    blurb: 'Taking or hedging a position — derivatives venues, spot venues, prediction markets.',
+    subcategories: ['derivatives', 'spot', 'prediction'],
+  },
   liquidity: {
     title: 'Liquidity',
     blurb: 'Lightning channel capacity, routing, and yield.',
@@ -266,6 +277,13 @@ const CROSSWALK = {
   seo: ['data', 'commerce-data'],
 
   // --- crypto / finance
+  // NOTE: `crypto/trading` and `finance/trading` stay on `data/finance` even
+  // though a `trading` top-level now exists (added 2026-08-04). An upstream row
+  // labelled "trading" is overwhelmingly a market-DATA API, not a venue where an
+  // agent takes a position, and a live check found ZERO external rows carrying a
+  // trading/derivatives/prediction source_category. Re-routing them on the
+  // strength of a string would be filing-somewhere-plausible, which the honesty
+  // rule at the top of this file forbids. Move one only after probing it.
   crypto: ['data', 'blockchain'],
   'crypto/defi': ['data', 'blockchain'],
   'crypto/defi/arbitrage': ['data', 'blockchain'],

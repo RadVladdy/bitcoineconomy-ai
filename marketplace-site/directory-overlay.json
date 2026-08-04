@@ -436,7 +436,8 @@
     {
       "slug": "ln-markets",
       "source": "exchanges/ln-markets.md",
-      "category": "swap",
+      "category": "trading",
+      "subcategory": "derivatives",
       "summary": "A Bitcoin derivatives venue on Lightning — perpetual futures and a BTC/synthetic-USD swap, funded and withdrawn over Lightning or on-chain.",
       "what_an_agent_buys": "Leveraged Bitcoin futures positions and BTC↔synthetic-USD swaps, funded and settled over Lightning",
       "payment_methods": [

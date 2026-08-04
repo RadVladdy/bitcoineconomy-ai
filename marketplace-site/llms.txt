@@ -137,7 +137,6 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 - [SideShift.ai](https://marketplace.bitcoineconomy.ai/entries/sideshift.md): Cross-asset swaps across 200+ assets and 45+ networks, direct to wallet. Payment: lightning/onchain; KYC: none; automatability: api-no-account.
 - [Flashnet](https://marketplace.bitcoineconomy.ai/entries/flashnet.md): BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM. Payment: spark/lightning; KYC: none; automatability: api-no-account.
 - [SideSwap](https://marketplace.bitcoineconomy.ai/entries/sideswap.md): L-BTC ↔ L-USDt and direct asset-to-asset swaps on Liquid order books. Payment: liquid; KYC: none; automatability: api-no-account.
-- [LN Markets](https://marketplace.bitcoineconomy.ai/entries/ln-markets.md): Leveraged Bitcoin futures positions and BTC↔synthetic-USD swaps, funded and settled over Lightning. Payment: lightning/onchain; KYC: n/a; automatability: api-account.
 
 ## Liquidity (Lightning channel/balance management)
 
@@ -155,3 +154,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 - [River](https://marketplace.bitcoineconomy.ai/entries/river.md): Fiat ↔ BTC (US) plus Lightning payments via the RLS API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
 - [Kraken](https://marketplace.bitcoineconomy.ai/entries/kraken.md): Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
 - [Coinbase](https://marketplace.bitcoineconomy.ai/entries/coinbase.md): Fiat ↔ BTC ↔ USDC via a mature developer platform. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
+
+## trading
+
+- [LN Markets](https://marketplace.bitcoineconomy.ai/entries/ln-markets.md): Leveraged Bitcoin futures positions and BTC↔synthetic-USD swaps, funded and settled over Lightning. Payment: lightning/onchain; KYC: n/a; automatability: api-account.
