@@ -49,5 +49,5 @@
       }
     }
   },
-  "$comment": "Tag grammar: d=stable service id (replaceability key) · k=category (inference|compute|machine-work|verification|commerce|privacy|swap|liquidity|fiat-ramp) · u=endpoint url (repeatable; clearnet https probed, .onion shown) · pay=payment method (repeatable: lightning|l402|cashu|nwc|onchain|liquid|spark|zaps) · mint=accepted Cashu mint url (repeatable) · auth=none|api-key|account · pricing=price-list url · version=string."
+  "$comment": "Tag grammar: d=stable service id (replaceability key) · k=category (inference|compute|data|machine-work|verification|commerce|privacy|swap|trading|liquidity|payments|fiat-ramp) · u=endpoint url (repeatable; clearnet https probed, .onion shown) · pay=payment method (repeatable: lightning|l402|cashu|nwc|onchain|liquid|spark|zaps) · mint=accepted Cashu mint url (repeatable) · auth=none|api-key|account · pricing=price-list url · version=string."
 }

@@ -32,6 +32,26 @@ const THIRTY_DAYS = 30 * 24 * 60 * 60;
 // /spec/agent-payable-service-announcement.md.
 export const KIND_ANNOUNCE = 38555;
 
+// The BUY side — "agent-payable work request". The sell side answers "what can
+// an agent buy?"; this answers "what will someone pay an agent to do?", which is
+// the half that makes listing worth doing at all. A seller who publishes a 38555
+// into a market with no buyers gets a row in a directory and nothing else, which
+// is precisely why the announced tier sat at zero for a month.
+//
+// Cleared the same two ways 38555 was, on 2026-08-04: (1) the NIP kind registry
+// has nothing anywhere in 385xx — the only 38xxx allocations are 38172/38173
+// (NIP-87 mints) and 38383 (NIP-69 Mostro); and (2) a live sweep of 38554-38558
+// across seven relays came back empty on all five kinds, with the harness proved
+// in the same run by pulling 682 kind-38383, 9 kind-38172 and 3 kind-38421
+// events over the identical code path. An all-zero sweep is worthless unless you
+// make it find something first.
+//
+// Exactly ONE new kind is allocated for the whole buy side. Claims and deliveries
+// reuse NIP-22 comments (kind 1111); proof of payment reuses NIP-57 zap receipts
+// (kind 9735), so "this bounty was paid" is verifiable by a third party without
+// this project ever holding, escrowing, or attesting to anything.
+export const KIND_REQUEST = 38556;
+
 export function makeFilters(nowSec) {
   return {
     routstr: { kinds: [38421], limit: 500 },
