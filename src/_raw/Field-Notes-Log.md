@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-07-29
+last-updated: 2026-08-03
 voice: honest-middle-position
 tags:
   - canonical
@@ -29,6 +29,24 @@ agent-tldr: |
 > **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-08-01 — An agent ran its own Lightning node, signed its own logins, and traded unattended for a month
+
+**What's happening.** On TFTC, **Marty Bent** described an experiment he had already finished. He told an agent running on his own VPS that he wanted it to be able to spend bitcoin, and left the how to it. The agent researched the options, came back recommending **[phoenixd](/tools/phoenixd)** — ACINQ's self-custodial Lightning server — and set it up. Bent sent bitcoin to the on-chain address it produced; the agent handled the submarine swap into channel liquidity itself. He then pointed it at **[LN Markets](/exchanges/ln-markets)**, where it authenticated using **LNURL-auth** — signing a challenge with the node key it already controlled, no username, no password — opened a position, and went long. He asked it to run a simple trend-following strategy, to create a Nostr account, and to post its trades daily. It generated its own nsec and npub and published autonomously, every day, for about a month, until he shut it down because he no longer felt like watching it. In his words: *"I watched it do this. I didn't type a single command."*
+
+The same conversation covered **[Buzz](/tools/buzz)**, released ten days earlier (2026-07-21) — Block's free, Apache-2.0, **Nostr-native** workspace where AI agents are members holding their own keypairs rather than integrations behind an API key. Block's stated reason for building on Nostr is identity: an agent's key, history and reputation belong to it and travel with it across any Nostr-compatible system, rather than to whatever platform issued its credentials.
+
+**Why it matters.** The single most common objection to this site's argument is that agent payments on Bitcoin are a design exercise. This is the clearest counter-evidence yet published, and its shape is what makes it interesting: **every piece was off-the-shelf**, and the agent selected and assembled them. A self-custodial Lightning node, a submarine swap, a key-signed login, a live trading venue, and a Nostr publishing identity — composed by an agent, on a VPS its operator set up in January, by a media operator who says plainly that he is not a software engineer. This is what "the rail already exists" looks like when someone actually walks it, and it is the sequel to the [2026-07-08 entry](#2026-07-08) where three prominent voices stated the thesis but nobody had yet run the whole loop unattended.
+
+The **LNURL-auth** leg deserves separate attention. The agent's *payment* key was also its *identity* — the same keypair that holds its money let it log in somewhere. That is the property this project keeps pointing at in [[Stack|The Stack]] §5 and it is rarely demonstrated end to end. Buzz argues the same point from the other direction, and from a much larger balance sheet: Block chose Nostr specifically because platform-issued agent identity is the wrong primitive.
+
+**The honest read.** Four qualifications, and they matter. **(1) It is n=1 and self-reported.** One operator's account of his own experiment, published on his own podcast and site. Nothing here was independently reproduced, and no third party verified the events. It is credible, specific and internally consistent — and it is still testimony. **(2) The trading result is unknown and irrelevant.** Bent explicitly did not care whether it made money (*"I don't care if you lose money"*), and no P&L was published. The claim is that the agent *could operate financially*, not that it operated *well*; nobody should read this as evidence about autonomous trading. **(3) The security posture was a demonstration, not a pattern to copy.** An unattended agent holding a hot Lightning node key with withdrawal-capable credentials is precisely what [[Stack|The Stack]] §7 tells you not to build; phoenixd's own documentation warns that its API must never be exposed to the internet, and ACINQ ships a reduced-privilege password for exactly this reason. The experiment demonstrates capability; the safe version of it needs scoped keys and a hot/cold split. **(4) Buzz cannot pay for anything.** Block's announcement does not mention payments at all. The reading — voiced on the same podcast — that Lightning payments are a likely direction is inference about a roadmap, not a shipped feature, and it is logged here as inference.
+
+**Cross-references.** [[Stack]] (§5 agent-integration primitives — LNURL-auth as credential; §7 the security patterns this run deliberately skipped); [[Quickstart]] (the self-sovereign pathway, now with a worked instance); [[Case]] (permissionless custody and machine-tempo settlement, demonstrated rather than argued); [[Exchange]] (LN Markets as a Lightning-in, Lightning-out venue); [[Field-Notes]] (State of Play — deployed-stack inventory); the **2026-07-08 entry** below (the same thesis stated, before anyone had run it end to end).
+
+**Sources.** [Give Your Agent a Bitcoin Wallet](https://www.tftc.io/give-your-agent-a-bitcoin-wallet) — TFTC, 2026-08-02, Marty Bent's first-person written account (the durable citation); [the conversation](https://youtu.be/psz13Rv_V1k) — TFTC, 2026-08-01, with Vinny (Vince Canger, Wasp), experiment recounted from 40:41 and the Nostr-identity discussion from 24:07; [Introducing Buzz](https://block.xyz/inside/introducing-buzz-where-humans-and-agents-work-together) — Block, 2026-07-21 (launch, licence, Nostr rationale); [github.com/block/buzz](https://github.com/block/buzz); [phoenixd API reference](https://phoenix.acinq.co/server/api) and [LN Markets security docs](https://docs.lnmarkets.com/en/security) — both fetched 2026-08-03 to verify the mechanisms described.
 
 ---
 

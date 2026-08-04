@@ -432,6 +432,21 @@
       "auth": "API key (CDP) — KYC account required",
       "api_base": "https://api.coinbase.com",
       "quickstart": "Complete KYC, create CDP API keys, then Advanced Trade REST/WebSocket for deposit/trade/withdraw (docs.cdp.coinbase.com)."
+    },
+    {
+      "slug": "ln-markets",
+      "source": "exchanges/ln-markets.md",
+      "category": "swap",
+      "summary": "A Bitcoin derivatives venue on Lightning — perpetual futures and a BTC/synthetic-USD swap, funded and withdrawn over Lightning or on-chain.",
+      "what_an_agent_buys": "Leveraged Bitcoin futures positions and BTC↔synthetic-USD swaps, funded and settled over Lightning",
+      "payment_methods": [
+        "lightning",
+        "onchain"
+      ],
+      "automatability": "api-account",
+      "auth": "api-key",
+      "api_base": "https://api.lnmarkets.com/v3",
+      "quickstart": "Register (email + verification), create a scoped API key on the profile, then sign requests to api.lnmarkets.com/v3; test against api.signet.lnmarkets.com/v3 first. LNURL-auth is available as an additional sign-in method, not a substitute for the account."
     }
   ]
 }

@@ -2,8 +2,8 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-08-03T22:58:42.605Z",
-  "tool_count": 27,
+  "generated_at": "2026-08-04T05:05:31.624Z",
+  "tool_count": 29,
   "toolbox_groups": [
     "node-toolkits",
     "primitive",
@@ -496,6 +496,44 @@
         "note": "Lightning Enable's MIT MCP - gives an agent a Lightning wallet plus an L402 producer and agent-to-agent Service-Agreement tools (23 total; a subset need a provider/API key). Wired to a Lightning backend (Strike/OpenNode, or NWC: LND/CoinOS/CLINK/Alby Hub). Also on PyPI (lightning-enable-mcp), .NET (LightningEnable.Mcp), and Docker. Amboss Payments is not a listed backend yet."
       },
       "last_verified": "2026-06-30"
+    },
+    {
+      "slug": "phoenixd",
+      "name": "phoenixd",
+      "toolbox_group": "wallets",
+      "tool_type": "software",
+      "layer": "wallets",
+      "tagline": "ACINQ's self-custodial Lightning server for machines — no signup, no channel management, and an HTTP API that lets an agent hold its own keys, pay, get paid, and sign LNURL-auth logins.",
+      "maintainer": "ACINQ",
+      "prereq_tier": "keys-only",
+      "stack_section": "§2",
+      "license": "Apache-2.0",
+      "links": {
+        "site": "https://phoenix.acinq.co/server",
+        "docs": "https://phoenix.acinq.co/server/api",
+        "repo": "https://github.com/ACINQ/phoenixd"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/phoenixd",
+      "last_verified": "2026-08-03"
+    },
+    {
+      "slug": "buzz",
+      "name": "Buzz",
+      "toolbox_group": "node-toolkits",
+      "tool_type": "software",
+      "layer": "integration",
+      "tagline": "Block's open-source, Nostr-native workspace where agents are members rather than features — each with its own keypair, portable across any Nostr-compatible system. No payment layer yet.",
+      "maintainer": "Block",
+      "prereq_tier": "keys-only",
+      "stack_section": "§4",
+      "license": "Apache-2.0",
+      "links": {
+        "site": "https://buzz.xyz",
+        "docs": "https://buzz.xyz",
+        "repo": "https://github.com/block/buzz"
+      },
+      "card_url": "https://bitcoineconomy.ai/tools/buzz",
+      "last_verified": "2026-08-03"
     },
     {
       "slug": "boltz",
