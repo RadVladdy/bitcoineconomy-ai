@@ -13,10 +13,16 @@
     // Refresh the live snapshot every 6 hours.
     "crons": ["17 */6 * * *"]
   },
-  // Zone route: the Worker intercepts the hostname at the edge (it serves the
-  // same static assets + the /live/* KV routes), so no Pages domain-move is
-  // needed — Workers routes take precedence over the Pages project on this
-  // hostname. The old Pages project can be retired at leisure.
+  // Zone route: the Worker intercepts the hostname at the edge and serves the
+  // static assets + the /live/* KV routes. This is the ONLY thing serving
+  // marketplace.bitcoineconomy.ai — the Pages project this once shadowed was
+  // deleted 2026-08-05.
+  //
+  // DNS for the hostname is a proxied A record → 192.0.2.1 (a black-hole IP,
+  // Cloudflare's documented pattern for a Worker-route-only hostname). The route
+  // fires before the origin is contacted, so the target is never reached; the
+  // record exists only so the hostname resolves to Cloudflare. Deleting that
+  // record takes the site down even though this Worker is fine.
   "routes": [
     { "pattern": "marketplace.bitcoineconomy.ai/*", "zone_name": "bitcoineconomy.ai" }
   ],

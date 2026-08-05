@@ -3,8 +3,9 @@
 The Marketplace **directory**: the agent-readable registry of services autonomous
 agents buy and sell for Bitcoin.
 
-This folder is **not** part of the main Astro build; it deploys on its own
-(currently a Cloudflare Pages project; Worker migration steps below).
+This folder is **not** part of the main Astro build; it deploys on its own —
+a Cloudflare **Worker** (`worker.js` + these files as static assets), reached
+through a zone route on `marketplace.bitcoineconomy.ai`. See § Deploys.
 
 ## ONE directory, four sources (merged 2026-07-29)
 
@@ -173,26 +174,35 @@ this rule, 2026-06-10).
 
 ## Deploys
 
-**Today (Pages, already live):** the git-connected Pages project
-`bitcoineconomy-marketplace` (build output dir = `marketplace-site`) redeploys on
-push. Everything static works on it — UI, `directory.json`, `llms.txt`,
-`entries/`, `snapshot.json` — and the UI silently falls back from
-`/live/snapshot.json` to the committed snapshot.
+**How it ships.** `npm run deploy marketplace` from the repo root, or
+`npx wrangler deploy` from this folder. **Push deploys nothing** — no repo here is
+wired to GitHub (see the root `CLAUDE.md`). Deploying is a deliberate act that
+follows verification.
 
-**Worker migration (one-time, enables the cron-refreshed `/live/snapshot.json`):**
+**What serves the domain.** The Worker `bitcoineconomy-marketplace`, via the zone
+route declared in `wrangler.jsonc`:
 
-1. From this folder: `npx wrangler kv namespace create SNAPSHOT` (or dashboard →
-   Storage & Databases → KV → Create). Paste the namespace id into
-   `wrangler.jsonc` where marked, commit.
-2. Create the Worker — either git-connected like the main site (dashboard →
-   Workers & Pages → Create → Worker → import `RadVladdy/bitcoineconomy-ai`,
-   **root directory `marketplace-site`**, deploy command `npx wrangler deploy`)
-   or one-off from this folder: `npx wrangler deploy`.
-3. Move the custom domain: remove `marketplace.bitcoineconomy.ai` from the Pages
-   project, then Worker → Settings → Domains & Routes → add it.
-4. Retire the Pages project. The cron fires within 6 hours (or trigger it once
-   from the Worker's dashboard → Settings → Trigger Events); until the first run,
-   `/live/snapshot.json` serves the committed fallback.
+```
+marketplace.bitcoineconomy.ai/*  →  bitcoineconomy-marketplace
+```
+
+DNS for that hostname is a **proxied `A` record pointing at `192.0.2.1`** — a
+deliberate black-hole address, and Cloudflare's documented pattern for a hostname
+served entirely by a Worker route. The route intercepts at the edge, so the record's
+target is never contacted; the record exists only so the hostname resolves to
+Cloudflare at all. **Don't "fix" it to a real origin, and don't delete it** — deleting
+it takes the site down even though the Worker is healthy.
+
+**History (do not re-do).** This started as a git-connected Pages project, also named
+`bitcoineconomy-marketplace`, which the Worker's zone route silently shadowed —
+Workers routes take precedence over a Pages custom domain, so the Pages project
+rebuilt on every push to a `.pages.dev` URL nobody visited. Its git connection was
+removed 2026-08-05 and **the Pages project was deleted the same day**; nothing of it
+remains. The `SNAPSHOT` KV namespace and the 6-hourly cron that refresh
+`/live/snapshot.json` are live and declared in `wrangler.jsonc`. If `/live/*` ever
+goes quiet, the UI falls back to the committed `snapshot.json` — which means **a 200
+on `/live/snapshot.json` is not evidence the Worker is healthy.** Check the Worker's
+routes, or compare behaviour on a path that doesn't exist.
 
 ## Phase 2+ (per the build plan)
 
