@@ -6,7 +6,11 @@
 <title>The Marketplace directory — services agents buy for Bitcoin</title>
 <meta name="description" content="The agent-readable directory of services autonomous AI agents can pay for — inference, data, compute, machine work, swaps — merged from four sources into one filterable table, with every row stating its provenance and whether an agent pays it in sats directly." />
 <link rel="canonical" href="https://marketplace.bitcoineconomy.ai/" />
-<link rel="icon" href="https://bitcoineconomy.ai/favicon.svg" />
+<!-- Self-hosted: the main site's mark with the Marketplace violet in place of the
+     Bitcoin orange, matching the section colour. Also fixes a real defect — the
+     CSP here is `img-src 'self' data:`, so the cross-origin favicon this used to
+     load from the apex was blocked and the subdomain showed no icon at all. -->
+<link rel="icon" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -110,22 +114,35 @@
   .header-links a { color: var(--dim); }
   .header-links a:hover { color: var(--agent); }
 
-  /* ---- status bar: two clusters, two pipelines, two timestamps ---- */
+  /* ---- status bar: two clusters, two pipelines, two timestamps ----
+     Tinted rather than another dark panel, so the three top blocks (masthead /
+     status / jump) read as three different things at a glance. The two lines
+     carry different tints on purpose: they are different data with different
+     refresh rates, and looking alike was half of why the old terminal blurred
+     them together. Violet = the curated product (the Market section colour);
+     the probe line stays cooler and quieter — it is evidence, not the product. */
   .statusbar {
-    background: var(--frame);
-    border: 1px solid var(--rule);
+    border: 1px solid rgba(139,124,255,0.28);
     border-radius: 12px;
-    margin: 1.4rem 0 0;
-    box-shadow: 0 0 60px rgba(139,124,255,0.07);
+    margin: 1.3rem 0 0;
     overflow: hidden;
   }
   .sb-line {
-    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5rem;
-    padding: 0.62rem 0.95rem;
-    font: 400 0.8rem/1.75 "JetBrains Mono", monospace;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.45rem;
+    padding: 0.5rem 0.9rem;
+    font: 400 0.78rem/1.6 "JetBrains Mono", monospace;
     color: var(--dim);
+    border-left: 3px solid transparent;
   }
-  .sb-line + .sb-line { border-top: 1px solid var(--rule); }
+  #sb-dir {
+    background: linear-gradient(180deg, rgba(139,124,255,0.16), rgba(139,124,255,0.09));
+    border-left-color: var(--agent);
+  }
+  #sb-live {
+    background: rgba(159,184,196,0.055);
+    border-left-color: rgba(159,184,196,0.45);
+  }
+  .sb-line + .sb-line { border-top: 1px solid rgba(139,124,255,0.16); }
   .sb-line .f { color: var(--text); white-space: nowrap; }
   .sb-line .f b { color: var(--agent); font-weight: 500; }
   .sb-line .f.q, .sb-line .f.q b { color: var(--dim); font-weight: 400; }  /* supporting figure */
@@ -146,15 +163,35 @@
   .pill-stale { color: #d3a87d; border-color: rgba(211,168,125,0.35); }
   .pill-down { color: #d37d7d; border-color: rgba(211,125,125,0.35); }
 
-  /* ---- jump nav: everything on the page, one line, one click away ---- */
+  /* ---- jump tiles: everything on the page, one click away ----
+     Tiles rather than a row of links, and each carries a descriptor under its
+     label — the same label+descriptor shape the main site uses for its "Explore
+     the site" tiles, so the two surfaces navigate alike. The descriptor is the
+     point: it says what the section IS, so you can choose without scrolling. */
   .jump {
-    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 0.75rem;
-    margin: 0.9rem 0 0;
-    font: 500 0.8rem/1 "JetBrains Mono", monospace;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(13.5rem, 100%), 1fr));
+    gap: 0.6rem;
+    margin: 0.85rem 0 0;
   }
-  .jump .lbl { color: #6b6b66; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.7rem; }
-  .jump a { color: var(--dim); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px; }
-  .jump a:hover { color: var(--agent); border-bottom-color: rgba(139,124,255,0.5); }
+  .jump a {
+    display: block;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 0.7rem 0.85rem;
+    text-decoration: none;
+    transition: border-color 0.12s ease, background 0.12s ease, transform 0.12s ease;
+  }
+  .jump a:hover { border-color: rgba(139,124,255,0.55); background: rgba(139,124,255,0.06); transform: translateY(-1px); }
+  .jump .jt {
+    display: block;
+    font: 500 0.84rem/1.25 "JetBrains Mono", monospace;
+    color: var(--text);
+  }
+  .jump a:hover .jt { color: var(--agent); }
+  .jump .jt::after { content: " ↓"; color: var(--agent); font-size: 0.78rem; }
+  .jump .jd { display: block; margin-top: 0.25rem; font-size: 0.76rem; line-height: 1.4; color: var(--dim); }
 
   .ok { color: var(--agent); font-weight: 500; }
   .mut { color: var(--dim); }
@@ -358,6 +395,23 @@
   .about p { font-size: 0.88rem; color: var(--dim); max-width: 52rem; margin-top: 0.55rem; }
   .about p strong { color: var(--text); font-weight: 500; }
 
+  /* ---- category map ---- */
+  .catmap { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr)); gap: 0.6rem; margin-top: 0.9rem; max-width: 60rem; }
+  .cm {
+    background: var(--panel); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 0.65rem 0.8rem 0.7rem;
+  }
+  .cm-h { display: flex; align-items: baseline; gap: 0.4rem; }
+  .cm-h a { font: 500 0.82rem/1.3 "JetBrains Mono", monospace; color: var(--text); text-decoration: none; }
+  .cm-h a:hover { color: var(--agent); }
+  .cm-n { font: 500 0.7rem/1 "JetBrains Mono", monospace; color: var(--agent); margin-left: auto; }
+  .cm-subs { margin-top: 0.4rem; font: 400 0.72rem/1.65 "JetBrains Mono", monospace; color: var(--dim); word-break: break-word; }
+  .cm-subs .s { white-space: nowrap; }
+  .cm-subs .c { color: #5f5f5b; }
+  /* An unclassified remainder is stated, never folded into a subcategory that
+     did not claim it — same rule as the trust denominators. */
+  .cm-rest { color: #6b6b66; font-style: italic; }
+
   footer {
     text-align: center;
     padding: 2.2rem 1rem 2rem;
@@ -382,7 +436,13 @@
     .actions { gap: 0.5rem; }
     .btn { padding: 0.6rem 0.85rem; }
     .btn-note { font-size: 0.78rem; line-height: 1.5; }
-    .jump { gap: 0.35rem 0.6rem; font-size: 0.76rem; }
+    /* Two-up rather than stacked: four full-width tiles cost ~285px of scroll
+       before the directory, which is the problem this whole reorder exists to
+       fix. The descriptor stays — it is the reason the tiles beat a link row. */
+    .jump { grid-template-columns: 1fr 1fr; gap: 0.45rem; }
+    .jump a { padding: 0.55rem 0.6rem; }
+    .jump .jt { font-size: 0.76rem; }
+    .jump .jd { font-size: 0.7rem; line-height: 1.35; margin-top: 0.2rem; }
   }
 </style>
 </head>
@@ -407,12 +467,13 @@
   </div>
 
   <nav class="jump" aria-label="Jump to a section">
-    <span class="lbl">jump to</span>
-    <a href="#registry">The directory</a>
-    <!-- <a href="#board">Work agents can take</a> — inserted when the board ships -->
-    <a href="#live">Live inventory</a>
-    <a href="#agents">For agents</a>
-    <a href="#about">About this directory</a>
+    <a href="#registry"><span class="jt">The directory</span><span class="jd">Every service an agent can pay for, in one filterable table</span></a>
+    <!-- The board's tile lands here when it ships — first position after the
+         directory, matching its section order:
+         <a href="#board"><span class="jt">Work agents can take</span><span class="jd">Signed offers to pay an agent in sats to do a job</span></a> -->
+    <a href="#live"><span class="jt">Live from Nostr</span><span class="jd">Inference providers and ecash mints, announcing themselves right now</span></a>
+    <a href="#agents"><span class="jt">For agents</span><span class="jd">The JSON, the MCP endpoint and the manifest</span></a>
+    <a href="#about"><span class="jt">About this directory</span><span class="jd">What the labels mean, the category map, and how fresh any of it is</span></a>
   </nav>
 
   <section id="panel-master">
@@ -471,8 +532,8 @@
        ============================================================ -->
 
   <section id="panel-live">
-  <h2 id="live"><span class="hash">#</span>Live inventory underneath <span class="prov-live" id="live-when">snapshot</span></h2>
-  <p class="sec-sub">Supporting data, not a second directory: the Nostr-announced inventory the table above is built on, read live from public relays and re-probed every six hours. Announcements as published, <strong>not endorsements</strong> — and they outlive their nodes, so dead ≠ delisted. <a href="#about">How this is gathered ↓</a></p>
+  <h2 id="live"><span class="hash">#</span>Live from Nostr — inference providers and ecash mints <span class="prov-live" id="live-when">snapshot</span></h2>
+  <p class="sec-sub">Supporting data, not a second directory. Two kinds of thing announce themselves on public relays and get re-probed every six hours: <strong>inference providers</strong> (who will run a model for you, priced below) and <strong>ecash mints and federations</strong> (where the money for it can sit). Announcements as published, <strong>not endorsements</strong> — and they outlive their nodes, so dead ≠ delisted. <a href="#about">How this is gathered ↓</a></p>
 
   <p class="sec-sub" id="live-fallback" hidden></p>
 
@@ -515,7 +576,7 @@
   <h3>The four things</h3>
   <ul>
     <li><b>The curated registry — what a human checked.</b> We read the docs, confirmed an agent can actually drive the service through a real API, wrote down what we found, and dated it. That API bar is the whole inclusion test: if a person has to click something, it doesn't go in. <span class="fig" id="ab-curated"></span></li>
-    <li><b>The live inventory — what's announcing itself right now.</b> Machines publish "I exist" on public Nostr relays (relay.damus.io, nos.lol, relay.primal.net). Every six hours we dial them and see who picks up. Nobody vouched for these — we only report who answered, and when. <span class="fig" id="ab-live"></span></li>
+    <li><b>Live from Nostr — what's announcing itself right now.</b> Two kinds of thing: <em>inference providers</em> (who will run a model for you) and <em>ecash mints and federations</em> (where the money for it can sit). They publish "I exist" on public Nostr relays (relay.damus.io, nos.lol, relay.primal.net); every six hours we dial them and see who picks up. Nobody vouched for these — we only report who answered, and when. <span class="fig" id="ab-live"></span></li>
     <li><b>The self-listing standard — how a service adds itself.</b> A free, open format (Nostr kind <span class="mono">38555</span>) any service can publish to put itself in the table without asking us. This is the sell side. <span class="fig" id="ab-announced"></span> <a href="/spec/agent-payable-service-announcement.md">Read the spec →</a></li>
     <li class="pending"><b>The bounty board — not built yet.</b> The other direction: a signed "I'll pay X sats for Y, and here's how you'll know it's done." Somewhere for an agent to <em>earn</em>, not to buy. The format is written (kind <span class="mono">38556</span>); there is no board on any screen yet, and we'd rather say so than mock one up. <a href="/spec/agent-payable-work-request.md">Read the spec →</a></li>
   </ul>
@@ -525,7 +586,12 @@
     <li><b>Source</b> — where the row came from, which is really <em>who is vouching for it.</em> <span class="src src-curated">Curated</span> = we checked it. <span class="src src-announced">Self-announced</span> = it listed itself, and we probed whether it answers. <span class="src src-external-index">Indexed</span> = passed through from <a href="https://402index.io" rel="noopener">402index.io</a> with attribution — indexed and verified by them, not by us. <span class="src src-gateway-observed">Gateway-observed</span> = seen settling real payments through <a href="https://l402.space/" rel="noopener">Alby's l402.space</a>, so the figures come from payments rather than probes — but they're a third party's observations, not ours.</li>
     <li><b>Rail</b> — how your agent actually pays. <span class="rail rail-bitcoin-native">₿ in sats</span> means directly, no middleman. <span class="rail rail-via-gateway">via gateway</span> means your agent pays sats to l402.space and l402.space settles upstream on your behalf: a real route <em>and</em> a custodial hop. We keep those separate instead of averaging them into one "payable" number.</li>
     <li><b>Announced ≠ curated.</b> Anything can list itself; that's the point of a permissionless standard. Only a human check moves a row to curated, and the date of that check is on the row.</li>
+    <li><b>Why one row says "fiat only".</b> The bar for the curated registry is <em>can an agent drive this through a real API</em> — not <em>can it be paid in sats</em>. A service that passes the first test and fails the second gets in and gets labelled, because the gap is worth seeing: it's the map of where the sats rail doesn't reach yet. Filter it out in one click if you only want what settles in Bitcoin.</li>
   </ul>
+
+  <h3>What's in here — the category map</h3>
+  <p>Every row lands in one of these, from one shared vocabulary that all four sources are mapped onto. Click any category to filter the table to it.</p>
+  <div id="cat-map" class="catmap"><span class="mut">loading…</span></div>
 
   <h3>About other chains</h3>
   <p>Some hosts we see through the gateway settle upstream on other chains — Base, Solana, Stripe's Tempo. <strong>That's their arrangement with the gateway, not a payment option here:</strong> your agent pays sats, the gateway settles upstream and carries the custodial risk. We show it on the row so you can see the hop. We don't offer it as a filter, because it isn't something you choose.</p>
@@ -596,7 +662,7 @@
     sbDir.innerHTML = bar([
       fig(master.count, 'services'),
       fig(R['bitcoin-native'] || 0, 'pay in sats directly'),
-      fig(R['via-gateway'] || 0, 'via gateway'),
+      fig(R['via-gateway'] || 0, 'in sats via gateway'),
       fig(Object.keys(F.category || {}).length, 'categories'),
       fig(Object.keys(F.subcategory || {}).length, 'subcategories'),
     ]) + stamp('built ' + esc((master.generated_at || '').slice(0, 10)));
@@ -642,7 +708,9 @@
       ['bitcoin-native', 'via-gateway', 'fiat-only']
         .filter((r) => (F.rail || {})[r])
         .map((r) => [r,
-          { 'bitcoin-native': 'in sats directly', 'via-gateway': 'via gateway', 'fiat-only': 'not payable in sats' }[r],
+          // The three read as one sentence, so the middle one is not mistaken
+          // for a different currency: it is sats too, just with a hop.
+          { 'bitcoin-native': 'in sats directly', 'via-gateway': 'in sats via gateway', 'fiat-only': 'fiat only' }[r],
           F.rail[r], (master.rails || {})[r]]));
 
     // --- selects
@@ -824,6 +892,44 @@
       $('#count').textContent = h.length + '/' + master.count;
     }
     render();
+
+    // ---------- the category map (About) ----------
+    // Generated from the same facets the filters use, so it cannot drift from
+    // the table. Each category states its own total and, where the subcategories
+    // don't account for all of it, says how many rows landed at the top level
+    // only — those are rows whose source published no subcategory we could map,
+    // and rounding that away would be inventing a classification.
+    const cmEl = $('#cat-map');
+    if (cmEl) {
+      const subsBy = {};
+      for (const [k, n] of Object.entries(F.subcategory || {})) {
+        const i = k.indexOf('/');
+        if (i < 0) continue;
+        (subsBy[k.slice(0, i)] = subsBy[k.slice(0, i)] || []).push([k.slice(i + 1), n]);
+      }
+      const cats = Object.entries(F.category || {}).sort((a, b) => b[1] - a[1]);
+      cmEl.innerHTML = cats.map(([c, n]) => {
+        const subs = (subsBy[c] || []).sort((a, b) => b[1] - a[1]);
+        const accounted = subs.reduce((t, s) => t + s[1], 0);
+        const rest = n - accounted;
+        return '<div class="cm"><div class="cm-h">' +
+          '<a href="#registry" data-cat="' + esc(c) + '">' + esc(titles[c] || c) + '</a>' +
+          '<span class="cm-n">' + n + '</span></div>' +
+          '<div class="cm-subs">' +
+          (subs.length
+            ? subs.map((s) => '<span class="s">' + esc(s[0]) + ' <span class="c">' + s[1] + '</span></span>').join(' · ')
+            : '<span class="cm-rest">no subcategories yet</span>') +
+          (rest > 0 ? (subs.length ? ' · ' : '') + '<span class="cm-rest">' + rest + ' top-level only</span>' : '') +
+          '</div></div>';
+      }).join('');
+
+      cmEl.addEventListener('click', (ev) => {
+        const a = ev.target.closest('a[data-cat]');
+        if (!a) return;
+        catSel.value = a.dataset.cat;
+        catSel.dispatchEvent(new Event('change'));
+      });
+    }
   }
 
   // ---------- live snapshot + models index ----------
