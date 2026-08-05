@@ -87,35 +87,79 @@
   h1 .v { color: var(--agent); }
   .lede { color: var(--dim); max-width: 46rem; }
   .lede strong { color: var(--text); font-weight: 500; }
-  .header-links { margin-top: 0.9rem; font-size: 0.88rem; color: var(--dim); }
+
+  /* ---- action row: the two sides of the market, as buttons ---- */
+  .actions { display: flex; flex-wrap: wrap; gap: 0.6rem 0.7rem; align-items: center; margin-top: 1.2rem; }
+  .btn {
+    display: inline-block;
+    font: 500 0.85rem/1 "JetBrains Mono", monospace;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 0.68rem 1rem;
+    border: 1px solid var(--rule);
+    color: var(--text);
+    background: var(--panel);
+    transition: border-color 0.12s ease, color 0.12s ease;
+  }
+  .btn:hover { border-color: rgba(139,124,255,0.5); color: var(--agent); }
+  .btn-primary { color: #0a0a0b; background: linear-gradient(160deg, #a99dff, var(--agent)); border-color: transparent; }
+  .btn-primary:hover { color: #0a0a0b; filter: brightness(1.08); }
+  .btn-note { font-size: 0.82rem; color: var(--dim); }
+  .btn-note strong { color: var(--warm); font-weight: 500; }
+  .header-links { margin-top: 0.75rem; font-size: 0.84rem; color: var(--dim); }
   .header-links a { color: var(--dim); }
   .header-links a:hover { color: var(--agent); }
 
-  /* ---- status terminal strip ---- */
-  .term {
+  /* ---- status bar: two clusters, two pipelines, two timestamps ---- */
+  .statusbar {
     background: var(--frame);
     border: 1px solid var(--rule);
     border-radius: 12px;
-    margin: 1.8rem 0 0;
+    margin: 1.4rem 0 0;
     box-shadow: 0 0 60px rgba(139,124,255,0.07);
     overflow: hidden;
   }
-  .term-bar {
-    display: flex; align-items: center; gap: 0.45rem;
-    padding: 0.55rem 0.9rem;
-    background: #141416;
-    border-bottom: 1px solid var(--rule);
+  .sb-line {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5rem;
+    padding: 0.62rem 0.95rem;
+    font: 400 0.8rem/1.75 "JetBrains Mono", monospace;
+    color: var(--dim);
   }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: #2e2e30; }
-  .dot:nth-child(1) { background: #5a3d3d; }
-  .dot:nth-child(2) { background: #5a523d; }
-  .dot:nth-child(3) { background: #3d5a44; }
-  .term-title { margin-left: auto; font: 400 0.72rem/1 "JetBrains Mono", monospace; color: var(--dim); letter-spacing: 0.04em; }
-  .term-body { padding: 0.9rem 1.1rem 1rem; font: 400 0.82rem/1.9 "JetBrains Mono", monospace; white-space: pre-wrap; word-break: break-word; }
-  .a { color: var(--warm); }
-  .p { color: var(--cool); }
+  .sb-line + .sb-line { border-top: 1px solid var(--rule); }
+  .sb-line .f { color: var(--text); white-space: nowrap; }
+  .sb-line .f b { color: var(--agent); font-weight: 500; }
+  .sb-line .f.q, .sb-line .f.q b { color: var(--dim); font-weight: 400; }  /* supporting figure */
+  .sb-line .f.q b { color: var(--warm); font-weight: 500; }
+  .sb-line .sep { color: #3a3a3c; }
+  /* Stale: the figures stop reading as current. They are still shown — greyed,
+     dated and labelled — because hiding them would be its own dishonesty. */
+  .sb-line.stale .f, .sb-line.stale .f b { color: var(--dim); font-weight: 400; }
+  .sb-stamp { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; color: #6b6b66; }
+  .sb-stamp a { color: #6b6b66; }
+  .sb-stamp a:hover { color: var(--agent); }
+  .pill {
+    font: 500 0.66rem/1 "JetBrains Mono", monospace;
+    border: 1px solid var(--rule); border-radius: 999px;
+    padding: 0.26rem 0.5rem; letter-spacing: 0.05em;
+  }
+  .pill-live { color: #7dd3a0; border-color: rgba(125,211,160,0.35); }
+  .pill-stale { color: #d3a87d; border-color: rgba(211,168,125,0.35); }
+  .pill-down { color: #d37d7d; border-color: rgba(211,125,125,0.35); }
+
+  /* ---- jump nav: everything on the page, one line, one click away ---- */
+  .jump {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 0.75rem;
+    margin: 0.9rem 0 0;
+    font: 500 0.8rem/1 "JetBrains Mono", monospace;
+  }
+  .jump .lbl { color: #6b6b66; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.7rem; }
+  .jump a { color: var(--dim); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px; }
+  .jump a:hover { color: var(--agent); border-bottom-color: rgba(139,124,255,0.5); }
+
   .ok { color: var(--agent); font-weight: 500; }
   .mut { color: var(--dim); }
+  .backtop { display: inline-block; margin-top: 1rem; font: 500 0.78rem/1 "JetBrains Mono", monospace; color: #6b6b66; text-decoration: none; }
+  .backtop:hover { color: var(--agent); }
 
   /* ---- section headings ---- */
   h2 {
@@ -249,13 +293,9 @@
   .prov { margin-left: auto; font: 400 0.68rem/1.4 "JetBrains Mono", monospace; color: #6b6b66; }
 
   /* ---- live section ---- */
-  .live-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: 0.9rem; margin-bottom: 1rem; }
-  .stat {
-    background: var(--panel); border: 1px solid var(--rule); border-radius: 12px;
-    padding: 0.95rem 1.05rem;
-  }
-  .stat .n { font: 700 1.7rem/1.1 "Space Grotesk", Inter, sans-serif; color: var(--agent); }
-  .stat .l { font-size: 0.84rem; color: var(--dim); margin-top: 0.15rem; }
+  /* The stat-tile grid retired with the reorder — those five figures are now the
+     status bar at the top of the page, and rendering them twice would be two
+     places to drift. */
   .tbl-scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 12px; background: var(--panel); }
   table { border-collapse: collapse; width: 100%; min-width: 40rem; font-size: 0.84rem; }
   th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid #1a1a1c; vertical-align: top; }
@@ -298,6 +338,26 @@
     word-break: break-word;
   }
   .agents-block a { color: var(--cool); }
+
+  /* ---- about: definitions, bulleted — not narrative paragraphs ---- */
+  .about h3 {
+    font: 700 0.98rem/1.3 "Space Grotesk", Inter, sans-serif;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--text);
+  }
+  .about h3:first-of-type { margin-top: 0.4rem; }
+  .about ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; max-width: 52rem; }
+  .about li {
+    font-size: 0.88rem; color: var(--dim); line-height: 1.6;
+    border-left: 2px solid #232326; padding-left: 0.75rem;
+  }
+  .about li b { color: var(--text); font-weight: 600; }
+  .about li .fig { font: 500 0.8rem/1 "JetBrains Mono", monospace; color: var(--agent); }
+  .about li.pending { border-left-color: rgba(211,168,125,0.35); }
+  .about li.pending b { color: var(--warm); }
+  .about p { font-size: 0.88rem; color: var(--dim); max-width: 52rem; margin-top: 0.55rem; }
+  .about p strong { color: var(--text); font-weight: 500; }
+
   footer {
     text-align: center;
     padding: 2.2rem 1rem 2rem;
@@ -312,6 +372,17 @@
   @media (max-width: 600px) {
     .grid { grid-template-columns: 1fr; }
     .count { margin-left: 0; width: 100%; }
+    /* Every figure stays — a narrow screen is not a reason to drop one. They
+       just get tighter, so the directory itself still arrives fast. */
+    .sb-line { font-size: 0.72rem; line-height: 1.5; padding: 0.5rem 0.7rem; gap: 0 0.4rem; }
+    /* The timestamp gets its own row rather than trailing the last figure —
+       "36 subcategories built 2026-08-05" reads as one phrase, which is exactly
+       the kind of blur the two-timestamp split exists to prevent. */
+    .sb-stamp { margin-left: 0; width: 100%; padding-top: 0.2rem; }
+    .actions { gap: 0.5rem; }
+    .btn { padding: 0.6rem 0.85rem; }
+    .btn-note { font-size: 0.78rem; line-height: 1.5; }
+    .jump { gap: 0.35rem 0.6rem; font-size: 0.76rem; }
   }
 </style>
 </head>
@@ -320,24 +391,33 @@
 <main>
   <span class="eyebrow">marketplace.bitcoineconomy.ai</span>
   <h1>The Marketplace <span class="v">directory</span></h1>
-  <p class="lede">Every service autonomous agents can <strong>pay for</strong> — inference, data, compute, machine work, swaps — in <strong>one directory</strong>, from four sources: editor-verified entries, services that self-list on Nostr, endpoints indexed by <a href="https://402index.io" rel="noopener">402index.io</a>, and hosts observed settling through <a href="https://l402.space/" rel="noopener">Alby's l402.space gateway</a>. Every row states where it came from, and whether an agent pays it <strong>in sats directly</strong> or only through an intermediary.</p>
-  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · agents: <a href="/llms.txt">llms.txt</a> + <a href="/directory.json">directory.json</a></p>
+  <p class="lede">Every service an autonomous agent can <strong>pay for</strong>, in one table — each row saying where it came from and whether your agent pays it <strong>in sats directly</strong>.</p>
 
-  <div class="term" role="img" aria-label="Agent terminal: the directory reports its live status.">
-    <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="term-title">agent · marketplace.bitcoineconomy.ai</span></div>
-    <div class="term-body"><span class="a">agent@btc ~ $ connect marketplace.bitcoineconomy.ai</span>
-<span class="p">← 200 OK · directory.status: <span class="ok">LIVE</span></span>
-<span class="p" id="t-curated">← registry: … curated entries</span>
-<span class="p" id="t-live">← relays: connecting …</span>
-<span class="p" id="t-probe">← probe: …</span>
-<span class="p" id="t-uptime">← uptime: …</span>
-<span class="a">→ fetch /directory.json + /live/models.json</span>
-<span class="mut">machine-readable. that's the point. </span></div>
+  <div class="actions">
+    <a class="btn btn-primary" href="/spec/agent-payable-service-announcement.md">List your service →</a>
+    <!-- Second button lands here when the bounty board ships:
+         <a class="btn" href="#board">Post a bounty →</a>  (sell side stays first) -->
+    <span class="btn-note">One signed Nostr event puts you in this table within ~6 hours, probed and labelled. No account, no fee. <strong id="sell-count">Nobody has done it yet — be the first.</strong></span>
+  </div>
+  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · agents: <a href="/llms.txt">llms.txt</a> + <a href="/live/master.json">master.json</a></p>
+
+  <div class="statusbar" id="statusbar" aria-label="Live status of the directory and the inventory underneath it">
+    <div class="sb-line" id="sb-dir"><span class="mut">loading the directory…</span></div>
+    <div class="sb-line" id="sb-live"><span class="mut">reading the relays…</span></div>
   </div>
 
+  <nav class="jump" aria-label="Jump to a section">
+    <span class="lbl">jump to</span>
+    <a href="#registry">The directory</a>
+    <!-- <a href="#board">Work agents can take</a> — inserted when the board ships -->
+    <a href="#live">Live inventory</a>
+    <a href="#agents">For agents</a>
+    <a href="#about">About this directory</a>
+  </nav>
+
   <section id="panel-master">
-  <h2 id="registry"><span class="hash">#</span>The directory <span class="prov-live" id="master-when">loading…</span></h2>
-  <p class="sec-sub">One table, four sources, filtered rather than tabbed. <strong>Curated</strong> rows are editor-verified against primary sources on the date shown — the only ones a human checked. <strong>Self-announced</strong> rows list themselves permissionlessly via a signed Nostr announcement and are probed for liveness, never endorsed. <strong>Indexed</strong> rows are passed through from <a href="https://402index.io" rel="noopener">402index.io</a> with attribution — third-party-indexed and third-party-verified. <strong>Gateway-observed</strong> rows were seen settling through <a href="https://l402.space/" rel="noopener">l402.space</a>, so their numbers come from real payments rather than probes. Trust figures always ship with their denominator, so you can recompute rather than trust: see <a href="/live/uptime.json">/live/uptime.json</a> and each row's source. A row payable only through the gateway is labelled <span class="rail rail-via-gateway">via gateway</span> — that is a real payment route <em>and</em> a custodial hop, and it stays visible instead of being averaged into "payable".</p>
+  <h2 id="registry"><span class="hash">#</span>The directory</h2>
+  <p class="sec-sub">One table, four sources, filtered rather than tabbed. Every row says where it came from and how your agent pays it — <a href="#about">what the labels mean ↓</a></p>
 
   <div class="dir-filters" id="dir-filters">
     <div class="filter-row" id="f-source-row"><span class="filter-lbl">source</span></div>
@@ -346,7 +426,11 @@
       <span class="filter-lbl">refine</span>
       <select id="f-cat" aria-label="Filter by category"><option value="">category: any</option></select>
       <select id="f-sub" aria-label="Filter by subcategory"><option value="">subcategory: any</option></select>
-      <select id="f-net" aria-label="Filter by payment network"><option value="">network: any</option></select>
+      <!-- No payment_network facet. `rail` is this site's vocabulary for how an
+           agent pays; payment_network is the upstream chain a gateway host settles
+           on — the host's arrangement, not a choice offered to your agent. Offering
+           it as a filter read as a menu of supported networks. The value stays on
+           every row (the note under the rail badge) and in master.json. -->
       <input type="search" id="f-q" placeholder="search…" aria-label="Search the directory" />
       <span class="count" id="count"></span>
     </div>
@@ -366,11 +450,31 @@
   <p class="sec-sub" style="margin-top:0.9rem">Run a service an agent can pay for? <a href="/spec/agent-payable-service-announcement.md">List it yourself</a> — publish a signed kind-38555 announcement and it appears here within ~6 hours, probed and labelled <span class="src src-announced">self-announced</span>. Announced ≠ curated: it graduates to <span class="src src-curated">curated</span> only after editor verification.</p>
   </section>
 
+  <!-- ============================================================
+       THE BOUNTY BOARD SLOT — reserved, deliberately not rendered.
+       Kind 38556 (spec/agent-payable-work-request.md) is written; there is no
+       board yet. It goes HERE, between the directory and the live inventory:
+       the directory is what an agent can BUY, the board is what it can EARN —
+       two sides of one market, and they belong adjacent. The live inventory is
+       supporting evidence for the directory, one level down.
+         <section id="panel-board">
+           <h2 id="board"><span class="hash">#</span>Work agents can take</h2>
+       Three other slots are already reserved for it so this layout is not redone:
+         1. status bar, live line, tail position  — see sbBounties() in the script
+         2. masthead action row, second button    — see the comment in .actions
+         3. jump nav, second link                 — see the comment in <nav class="jump">
+         4. About, fourth function bullet         — already written, says "not built yet"
+       Ship it with the seeded bounties, not before: an empty board under a
+       100-row table is the empty-room mistake again. Two honesty constraints
+       when it lands — "sats offered" is never "sats held" (there is no escrow),
+       and paid/unpaid counts always carry their denominator.
+       ============================================================ -->
+
   <section id="panel-live">
   <h2 id="live"><span class="hash">#</span>Live inventory underneath <span class="prov-live" id="live-when">snapshot</span></h2>
-  <p class="sec-sub">Supporting data, not a second directory: the Nostr-announced inventory the table above is built on, read from public relays (relay.damus.io, nos.lol, relay.primal.net) and <strong>probed live</strong> — <a href="https://bitcoineconomy.ai/services/routstr">Routstr</a> inference providers (kind 38421) priced cheapest-first, and <a href="https://bitcoineconomy.ai/tools/evaluating-ecash-mints">ecash mints</a> (NIP-87, kinds 38172/38173) with their signed reviews (kind 38000). Announcements as published, <strong>not endorsements</strong> — and they outlive their nodes, so each clearnet endpoint is re-probed on every refresh (dead ≠ delisted; onion-only endpoints can't be probed from here and show as unverified). Today's signed reviews target the mints, not the providers.</p>
+  <p class="sec-sub">Supporting data, not a second directory: the Nostr-announced inventory the table above is built on, read live from public relays and re-probed every six hours. Announcements as published, <strong>not endorsements</strong> — and they outlive their nodes, so dead ≠ delisted. <a href="#about">How this is gathered ↓</a></p>
 
-  <div class="live-grid" id="live-stats"></div>
+  <p class="sec-sub" id="live-fallback" hidden></p>
 
   <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.2rem 0 0.6rem;" id="price-h">Cross-provider price check <span class="mono" id="model-count"></span></h3>
   <p class="sec-sub" id="price-sub">The same model is priced differently across providers. The widest-served models, cheapest provider first — full index, every model and every alive provider, at <a href="/live/models.json">/live/models.json</a>. Prices are the providers' own published numbers in <strong>sats per 1M tokens</strong>; <code>max_cost</code> (in the index) is each provider's per-request ceiling — the budgeting number.</p>
@@ -397,9 +501,44 @@
   <p class="fineprint" id="dvm-note"></p>
   </section>
 
-  <div class="agents-block" id="agents">
-<strong style="color: var(--text)">For agents.</strong> <strong style="color: var(--text)">Start here:</strong> <a href="/live/master.json">/live/master.json</a> — the whole directory in one schema and one category vocabulary, with <span class="mono">source</span>, <span class="mono">provenance</span> and <span class="mono">rail</span> on every row, plus a <span class="mono">facets</span> block for filtering without a scan (static fallback <a href="/master.json">/master.json</a>). Manifest: <a href="/llms.txt">/llms.txt</a> · MCP: <a href="/mcp">/mcp</a> · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a>.<br/><br/>Single sources, unmixed: <a href="/directory.json">/directory.json</a> (curated; entries carry <span class="mono">auth</span> / <span class="mono">quickstart</span> / verified <span class="mono">api_base</span>) · <a href="/live/announced.json">/live/announced.json</a> (self-announced sell side; list one via <a href="/spec/agent-payable-service-announcement.md">the kind-38555 spec</a>) · <a href="/live/l402index.json">/live/l402index.json</a> (indexed, via 402index.io) · <a href="/live/l402space.json">/live/l402space.json</a> (gateway-observed, via l402.space). Supporting live data: <a href="/live/snapshot.json">/live/snapshot.json</a> (Nostr inventory with per-provider probe status) · <a href="/live/models.json">/live/models.json</a> (cross-provider inference price index) · <a href="/live/uptime.json">/live/uptime.json</a> (rolling uptime, self-inclusive and recomputable from its raw runs) · <a href="/anchors/index.json">/anchors/index.json</a> (nightly Bitcoin-anchored digests — Nostr + OpenTimestamps, so the history is tamper-evident).<br/><br/>Provenance is labeled per row: <span class="mono">curated</span> = editor-verified on the date shown · <span class="mono">live-from-relay</span> = signed Nostr events as published · <span class="mono">external-index</span> = third-party-indexed and third-party-verified, passed through with attribution · <span class="mono">gateway-observed</span> = a third party's settlement observations, not ours. <span class="mono">rail</span> says how an agent pays: <span class="mono">bitcoin-native</span> = directly in sats · <span class="mono">via-gateway</span> = sats-payable only through l402.space, which is a real route <em>and</em> a custodial hop. Trust figures always carry their denominator and formula — recompute rather than trust. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
+  <section id="agents">
+  <h2><span class="hash">#</span>For agents</h2>
+  <div class="agents-block" style="margin-top:1rem">
+<strong style="color: var(--text)">Start here:</strong> <a href="/live/master.json">/live/master.json</a> — the whole directory in one schema and one category vocabulary, with <span class="mono">source</span>, <span class="mono">provenance</span> and <span class="mono">rail</span> on every row, plus a <span class="mono">facets</span> block for filtering without a scan (static fallback <a href="/master.json">/master.json</a>). Manifest: <a href="/llms.txt">/llms.txt</a> · MCP: <a href="/mcp">/mcp</a> · per-entry Markdown: <a href="/entries/routstr.md">/entries/{slug}.md</a>.<br/><br/>Single sources, unmixed: <a href="/directory.json">/directory.json</a> (curated; entries carry <span class="mono">auth</span> / <span class="mono">quickstart</span> / verified <span class="mono">api_base</span>) · <a href="/live/announced.json">/live/announced.json</a> (self-announced sell side; list one via <a href="/spec/agent-payable-service-announcement.md">the kind-38555 spec</a>) · <a href="/live/l402index.json">/live/l402index.json</a> (indexed, via 402index.io) · <a href="/live/l402space.json">/live/l402space.json</a> (gateway-observed, via l402.space). Supporting live data: <a href="/live/snapshot.json">/live/snapshot.json</a> (Nostr inventory with per-provider probe status) · <a href="/live/models.json">/live/models.json</a> (cross-provider inference price index) · <a href="/live/uptime.json">/live/uptime.json</a> (rolling uptime, self-inclusive and recomputable from its raw runs) · <a href="/anchors/index.json">/anchors/index.json</a> (nightly Bitcoin-anchored digests — Nostr + OpenTimestamps, so the history is tamper-evident).<br/><br/>Provenance is labeled per row: <span class="mono">curated</span> = editor-verified on the date shown · <span class="mono">live-from-relay</span> = signed Nostr events as published · <span class="mono">external-index</span> = third-party-indexed and third-party-verified, passed through with attribution · <span class="mono">gateway-observed</span> = a third party's settlement observations, not ours. <span class="mono">rail</span> says how an agent pays: <span class="mono">bitcoin-native</span> = directly in sats · <span class="mono">via-gateway</span> = sats-payable only through l402.space, which is a real route <em>and</em> a custodial hop. Trust figures always carry their denominator and formula — recompute rather than trust. The full case for why this economy settles in Bitcoin: <a href="https://bitcoineconomy.ai/case-for-agents">bitcoineconomy.ai/case-for-agents</a>.
   </div>
+  </section>
+
+  <section id="panel-about" class="about">
+  <h2 id="about"><span class="hash">#</span>About this directory</h2>
+  <p class="sec-sub">What's on this page is four different things. Keeping them apart is most of what makes the numbers mean anything.</p>
+
+  <h3>The four things</h3>
+  <ul>
+    <li><b>The curated registry — what a human checked.</b> We read the docs, confirmed an agent can actually drive the service through a real API, wrote down what we found, and dated it. That API bar is the whole inclusion test: if a person has to click something, it doesn't go in. <span class="fig" id="ab-curated"></span></li>
+    <li><b>The live inventory — what's announcing itself right now.</b> Machines publish "I exist" on public Nostr relays (relay.damus.io, nos.lol, relay.primal.net). Every six hours we dial them and see who picks up. Nobody vouched for these — we only report who answered, and when. <span class="fig" id="ab-live"></span></li>
+    <li><b>The self-listing standard — how a service adds itself.</b> A free, open format (Nostr kind <span class="mono">38555</span>) any service can publish to put itself in the table without asking us. This is the sell side. <span class="fig" id="ab-announced"></span> <a href="/spec/agent-payable-service-announcement.md">Read the spec →</a></li>
+    <li class="pending"><b>The bounty board — not built yet.</b> The other direction: a signed "I'll pay X sats for Y, and here's how you'll know it's done." Somewhere for an agent to <em>earn</em>, not to buy. The format is written (kind <span class="mono">38556</span>); there is no board on any screen yet, and we'd rather say so than mock one up. <a href="/spec/agent-payable-work-request.md">Read the spec →</a></li>
+  </ul>
+
+  <h3>Two words worth learning</h3>
+  <ul>
+    <li><b>Source</b> — where the row came from, which is really <em>who is vouching for it.</em> <span class="src src-curated">Curated</span> = we checked it. <span class="src src-announced">Self-announced</span> = it listed itself, and we probed whether it answers. <span class="src src-external-index">Indexed</span> = passed through from <a href="https://402index.io" rel="noopener">402index.io</a> with attribution — indexed and verified by them, not by us. <span class="src src-gateway-observed">Gateway-observed</span> = seen settling real payments through <a href="https://l402.space/" rel="noopener">Alby's l402.space</a>, so the figures come from payments rather than probes — but they're a third party's observations, not ours.</li>
+    <li><b>Rail</b> — how your agent actually pays. <span class="rail rail-bitcoin-native">₿ in sats</span> means directly, no middleman. <span class="rail rail-via-gateway">via gateway</span> means your agent pays sats to l402.space and l402.space settles upstream on your behalf: a real route <em>and</em> a custodial hop. We keep those separate instead of averaging them into one "payable" number.</li>
+    <li><b>Announced ≠ curated.</b> Anything can list itself; that's the point of a permissionless standard. Only a human check moves a row to curated, and the date of that check is on the row.</li>
+  </ul>
+
+  <h3>About other chains</h3>
+  <p>Some hosts we see through the gateway settle upstream on other chains — Base, Solana, Stripe's Tempo. <strong>That's their arrangement with the gateway, not a payment option here:</strong> your agent pays sats, the gateway settles upstream and carries the custodial risk. We show it on the row so you can see the hop. We don't offer it as a filter, because it isn't something you choose.</p>
+
+  <h3>How fresh any of this is</h3>
+  <ul>
+    <li><b>The directory table</b> is rebuilt when the sources are re-merged; the build date is in the status bar at the top of this page.</li>
+    <li><b>The live inventory</b> re-reads the relays and re-probes every clearnet endpoint every six hours. If that snapshot ever goes stale, the status bar greys out and says so rather than showing old numbers as current.</li>
+    <li><b>Probed figures always carry their denominator</b> — "12 of 38 answered", never a bare "12 alive". Onion-only endpoints can't be probed from here and show as unverified, not dead.</li>
+    <li><b>Every trust number can be recomputed</b> from the raw runs we publish: <a href="/live/uptime.json">/live/uptime.json</a>. Don't trust the percentage — check it.</li>
+  </ul>
+  <a class="backtop" href="#registry">↑ back to the directory</a>
+  </section>
 </main>
 
 <footer>
@@ -411,6 +550,25 @@
 (async function () {
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  // ---------- the status bar ----------
+  // Two lines because there are two pipelines with two refresh rates: the merged
+  // directory (rebuilt when the sources are re-merged) and the live inventory
+  // (re-probed every six hours). Running them together in one stream is what
+  // makes staleness invisible, so each line carries its own timestamp.
+  //
+  // The rules this bar is built to keep:
+  //   1. a probed figure always reads "X of Y", never a bare alive count
+  //   2. each cluster carries its own timestamp
+  //   3. stale says stale — grey the figures, date them, label them
+  //   4. a zero prints as zero, named — never dropped for being empty
+  //   5. no hero total — never sum across clusters, the denominators differ
+  //   6. qualifiers stay inline, not footnoted ("signed reviews (of mints)")
+  const sbDir = $('#sb-dir'), sbLive = $('#sb-live');
+  const fig = (n, label) => '<span class="f"><b>' + n + '</b> ' + label + '</span>';
+  const SEP = '<span class="sep">·</span>';
+  const bar = (bits) => bits.filter(Boolean).join(SEP);
+  const stamp = (inner) => '<span class="sb-stamp">' + inner + '</span>';
 
   // ---------- the mastered directory ----------
   // One table over /live/master.json: curated + self-announced + gateway-observed
@@ -424,18 +582,45 @@
   const mBody = $('#master tbody');
   if (!master || !Array.isArray(master.services)) {
     if (mBody) mBody.innerHTML = '<tr><td colspan="6" class="mut" style="padding:0.9rem">The directory is unavailable right now. The raw sources are unaffected: <a href="/directory.json">directory.json</a> (curated) · <a href="/live/l402index.json">l402index.json</a> (indexed) · <a href="/live/l402space.json">l402space.json</a> (gateway-observed).</td></tr>';
+    sbDir.innerHTML = '<span class="f">the directory is unavailable right now</span>' +
+      stamp('<span class="pill pill-down">OFFLINE</span>');
   } else {
     const rows = master.services;
     const F = master.facets || {};
     const titles = master.category_titles || {};
     const srcMeta = master.sources || {};
 
-    $('#master-when').textContent = master.count + ' services · ' + Object.keys(F.subcategory || {}).length +
-      ' subcategories · ' + (master.generated_at || '').slice(0, 10);
-    $('#t-curated').innerHTML = '← directory: <span class="ok">' + master.count + ' services</span> · ' +
-      (F.rail && F.rail['bitcoin-native'] || 0) + ' payable in sats directly · ' + Object.keys(F.category || {}).length + ' categories';
+    const R = F.rail || {}, S = F.source || {};
+    // Status bar, line 1 — the product. Zeroes print (rule 4): a rail tier or a
+    // source that is empty today is a fact about the market, not a blank.
+    sbDir.innerHTML = bar([
+      fig(master.count, 'services'),
+      fig(R['bitcoin-native'] || 0, 'pay in sats directly'),
+      fig(R['via-gateway'] || 0, 'via gateway'),
+      fig(Object.keys(F.category || {}).length, 'categories'),
+      fig(Object.keys(F.subcategory || {}).length, 'subcategories'),
+    ]) + stamp('built ' + esc((master.generated_at || '').slice(0, 10)));
 
-    const state = { source: '', rail: '', cat: '', sub: '', net: '', q: '' };
+    // The sell side is the ask, so it is stated where the ask is made — under
+    // the button — rather than as a hole in the scoreboard. When it stops being
+    // zero this line stops being a pitch and becomes a count.
+    const announced = S['announced'] || 0;
+    const sc = $('#sell-count');
+    if (sc) {
+      sc.textContent = announced === 0
+        ? 'Nobody has done it yet — be the first.'
+        : announced + ' service' + (announced === 1 ? ' has' : 's have') + ' listed themselves so far.';
+    }
+
+    // About-section figures, filled from the same data rather than typed in, so
+    // the prose cannot drift from the table.
+    const abCur = $('#ab-curated'), abAnn = $('#ab-announced');
+    if (abCur) abCur.textContent = (S['curated'] || 0) + ' services today.';
+    if (abAnn) abAnn.textContent = announced === 0
+      ? '0 published so far — including by us.'
+      : announced + ' published so far.';
+
+    const state = { source: '', rail: '', cat: '', sub: '', q: '' };
 
     // --- filter chips: source and rail. Counts ride on the chip so an empty
     // tier reads as "0 today" instead of an empty table with no explanation.
@@ -461,13 +646,17 @@
           F.rail[r], (master.rails || {})[r]]));
 
     // --- selects
-    const catSel = $('#f-cat'), subSel = $('#f-sub'), netSel = $('#f-net');
+    const catSel = $('#f-cat'), subSel = $('#f-sub');
     for (const [c, n] of Object.entries(F.category || {})) {
       catSel.insertAdjacentHTML('beforeend', '<option value="' + esc(c) + '">' + esc(titles[c] || c) + ' (' + n + ')</option>');
     }
-    for (const [nw, n] of Object.entries(F.payment_network || {})) {
-      netSel.insertAdjacentHTML('beforeend', '<option value="' + esc(nw) + '">' + esc(nw) + ' (' + n + ')</option>');
-    }
+    // No payment_network select. That facet was third-party data in a third-party
+    // vocabulary — six options that were really four networks, unnormalised
+    // ("Lightning" and "lightning" as separate choices), covering only the rows
+    // that came from outside. `rail` answers "how do I pay this?" in this site's
+    // own words; two controls answering one question is the hodgepodge the
+    // single-table merge removed. The value still renders per row under the rail
+    // badge and still ships in master.json — it just isn't a way to shop.
     // Subcategories depend on the chosen category — repopulate rather than show
     // 36 options that mostly can't apply.
     function fillSubs() {
@@ -492,7 +681,6 @@
     });
     catSel.addEventListener('change', () => { state.cat = catSel.value; state.sub = ''; fillSubs(); render(); });
     subSel.addEventListener('change', () => { state.sub = subSel.value; render(); });
-    netSel.addEventListener('change', () => { state.net = netSel.value; render(); });
     $('#f-q').addEventListener('input', (ev) => { state.q = ev.target.value.toLowerCase(); render(); });
 
     // --- cell renderers
@@ -619,7 +807,6 @@
         (!state.rail || s.rail === state.rail) &&
         (!state.cat || s.category === state.cat) &&
         (!state.sub || (s.category + '/' + s.subcategory) === state.sub) &&
-        (!state.net || s.payment_network === state.net) &&
         (!state.q || (s.name + ' ' + (s.description || '') + ' ' + (s.category || '') + ' ' +
           (s.subcategory || '') + ' ' + (s.source_category || '')).toLowerCase().includes(state.q)));
     }
@@ -655,20 +842,27 @@
       '▮ ' + t.uptime_pct + '% up · n=' + t.uptime_denominator + '</span>';
   }
 
-  (function () {
-    const el = $('#t-uptime');
-    if (!el) return;
-    if (!upt) { el.innerHTML = '← uptime: <span class="mut">accumulating — history begins with the next probe run</span>'; return; }
+  // The trust history rides on the live line as a quieter figure — the point of
+  // publishing it is that you can recompute it, so the link goes with the number.
+  const uptBit = (function () {
+    if (!upt) return '<span class="f q">uptime history <b>accumulating</b> — begins with the next probe run</span>';
     const selfKeys = ['self:directory.json', 'self:live/snapshot.json', 'self:mcp'];
     const self = selfKeys.map((k) => upt.targets[k]).filter(Boolean);
     // Only a real 'unreachable' is degradation; worker-served routes read
     // unprobeable-from-worker here (platform recursion guard) and are verified
     // externally by the nightly anchor run instead.
     const selfBad = self.some((t) => t.last_status === 'unreachable');
-    el.innerHTML = '← uptime: <span class="ok">' + upt.window.runs_held + ' runs held</span> · self-probe: ' +
-      (self.length ? (selfBad ? '<span class="mut">degraded — see /live/uptime.json</span>' : '<span class="ok">healthy</span>') : '<span class="mut">n/a</span>') +
-      ' · <a href="/live/uptime.json">recompute it yourself</a>';
+    return '<span class="f q">uptime history <b>' + upt.window.runs_held + '</b> runs held' +
+      (self.length && selfBad ? ' · self-probe degraded' : '') +
+      ' · <a href="/live/uptime.json">recompute it</a></span>';
   })();
+
+  // RESERVED — the bounty board's figures land here, tail of the live line.
+  // Renders nothing while there is no board, so adding one later does not
+  // re-lay-out the bar. When it ships: "N open · X sats offered · M settled".
+  // "offered" is never "held" — there is no escrow, and a total that reads like
+  // a pot would imply one. Paid/unpaid counts carry their denominator.
+  const bountyBit = (function () { return ''; })();
 
   let snap = null, live = false;
   try { snap = await (await fetch('/live/snapshot.json')).json(); live = true; } catch (e) {}
@@ -678,34 +872,70 @@
   if (!mx) { try { mx = await (await fetch('./models.json')).json(); } catch (e) {} }
 
   if (!snap) {
-    $('#t-live').innerHTML = '← relays: <span class="mut">snapshot unavailable</span>';
-    $('#t-probe').innerHTML = '← probe: <span class="mut">—</span>';
-    $('#live-stats').innerHTML = '<p class="sec-sub">Live snapshot unavailable right now — the curated registry above is unaffected.</p>';
+    sbLive.innerHTML = '<span class="f">live inventory unavailable right now — the directory above is unaffected</span>' +
+      stamp('<span class="pill pill-down">OFFLINE</span>');
+    $('#live-when').textContent = 'unavailable';
+    const fb = $('#live-fallback');
+    if (fb) {
+      fb.hidden = false;
+      fb.innerHTML = 'The live snapshot is unavailable right now — the directory above is unaffected. Raw data: <a href="/live/snapshot.json">/live/snapshot.json</a>.';
+    }
+    ['#price-h', '#price-sub', '#prov-filters'].forEach((s) => { const e = $(s); if (e) e.style.display = 'none'; });
+    document.querySelectorAll('#panel-live .tbl-scroll, #panel-live h3').forEach((e) => { e.style.display = 'none'; });
     return;
   }
 
   const m = snap.modules;
   const when = (snap.generated_at || '').slice(0, 10);
   $('#live-when').textContent = (live ? 'live snapshot · ' : 'static snapshot · ') + when;
-  $('#t-live').innerHTML = '← relays: <span class="ok">' + m.routstr.count + ' inference providers · ' +
-    (m.mints.cashu_count + m.mints.fedimint_count) + ' ecash mints · ' + m.reviews.count + ' signed reviews</span>';
 
   const probe = m.routstr.probe;
-  if (probe) {
-    $('#t-probe').innerHTML = '← probe: <span class="ok">' + probe.alive + ' endpoints alive</span> · ' +
-      probe.unreachable + ' unreachable · ' + probe.unverified_tor_only + ' tor-only' +
-      (probe.unroutable ? ' · ' + probe.unroutable + ' unroutable' : '') +
-      (mx ? ' · <span class="ok">' + mx.model_count + ' models price-indexed</span>' : '');
-  } else {
-    $('#t-probe').innerHTML = '← probe: <span class="mut">not in this snapshot</span>';
-  }
 
-  $('#live-stats').innerHTML =
-    (probe ? '<div class="stat"><div class="n">' + probe.alive + '</div><div class="l">endpoints alive at the last probe (' + esc((probe.probed_at || '').slice(0, 10)) + ') — of ' + m.routstr.count + ' announced</div></div>' : '') +
-    '<div class="stat"><div class="n">' + m.routstr.count + '</div><div class="l">Routstr inference providers announcing (kind 38421)</div></div>' +
-    '<div class="stat"><div class="n">' + m.mints.cashu_count + '</div><div class="l">Cashu mints announcing (NIP-87, kind 38172)</div></div>' +
-    '<div class="stat"><div class="n">' + m.mints.fedimint_count + '</div><div class="l">Fedimint federations announcing (kind 38173)</div></div>' +
-    '<div class="stat"><div class="n">' + m.reviews.count + '</div><div class="l">Signed reviews (kind 38000) — today these target the mints, not the providers</div></div>';
+  // ---- freshness, stated rather than implied ----
+  // Two ways this line can be lying: the snapshot is old, or we are serving the
+  // built-in fallback file that ships with the site (which can be months old).
+  // Both get said out loud. Twelve hours = two missed six-hourly runs.
+  const snapMs = Date.parse(snap.generated_at || '') || 0;
+  const ageHours = snapMs ? (Date.now() - snapMs) / 3600000 : Infinity;
+  const isStale = !live || !snapMs || ageHours > 12;
+  const nowIso = new Date().toISOString().slice(0, 10);
+  const probedIso = ((probe && probe.probed_at) || snap.generated_at || '');
+  let pill, stampText;
+  if (!live) {
+    pill = '<span class="pill pill-stale">STATIC</span>';
+    stampText = 'static fallback · ' + esc(when);
+  } else if (isStale) {
+    pill = '<span class="pill pill-stale">STALE</span>';
+    stampText = 'last probe ' + esc(probedIso.slice(0, 10)) + ' — stale';
+  } else {
+    pill = '<span class="pill pill-live">LIVE</span>';
+    stampText = probedIso.slice(0, 10) === nowIso
+      ? 'probed ' + esc(probedIso.slice(11, 16)) + ' UTC today'
+      : 'probed ' + esc(probedIso.slice(0, 10));
+  }
+  sbLive.classList.toggle('stale', isStale);
+
+  // Status bar, line 2 — the live inventory. A probed count never appears
+  // without its denominator: "12 of 38 answered" is a probe result, "12 alive"
+  // reads as inventory. The reviews qualifier stays inline, not footnoted.
+  sbLive.innerHTML = bar([
+    probe
+      ? fig(probe.alive + ' of ' + m.routstr.count, 'inference providers answered')
+      : fig(m.routstr.count, 'inference providers announcing'),
+    fig(m.mints.cashu_count, 'Cashu mints'),
+    fig(m.mints.fedimint_count, 'Fedimint federations'),
+    fig(m.reviews.count, 'signed reviews') + ' <span class="mut">(of mints, not providers)</span>',
+    mx ? fig(mx.model_count, 'models priced') : '',
+    uptBit,
+    bountyBit,
+  ]) + stamp(stampText + pill);
+
+  // About-section figure, from the same snapshot rather than typed in.
+  const abLive = $('#ab-live');
+  if (abLive) {
+    abLive.textContent = m.routstr.count + ' inference providers, ' + m.mints.cashu_count +
+      ' Cashu mints, ' + m.mints.fedimint_count + ' Fedimint federations today.';
+  }
 
   const provs = m.routstr.providers || [];
   $('#prov-count').textContent = '· ' + provs.length + ' announcing · provenance: live-from-relay';
