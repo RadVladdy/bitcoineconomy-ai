@@ -52,6 +52,13 @@ export const KIND_ANNOUNCE = 38555;
 // this project ever holding, escrowing, or attesting to anything.
 export const KIND_REQUEST = 38556;
 
+// Borrowed, not allocated: claims and deliveries are NIP-22 comments and proof
+// of payment is a NIP-57 zap receipt. Both already render in every client that
+// speaks those NIPs, and both are checkable by a third party without this site
+// holding, escrowing or attesting to anything.
+export const KIND_COMMENT = 1111;
+export const REQUEST_STATUSES = ['open', 'claimed', 'delivered', 'settled', 'withdrawn'];
+
 export function makeFilters(nowSec) {
   return {
     routstr: { kinds: [38421], limit: 500 },
@@ -60,6 +67,11 @@ export function makeFilters(nowSec) {
     fedimint: { kinds: [38173], limit: 500 },
     reviews: { kinds: [38000], limit: 500 },
     handlers: { kinds: [31990], limit: 500 },
+    // The buy side. `requests` is the board itself; `claims` are the NIP-22
+    // comments scoped to it — filtered on the uppercase `K` root-kind tag rather
+    // than pulling every kind-1111 on the relay, which would be most of Nostr.
+    requests: { kinds: [KIND_REQUEST], limit: 500 },
+    claims: { kinds: [KIND_COMMENT], '#K': [String(KIND_REQUEST)], limit: 500 },
     dvmjobs: { kinds: Array.from({ length: 1000 }, (_, i) => 5000 + i), since: nowSec - THIRTY_DAYS, limit: 1000 },
   };
 }
@@ -188,6 +200,100 @@ function parseAnnounced(ev) {
   };
 }
 
+// Parse one kind-38556 work request. Tag grammar per the spec: d=stable request
+// id · k=category · sub=subcategory · amount=MILLISATS (NIP-57's units, same name
+// and same units deliberately, so a zap receipt compares without a conversion) ·
+// pay=settlement method(s) · status · expiration (NIP-40) · u=context url(s) ·
+// t=freeform topic. Title/brief/acceptance/deliverable ride in content JSON.
+//
+// Two things this parser refuses to do, both load-bearing:
+//   - it never computes or infers a status. `status` is what the poster
+//     published, full stop; the only thing that overrides it is NIP-40 expiry,
+//     which is arithmetic on a published timestamp, not a judgement.
+//   - it never treats a request without an `acceptance` string as complete.
+//     `acceptance` is what separates a bounty from a wish (spec § tags), so a
+//     request missing it is surfaced as malformed rather than quietly rendered.
+function parseRequest(ev, nowSec) {
+  const c = parseContentObj(ev);
+  const k = (tag(ev, 'k')[0] || '').toLowerCase();
+  const subRaw = (tag(ev, 'sub')[0] || '').toLowerCase().trim();
+  const sub = subRaw && CATEGORIES[k]?.subcategories.includes(subRaw) ? subRaw : undefined;
+  const d = tag(ev, 'd')[0];
+
+  // Millisats in, millisats kept — plus a sats figure for display, floored so a
+  // partial sat is never rounded up into a larger-looking offer.
+  const msatRaw = tag(ev, 'amount')[0];
+  const msats = /^\d+$/.test(msatRaw || '') ? Number(msatRaw) : null;
+
+  const declared = (tag(ev, 'status')[0] || '').toLowerCase();
+  const status = REQUEST_STATUSES.includes(declared) ? declared : 'open';
+  const expRaw = tag(ev, 'expiration')[0];
+  const expiration = /^\d+$/.test(expRaw || '') ? Number(expRaw) : null;
+  const expired = expiration != null && nowSec > 0 && expiration < nowSec;
+
+  const links = {};
+  if (c.links && typeof c.links === 'object') {
+    for (const key of ['context', 'spec', 'repo', 'site']) {
+      if (c.links[key]) links[key] = String(c.links[key]);
+    }
+  }
+
+  const acceptance = typeof c.acceptance === 'string' ? c.acceptance.trim() : '';
+
+  return {
+    id: ev.id,
+    d,
+    address: d ? `${KIND_REQUEST}:${ev.pubkey}:${d}` : undefined,
+    title: (typeof c.title === 'string' && c.title.trim()) || undefined,
+    brief: (typeof c.brief === 'string' && c.brief.trim()) || undefined,
+    acceptance: acceptance || undefined,
+    deliverable: c.deliverable || undefined,
+    category: CATEGORY_ORDER.includes(k) ? k : (k || undefined),
+    subcategory: sub,
+    amount_msats: msats,
+    amount_sats: msats == null ? null : Math.floor(msats / 1000),
+    pay: tag(ev, 'pay').map((p) => p.toLowerCase()),
+    status,
+    // Expiry is shown as its own axis rather than overwriting the published
+    // status — "open, but expired" is the honest reading of a stale request,
+    // and collapsing it to "closed" would be us deciding on the poster's behalf.
+    expiration,
+    expired,
+    topics: tag(ev, 't'),
+    context_urls: tag(ev, 'u'),
+    links,
+    malformed: !acceptance || msats == null || !d
+      ? [!d && 'missing d', msats == null && 'missing or non-numeric amount', !acceptance && 'missing acceptance'].filter(Boolean)
+      : undefined,
+    pubkey: ev.pubkey,
+    updated_at: ev.created_at,
+  };
+}
+
+// NIP-22 comments scoped to a request. A claim is a comment carrying a `status`
+// tag; anything else scoped to the request is just a comment and is counted, not
+// promoted. We report what was published against each request — we never decide
+// that a claim is valid, and we never decide that work was delivered.
+function indexClaims(events) {
+  const by = new Map();
+  for (const ev of events) {
+    const addr = (tag(ev, 'A')[0] || tag(ev, 'a')[0] || '').trim();
+    if (!addr.startsWith(`${KIND_REQUEST}:`)) continue;
+    const st = (tag(ev, 'status')[0] || '').toLowerCase();
+    const entry = by.get(addr) || { comments: 0, claimed: 0, delivered: 0, latest_at: 0, proofs: [] };
+    entry.comments += 1;
+    if (st === 'claimed') entry.claimed += 1;
+    if (st === 'delivered') {
+      entry.delivered += 1;
+      const proof = tag(ev, 'proof')[0];
+      if (proof) entry.proofs.push(proof);
+    }
+    entry.latest_at = Math.max(entry.latest_at, ev.created_at || 0);
+    by.set(addr, entry);
+  }
+  return by;
+}
+
 export function buildSnapshot(perRelayResults, { source, generatedAt }) {
   const bySub = {};
   const seenIds = new Set();
@@ -206,6 +312,8 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
   const handlers = dedupeReplaceable(bySub.handlers ?? []);
   const reviews = bySub.reviews ?? [];
   const dvmjobs = bySub.dvmjobs ?? [];
+  const requestEvents = dedupeReplaceable(bySub.requests ?? []);
+  const claimIndex = indexClaims(bySub.claims ?? []);
 
   // Trust cold-start signals computed at snapshot time (probed liveness is folded
   // in later by applyAnnouncedProbes): announcement age, and accepted-mint health —
@@ -222,6 +330,30 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
 
   const dvmByKind = {};
   for (const ev of dvmjobs) dvmByKind[ev.kind] = (dvmByKind[ev.kind] ?? 0) + 1;
+
+  const requests = requestEvents.map((ev) => parseRequest(ev, nowSec));
+  for (const r of requests) {
+    const c = r.address ? claimIndex.get(r.address) : null;
+    r.claims = c ? { comments: c.comments, claimed: c.claimed, delivered: c.delivered, proofs: c.proofs, latest_at: c.latest_at } : { comments: 0, claimed: 0, delivered: 0, proofs: [] };
+  }
+  // Open and unexpired first — that is the only cohort an agent can act on —
+  // then by size, then by recency.
+  const actionable = (r) => r.status === 'open' && !r.expired && !r.malformed;
+  requests.sort((a, b) =>
+    (actionable(b) ? 1 : 0) - (actionable(a) ? 1 : 0) ||
+    (b.amount_sats ?? 0) - (a.amount_sats ?? 0) ||
+    (b.updated_at ?? 0) - (a.updated_at ?? 0));
+
+  const byStatus = {};
+  for (const s of REQUEST_STATUSES) byStatus[s] = 0;
+  let expiredCount = 0, malformedCount = 0;
+  for (const r of requests) {
+    byStatus[r.status] = (byStatus[r.status] ?? 0) + 1;
+    if (r.expired) expiredCount += 1;
+    if (r.malformed) malformedCount += 1;
+  }
+  const openActionable = requests.filter(actionable);
+  const satsOfferedOpen = openActionable.reduce((t, r) => t + (r.amount_sats ?? 0), 0);
 
   const reviewsByTargetKind = {};
   for (const ev of reviews) {
@@ -279,6 +411,25 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
           pubkey: ev.pubkey,
           updated_at: ev.created_at,
         })).sort((a, b) => b.updated_at - a.updated_at),
+      },
+      requests: {
+        kind: KIND_REQUEST,
+        comment_kind: KIND_COMMENT,
+        spec: 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md',
+        count: requests.length,
+        open_actionable: openActionable.length,
+        by_status: byStatus,
+        expired: expiredCount,
+        malformed: malformedCount,
+        // OFFERED, never held. There is no escrow here and no account: a poster
+        // publishes an intention to pay and settles counterparty-to-counterparty.
+        // Naming this field `sats_escrowed` or even `sats_available` would be a
+        // lie in one word, so it carries the verb it earned and the cohort it
+        // was summed over.
+        sats_offered_open: satsOfferedOpen,
+        sats_offered_denominator: openActionable.length,
+        note: 'Signed work requests published with our "agent-payable work request" microstandard (kind ' + KIND_REQUEST + '): an offer to pay an agent in sats to do a job. Status is as published by the poster — this directory reads the events, it does not escrow, arbitrate, verify delivery, or take a fee. Claims and deliveries are NIP-22 comments (kind ' + KIND_COMMENT + '); payment proof is a NIP-57 zap receipt, checkable by any third party. `sats_offered_open` is offered, not held.',
+        requests,
       },
       reviews: { kind: 38000, count: reviews.length, by_target_kind: reviewsByTargetKind },
       handlers: { kind: 31990, count: handlers.length },

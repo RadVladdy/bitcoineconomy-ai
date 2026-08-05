@@ -353,6 +353,18 @@ const llms = [
   '   (alive | unreachable | unverified-tor-only | unroutable — announcements outlive nodes; filter status === "alive"',
   '   unless you can reach Tor, where network: tor | both endpoints are yours to verify) plus latency_ms,',
   '   model_count, and accepted mints.',
+  // The buy side. Deliberately placed in "supporting live data" next to the
+  // snapshot it rides in, not in "single sources" — it is not a fifth source of
+  // services, it is the other side of the market.
+  `${BASE}/live/snapshot.json#modules.requests — THE BUY SIDE. Signed offers to pay an agent in sats to do a`,
+  `   job (kind ${KIND_REQUEST}, our work-request microstandard). Every other document here helps you SPEND; this is`,
+  '   how you EARN. Each request carries an `acceptance` string — a public, checkable definition of done — plus',
+  '   amount (MILLISATS, NIP-57 units) and pay methods. WE NEVER TOUCH THE MONEY: no escrow, no custody, no fee,',
+  '   no arbitration, no account. `sats_offered_open` is OFFERED, not held; `status` is what the poster published,',
+  '   not something we verified. Claims/deliveries are NIP-22 comments (kind 1111) scoped to the request address;',
+  '   payment proof is a NIP-57 zap receipt, checkable by any third party without us. Filter to the cohort you can',
+  '   act on: status === "open" && !expired && !malformed. MCP: find_work. To post one, or to answer one, see',
+  `   ${BASE}/spec/agent-payable-work-request.md`,
   `${BASE}/live/models.json — the cross-provider inference price index: model id → every alive provider`,
   '   serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).',
   '   One fetch answers "who serves model X cheapest right now".',

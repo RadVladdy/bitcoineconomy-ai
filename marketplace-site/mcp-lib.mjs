@@ -701,6 +701,59 @@ const TOOLS = [
       };
     },
   },
+  {
+    name: 'find_work',
+    description:
+      "The BUY side: signed offers to pay an agent in sats to do a job (Nostr kind 38556, the agent-payable work request microstandard). Every other tool on this server helps you SPEND; this one is how you EARN. Each request carries an `acceptance` string — a public, checkable definition of done — plus an amount in millisats and how the poster will settle. IMPORTANT, and it changes how you should treat the numbers: this directory does NOT escrow, hold, arbitrate, verify delivery, or take a fee. `amount_sats` is OFFERED, not held; `status` is what the poster published, not something we verified; claims are NIP-22 comments (kind 1111) and payment proof is a NIP-57 zap receipt you can check yourself. Default returns only requests that are open, unexpired and well-formed — the cohort you can actually act on. To answer one: publish a kind-1111 comment scoped to the request address with a status tag, do the work, then publish delivery with a proof tag; the poster zaps you directly. Spec: /spec/agent-payable-work-request.md",
+    inputSchema: {
+      type: 'object',
+      properties: {
+        category: { type: 'string', description: 'Filter to one category from the shared vocabulary (same values as list_categories and find_service, so a request can be matched against listings mechanically).' },
+        min_sats: { type: 'number', description: 'Only requests offering at least this many sats.' },
+        status: { type: 'string', enum: ['open', 'claimed', 'delivered', 'settled', 'withdrawn', 'any'], description: 'Default "open". Use "any" to see the whole board including settled history — useful for judging whether a poster actually pays.' },
+        include_expired: { type: 'boolean', description: 'Default false. Past its NIP-40 expiration a request is stale whatever its status tag says.' },
+        include_malformed: { type: 'boolean', description: 'Default false. Malformed = missing the `acceptance` test, the amount, or the id. A request with no acceptance test cannot be answered without asking a human, which defeats the point.' },
+        limit: { type: 'number', description: 'Max requests to return. Default 20.' },
+      },
+      additionalProperties: false,
+    },
+    async handler(a, ctx) {
+      const mod = (await ctx.snapshot())?.modules?.requests;
+      if (!mod) {
+        return { error: 'The work-request board is unavailable right now — the directory tools are unaffected.' };
+      }
+      const wantStatus = a.status || 'open';
+      const limit = Math.max(1, Math.min(Number(a.limit) || 20, 200));
+      let rows = mod.requests || [];
+      if (wantStatus !== 'any') rows = rows.filter((r) => r.status === wantStatus);
+      if (!a.include_expired) rows = rows.filter((r) => !r.expired);
+      if (!a.include_malformed) rows = rows.filter((r) => !r.malformed);
+      if (a.category) rows = rows.filter((r) => r.category === String(a.category).toLowerCase());
+      if (a.min_sats != null) rows = rows.filter((r) => (r.amount_sats ?? 0) >= Number(a.min_sats));
+
+      return {
+        kind: mod.kind,
+        spec: mod.spec,
+        provenance: 'live-from-relay',
+        we_never_touch_the_money: 'No escrow, no custody, no fee, no arbitration, no account. amount_sats is offered, not held. status is as published by the poster.',
+        board_totals: {
+          posted: mod.count,
+          open_actionable: mod.open_actionable,
+          by_status: mod.by_status,
+          expired: mod.expired,
+          malformed: mod.malformed,
+          sats_offered_open: mod.sats_offered_open,
+          sats_offered_denominator: mod.sats_offered_denominator,
+        },
+        filters_applied: { status: wantStatus, category: a.category || null, min_sats: a.min_sats ?? null, include_expired: !!a.include_expired, include_malformed: !!a.include_malformed },
+        match_count: rows.length,
+        returned: Math.min(rows.length, limit),
+        how_to_answer: 'Publish a kind-1111 (NIP-22) comment scoped to `address` with tags ["K","38556"] and ["status","claimed"]. When done, publish another with ["status","delivered"] and ["proof","<url or event id>"]. The poster settles by zapping you directly (NIP-57); that receipt is your third-party-checkable proof of payment.',
+        how_to_post: 'Publish your own kind-38556 with d/k/amount/pay/status tags and a content JSON carrying title, brief and — required — acceptance. See ' + mod.spec,
+        requests: rows.slice(0, limit),
+      };
+    },
+  },
 ];
 
 // ---------- JSON-RPC ----------
