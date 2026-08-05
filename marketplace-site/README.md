@@ -66,7 +66,7 @@ which is also the noise filter: it's why there are no uncategorized rows here.
 | `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
 | `worker.js` | Cloudflare Worker: cron → relays + probes + the two external sources → KV, then builds `master.json` from whatever that run produced (falling back per-tier to its last good KV copy, so one flaky upstream can't blank a tier); serves `/mcp` and every `/live/*` route; assets otherwise |
-| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`) at `POST /mcp` |
+| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`, `find_work`) at `POST /mcp` |
 | `wrangler.jsonc` | worker config (cron every 6h, KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 
@@ -141,6 +141,12 @@ over public data). Tools:
 - `get_quote` — a structured payment plan + (where the provider supports it) a live L402 invoice
   probed from its `api_base`, or a live sats price for inference, or a pointer to the provider's own
   MCP (`connect_via_mcp`). **No funds move through the server** — the agent pays the provider directly.
+- `find_work` — **the buy side, and the only tool here that is not about spending.** Signed offers to
+  pay an agent in sats to do a job (kind 38556), each carrying a checkable `acceptance` test. Defaults
+  to the cohort an agent can actually act on (open, unexpired, well-formed). **No escrow, no
+  arbitration, no fee:** `amount_sats` is offered, not held, and `status` is what the poster published,
+  not something this directory verified. Claims are NIP-22 comments; payment proof is a NIP-57 zap
+  receipt any third party can check without us.
 
 `get_quote` probes only the `api_base` recorded on the entry the caller names by slug (never a
 caller-supplied URL), so the Worker can't be used as an open proxy. The tools read the same KV
