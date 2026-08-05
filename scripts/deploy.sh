@@ -14,25 +14,27 @@
 # connections are gone and deploying is an explicit act again, matching the other
 # three sites. GitHub is history and backup; it does not deploy anything.
 #
-# TOKEN — and note this is NOT the same file bitcoinkeys-guide uses (2026-08-05).
-# This script originally copied that repo's fallback verbatim, reaching for
-# ~/secure/cloudflare-pages-token "so there is one pattern across every repo".
-# That file is a Pages-scoped token and it CANNOT deploy a Worker: wrangler fails
-# with `Authentication error [code: 10000]` on /workers/services/…. The deploys that
-# appeared to work were being run with a Workers-capable token already exported in
-# the environment, so the fallback path was never actually exercised — the same
-# shape of bug as the deploy docs themselves: a thing that reads as working because
-# nothing had tried the broken path yet.
+# TOKEN — one file, identical in all four site repos (2026-08-05).
 #
-# Both surfaces here are Workers, so both need the broader token. bitcoinkeys-guide
-# is a Pages direct-upload and its Pages token is correct for it. One pattern in
-# SHAPE — env var, else a single file, never a token on the command line — but the
-# file has to match what the target actually is.
+# This is worth knowing because it was briefly the opposite. There used to be two
+# half-scoped Cloudflare tokens, one for Pages and one for Workers, and this script
+# originally copied bitcoinkeys-guide's fallback verbatim "so there is one pattern
+# across every repo" — reaching for the PAGES token, which cannot deploy a Worker.
+# wrangler fails on it with `Authentication error [code: 10000]`, and both surfaces
+# here are Workers, so the fallback could never have worked.
+#
+# It went unnoticed for weeks because every deploy ran with a Workers-capable token
+# already exported in the environment, so the fallback was never once the path that
+# actually ran — a thing that reads as working purely because nothing had yet tried
+# the broken path. A single token carrying both scopes now removes the whole class
+# of bug, and makes "one pattern across every repo" true rather than aspirational.
+#
+# Test this file the way it actually breaks: run with CLOUDFLARE_API_TOKEN unset.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
-  TOKEN_FILE="$HOME/secure/cloudflare-api-token"
+  TOKEN_FILE="$HOME/secure/cloudflare-deploy-token"
   if [ -f "$TOKEN_FILE" ]; then
     CLOUDFLARE_API_TOKEN="$(tr -d '\n\r ' < "$TOKEN_FILE")"
     export CLOUDFLARE_API_TOKEN
