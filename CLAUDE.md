@@ -7,10 +7,22 @@ ported into `src/_raw/` at build time.
 ## Build & verify
 - `npm run build` runs the port (`scripts/port-surfaces.mjs`) then `astro build` → `dist/`.
 - Verify in `dist/` (and/or `npm run preview`) before pushing.
-- **Push does NOT deploy the main site.** Go live with `npx wrangler deploy` (uploads the
-  Worker + `dist/` assets) after pushing. Auto-deploy-on-push ended with the 2026-06-08
-  Pages→Worker migration; discovered 2026-06-12. (`marketplace-site/` differs — its Pages
-  project still builds from git, with the marketplace Worker's zone route in front.)
+- **Push does NOT deploy anything. `npm run deploy` does.** One command, both surfaces:
+  the main Worker (`dist/` as assets, root `wrangler.jsonc`) and the marketplace Worker
+  in `marketplace-site/`. `npm run deploy main` / `npm run deploy marketplace` for one.
+- **This line was FALSE between an unknown date and 2026-08-05, which is the reason it
+  now reads this way.** It claimed push did not deploy while the main site was in fact
+  wired to **Workers Builds** and auto-deploying on every push — a push believed to be
+  inert was shipping to production, and it was found only when a force-push rebuilt the
+  site a minute later. The `marketplace-site/` Pages project was git-connected too, and
+  shadowed: it still listed `marketplace.bitcoineconomy.ai` while the Worker's zone route
+  served it, so it built on every push to a URL nobody visited. **Both git connections
+  were removed 2026-08-05** and every RadVladdy site now deploys the same way — manually,
+  from the box. GitHub is history and backup; it deploys nothing anywhere.
+- **Why manual is the standard, and not laziness about wiring CI:** this project verifies
+  by measuring the rendered result and driving the live page, so shipping has to be an act
+  that follows verification rather than a side effect of `git push`. It also means repo
+  surgery — a rewrite, a delete-and-recreate — can never take a site down.
 
 ## Content has a private authoring mirror — keep it in sync
 `src/_raw/` is the working source of truth for site content and is what deploys, but the

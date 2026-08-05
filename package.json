@@ -13,7 +13,8 @@
     "build": "rm -rf node_modules/.astro .astro && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "prepare": "git config core.hooksPath .githooks"
+    "prepare": "git config core.hooksPath .githooks",
+    "deploy": "npm run build && bash scripts/deploy.sh"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
