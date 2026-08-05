@@ -4,8 +4,8 @@ The Marketplace **directory**: the agent-readable registry of services autonomou
 agents buy and sell for Bitcoin.
 
 This folder is **not** part of the main Astro build; it deploys on its own —
-a Cloudflare **Worker** (`worker.js` + these files as static assets), reached
-through a zone route on `marketplace.bitcoineconomy.ai`. See § Deploys.
+a Cloudflare **Worker** (`worker.js` + these files as static assets) bound to
+`marketplace.bitcoineconomy.ai` as a Custom Domain. See § Deploys.
 
 ## ONE directory, four sources (merged 2026-07-29)
 
@@ -179,19 +179,21 @@ this rule, 2026-06-10).
 wired to GitHub (see the root `CLAUDE.md`). Deploying is a deliberate act that
 follows verification.
 
-**What serves the domain.** The Worker `bitcoineconomy-marketplace`, via the zone
-route declared in `wrangler.jsonc`:
+**What serves the domain.** The Worker `bitcoineconomy-marketplace`, bound to the
+hostname as a **Custom Domain** and declared in `wrangler.jsonc`:
 
-```
-marketplace.bitcoineconomy.ai/*  →  bitcoineconomy-marketplace
+```jsonc
+"routes": [{ "pattern": "marketplace.bitcoineconomy.ai", "custom_domain": true }]
 ```
 
-DNS for that hostname is a **proxied `A` record pointing at `192.0.2.1`** — a
-deliberate black-hole address, and Cloudflare's documented pattern for a hostname
-served entirely by a Worker route. The route intercepts at the edge, so the record's
-target is never contacted; the record exists only so the hostname resolves to
-Cloudflare at all. **Don't "fix" it to a real origin, and don't delete it** — deleting
-it takes the site down even though the Worker is healthy.
+Cloudflare owns the DNS record and keeps it in step with that binding — nothing to
+hand-maintain. **All three Workers on this account are wired this way**
+(`bitcoineconomy.ai`, `radvladdy.com`, and this one), so there is one shape to learn.
+
+*Until 2026-08-05 this was a zone route instead, which needed a hand-made proxied DNS
+record aimed at a black-hole IP purely so the name resolved. It worked, but it read as
+a misconfiguration to anyone looking at the DNS tab, and it was the only Worker here
+not using a custom domain. Converted; don't go back.*
 
 **History (do not re-do).** This started as a git-connected Pages project, also named
 `bitcoineconomy-marketplace`, which the Worker's zone route silently shadowed —
@@ -202,7 +204,8 @@ remains. The `SNAPSHOT` KV namespace and the 6-hourly cron that refresh
 `/live/snapshot.json` are live and declared in `wrangler.jsonc`. If `/live/*` ever
 goes quiet, the UI falls back to the committed `snapshot.json` — which means **a 200
 on `/live/snapshot.json` is not evidence the Worker is healthy.** Check the Worker's
-routes, or compare behaviour on a path that doesn't exist.
+domain binding, or compare behaviour on a path that doesn't exist — a request for a
+path with no asset should 404, and anything answering 200 to that is not this Worker.
 
 ## Phase 2+ (per the build plan)
 

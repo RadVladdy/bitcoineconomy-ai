@@ -13,18 +13,20 @@
     // Refresh the live snapshot every 6 hours.
     "crons": ["17 */6 * * *"]
   },
-  // Zone route: the Worker intercepts the hostname at the edge and serves the
-  // static assets + the /live/* KV routes. This is the ONLY thing serving
-  // marketplace.bitcoineconomy.ai — the Pages project this once shadowed was
-  // deleted 2026-08-05.
+  // Custom Domain — the same wiring bitcoineconomy.ai and radvladdy.com use, so
+  // all three Workers are configured identically (converted 2026-08-05).
   //
-  // DNS for the hostname is a proxied A record → 192.0.2.1 (a black-hole IP,
-  // Cloudflare's documented pattern for a Worker-route-only hostname). The route
-  // fires before the origin is contacted, so the target is never reached; the
-  // record exists only so the hostname resolves to Cloudflare. Deleting that
-  // record takes the site down even though this Worker is fine.
+  // Cloudflare owns the DNS record for this hostname and keeps it in step with
+  // this binding; there is nothing to hand-maintain, and no placeholder origin to
+  // mistake for a misconfiguration. Note the pattern is the bare hostname with no
+  // `/*` — a custom domain takes the whole host by definition.
+  //
+  // This was a zone route until 2026-08-05, which required a hand-made proxied DNS
+  // record pointing at a black-hole IP just so the name resolved. That worked, but
+  // it read as a mistake to anyone looking at the DNS tab, and it was the odd one
+  // out among the three Workers. Don't go back to it.
   "routes": [
-    { "pattern": "marketplace.bitcoineconomy.ai/*", "zone_name": "bitcoineconomy.ai" }
+    { "pattern": "marketplace.bitcoineconomy.ai", "custom_domain": true }
   ],
   "kv_namespaces": [
     {
