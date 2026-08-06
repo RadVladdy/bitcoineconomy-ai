@@ -11,7 +11,7 @@ two-sided: consume
 maintainer: Amboss Technologies
 docs: https://docs.amboss.tech/reflex
 site: https://amboss.tech
-payment: "volume-tiered per workflow; Amboss states no approval process is required to start (settlement currency not documented)"
+payment: volume-tiered per workflow
 identity: account (Amboss account + API key)
 custody: none — Reflex screens a target and holds no funds
 bitcoin-native: false
@@ -44,7 +44,7 @@ Amboss states the intended users are node operators and enterprises. The three d
 
 ## Dependencies
 
-An **Amboss account and API key**, plus whatever you are screening — a node, an invoice, or a Lightning address. Reflex checks a target; it does not operate one for you, so no node of your own is required simply to run a check. Pricing is **volume-tiered per workflow**, and Amboss states there is **no approval process** to start.
+An **Amboss account and API key**, plus whatever you are screening — a node, an invoice, or a Lightning address. Reflex checks a target; it does not operate one for you, so no node of your own is required simply to run a check. Pricing is **volume-tiered per workflow**, and Amboss states there is **no approval process** to start. The settlement currency is not documented, so this card does not claim one — if you need to pay in sats, confirm it with Amboss first rather than assuming a Lightning company bills in bitcoin.
 
 ## Quick start
 
