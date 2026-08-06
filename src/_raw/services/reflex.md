@@ -1,21 +1,24 @@
 ---
 name: Reflex
 slug: reflex
-layer: integration
-toolbox-group: node-toolkits
+layer: services
+collection: services
 tagline: Amboss's risk and compliance layer for Lightning — screen channel peers, invoices, and addresses against sanctions lists, monitor payments continuously, and generate compliance reports through one API.
 tool-type: service
+category: compliance-screening
+featured: false
+two-sided: consume
 maintainer: Amboss Technologies
 docs: https://docs.amboss.tech/reflex
 site: https://amboss.tech
-stack-section: "§2"
+payment: "volume-tiered per workflow; Amboss states no approval process is required to start (settlement currency not documented)"
+identity: account (Amboss account + API key)
+custody: none — Reflex screens a target and holds no funds
+bitcoin-native: false
+agent-access: limited
 status: published
 last-verified: 2026-08-06
-order: 32
-prereq-tier: account
-prereqs:
-  - "an Amboss account and API key for the Reflex API"
-  - "a Lightning node, invoice, or address to screen — Reflex checks a target, it does not run one"
+order: 61
 tags:
   - amboss
   - reflex
@@ -62,6 +65,8 @@ Create an API key in your Amboss account, then follow the "First compliance chec
 
 **A checked detail worth keeping, because it is the reason the drift survived a year:** the old URL `amboss.space/reflex/docs/api-docs` **still returns 200 and still documents the old API** — zero occurrences of "sanctions", "OFAC", "compliance" or "screening" on that page, against 3 / 2 / 11 / 1 on the current one. A link-checker would have found nothing wrong here, and a `last-verified` bump that only confirmed the URL resolved would have re-certified a wrong card. **Reading the page, not the status code, is the only thing that catches this class of drift** — the same lesson this project already holds about `/live/` routes and third-party 200s.
 
-**⚑ Placement is now a live question for the editor, and the recommendation is to MOVE it — not executed here, because it changes a route.** Tools is "equipment an agent runs" (the 2026-06-27 Tools-vs-Services rationale). Compliance screening you call over someone else's API is not equipment; it is a service. None of the four toolbox groups fits either — it is not a wallet, node toolkit, ecash tool, or bridge — and it is filed under `node-toolkits` here only as the least-wrong bucket, exactly the pattern that got LN Markets refiled out of `swap`. **Recommend moving it to Services** at the next structural pass, with the usual redirect discipline; left in place for now so this fix ships without a route change riding on it.
+**✅ RE-HOMED FROM TOOLS TO SERVICES 2026-08-06** (editor approved). Tools is "equipment an agent runs" — the 2026-06-27 Tools-vs-Services rationale that moved Magma. Compliance screening you call over someone else's API is not equipment; it is a service you consume. None of the four toolbox groups fitted either — not a wallet, node toolkit, ecash tool, or bridge — and it sat under `node-toolkits` purely as the least-wrong bucket, the same pattern that got LN Markets refiled out of `swap`. `/tools/reflex` now redirects to `/services/reflex`, following the Magma / Routstr / Strike precedent.
+
+**The move exposed a cascade the re-home itself would not have caught:** five other places still described Reflex as *"the software that automates ongoing routing and liquidity management"* — [The Stack](/stack) §2, [Services](/services), [Services-FA](/services-for-agents), and two lines on [Magma](/services/amboss), including its Editor's Note naming Reflex as the thing that *stays* in Tools. All corrected in the same pass. **A card that changes category changes every sentence that used it as a contrast case**, and those sentences live in surfaces nobody would think to open while editing a card.
 
 **Thesis line, and it is not a small one.** Reflex-as-compliance means Amboss is building **the sanctions-screening layer for Lightning**, sold to institutions — a censorship surface appearing on the rails this project champions, and a *distinct axis* from issuer freeze: routing-layer screening rather than asset-level seizure. It belongs on the censorship-gradient exhibit as its own dimension. The body above states the fact plainly and without hostility, which is the house discipline (same as the stablecoin legs on [Amboss Payments](/services/amboss-payments)) — the honest framing is *"compliance-optional infrastructure is appearing at every layer, including the ones we like"*, never *"Amboss is censoring Lightning."* **A Field Note or a Border-Skirmishes paragraph is the editor's decision**, not an automatic ship: Amboss is a warm relationship (Jesse Shrader, intro via Stillmark 2026-06-30).

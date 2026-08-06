@@ -33,8 +33,15 @@ export default defineConfig({
     // Strike is exchange-only (not infrastructure); its Tools card was retired.
     '/tools/strike': '/exchanges/strike',
     // Magma (Amboss) re-homed to The Market 2026-06-27: buying/selling channel
-    // liquidity is a marketplace transaction, not software you run (that's Reflex).
+    // liquidity is a marketplace transaction, not software you run.
     '/tools/amboss': '/services/amboss',
+    // Reflex re-homed to The Market 2026-08-06, for the same reason and after the
+    // same mistake. It sat in Tools as a node-automation product; Amboss now sells
+    // it as compliance and sanctions screening, which is a service you CALL rather
+    // than equipment you run — and it had been filed under the `node-toolkits`
+    // toolbox group only because none of the four groups fit, the same least-wrong
+    // bucketing that put LN Markets under `swap`.
+    '/tools/reflex': '/services/reflex',
     // Border Zone → its treasury/compliance/boundary material now lives in Treasury & the Boundary.
     '/border-zone': '/treasury',
     '/border-zone-for-agents': '/treasury-for-agents',

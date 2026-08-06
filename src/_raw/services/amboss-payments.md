@@ -54,7 +54,7 @@ Install the official TypeScript SDK — `@ambosstech/payments` on npm (MIT, Node
 
 - **Stablecoin legs are issuer-freezable.** USDT and USDC are issued by Tether and Circle, which can freeze or blacklist balances regardless of who holds the keys — self-custody of a freezable asset is not the same as censorship-resistance. The **BTC** leg carries none of that.
 - **Self-custody is described as an option, not a guarantee.** "No mandatory custody transfer" implies custody is configurable; managed convenience tiers may hold more trust.
-- **Compliance screening is part of the stack.** OFAC channel screening and IP node screening are integrated underneath, and Amboss sells that layer as its own product — see [Reflex](/tools/reflex).
+- **Compliance screening is part of the stack.** OFAC channel screening and IP node screening are integrated underneath, and Amboss sells that layer as its own product — see [Reflex](/services/reflex).
 - **The SDK is public, but the account is not optional.** Authentication is a service API key issued against a **business account**, so there is no account-free machine path: an agent cannot go from "found it" to "paid it" without a human opening an account first.
 - **Early version.** `@ambosstech/payments` is pre-1.0 (0.2.0 as of 2026-08-06, first published weeks earlier). Expect the surface to move, and pin the version.
 
@@ -68,7 +68,7 @@ This is the "currency flexibility" payments product (the `amboss.tech` stack). T
 
 **Decision: stays `agent-access: limited`, stays out of the directory.** The bar is not "is there an API" — it is **machine-actionable without a human**, and authentication is a `serviceApiKey` issued against a **business account**. That is the same wall Swan hit, and it is the whole reason the `api-no-account` / `api-account` / `api-kyc` tiering exists: an SDK an agent cannot obtain credentials for is not a path an agent can take. **What would reopen this, specifically:** a documented MCP server (step 3 of the maintainer's own order, and none is documented as of 2026-08-06), or any account-free credential path. A new SDK version alone does not reopen it — the blocker is the account, not the ergonomics.
 
-**Relationally load-bearing:** Jesse Shrader said on 2026-07-21 he would check the site represents Amboss accurately. This card and [Reflex](/tools/reflex) were both re-verified against live primary sources on 2026-08-06 for exactly that reason; Reflex needed a full rewrite, this one needed the SDK claims corrected.
+**Relationally load-bearing:** Jesse Shrader said on 2026-07-21 he would check the site represents Amboss accurately. This card and [Reflex](/services/reflex) were both re-verified against live primary sources on 2026-08-06 for exactly that reason; Reflex needed a full rewrite, this one needed the SDK claims corrected.
 
 Thesis line to hold: praise the **rails** (Lightning, sub-second, self-custodial BTC = Phase-1 *and* Phase-2 aligned), hold the line on the **asset** — stablecoin settlement is rails-not-substrate, and the issuer-freeze surface is exactly what the Independence Doctrine and "Why Bitcoin, Not a New Coin" warn about. State the freeze fact plainly (allowed in body); keep the preference here.
 

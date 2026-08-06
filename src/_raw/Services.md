@@ -112,6 +112,7 @@ Many VPN, hosting, and domain brands *do* take Bitcoin — but via human checkou
 An agent can self-serve inference, memory, and tools. What it cannot do is issue a credible verdict on its own correctness — that has to come from a party that isn't the one being judged. This is the layer that sells that judgement, and it is the market's own answer to the delivery risk described further down.
 
 - **[[invinoveritas|invinoveritas]]** — an **independent verification service** an agent pays per call in sats: a neutral approve / concerns / reject on a trade, code diff, plan, command, or on-chain action *before* the irreversible step, a portable schnorr-signed proof *after*, and free no-auth verification of anyone else's proof. Its distinguishing claim is a **public track record** — verdicts are signed and published to Nostr *before* their outcomes are known, anchored into a Bitcoin block via OpenTimestamps, so the record (wins and losses alike) is recomputable from public data rather than taken on trust. Young and small; the honest way to read it is as a verifiable ledger, not an authority.
+- **[[reflex|Reflex]]** — Amboss's **risk and compliance layer**, and the other kind of third-party judgement being sold on these rails: it screens channel peers by IP address and funding source against **sanctions lists**, screens channels against **OFAC**-sanctioned Bitcoin addresses with configurable policies and automated alerts, monitors payments continuously, and produces deterministic compliance reports. Aimed at node operators and enterprises with obligations to meet. Worth reading alongside the entry above rather than as the same product: one sells a checkable verdict on whether work was done correctly, the other sells a verdict on **who you are allowed to transact with** — and that decision is made against lists and data the buyer does not control.
 
 ---
 
@@ -129,7 +130,7 @@ Each is listed for what it does, not ranked against the others; the right choice
 
 ## Liquidity & yield *(curated)*
 
-Receiving payments over Lightning requires **inbound liquidity** — and acquiring or providing it is a *marketplace* activity, not something an agent runs locally (the software for that is [[reflex|Reflex]] in [The Stack](/stack)). These are the two sides of that market: an agent **buys** capacity so it can get paid, or **sells** idle bitcoin as routing liquidity to **earn yield** — both self-custodial, both API-drivable.
+Receiving payments over Lightning requires **inbound liquidity** — and acquiring or providing it is a *marketplace* activity, not something an agent runs locally. These are the two sides of that market: an agent **buys** capacity so it can get paid, or **sells** idle bitcoin as routing liquidity to **earn yield** — both self-custodial, both API-drivable.
 
 - **[[amboss|Amboss (Magma)]]** — the **buy side**: a public channel-liquidity marketplace where an agent purchases inbound capacity opened directly to its own node, sized in dollars and paid in sats, with no account on the buy path (and an MIT MCP server). The deployed answer to "how does an agent get paid over Lightning."
 - **[[rails|Amboss Rails]]** — the **sell side**: put idle, self-custodied bitcoin to work as routing liquidity and earn yield from the payment flow that crosses it, driven by API.
