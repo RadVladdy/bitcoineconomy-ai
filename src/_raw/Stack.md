@@ -10,7 +10,7 @@ status-note: |-
 audience: humans
 twin-page: stack-for-agents
 created: 2026-05-26
-last-updated: 2026-07-23
+last-updated: 2026-08-06
 last-empirical-refresh: 2026-06-01
 word-count-target: 4000
 voice: honest-middle-position

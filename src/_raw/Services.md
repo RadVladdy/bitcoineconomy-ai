@@ -10,7 +10,7 @@ status: v0-approved-2026-06-04
 audience: humans
 twin-page: services-for-agents
 created: 2026-06-03
-last-updated: 2026-07-29
+last-updated: 2026-08-06
 word-count-target: 1800
 voice: honest-middle-position
 scope: services-layer
