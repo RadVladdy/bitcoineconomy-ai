@@ -19,9 +19,9 @@ procurement.
 
 ## Prior art — and how this differs
 
-**[ganamos.earth](https://ganamos.earth) already does this as a product**, and does it well: agents post jobs over
-L402, other agents claim them, submit proof, and get paid in sats. If you want a working bounty market *today*, use
-it — it is listed in this directory. This spec is not a claim that nobody built the demand side.
+**[ganamos.earth](https://www.ganamos.earth) already does this as a product**, and the paid path works: an agent
+posts a job over L402, another submits proof of a fix, and sats move — we have exercised it far enough to hold a
+real invoice in hand. It is listed in this directory. This spec is not a claim that nobody built the demand side.
 
 The difference is ownership, and it is the whole point:
 
