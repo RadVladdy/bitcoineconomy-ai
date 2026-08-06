@@ -10,14 +10,14 @@ featured: false
 two-sided: consume + offer
 maintainer: Amboss Technologies
 site: https://amboss.tech
-docs: https://docs.amboss.tech/developer
+docs: https://docs.amboss.tech/payments
 payment: flat 0.5% of volume + $100/month platform fee (all-in, per the 2026-07 payments deck) plus network fees
 identity: account (business)
 custody: self-custodial option — "no mandatory custody transfer"; managed tiers may differ
 bitcoin-native: false
 agent-access: limited
 status: published
-last-verified: 2026-07-21
+last-verified: 2026-08-06
 order: 54
 tags:
   - amboss
@@ -44,24 +44,31 @@ Its target users are **businesses** — exchanges, wallets, payment providers, a
 
 ## Dependencies & payment
 
-A **business account** and Amboss's platform fee — a **flat 0.5% of volume plus $100/month**, all-in (per the 2026-07 payments deck), on top of network fees. The product advertises a **self-custodial option** — "Maintain control of your keys. No mandatory custody transfer." — though managed/hosted tiers may involve more trust; confirm per deployment. **The API is rolling out now; SDKs are the stated next step, with an MCP server / agent skill after that** — the maintainer's stated build order (as of 2026-06-30) is API → SDK → MCP/skill, explicitly to make the rail easy for agents to equip. There is **no published agent-drivable path yet**; check `docs.amboss.tech` for availability before integrating an agent.
+A **business account** and Amboss's platform fee — a **flat 0.5% of volume plus $100/month**, all-in (per the 2026-07 payments deck), on top of network fees. The product advertises a **self-custodial option** — "Maintain control of your keys. No mandatory custody transfer." — though managed/hosted tiers may involve more trust; confirm per deployment. **The API and an official TypeScript SDK are both public now**; the SDK authenticates with a service API key issued against the business account, so the account is still the gate. The maintainer's stated build order (as of 2026-06-30) was API → SDK → MCP server / agent skill; the first two have shipped and **no MCP server is documented yet**.
 
 ## Quick start
 
-The developer API and SDKs are **not yet public**. The GraphQL surface is described as forthcoming (for example, a create-receive-invoice mutation taking `wallet_id`, `amount`, and `description`). Check `docs.amboss.tech/developer` for availability before integrating an agent.
+Install the official TypeScript SDK — `@ambosstech/payments` on npm (MIT, Node 18.18+) — and authenticate with a service API key from your business account. Amboss describes it as wrapping the payments GraphQL API in a fully typed client: typed clients for **environments, wallets, and transactions**, plus **built-in webhook verification** (HMAC). Receiving is `createReceive`, which returns a BOLT11 `payment_request`; sending goes to a BOLT11 invoice or a **Lightning Address**. Full reference at `docs.amboss.tech/payments` and `docs.amboss.tech/sdk`. The raw GraphQL API is available directly if you would rather not take the dependency.
 
 ## Gotchas
 
 - **Stablecoin legs are issuer-freezable.** USDT and USDC are issued by Tether and Circle, which can freeze or blacklist balances regardless of who holds the keys — self-custody of a freezable asset is not the same as censorship-resistance. The **BTC** leg carries none of that.
 - **Self-custody is described as an option, not a guarantee.** "No mandatory custody transfer" implies custody is configurable; managed convenience tiers may hold more trust.
-- **Compliance screening is being added.** OFAC channel screening and IP node screening are noted as being integrated into the Rails layer underneath.
-- **No public agent API yet — but it is on the roadmap.** The maintainer's stated sequence is API (now) → SDK → MCP server / agent skill; the agent-drivable path is planned and explicitly aimed at agents, but is not published at time of writing.
+- **Compliance screening is part of the stack.** OFAC channel screening and IP node screening are integrated underneath, and Amboss sells that layer as its own product — see [Reflex](/tools/reflex).
+- **The SDK is public, but the account is not optional.** Authentication is a service API key issued against a **business account**, so there is no account-free machine path: an agent cannot go from "found it" to "paid it" without a human opening an account first.
+- **Early version.** `@ambosstech/payments` is pre-1.0 (0.2.0 as of 2026-08-06, first published weeks earlier). Expect the surface to move, and pin the version.
 
 ## Editor's Notes
 
 *Internal author perspective. Not published in produced derivatives.*
 
-This is the "currency flexibility" payments product (the `amboss.tech` stack). The maintainer describes it as an **LND node** the customer self-hosts or cloud-hosts; an earlier "built on Voltage" line has been retracted and any Voltage involvement is **unverified** (at most a hosting option) pending confirmation. Carded on the main site for reference; **not yet a directory entry** — with no public API it sits at the `limited` tier, below the directory's machine-actionable inclusion bar (the Swan precedent). **Re-evaluate for a directory entry once the API/SDK/MCP ship** — the maintainer's stated build order is API (now) → SDK → MCP server / agent skill, so the machine-actionable path is coming, not speculative.
+This is the "currency flexibility" payments product (the `amboss.tech` stack). The maintainer describes it as an **LND node** the customer self-hosts or cloud-hosts; an earlier "built on Voltage" line has been retracted and any Voltage involvement is **unverified** (at most a hosting option) pending confirmation. Carded on the main site for reference; **not a directory entry.**
+
+**⚑ THE GATE TRIPPED AND WAS RE-DECIDED 2026-08-06 — the answer is unchanged, and the reasoning is recorded here so the next pass does not re-litigate it.** The old note said *"re-evaluate once the API/SDK/MCP ship."* Two of the three have now shipped: `@ambosstech/payments` is live on npm (0.2.0, published 2026-07-31, MIT, Node 18.18+), with a typed GraphQL client, `createReceive` returning a BOLT11 `payment_request`, sends to a BOLT11 invoice or a Lightning Address, and built-in webhook HMAC verification. Verified against npm and `docs.amboss.tech/sdk` on 2026-08-06.
+
+**Decision: stays `agent-access: limited`, stays out of the directory.** The bar is not "is there an API" — it is **machine-actionable without a human**, and authentication is a `serviceApiKey` issued against a **business account**. That is the same wall Swan hit, and it is the whole reason the `api-no-account` / `api-account` / `api-kyc` tiering exists: an SDK an agent cannot obtain credentials for is not a path an agent can take. **What would reopen this, specifically:** a documented MCP server (step 3 of the maintainer's own order, and none is documented as of 2026-08-06), or any account-free credential path. A new SDK version alone does not reopen it — the blocker is the account, not the ergonomics.
+
+**Relationally load-bearing:** Jesse Shrader said on 2026-07-21 he would check the site represents Amboss accurately. This card and [Reflex](/tools/reflex) were both re-verified against live primary sources on 2026-08-06 for exactly that reason; Reflex needed a full rewrite, this one needed the SDK claims corrected.
 
 Thesis line to hold: praise the **rails** (Lightning, sub-second, self-custodial BTC = Phase-1 *and* Phase-2 aligned), hold the line on the **asset** — stablecoin settlement is rails-not-substrate, and the issuer-freeze surface is exactly what the Independence Doctrine and "Why Bitcoin, Not a New Coin" warn about. State the freeze fact plainly (allowed in body); keep the preference here.
 
