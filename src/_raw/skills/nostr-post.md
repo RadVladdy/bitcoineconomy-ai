@@ -19,7 +19,7 @@ repo: https://github.com/AbdelStark/nostr-mcp
 docs: https://nostr.com/
 site: https://nostr.com/
 status: published
-last-verified: 2026-06-29
+last-verified: 2026-08-06
 order: 4
 tags:
   - mcp
@@ -54,7 +54,7 @@ Two reference MCP servers cover the ground: AbdelStark's `nostr-mcp` (`post_note
       "args": ["-y", "@AbdelStark/nostr-mcp"],
       "env": {
         "NOSTR_NSEC_KEY": "nsec1...DEDICATED-AGENT-KEY",
-        "NOSTR_RELAYS": "wss://relay.damus.io,wss://nos.lol,wss://relay.nostr.band"
+        "NOSTR_RELAYS": "wss://relay.damus.io,wss://nos.lol,wss://nostr.bitcoiner.social"
       }
     }
   }

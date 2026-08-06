@@ -1,51 +1,15 @@
 {
-  "generated_at": "2026-08-06T18:02:47.053Z",
+  "generated_at": "2026-08-06T21:40:45.467Z",
   "source": "sample-relays.mjs (static snapshot)",
   "provenance": "live-from-relay",
   "coverage": {
     "relays_queried": 4,
-    "relays_complete": 3,
-    "relays_incomplete": [
-      {
-        "url": "wss://relay.nostr.band",
-        "status": "connect-error: connect timeout",
-        "unfinished": [
-          "routstr",
-          "announced",
-          "cashu",
-          "fedimint",
-          "reviews",
-          "handlers",
-          "requests",
-          "claims",
-          "dvmjobs"
-        ]
-      }
-    ],
-    "complete": false,
-    "note": "PARTIAL READ — the relays in `relays_incomplete` did not answer every filter, so every count in this snapshot is a LOWER BOUND, not a total. Anything published only to those relays is missing from it. Absence here is not evidence of absence."
+    "relays_complete": 4,
+    "relays_incomplete": [],
+    "complete": true,
+    "note": "Every queried relay answered every filter. The counts in this snapshot are totals across the relays listed below."
   },
   "relays": [
-    {
-      "url": "wss://relay.nostr.band",
-      "status": "connect-error: connect timeout",
-      "unfinished": [
-        "routstr",
-        "announced",
-        "cashu",
-        "fedimint",
-        "reviews",
-        "handlers",
-        "requests",
-        "claims",
-        "dvmjobs"
-      ]
-    },
-    {
-      "url": "wss://relay.damus.io",
-      "status": "ok",
-      "unfinished": []
-    },
     {
       "url": "wss://nos.lol",
       "status": "ok",
@@ -53,6 +17,16 @@
     },
     {
       "url": "wss://relay.primal.net",
+      "status": "ok",
+      "unfinished": []
+    },
+    {
+      "url": "wss://relay.damus.io",
+      "status": "ok",
+      "unfinished": []
+    },
+    {
+      "url": "wss://nostr.bitcoiner.social",
       "status": "ok",
       "unfinished": []
     }
@@ -68,8 +42,27 @@
           "network": "unroutable",
           "mints": [],
           "pubkey": "6cfd849e3fabf98420e0b4239259295bb610fae1a90dbc667448eab19fbc82ae",
-          "updated_at": 1786039291,
+          "updated_at": 1786051891,
           "status": "unroutable"
+        },
+        {
+          "name": "Githappen2Routstr",
+          "d": "f12db526e41e",
+          "urls": [
+            "https://routstr.githappens.space",
+            "http://fmgse2hcsgjpmivci4rgz4pjwn5vcav33kivh33znylv362lgoolsbad.onion"
+          ],
+          "network": "both",
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.lnserver.com"
+          ],
+          "version": "0.4.4",
+          "pubkey": "f12db526e41e71a158b962d93196996b5bb55339960cccde42ad673a0d3f9959",
+          "updated_at": 1786041792,
+          "status": "alive",
+          "latency_ms": 1586,
+          "model_count": 108
         },
         {
           "name": "A Routstr Node",
@@ -105,8 +98,8 @@
           "pubkey": "3d8333c5a3467c62b055c72f7f197df161faad20a5219ae694a92457c0e48a7c",
           "updated_at": 1786008992,
           "status": "alive",
-          "latency_ms": 1982,
-          "model_count": 407
+          "latency_ms": 2030,
+          "model_count": 422
         },
         {
           "name": "Cypherpunk",
@@ -127,7 +120,7 @@
           "pubkey": "2ca46ee98f3134c4e11a638663a45983b590bfdefd31588f9c2f03455fba15e7",
           "updated_at": 1785970241,
           "status": "alive",
-          "latency_ms": 1002,
+          "latency_ms": 1305,
           "model_count": 96
         },
         {
@@ -163,7 +156,7 @@
           "pubkey": "d3a0af518fdf48fd7e8c794371d20040616afbcf934e38247461c6e74009e9fb",
           "updated_at": 1785142545,
           "status": "alive",
-          "latency_ms": 1551,
+          "latency_ms": 1901,
           "model_count": 407
         },
         {
@@ -181,27 +174,8 @@
           "pubkey": "a70e3e4cd046c0f5d828940437e9911a7e9567f948a194424bbc256a7268988b",
           "updated_at": 1785088893,
           "status": "alive",
-          "latency_ms": 987,
+          "latency_ms": 1203,
           "model_count": 1
-        },
-        {
-          "name": "Githappen2Routstr",
-          "d": "f12db526e41e",
-          "urls": [
-            "https://routstr.githappens.space",
-            "http://fmgse2hcsgjpmivci4rgz4pjwn5vcav33kivh33znylv362lgoolsbad.onion"
-          ],
-          "network": "both",
-          "mints": [
-            "https://mint.minibits.cash/Bitcoin",
-            "https://mint.githappens.space"
-          ],
-          "version": "0.4.4",
-          "pubkey": "f12db526e41e71a158b962d93196996b5bb55339960cccde42ad673a0d3f9959",
-          "updated_at": 1784998103,
-          "status": "alive",
-          "latency_ms": 1949,
-          "model_count": 108
         },
         {
           "name": "ARoutstrNode",
@@ -252,7 +226,7 @@
           "pubkey": "af64e3b4ced76f218f2335b0d421dbb058ecd18805a44da1a2db1b116aaf5a2c",
           "updated_at": 1784485001,
           "status": "alive",
-          "latency_ms": 900,
+          "latency_ms": 922,
           "model_count": 386
         },
         {
@@ -286,7 +260,7 @@
           "pubkey": "6892d1b6d4d235f912aa187efaac006d99589587af29598337b883f0d201b0ba",
           "updated_at": 1784433397,
           "status": "alive",
-          "latency_ms": 710,
+          "latency_ms": 760,
           "model_count": 9
         },
         {
@@ -305,7 +279,7 @@
           "pubkey": "aa97d58915535738d0068612172bbb9a4a58628530883b1b14a54c3d34556fb9",
           "updated_at": 1784371552,
           "status": "alive",
-          "latency_ms": 1168,
+          "latency_ms": 1403,
           "model_count": 409
         },
         {
@@ -341,7 +315,7 @@
           "pubkey": "a4b35f561ea055fd06a9c26ed010dfc48204ca240524ddb6de7740873b77cd39",
           "updated_at": 1784277308,
           "status": "alive",
-          "latency_ms": 2159,
+          "latency_ms": 2336,
           "model_count": 407
         },
         {
@@ -388,7 +362,7 @@
           "pubkey": "4e5622b575cdbb4d5ded093e48c68cd3f724fad547142f0c1b0aec2f2b2a0b2e",
           "updated_at": 1784002507,
           "status": "alive",
-          "latency_ms": 1899,
+          "latency_ms": 1752,
           "model_count": 347
         },
         {
@@ -443,7 +417,7 @@
           "pubkey": "95a39b071b01b3c06ef5a22cf07e92972bb2746199516f50934ee26db464d9f5",
           "updated_at": 1782848126,
           "status": "alive",
-          "latency_ms": 3185,
+          "latency_ms": 3852,
           "model_count": 63
         },
         {
@@ -472,8 +446,8 @@
           "pubkey": "23ec964f9161e41a7a633463e0c49391f052bfc3acfbadfbc636ef494792c14e",
           "updated_at": 1782026146,
           "status": "alive",
-          "latency_ms": 1429,
-          "model_count": 445
+          "latency_ms": 2279,
+          "model_count": 446
         },
         {
           "name": "Chimera-Routstr-Node",
@@ -516,7 +490,7 @@
           "pubkey": "a684e920e475ae9535a26256a3fccf0f0e67650156ea6542bc0baab983e7c1ca",
           "updated_at": 1781469646,
           "status": "alive",
-          "latency_ms": 397,
+          "latency_ms": 411,
           "model_count": 1
         },
         {
@@ -582,7 +556,7 @@
           "pubkey": "b3fde4baa277cb6412dec552942f7a0557fcb26e613e5e6f2856b427e1afef33",
           "updated_at": 1779744980,
           "status": "alive",
-          "latency_ms": 1128,
+          "latency_ms": 1095,
           "model_count": 407
         },
         {
@@ -728,8 +702,8 @@
           "pubkey": "3d8333c5a3467c62b055c72f7f197df161faad20a5219ae694a92457c0e48a7c",
           "updated_at": 1774382821,
           "status": "alive",
-          "latency_ms": 1108,
-          "model_count": 407
+          "latency_ms": 922,
+          "model_count": 422
         },
         {
           "name": "Node Zero Coder",
@@ -824,7 +798,7 @@
         }
       ],
       "probe": {
-        "probed_at": "2026-08-06T18:03:01.965Z",
+        "probed_at": "2026-08-06T21:40:59.973Z",
         "method": "GET {clearnet endpoint}/v1/models, 10s timeout; onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint (e.g. localhost)",
         "alive": 15,
         "unreachable": 20,
@@ -840,7 +814,7 @@
       "note": "Self-announced, agent-payable services published with our \"agent-payable service announcement\" microstandard (kind 38555). Announced ≠ curated: these are permissionless announcements taken as published, not endorsements, and graduate to the curated registry only via verification. Trust signals per entry: probe status, announcement_age_days, mint_health.",
       "services": [],
       "probe": {
-        "probed_at": "2026-08-06T18:03:01.976Z",
+        "probed_at": "2026-08-06T21:40:59.988Z",
         "method": "GET {clearnet endpoint}, 8s timeout; an L402 challenge is captured where served. Onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint.",
         "alive": 0,
         "unreachable": 0,
@@ -862,7 +836,7 @@
           "d": "03fdf1e25e49365ed4bbccfd88f07d5c73ef46fe853048ca94f04157a02000b017",
           "nuts": "4,5,7,8,9,10,11,12,14,17,20,29",
           "pubkey": "d5792f1044ca61572d652dce832d06c1c26ce278c06e01bb753f44d92e634a20",
-          "updated_at": 1786025749
+          "updated_at": 1786047349
         },
         {
           "url": "https://mint.cashu.chat",
@@ -1445,26 +1419,26 @@
     },
     "reviews": {
       "kind": 38000,
-      "count": 613,
+      "count": 615,
       "by_target_kind": {
-        "38172": 150,
-        "38173": 462,
+        "38172": 151,
+        "38173": 463,
         "untagged": 1
       }
     },
     "handlers": {
       "kind": 31990,
-      "count": 592
+      "count": 596
     },
     "dvm_jobs_30d": {
       "kinds_sampled": "5000-5999",
       "window_days": 30,
-      "total": 1421,
+      "total": 1519,
       "by_kind": {
         "5050": 4,
         "5204": 1,
-        "5300": 1392,
-        "5555": 24
+        "5300": 1492,
+        "5555": 22
       }
     }
   }
