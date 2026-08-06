@@ -10,8 +10,16 @@
     "binding": "ASSETS"
   },
   "triggers": {
-    // Refresh the live snapshot every 6 hours.
-    "crons": ["17 */6 * * *"]
+    // Two cadences, doing deliberately different work — see worker.js § CRON_FULL.
+    //   :47 hourly   — re-read the relays only (new bounties + new kind-38555
+    //                  announcements go live within the hour), carrying the last
+    //                  probe forward rather than re-probing.
+    //   :17 6-hourly — the full pass: probe every endpoint, rebuild the price
+    //                  index, append to the rolling uptime history, refetch the
+    //                  external tiers.
+    // The offset is load-bearing: same-minute schedules would fire together and
+    // race each other's KV writes. Do not align them.
+    "crons": ["47 * * * *", "17 */6 * * *"]
   },
   // Custom Domain — the same wiring bitcoineconomy.ai and radvladdy.com use, so
   // all three Workers are configured identically (converted 2026-08-05).

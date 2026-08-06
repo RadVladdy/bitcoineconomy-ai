@@ -510,7 +510,7 @@
     <!-- Sell side stays first. This one un-hides only when the board has at
          least one open request — see renderBoard() at the end of the script. -->
     <a class="btn" href="#board" id="btn-board" hidden>See work agents can take →</a>
-    <span class="btn-note">One signed Nostr event puts you in this table within ~6 hours, probed and labelled. No account, no fee. <strong id="sell-count">Nobody has done it yet — be the first.</strong></span>
+    <span class="btn-note">One signed Nostr event puts you in this table within the hour, then probed and labelled. No account, no fee. <strong id="sell-count">Nobody has done it yet — be the first.</strong></span>
   </div>
   <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · agents: <a href="/llms.txt">llms.txt</a> + <a href="/live/master.json">master.json</a></p>
 
@@ -588,7 +588,7 @@
 
   <section id="panel-live">
   <h2 id="live"><span class="hash">#</span>Live from Nostr — inference providers and ecash mints <span class="prov-live" id="live-when">snapshot</span></h2>
-  <p class="sec-sub">Supporting data, not a second directory. Two kinds of thing announce themselves on public relays and get re-probed every six hours: <strong>inference providers</strong> (who will run a model for you, priced below) and <strong>ecash mints and federations</strong> (where the money for it can sit). Announcements as published, <strong>not endorsements</strong> — and they outlive their nodes, so dead ≠ delisted. <a href="#about">How this is gathered ↓</a></p>
+  <p class="sec-sub">Supporting data, not a second directory. Two kinds of thing announce themselves on public relays; we re-read those relays every hour and re-probe the endpoints every six: <strong>inference providers</strong> (who will run a model for you, priced below) and <strong>ecash mints and federations</strong> (where the money for it can sit). Announcements as published, <strong>not endorsements</strong> — and they outlive their nodes, so dead ≠ delisted. <a href="#about">How this is gathered ↓</a></p>
 
   <p class="sec-sub" id="live-fallback" hidden></p>
 
@@ -663,7 +663,7 @@
   <h3>How fresh any of this is</h3>
   <ul>
     <li><b>The directory table</b> is rebuilt when the sources are re-merged; the build date is in the status bar at the top of this page.</li>
-    <li><b>The live inventory</b> re-reads the relays and re-probes every clearnet endpoint every six hours. If that snapshot ever goes stale, the status bar greys out and says so rather than showing old numbers as current.</li>
+    <li><b>The live inventory</b> re-reads the relays every hour, and re-probes every clearnet endpoint every six. So a new listing or bounty shows up within the hour, while its liveness figure is the last probe carried forward — the snapshot labels it as carried rather than passing it off as fresh. If that snapshot ever goes stale, the status bar greys out and says so rather than showing old numbers as current.</li>
     <li><b>Probed figures always carry their denominator</b> — "12 of 38 answered", never a bare "12 alive". Onion-only endpoints can't be probed from here and show as unverified, not dead.</li>
     <li><b>Every trust number can be recomputed</b> from the raw runs we publish: <a href="/live/uptime.json">/live/uptime.json</a>. Don't trust the percentage — check it.</li>
   </ul>
@@ -684,7 +684,8 @@
   // ---------- the status bar ----------
   // Two lines because there are two pipelines with two refresh rates: the merged
   // directory (rebuilt when the sources are re-merged) and the live inventory
-  // (re-probed every six hours). Running them together in one stream is what
+  // (relays re-read hourly, endpoints re-probed every six). Running them together
+  // in one stream is what
   // makes staleness invisible, so each line carries its own timestamp.
   //
   // The rules this bar is built to keep:
@@ -1069,10 +1070,14 @@
   // ---- freshness, stated rather than implied ----
   // Two ways this line can be lying: the snapshot is old, or we are serving the
   // built-in fallback file that ships with the site (which can be months old).
-  // Both get said out loud. Twelve hours = two missed six-hourly runs.
+  // Both get said out loud. The threshold tracks the RELAY read, which is the
+  // hourly cron and the thing generated_at stamps — six hours means six missed
+  // runs in a row, which is broken rather than unlucky. It was twelve when the
+  // only cron was six-hourly. `probed_at` is a separate, slower clock by design
+  // and is displayed on its own; don't fold it into this test.
   const snapMs = Date.parse(snap.generated_at || '') || 0;
   const ageHours = snapMs ? (Date.now() - snapMs) / 3600000 : Infinity;
-  const isStale = !live || !snapMs || ageHours > 12;
+  const isStale = !live || !snapMs || ageHours > 6;
   const nowIso = new Date().toISOString().slice(0, 10);
   const probedIso = ((probe && probe.probed_at) || snap.generated_at || '');
   let pill, stampText;

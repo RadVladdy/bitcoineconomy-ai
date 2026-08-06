@@ -94,7 +94,7 @@ POST one JSON-RPC request, get one JSON response. No funds move through it; you 
 Run a service an agent can pay for in Bitcoin? List it yourself — no account, no UI, no fee. Publish a
 signed Nostr "agent-payable service announcement" (kind 38555, our microstandard; reuse Routstr
 kind 38421 if the service is inference). It appears in the announced tier at https://marketplace.bitcoineconomy.ai/live/announced.json on
-the next 6-hourly refresh — with a liveness probe + trust signals (announcement age, accepted-mint health) —
+the next hourly refresh — with trust signals (announcement age, accepted-mint health), and a liveness probe on the 6-hourly pass —
 and graduates to the curated registry above via editor verification. Announced is permissionless and labeled:
 taken as published, not endorsed. Field schema + a copyable example event: https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md
 (JSON schema: https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.schema.json).

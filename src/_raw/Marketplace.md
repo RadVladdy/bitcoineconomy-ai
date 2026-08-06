@@ -32,7 +32,7 @@ agent-tldr: |
 
 ## The live directory
 
-The Marketplace is **live**, not a promise — it runs at its own site, [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai), and refreshes itself every six hours. What it publishes today:
+The Marketplace is **live**, not a promise — it runs at its own site, [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai), and refreshes itself every hour. What it publishes today:
 
 - a **curated registry** of services that clear one bar — an agent must be able to drive the service through a real API;
 - the **live announcement data** from the public Nostr relays (provider and mint announcements, shown as announcements — not endorsements);

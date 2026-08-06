@@ -459,7 +459,7 @@ const TOOLS = [
   {
     name: 'price_model',
     description:
-      'Given an LLM model id or partial name, return the alive Bitcoin-paid inference providers serving it, cheapest first, in sats per prompt/completion token and max sats per request. Backed by a cross-provider price index refreshed every 6 hours.',
+      'Given an LLM model id or partial name, return the alive Bitcoin-paid inference providers serving it, cheapest first, in sats per prompt/completion token and max sats per request. Backed by a cross-provider price index rebuilt every 6 hours.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -475,7 +475,7 @@ const TOOLS = [
         model_query: a.model,
         match_count: matches.length,
         note: matches.length
-          ? "Providers are cheapest-first, in sats. Prices are providers' own published numbers, refreshed every 6 hours — announcements, not endorsements."
+          ? "Providers are cheapest-first, in sats. Prices are providers' own published numbers, rebuilt every 6 hours — announcements, not endorsements."
           : 'No alive provider matches that model id right now. Try a broader query (e.g. just the family name).',
         models: matches,
       };
@@ -525,7 +525,7 @@ const TOOLS = [
           note: master?.vocabulary?.confidence_levels,
         },
         sell_side: {
-          note: 'This directory is two-sided. To LIST a service, publish a signed kind-38555 announcement — no account, no fee. It appears as source="announced" on the next 6-hourly refresh and graduates to "curated" only via editor verification.',
+          note: 'This directory is two-sided. To LIST a service, publish a signed kind-38555 announcement — no account, no fee. It appears as source="announced" within the hour (the relay read runs hourly; its liveness probe follows on the 6-hourly pass) and graduates to "curated" only via editor verification.',
           spec: ANNOUNCE_SPEC_URL,
         },
         vocabulary: master?.vocabulary || { categories: dir?.categories },
@@ -602,7 +602,7 @@ const TOOLS = [
         const priced = priceModel(await ctx.models(), a.model, 3);
         out.live_price = priced.length
           ? { model_query: a.model, matches: priced }
-          : { model_query: a.model, matches: [], note: 'No alive provider in the 6-hourly price index matches that model id right now.' };
+          : { model_query: a.model, matches: [], note: 'No alive provider in the price index matches that model id right now.' };
       }
       if (e.category === 'swap' && e.api_base) {
         out.live_rate = await liveSwapRate(e, { from: a.from, to: a.to, amount: a.amount });
@@ -669,7 +669,7 @@ const TOOLS = [
   {
     name: 'get_uptime',
     description:
-      "Rolling uptime history for every target the marketplace probes on its 6-hourly cron — the Nostr-announced services AND the marketplace's own agent surfaces (self:* rows; the prober grades itself by the same bar). RECOMPUTABLE, NOT A SCORE: stats derive from raw per-run observations, with the formula and per-target denominators stated explicitly (unprobeable observations — tor-only/unroutable — are excluded from the denominator and counted separately). Set include_runs=true for the raw runs[] to recompute from; the history's digests are Nostr-signed and Bitcoin-anchored nightly via OpenTimestamps (records at /anchors/index.json), so it is tamper-evident. Returns status \"accumulating\" with empty targets until the first history run after a deploy.",
+      "Rolling uptime history for every target the marketplace probes on its 6-hourly probe cron (the hourly relay refresh appends no run — the window is 120 probe runs, ≈30 days) — the Nostr-announced services AND the marketplace's own agent surfaces (self:* rows; the prober grades itself by the same bar). RECOMPUTABLE, NOT A SCORE: stats derive from raw per-run observations, with the formula and per-target denominators stated explicitly (unprobeable observations — tor-only/unroutable — are excluded from the denominator and counted separately). Set include_runs=true for the raw runs[] to recompute from; the history's digests are Nostr-signed and Bitcoin-anchored nightly via OpenTimestamps (records at /anchors/index.json), so it is tamper-evident. Returns status \"accumulating\" with empty targets until the first history run after a deploy.",
     inputSchema: {
       type: 'object',
       properties: {

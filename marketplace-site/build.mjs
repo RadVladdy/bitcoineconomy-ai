@@ -158,7 +158,7 @@ const directory = {
     ai_plugin: BASE + '/.well-known/ai-plugin.json',
   },
   sell_side: {
-    note: 'This directory is two-sided. To LIST a service an agent can pay for, publish a signed Nostr "agent-payable service announcement" (kind ' + KIND_ANNOUNCE + ') — no account, no UI, no fee. It appears in the announced tier (/live/announced.json) on the next 6-hourly refresh, with probe status + trust signals, and graduates to the curated registry via verification. How: ' + BASE + '/spec/agent-payable-service-announcement.md',
+    note: 'This directory is two-sided. To LIST a service an agent can pay for, publish a signed Nostr "agent-payable service announcement" (kind ' + KIND_ANNOUNCE + ') — no account, no UI, no fee. It appears in the announced tier (/live/announced.json) within the hour — the relay read runs hourly — with trust signals, and its liveness probe follows on the 6-hourly pass. It graduates to the curated registry via verification. How: ' + BASE + '/spec/agent-payable-service-announcement.md',
     announcement_kind: KIND_ANNOUNCE,
     spec: BASE + '/spec/agent-payable-service-announcement.md',
     schema: BASE + '/spec/agent-payable-service-announcement.schema.json',
@@ -398,7 +398,7 @@ const llms = [
   `Run a service an agent can pay for in Bitcoin? List it yourself — no account, no UI, no fee. Publish a`,
   `signed Nostr "agent-payable service announcement" (kind ${KIND_ANNOUNCE}, our microstandard; reuse Routstr`,
   `kind 38421 if the service is inference). It appears in the announced tier at ${BASE}/live/announced.json on`,
-  'the next 6-hourly refresh — with a liveness probe + trust signals (announcement age, accepted-mint health) —',
+  'the next hourly refresh — with trust signals (announcement age, accepted-mint health), and a liveness probe on the 6-hourly pass —',
   'and graduates to the curated registry above via editor verification. Announced is permissionless and labeled:',
   `taken as published, not endorsed. Field schema + a copyable example event: ${BASE}/spec/agent-payable-service-announcement.md`,
   `(JSON schema: ${BASE}/spec/agent-payable-service-announcement.schema.json).`,
@@ -517,7 +517,7 @@ const openapi = {
           'What announces itself on Nostr right now: Routstr kind-38421 inference providers, NIP-87 ecash mints, '
           + 'kind-38000 reviews. Each provider carries a probe status (alive | unreachable | unverified-tor-only | '
           + 'unroutable — filter status === "alive" unless you can reach Tor), latency_ms, model_count, and accepted mints. '
-          + 'KV-backed, refreshed every 6h; static fallback at /snapshot.json.',
+          + 'KV-backed; relay data refreshed hourly, liveness probes every 6h; static fallback at /snapshot.json.',
         responses: { 200: jsonResp('The live snapshot document.') },
       },
     },
@@ -566,7 +566,7 @@ const openapi = {
         operationId: 'getUptimeHistory',
         summary: 'Rolling uptime history for every probed target — recomputable, self-inclusive, Bitcoin-anchored',
         description:
-          'Per-target rolling uptime over the 6-hourly probe cron, including the marketplace\'s own surfaces '
+          'Per-target rolling uptime over the 6-hourly probe cron (the hourly relay refresh appends no run), including the marketplace\'s own surfaces '
           + '(self:* rows). Recomputable, not a score: carries the raw per-run observations (runs[]), the exact '
           + 'formula, and explicit denominators (unprobeable observations are excluded and counted separately). '
           + 'Nightly anchor runs sign snapshot digests to Nostr and stamp them into Bitcoin via OpenTimestamps '
@@ -749,7 +749,7 @@ const specMd = [
   '',
   '## What happens next',
   '',
-  `1. **Ingest.** The directory's cron re-queries the relays every ~6 hours and parses your event into \`${BASE}/live/announced.json\`.`,
+  `1. **Ingest.** The directory's cron re-queries the relays every hour and parses your event into \`${BASE}/live/announced.json\`. Its liveness probe follows on the 6-hourly full pass.`,
   '2. **Probe.** Your clearnet endpoint gets a liveness probe (a bare GET; an L402 challenge is captured where served). Status is one of `alive` / `unreachable` / `unverified-tor-only` / `unroutable`. **Dead ≠ delisted** — your announcement stays listed with its status.',
   '3. **Trust signals.** Each announced service carries probed liveness, `announcement_age_days`, and `mint_health` (how many of your claimed mints are themselves known/announced). These are the cold-start signals an agent weighs — there is no gatekeeping and no endorsement.',
   '4. **Graduate.** A service that clears the directory\'s API inclusion bar (agent-drivable through a real API) can be verified by the editors and promoted into the curated registry; once curated, it drops out of the announced tier automatically.',

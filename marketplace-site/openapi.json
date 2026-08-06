@@ -76,7 +76,7 @@
       "get": {
         "operationId": "getLiveSnapshot",
         "summary": "Live Nostr-announced inventory (Routstr providers, ecash mints)",
-        "description": "What announces itself on Nostr right now: Routstr kind-38421 inference providers, NIP-87 ecash mints, kind-38000 reviews. Each provider carries a probe status (alive | unreachable | unverified-tor-only | unroutable — filter status === \"alive\" unless you can reach Tor), latency_ms, model_count, and accepted mints. KV-backed, refreshed every 6h; static fallback at /snapshot.json.",
+        "description": "What announces itself on Nostr right now: Routstr kind-38421 inference providers, NIP-87 ecash mints, kind-38000 reviews. Each provider carries a probe status (alive | unreachable | unverified-tor-only | unroutable — filter status === \"alive\" unless you can reach Tor), latency_ms, model_count, and accepted mints. KV-backed; relay data refreshed hourly, liveness probes every 6h; static fallback at /snapshot.json.",
         "responses": {
           "200": {
             "description": "The live snapshot document.",
@@ -152,7 +152,7 @@
       "get": {
         "operationId": "getUptimeHistory",
         "summary": "Rolling uptime history for every probed target — recomputable, self-inclusive, Bitcoin-anchored",
-        "description": "Per-target rolling uptime over the 6-hourly probe cron, including the marketplace's own surfaces (self:* rows). Recomputable, not a score: carries the raw per-run observations (runs[]), the exact formula, and explicit denominators (unprobeable observations are excluded and counted separately). Nightly anchor runs sign snapshot digests to Nostr and stamp them into Bitcoin via OpenTimestamps (records at /anchors/), making the history tamper-evident. KV-backed; static placeholder at /uptime.json until the first cron.",
+        "description": "Per-target rolling uptime over the 6-hourly probe cron (the hourly relay refresh appends no run), including the marketplace's own surfaces (self:* rows). Recomputable, not a score: carries the raw per-run observations (runs[]), the exact formula, and explicit denominators (unprobeable observations are excluded and counted separately). Nightly anchor runs sign snapshot digests to Nostr and stamp them into Bitcoin via OpenTimestamps (records at /anchors/), making the history tamper-evident. KV-backed; static placeholder at /uptime.json until the first cron.",
         "responses": {
           "200": {
             "description": "The uptime history document.",

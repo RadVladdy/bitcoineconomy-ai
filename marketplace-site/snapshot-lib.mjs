@@ -542,6 +542,46 @@ export function applyProbes(snapshot, probeResults, { probedAt }) {
   return snapshot;
 }
 
+// Copy the previous run's probe results onto a freshly-read snapshot.
+//
+// Honesty rules, both load-bearing:
+//   - `probed_at` keeps the ORIGINAL probe timestamp. An hourly snapshot must
+//     never claim its liveness data is an hour old when it is up to six.
+//   - a provider or service announced since the last full pass simply carries no
+//     probe fields. "Not probed yet" is the truth; inventing a status for it,
+//     or inheriting a neighbour's, would be worse than the gap.
+// Counts are recomputed from what actually carried, so the summary always
+// matches the rows beneath it even when the announced set changed underneath.
+export function carryProbes(fresh, previous) {
+  const pairs = [
+    ['routstr', 'providers', 'd', ['status', 'latency_ms', 'model_count']],
+    ['announced', 'services', 'slug', ['status', 'latency_ms', 'http_status', 'l402']],
+  ];
+  for (const [modName, listName, key, fields] of pairs) {
+    const mod = fresh.modules?.[modName];
+    const prevMod = previous?.modules?.[modName];
+    if (!mod || !prevMod?.probe) continue;
+    const byKey = new Map((prevMod[listName] ?? []).map((row) => [row[key], row]));
+    const counts = { alive: 0, unreachable: 0, 'unverified-tor-only': 0, unroutable: 0 };
+    for (const row of mod[listName] ?? []) {
+      const prev = byKey.get(row[key]);
+      if (!prev?.status) continue;
+      for (const f of fields) if (prev[f] !== undefined) row[f] = prev[f];
+      counts[prev.status] = (counts[prev.status] ?? 0) + 1;
+    }
+    mod.probe = {
+      ...prevMod.probe,
+      alive: counts.alive,
+      unreachable: counts.unreachable,
+      unverified_tor_only: counts['unverified-tor-only'],
+      unroutable: counts.unroutable,
+      carried_forward: true,
+      carried_note: 'This snapshot was refreshed from the relays on the hourly cron; the liveness figures are the last full probe run, carried forward unchanged. `probed_at` is that run\'s timestamp, not this one\'s. Anything announced since then carries no status at all rather than a guessed one. The full probe runs every 6 hours.',
+    };
+  }
+  return fresh;
+}
+
 // L402 (formerly LSAT): a 402 response carries `WWW-Authenticate: L402 macaroon="..",
 // invoice="lnbc.."`. Shared by the announced-service probe here and get_quote's
 // api_base probe in mcp-lib.mjs (one detector, one behaviour).

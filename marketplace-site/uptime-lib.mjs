@@ -14,7 +14,10 @@
 // else's ("no green by assertion").
 
 export const UPTIME_SCHEMA_VERSION = 1;
-export const UPTIME_WINDOW_RUNS = 120; // ≈30 days at the 6-hourly cron
+export const UPTIME_WINDOW_RUNS = 120; // ≈30 days at the 6-hourly PROBE cron
+// The window is counted in probe RUNS, not in hours, and only the 6-hourly full
+// pass appends one. The hourly relay refresh deliberately does not — if it did,
+// 120 runs would silently mean 5 days while this doc kept publishing 30.
 
 const PROBEABLE = new Set(['alive', 'unreachable']);
 
@@ -145,7 +148,7 @@ export function buildUptimeDoc(history, { generatedAt } = {}) {
       + 'https://marketplace.bitcoineconomy.ai.',
     schema_version: UPTIME_SCHEMA_VERSION,
     generated_at: generatedAt,
-    cadence: '6-hourly Worker cron (17 */6 * * * UTC); each run probes every target once',
+    cadence: 'Probes run on the 6-hourly Worker cron (17 */6 * * * UTC); each run probes every target once. The directory itself re-reads the relays hourly (47 * * * * UTC), but that pass does not probe and appends no run here — so this window is 120 probe runs, ≈30 days.',
     window: { max_runs: UPTIME_WINDOW_RUNS, runs_held: runs.length, approx_days_at_capacity: 30 },
     formula:
       'uptime_pct = alive / (alive + unreachable), rounded to 0.1%. Unprobeable observations '

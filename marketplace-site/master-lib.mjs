@@ -170,7 +170,7 @@ function fromAnnounced(snapshot, uptime) {
         latency_ms: s.probe?.latency_ms ?? null,
         uptime_pct: up?.uptime_pct ?? null,
         uptime_denominator: up?.uptime_denominator ?? null,
-        method: 'Liveness probe on each 6-hourly refresh; rolling uptime recomputable from the raw runs in /live/uptime.json. Announcements outlive their nodes — dead ≠ delisted, and onion-only endpoints cannot be probed from this infrastructure (unverified, not dead).',
+        method: 'Liveness probe on the 6-hourly full refresh (the directory re-reads the relays hourly; that pass carries the last probe forward and says so); rolling uptime recomputable from the raw runs in /live/uptime.json. Announcements outlive their nodes — dead ≠ delisted, and onion-only endpoints cannot be probed from this infrastructure (unverified, not dead).',
         accepted_mints: s.accepted_mints || [],
         announcement_age_days: s.announcement_age_days ?? null,
       },

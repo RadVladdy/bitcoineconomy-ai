@@ -68,7 +68,7 @@ which is also the noise filter: it's why there are no uncategorized rows here.
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
 | `worker.js` | Cloudflare Worker: cron → relays + probes + the two external sources → KV, then builds `master.json` from whatever that run produced (falling back per-tier to its last good KV copy, so one flaky upstream can't blank a tier); serves `/mcp` and every `/live/*` route; assets otherwise |
 | `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`, `find_work`) at `POST /mcp` |
-| `wrangler.jsonc` | worker config (cron every 6h, KV binding, static assets) |
+| `wrangler.jsonc` | worker config (two crons — hourly relay read, 6-hourly full probe pass — KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 
 **Never hand-edit the generated files.** Change a card in `src/_raw/` or
@@ -104,7 +104,7 @@ notes): **never publish a bare trust score — publish the raw inputs, the formu
 and the anchors, so a skeptic recomputes it.**
 
 - **`/live/uptime.json`** (`uptime-lib.mjs`) — rolling per-target uptime over the
-  6-hourly cron, covering the announced tiers **and the marketplace's own
+  6-hourly probe cron (the hourly relay pass appends no run), covering the announced tiers **and the marketplace's own
   surfaces** (`self:*` rows probed via the public hostname — no green by
   assertion). The doc carries the raw `runs[]` observations, the explicit
   formula, and per-target denominators (unprobeable ≠ down; excluded and counted
@@ -200,7 +200,7 @@ not using a custom domain. Converted; don't go back.*
 Workers routes take precedence over a Pages custom domain, so the Pages project
 rebuilt on every push to a `.pages.dev` URL nobody visited. Its git connection was
 removed 2026-08-05 and **the Pages project was deleted the same day**; nothing of it
-remains. The `SNAPSHOT` KV namespace and the 6-hourly cron that refresh
+remains. The `SNAPSHOT` KV namespace and the crons that refresh
 `/live/snapshot.json` are live and declared in `wrangler.jsonc`. If `/live/*` ever
 goes quiet, the UI falls back to the committed `snapshot.json` — which means **a 200
 on `/live/snapshot.json` is not evidence the Worker is healthy.** Check the Worker's

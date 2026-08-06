@@ -20,7 +20,7 @@
 // simply keeps the previous snapshot. If that happens persistently, upgrade the
 // plan or refresh via the local CLI (`node sample-relays.mjs --write`) instead.
 
-import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes } from './snapshot-lib.mjs';
+import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes, carryProbes } from './snapshot-lib.mjs';
 import { fetch402index, buildL402Index } from './l402index-lib.mjs';
 import { fetchL402Space, buildL402SpaceDoc } from './l402space-lib.mjs';
 import { buildMaster } from './master-lib.mjs';
@@ -177,8 +177,67 @@ async function serveLive(env, origin, kvKey, fallbackPath) {
   return new Response(JSON.stringify({ error: kvKey + ' unavailable' }), { status: 503, headers });
 }
 
+// The two cron cadences. They do deliberately different amounts of work.
+//
+// The relay read is cheap and the thing that needs to be fresh: a new bounty or
+// a new kind-38555 announcement is invisible until the next run, and "your
+// listing shows up within the hour" is a materially better promise than "within
+// six hours". The PROBE is the expensive half — it fetches ~40 third-party
+// endpoints (parsing /v1/models bodies of 1–2 MB) and appends to the rolling
+// uptime history. Running that hourly would multiply the load we put on other
+// people's services by six to learn almost nothing, since liveness does not
+// change by the hour, and it would silently redefine the uptime window: the
+// history keeps UPTIME_WINDOW_RUNS=120 runs, which is ~30 days at six-hourly
+// and only ~5 days at hourly, while the published doc keeps claiming 30.
+//
+// So: hourly reads the relays and carries the last probe forward; the full pass
+// stays six-hourly and owns everything probe-derived. The two are OFFSET (:47 vs
+// :17) so they never fire in the same minute and race each other's KV writes.
+const CRON_FULL = '17 */6 * * *';
+
+// The hourly pass. Everything it publishes is either freshly read from the
+// relays or explicitly carried forward and labelled as such — it never computes
+// a probe-derived number, because it never probed.
+async function refreshFromRelays(env) {
+  const snapshot = await takeSnapshot();
+  // Same don't-overwrite-good-data rule as the full pass: a run where every
+  // relay failed must not blank a good snapshot.
+  if (!(snapshot.modules.routstr.count > 0 || snapshot.modules.mints.cashu_count > 0)) return;
+
+  const readKV = async (key) => {
+    try { return JSON.parse((await env.SNAPSHOT.get(key)) || 'null'); } catch { return null; }
+  };
+
+  const previous = await readKV(KV_SNAPSHOT);
+  if (previous) carryProbes(snapshot, previous);
+  await env.SNAPSHOT.put(KV_SNAPSHOT, JSON.stringify(snapshot));
+
+  // Rebuild the merged directory so the curated tier picks up the fresh relay
+  // rows too. Every non-relay tier comes from its last good KV copy — this pass
+  // deliberately does not refetch them.
+  try {
+    const [uptimeDoc, idx, space] = await Promise.all([
+      readKV(KV_UPTIME), readKV(KV_L402INDEX), readKV(KV_L402SPACE),
+    ]);
+    const master = buildMaster(
+      { directory: DIRECTORY, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc },
+      { generatedAt: new Date().toISOString(), base: SELF_BASE },
+    );
+    if (master.count > 0 && master.sources?.curated?.rows_contributed > 0) {
+      await env.SNAPSHOT.put(KV_MASTER, JSON.stringify(master));
+    }
+  } catch {}
+}
+
 export default {
   async scheduled(controller, env, ctx) {
+    // The hourly pass: re-read the relays so the board and the announced tier are
+    // at most an hour stale, carry the probe forward, and touch nothing that is
+    // probe-derived — no uptime history append, no models index rebuild, no
+    // external-tier refetch. Those all belong to the full pass and stay on their
+    // own six-hourly clock.
+    if (controller.cron && controller.cron !== CRON_FULL) return refreshFromRelays(env);
+
     const snapshot = await takeSnapshot();
     // Don't overwrite a good snapshot with an empty one if every relay failed.
     const gotData = snapshot.modules.routstr.count > 0 || snapshot.modules.mints.cashu_count > 0;
