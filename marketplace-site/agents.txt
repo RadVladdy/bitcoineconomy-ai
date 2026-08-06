@@ -18,6 +18,7 @@ and is machine-payable, not that it is recommended.
 - https://marketplace.bitcoineconomy.ai/live/master.json — the merged view.
 - https://marketplace.bitcoineconomy.ai/live/uptime.json — rolling probe history.
 - https://marketplace.bitcoineconomy.ai/live/announced.json — kind-38555 sell-side announcements.
+- https://marketplace.bitcoineconomy.ai/live/bounties.json — kind-38556 buy-side work requests (the bounty board).
 
 > A 200 on a /live/ route does not prove the refresh cron is healthy — these
 > fall back to a committed snapshot when KV is cold. Check the timestamp inside

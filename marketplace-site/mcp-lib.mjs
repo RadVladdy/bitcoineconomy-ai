@@ -15,7 +15,12 @@
 // so the Worker can't be turned into an open proxy. No funds move through here; the
 // agent pays the returned invoice with its own wallet.
 
-import { detectL402 } from './snapshot-lib.mjs';
+import { detectL402, RELAYS, KIND_REQUEST, KIND_COMMENT, REQUEST_STATUSES } from './snapshot-lib.mjs';
+import { CATEGORY_ORDER } from './taxonomy.mjs';
+
+// Settlement methods the spec's `pay` tag admits. Repeatable — a poster may
+// offer more than one, and an answering agent picks whichever it can receive.
+const PAY_METHODS = ['zaps', 'lightning', 'cashu', 'l402'];
 
 const SERVER_INFO = { name: 'bitcoineconomy-marketplace', version: '1.0.0' };
 const ANNOUNCE_SPEC_URL = 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md';
@@ -751,6 +756,122 @@ const TOOLS = [
         how_to_answer: 'Publish a kind-1111 (NIP-22) comment scoped to `address` with tags ["K","38556"] and ["status","claimed"]. When done, publish another with ["status","delivered"] and ["proof","<url or event id>"]. The poster settles by zapping you directly (NIP-57); that receipt is your third-party-checkable proof of payment.',
         how_to_post: 'Publish your own kind-38556 with d/k/amount/pay/status tags and a content JSON carrying title, brief and — required — acceptance. See ' + mod.spec,
         requests: rows.slice(0, limit),
+      };
+    },
+  },
+  {
+    // The counterpart to find_work: find_work is how an agent EARNS, this is how
+    // it BUYS work from another agent.
+    //
+    // IT RETURNS AN UNSIGNED EVENT AND THAT IS THE WHOLE DESIGN, not a limitation
+    // to be engineered away later. This server holds no keys and no funds. If it
+    // signed for you it would need your secret key, and a directory that can sign
+    // as its listers is a directory that can forge listings — including
+    // withdrawing someone else's bounty by republishing their `d` with
+    // status:"withdrawn". Composing the event is the part that needs the
+    // directory's knowledge (the tag grammar, the category vocabulary, the
+    // millisats unit); signing is the part that needs your key, and the two
+    // belong in different places. The caller signs with its own key and publishes
+    // to the relays named below.
+    name: 'post_bounty',
+    description:
+      "Compose a signed-by-YOU offer to pay an agent in sats to do a job (Nostr kind 38556, the agent-payable work request microstandard) — the buy side of this marketplace. Returns a COMPLETE BUT UNSIGNED event: this server holds no keys, no funds and no account, so it cannot and will not sign or publish for you. You sign it with your own key and publish it to the relays listed in the response; the board picks it up on the next hourly read, so a new bounty appears within the hour. It does the parts that need the directory: the exact tag grammar, validation against the shared category vocabulary (so your request can be matched mechanically against listings from find_service), and the millisats conversion — the `amount` tag is in MILLISATS to match NIP-57 exactly, which is the single easiest thing to get wrong by a factor of 1000, so pass what you mean in SATS and read back both numbers before signing. `acceptance` is required and must be checkable: it is the public test the deliverable has to pass, and a request without one cannot be answered by an agent without asking a human, which defeats the point. Nothing is escrowed — you settle directly with whoever delivers, by zapping them. Spec: /spec/agent-payable-work-request.md",
+    inputSchema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', description: 'Short name for the job, as a human or agent would scan it in a list.' },
+        brief: { type: 'string', description: 'What the work actually is — enough context for an agent to decide whether it can do it.' },
+        acceptance: { type: 'string', description: 'REQUIRED. The checkable test the deliverable must pass — the public definition of done. Write it so a third party could judge it without asking you.' },
+        amount_sats: { type: 'number', description: 'REQUIRED. What you are offering, in SATS. Converted to millisats for the `amount` tag (the spec matches NIP-57 units); both values are echoed back so you can check the factor of 1000 before signing.' },
+        category: { type: 'string', enum: CATEGORY_ORDER, description: 'One category from the shared vocabulary — the same values find_service and list_categories use, which is what lets your request be matched against listings mechanically.' },
+        deliverable: { type: 'string', description: 'What you want handed over (a URL, a file, an event id, a report).' },
+        pay: { type: 'array', items: { type: 'string', enum: PAY_METHODS }, description: 'How you will settle. Repeatable; default ["zaps"].' },
+        expires_in_days: { type: 'number', description: 'Adds a NIP-40 expiration tag. Past it a request is stale whatever its status says, and readers drop it from the actionable cohort. Omit for no expiry.' },
+        request_id: { type: 'string', description: 'The `d` tag — the replaceability key. Omit and one is generated. KEEP IT: to change status later (claimed → delivered → settled → withdrawn) you republish under the SAME d, and a new d makes a second bounty instead of updating the first.' },
+        status: { type: 'string', enum: REQUEST_STATUSES, description: 'Default "open". Anything else is for republishing an existing request under its original d.' },
+        targets: { type: 'array', items: { type: 'string' }, description: 'Optional `a` tags — addresses of specific listings this request concerns.' },
+        url: { type: 'string', description: 'Optional `u` tag — a URL the work concerns.' },
+        topics: { type: 'array', items: { type: 'string' }, description: 'Optional freeform `t` topic tags.' },
+      },
+      required: ['title', 'acceptance', 'amount_sats', 'category'],
+      additionalProperties: false,
+    },
+    async handler(a) {
+      // Validate before composing. Handing back a malformed event that a relay
+      // accepts and the board then files under `malformed` is worse than a clean
+      // refusal here — the poster would believe the bounty is live, and the one
+      // number that matters (open_actionable) would not move.
+      const category = String(a.category || '').toLowerCase();
+      if (!CATEGORY_ORDER.includes(category)) {
+        return { error: `Unknown category "${a.category}". Valid: ${CATEGORY_ORDER.join(', ')} — call list_categories for live counts.` };
+      }
+      const status = String(a.status || 'open').toLowerCase();
+      if (!REQUEST_STATUSES.includes(status)) {
+        return { error: `Unknown status "${a.status}". Valid: ${REQUEST_STATUSES.join(', ')}.` };
+      }
+      const sats = Number(a.amount_sats);
+      if (!Number.isFinite(sats) || sats <= 0 || Math.floor(sats) !== sats) {
+        return { error: 'amount_sats must be a positive whole number of sats.' };
+      }
+      const pay = (Array.isArray(a.pay) && a.pay.length ? a.pay : ['zaps']).map((p) => String(p).toLowerCase());
+      const badPay = pay.filter((p) => !PAY_METHODS.includes(p));
+      if (badPay.length) {
+        return { error: `Unknown pay method(s): ${badPay.join(', ')}. Valid: ${PAY_METHODS.join(', ')}.` };
+      }
+      const acceptance = String(a.acceptance || '').trim();
+      if (!acceptance) {
+        return { error: 'acceptance is required — a request with no checkable definition of done cannot be answered without asking a human.' };
+      }
+
+      const msats = sats * 1000;
+      const nowSec = Math.floor(Date.now() / 1000);
+      const d = String(a.request_id || '').trim() || `bounty-${crypto.randomUUID()}`;
+
+      const tags = [
+        ['d', d],
+        ['k', category],
+        ['amount', String(msats)],
+        ...pay.map((p) => ['pay', p]),
+        ['status', status],
+      ];
+      if (Number.isFinite(Number(a.expires_in_days)) && Number(a.expires_in_days) > 0) {
+        tags.push(['expiration', String(nowSec + Math.round(Number(a.expires_in_days) * 86400))]);
+      }
+      for (const t of a.targets || []) tags.push(['a', String(t)]);
+      if (a.url) tags.push(['u', String(a.url)]);
+      for (const t of a.topics || []) tags.push(['t', String(t).toLowerCase()]);
+
+      const content = {
+        title: String(a.title),
+        ...(a.brief ? { brief: String(a.brief) } : {}),
+        acceptance,
+        ...(a.deliverable ? { deliverable: String(a.deliverable) } : {}),
+        links: { spec: 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md' },
+      };
+
+      return {
+        we_hold_nothing: 'This server has no keys, no funds, no escrow and no account. It composed this event; it did not sign it and cannot publish it. Nothing is reserved by calling this tool, and no bounty exists until YOU sign and publish the event below.',
+        unsigned_event: {
+          kind: KIND_REQUEST,
+          created_at: nowSec,
+          tags,
+          content: JSON.stringify(content),
+        },
+        // The unit trap, stated as two numbers rather than as a warning. A poster
+        // who reads these back cannot be off by 1000 without noticing.
+        amount_check: {
+          you_asked_for_sats: sats,
+          amount_tag_is_millisats: msats,
+          note: 'The `amount` tag is millisats, matching NIP-57 exactly. 50000 sats = 50000000. Confirm both numbers before signing.',
+        },
+        request_id: d,
+        request_id_note: 'Keep this. Republishing under the same `d` UPDATES this request (status changes, corrections); a different `d` creates a second one.',
+        how_to_sign: 'Add `pubkey`, compute `id` (the NIP-01 serialization hash) and `sig` with your own key — a signer, a NIP-46 bunker, or any Nostr library. This server never sees your key.',
+        how_to_publish: 'Publish the signed event to the relays below. Read it back PER RELAY before believing it landed: a relay can return OK and still drop the event, so a publisher\'s own success count is not proof.',
+        board_relays: RELAYS,
+        when_it_appears: 'The board re-reads the relays hourly, so a published request shows up on /live/bounties.json, the marketplace page and find_work within the hour.',
+        how_answers_arrive: `Agents claim by publishing a kind-${KIND_COMMENT} (NIP-22) comment scoped to your request's address with ["status","claimed"], then again with ["status","delivered"] and a ["proof", ...] tag. You settle by zapping the deliverer directly (NIP-57); that receipt is the third-party-checkable proof of payment. Then republish this event under the same d with status "settled".`,
+        spec: 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md',
       };
     },
   },

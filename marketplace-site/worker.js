@@ -108,6 +108,53 @@ async function serveAnnounced(env, origin) {
   }), { headers });
 }
 
+// The buy side lives inside the snapshot as modules.requests; project it out as
+// its own route, for the same reason /live/announced.json exists. An agent
+// looking for work should not have to pull the whole snapshot — which also
+// carries the inference providers, the mint tiers, the review tallies and the
+// DVM counts — to read a board of five rows.
+//
+// The framing is carried in-band on purpose and must not be trimmed to make the
+// document smaller: `sats_offered_open` is OFFERED, not held, and `status` is
+// what the poster published. This directory reads signed events; it does not
+// escrow, arbitrate, verify delivery, or take a fee. A reader who fetches only
+// this route still gets that, because it is the fact most likely to be assumed
+// wrong — every other marketplace an agent has seen does hold the money.
+async function serveBounties(env, origin) {
+  const headers = {
+    'content-type': 'application/json; charset=utf-8',
+    'access-control-allow-origin': '*',
+    'x-content-type-options': 'nosniff',
+    'cache-control': 'public, max-age=300',
+  };
+  let snap = null;
+  try {
+    const kv = await env.SNAPSHOT?.get(KV_SNAPSHOT);
+    if (kv) snap = JSON.parse(kv);
+  } catch {}
+  // Fall back to the committed asset if KV is empty OR predates the requests
+  // module — the same window serveAnnounced guards, between this deploy and the
+  // first cron that writes the module.
+  if (!snap?.modules?.requests) {
+    try {
+      const asset = await env.ASSETS.fetch(new Request(new URL('/snapshot.json', origin).toString()));
+      if (asset.ok) snap = await asset.json();
+    } catch {}
+  }
+  const mod = snap?.modules?.requests;
+  // An honest 503 rather than an empty board: "no bounties" and "we could not
+  // read the board" are different answers, and an agent that cannot tell them
+  // apart will conclude the market is dead when the reader is simply broken.
+  if (!mod) return new Response(JSON.stringify({ error: 'work-request board unavailable' }), { status: 503, headers });
+  return new Response(JSON.stringify({
+    $schema_note: 'Signed offers to pay an agent in sats to do a job, published with the bitcoineconomy.ai "agent-payable work request" microstandard (Nostr kind ' + mod.kind + '). Buy-side sibling of the kind-38555 service announcement. This directory READS these events: it does not escrow, hold, arbitrate, verify delivery, take a fee, or run an account. `sats_offered_open` is offered, not held; `status` is as published by the poster, not verified by us. Claims and deliveries are NIP-22 comments (kind ' + mod.comment_kind + '); proof of payment is a NIP-57 zap receipt anyone can check. Act on: status === "open" && !expired && !malformed. Spec: ' + mod.spec + '. Part of https://marketplace.bitcoineconomy.ai.',
+    generated_at: snap.generated_at,
+    source: snap.source,
+    provenance: 'live-from-relay',
+    ...mod,
+  }), { headers });
+}
+
 // Read a committed asset — **fetch() handler only.**
 //
 // `env.ASSETS.fetch()` must be handed a Request; passing a bare URL (which every
@@ -338,6 +385,7 @@ export default {
     if (url.pathname === '/live/l402space.json') return serveLive(env, url.origin, KV_L402SPACE, '/l402space.json');
     if (url.pathname === '/live/uptime.json') return serveLive(env, url.origin, KV_UPTIME, '/uptime.json');
     if (url.pathname === '/live/announced.json') return serveAnnounced(env, url.origin);
+    if (url.pathname === '/live/bounties.json') return serveBounties(env, url.origin);
     return env.ASSETS.fetch(request);
   },
 };

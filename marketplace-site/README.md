@@ -67,7 +67,7 @@ which is also the noise filter: it's why there are no uncategorized rows here.
 | `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
 | `worker.js` | Cloudflare Worker: cron → relays + probes + the two external sources → KV, then builds `master.json` from whatever that run produced (falling back per-tier to its last good KV copy, so one flaky upstream can't blank a tier); serves `/mcp` and every `/live/*` route; assets otherwise |
-| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`, `find_work`) at `POST /mcp` |
+| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`, `find_work`, `post_bounty`) at `POST /mcp` |
 | `wrangler.jsonc` | worker config (two crons — hourly relay read, 6-hourly full probe pass — KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 
@@ -148,6 +148,15 @@ over public data). Tools:
   arbitration, no fee:** `amount_sats` is offered, not held, and `status` is what the poster published,
   not something this directory verified. Claims are NIP-22 comments; payment proof is a NIP-57 zap
   receipt any third party can check without us.
+- `post_bounty` — the mirror of `find_work`: composing a request instead of answering one. Validates
+  against the shared category vocabulary, converts sats → the millisats `amount` tag (NIP-57 units,
+  and the easiest thing here to get wrong by a factor of 1000, so it echoes both numbers back), and
+  **returns the event UNSIGNED**. That is the design, not a stage before signing gets added: signing
+  would require the caller's secret key, and a directory able to sign as its posters is a directory
+  able to forge a listing or withdraw someone else's bounty by republishing their `d` with
+  `status: "withdrawn"`. Composing needs the directory's knowledge; signing needs your key; they
+  belong in different places. The response carries the board relays and the round-trip warning —
+  read back **per relay**, because a relay can return OK and drop the event.
 
 `get_quote` probes only the `api_base` recorded on the entry the caller names by slug (never a
 caller-supplied URL), so the Worker can't be used as an open proxy. The tools read the same KV

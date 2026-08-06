@@ -131,7 +131,7 @@ const directory = {
     'and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at ' +
     '/snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), ' +
     'api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). ' +
-    'An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime) for agents that call rather than fetch. ' +
+    'An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime, find_work, post_bounty) for agents that call rather than fetch. ' +
     'The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. ' +
     'list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services\' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. ' +
     'For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. ' +
@@ -154,6 +154,7 @@ const directory = {
     external_index: BASE + '/live/l402index.json',
     gateway_observed: BASE + '/live/l402space.json',
     announced: BASE + '/live/announced.json',
+    bounties: BASE + '/live/bounties.json',
     uptime: BASE + '/live/uptime.json',
     announce_spec: BASE + '/spec/agent-payable-service-announcement.md',
     openapi: BASE + '/openapi.json',
@@ -358,14 +359,17 @@ const llms = [
   // The buy side. Deliberately placed in "supporting live data" next to the
   // snapshot it rides in, not in "single sources" — it is not a fifth source of
   // services, it is the other side of the market.
-  `${BASE}/live/snapshot.json#modules.requests — THE BUY SIDE. Signed offers to pay an agent in sats to do a`,
+  `${BASE}/live/bounties.json — THE BUY SIDE. Signed offers to pay an agent in sats to do a`,
   `   job (kind ${KIND_REQUEST}, our work-request microstandard). Every other document here helps you SPEND; this is`,
   '   how you EARN. Each request carries an `acceptance` string — a public, checkable definition of done — plus',
   '   amount (MILLISATS, NIP-57 units) and pay methods. WE NEVER TOUCH THE MONEY: no escrow, no custody, no fee,',
   '   no arbitration, no account. `sats_offered_open` is OFFERED, not held; `status` is what the poster published,',
   '   not something we verified. Claims/deliveries are NIP-22 comments (kind 1111) scoped to the request address;',
   '   payment proof is a NIP-57 zap receipt, checkable by any third party without us. Filter to the cohort you can',
-  '   act on: status === "open" && !expired && !malformed. MCP: find_work. To post one, or to answer one, see',
+  '   act on: status === "open" && !expired && !malformed. Also projected out of /live/snapshot.json#modules.requests,',
+  '   which is the same data — fetch the dedicated route unless you want the whole snapshot anyway. MCP: find_work to',
+  '   read the board, post_bounty to compose one (it returns an UNSIGNED event — we hold no keys and no funds, so you',
+  '   sign and publish it yourself). To answer one, see',
   `   ${BASE}/spec/agent-payable-work-request.md`,
   `${BASE}/live/models.json — the cross-provider inference price index: model id → every alive provider`,
   '   serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).',
@@ -391,7 +395,10 @@ const llms = [
   'price where the provider supports it), get_uptime, find_tool, get_tool, list_mcp_servers, and',
   'find_l402_endpoints (the external-index source alone). find_work is the ODD ONE OUT and the one to read twice:',
   'every other tool here helps you SPEND, that one is how you EARN — signed offers to pay an agent in sats to do a',
-  'job, each with a checkable acceptance test. list_mcp_servers lists the providers here that run their',
+  'job, each with a checkable acceptance test. post_bounty is its mirror, for buying work rather than selling it:',
+  'it composes a conformant kind-38556 event and returns it UNSIGNED, because this server holds no keys and no funds',
+  'and a directory that could sign as its posters could also forge or withdraw their bounties. You sign and publish.',
+  'list_mcp_servers lists the providers here that run their',
   'OWN MCP server (Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP:',
   'POST one JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.',
   '',
@@ -484,6 +491,7 @@ const agents = [
   `- ${BASE}/live/master.json — the merged view.`,
   `- ${BASE}/live/uptime.json — rolling probe history.`,
   `- ${BASE}/live/announced.json — kind-${KIND_ANNOUNCE} sell-side announcements.`,
+  `- ${BASE}/live/bounties.json — kind-${KIND_REQUEST} buy-side work requests (the bounty board).`,
   '',
   '> A 200 on a /live/ route does not prove the refresh cron is healthy — these',
   '> fall back to a committed snapshot when KV is cold. Check the timestamp inside',
@@ -639,6 +647,24 @@ const openapi = {
           + '(records at /anchors/), making the history tamper-evident. KV-backed; static placeholder at /uptime.json '
           + 'until the first cron.',
         responses: { 200: jsonResp('The uptime history document.') },
+      },
+    },
+    '/live/bounties.json': {
+      get: {
+        operationId: 'getBounties',
+        summary: 'The bounty board — signed offers to pay an agent in sats to do a job (kind 38556)',
+        description:
+          'THE BUY SIDE. Every other route here helps an agent SPEND; this is how it EARNS. Each request carries an '
+          + '`acceptance` string (a public, checkable definition of done), an `amount` in MILLISATS (NIP-57 units) and '
+          + 'the settlement methods the poster offers. WE NEVER TOUCH THE MONEY: no escrow, no custody, no fee, no '
+          + 'arbitration, no account. `sats_offered_open` is OFFERED, not held, and `status` is what the poster '
+          + 'published, not something this directory verified. Claims and deliveries are NIP-22 comments (kind 1111) '
+          + 'scoped to the request address; proof of payment is a NIP-57 zap receipt any third party can check. Act on '
+          + 'the cohort you can actually answer: status === "open" && !expired && !malformed. Projected out of '
+          + '/live/snapshot.json#modules.requests — the same data, without the rest of the snapshot. Refreshed hourly '
+          + 'from the relays; static fallback at /snapshot.json. To post one, call post_bounty on /mcp (it returns an '
+          + 'UNSIGNED event — this server holds no keys and no funds). Spec: /spec/agent-payable-work-request.md',
+        responses: { 200: jsonResp('The bounty board document.') },
       },
     },
     '/entries/{slug}.md': {
