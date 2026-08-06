@@ -175,7 +175,7 @@ reply to another comment. Add two tags:
 import { finalizeEvent } from 'nostr-tools/pure'
 import { SimplePool } from 'nostr-tools/pool'
 
-const RELAYS = ["wss://relay.nostr.band","wss://relay.damus.io","wss://nos.lol","wss://relay.primal.net"]
+const RELAYS = ["wss://nos.lol","wss://relay.primal.net","wss://relay.damus.io","wss://nostr.bitcoiner.social"]
 const sk = /* your Nostr secret key, Uint8Array */
 
 const event = finalizeEvent({
@@ -194,10 +194,10 @@ await Promise.any(pool.publish(RELAYS, event))
 
 Publish to at least these relays (the ones this directory reads):
 
-- `wss://relay.nostr.band`
-- `wss://relay.damus.io`
 - `wss://nos.lol`
 - `wss://relay.primal.net`
+- `wss://relay.damus.io`
+- `wss://nostr.bitcoiner.social`
 
 ## Honesty rules
 

@@ -6,11 +6,45 @@
 // so the committed fallback snapshot and the cron-written KV snapshot always
 // share one schema. Change the shape here, never in the consumers.
 
+// The board's READ set — and, because `build.mjs` imports this list into both
+// specs, the exact set we tell strangers to publish to. Those two must never
+// drift: advertising a relay we cannot read is how a conformant post lands
+// somewhere the directory never looks.
+//
+// ⚠ THIS IS NOT THE PUBLISHING SET. Our own identities write through
+// ~/dev/nostr-publisher, which has its own strategy and its own reasons. Same
+// protocol, different job: that set optimizes OUR reach, this one optimizes
+// whether we can SEE what other people published.
+//
+// Membership is earned on evidence, re-checkable by anyone:
+//   * up on repeated sampling, not once;
+//   * serves unregistered 38xxx kinds (a relay that whitelists kinds is useless
+//     to a microstandard — verified with kind 38383, which has real traffic, so
+//     an empty result means "no data" rather than "relay refuses the range");
+//   * FREE TO WRITE. This list is an instruction to strangers, so payment or
+//     auth on it is a paywall between someone and our own board.
+//
+// That last rule is why no paid relay is here and it is not a cost decision.
+// nostr.wine wants 18,888 sats admission AND restricts writes; filter.nostr.wine
+// adds NIP-42 auth on top. Paying would not even buy the thing that is broken:
+// payment does not stop downtime, and downtime is the entire problem.
+//
+// 2026-08-06 — `relay.nostr.band` REPLACED by `nostr.bitcoiner.social`. Nostr.band
+// answered 0 of 3 sampling rounds, timed out on NIP-11, and returned 522 to both
+// this box and the Cloudflare Worker for days. Independent corroboration rather
+// than just our own probe: NIP-66 monitors have effectively stopped reporting on
+// it — its newest kind-30166 report is ~5,700 HOURS old from a single monitor,
+// against 0-hour-old reports from 16–38 monitors for the other three.
+// bitcoiner.social replaces it on measurement: up 3/3, strfry, free, a different
+// operator, and it was ALREADY carrying all five live bounties, so the swap
+// needed no re-broadcast. (`relay.damus.io` stays despite sampling 2/3 — it
+// serves the whole board when up, 37 monitors still report on it hourly, and the
+// `coverage` block now makes its flapping visible instead of silent.)
 export const RELAYS = [
-  'wss://relay.nostr.band',
-  'wss://relay.damus.io',
   'wss://nos.lol',
   'wss://relay.primal.net',
+  'wss://relay.damus.io',
+  'wss://nostr.bitcoiner.social',
 ];
 
 import { CATEGORY_ORDER, CATEGORIES } from './taxonomy.mjs';
