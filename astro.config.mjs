@@ -23,8 +23,28 @@ export default defineConfig({
   site: SITE_URL,
   output: 'static',
   trailingSlash: 'never',
-  // 2026-06 IA restructure redirects. Astro emits redirect pages for static
-  // output; for a hard 301, mirror these as Cloudflare Redirect Rules too.
+  // 2026-06 IA restructure redirects.
+  //
+  // Astro emits a redirect PAGE for static output — a 200 with a meta-refresh,
+  // plus canonical and noindex. That is fine for a browser and fine for search,
+  // and useless to a machine: a plain GET gets 200 and no Location header, on a
+  // site whose whole pitch is that agents come first. This comment used to say
+  // "for a hard 301, mirror these as Cloudflare Redirect Rules too", and that
+  // half went undone for two months while the stubs made it look handled.
+  //
+  // ✅ DONE 2026-08-06. All twelve mappings below are now real 301s at the edge,
+  // as seven Single Redirect rules on the zone, sharing the phase with the
+  // www→apex rule (which stays FIRST, so every rule after it can assume the
+  // apex). Query strings are preserved. Rules are grouped by uniform transform
+  // rather than one-per-mapping, and each is gated by an explicit path set —
+  // regex `matches` needs a Business plan, and the explicit set is also what
+  // keeps /tools/strike out of the /tools→/services group, since it goes to
+  // /exchanges instead. Both bare and trailing-slash forms are listed, because
+  // the site serves the trailing-slash form.
+  //
+  // KEEP THIS TABLE AND THE EDGE RULES IN STEP. Adding a line here without the
+  // matching rule silently reverts that route to a soft redirect. The stubs stay
+  // as the fallback, so a missed rule degrades rather than breaks.
   redirects: {
     '/thesis': '/case',
     '/thesis-for-agents': '/case-for-agents',
