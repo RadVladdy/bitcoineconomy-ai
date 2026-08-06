@@ -68,23 +68,10 @@ export function makeFilters(nowSec) {
     reviews: { kinds: [38000], limit: 500 },
     handlers: { kinds: [31990], limit: 500 },
     // The buy side. `requests` is the board itself; `claims` are the NIP-22
-    // comments scoped to it — filtered on the root-kind tag rather than pulling
-    // every kind-1111 on the relay, which would be most of Nostr.
-    //
-    // ⚠ TWO FILTERS, ONE QUESTION, AND THIS IS NOT BELT-AND-BRACES. NIP-22 puts
-    // the ROOT scope in uppercase (`A`/`E`/`K`) and the PARENT in lowercase, so
-    // `#K` is the correct tag — but a filter is only as good as the relay's
-    // index, and **`relay.primal.net` does not index uppercase single-letter
-    // tags at all.** Measured 2026-08-06 with controls on one connection, one
-    // window: `#K` returned 0 while `#k` returned 10 and an unfiltered kind-1111
-    // query returned 10. A claim published only there was invisible to the
-    // board, silently and with nothing in any log to say so — the parse side was
-    // never the problem (`indexClaims` already reads `A` or `a`), the query was.
-    // Both cases are asked for and the results are merged in buildSnapshot;
-    // an event returned by both is deduped by id like every other event here.
+    // comments scoped to it — filtered on the uppercase `K` root-kind tag rather
+    // than pulling every kind-1111 on the relay, which would be most of Nostr.
     requests: { kinds: [KIND_REQUEST], limit: 500 },
     claims: { kinds: [KIND_COMMENT], '#K': [String(KIND_REQUEST)], limit: 500 },
-    claimsLower: { kinds: [KIND_COMMENT], '#k': [String(KIND_REQUEST)], limit: 500 },
     dvmjobs: { kinds: Array.from({ length: 1000 }, (_, i) => 5000 + i), since: nowSec - THIRTY_DAYS, limit: 1000 },
   };
 }
@@ -395,10 +382,7 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
   const reviews = bySub.reviews ?? [];
   const dvmjobs = bySub.dvmjobs ?? [];
   const requestEvents = dedupeReplaceable(bySub.requests ?? []);
-  // Merge both claim buckets — see makeFilters. The global id-dedupe above means
-  // an event answered by BOTH filters lands in whichever bucket arrived first,
-  // so reading only one silently drops whatever the other found.
-  const claimIndex = indexClaims([...(bySub.claims ?? []), ...(bySub.claimsLower ?? [])]);
+  const claimIndex = indexClaims(bySub.claims ?? []);
 
   // Trust cold-start signals computed at snapshot time (probed liveness is folded
   // in later by applyAnnouncedProbes): announcement age, and accepted-mint health —
