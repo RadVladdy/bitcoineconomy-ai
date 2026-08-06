@@ -1043,6 +1043,17 @@
   let snap = null, live = false;
   try { snap = await (await fetch('/live/snapshot.json')).json(); live = true; } catch (e) {}
   if (!snap) { try { snap = await (await fetch('./snapshot.json')).json(); } catch (e) {} }
+  // `live` has to mean "this came from the cron", not "the /live/ route
+  // answered" — and those are not the same thing, because /live/snapshot.json
+  // itself falls back to the committed asset and returns a perfectly good 200
+  // while doing it. So the flag was true in exactly the case the STATIC pill
+  // below exists to announce, and the freshness comment's claim that a
+  // bundled-fallback read "gets said out loud" was not true of the fallback
+  // that actually happens. The payload settles it: the cron stamps
+  // `source: worker-cron`, the committed file stamps a static marker. Tested
+  // positively on purpose — an unrecognised source reads as static, which is
+  // the direction that fails safe.
+  if (snap && snap.source !== 'worker-cron') live = false;
   let mx = null;
   try { mx = await (await fetch('/live/models.json')).json(); } catch (e) {}
   if (!mx) { try { mx = await (await fetch('./models.json')).json(); } catch (e) {} }
@@ -1122,6 +1133,24 @@
 
     const POST = '<a href="/spec/agent-payable-work-request.md">the kind-38556 spec</a>';
     if (!R || !R.count) {
+      // Two different things look identical here, and only one of them is a
+      // statement about the world. An empty board read LIVE means nobody has
+      // posted; an empty board read from the committed fallback file means we
+      // could not reach the relays and the file is as old as it is. Saying
+      // "nobody has published one" in the second case is a claim we have not
+      // earned — and it was live: the fallback committed 2026-08-05 was built
+      // with two of four relays failing and carried zero requests, so any
+      // outage would have rendered that sentence over a board holding 130,000
+      // sats. Same rule the /live/bounties.json route follows.
+      if (!live) {
+        $('#board-when').textContent = 'cannot read the board';
+        listEl.innerHTML = '<div class="board-empty"><b>We cannot read the board right now.</b> ' +
+          'The live relay read is unavailable, so this page fell back to a snapshot file bundled with the site, ' +
+          'and that file has no requests in it. That is not the same as there being none — it means we could not check. ' +
+          'The requests live on public Nostr relays, so you do not have to take our word for it: ' +
+          'query kind 38556 on any relay yourself, per ' + POST + '.</div>';
+        return;
+      }
       $('#board-when').textContent = 'nothing posted yet';
       listEl.innerHTML = '<div class="board-empty"><b>No work requests have been published yet.</b> ' +
         'This is a board, not a product — it renders whatever is signed and published to the public relays, ' +

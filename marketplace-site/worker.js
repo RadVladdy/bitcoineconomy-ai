@@ -84,7 +84,7 @@ async function serveAnnounced(env, origin) {
     'x-content-type-options': 'nosniff',
     'cache-control': 'public, max-age=300',
   };
-  let snap = null;
+  let snap = null, fromFallback = false;
   try {
     const kv = await env.SNAPSHOT?.get(KV_SNAPSHOT);
     if (kv) snap = JSON.parse(kv);
@@ -94,16 +94,27 @@ async function serveAnnounced(env, origin) {
   if (!snap?.modules?.announced) {
     try {
       const asset = await env.ASSETS.fetch(new URL('/snapshot.json', origin));
-      if (asset.ok) snap = await asset.json();
+      if (asset.ok) { snap = await asset.json(); fromFallback = true; }
     } catch {}
   }
   const mod = snap?.modules?.announced;
   if (!mod) return new Response(JSON.stringify({ error: 'announced tier unavailable' }), { status: 503, headers });
+  // Same rule as the bounty board, for the same reason — see serveBounties.
+  if (fromFallback && !mod.count) {
+    return new Response(JSON.stringify({
+      error: 'announced tier unavailable',
+      reason: 'The live snapshot could not be read, and the committed fallback is empty. An empty fallback cannot tell you whether nobody has announced a service or whether we simply failed to read the relays, so this route declines to answer rather than report a market as dead.',
+      fallback_generated_at: snap.generated_at,
+      fallback_coverage: snap.coverage ?? null,
+    }), { status: 503, headers });
+  }
   return new Response(JSON.stringify({
     $schema_note: 'Self-announced, agent-payable services published with the bitcoineconomy.ai "agent-payable service announcement" microstandard (Nostr kind ' + mod.kind + '). Permissionless and announced ≠ curated: taken as published, not endorsements; they graduate to the curated registry (/directory.json) only via verification. Trust signals per service: probe status (alive | unreachable | unverified-tor-only | unroutable), announcement_age_days, mint_health. Spec: ' + mod.spec + '. Part of https://marketplace.bitcoineconomy.ai.',
     generated_at: snap.generated_at,
     source: snap.source,
     provenance: 'live-from-relay',
+    live: !fromFallback,
+    coverage: snap.coverage ?? null,
     ...mod,
   }), { headers });
 }
@@ -127,7 +138,7 @@ async function serveBounties(env, origin) {
     'x-content-type-options': 'nosniff',
     'cache-control': 'public, max-age=300',
   };
-  let snap = null;
+  let snap = null, fromFallback = false;
   try {
     const kv = await env.SNAPSHOT?.get(KV_SNAPSHOT);
     if (kv) snap = JSON.parse(kv);
@@ -138,7 +149,7 @@ async function serveBounties(env, origin) {
   if (!snap?.modules?.requests) {
     try {
       const asset = await env.ASSETS.fetch(new Request(new URL('/snapshot.json', origin).toString()));
-      if (asset.ok) snap = await asset.json();
+      if (asset.ok) { snap = await asset.json(); fromFallback = true; }
     } catch {}
   }
   const mod = snap?.modules?.requests;
@@ -146,11 +157,29 @@ async function serveBounties(env, origin) {
   // read the board" are different answers, and an agent that cannot tell them
   // apart will conclude the market is dead when the reader is simply broken.
   if (!mod) return new Response(JSON.stringify({ error: 'work-request board unavailable' }), { status: 503, headers });
+  // ...and the same rule again, one step further in, because the guard above
+  // only caught the module being ABSENT. A committed fallback that is present
+  // and EMPTY makes exactly the claim this route promises never to make, and it
+  // was live: the fallback committed 2026-08-05 was built with two of four
+  // relays failing and carried `requests: 0`, so any KV miss would have served
+  // a confident 200 saying a board holding 130,000 sats had nothing on it.
+  // A fallback cannot distinguish an empty market from a failed read — only a
+  // live read can — so from the fallback, empty is never an answer.
+  if (fromFallback && !mod.count) {
+    return new Response(JSON.stringify({
+      error: 'work-request board unavailable',
+      reason: 'The live snapshot could not be read, and the committed fallback board is empty. An empty fallback cannot distinguish "no bounties have been posted" from "we could not read the relays", so this route declines to answer rather than report the market as dead.',
+      fallback_generated_at: snap.generated_at,
+      fallback_coverage: snap.coverage ?? null,
+    }), { status: 503, headers });
+  }
   return new Response(JSON.stringify({
     $schema_note: 'Signed offers to pay an agent in sats to do a job, published with the bitcoineconomy.ai "agent-payable work request" microstandard (Nostr kind ' + mod.kind + '). Buy-side sibling of the kind-38555 service announcement. This directory READS these events: it does not escrow, hold, arbitrate, verify delivery, take a fee, or run an account. `sats_offered_open` is offered, not held; `status` is as published by the poster, not verified by us. Claims and deliveries are NIP-22 comments (kind ' + mod.comment_kind + '); proof of payment is a NIP-57 zap receipt anyone can check. Act on: status === "open" && !expired && !malformed. Spec: ' + mod.spec + '. Part of https://marketplace.bitcoineconomy.ai.',
     generated_at: snap.generated_at,
     source: snap.source,
     provenance: 'live-from-relay',
+    live: !fromFallback,
+    coverage: snap.coverage ?? null,
     ...mod,
   }), { headers });
 }

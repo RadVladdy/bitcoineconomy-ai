@@ -294,6 +294,75 @@ function indexClaims(events) {
   return by;
 }
 
+// Derived from the per-relay results; shared by buildSnapshot and by the
+// writer's regression gate, so "was this run complete?" is answered in exactly
+// one place rather than re-derived by each caller.
+export function coverageOf(perRelayResults) {
+  const incomplete = perRelayResults.filter((r) => r.status !== 'ok' || r.unfinished.length > 0);
+  return {
+    relays_queried: perRelayResults.length,
+    relays_complete: perRelayResults.length - incomplete.length,
+    relays_incomplete: incomplete.map((r) => ({ url: r.url, status: r.status, unfinished: r.unfinished })),
+    complete: incomplete.length === 0,
+    note: incomplete.length === 0
+      ? 'Every queried relay answered every filter. The counts in this snapshot are totals across the relays listed below.'
+      : 'PARTIAL READ — the relays in `relays_incomplete` did not answer every filter, so every count in this snapshot is a LOWER BOUND, not a total. Anything published only to those relays is missing from it. Absence here is not evidence of absence.',
+  };
+}
+
+// The counts a regression would show up in. Enumerated rather than walked
+// generically so that adding a module is a deliberate act here too.
+export function snapshotCounts(s) {
+  return {
+    routstr: s.modules?.routstr?.count ?? 0,
+    announced: s.modules?.announced?.count ?? 0,
+    requests: s.modules?.requests?.count ?? 0,
+    cashu: s.modules?.mints?.cashu_count ?? 0,
+    fedimint: s.modules?.mints?.fedimint_count ?? 0,
+    reviews: s.modules?.reviews?.count ?? 0,
+    handlers: s.modules?.handlers?.count ?? 0,
+  };
+}
+
+// Snapshots written before `coverage` existed still carry `relays[]`, so derive
+// it with the SAME function rather than a second copy of the rule.
+function coverageAsWritten(s) {
+  return s.coverage ?? coverageOf(
+    (s.relays ?? []).map((r) => ({ url: r.url, status: r.status, unfinished: r.unfinished ?? [] })));
+}
+
+// ── The write gate for the committed fallback ────────────────────────────────
+// snapshot.json is what the UI renders and what the Worker serves when KV is
+// empty. Overwriting it with a worse run is silent — the file looks exactly as
+// authoritative either way — and it has already happened: the copy committed
+// 2026-08-05 was built with TWO of four relays failing, so it carried a bounty
+// board of zero while five funded requests sat on relays that run never reached.
+//
+// This is a REGRESSION test, not a completeness test, and the distinction is
+// load-bearing. Refusing every partial would be wrong: `relay.nostr.band` has
+// been answering 522 to both this box and the Worker, so a 3-of-4 read IS the
+// steady state, and a gate that fires on every run just teaches whoever runs it
+// to type the override flag reflexively until it stops meaning anything. What
+// must never happen quietly is trading a better file for a worse one.
+//
+// Returns a list of human-readable reasons; empty means safe to write.
+export function checkWriteRegression(next, prev) {
+  if (!prev) return [];
+  const reasons = [];
+  const a = coverageAsWritten(prev), b = next.coverage ?? coverageAsWritten(next);
+  if (b.relays_complete < a.relays_complete) {
+    reasons.push(`relay coverage would drop ${a.relays_complete}/${a.relays_queried} → ${b.relays_complete}/${b.relays_queried}`);
+  }
+  const pc = snapshotCounts(prev), nc = snapshotCounts(next);
+  for (const k of Object.keys(nc)) {
+    // Non-zero → zero is the shape that matters: a module emptying out is what
+    // an unreached relay looks like, and zero is the count that gets rendered
+    // as a sentence about the world ("none have been published yet").
+    if (pc[k] > 0 && nc[k] === 0) reasons.push(`modules.${k} would go ${pc[k]} → 0`);
+  }
+  return reasons;
+}
+
 export function buildSnapshot(perRelayResults, { source, generatedAt }) {
   const bySub = {};
   const seenIds = new Set();
@@ -365,6 +434,20 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
     generated_at: generatedAt,
     source,
     provenance: 'live-from-relay',
+    // Coverage — the one field that says whether the counts below are TOTALS or
+    // LOWER BOUNDS. `relays[]` has carried the per-relay result all along, but
+    // reading it means walking an array and matching status strings, so nothing
+    // ever did: a snapshot built from a subset of the relays is a **silent
+    // partial**, complete-looking and short. The committed fallback shipped one
+    // for a day — two of four relays failed, so it published an empty bounty
+    // board while five funded requests sat on relays it never reached, and the
+    // page rendered "No work requests have been published yet."
+    //
+    // A relay counts as covering this snapshot only when it finished EVERY
+    // filter. A `timeout` that returned some events is still a hole: the events
+    // it did not return are indistinguishable from events that do not exist,
+    // which is the whole failure mode this field exists to name.
+    coverage: coverageOf(perRelayResults),
     relays: perRelayResults.map((r) => ({ url: r.url, status: r.status, unfinished: r.unfinished })),
     modules: {
       routstr: {

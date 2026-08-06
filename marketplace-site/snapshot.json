@@ -1,7 +1,30 @@
 {
-  "generated_at": "2026-08-05T15:44:44.741Z",
+  "generated_at": "2026-08-06T18:02:47.053Z",
   "source": "sample-relays.mjs (static snapshot)",
   "provenance": "live-from-relay",
+  "coverage": {
+    "relays_queried": 4,
+    "relays_complete": 3,
+    "relays_incomplete": [
+      {
+        "url": "wss://relay.nostr.band",
+        "status": "connect-error: connect timeout",
+        "unfinished": [
+          "routstr",
+          "announced",
+          "cashu",
+          "fedimint",
+          "reviews",
+          "handlers",
+          "requests",
+          "claims",
+          "dvmjobs"
+        ]
+      }
+    ],
+    "complete": false,
+    "note": "PARTIAL READ — the relays in `relays_incomplete` did not answer every filter, so every count in this snapshot is a LOWER BOUND, not a total. Anything published only to those relays is missing from it. Absence here is not evidence of absence."
+  },
   "relays": [
     {
       "url": "wss://relay.nostr.band",
@@ -20,18 +43,8 @@
     },
     {
       "url": "wss://relay.damus.io",
-      "status": "connect-error: connect failed",
-      "unfinished": [
-        "routstr",
-        "announced",
-        "cashu",
-        "fedimint",
-        "reviews",
-        "handlers",
-        "requests",
-        "claims",
-        "dvmjobs"
-      ]
+      "status": "ok",
+      "unfinished": []
     },
     {
       "url": "wss://nos.lol",
@@ -47,7 +60,7 @@
   "modules": {
     "routstr": {
       "kind": 38421,
-      "count": 38,
+      "count": 46,
       "providers": [
         {
           "d": "lnproxy-v1",
@@ -55,8 +68,26 @@
           "network": "unroutable",
           "mints": [],
           "pubkey": "6cfd849e3fabf98420e0b4239259295bb610fae1a90dbc667448eab19fbc82ae",
-          "updated_at": 1785944491,
+          "updated_at": 1786039291,
           "status": "unroutable"
+        },
+        {
+          "name": "A Routstr Node",
+          "d": "975b5f483d2e",
+          "urls": [
+            "https://api.routstr.com/",
+            "http://fhxpl22punqhmmgcldhbusmxrmxa36gx2hbrr7yz4trq5wwthwbxucqd.onion"
+          ],
+          "network": "both",
+          "mints": [
+            "https://mint.cubabitcoin.org",
+            "https://mint.coinos.io",
+            "https://mint.minibits.cash/Bitcoin"
+          ],
+          "version": "0.4.4",
+          "pubkey": "975b5f483d2e89d4992f612214878662e39524a5d306c526a1379ae0c9b0c906",
+          "updated_at": 1786038133,
+          "status": "unreachable"
         },
         {
           "name": "thefux",
@@ -72,26 +103,10 @@
           ],
           "version": "0.4.4+g91f9cbe",
           "pubkey": "3d8333c5a3467c62b055c72f7f197df161faad20a5219ae694a92457c0e48a7c",
-          "updated_at": 1785922581,
+          "updated_at": 1786008992,
           "status": "alive",
-          "latency_ms": 1480,
-          "model_count": 345
-        },
-        {
-          "name": "GrapeVyneAI Routstr Proxy",
-          "d": "2c316d635c7a",
-          "urls": [
-            "http://XXX.onion"
-          ],
-          "network": "tor",
-          "mints": [
-            "https://mint.minibits.cash/Bitcoin",
-            "https://mint.cubabitcoin.org"
-          ],
-          "version": "0.4.4+g91f9cbe",
-          "pubkey": "2c316d635c7a9eece0af51e8b2b01896570f206bc9ab773b908b11efa18dc550",
-          "updated_at": 1785890861,
-          "status": "unverified-tor-only"
+          "latency_ms": 1982,
+          "model_count": 407
         },
         {
           "name": "Cypherpunk",
@@ -108,12 +123,12 @@
             "https://mint.mountainlake.io",
             "https://mint.macadamia.cash"
           ],
-          "version": "0.4.4+g91f9cbe",
+          "version": "0.4.4+g438ea90",
           "pubkey": "2ca46ee98f3134c4e11a638663a45983b590bfdefd31588f9c2f03455fba15e7",
-          "updated_at": 1785886940,
+          "updated_at": 1785970241,
           "status": "alive",
-          "latency_ms": 788,
-          "model_count": 102
+          "latency_ms": 1002,
+          "model_count": 96
         },
         {
           "name": "openai-bridge",
@@ -148,8 +163,8 @@
           "pubkey": "d3a0af518fdf48fd7e8c794371d20040616afbcf934e38247461c6e74009e9fb",
           "updated_at": 1785142545,
           "status": "alive",
-          "latency_ms": 1323,
-          "model_count": 345
+          "latency_ms": 1551,
+          "model_count": 407
         },
         {
           "name": "TheGryph0n",
@@ -166,7 +181,7 @@
           "pubkey": "a70e3e4cd046c0f5d828940437e9911a7e9567f948a194424bbc256a7268988b",
           "updated_at": 1785088893,
           "status": "alive",
-          "latency_ms": 749,
+          "latency_ms": 987,
           "model_count": 1
         },
         {
@@ -185,8 +200,43 @@
           "pubkey": "f12db526e41e71a158b962d93196996b5bb55339960cccde42ad673a0d3f9959",
           "updated_at": 1784998103,
           "status": "alive",
-          "latency_ms": 1218,
+          "latency_ms": 1949,
           "model_count": 108
+        },
+        {
+          "name": "ARoutstrNode",
+          "d": "d198128876ca",
+          "urls": [
+            "http://rk5gzokn6dz53fbxij52bejjlu2saclrot7avlyecum6zuor4grwdfid.onion"
+          ],
+          "network": "tor",
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://ecashmint.otrta.me",
+            "https://testnut.cashu.space"
+          ],
+          "version": "0.4.4",
+          "pubkey": "d198128876cadf35291ca2d8f0439388a77d455fd3060312a031e1248ba085d1",
+          "updated_at": 1784622904,
+          "status": "unverified-tor-only"
+        },
+        {
+          "name": "ROU-CORE Node",
+          "d": "1b3decd95c05",
+          "urls": [
+            "http://100.90.84.147:8011"
+          ],
+          "network": "clearnet",
+          "mints": [
+            "https://mint.cubabitcoin.org",
+            "https://mint.minibits.cash/Bitcoin",
+            "https://ecashmint.otrta.me",
+            "https://testnut.cashu.space"
+          ],
+          "version": "0.4.4",
+          "pubkey": "1b3decd95c05223dbd4fd11fee17045cb3f19662ea42f03fcc97045f1dc9d004",
+          "updated_at": 1784561216,
+          "status": "unreachable"
         },
         {
           "name": "PlebChat Paygate",
@@ -202,8 +252,8 @@
           "pubkey": "af64e3b4ced76f218f2335b0d421dbb058ecd18805a44da1a2db1b116aaf5a2c",
           "updated_at": 1784485001,
           "status": "alive",
-          "latency_ms": 587,
-          "model_count": 324
+          "latency_ms": 900,
+          "model_count": 386
         },
         {
           "name": "plebchat test paygate",
@@ -219,6 +269,44 @@
           "pubkey": "80d7d764459b7965892dfa8feab185c6af96e7cf450c10404b0ea4967df7c64b",
           "updated_at": 1784483073,
           "status": "unroutable"
+        },
+        {
+          "name": "Remi-chan",
+          "d": "6892d1b6d4d2",
+          "urls": [
+            "https://routstr.rewolf.dev",
+            "http://5nltc2eumzxl6652tjxggf2eywypxmmcsiscoqqq42nif2hgb4f3ouqd.onion"
+          ],
+          "network": "both",
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org"
+          ],
+          "version": "0.1.3",
+          "pubkey": "6892d1b6d4d235f912aa187efaac006d99589587af29598337b883f0d201b0ba",
+          "updated_at": 1784433397,
+          "status": "alive",
+          "latency_ms": 710,
+          "model_count": 9
+        },
+        {
+          "name": "Rossi",
+          "d": "aa97d5891553",
+          "urls": [
+            "https://routstr.satoshisend.xyz"
+          ],
+          "network": "clearnet",
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me"
+          ],
+          "version": "0.4.3+gb1947d6",
+          "pubkey": "aa97d58915535738d0068612172bbb9a4a58628530883b1b14a54c3d34556fb9",
+          "updated_at": 1784371552,
+          "status": "alive",
+          "latency_ms": 1168,
+          "model_count": 409
         },
         {
           "name": "hstarx",
@@ -253,8 +341,8 @@
           "pubkey": "a4b35f561ea055fd06a9c26ed010dfc48204ca240524ddb6de7740873b77cd39",
           "updated_at": 1784277308,
           "status": "alive",
-          "latency_ms": 1807,
-          "model_count": 345
+          "latency_ms": 2159,
+          "model_count": 407
         },
         {
           "name": "Privacy AI",
@@ -300,7 +388,7 @@
           "pubkey": "4e5622b575cdbb4d5ded093e48c68cd3f724fad547142f0c1b0aec2f2b2a0b2e",
           "updated_at": 1784002507,
           "status": "alive",
-          "latency_ms": 1761,
+          "latency_ms": 1899,
           "model_count": 347
         },
         {
@@ -318,7 +406,25 @@
           ],
           "version": "0.4.4+g5daa260",
           "pubkey": "aa3f3bf381ac923afcf5a3c16fb2957de94057de84df0c3e84a44c57fa031482",
-          "updated_at": 1783845989,
+          "updated_at": 1783932401,
+          "status": "unreachable"
+        },
+        {
+          "name": "Privacy Maxi",
+          "d": "ac783c5d4ec1",
+          "urls": [
+            "https://ai.redsh1ft.com",
+            "http://52hndvslde4kvtcku5txyqan73vp7jvrxmanhctoxn5oygwzc7byauyd.onion"
+          ],
+          "network": "both",
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org",
+            "https://ecashmint.otrta.me/"
+          ],
+          "version": "0.4.4",
+          "pubkey": "ac783c5d4ec13983e2f5b4bc2575d230de2b025583042ff54e02ba78ec34d180",
+          "updated_at": 1783415385,
           "status": "unreachable"
         },
         {
@@ -337,8 +443,23 @@
           "pubkey": "95a39b071b01b3c06ef5a22cf07e92972bb2746199516f50934ee26db464d9f5",
           "updated_at": 1782848126,
           "status": "alive",
-          "latency_ms": 2749,
+          "latency_ms": 3185,
           "model_count": 63
+        },
+        {
+          "name": "Tollgate AI Node",
+          "d": "1ca99c43bb98",
+          "urls": [
+            "https://routstr.orangesync.tech"
+          ],
+          "network": "clearnet",
+          "mints": [
+            "https://routstr-mint.mints.orangesync.tech"
+          ],
+          "version": "0.4.3+g3a1902b",
+          "pubkey": "1ca99c43bb98b8ed02e50ad2b1d6faf5531f6ff0644ea812c0c327875f019708",
+          "updated_at": 1782263351,
+          "status": "unreachable"
         },
         {
           "name": "AIRadar",
@@ -351,8 +472,8 @@
           "pubkey": "23ec964f9161e41a7a633463e0c49391f052bfc3acfbadfbc636ef494792c14e",
           "updated_at": 1782026146,
           "status": "alive",
-          "latency_ms": 1256,
-          "model_count": 423
+          "latency_ms": 1429,
+          "model_count": 445
         },
         {
           "name": "Chimera-Routstr-Node",
@@ -395,7 +516,7 @@
           "pubkey": "a684e920e475ae9535a26256a3fccf0f0e67650156ea6542bc0baab983e7c1ca",
           "updated_at": 1781469646,
           "status": "alive",
-          "latency_ms": 483,
+          "latency_ms": 397,
           "model_count": 1
         },
         {
@@ -412,6 +533,23 @@
           "status": "unverified-tor-only"
         },
         {
+          "name": "highperfocused AI",
+          "d": "ea185aba0db5",
+          "urls": [
+            "https://routstr.highperfocused.tech",
+            "http://kgsb3cyxn6vhyw3wutz2qfpyppwzhrd3ph42plbxgb2v5fh2ahwwgwyd.onion"
+          ],
+          "network": "both",
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://mint.cubabitcoin.org"
+          ],
+          "version": "0.4.3",
+          "pubkey": "ea185aba0db5cefdafd2c31d1b3ac49acc827e5694efc18592e8403cecec9c6f",
+          "updated_at": 1779994344,
+          "status": "unreachable"
+        },
+        {
           "name": "Tollgate AI Node",
           "d": "2c987f6b4d9c",
           "urls": [
@@ -425,6 +563,27 @@
           "pubkey": "2c987f6b4d9cced3171be3bb6c2cfb7fd5730e7eb709d1ea84cd9ae9e16fc108",
           "updated_at": 1779916245,
           "status": "unreachable"
+        },
+        {
+          "name": "Roustr Staging Environment",
+          "d": "b3fde4baa277",
+          "urls": [
+            "https://staging.routstr.com",
+            "http://d7y5gtjl374lpbjijndtvakopreobvrqbksl5jiyky6bkltrcy7zpsqd.onion"
+          ],
+          "network": "both",
+          "mints": [
+            "https://mint.minibits.cash/Bitcoin",
+            "https://ecashmint.otrta.me",
+            "https://mint.cubabitcoin.org",
+            "https://mint.coinos.io"
+          ],
+          "version": "0.4.1-dev",
+          "pubkey": "b3fde4baa277cb6412dec552942f7a0557fcb26e613e5e6f2856b427e1afef33",
+          "updated_at": 1779744980,
+          "status": "alive",
+          "latency_ms": 1128,
+          "model_count": 407
         },
         {
           "name": "Local Lover",
@@ -569,8 +728,8 @@
           "pubkey": "3d8333c5a3467c62b055c72f7f197df161faad20a5219ae694a92457c0e48a7c",
           "updated_at": 1774382821,
           "status": "alive",
-          "latency_ms": 322,
-          "model_count": 345
+          "latency_ms": 1108,
+          "model_count": 407
         },
         {
           "name": "Node Zero Coder",
@@ -665,10 +824,10 @@
         }
       ],
       "probe": {
-        "probed_at": "2026-08-05T15:44:56.717Z",
+        "probed_at": "2026-08-06T18:03:01.965Z",
         "method": "GET {clearnet endpoint}/v1/models, 10s timeout; onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint (e.g. localhost)",
-        "alive": 12,
-        "unreachable": 15,
+        "alive": 15,
+        "unreachable": 20,
         "unverified_tor_only": 9,
         "unroutable": 2,
         "note": "status reflects the probe moment only; dead ≠ delisted — announcements remain the source of record"
@@ -681,7 +840,7 @@
       "note": "Self-announced, agent-payable services published with our \"agent-payable service announcement\" microstandard (kind 38555). Announced ≠ curated: these are permissionless announcements taken as published, not endorsements, and graduate to the curated registry only via verification. Trust signals per entry: probe status, announcement_age_days, mint_health.",
       "services": [],
       "probe": {
-        "probed_at": "2026-08-05T15:44:56.728Z",
+        "probed_at": "2026-08-06T18:03:01.976Z",
         "method": "GET {clearnet endpoint}, 8s timeout; an L402 challenge is captured where served. Onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint.",
         "alive": 0,
         "unreachable": 0,
@@ -696,14 +855,14 @@
         38173
       ],
       "cashu_count": 34,
-      "fedimint_count": 15,
+      "fedimint_count": 16,
       "cashu": [
         {
           "url": "https://mint.gitvid.net",
           "d": "03fdf1e25e49365ed4bbccfd88f07d5c73ef46fe853048ca94f04157a02000b017",
           "nuts": "4,5,7,8,9,10,11,12,14,17,20,29",
           "pubkey": "d5792f1044ca61572d652dce832d06c1c26ce278c06e01bb753f44d92e634a20",
-          "updated_at": 1785939349
+          "updated_at": 1786025749
         },
         {
           "url": "https://mint.cashu.chat",
@@ -1035,6 +1194,12 @@
           "updated_at": 1725567462
         },
         {
+          "invite": "fed11qgqpv9rhwden5te0vekjucm5wf3zu6t09amhxtcpqys2ajnveq8lc5c",
+          "d": "aeca6cc80ffc530bd2d54b09681f6edb9a415c362e4af2fe3d5e04137006fa21",
+          "pubkey": "0a07ac63fc626ff79fc98b9f21987db9c766485da01a30050d8f9cf0073c6b60",
+          "updated_at": 1722528549
+        },
+        {
           "invite": "fed11qgqzz8mhwden5te0vejkg6tdd9h8gepwvchxjmm5w4hxgunp9e3k7mf",
           "d": "c944b2fd1e7fe04ca87f9a57d7894cb69116cec6264cb52faa71228f4ec54cd6",
           "pubkey": "1989034e56b8f606c724f45a12ce84a11841621aaf7182a1f6564380b9c4276b",
@@ -1060,10 +1225,10 @@
       "kind": 38556,
       "comment_kind": 1111,
       "spec": "https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md",
-      "count": 0,
-      "open_actionable": 0,
+      "count": 5,
+      "open_actionable": 5,
       "by_status": {
-        "open": 0,
+        "open": 5,
         "claimed": 0,
         "delivered": 0,
         "settled": 0,
@@ -1071,31 +1236,235 @@
       },
       "expired": 0,
       "malformed": 0,
-      "sats_offered_open": 0,
-      "sats_offered_denominator": 0,
+      "sats_offered_open": 130000,
+      "sats_offered_denominator": 5,
       "note": "Signed work requests published with our \"agent-payable work request\" microstandard (kind 38556): an offer to pay an agent in sats to do a job. Status is as published by the poster — this directory reads the events, it does not escrow, arbitrate, verify delivery, or take a fee. Claims and deliveries are NIP-22 comments (kind 1111); payment proof is a NIP-57 zap receipt, checkable by any third party. `sats_offered_open` is offered, not held.",
-      "requests": []
+      "requests": [
+        {
+          "id": "1dc1386861ec52cc08212f1ee669c87b15befc3f4e63f82524b8445a36d33393",
+          "d": "bea-uptime-reprobe-2026-08",
+          "address": "38556:37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6:bea-uptime-reprobe-2026-08",
+          "title": "Independently re-probe our published uptime numbers",
+          "brief": "We publish a live status for every service in the directory — alive, degraded or down, with a latency figure — and we probe it ourselves. Nobody has ever checked us. Probe the same services yourself, your own way, and publish what you got. We want the rows where you disagree with us most of all; a directory that says 'recompute it yourself' should be paying someone to actually do it.",
+          "acceptance": "A public document listing every service in the directory with your measured status and latency, a description of your method that someone else could repeat, and an explicit list of every row where your result disagrees with ours.",
+          "deliverable": "url",
+          "category": "verification",
+          "subcategory": "attestation",
+          "amount_msats": 50000000,
+          "amount_sats": 50000,
+          "pay": [
+            "zaps",
+            "lightning"
+          ],
+          "status": "open",
+          "expiration": null,
+          "expired": false,
+          "topics": [
+            "bitcoineconomy",
+            "uptime",
+            "audit"
+          ],
+          "context_urls": [
+            "https://marketplace.bitcoineconomy.ai/"
+          ],
+          "links": {
+            "context": "https://marketplace.bitcoineconomy.ai/",
+            "spec": "https://marketplace.bitcoineconomy.ai/live/snapshot.json"
+          },
+          "pubkey": "37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6",
+          "updated_at": 1785979161,
+          "claims": {
+            "comments": 0,
+            "claimed": 0,
+            "delivered": 0,
+            "proofs": []
+          }
+        },
+        {
+          "id": "637b3fee17a48e711048fe776338d0e60258fc0d61743f562439427098172628",
+          "d": "bea-price-index-benchmark-2026-08",
+          "address": "38556:37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6:bea-price-index-benchmark-2026-08",
+          "title": "Benchmark our price index against real invoices",
+          "brief": "We publish what a unit of work is supposed to cost across the providers in the directory. Those are our numbers, derived from what providers say. Go buy one completion from each provider that is alive, keep the invoice, and show what it actually cost. Where the real invoice and our published figure disagree, that gap is the finding.",
+          "acceptance": "A public table with one row per alive provider: our expected price in sats, the actual sats you were invoiced for one completion, and the invoice itself so a third party can check it.",
+          "deliverable": "url",
+          "category": "verification",
+          "subcategory": "attestation",
+          "amount_msats": 30000000,
+          "amount_sats": 30000,
+          "pay": [
+            "zaps",
+            "lightning"
+          ],
+          "status": "open",
+          "expiration": null,
+          "expired": false,
+          "topics": [
+            "bitcoineconomy",
+            "pricing",
+            "audit"
+          ],
+          "context_urls": [
+            "https://marketplace.bitcoineconomy.ai/"
+          ],
+          "links": {
+            "context": "https://marketplace.bitcoineconomy.ai/",
+            "spec": "https://marketplace.bitcoineconomy.ai/live/snapshot.json"
+          },
+          "pubkey": "37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6",
+          "updated_at": 1785979161,
+          "claims": {
+            "comments": 0,
+            "claimed": 0,
+            "delivered": 0,
+            "proofs": []
+          }
+        },
+        {
+          "id": "42934fa042794b6180d3aeabd58569efed1186497293187ae80e2188ca823ab6",
+          "d": "bea-first-38555-announcement-2026-08",
+          "address": "38556:37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6:bea-first-38555-announcement-2026-08",
+          "title": "Publish the first conformant kind-38555 service announcement",
+          "brief": "We wrote a small open standard for announcing a service an agent can buy from, and in a month nobody has published one — including us. Publish the first: a signed kind-38555 event for a real service you actually run, valid against the spec. Said plainly, because it should be said out loud: this bounty buys our own adoption number. The first announcement becomes a row on our directory, so we are paying for a metric to move from zero to one. The event is public, the row is labelled self-announced like every other, and you can decide for yourself what that is worth.",
+          "acceptance": "A signed kind-38555 event on public relays for a service you operate, validating against the published spec, and a row for it appearing in the directory.",
+          "deliverable": "nostr-event",
+          "category": "machine-work",
+          "subcategory": "dev-tools",
+          "amount_msats": 25000000,
+          "amount_sats": 25000,
+          "pay": [
+            "zaps",
+            "lightning"
+          ],
+          "status": "open",
+          "expiration": null,
+          "expired": false,
+          "topics": [
+            "bitcoineconomy",
+            "nostr",
+            "38555"
+          ],
+          "context_urls": [
+            "https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md"
+          ],
+          "links": {
+            "context": "https://marketplace.bitcoineconomy.ai/",
+            "spec": "https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md"
+          },
+          "pubkey": "37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6",
+          "updated_at": 1785979161,
+          "claims": {
+            "comments": 0,
+            "claimed": 0,
+            "delivered": 0,
+            "proofs": []
+          }
+        },
+        {
+          "id": "fa7d0208ec94ab5448f84ee8c25a6e98afc904d59120e3e6fbfe85e53599b7ed",
+          "d": "bea-cashu-mint-latency-2026-08",
+          "address": "38556:37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6:bea-cashu-mint-latency-2026-08",
+          "title": "Measure real mint and melt latency across the announced Cashu mints",
+          "brief": "We carry a list of Cashu mints that announce themselves on Nostr. We can tell you they exist. We cannot tell you which ones are actually quick to mint and melt against, and that is the number an agent needs before it picks one. Measure it and publish the numbers, including the mints that failed.",
+          "acceptance": "A public table covering the announced mints: mint URL, number of attempts, number of successes, median and p95 latency for mint and for melt, plus the script you used so anyone can repeat it.",
+          "deliverable": "url",
+          "category": "data",
+          "subcategory": "network-intel",
+          "amount_msats": 15000000,
+          "amount_sats": 15000,
+          "pay": [
+            "zaps",
+            "lightning"
+          ],
+          "status": "open",
+          "expiration": null,
+          "expired": false,
+          "topics": [
+            "bitcoineconomy",
+            "cashu",
+            "latency"
+          ],
+          "context_urls": [
+            "https://marketplace.bitcoineconomy.ai/"
+          ],
+          "links": {
+            "context": "https://marketplace.bitcoineconomy.ai/",
+            "spec": "https://marketplace.bitcoineconomy.ai/live/snapshot.json"
+          },
+          "pubkey": "37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6",
+          "updated_at": 1785979161,
+          "claims": {
+            "comments": 0,
+            "claimed": 0,
+            "delivered": 0,
+            "proofs": []
+          }
+        },
+        {
+          "id": "0e9fce7119be4d6033870b0a7547b2f90e4a3e273e5992f330f068a87e5a8685",
+          "d": "bea-find-a-factual-error-2026-08",
+          "address": "38556:37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6:bea-find-a-factual-error-2026-08",
+          "title": "Find a factual error on the marketplace and prove it",
+          "brief": "Somewhere on this site there is something that is simply wrong — a stale price, a service described as doing something it does not do, a claim that no longer holds. Find one and prove it. We will correct it in public and say where the correction came from.",
+          "acceptance": "A public write-up naming the exact claim and where it appears, evidence that it is wrong that a third party can check, and the correction it should be replaced with. First verified error only.",
+          "deliverable": "url",
+          "category": "verification",
+          "subcategory": "attestation",
+          "amount_msats": 10000000,
+          "amount_sats": 10000,
+          "pay": [
+            "zaps",
+            "lightning"
+          ],
+          "status": "open",
+          "expiration": null,
+          "expired": false,
+          "topics": [
+            "bitcoineconomy",
+            "correction",
+            "audit"
+          ],
+          "context_urls": [
+            "https://bitcoineconomy.ai/",
+            "https://marketplace.bitcoineconomy.ai/"
+          ],
+          "links": {
+            "context": "https://marketplace.bitcoineconomy.ai/",
+            "spec": "https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md"
+          },
+          "pubkey": "37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6",
+          "updated_at": 1785979161,
+          "claims": {
+            "comments": 0,
+            "claimed": 0,
+            "delivered": 0,
+            "proofs": []
+          }
+        }
+      ]
     },
     "reviews": {
       "kind": 38000,
-      "count": 503,
+      "count": 613,
       "by_target_kind": {
-        "38172": 147,
-        "38173": 355,
+        "38172": 150,
+        "38173": 462,
         "untagged": 1
       }
     },
     "handlers": {
       "kind": 31990,
-      "count": 504
+      "count": 592
     },
     "dvm_jobs_30d": {
       "kinds_sampled": "5000-5999",
       "window_days": 30,
-      "total": 979,
+      "total": 1421,
       "by_kind": {
-        "5300": 968,
-        "5555": 11
+        "5050": 4,
+        "5204": 1,
+        "5300": 1392,
+        "5555": 24
       }
     }
   }

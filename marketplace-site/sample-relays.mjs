@@ -10,13 +10,18 @@
 // with worker.js); this file is just the Node runner.
 //
 // Usage:
-//   node sample-relays.mjs            # print the summary
-//   node sample-relays.mjs --write    # also write snapshot.json + models.json
+//   node sample-relays.mjs                    # print the summary
+//   node sample-relays.mjs --write            # also write snapshot.json + models.json
+//   node sample-relays.mjs --write --allow-partial   # write even if it regresses
+//
+// --write is gated: it refuses to replace the committed fallback with a run
+// that is WORSE than it (fewer relays complete, or a module count falling to
+// zero). Rule + rationale: checkWriteRegression in snapshot-lib.mjs.
 
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { RELAYS, makeFilters, queryRelay, buildSnapshot, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes } from './snapshot-lib.mjs';
+import { RELAYS, makeFilters, queryRelay, buildSnapshot, checkWriteRegression, probeProviders, applyProbes, buildModelsIndex, probeAnnounced, applyAnnouncedProbes } from './snapshot-lib.mjs';
 
 const connectNode = (url) => new Promise((resolve, reject) => {
   const ws = new WebSocket(url);
@@ -47,6 +52,8 @@ applyAnnouncedProbes(snapshot, annProbes, { probedAt: new Date().toISOString() }
 const m = snapshot.modules;
 console.log('=== relay status ===');
 for (const r of snapshot.relays) console.log(`  ${r.url}: ${r.status}${r.unfinished.length ? ' (unfinished: ' + r.unfinished.join(',') + ')' : ''}`);
+const cov = snapshot.coverage;
+console.log(`  coverage: ${cov.relays_complete}/${cov.relays_queried} relays complete — ${cov.complete ? 'COMPLETE (counts are totals)' : 'PARTIAL (counts are lower bounds)'}`);
 console.log('\n=== inventory (deduped across relays; replaceables deduped by pubkey+d) ===');
 console.log(`  Routstr providers (38421): ${m.routstr.count} — probe: ${m.routstr.probe.alive} alive · ${m.routstr.probe.unreachable} unreachable · ${m.routstr.probe.unverified_tor_only} tor-only unverified · ${m.routstr.probe.unroutable} unroutable`);
 for (const p of m.routstr.providers.slice(0, 40)) {
@@ -70,6 +77,23 @@ for (const [k, n] of Object.entries(m.dvm_jobs_30d.by_kind).slice(0, 12)) consol
 if (process.argv.includes('--write')) {
   const here = dirname(fileURLToPath(import.meta.url));
   const snapOut = join(here, 'snapshot.json');
+
+  let prev = null;
+  try { prev = JSON.parse(readFileSync(snapOut, 'utf8')); } catch {}
+  const reasons = checkWriteRegression(snapshot, prev);
+  if (reasons.length && !process.argv.includes('--allow-partial')) {
+    console.error('\n✗ REFUSING TO WRITE — this run is worse than the committed snapshot:');
+    for (const r of reasons) console.error(`    - ${r}`);
+    console.error('  Nothing was written. The committed fallback is unchanged.');
+    console.error('  Re-run when the relays are answering, or pass --allow-partial to');
+    console.error('  overwrite deliberately (the snapshot records its own coverage either way).');
+    process.exit(1);
+  }
+  if (reasons.length) {
+    console.warn('\n⚠ --allow-partial: writing a snapshot that is worse than the committed one:');
+    for (const r of reasons) console.warn(`    - ${r}`);
+  }
+
   writeFileSync(snapOut, JSON.stringify(snapshot, null, 2) + '\n');
   console.log(`\nwrote ${snapOut}`);
   // Minified on purpose: machine-only artifact, ~450 models — keeps the file
