@@ -10,7 +10,7 @@ repo: https://github.com/jan3dev/agentic-aqua
 license: MIT
 stack-section: "§5"
 status: experimental
-last-verified: 2026-06-11
+last-verified: 2026-08-06
 order: 35
 prereq-tier: account
 prereqs:
@@ -49,7 +49,7 @@ Install from PyPI (`agentic-aqua`), add the MCP server to the host's config (the
 
 ## Gotchas
 
-- **Alpha software** (PyPI development status: 3 — Alpha; v0.4.1, May 2026): expect breaking changes; small amounts only.
+- **Alpha software** (PyPI development status: 3 — Alpha; v0.5.1, July 2026): expect breaking changes; small amounts only.
 - **Never paste a seed into the chat** — the project's own warning: chat logs and transcripts persist. Import seeds via the CLI's hidden input instead.
 - Lightning is **Boltz-swap-based**, not channel-native — each Lightning payment carries the ~0.1% swap fee and Boltz availability as a dependency.
 - The Liquid side includes non-Bitcoin assets (e.g., USDt on Liquid); the Bitcoin and L-BTC paths are the on-thesis ones.

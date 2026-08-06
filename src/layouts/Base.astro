@@ -11,9 +11,24 @@ interface Props {
   canonical?: string; // path, e.g. /thesis
   jsonLd?: object | object[];
   wide?: boolean;
+  mdAlternate?: boolean; // false on pages that have no .md route (index pages)
 }
-const { title, description, current = '', canonical, jsonLd, wide = false } = Astro.props;
+const { title, description, current = '', canonical, jsonLd, wide = false, mdAlternate = true } = Astro.props;
 const canonicalUrl = canonical ? new URL(canonical, SITE.url).href : new URL(Astro.url.pathname, SITE.url).href;
+// The .md alternate is emitted ONLY when a .md route actually exists.
+// Two guards, because the failure modes differ in severity:
+//   • the root path guard is structural. Stripping the trailing slash from
+//     "https://bitcoineconomy.ai/" yields "https://bitcoineconomy.ai", so
+//     appending ".md" produced "https://bitcoineconomy.ai.md" — a DIFFERENT
+//     DOMAIN. ai.md is Moldova's ccTLD and is registered and resolving, so the
+//     homepage was advertising its machine-readable twin on a host under a third
+//     party's DNS control. Never let string concatenation cross a domain boundary.
+//   • mdAlternate={false} is the opt-out for index pages (/tools, /skills,
+//     /for-agents), which are HTML-only — llms.txt says so — and whose alternates
+//     404'd. Opt-OUT rather than opt-in so card and surface pages, which all do
+//     have .md routes, cannot silently lose theirs.
+const mdPathname = new URL(canonicalUrl).pathname.replace(/\/$/, '');
+const mdHref = mdAlternate && mdPathname !== '' ? canonicalUrl.replace(/\/$/, '') + '.md' : null;
 const fullTitle = title === SITE.name ? title : `${title} — ${SITE.shortName}`;
 const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
@@ -41,7 +56,7 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={new URL('/images/og-default.png', SITE.url).href} />
     <meta name="lightning" content="hello@bitcoineconomy.ai" />
-    <link rel="alternate" type="text/markdown" href={canonicalUrl.replace(/\/$/, '') + '.md'} />
+    {mdHref && <link rel="alternate" type="text/markdown" href={mdHref} />}
     {ld.map((obj) => (
       <script type="application/ld+json" set:html={JSON.stringify(obj)} />
     ))}

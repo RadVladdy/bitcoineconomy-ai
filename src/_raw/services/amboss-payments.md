@@ -56,7 +56,7 @@ Install the official TypeScript SDK — `@ambosstech/payments` on npm (MIT, Node
 - **Self-custody is described as an option, not a guarantee.** "No mandatory custody transfer" implies custody is configurable; managed convenience tiers may hold more trust.
 - **Compliance screening is part of the stack.** OFAC channel screening and IP node screening are integrated underneath, and Amboss sells that layer as its own product — see [Reflex](/services/reflex).
 - **The SDK is public, but the account is not optional.** Authentication is a service API key issued against a **business account**, so there is no account-free machine path: an agent cannot go from "found it" to "paid it" without a human opening an account first.
-- **Early version.** `@ambosstech/payments` is pre-1.0 (0.2.0 as of 2026-08-06, first published weeks earlier). Expect the surface to move, and pin the version.
+- **Early version.** `@ambosstech/payments` is pre-1.0 (0.3.0 as of 2026-08-06, first published weeks earlier). Expect the surface to move, and pin the version.
 
 ## Editor's Notes
 
@@ -64,7 +64,7 @@ Install the official TypeScript SDK — `@ambosstech/payments` on npm (MIT, Node
 
 This is the "currency flexibility" payments product (the `amboss.tech` stack). The maintainer describes it as an **LND node** the customer self-hosts or cloud-hosts; an earlier "built on Voltage" line has been retracted and any Voltage involvement is **unverified** (at most a hosting option) pending confirmation. Carded on the main site for reference; **not a directory entry.**
 
-**⚑ THE GATE TRIPPED AND WAS RE-DECIDED 2026-08-06 — the answer is unchanged, and the reasoning is recorded here so the next pass does not re-litigate it.** The old note said *"re-evaluate once the API/SDK/MCP ship."* Two of the three have now shipped: `@ambosstech/payments` is live on npm (0.2.0, published 2026-07-31, MIT, Node 18.18+), with a typed GraphQL client, `createReceive` returning a BOLT11 `payment_request`, sends to a BOLT11 invoice or a Lightning Address, and built-in webhook HMAC verification. Verified against npm and `docs.amboss.tech/sdk` on 2026-08-06.
+**⚑ THE GATE TRIPPED AND WAS RE-DECIDED 2026-08-06 — the answer is unchanged, and the reasoning is recorded here so the next pass does not re-litigate it.** The old note said *"re-evaluate once the API/SDK/MCP ship."* Two of the three have now shipped: `@ambosstech/payments` is live on npm (0.3.0, published 2026-08-06, MIT, Node 18.18+), with a typed GraphQL client, `createReceive` returning a BOLT11 `payment_request`, sends to a BOLT11 invoice or a Lightning Address, and built-in webhook HMAC verification. Verified against npm and `docs.amboss.tech/sdk` on 2026-08-06.
 
 **Decision: stays `agent-access: limited`, stays out of the directory.** The bar is not "is there an API" — it is **machine-actionable without a human**, and authentication is a `serviceApiKey` issued against a **business account**. That is the same wall Swan hit, and it is the whole reason the `api-no-account` / `api-account` / `api-kyc` tiering exists: an SDK an agent cannot obtain credentials for is not a path an agent can take. **What would reopen this, specifically:** a documented MCP server (step 3 of the maintainer's own order, and none is documented as of 2026-08-06), or any account-free credential path. A new SDK version alone does not reopen it — the blocker is the account, not the ergonomics.
 

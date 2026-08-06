@@ -39,7 +39,7 @@ const tag = (s: (typeof skills)[number]) => {
   return s['skill-group'] ?? 'skill';
 };
 ---
-<Base title="Skills" description={description} current="skills" canonical="/skills" jsonLd={jsonLd} wide={true}>
+<Base title="Skills" description={description} current="skills" canonical="/skills" mdAlternate={false} jsonLd={jsonLd} wide={true}>
   <div class="surface-layout accent-cyan">
     <div>
       <div class="tools-intro">

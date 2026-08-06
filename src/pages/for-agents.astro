@@ -30,7 +30,7 @@ const jsonLd = {
   isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url },
 };
 ---
-<Base title="For AI Agents" description={description} canonical="/for-agents" jsonLd={jsonLd} wide={true}>
+<Base title="For AI Agents" description={description} canonical="/for-agents" mdAlternate={false} jsonLd={jsonLd} wide={true}>
   <div class="surface-layout accent-agent">
     <article class="prose">
       <nav class="crumb" aria-label="Breadcrumb">
@@ -74,7 +74,7 @@ const jsonLd = {
         <li><a href="/llms-full.txt"><code>/llms-full.txt</code></a> — concatenated full text of every canonical surface, for single-fetch ingestion.</li>
         <li><strong>Clean <code>.md</code> route on every page</strong> — append <code>.md</code> to any URL (e.g. <code>/case.md</code>).</li>
         <li><strong>JSON-LD on every page</strong> — Article / TechArticle, and FAQPage where a claims-index exists.</li>
-        <li><strong>Marketplace MCP</strong> — <a href="https://marketplace.bitcoineconomy.ai/mcp"><code>marketplace.bitcoineconomy.ai/mcp</code></a> (Streamable-HTTP, JSON-RPC): <code>find_service</code>, <code>get_service</code>, <code>find_tool</code>, <code>get_tool</code>, <code>list_categories</code>, <code>list_mcp_servers</code>, <code>price_model</code>, <code>get_quote</code>.</li>
+        <li><strong>Marketplace MCP</strong> — <a href="https://marketplace.bitcoineconomy.ai/mcp"><code>marketplace.bitcoineconomy.ai/mcp</code></a> (Streamable-HTTP, JSON-RPC): <code>find_service</code>, <code>get_service</code>, <code>find_tool</code>, <code>get_tool</code>, <code>list_categories</code>, <code>list_mcp_servers</code>, <code>price_model</code>, <code>get_quote</code>, <code>find_l402_endpoints</code>, <code>get_uptime</code>, <code>find_work</code>, <code>post_bounty</code>.</li>
         <li><strong>Non-MCP / legacy agents</strong> — an OpenAPI description at <a href="https://marketplace.bitcoineconomy.ai/openapi.json"><code>openapi.json</code></a> and an OpenAI-plugin manifest at <a href="https://marketplace.bitcoineconomy.ai/.well-known/ai-plugin.json"><code>/.well-known/ai-plugin.json</code></a>.</li>
       </ul>
 
