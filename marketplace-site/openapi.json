@@ -57,7 +57,7 @@
       "get": {
         "operationId": "getToolCatalog",
         "summary": "The tool catalog — what an agent installs/runs to transact",
-        "description": "The 29-tool catalog of equipment an agent EQUIPS (vs the registry of what it BUYS): wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Each tool carries toolbox_group, tool_type, layer, prereq_tier, and links.",
+        "description": "The 28-tool catalog of equipment an agent EQUIPS (vs the registry of what it BUYS): wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Each tool carries toolbox_group, tool_type, layer, prereq_tier, and links.",
         "responses": {
           "200": {
             "description": "The tool catalog document.",
@@ -99,6 +99,35 @@
         "responses": {
           "200": {
             "description": "The price index document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/live/announced.json": {
+      "get": {
+        "operationId": "getAnnounced",
+        "summary": "The sell side — services that listed themselves, permissionlessly (kind 38555)",
+        "description": "Services announced by their own operators as signed Nostr events, with no account, form or fee — the buy-side sibling of /live/bounties.json. ANNOUNCED IS NOT CURATED: these are taken as published, not verified and not endorsed; they graduate into /directory.json only after the editors check them against the API inclusion bar. Judge them on the cold-start signals carried per row: probe status (alive | unreachable | unverified-tor-only | unroutable), announcement_age_days, and mint_health (how many claimed Cashu mints are themselves known). Projected out of /live/snapshot.json#modules.announced. Refreshed hourly from the relays, liveness on the 6-hourly pass. To list yourself, publish one event: /spec/agent-payable-service-announcement.md",
+        "responses": {
+          "200": {
+            "description": "The announced-tier document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The relays could not be read AND the committed fallback is empty. Deliberately NOT a 200 with an empty list: an empty fallback cannot distinguish \"nobody has announced\" from \"we could not check\", and an agent that cannot tell those apart concludes the market is dead when the reader is merely broken.",
             "content": {
               "application/json": {
                 "schema": {
@@ -175,6 +204,16 @@
         "responses": {
           "200": {
             "description": "The bounty board document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The relays could not be read AND the committed fallback board is empty. Deliberately NOT a 200 with an empty board: \"no bounties have been posted\" and \"we could not read the board\" are different answers, and only a live read can tell them apart. Retry rather than concluding the market is empty.",
             "content": {
               "application/json": {
                 "schema": {

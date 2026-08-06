@@ -605,6 +605,34 @@ const openapi = {
         responses: { 200: jsonResp('The price index document.') },
       },
     },
+    // The sell side. This route has been live and advertised in llms.txt,
+    // agents.txt, the routes block and the spec since the announced tier
+    // shipped — and was the ONLY /live/ route missing from this document, so an
+    // agent that generated a client from the OpenAPI spec (the most literal way
+    // to consume this site) could reach every source except the permissionless
+    // one we are actively asking people to publish into.
+    '/live/announced.json': {
+      get: {
+        operationId: 'getAnnounced',
+        summary: 'The sell side — services that listed themselves, permissionlessly (kind 38555)',
+        description:
+          'Services announced by their own operators as signed Nostr events, with no account, form or fee — the '
+          + 'buy-side sibling of /live/bounties.json. ANNOUNCED IS NOT CURATED: these are taken as published, not '
+          + 'verified and not endorsed; they graduate into /directory.json only after the editors check them against '
+          + 'the API inclusion bar. Judge them on the cold-start signals carried per row: probe status (alive | '
+          + 'unreachable | unverified-tor-only | unroutable), announcement_age_days, and mint_health (how many claimed '
+          + 'Cashu mints are themselves known). Projected out of /live/snapshot.json#modules.announced. Refreshed '
+          + 'hourly from the relays, liveness on the 6-hourly pass. To list yourself, publish one event: '
+          + '/spec/agent-payable-service-announcement.md',
+        responses: {
+          200: jsonResp('The announced-tier document.'),
+          503: jsonResp(
+            'The relays could not be read AND the committed fallback is empty. Deliberately NOT a 200 with an empty '
+            + 'list: an empty fallback cannot distinguish "nobody has announced" from "we could not check", and an '
+            + 'agent that cannot tell those apart concludes the market is dead when the reader is merely broken.'),
+        },
+      },
+    },
     '/live/l402index.json': {
       get: {
         operationId: 'getExternalIndex',
@@ -664,7 +692,13 @@ const openapi = {
           + '/live/snapshot.json#modules.requests — the same data, without the rest of the snapshot. Refreshed hourly '
           + 'from the relays; static fallback at /snapshot.json. To post one, call post_bounty on /mcp (it returns an '
           + 'UNSIGNED event — this server holds no keys and no funds). Spec: /spec/agent-payable-work-request.md',
-        responses: { 200: jsonResp('The bounty board document.') },
+        responses: {
+          200: jsonResp('The bounty board document.'),
+          503: jsonResp(
+            'The relays could not be read AND the committed fallback board is empty. Deliberately NOT a 200 with an '
+            + 'empty board: "no bounties have been posted" and "we could not read the board" are different answers, '
+            + 'and only a live read can tell them apart. Retry rather than concluding the market is empty.'),
+        },
       },
     },
     '/entries/{slug}.md': {
