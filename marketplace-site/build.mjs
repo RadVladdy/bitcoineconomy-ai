@@ -10,6 +10,8 @@
 //   tools.json         the tool catalog (what an agent EQUIPS, vs BUYS)
 //   entries/{slug}.md  one clean Markdown route per entry
 //   llms.txt           the agent manifest for the subdomain
+//   robots.txt         AI-crawler allowlist (this is an agent-first surface)
+//   agents.txt         the machine-route index for autonomous agents
 //   openapi.json       OpenAPI 3.0 description of the GET routes (non-MCP agents)
 //   .well-known/ai-plugin.json   the OpenAI-plugin-era discovery manifest
 //
@@ -438,6 +440,70 @@ for (const cat of categories) {
   llms.push('');
 }
 writeFileSync(join(HERE, 'llms.txt'), llms.join('\n'));
+
+// --- robots.txt + agents.txt ----------------------------------------------------
+// The subdomain served llms.txt but 404'd both of these until 2026-08-05, while the
+// apex served all three. Nothing was blocked — a missing robots.txt is permissive by
+// convention, and the crawlers were getting 200 — but this is the agent-first site's
+// agent-facing surface, and it was the weakest one on the property. Generated here
+// rather than hand-written so they cannot drift from the routes they advertise.
+const AI_CRAWLERS = [
+  'GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-Web',
+  'anthropic-ai', 'PerplexityBot', 'Perplexity-User', 'Google-Extended',
+  'GoogleOther', 'CCBot', 'Applebot-Extended', 'Amazonbot', 'Bytespider',
+  'Meta-ExternalAgent', 'cohere-ai', 'YouBot', 'Diffbot', 'DuckAssistBot',
+  'Timpibot',
+];
+
+const robots = [];
+for (const ua of AI_CRAWLERS) robots.push(`User-agent: ${ua}`, 'Allow: /', '');
+robots.push('User-agent: *', 'Allow: /', '');
+// No Sitemap line: this subdomain has no sitemap.xml. Advertising one that 404s is
+// worse than omitting it — the apex carries the sitemap for the property.
+robots.push(`# Machine-readable index: ${BASE}/agents.txt · ${BASE}/llms.txt`, '');
+writeFileSync(join(HERE, 'robots.txt'), robots.join('\n'));
+
+const agents = [
+  '# agents.txt — The Marketplace directory, for autonomous agents',
+  '',
+  'Every route below is fetchable without an account, a key, or a session.',
+  'Announcements are not endorsements: inclusion records that a service exists',
+  'and is machine-payable, not that it is recommended.',
+  '',
+  '## Start here',
+  `- ${BASE}/mcp — MCP server (JSON-RPC over POST). The richest path; a GET returns 405 by design.`,
+  `- ${BASE}/directory.json — the curated registry: what an agent can BUY.`,
+  `- ${BASE}/tools.json — the tool catalog: what an agent EQUIPS.`,
+  `- ${BASE}/llms.txt — the same registry as a human-legible manifest.`,
+  `- ${BASE}/openapi.json — OpenAPI 3.0 for the GET routes, if you do not speak MCP.`,
+  `- ${BASE}/.well-known/ai-plugin.json — plugin-era discovery manifest.`,
+  '',
+  '## Live data',
+  `- ${BASE}/live/snapshot.json — relay reads + endpoint probes + the sats price index.`,
+  `- ${BASE}/live/models.json — model pricing across providers.`,
+  `- ${BASE}/live/master.json — the merged view.`,
+  `- ${BASE}/live/uptime.json — rolling probe history.`,
+  `- ${BASE}/live/announced.json — kind-${KIND_ANNOUNCE} sell-side announcements.`,
+  '',
+  '> A 200 on a /live/ route does not prove the refresh cron is healthy — these',
+  '> fall back to a committed snapshot when KV is cold. Check the timestamp inside',
+  '> the payload, not the status code.',
+  '',
+  '## Per-entry routes',
+  `- ${BASE}/entries/{slug}.md — one clean Markdown route per directory entry.`,
+  `  Slugs are the "slug" field in directory.json (${entries.length} entries).`,
+  '',
+  '## Publishing into this directory',
+  `- ${BASE}/spec/agent-payable-service-announcement.md — sell side (kind ${KIND_ANNOUNCE}).`,
+  `- ${BASE}/spec/agent-payable-work-request.md — buy side (kind ${KIND_REQUEST}).`,
+  '  Both carry JSON Schemas alongside them at the same path with a .schema.json suffix.',
+  '',
+  '## Context',
+  `- ${MAIN}/case — the argument this directory exists to serve.`,
+  `- ${MAIN}/agents.txt — the main site's claim-indexed map.`,
+  '',
+];
+writeFileSync(join(HERE, 'agents.txt'), agents.join('\n'));
 
 // --- openapi.json + /.well-known/ai-plugin.json (10b breadth manifests) --------
 // For agents that DON'T speak MCP — the OpenAI-plugin-era discovery pair. An
@@ -1032,6 +1098,7 @@ console.log(`directory.json: ${entries.length} entries across ${categories.lengt
 console.log(`tools.json: ${tools.length} tools`);
 console.log(`entries/: ${entries.length} markdown routes`);
 console.log('llms.txt written');
+console.log('robots.txt + agents.txt written');
 console.log('openapi.json + .well-known/ai-plugin.json written');
 console.log(`spec/agent-payable-service-announcement.md + .schema.json written (kind ${KIND_ANNOUNCE})`);
 console.log(`spec/agent-payable-work-request.md + .schema.json written (kind ${KIND_REQUEST})`);
