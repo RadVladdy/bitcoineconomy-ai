@@ -232,3 +232,27 @@ and **CEP-24** (the ContextVM signed-server-reviews convention). These are reput
 fail the inclusion bar (same reason Swan was removed). They are named on the main-site
 Marketplace gateway's reputation paragraph as early/unproven (existence proof, not
 endorsement) and belong here as candidate inputs to the ranking/reviews layer.
+
+
+## Markup notes for `index.html`
+
+`index.html` is served verbatim — it has no frontmatter and its `<script>` is inline, so
+there is nowhere in that file to put a note that does not reach the reader's view-source.
+These live here instead. `README.md` is in `.assetsignore`, so it is not served.
+
+- **The favicon is self-hosted** — the main site's mark with the Marketplace violet in
+  place of the Bitcoin orange, matching the section colour. It also fixes a real defect:
+  the CSP here is `img-src 'self' data:`, so the cross-origin favicon this used to load
+  from the apex was blocked and the subdomain showed no icon at all.
+- **The bounty board sits between the directory and the live inventory.** The directory is
+  what an agent can BUY, the board is what it can EARN — two sides of one market, adjacent.
+  The live inventory is supporting evidence for the directory, one level down.
+- **The board section is honest when empty.** What stays gated on a non-zero open count is
+  the top-of-page promotion — the jump tile, the second button and the status-bar figure —
+  so the page never advertises an empty room. The sell side stays first; the board's jump
+  tile and section un-hide via `renderBoard()` once at least one request is open.
+- **There is deliberately no `payment_network` facet.** `rail` is this site's vocabulary
+  for how an agent pays; `payment_network` is the upstream chain a gateway host settles on
+  — the host's arrangement, not a choice offered to your agent. Offering it as a filter
+  read as a menu of supported networks. The value still appears on every row, in the note
+  under the rail badge, and in `master.json`.

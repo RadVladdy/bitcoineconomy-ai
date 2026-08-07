@@ -18,9 +18,11 @@ const story = all.find((e) => e.data.slug === 'the-story');
 const { Content: StoryContent } = story ? await render(story) : { Content: null };
 
 const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'Market': 'agent' };
+
+// Page structure: a full-bleed hero band (.hero2), then the landing grid
+// (.landing2) carrying the Story on the left and the section tiles on the right.
 ---
 <Base title={SITE.name} description={description} jsonLd={siteJsonLd()} wide={true}>
-  <!-- HERO BAND (full-bleed) -->
   <section class="hero2">
     <div class="hero2-grid" aria-hidden="true"></div>
     <canvas id="hero-net" aria-hidden="true"></canvas>
@@ -35,7 +37,6 @@ const GROUP_ACCENT: Record<string, string> = { Case: 'btc', Stack: 'cyan', 'Mark
     </div>
   </section>
 
-  <!-- LANDING: Story (left) + section tiles (right) -->
   <div class="landing2">
     <div class="story2" id="story">
       <p class="story-kicker">The Story</p>
