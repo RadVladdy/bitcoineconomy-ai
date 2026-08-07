@@ -1,5 +1,5 @@
 {
- "$schema_note": "Anchor records for the marketplace trust layer. Each record: a Nostr event (kind 8555, signed by the marketplace-anchor pubkey below) carrying sha256 digests of the live agent surfaces at fetch time, published to public relays, its canonical serialization stored as <event_id>.evt (sha256(.evt) == event_id per NIP-01) and stamped into Bitcoin via OpenTimestamps (<event_id>.evt.ots). how_to_check: (1) sha256 the .evt file and confirm it equals the event id; (2) verify the event signature against anchor_pubkey (NIP-01 schnorr); (3) ots verify -d <event_id> <event_id>.evt.ots against any Bitcoin explorer; (4) fetch the event by id from the listed relays for the third-party copy. The repo history of this folder is itself an additional weak anchor.",
+ "$schema_note": "Anchor records for the marketplace trust layer. Each record: a Nostr event (kind 8555, signed by the marketplace-anchor pubkey below) carrying sha256 digests of the live agent surfaces at fetch time (/directory.json, /live/snapshot.json, /live/models.json, /live/uptime.json), published to public relays, its canonical serialization stored as <event_id>.evt (sha256(.evt) == event_id per NIP-01) and stamped into Bitcoin via OpenTimestamps (<event_id>.evt.ots). The `ots` field is re-derived from the .ots file on every run: \"bitcoin\" once a Bitcoin block-header attestation is present (block heights in ots_bitcoin_blocks), \"pending\" while only calendar attestations are \u2014 a fresh stamp takes hours to confirm, so the newest record reading \"pending\" is normal. how_to_check: (1) sha256 the .evt file and confirm it equals the event id; (2) verify the event signature against anchor_pubkey (NIP-01 schnorr); (3) `ots info <event_id>.evt.ots` lists the Bitcoin block heights with NO node required \u2014 check any of them on a block explorer by hand; for a fully trust-minimised check run `ots verify -d <event_id> <event_id>.evt.ots` against your own Bitcoin node (it speaks to a node over RPC, not to an explorer); (4) fetch the event by id from the listed relays for the third-party copy. The repo history of this folder is itself an additional weak anchor.",
  "schema_version": 1,
  "anchor_pubkey": "ae6673d804ad325c7fbdad9413bc90f97ae26a5e16b6e4bf993ddc951cba889a",
  "records": [
@@ -18,7 +18,13 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending"
+   "ots": "bitcoin",
+   "ots_bitcoin_blocks": [
+    959284,
+    959285,
+    959296,
+    959334
+   ]
   },
   {
    "date": "2026-07-24",
@@ -35,14 +41,20 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    959414,
+    959416,
+    959429,
+    959442
+   ]
   },
   {
    "date": "2026-07-25",
@@ -59,14 +71,20 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    959544,
+    959545,
+    959547,
+    959587
+   ]
   },
   {
    "date": "2026-07-26",
@@ -83,14 +101,19 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    959688,
+    959711,
+    959725
+   ]
   },
   {
    "date": "2026-07-27",
@@ -107,14 +130,20 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    959826,
+    959829,
+    959835,
+    959856
+   ]
   },
   {
    "date": "2026-07-28",
@@ -131,14 +160,18 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    959965,
+    960020
+   ]
   },
   {
    "date": "2026-07-29",
@@ -155,14 +188,20 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    960095,
+    960099,
+    960111,
+    960144
+   ]
   },
   {
    "date": "2026-07-30",
@@ -179,14 +218,19 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    960250,
+    960259,
+    960266
+   ]
   },
   {
    "date": "2026-07-31",
@@ -203,14 +247,20 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    960397,
+    960403,
+    960404,
+    960419
+   ]
   },
   {
    "date": "2026-08-01",
@@ -227,14 +277,20 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    960552,
+    960553,
+    960558,
+    960567
+   ]
   },
   {
    "date": "2026-08-02",
@@ -251,14 +307,20 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    960720,
+    960723,
+    960757,
+    960771
+   ]
   },
   {
    "date": "2026-08-03",
@@ -275,14 +337,18 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    960859,
+    960904
+   ]
   },
   {
    "date": "2026-08-04",
@@ -299,14 +365,18 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    961002,
+    961016
+   ]
   },
   {
    "date": "2026-08-05",
@@ -323,14 +393,20 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (10 tools)"
-   }
+   },
+   "ots_bitcoin_blocks": [
+    961149,
+    961153,
+    961158,
+    961189
+   ]
   },
   {
    "date": "2026-08-06",
@@ -347,13 +423,45 @@
     "wss://relay.primal.net"
    ],
    "relay_publish_ok": true,
-   "ots": "pending",
+   "ots": "bitcoin",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
     "/live/snapshot.json": "ok",
     "/live/models.json": "ok",
     "/live/uptime.json": "ok",
     "/mcp": "ok (11 tools)"
+   },
+   "ots_bitcoin_blocks": [
+    961285,
+    961287,
+    961288,
+    961333
+   ]
+  },
+  {
+   "date": "2026-08-07",
+   "event_id": "9db75061a58618f989e34e6bbcd9b4e2a431474d6e0530e0873c89bb9c120e56",
+   "created_at": 1786099502,
+   "digests": {
+    "/directory.json": "d04012d976d40d8d06650920fb9128b620130da66ab9ba78161804ddd5479a67",
+    "/live/snapshot.json": "a13937b0a30520fc3a61942c705a9cb905c1a999535cec44bb3446651ec1a279",
+    "/live/models.json": "33f4437802d8b3749ad140f84611fc5dd8ea2d1d0f772794e5fa77475fef17bd",
+    "/live/uptime.json": "085a3f8fe16db7f2b7ea84aeb3ea7deededc0fb3818a5d25d8b95ca44d65bc90"
+   },
+   "relays": [
+    "wss://relay.damus.io",
+    "wss://nos.lol",
+    "wss://relay.primal.net"
+   ],
+   "relay_publish_ok": true,
+   "ots": "pending",
+   "external_probe": {
+    "probed_from": "external (nightly anchor host)",
+    "/directory.json": "ok",
+    "/live/snapshot.json": "ok",
+    "/live/models.json": "ok",
+    "/live/uptime.json": "ok",
+    "/mcp": "ok (12 tools)"
    }
   }
  ]
