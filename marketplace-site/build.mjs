@@ -415,7 +415,8 @@ const llms = [
   '## Legacy / non-MCP agents',
   '',
   `An OpenAPI 3.0 description of the GET routes above is at ${BASE}/openapi.json (operationIds:`,
-  'getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getUptimeHistory, getEntry), with the OpenAI-plugin-era',
+  'getMasterDirectory, getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex, getAnnounced, getExternalIndex,',
+  'getGatewayObserved, getUptimeHistory, getBounties, getEntry), with the OpenAI-plugin-era',
   `manifest at ${BASE}/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.`,
   '',
   `Static fallbacks (work without the worker): ${BASE}/snapshot.json + ${BASE}/models.json + ${BASE}/l402index.json`,
@@ -565,8 +566,7 @@ const openapi = {
       + 'vocabulary, each row stating its provenance and its payment rail. Fetch and filter locally — no auth, and '
       + 'no funds move through this API; the agent pays each provider directly over Lightning / L402 / Cashu, or '
       + 'through the l402.space gateway where a row says rail="via-gateway". MCP-capable agents should use the '
-      + `richer Model Context Protocol server at ${BASE}/mcp instead (find_service, get_service, list_categories, `
-      + 'get_quote, find_tool, get_tool, list_mcp_servers).',
+      + `richer Model Context Protocol server at ${BASE}/mcp instead (find_service, get_service, find_tool, get_tool, price_model, list_categories, list_mcp_servers, get_quote, find_l402_endpoints, get_uptime, find_work, post_bounty).`,
     version: '2.0.0',
     contact: { email: 'hello@bitcoineconomy.ai', url: MAIN },
   },
@@ -702,7 +702,7 @@ const openapi = {
           + '(self:* rows). Recomputable, not a score: carries the raw per-run observations (runs[]), the exact '
           + 'formula, and explicit denominators (unprobeable observations are excluded and counted separately). '
           + 'Nightly anchor runs sign snapshot digests to Nostr and stamp them into Bitcoin via OpenTimestamps '
-          + '(records at /anchors/), making the history tamper-evident. KV-backed; static placeholder at /uptime.json '
+          + '(record index at /anchors/index.json), making the history tamper-evident. KV-backed; static placeholder at /uptime.json '
           + 'until the first cron.',
         responses: { 200: jsonResp('The uptime history document.') },
       },
@@ -763,10 +763,15 @@ const aiPlugin = {
     + 'machine work, verification, commerce bridges, swaps, liquidity, and fiat ramps.',
   description_for_model:
     'Use to discover Bitcoin-payable services and tools an autonomous agent can consume. '
-    + 'getDirectory returns the curated registry (filter on category, payment_methods, automatability, kyc); '
-    + 'getToolCatalog returns equipment an agent installs/runs; getLiveSnapshot returns Nostr-announced live '
-    + 'inventory (filter status === "alive"); getPriceIndex returns the cross-provider inference price index '
-    + '(cheapest provider per model, sats per token); getEntry returns one clean record per service. '
+    + 'START HERE: getMasterDirectory returns every service from all four sources in one row shape and one '
+    + 'category vocabulary. getDirectory returns just the curated registry (filter on category, '
+    + 'payment_methods, automatability, kyc); getToolCatalog returns equipment an agent installs/runs; '
+    + 'getLiveSnapshot returns Nostr-announced live inventory (filter status === "alive"); getAnnounced '
+    + 'returns the self-announced sell side; getExternalIndex and getGatewayObserved return the two '
+    + 'third-party tiers; getPriceIndex returns the cross-provider inference price index (cheapest '
+    + 'provider per model, sats per token); getUptimeHistory returns recomputable liveness history; '
+    + 'getBounties returns the buy side — signed kind-38556 work requests offering sats for agent work; '
+    + 'getEntry returns one clean record per service. '
     + 'No funds move through this API — the agent pays each provider directly over Lightning, L402, or Cashu. '
     + `MCP-capable agents should use the richer Model Context Protocol server at ${BASE}/mcp instead.`,
   auth: { type: 'none' },

@@ -97,9 +97,13 @@ export const GET: APIRoute = async () => {
   lines.push('## The Marketplace — live directory (separate site)');
   lines.push('');
   lines.push('The live, self-refreshing directory of agent-payable services at https://marketplace.bitcoineconomy.ai — a curated registry (agent-drivable-API bar) + live Nostr announcements + six-hourly liveness probes + a cross-provider sats price index. Agent-readable by design.');
-  lines.push('- Directory manifest: https://marketplace.bitcoineconomy.ai/llms.txt (opens with a five-fetch recipe)');
+  lines.push('- Directory manifest: https://marketplace.bitcoineconomy.ai/llms.txt (opens with a one-fetch start — /live/master.json, every source merged into one row shape)');
   lines.push('- MCP server (call the directory as tools — find_service, get_service, price_model, get_quote, …): POST https://marketplace.bitcoineconomy.ai/mcp');
-  lines.push('- Registry JSON: https://marketplace.bitcoineconomy.ai/directory.json');
+  lines.push('- START HERE — the mastered directory (every source, one row shape): https://marketplace.bitcoineconomy.ai/live/master.json');
+  lines.push('- Registry JSON (curated tier only): https://marketplace.bitcoineconomy.ai/directory.json');
+  lines.push('- Tool catalogue (what an agent equips): https://marketplace.bitcoineconomy.ai/tools.json');
+  lines.push('- The buy side — signed kind-38556 work requests offering sats for agent work: https://marketplace.bitcoineconomy.ai/live/bounties.json');
+  lines.push('- The sell side — self-announced kind-38555 services: https://marketplace.bitcoineconomy.ai/live/announced.json');
   lines.push('- Live snapshot: https://marketplace.bitcoineconomy.ai/live/snapshot.json');
   lines.push('- Cross-provider price index: https://marketplace.bitcoineconomy.ai/live/models.json');
   lines.push('');
