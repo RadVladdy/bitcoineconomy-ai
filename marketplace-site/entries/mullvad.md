@@ -9,7 +9,7 @@ A privacy VPN that takes Lightning with no email and no account profile — just
 - Payment detail: Lightning (native, own node) + on-chain BTC (also cash-by-mail, Monero)
 - KYC: none
 - Custody: n/a (pay-and-receive)
-- Automatability: limited — No public trading/provisioning API — scheduled or app-driven flows only
+- Automatability: api-none-but-scriptable — No formal API, but the whole flow is scriptable with no human in it — generate a credential, pay an invoice against it, use the service
 - Auth: account number only — generated free, no email, no identity. There is no payment API: the flow is generate-account-number then pay an invoice against it.
 - Quickstart: Generate an account number, pay a Lightning invoice against it, connect via WireGuard — scriptable, though there is no formal payment API.
 - Direction: consume

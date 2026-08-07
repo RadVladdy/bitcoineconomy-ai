@@ -338,7 +338,7 @@ const llms = [
   '## Single sources, unmixed',
   '',
   `1. ${BASE}/directory.json — the curated registry alone. Filter on category, subcategory, payment_methods,`,
-  '   automatability (api-no-account | api-account | api-kyc), and kyc. Entries carry auth, quickstart,',
+  '   automatability (api-no-account | api-account | api-kyc | api-none-but-scriptable | limited), and kyc. Entries carry auth, quickstart,',
   '   and (where verified) api_base + pricing_url — enough to make the first call.',
   `2. ${BASE}/live/announced.json — the self-listed sell side (kind 38555), with probe status + trust signals.`,
   `3. ${BASE}/live/l402index.json — the external-index tier. Since 2026-07-29 it spans all three protocols`,
@@ -610,7 +610,7 @@ const openapi = {
         description:
           `The full curated registry (${entries.length} entries across ${categories.length} categories: ${categories.join(', ')}). `
           + 'Each entry carries category, what_an_agent_buys, payment_methods, automatability '
-          + '(api-no-account | api-account | api-kyc), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint '
+          + '(api-no-account | api-account | api-kyc | api-none-but-scriptable | limited), kyc, auth, api_base, pricing_url, quickstart, and mcp_endpoint '
           + 'where the provider runs its own MCP server. One fetch returns everything; filter locally.',
         responses: { 200: jsonResp('The curated registry document.') },
       },

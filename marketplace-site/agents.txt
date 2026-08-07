@@ -35,7 +35,7 @@ and is machine-payable, not that it is recommended.
 
 ## Per-entry routes
 - https://marketplace.bitcoineconomy.ai/entries/{slug}.md — one clean Markdown route per directory entry.
-  Slugs are the "slug" field in directory.json (23 entries).
+  Slugs are the "slug" field in directory.json (22 entries).
 
 ## Publishing into this directory
 - https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md — sell side (kind 38555).

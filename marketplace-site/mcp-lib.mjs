@@ -307,7 +307,7 @@ const TOOLS = [
         rail: { type: 'string', description: '"bitcoin-native" = payable directly in sats · "via-gateway" = reachable only by paying an intermediary (l402.space) that settles upstream · "fiat-only" = no Bitcoin payment path at all. Use "bitcoin-native" when the agent must not depend on a custodial hop.' },
         source: { type: 'string', description: 'Restrict to one source: "curated", "announced", "external-index" or "gateway-observed".' },
         no_kyc: { type: 'boolean', description: 'If true, return only services that need no KYC. Curated rows only — no other source carries a verified KYC field, so this necessarily narrows to curated.' },
-        automatability: { type: 'string', description: 'One of: api-no-account, api-account, api-kyc (curated rows only).' },
+        automatability: { type: 'string', description: 'One of: api-no-account, api-account, api-kyc, api-none-but-scriptable, limited (curated rows only). The full gloss for each is the automatability_tiers block in /directory.json.' },
         two_sided: { type: 'boolean', description: 'If true, return only services an agent can also sell/offer through (curated rows only).' },
         tier: { type: 'string', description: 'DEPRECATED alias for `source`, kept so older callers keep working: "curated" | "announced" | "all". Prefer `source` (and omit it entirely to search everything).' },
         limit: { type: 'number', description: 'Maximum results to return (default 40).' },

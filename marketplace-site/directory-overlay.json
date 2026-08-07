@@ -5,7 +5,7 @@
     "api-account": "API after account setup — no identity check, but a human creates the account first",
     "api-kyc": "API after KYC onboarding — automatable once a human completes identity verification",
     "limited": "No public trading/provisioning API — scheduled or app-driven flows only",
-    "human-only": "No programmatic path at all — a person opens and operates the account; an agent can only receive what the owner sends"
+    "api-none-but-scriptable": "No formal API, but the whole flow is scriptable with no human in it — generate a credential, pay an invoice against it, use the service"
   },
   "_tool_mcp_endpoints": {
     "_comment": "MCP endpoints for tool-catalog cards (src/_raw/tools/) that expose their own Model Context Protocol server but are not curated directory service entries (directory entries carry mcp_endpoint inline below). build.mjs merges these into the unified registry, keyed by tool slug, so find_tool/get_tool and list_mcp_servers surface them. The directory discovers; the provider's own MCP executes (connect-there-to-act). Amboss is not listed here — it is a directory entry, so its mcp_endpoint is reused for the tool card automatically.",
@@ -231,7 +231,7 @@
         "lightning",
         "onchain"
       ],
-      "automatability": "limited",
+      "automatability": "api-none-but-scriptable",
       "auth": "account number only — generated free, no email, no identity. There is no payment API: the flow is generate-account-number then pay an invoice against it.",
       "quickstart": "Generate an account number, pay a Lightning invoice against it, connect via WireGuard — scriptable, though there is no formal payment API."
     },
@@ -391,22 +391,6 @@
       "auth": "API key — KYC account required",
       "api_base": "https://api.strike.me",
       "quickstart": "Complete KYC, create an API key, then drive invoices, payments, and fiat↔Lightning conversion via the Strike API (docs.strike.me)."
-    },
-    {
-      "slug": "river",
-      "source": "exchanges/river.md",
-      "category": "fiat-ramp",
-      "subcategory": "brokerage",
-      "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products. Owner-operated; no public agent API.",
-      "what_an_agent_buys": "Fiat ↔ BTC (US), owner-initiated",
-      "payment_methods": [
-        "lightning",
-        "onchain",
-        "fiat"
-      ],
-      "automatability": "human-only",
-      "auth": "KYC account, opened and operated by a person",
-      "quickstart": "No programmatic path. The RLS Lightning-payments API that used to provide one is no longer publicly documented or obtainable (docs.rls.dev does not resolve; rls.dev gone since ~2026-04, no deprecation notice). An agent can receive what the owner sends over Lightning; it cannot open or drive a River account."
     },
     {
       "slug": "kraken",

@@ -34,7 +34,7 @@ https://marketplace.bitcoineconomy.ai/live/master.json — THE MASTERED DIRECTOR
 ## Single sources, unmixed
 
 1. https://marketplace.bitcoineconomy.ai/directory.json — the curated registry alone. Filter on category, subcategory, payment_methods,
-   automatability (api-no-account | api-account | api-kyc), and kyc. Entries carry auth, quickstart,
+   automatability (api-no-account | api-account | api-kyc | api-none-but-scriptable | limited), and kyc. Entries carry auth, quickstart,
    and (where verified) api_base + pricing_url — enough to make the first call.
 2. https://marketplace.bitcoineconomy.ai/live/announced.json — the self-listed sell side (kind 38555), with probe status + trust signals.
 3. https://marketplace.bitcoineconomy.ai/live/l402index.json — the external-index tier. Since 2026-07-29 it spans all three protocols
@@ -153,7 +153,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 
 ## Privacy / connectivity
 
-- [Mullvad VPN](https://marketplace.bitcoineconomy.ai/entries/mullvad.md): VPN time on a no-identity account — fund a random 16-digit account number with sats. Payment: lightning/onchain; KYC: none; automatability: limited.
+- [Mullvad VPN](https://marketplace.bitcoineconomy.ai/entries/mullvad.md): VPN time on a no-identity account — fund a random 16-digit account number with sats. Payment: lightning/onchain; KYC: none; automatability: api-none-but-scriptable.
 
 ## Swaps (non-custodial, no-KYC asset conversion)
 
@@ -175,7 +175,6 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 ## Fiat ramps (custodial venues at the border; KYC noted per entry)
 
 - [Strike](https://marketplace.bitcoineconomy.ai/entries/strike.md): Lightning ↔ fiat conversion at the custodial edge. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
-- [River](https://marketplace.bitcoineconomy.ai/entries/river.md): Fiat ↔ BTC (US), owner-initiated. Payment: lightning/onchain/fiat; KYC: required; automatability: human-only.
 - [Kraken](https://marketplace.bitcoineconomy.ai/entries/kraken.md): Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
 - [Coinbase](https://marketplace.bitcoineconomy.ai/entries/coinbase.md): Fiat ↔ BTC ↔ USDC via a mature developer platform. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
 
