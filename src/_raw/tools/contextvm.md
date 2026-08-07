@@ -11,7 +11,7 @@ docs: https://docs.contextvm.org
 site: https://www.contextvm.org
 stack-section: "§4"
 status: published
-last-verified: 2026-07-16
+last-verified: 2026-08-07 (SDK payment surface re-read; gateway now runnable as cvmi serve)
 order: 16
 prereq-tier: keys-only
 prereqs:
@@ -46,7 +46,7 @@ A Nostr keypair for the server's address, relay access for the transport, and �
 
 ## Quick start
 
-Build with the ContextVM **TypeScript SDK** (`@contextvm/sdk`) or the **Rust SDK**; the **Gateway** bridges an existing MCP server onto Nostr without rewriting it. Pricing rides the SDK's payment API — the server declares its priced capabilities and wraps its transport with a payment processor; the client wraps its transport with the matching payment handler. Both sides take an NWC connection string. Discover live servers with the [cvmi](/tools/cvmi) CLI. The protocol and the CEP series are documented at `docs.contextvm.org`.
+Build with the ContextVM **TypeScript SDK** (`@contextvm/sdk`) or the **Rust SDK**; the **Gateway** bridges an existing MCP server onto Nostr without rewriting it — and the one-line way to run it is now `cvmi serve` (with `cvmi use` as the Proxy side); see [cvmi](/tools/cvmi). Pricing rides the SDK's payment API — the server declares its priced capabilities and wraps its transport with a payment processor; the client wraps its transport with the matching payment handler. Both sides take an NWC connection string. Discover live servers with the [cvmi](/tools/cvmi) CLI. The protocol and the CEP series are documented at `docs.contextvm.org`.
 
 ## Gotchas
 

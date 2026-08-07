@@ -5,18 +5,18 @@ layer: integration
 toolbox-group: primitive
 tagline: The open standard for giving agents structured access to tools and data — the rail a Lightning payment server plugs into so an agent can pay from inside its workflow.
 tool-type: protocol
-maintainer: Anthropic & the MCP community
+maintainer: Linux Foundation (LF Projects) — created by Anthropic; multi-vendor maintainers
 repo: https://github.com/modelcontextprotocol/modelcontextprotocol
 docs: https://modelcontextprotocol.io/docs
 site: https://modelcontextprotocol.io
 stack-section: "§4"
 status: published
-last-verified: 2026-06-02
+last-verified: 2026-08-07 (governance moved to LF Projects; the deprecated Alby server replaced)
 order: 14
 prereq-tier: keys-only
 prereqs:
   - "an MCP-capable client (Claude, Cursor, VS Code, n8n, or custom)"
-  - "to transact: a Lightning MCP server paired with it (lightning-mcp-server or Alby's nwc-mcp-server), backed by a node or NWC connection"
+  - "to transact: a Lightning MCP server paired with it (lightning-mcp-server or Alby MCP, `@getalby/mcp`), backed by a node or NWC connection"
   - "MCP carries the tools, not the money"
 tags:
   - mcp
@@ -42,11 +42,11 @@ MCP is also transport-agnostic. Carried over Nostr — the [ContextVM](/tools/co
 
 ## Dependencies
 
-An MCP-capable client (Claude, Cursor, VS Code, n8n, or custom) and — to actually transact — a Lightning MCP server paired with it (lightning-mcp-server or Alby's nwc-mcp-server), backed by a Lightning node or NWC connection. MCP carries the tools, not the money.
+An MCP-capable client (Claude, Cursor, VS Code, n8n, or custom) and — to actually transact — a Lightning MCP server paired with it (lightning-mcp-server or **Alby MCP**, `@getalby/mcp`), backed by a Lightning node or NWC connection. MCP carries the tools, not the money.
 
 ## Quick start
 
-Pair MCP with a payments server. Two on-stack options: **lightning-mcp-server** (part of [lightning-agent-tools](/tools/lightning-agent-tools)) and Alby's **nwc-mcp-server** (see [Alby & NWC](/tools/alby-nwc)). Example — add a Lightning Node Connect-backed node to Claude Code:
+Pair MCP with a payments server. Two on-stack options: **lightning-mcp-server** (part of [lightning-agent-tools](/tools/lightning-agent-tools)) and **Alby MCP** — `@getalby/mcp` (see [Alby & NWC](/tools/alby-nwc)). *(Alby's earlier `nwc-mcp-server` is archived and marked deprecated on npm; its own README says "Please use Alby MCP instead". Do not wire it into anything new.)* Example — add a Lightning Node Connect-backed node to Claude Code:
 
 ```
 claude mcp add --transport stdio lnc -- npx -y @lightninglabs/lightning-mcp-server

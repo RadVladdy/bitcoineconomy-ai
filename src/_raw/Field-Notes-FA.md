@@ -153,7 +153,7 @@ This subsection engages deployment challenges for both substrates and maps each 
 - **Bears on:** *falsifier-relevant-to* Stack-FA §8.1 CP1 / §8.2-S2 — sustained, non-delegable liquidity collapse under realistic agent load would trigger the S2 falsifier. The mint-as-service delegation path is the architecture's answer; this record tracks whether it holds.
 
 **Record — Federated-trust risk in Fedimint.** *(confirmed risk)*
-- **Detail:** the guardian federation (typically 4–13) is the trust unit. Federation defection, guardian collusion at scale, and governance attacks against guardian elections are real concerns. Federation size and diversity are the primary mitigation; they reduce defection probability at the cost of coordination overhead.
+- **Detail:** the guardian federation (minimum 4, commonly 4/7/10, capped at 20) is the trust unit. Federation defection, guardian collusion at scale, and governance attacks against guardian elections are real concerns. Federation size and diversity are the primary mitigation; they reduce defection probability at the cost of coordination overhead.
 - **Bears on:** *falsifier-relevant-to* Stack-FA §8.1 CP2 / §8.2-S3 (multi-guardian collusion at scale) and the "scoped trade-off" framing of S3.
 
 **Record — Single-mint failure mode in Cashu.** *(confirmed risk)*

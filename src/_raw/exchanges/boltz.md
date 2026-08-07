@@ -12,7 +12,6 @@ agent-access: api
 bridges:
   - Lightning↔on-chain BTC
   - Lightning↔Liquid
-  - Lightning↔stablecoin
 trust-model: cryptographic-atomic
 links:
   site: https://boltz.exchange
@@ -34,7 +33,7 @@ links-verified: 2026-08-07 (live API pair census + suspension notice read from t
 
 **The stablecoin path is gone.** This card previously described a USDC route via Circle's CCTP and a USDT route settling as USDT0 over tBTC and a DEX. **Neither is offered by the live API today**, so the description — and the bridge-risk reasoning that went with it — has been removed rather than left describing machinery an agent cannot reach.
 
-**Dependencies.** A self-custody wallet on the rails you're swapping between (Lightning, on-chain BTC, Liquid, or the stablecoin chains) and the REST API / `boltzd`; no account, no KYC. No fiat path — value goes crypto-in, crypto-out — and the stablecoin leg pulls in extra dependencies (tBTC, a DEX, USDT0; see below).
+**Dependencies.** A self-custody wallet on the rails you're swapping between (Lightning, on-chain BTC, Liquid, or the stablecoin chains) and the REST API / `boltzd`; no account, no KYC. No fiat path — value goes crypto-in, crypto-out — and the supported set is Bitcoin L1, Lightning, Liquid and Ark only.
 
 **Gotchas.** The service is **off** (see the callout above) — that is the only gotcha that matters right now. Structurally: *non-custodial* is not *dependency-free*, and the atomic guarantee protects **custody** (you do not lose funds to Boltz) rather than any counterparty's soundness. The suspension is itself the strongest evidence for the design: Boltz stopped operating and users could still refund unilaterally, because refunds do not depend on Boltz's infrastructure. No fiat; no support line; non-custodial means no recourse if you misconfigure.
 

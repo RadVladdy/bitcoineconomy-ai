@@ -12,7 +12,7 @@ site: https://www.xverse.app/agents
 x: "@xverse"
 stack-section: "§5"
 status: published
-last-verified: 2026-06-02
+last-verified: 2026-08-07 (MPP attribution corrected against the vendor page)
 order: 33
 prereq-tier: l2-network
 prereqs:
@@ -30,7 +30,7 @@ tags:
 
 ## What it is
 
-The Xverse Agent Wallet is a self-custodial Bitcoin wallet designed for autonomous agents. It implements a "Machine Payments Protocol": the agent calls an API, receives an `HTTP 402`, pays the returned Lightning invoice (settling over [Spark](/tools/spark)), and receives the data — autonomously, with no human in the checkout loop. Keys stay on the machine, encrypted at rest (AES-256-GCM); the underlying `xverse-core` library has been third-party audited.
+The Xverse Agent Wallet is a self-custodial Bitcoin wallet designed for autonomous agents. It implements the **Machine Payments Protocol (MPP)** — a standard Xverse credits to Stripe and Tempo, not an Xverse invention: the agent calls an API, receives an `HTTP 402`, pays the returned Lightning invoice (settling over [Spark](/tools/spark)), and receives the data — autonomously, with no human in the checkout loop. Keys stay on the machine, encrypted at rest (AES-256-GCM); the underlying `xverse-core` library has been third-party audited.
 
 It's the consumer-grade Xverse wallet's architecture turned toward agents: self-custody plus machine-tempo, human-free payment.
 

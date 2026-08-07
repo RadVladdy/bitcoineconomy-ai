@@ -9,7 +9,7 @@ maintainer: "reference page (this project)"
 docs: https://bitcoinmints.com
 stack-section: "§3"
 status: v0-draft-2026-06-05 (pending review)
-last-verified: 2026-06-05
+last-verified: 2026-08-07 (ZEUS source read at HEAD; cashu.live and the auditor repo re-probed; NUT expansion sourced)
 order: 22
 tags:
   - ecash
@@ -33,8 +33,8 @@ Ecash is the lightest layer in the stack — but it is **custodial**: a [Cashu](
 These are the closest thing to proof, and the strongest filter — though, honestly, **few mints publish all of them yet, so "does this mint publish proofs at all?" is itself a quality signal.**
 
 - **Proof of liabilities + proof of reserves (together).** A serious mint publishes its **mint proofs** (all ecash issued) and **burn proofs** (all ecash redeemed); the difference is its outstanding liability, which must be backed by the Bitcoin it actually holds. A cheating mint can inflate apparent liabilities but cannot fake on-chain reserves — so the two published together are what make solvency *checkable* rather than *trusted*. (The scheme is `callebtc`'s "Proof of Liabilities for Ecash Mints"; formalized in arXiv 2306.12783.)
-- **Keyset rotation / epochs.** A reputable mint runs its signing keys in epochs and rotates them, letting holders migrate tokens to the current keyset and retiring the old one. This bounds the auditable window and blocks a mint from quietly inflating the supply from a retired key. (Covered by **NUT-02**; "NUT" = *Notation, Utilization, and Terminology* — the Cashu protocol specs, nothing to do with Nostr.)
-- **Trust model.** Single-operator (Cashu) means one party can defect or fail; a federation (Fedimint, typically 4–13 guardians under threshold signatures) reduces — but does not eliminate — that risk. All else equal, distributed custody is the higher-robustness option.
+- **Keyset rotation / epochs.** A reputable mint runs its signing keys in epochs and rotates them, letting holders migrate tokens to the current keyset and retiring the old one. This bounds the auditable window and blocks a mint from quietly inflating the supply from a retired key. (Covered by **NUT-02**; "NUT" = *Notation, Usage, and Terminology* — the Cashu protocol specs, nothing to do with Nostr.)
+- **Trust model.** Single-operator (Cashu) means one party can defect or fail; a federation (Fedimint, minimum 4, commonly 4/7/10, capped at 20 guardians under threshold signatures) reduces — but does not eliminate — that risk. All else equal, distributed custody is the higher-robustness option.
 - **Lightning liquidity / uptime.** A healthy mint can pay out instantly; a mint that keeps failing to settle is the leading indicator of distress, well before any formal insolvency.
 
 ## The reputation layer (social proof)
@@ -43,12 +43,12 @@ Since mints work like local "banks," reputation does a lot of the work. Three ki
 
 - **Mint registries / review directories.** **[bitcoinmints.com](https://bitcoinmints.com)** is the primary directory for both Cashu and Fedimint mints — it tracks each mint, its supported NUTs, and **user reviews + vouch counts** signed from Nostr identities. **cashumints.space** is a Cashu-focused sister index with per-mint pages and reliability history.
 - **Nostr web-of-trust.** Because reviews are signed by Nostr keys, vetting can run through *your own* social graph: modern wallets surface a mint as higher-reputation when accounts you already follow vouch for it. Trusted operators broadcasting a mint list (or a warning) is a real signal — with the honest caveat that Nostr identities are free to create, so reviews are **sybil-able** and a mint can farm a reputation before exit-scamming.
-- **Objective status boards.** Beyond subjective reviews, automated monitors give an empirical read: the **cashu-mint-status-board (cashu.live)** tracks live uptime, and **`cashu-auditor`** continuously circulates ecash between mints over Lightning and flags any that fail to pay. Uptime and pay-out behavior are harder to fake than star ratings.
-- **In-wallet discovery + warnings.** You don't have to chase this down manually: wallets like **ZEUS** ship a "Discover Mint" view that pulls vouch counts and reliability straight from the registries, and (per the Bitcoin Design Guide) warn you when you paste a mint with zero vouches or a history of dropping offline.
+- **Objective status boards.** Beyond subjective reviews, automated monitors give an empirical read: **calle's Mint Auditor (`audit.8333.space`)** continuously circulates ecash between mints over Lightning and flags any that fail to pay. *(The former `cashu.live` status board is gone — it has served nothing since 2026-05-18 and its backing repo has been unpushed since 2025-12; `github.com/callebtc/cashu-auditor` is now a 404, so use the running service rather than the repo path.)* Uptime and pay-out behavior are harder to fake than star ratings.
+- **In-wallet discovery + warnings.** You don't have to chase this down manually: wallets like **ZEUS** ship a **Discover Mints** view — which reads **NIP-87 mint-recommendation events (kind 38000) off Nostr**, filtered to the npubs ZEUS follows, to everyone, or to accounts you name, and points you to bitcoinmints.com to read the reviews yourself. Note what that means for sybil-resistance: the filter is **your own follow graph**, not a registry's moderation. Separately, the Bitcoin Design Guide *recommends* warning a user who pastes a mint with zero vouches or a history of dropping offline.
 
 ## The rule that beats all of them: don't concentrate
 
-Even a well-vetted mint can fail, and no proof is perfect. The only fully reliable mitigation is **don't keep meaningful balance in any single mint** — spread funds across several reputable ones and hold small operational amounts. ZEUS operationalizes exactly this with an **"automated bank run"**: pick five or six vetted mints and let the wallet distribute and rebalance across them, so any one mint failing is a survivable event, not a wipeout. For an agent, this is a treasury-policy default, not an afterthought: ecash is a *spending float*, not a *reserve* — the reserve belongs on L1 ([[Stack|The Stack]]).
+Even a well-vetted mint can fail, and no proof is perfect. The only fully reliable mitigation is **don't keep meaningful balance in any single mint** — spread funds across several reputable ones and hold small operational amounts. ZEUS's Evan Kaloudis has described an **"automated bank run"** — guiding users to five or six reputable mints and rebalancing between them — but as a **stated intention** (Bitcoin Magazine, May 2025, future tense), and as of August 2026 it is **not shipped**: the phrase appears nowhere in the ZEUS codebase. What ZEUS does ship addresses the same concentration risk from the other end — an **automatic sweep to self-custody** above a per-mint threshold, which moves value out of ecash entirely rather than spreading it across mints. Plan for the shipped behaviour, not the announced one.
 
 ## Gotchas
 
@@ -58,8 +58,8 @@ Even a well-vetted mint can fail, and no proof is perfect. The only fully reliab
 
 ## Links
 
-- **[bitcoinmints.com](https://bitcoinmints.com)** — primary Cashu + Fedimint mint registry (reviews / vouches / NUTs). · **cashumints.space** — Cashu-focused index. · **cashu.live** — mint status/uptime board.
-- Proof-of-liabilities scheme: `callebtc` gist + arXiv 2306.12783. · `github.com/callebtc/cashu-auditor` — autonomous mint auditor.
+- **[bitcoinmints.com](https://bitcoinmints.com)** — primary Cashu + Fedimint mint registry (reviews / vouches / NUTs). · **cashumints.space** — Cashu-focused index. · **[audit.8333.space](https://audit.8333.space)** — calle's Mint Auditor (live). *(`cashu.live` is dead — no response since 2026-05-18.)*
+- Proof-of-liabilities scheme: `callebtc`'s gist "A Proof of Liabilities Scheme for Ecash Mints" (May 2023). For the **reserves** half — a separate work by different authors — see Grunspan & Perez-Marco, "Proof of reserves and non-double spends for Chaumian Mints", arXiv 2306.12783 (note the authors' own published erratum on §3.1). · **[audit.8333.space](https://audit.8333.space)** — autonomous mint auditor *(the old `callebtc/cashu-auditor` repo is a 404)*.
 - Protocol context: [Cashu](/tools/cashu) · [Fedimint](/tools/fedimint) · the NUTs specs at `cashubtc.github.io/nuts`.
 
 ---
@@ -72,7 +72,7 @@ Built for inbox item 2026-06-04/05 (user request): a link-out page answering "ho
 
 **Scope discipline — net-new only.** The Cashu card already says mints are custodial trust points + advises diversifying; the Fedimint card already explains the guardian/threshold "reduced, not eliminated" model. This page deliberately does **not** re-explain those basics — it adds the vetting layer neither card answers: the PoL+PoR audit scheme, keyset/epoch anti-inflation, and the discovery/ratings landscape (bitcoinmints.com, cashumints.space, ZEUS Discover Mint + automated-bank-run, cashu.live, cashu-auditor).
 
-**Fact guard:** NUT = *Notation, Utilization, and Terminology* (Cashu specs) — not "Nostr Unified Ecash Transfer Standards." Don't let that drift back.
+**Fact guard:** NUT = *Notation, Usage, and Terminology* (Cashu specs) — not "Nostr Unified Ecash Transfer Standards." Source: the first line of `github.com/cashubtc/nuts/README.md`. Don't let that drift back. ⚠ **This guard itself carried the wrong expansion (*Utilization*) until 2026-08-07** — which is worse than having no guard, because it instructed the next editor to revert a correct fix. **A guard must cite the source it is defending.**
 
 **⛔ PORT BUILD-BLOCKER:** this page's `tool-type: guide` is **not** in the repo tools-collection enum (`software | protocol | service`) in `~/dev/bitcoineconomy-ai/src/content.config.ts`. Porting it as-is **fails the Astro build**. Fix at port time: add `'guide'` to the `tool-type` enum (and a JSON-LD `@type` mapping, e.g. `TechArticle`), or relabel. Until the page is ported, the inbound `/tools/evaluating-ecash-mints` links (Cashu/Fedimint Gotchas, Stack §3) won't resolve — that's the "links not working," not a malformed-link bug.
 

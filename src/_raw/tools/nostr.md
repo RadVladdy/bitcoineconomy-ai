@@ -11,7 +11,7 @@ docs: https://nostr.com/
 site: https://nostr.com/
 stack-section: "§4"
 status: v0-2026-06-06-pending-review
-last-verified: 2026-06-06
+last-verified: 2026-08-07 (NIPs index re-read — NIP-90 is marked unrecommended)
 order: 15
 prereq-tier: keys-only
 prereqs:
@@ -51,7 +51,7 @@ Nostr carries no money itself. It is identity, messaging, and discovery; the val
 
 Beyond identity and wallet control, Nostr carries the open conventions an agent uses to *find and sell services* — with no central app store or registry to gate it:
 
-- **Data Vending Machines (NIP-90)** — the deployed service-marketplace pattern, and the one that fits agents best. A customer publishes a **job-request** event (transcription, summarization, image generation, inference, a custom feed) naming the desired output and what it will pay; providers watching the relays **compete to fulfill it**, return a **result** event, and get paid in sats. Kinds are reserved **5000–5999 for requests** and **6000–6999 for results** (a result's kind is its request's + 1000), with **7000 for job feedback / payment-required**. Jobs can be **chained** — one job's output becomes the next's input. DVMs make the most sense precisely when the *buyer is an autonomous agent*: it needs a service at machine tempo, pays a few sats, and never opens an account.
+- **Data Vending Machines (NIP-90)** — the original open service-marketplace pattern, still deployed, but **marked `unrecommended` by the NIPs maintainers since May 2026** (*"this got totally out of control, prefer use-case-specific microstandards"*). That verdict is exactly why this project's own directory publishes a kind-38555 microstandard instead of building on DVMs. A customer publishes a **job-request** event (transcription, summarization, image generation, inference, a custom feed) naming the desired output and what it will pay; providers watching the relays **compete to fulfill it**, return a **result** event, and get paid in sats. Kinds are reserved **5000–5999 for requests** and **6000–6999 for results** (a result's kind is its request's + 1000), with **7000 for job feedback / payment-required**. Jobs can be **chained** — one job's output becomes the next's input. DVMs make the most sense precisely when the *buyer is an autonomous agent*: it needs a service at machine tempo, pays a few sats, and never opens an account.
 - **Handler announcements (NIP-89)** — how a provider advertises *what it does* so clients can discover it. A service publishes a **kind:31990** handler event ("I handle these event kinds, here's my endpoint"); users can publish **kind:31989** recommendations; an agent finds providers by querying these on its relays. DVM providers use NIP-89 to advertise which job kinds they support.
 - **Pubkey-addressed tool servers (ContextVM)** — beyond discovery, Nostr can be the *transport for the service itself*. [ContextVM](/tools/contextvm) carries [MCP](/tools/mcp) tool servers over Nostr: a server is reached by its **pubkey**, publishes its capabilities and prices as announcement events (**kinds 11316–11320**) and its relay list (**kind 10002**, per CEP-17), and — via CEP-8 — charges sats for a tool call. Here Nostr is not just where agents *talk*; it is where they are *addressed, discovered, and paid*.
 

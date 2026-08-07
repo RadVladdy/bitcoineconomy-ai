@@ -146,7 +146,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 
 ## Privacy / connectivity
 
-- [Mullvad VPN](https://marketplace.bitcoineconomy.ai/entries/mullvad.md): VPN time on a no-identity account — fund a random 16-digit account number with sats. Payment: lightning/onchain; KYC: none; automatability: api-account.
+- [Mullvad VPN](https://marketplace.bitcoineconomy.ai/entries/mullvad.md): VPN time on a no-identity account — fund a random 16-digit account number with sats. Payment: lightning/onchain; KYC: none; automatability: limited.
 
 ## Swaps (non-custodial, no-KYC asset conversion)
 

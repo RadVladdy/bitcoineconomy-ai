@@ -11,7 +11,7 @@ docs: https://docs.contextvm.org
 site: https://www.contextvm.org
 stack-section: "§4"
 status: published
-last-verified: 2026-07-16
+last-verified: 2026-08-07 (cvmi@0.4.1 tarball README read — six shipped commands)
 order: 17
 prereq-tier: keys-only
 prereqs:
@@ -36,7 +36,7 @@ A naming note worth holding: CVMI calls those developer-context packs **"skills.
 ## When to use it
 
 - **Discovering** CVM servers and their advertised capabilities and prices by querying relays (`cvmi discover`).
-- Interacting with a pubkey-addressed MCP server from the command line.
+- Interacting with a pubkey-addressed MCP server from the command line — `cvmi call` invokes its methods, `cvmi use` proxies it as a local stdio server.
 - Pulling in ContextVM developer tooling and reference material while building a server or client.
 
 ## Dependencies
@@ -51,7 +51,7 @@ Discover live servers on the default relays:
 cvmi discover
 ```
 
-Narrow or widen the query with `--relays`, `--limit`, and `--raw`. Pull in developer-context packs with `npx cvmi add`. The full command reference is at `docs.contextvm.org`.
+Narrow or widen the query with `--relays`, `--limit`, and `--raw`. **Six commands ship as of `cvmi@0.4.1` (2026-08-04):** `discover` · `call` (invoke a server's methods) · `use` (proxy a Nostr-addressed server as local stdio) · `serve` (expose your own MCP server as a gateway) · `cn` (compile a server to code) · `add` (pull in developer-context packs). The full reference is at `docs.contextvm.org`. *(Heads-up for version checks: cvmi's npm `next` dist-tag points at 0.4.0, which is **older** than `latest` 0.4.1 — that is upstream's tagging, not a defect here.)*
 
 ## Gotchas
 

@@ -47,6 +47,11 @@ Generate an account number at `mullvad.net`, choose a subscription length, pay t
 
 ## Gotchas
 
-- **Not a full payment API** — it's an invoice-against-account-number flow: automatable, but not a programmatic product API like Bitrefill's Thor.
+- **Not a full payment API** — it's an invoice-against-account-number flow: automatable, but not a programmatic product API like Bitrefill's REST API.
 - The account-number model means **don't lose the number** — it is the only credential.
 - This is infrastructure privacy for the agent/operator; it is not itself an agent-to-agent economy service.
+
+## Editor's Notes
+
+**⚑ Directory tier — recorded 2026-08-07 so it is not re-litigated: `limited`, not `api-account`.** The row previously read `api-account`, which the site's own published vocabulary defines as *"API after account setup"* — and there is no API. Mullvad publishes no developer surface at all, and this card says so twice. The counter-argument is real and worth keeping: an agent genuinely can generate an account number and pay a Lightning invoice against it unattended, which is more automatable than `limited` suggests. But a tier that asserts an API which does not exist is worse than one that understates the ergonomics, and the overlay's own quickstart already conceded *"there is no formal payment API"*. If the vocabulary is ever widened to credit scriptable-but-API-less flows, revisit this row first.
+

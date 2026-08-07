@@ -13,7 +13,7 @@ x: "@fedimint"
 nostr: nprofile1qqsgwgkrss7gthwkzc49edgxu895664setaevcp57snw2k3wlzdrghswflshg
 stack-section: "§3"
 status: published
-last-verified: 2026-07-19
+last-verified: 2026-08-07 (guardian counts read from fedimint.org/guardians/intro)
 order: 21
 prereq-tier: l2-network
 prereqs:
@@ -31,7 +31,7 @@ tags:
 
 ## What it is
 
-Fedimint is an open-source, module-based protocol for running **federated Chaumian ecash mints**. Instead of one operator custodying the backing Bitcoin (as in single-mint Cashu), a federation of guardians — typically 4–13 — jointly custodies it under threshold signatures: no single guardian can defect or be compromised in isolation. The federation issues private Chaumian ecash and interoperates with the wider Lightning Network through gateway nodes. It ships with Bitcoin, Lightning, and ecash modules.
+Fedimint is an open-source, module-based protocol for running **federated Chaumian ecash mints**. Instead of one operator custodying the backing Bitcoin (as in single-mint Cashu), a federation of guardians — **a minimum of 4, commonly 4, 7 or 10, and currently capped at 20** by pre-taproot Bitcoin limits (per `fedimint.org/guardians/intro`) — jointly custodies it under threshold signatures: no single guardian can defect or be compromised in isolation. The federation issues private Chaumian ecash and interoperates with the wider Lightning Network through gateway nodes. It ships with Bitcoin, Lightning, and ecash modules.
 
 It is the heavier-trust, higher-robustness option at the L3 bearer-ecash layer: more coordination overhead than Cashu, but no single point of custodial failure.
 

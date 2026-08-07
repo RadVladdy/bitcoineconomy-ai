@@ -2,7 +2,7 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-08-07T05:32:49.742Z",
+  "generated_at": "2026-08-07T06:06:53.407Z",
   "tool_count": 28,
   "toolbox_groups": [
     "node-toolkits",
@@ -140,7 +140,7 @@
       "tool_type": "protocol",
       "layer": "integration",
       "tagline": "The open standard for giving agents structured access to tools and data — the rail a Lightning payment server plugs into so an agent can pay from inside its workflow.",
-      "maintainer": "Anthropic & the MCP community",
+      "maintainer": "Linux Foundation (LF Projects) — created by Anthropic; multi-vendor maintainers",
       "prereq_tier": "keys-only",
       "stack_section": "§4",
       "links": {
@@ -149,7 +149,7 @@
         "repo": "https://github.com/modelcontextprotocol/modelcontextprotocol"
       },
       "card_url": "https://bitcoineconomy.ai/tools/mcp",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "nostr",
@@ -167,7 +167,7 @@
         "repo": "https://github.com/nostr-protocol/nips"
       },
       "card_url": "https://bitcoineconomy.ai/tools/nostr",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "clink",
@@ -203,7 +203,7 @@
         "repo": "https://github.com/contextvm"
       },
       "card_url": "https://bitcoineconomy.ai/tools/contextvm",
-      "last_verified": "2026-07-16"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "cvmi",
@@ -221,7 +221,7 @@
         "repo": "https://github.com/contextvm"
       },
       "card_url": "https://bitcoineconomy.ai/tools/cvmi",
-      "last_verified": "2026-07-16"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "cashu",
@@ -257,7 +257,7 @@
         "repo": "https://github.com/fedimint/fedimint"
       },
       "card_url": "https://bitcoineconomy.ai/tools/fedimint",
-      "last_verified": "2026-07-19"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "evaluating-ecash-mints",
@@ -272,7 +272,7 @@
         "docs": "https://bitcoinmints.com"
       },
       "card_url": "https://bitcoineconomy.ai/tools/evaluating-ecash-mints",
-      "last_verified": "2026-06-05"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "spark",
@@ -366,7 +366,7 @@
         "repo": "https://github.com/secretkeylabs/xverse-core"
       },
       "card_url": "https://bitcoineconomy.ai/tools/xverse-agent-wallet",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "bitagent",
@@ -391,7 +391,7 @@
       "toolbox_group": "node-toolkits",
       "tool_type": "software",
       "layer": "integration",
-      "tagline": "An open-source LND node manager in the browser — channel, liquidity, and fee management for your own node, and now the host for Amboss's Rails X (self-custody stablecoin trades) and Magma (one-click liquidity).",
+      "tagline": "An open-source LND node manager in the browser — channel, liquidity, and fee management for your own node, and now the host for Amboss's RailsX (self-custody stablecoin trades) and Magma (one-click liquidity).",
       "maintainer": "ThunderHub (apotdevin)",
       "prereq_tier": "lightning-node",
       "stack_section": "§2",
@@ -402,7 +402,7 @@
         "repo": "https://github.com/apotdevin/thunderhub"
       },
       "card_url": "https://bitcoineconomy.ai/tools/thunderhub",
-      "last_verified": "2026-06-28"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "agentic-aqua",
@@ -419,7 +419,7 @@
         "repo": "https://github.com/jan3dev/agentic-aqua"
       },
       "card_url": "https://bitcoineconomy.ai/tools/agentic-aqua",
-      "last_verified": "2026-08-06"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "money-dev-kit",
@@ -524,7 +524,7 @@
       "toolbox_group": "bridges",
       "tool_type": "software",
       "layer": "bridges",
-      "tagline": "Non-custodial atomic swaps between on-chain Bitcoin, Lightning, and Liquid — the submarine-swap bridge, exposed as an API.",
+      "tagline": "Non-custodial atomic swaps across on-chain Bitcoin, Lightning, Liquid and Ark — the submarine-swap bridge. ⚠ Swap services suspended indefinitely since 2026-08-03.",
       "maintainer": "Boltz Exchange",
       "prereq_tier": "wallet",
       "stack_section": "Marketplace",
@@ -535,7 +535,7 @@
         "repo": "https://github.com/BoltzExchange/boltz-backend"
       },
       "card_url": "https://bitcoineconomy.ai/tools/boltz",
-      "last_verified": "2026-07-19"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "loop",

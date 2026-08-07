@@ -221,8 +221,8 @@
     "lightning",
     "onchain"
    ],
-   "automatability": "api-account",
-   "auth": "account number only — generated free, no email, no identity",
+   "automatability": "limited",
+   "auth": "account number only — generated free, no email, no identity. There is no payment API: the flow is generate-account-number then pay an invoice against it.",
    "quickstart": "Generate an account number, pay a Lightning invoice against it, connect via WireGuard — scriptable, though there is no formal payment API."
   },
   {
