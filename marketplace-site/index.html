@@ -1038,6 +1038,10 @@
 
   let snap = null, live = false;
   try { snap = await (await fetch('/live/snapshot.json')).json(); live = true; } catch (e) {}
+  // `live` only says the fetch parsed. There are THREE states, not two: read every relay,
+  // read some, read none. `coverage.complete === false` is the middle one, and every count
+  // built from a partial read is a LOWER BOUND. Publishing one as a total is a false claim,
+  // and asserting absence from one is a claim we have not earned.
   if (!snap) { try { snap = await (await fetch('./snapshot.json')).json(); } catch (e) {} }
   // `live` has to mean "this came from the cron", not "the /live/ route
   // answered" — and those are not the same thing, because /live/snapshot.json
@@ -1138,11 +1142,15 @@
       // with two of four relays failing and carried zero requests, so any
       // outage would have rendered that sentence over a board holding 130,000
       // sats. Same rule the /live/bounties.json route follows.
-      if (!live) {
-        $('#board-when').textContent = 'cannot read the board';
-        listEl.innerHTML = '<div class="board-empty"><b>We cannot read the board right now.</b> ' +
-          'The live relay read is unavailable, so this page fell back to a snapshot file bundled with the site, ' +
-          'and that file has no requests in it. That is not the same as there being none — it means we could not check. ' +
+      if (!live || !(snap && snap.coverage && snap.coverage.complete)) {
+        $('#board-when').textContent = 'cannot read the whole board';
+        var inc = ((snap && snap.coverage && snap.coverage.relays_incomplete) || []).map(function (r) { return r.url; }).join(', ');
+        listEl.innerHTML = '<div class="board-empty"><b>We cannot read the whole board right now.</b> ' +
+          (live
+            ? 'Some relays did not answer' + (inc ? ' (' + inc + ')' : '') + ', and nothing was found on the ones that did. ' +
+              'Anything published only to a relay we could not reach is not in this read, so we will not tell you the board is empty. '
+            : 'The live relay read is unavailable, so this page fell back to a snapshot file bundled with the site, ' +
+              'and that file has no requests in it. That is not the same as there being none — it means we could not check. ') +
           'The requests live on public Nostr relays, so you do not have to take our word for it: ' +
           'query kind 38556 on any relay yourself, per ' + POST + '.</div>';
         return;
@@ -1155,7 +1163,12 @@
       return;
     }
 
-    $('#board-when').textContent = R.open_actionable + ' open · ' + R.count + ' total';
+    var cov = (snap && snap.coverage) || null;
+    var partial = !!(cov && cov.complete === false);
+    var covNote = partial ? ' — ' + cov.relays_complete + ' of ' + cov.relays_queried + ' relays answered, so these are lower bounds' : '';
+    $('#board-when').textContent = partial
+      ? '\u2265' + R.open_actionable + ' open · \u2265' + R.count + ' read' + covNote
+      : R.open_actionable + ' open · ' + R.count + ' total';
     filtEl.hidden = false;
 
     const nowSec = Math.floor(Date.now() / 1000);

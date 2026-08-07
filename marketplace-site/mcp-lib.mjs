@@ -723,10 +723,16 @@ const TOOLS = [
       additionalProperties: false,
     },
     async handler(a, ctx) {
-      const mod = (await ctx.snapshot())?.modules?.requests;
+      const snap = await ctx.snapshot();
+      const mod = snap?.modules?.requests;
       if (!mod) {
         return { error: 'The work-request board is unavailable right now — the directory tools are unaffected.' };
       }
+      // The sibling HTTP route attaches coverage because these counts CAN be lower bounds
+      // (worker.js). Omitting it here published a partial relay read as `board_totals` on
+      // the surface with the most machine consumers.
+      const coverage = snap?.coverage ?? null;
+      const partial = coverage?.complete === false;
       const wantStatus = a.status || 'open';
       const limit = Math.max(1, Math.min(Number(a.limit) || 20, 200));
       let rows = mod.requests || [];
@@ -740,6 +746,8 @@ const TOOLS = [
         kind: mod.kind,
         spec: mod.spec,
         provenance: 'live-from-relay',
+        coverage,
+        counts_are: partial ? 'LOWER BOUNDS — one or more relays did not answer this read' : 'totals across every relay queried',
         we_never_touch_the_money: 'No escrow, no custody, no fee, no arbitration, no account. amount_sats is offered, not held. status is as published by the poster.',
         board_totals: {
           posted: mod.count,

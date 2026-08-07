@@ -35,7 +35,35 @@
     },
     "content": {
       "type": "string",
-      "description": "JSON string: { title, brief, acceptance, deliverable, links{context,spec} }. `acceptance` is REQUIRED and must be checkable — it is the test the deliverable has to pass."
+      "description": "JSON string: { title, brief, acceptance, deliverable, links{context,spec} }. `acceptance` is REQUIRED and must be checkable — it is the test the deliverable has to pass.",
+      "pattern": "\"acceptance\"\\s*:\\s*\"[^\"]",
+      "contentMediaType": "application/json",
+      "contentSchema": {
+        "type": "object",
+        "required": [
+          "title",
+          "acceptance"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "acceptance": {
+            "type": "string",
+            "minLength": 1
+          },
+          "brief": {
+            "type": "string"
+          },
+          "deliverable": {
+            "type": "string"
+          },
+          "links": {
+            "type": "object"
+          }
+        }
+      }
     },
     "tags": {
       "type": "array",

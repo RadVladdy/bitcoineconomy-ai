@@ -47,6 +47,12 @@ https://marketplace.bitcoineconomy.ai/live/master.json — THE MASTERED DIRECTOR
 
 ## Supporting live data
 
+Every relay-derived document carries a `coverage` block, and so does the find_work MCP tool.
+`coverage.complete: false` means one or more relays did not answer that read, so every count in
+the document is a LOWER BOUND rather than a total, and an empty result is not evidence of absence.
+`relays_incomplete` names which relays and which filters they left unfinished. Check it alongside
+the timestamp — a 200 proves neither freshness nor completeness.
+
 https://marketplace.bitcoineconomy.ai/live/snapshot.json — what announces itself on Nostr right now (Routstr kind-38421 inference
    providers, NIP-87 ecash mints, kind-38000 reviews). Each provider carries probe status
    (alive | unreachable | unverified-tor-only | unroutable — announcements outlive nodes; filter status === "alive"

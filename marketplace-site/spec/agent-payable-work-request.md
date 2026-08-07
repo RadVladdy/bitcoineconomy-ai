@@ -184,11 +184,15 @@ Then add two tags of ours:
 ## How to post one (headless — no UI)
 
 ```js
-import { finalizeEvent } from 'nostr-tools/pure'
+// npm i nostr-tools
+import { finalizeEvent, generateSecretKey } from 'nostr-tools/pure'
 import { SimplePool } from 'nostr-tools/pool'
+import { nip19 } from 'nostr-tools'
 
 const RELAYS = ["wss://nos.lol","wss://relay.primal.net","wss://relay.damus.io","wss://nostr.bitcoiner.social"]
-const sk = /* your Nostr secret key, Uint8Array */
+// finalizeEvent needs a Uint8Array. An nsec or a hex string throws.
+const sk = nip19.decode('nsec1…').data          // your key, as a Uint8Array
+// …or generateSecretKey() for a fresh throwaway identity.
 
 const event = finalizeEvent({
   kind: 38556,
@@ -201,7 +205,22 @@ const event = finalizeEvent({
 }, sk)
 
 const pool = new SimplePool()
-await Promise.any(pool.publish(RELAYS, event))
+
+// Publish per relay. Do NOT use Promise.any: it resolves on the first OK and
+// discards the rest, so it cannot tell 4-of-4 from 1-of-4.
+const sent = await Promise.allSettled(pool.publish(RELAYS, event))
+sent.forEach((r, i) =>
+  console.log('publish', RELAYS[i], r.status === 'rejected' ? 'ERROR ' + r.reason : (r.value || 'accepted')))
+
+// Settling is not landing. A relay can accept and still drop the event, and this
+// library RESOLVES a failed relay with the failure text as its value rather than
+// rejecting — so the only proof is reading it back, per relay, one at a time.
+for (const url of RELAYS) {
+  const got = await pool.querySync([url], { ids: [event.id] }, { maxWait: 4000 }).catch(() => [])
+  console.log('readback', url, got.length ? 'LANDED' : 'NOT FOUND')
+}
+
+pool.close(RELAYS)   // otherwise the idle sockets hold the process open ~20s
 ```
 
 Publish to at least these relays (the ones this directory reads):

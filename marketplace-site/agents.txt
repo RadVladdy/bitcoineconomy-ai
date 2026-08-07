@@ -25,6 +25,13 @@ and is machine-payable, not that it is recommended.
 > A 200 on a /live/ route does not prove the refresh cron is healthy — these
 > fall back to a committed snapshot when KV is cold. Check the timestamp inside
 > the payload, not the status code.
+>
+> And check the `coverage` block while you are in there. The relay-derived routes
+> (/live/snapshot.json, /live/announced.json, /live/bounties.json) and the find_work
+> MCP tool all carry it. `coverage.complete: false` means one or more relays did not
+> answer, so every count in that document is a LOWER BOUND, not a total — and an
+> empty result is not evidence of absence. `relays_incomplete` names which ones and
+> which filters they left unfinished.
 
 ## Per-entry routes
 - https://marketplace.bitcoineconomy.ai/entries/{slug}.md — one clean Markdown route per directory entry.
