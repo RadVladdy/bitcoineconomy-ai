@@ -21,11 +21,15 @@ export const UPTIME_WINDOW_RUNS = 120; // ≈30 days at the 6-hourly PROBE cron
 
 const PROBEABLE = new Set(['alive', 'unreachable']);
 
-// Probe our own public agent surfaces the same way an agent consumes them.
-// Each probe re-enters the Worker via its public hostname — that is the point:
-// we measure what a caller experiences, not internal health.
-export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
-  const checks = [
+// The self-probe definitions live at module scope so the history-sanitation
+// list below can be DERIVED from them rather than retyped. Retyping is what
+// broke: `unprobeableOnFail` was added to self:directory.json on 2026-08-06 and
+// the sanitation list — a separate hardcoded array two functions away — still
+// named only the other two, so the forward path was honest while the stored
+// history kept six false `unreachable` observations and the published doc kept
+// deriving an uptime percentage from them. A list that must agree with another
+// list, and is maintained by hand, is one edit away from disagreeing.
+const SELF_CHECKS = [
     {
       key: 'self:directory.json',
       // unprobeableOnFail added 2026-08-06, and it is honesty rather than a
@@ -48,7 +52,7 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
       // nightly external_probe now covers /directory.json too, so this row has
       // a watcher that can actually see it rather than merely going quiet.
       unprobeableOnFail: true,
-      run: async (signal) => {
+      run: async (signal, fetchFn, base) => {
         const res = await fetchFn(base + '/directory.json', { signal, headers: { accept: 'application/json' } });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const body = await res.json();
@@ -76,7 +80,7 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
     {
       key: 'self:live/snapshot.json',
       unprobeableOnFail: true,
-      run: async (signal) => {
+      run: async (signal, fetchFn, base) => {
         const res = await fetchFn(base + '/live/snapshot.json', { signal, headers: { accept: 'application/json' } });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         await res.json();
@@ -86,7 +90,7 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
     {
       key: 'self:mcp',
       unprobeableOnFail: true,
-      run: async (signal) => {
+      run: async (signal, fetchFn, base) => {
         const res = await fetchFn(base + '/mcp', {
           method: 'POST',
           signal,
@@ -99,14 +103,59 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
         return res.status;
       },
     },
-  ];
+];
+
+// Every self:* key whose failure means "the prober cannot see it", not "it is
+// down". DERIVED from SELF_CHECKS so the history-sanitation pass in appendRun()
+// and the forward-facing probe can never disagree about which rows those are.
+const WORKER_SELF = SELF_CHECKS.filter((c) => c.unprobeableOnFail).map((c) => c.key);
+
+// The dated, public record of every historical observation this sanitation has
+// reclassified. Published in the uptime doc so the rewrite is visible rather
+// than silent: a correction a reader cannot see is indistinguishable from the
+// tampering the anchors exist to detect.
+export const UPTIME_CORRECTIONS = [
+  {
+    date: '2026-08-07',
+    target: 'self:directory.json',
+    affected_runs:
+      'All 59 observations, 2026-07-23T18:18Z → 2026-08-07T00:18Z — 53 recorded `alive`, 6 recorded `unreachable`.',
+    from: 'alive (53) / unreachable (6)',
+    to: 'unprobeable-from-worker (59)',
+    reason:
+      'Neither status was evidence about this route, and correcting only one of them would have been worse than '
+      + 'correcting neither. marketplace.bitcoineconomy.ai became a Custom Domain on 2026-08-05, after which this '
+      + 'Worker is the only thing behind the hostname and a self-fetch of /directory.json has nowhere to land — so '
+      + 'the 6 failures say the prober cannot see the route, not that the route is down; it answered externally in '
+      + '~0.17s throughout. The 53 earlier successes are not evidence either: until 2026-08-05 the hostname was a '
+      + 'zone route and the self-fetch fell through to a shadowed Cloudflare Pages copy, so those runs read a stale '
+      + 'document that was not the one we serve. Correcting only the 6 would have moved the published figure from '
+      + '89.8% to 100% — replacing a number that was too low with one that was too high, derived from readings of '
+      + 'the wrong document. There is no probeable observation of a self:* route from inside this Worker, so the '
+      + 'honest value is null on a denominator of 0, which is what self_probe_note already asserts.',
+    root_cause:
+      'The forward-facing probe was corrected on 2026-08-06 but the history-sanitation list was a second, '
+      + 'hand-maintained copy of the same set two functions away, and it was not updated. It is now derived from '
+      + 'the probe definitions so the two cannot disagree again.',
+    disclosure:
+      'Disclosed rather than done quietly, and fully reversible: every affected run carries a `corrected` map in '
+      + 'runs[] holding that run’s ORIGINAL status for each rewritten key, so the pre-correction history can be '
+      + 'reconstructed exactly from the published document.',
+  },
+];
+
+// Probe our own public agent surfaces the same way an agent consumes them.
+// Each probe re-enters the Worker via its public hostname — that is the point:
+// we measure what a caller experiences, not internal health.
+export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
+  const checks = SELF_CHECKS;
   const out = [];
   for (const c of checks) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
     const t0 = Date.now();
     try {
-      const httpStatus = await c.run(ctrl.signal);
+      const httpStatus = await c.run(ctrl.signal, fetchFn, base);
       out.push({ key: c.key, status: 'alive', latency_ms: Math.round(Date.now() - t0), http_status: httpStatus });
     } catch (err) {
       // Keep the reason. This was a bare `catch {}`, and discarding the error is
@@ -130,15 +179,41 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
 // history object, capped to the window). Targets: announced Routstr providers
 // (by d-tag), announced kind-38555 services (by slug), and our own surfaces.
 export function appendRun(history, snapshot, selfProbes, { at, cap = UPTIME_WINDOW_RUNS } = {}) {
-  // History sanitation (permanent): worker-served self routes can never be
-  // legitimately 'unreachable' from inside this Worker (deterministic platform
-  // recursion guard) — the first live run (2026-07-23) recorded exactly that
-  // false negative before the guard was understood. Rewrite to the honest
-  // status wherever it appears, so the stored history self-heals.
-  const WORKER_SELF = ['self:live/snapshot.json', 'self:mcp'];
+  // History sanitation (permanent): a self:* route that the prober marks
+  // unprobeableOnFail can never be legitimately 'unreachable' from inside this
+  // Worker — marketplace.bitcoineconomy.ai is a Custom Domain, so this Worker is
+  // the only thing behind it and a self-fetch has nowhere else to land. Rewrite
+  // to the honest status wherever it appears, so the stored history self-heals.
+  //
+  // DERIVED from SELF_CHECKS, never retyped — see the note there. The list was
+  // hardcoded as ['self:live/snapshot.json', 'self:mcp'] and did not gain
+  // self:directory.json when that probe did on 2026-08-06, so six false
+  // 'unreachable' observations (2026-08-05T18:18Z → 2026-08-07T00:18Z) stayed in
+  // the stored history and the published doc kept deriving 89.8% uptime from
+  // them — for a route that answers externally in ~0.17s, on a page whose whole
+  // pitch is "recompute our numbers yourself".
+  //
+  // ⚠ AND IT REWRITES 'alive' TOO, WHICH IS THE HALF THAT IS EASY TO MISS.
+  // Correcting only the false 'unreachable' rows moves self:directory.json from
+  // 89.8% to 100% — a number derived from 53 pre-2026-08-05 'alive' readings
+  // that this file's own note already calls worthless: back then the hostname
+  // was a zone route and the self-fetch fell through to a shadowed Pages copy,
+  // so those runs measured a stale document that was not the one we serve. A
+  // reading of the wrong document is not evidence about the right one. Fixing
+  // one direction and leaving the other would have replaced a number that was
+  // too low with a number that was too high and looked flattering, which is the
+  // worse of the two failures on a trust surface. There is no probeable
+  // observation of a self:* route from inside this Worker, ever — so the honest
+  // published value is uptime_pct: null on a denominator of 0, which is exactly
+  // what self_probe_note has been asserting all along.
+  const HONEST = 'unprobeable-from-worker';
   for (const run of history?.runs ?? []) {
     for (const k of WORKER_SELF) {
-      if (run.targets?.[k] === 'unreachable') run.targets[k] = 'unprobeable-from-worker';
+      const was = run.targets?.[k];
+      if (was !== undefined && was !== HONEST) {
+        run.targets[k] = HONEST;
+        (run.corrected ??= {})[k] = was;
+      }
     }
   }
   const targets = {};
@@ -204,11 +279,19 @@ export function buildUptimeDoc(history, { generatedAt } = {}) {
       + 'zone route and self:directory.json appeared alive, because the fetch fell through to a shadowed Pages '
       + 'copy holding the static file; that copy is gone, and its readings were of a stale document anyway.) '
       + 'The genuinely external verification runs nightly from outside Cloudflare and is recorded in the anchor '
-      + 'records at /anchors/index.json (external_probe), which covers /directory.json as of 2026-08-06.',
+      + 'records at /anchors/index.json (external_probe), which covers /directory.json as of 2026-08-07 — the '
+      + 'route was added to the prober on 2026-08-06 but after that day’s run, and anchor records are '
+      + 'append-only, so no record before 2026-08-07 carries it.',
     anchors:
-      'Snapshot digests are signed to public Nostr relays and stamped into Bitcoin via OpenTimestamps on a nightly '
-      + 'anchor run — the anchor records live at /anchors/ (and in the public site repo), so this history is '
-      + 'tamper-evident: we cannot rewrite the past without breaking the anchors. See /anchors/index.json.',
+      'A digest of this document is signed to public Nostr relays and stamped into Bitcoin via OpenTimestamps on a '
+      + 'nightly anchor run — the anchor records live at /anchors/ (and in the public site repo). What that buys is '
+      + 'precise, and worth stating precisely: it makes a change to what we published on a given night DETECTABLE by '
+      + 'anyone holding the earlier anchor, not impossible. We can still edit this document; we cannot do it '
+      + 'invisibly. Every correction we make to a past observation is therefore declared in corrections[] below, so '
+      + 'a reader diffing against an old anchor finds a disclosed correction rather than an unexplained difference. '
+      + 'Verify with `ots info <event_id>.evt.ots`, which lists the Bitcoin block heights with no node required. '
+      + 'See /anchors/index.json.',
+    corrections: UPTIME_CORRECTIONS,
     targets,
     runs,
   };
