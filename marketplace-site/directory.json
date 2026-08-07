@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime, find_work, post_bounty) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-08-07T07:36:16.982Z",
+  "generated_at": "2026-08-07T07:43:51.353Z",
   "entry_count": 23,
   "categories": [
     "inference",
@@ -239,18 +239,18 @@
       "name": "PPQ.AI (PayPerQ)",
       "category": "inference",
       "subcategory": "llm",
-      "summary": "Pay-per-query access to hundreds of frontier models over Lightning / L402 — no account, no API key, roughly a cent and a half a query — now including end-to-end-encrypted private models.",
-      "what_an_agent_buys": "Pay-per-query frontier-model calls — chat, image, video, audio",
+      "summary": "Pay-per-query access to 500+ frontier models — image, video and data calls need no account at all (pay the Lightning invoice in the 402 and go); chat and audio need a key and a funded balance, which Nostr Wallet Connect can top up on its own.",
+      "what_an_agent_buys": "Pay-per-query frontier-model calls. IMPORTANT - the accountless L402 path does NOT cover chat: it covers image generation and editing, video generation, and data enrichment. Chat completions and audio require an sk- API key and a funded balance.",
       "payment_methods": [
         "l402",
         "lightning"
       ],
-      "payment_detail": "lightning / L402 (no account)",
-      "kyc": "none (Lightning path)",
+      "payment_detail": "L402 / Lightning, no account — on image, video and data-enrichment endpoints only. Chat and audio: sk- API key plus a funded balance (Lightning · on-chain BTC · Liquid · LTC · XMR · USDT/USDC · card), with NWC auto-topup.",
+      "kyc": "none (crypto funding paths; card funding adds KYC)",
       "custody": "custodial gateway",
-      "automatability": "api-no-account",
-      "auth": "none on the L402 path — pay-per-query; or a funded top-up balance",
-      "quickstart": "Pay per query over Lightning/L402 — no account, no API key on that path; API documented at ppq.ai/api-docs (machine pointer: ppq.ai/llms.txt).",
+      "automatability": "api-account",
+      "auth": "SPLIT, and the split is the thing to plan around. Image generation/editing, video generation and data enrichment answer an unauthenticated request with HTTP 402 and a Lightning invoice - no account, no key (verified 2026-08-07: POST /v1/images/generations with no Authorization header returned 402 with a live BOLT11 in the WWW-Authenticate header). Chat completions and audio do NOT: the same request to /v1/chat/completions returns 401 'Missing or invalid Authorization header'. For LLM calls, create an account, generate an sk- key and fund a balance - which can be funded over Lightning, on-chain BTC, Liquid BTC, LTC, XMR, USDT/USDC, or card, and topped up automatically via Nostr Wallet Connect. Rated api-account because this entry is categorised inference/llm and the llm path is the one that needs the account.",
+      "quickstart": "For LLM calls: sign up at ppq.ai, generate an sk- key, fund the balance (Lightning or NWC auto-topup), then POST https://api.ppq.ai/v1/chat/completions OpenAI-style. For images/video/data enrichment: send the request with NO Authorization header, pay the Lightning invoice in the 402 challenge, replay with 'Authorization: L402 <token>:<preimage>'. Private TEE models CANNOT be called directly - run the local proxy (npx ppq-private-mode, needs an sk- key) and point an OpenAI- or Anthropic-SDK client at it. Machine pointer: ppq.ai/llms.txt.",
       "two_sided": "consume",
       "maintainer": "PayPerQ",
       "links": {
@@ -261,7 +261,7 @@
       "card_url": "https://bitcoineconomy.ai/services/ppq-ai",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/ppq-ai.md",
       "provenance": "curated",
-      "last_verified": "2026-06-28"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "maple",
