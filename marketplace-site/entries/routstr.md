@@ -11,9 +11,8 @@ A decentralized AI-inference marketplace where a Cashu token is the API key — 
 - Custody: self-custodial (bearer Cashu tokens)
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
 - Auth: none — a funded Cashu token is the API key
-- API base: https://api.routstr.com/v1
-- Pricing: https://api.routstr.com/v1/models
-- Quickstart: Point any OpenAI-compatible client at a provider endpoint with a funded Cashu token as the Bearer key. Per-model sats pricing at {endpoint}/v1/models; live provider list + cross-provider price index at /live/snapshot.json + /live/models.json.
+- Pricing: https://routstr.com/models
+- Quickstart: Routstr is a NODE NETWORK, not one endpoint — there is no canonical api_base, and the team's own api.routstr.com has left the network (404 on every path; absent from the live provider directory). Discover a node first: browse https://routstr.com/providers, or read Nostr kind 38421 announcements from any node's /v1/providers/ (e.g. https://routstr.otrta.me/v1/providers/). Then call {node}/v1 as an OpenAI-compatible base URL, paying per request with Cashu. Easiest path for an agent: `routstrd`, their local routing daemon, which discovers nodes over Nostr and fails over automatically. This directory's own /live/models.json prices models across the live nodes.
 - Direction: consume + offer
 - Maintainer: Routstr
 - Site: https://routstr.com

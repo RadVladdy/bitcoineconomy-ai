@@ -168,7 +168,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 ## Fiat ramps (custodial venues at the border; KYC noted per entry)
 
 - [Strike](https://marketplace.bitcoineconomy.ai/entries/strike.md): Lightning ↔ fiat conversion at the custodial edge. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
-- [River](https://marketplace.bitcoineconomy.ai/entries/river.md): Fiat ↔ BTC (US) plus Lightning payments via the RLS API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
+- [River](https://marketplace.bitcoineconomy.ai/entries/river.md): Fiat ↔ BTC (US), owner-initiated. Payment: lightning/onchain/fiat; KYC: required; automatability: human-only.
 - [Kraken](https://marketplace.bitcoineconomy.ai/entries/kraken.md): Fiat ↔ BTC ↔ stablecoin across many fiat currencies on a mature trading API. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
 - [Coinbase](https://marketplace.bitcoineconomy.ai/entries/coinbase.md): Fiat ↔ BTC ↔ USDC via a mature developer platform. Payment: lightning/onchain/fiat; KYC: required; automatability: api-kyc.
 

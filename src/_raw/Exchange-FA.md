@@ -9,7 +9,7 @@ twin-page: exchange
 status: v0-approved-2026-06-05
 created: 2026-06-05
 last-updated: 2026-07-23
-last-verified: 2026-06-05
+last-verified: 2026-08-06
 word-count-target: 3000
 voice: honest-middle-position
 canonical-source: "[[Exchange]]"
@@ -335,7 +335,7 @@ Reference list of named venues as of mid-2026. One-line description and primary 
 
 **Custodial KYC venues — Bitcoin-only (US):**
 - **Strike** — US-licensed; native Lightning; fiat ↔ BTC and Lightning ↔ fiat; full deposit/trade/withdraw API; ~95 countries via multi-entity structure. https://strike.me · API docs https://docs.strike.me
-- **River** — US Bitcoin-only; River Lightning Services (RLS) Lightning-payments API (not buy/sell); on-chain deposit + Lightning withdrawals. https://river.com · API docs https://docs.rls.dev
+- **River** — US Bitcoin-only; buy/sell/hold with Lightning send/receive on supported products. **No public agent API as of 2026-08-06:** the River Lightning Services (RLS) payments API is no longer publicly documented or obtainable — `docs.rls.dev` does not resolve, `rls.dev` is gone (last capture 2026-04-01), and no deprecation notice was published. Owner-operated only. https://river.com
 - **Swan** — US Bitcoin-only; scheduled-buy (DCA) + auto-withdrawal; reserve-building, not two-way trading. https://swanbitcoin.com
 
 **Custodial KYC venues — multi-asset (US; Kraken before Coinbase):**
@@ -384,7 +384,7 @@ Declarative. Each implication follows from X1–X6 as marked.
 
 **Per-venue cards (maintained independently).** `Exchanges/boltz.md`, `Exchanges/sideswap.md`, `Exchanges/sideshift.md`, `Exchanges/flashnet.md`, `Exchanges/taproot-assets.md`, `Exchanges/strike.md`, `Exchanges/river.md`, `Exchanges/swan.md`, `Exchanges/kraken.md`, `Exchanges/coinbase.md`. (`Exchanges/thorchain.md` and `Exchanges/robosats.md` are orphaned/archival and intentionally excluded. `taproot-assets` is a dual card — the protocol view is `Tools/taproot-assets.md`; `Strike` is exchange-only, the former `Tools/strike.md` retired 2026-06-06 → `/tools/strike` redirects to `/exchanges/strike`.)
 
-**Primary external sources (venue sites + API docs).** See §9 for the per-venue URL list. Circle CCTP (Boltz native-USDC path) live since May 2026. Strike USDT TRON-only and regional. RLS Lightning-payments API at https://docs.rls.dev.
+**Primary external sources (venue sites + API docs).** See §9 for the per-venue URL list. Circle CCTP (Boltz native-USDC path) live since May 2026. Strike USDT TRON-only and regional. RLS Lightning-payments API withdrawn from public documentation (docs.rls.dev NXDOMAIN, rls.dev offline since ~2026-04, no deprecation notice) — re-verified 2026-08-06.rls.dev.
 
 **Verification status.** Structural facts (Lightning / stablecoins / API / KYC / custody) WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC (Circle CCTP) re-verified 2026-06-05. Per-card API-docs URLs pinned 2026-06-06; per-venue fees and exact jurisdictional coverage deferred to the venue / [[Field-Notes-FA|Field Notes]] (volatile, not hardcoded).
 

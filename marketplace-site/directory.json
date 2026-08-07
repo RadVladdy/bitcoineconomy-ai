@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime, find_work, post_bounty) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-08-07T01:54:47.088Z",
+  "generated_at": "2026-08-07T01:58:07.563Z",
   "entry_count": 23,
   "categories": [
     "inference",
@@ -220,9 +220,8 @@
       "custody": "self-custodial (bearer Cashu tokens)",
       "automatability": "api-no-account",
       "auth": "none — a funded Cashu token is the API key",
-      "api_base": "https://api.routstr.com/v1",
-      "pricing_url": "https://api.routstr.com/v1/models",
-      "quickstart": "Point any OpenAI-compatible client at a provider endpoint with a funded Cashu token as the Bearer key. Per-model sats pricing at {endpoint}/v1/models; live provider list + cross-provider price index at /live/snapshot.json + /live/models.json.",
+      "pricing_url": "https://routstr.com/models",
+      "quickstart": "Routstr is a NODE NETWORK, not one endpoint — there is no canonical api_base, and the team's own api.routstr.com has left the network (404 on every path; absent from the live provider directory). Discover a node first: browse https://routstr.com/providers, or read Nostr kind 38421 announcements from any node's /v1/providers/ (e.g. https://routstr.otrta.me/v1/providers/). Then call {node}/v1 as an OpenAI-compatible base URL, paying per request with Cashu. Easiest path for an agent: `routstrd`, their local routing daemon, which discovers nodes over Nostr and fails over automatically. This directory's own /live/models.json prices models across the live nodes.",
       "two_sided": "consume + offer",
       "maintainer": "Routstr",
       "links": {
@@ -785,8 +784,8 @@
       "name": "River",
       "category": "fiat-ramp",
       "subcategory": "brokerage",
-      "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.",
-      "what_an_agent_buys": "Fiat ↔ BTC (US) plus Lightning payments via the RLS API",
+      "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products. Owner-operated; no public agent API.",
+      "what_an_agent_buys": "Fiat ↔ BTC (US), owner-initiated",
       "payment_methods": [
         "lightning",
         "onchain",
@@ -794,17 +793,16 @@
       ],
       "kyc": "required",
       "custody": "custodial",
-      "automatability": "api-kyc",
-      "auth": "API key — KYC onboarding required",
-      "quickstart": "Complete KYC onboarding, then use the RLS API for Lightning send/receive — a payments API, not buy/sell trading (docs.rls.dev).",
+      "automatability": "human-only",
+      "auth": "KYC account, opened and operated by a person",
+      "quickstart": "No programmatic path. The RLS Lightning-payments API that used to provide one is no longer publicly documented or obtainable (docs.rls.dev does not resolve; rls.dev gone since ~2026-04, no deprecation notice). An agent can receive what the owner sends over Lightning; it cannot open or drive a River account.",
       "links": {
-        "site": "https://river.com",
-        "docs": "https://docs.rls.dev"
+        "site": "https://river.com"
       },
       "card_url": "https://bitcoineconomy.ai/exchanges/river",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/river.md",
       "provenance": "curated",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-06"
     },
     {
       "slug": "kraken",

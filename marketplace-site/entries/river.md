@@ -1,20 +1,19 @@
 # River
 
-> Fiat ↔ BTC (US) plus Lightning payments via the RLS API
+> Fiat ↔ BTC (US), owner-initiated
 
-A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.
+A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products. Owner-operated; no public agent API.
 
 - Category: fiat-ramp / brokerage
 - Payment methods: lightning, onchain, fiat
 - KYC: required
 - Custody: custodial
-- Automatability: api-kyc — API after KYC onboarding — automatable once a human completes identity verification
-- Auth: API key — KYC onboarding required
-- Quickstart: Complete KYC onboarding, then use the RLS API for Lightning send/receive — a payments API, not buy/sell trading (docs.rls.dev).
+- Automatability: human-only — undefined
+- Auth: KYC account, opened and operated by a person
+- Quickstart: No programmatic path. The RLS Lightning-payments API that used to provide one is no longer publicly documented or obtainable (docs.rls.dev does not resolve; rls.dev gone since ~2026-04, no deprecation notice). An agent can receive what the owner sends over Lightning; it cannot open or drive a River account.
 - Site: https://river.com
-- Docs/API: https://docs.rls.dev
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/river
-- Provenance: curated (last verified 2026-06-06)
+- Provenance: curated (last verified 2026-08-06)
 
 ---
 

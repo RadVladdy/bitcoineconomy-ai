@@ -60,9 +60,9 @@
       ],
       "automatability": "api-no-account",
       "auth": "none — a funded Cashu token is the API key",
-      "api_base": "https://api.routstr.com/v1",
-      "pricing_url": "https://api.routstr.com/v1/models",
-      "quickstart": "Point any OpenAI-compatible client at a provider endpoint with a funded Cashu token as the Bearer key. Per-model sats pricing at {endpoint}/v1/models; live provider list + cross-provider price index at /live/snapshot.json + /live/models.json."
+      "pricing_url": "https://routstr.com/models",
+      "quickstart": "Routstr is a NODE NETWORK, not one endpoint — there is no canonical api_base, and the team's own api.routstr.com has left the network (404 on every path; absent from the live provider directory). Discover a node first: browse https://routstr.com/providers, or read Nostr kind 38421 announcements from any node's /v1/providers/ (e.g. https://routstr.otrta.me/v1/providers/). Then call {node}/v1 as an OpenAI-compatible base URL, paying per request with Cashu. Easiest path for an agent: `routstrd`, their local routing daemon, which discovers nodes over Nostr and fails over automatically. This directory's own /live/models.json prices models across the live nodes.",
+      "discovery_url": "https://routstr.com/providers"
     },
     {
       "slug": "ppq-ai",
@@ -388,16 +388,16 @@
       "source": "exchanges/river.md",
       "category": "fiat-ramp",
       "subcategory": "brokerage",
-      "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products and the RLS Lightning-payments API.",
-      "what_an_agent_buys": "Fiat ↔ BTC (US) plus Lightning payments via the RLS API",
+      "summary": "A US Bitcoin-only financial-services company — buy, sell, hold, with Lightning send/receive on supported products. Owner-operated; no public agent API.",
+      "what_an_agent_buys": "Fiat ↔ BTC (US), owner-initiated",
       "payment_methods": [
         "lightning",
         "onchain",
         "fiat"
       ],
-      "automatability": "api-kyc",
-      "auth": "API key — KYC onboarding required",
-      "quickstart": "Complete KYC onboarding, then use the RLS API for Lightning send/receive — a payments API, not buy/sell trading (docs.rls.dev)."
+      "automatability": "human-only",
+      "auth": "KYC account, opened and operated by a person",
+      "quickstart": "No programmatic path. The RLS Lightning-payments API that used to provide one is no longer publicly documented or obtainable (docs.rls.dev does not resolve; rls.dev gone since ~2026-04, no deprecation notice). An agent can receive what the owner sends over Lightning; it cannot open or drive a River account."
     },
     {
       "slug": "kraken",
