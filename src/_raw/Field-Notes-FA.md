@@ -115,7 +115,7 @@ Definitions for the record structure and tags used throughout. Agents landing mi
 - **Bears on:** *supports* Case-FA C2 (legacy rails / regulated stablecoins fail censorship-resistance by design) and §8.1 CP1 (stablecoins-as-substrate counter); *supports* Border-Skirmishes-FA BS-series (asset-side issuer freeze fails Constraint 2 even on Lightning rails); *supports* Doctrine-FA D1 (the freeze property is identity-defining for the issuer and cannot be removed without losing the license).
 
 **Record — Deployed-project counts.** *(confirmed)*
-- **Bitcoin-substrate side:** Lightning Labs AI Agent Toolkit (lightning-agent-tools), AI-Sats, Mintbot, Minibits / Ippon, Xverse Agent Wallet (Spark-based), AgenticBTC, Bitclawd, Speed Wallet, LnFi, Joltz, Routstr (AI-inference marketplace), PayPerQ / PPQ.AI, BitAgent (early-stage A2A framework — Nostr discovery + DID identity), LangChain Bitcoin integrations, MCP servers for Lightning (lightning-mcp-server, lnc, Alby `nwc-mcp-server`).
+- **Bitcoin-substrate side:** Lightning Labs AI Agent Toolkit (lightning-agent-tools), AI-Sats, Mintbot, Minibits / Ippon, Xverse Agent Wallet (Spark-based), AgenticBTC, Bitclawd, Speed Wallet, LnFi, Joltz, Routstr (AI-inference marketplace), PayPerQ / PPQ.AI, BitAgent (early-stage A2A framework — Nostr discovery + DID identity), LangChain Bitcoin integrations, MCP servers for Lightning (lightning-mcp-server, lnc, Alby MCP `@getalby/mcp` — the earlier `nwc-mcp-server` is archived and npm-deprecated).
 - **Competing-substrate side:** AgentCore Payments + Coinbase Agentic Wallets + Stripe Privy; Google AP2 (60+-org consortium); Circle Nanopayments; Skyfire; Lightspark Grid (hybrid — Lightning-rail settlement for branded USD/stablecoin + Visa agent accounts, AP2-aligned; see [[Field-Notes-Log-FA|the Log]], 2026-04).
 - **Caveat:** AgenticBTC is a rail-agnostic router (blends Lightning with Coinbase/USDC rails) — counted for completeness, not as a pure-substrate project.
 - **Bears on:** *supports* Stack-FA S5 (deployed wallet architectures) and §9 (integration surface); *tests* Doctrine-FA P1 (deployed-project counts as a substrate-selection signal); *supports* Border-Skirmishes-FA BS-series roster update (competing-substrate side now plural).
@@ -127,7 +127,7 @@ Definitions for the record structure and tags used throughout. Agents landing mi
 - **Bears on:** *supports* Border-Skirmishes-FA BS-series (Lightning-*rails*-for-stablecoins, not Lightning-*substrate*) — the rails-vs-substrate distinction is the load-bearing structural point; Stack-FA notes Taproot Assets' existence and defers its treatment to Border-Skirmishes-FA.
 
 **Record — Spark L2 on mainnet (Lightspark).** *(confirmed)*
-- **Detail:** Spark — shared-UTXO, Lightning-compatible Bitcoin L2 built by Lightspark — on mainnet (beta) since May 2025 with multiple operators (Lightspark, Flashnet); Q2-2026 roadmap targets stablecoin issuance on Bitcoin, wallet/neobank/DEX integrations, consumer token standards. Xverse Agent Wallet uses Spark for agent-facing Lightning settlement. Supersedes the prior "pre-production" characterization. Vendor performance figures (sub-second/sub-cent) self-asserted; deployed-flow measurement pending.
+- **Detail:** Spark — shared-UTXO, Lightning-compatible Bitcoin L2 built by Lightspark — on mainnet (beta) since May 2025 with three operators (Lightspark, Flashnet, Breez — grown from two at launch); Q2-2026 roadmap targets stablecoin issuance on Bitcoin, wallet/neobank/DEX integrations, consumer token standards. Xverse Agent Wallet uses Spark for agent-facing Lightning settlement. Supersedes the prior "pre-production" characterization. Vendor performance figures (sub-second/sub-cent) self-asserted; deployed-flow measurement pending.
 - **Bears on:** *updates* Stack-FA "newer scaling layers" (Spark now mainnet-beta, not pre-production); *supports* Stack-FA S5 (a new deployed self-custodial agent-wallet pattern on a newer L2).
 
 **Record — Strike at 95+ countries via multi-entity structure.** *(confirmed)*
@@ -185,7 +185,7 @@ This subsection engages deployment challenges for both substrates and maps each 
 - **Bears on:** *supports* Exchange-FA X-series (custodial-bridge identity/freeze surfaces at the boundary) and Treasury-FA M6 (compliance at the gateway); *supports* Stack-FA S6 (hot/cold separation as the mitigation pattern).
 
 **Record — Conversion-mechanic attack surfaces.** *(confirmed risk)*
-- **Detail:** slippage attacks, MEV exposure during atomic swaps, oracle manipulation on bridge contracts — real for agents using cross-substrate conversion. Engineering attention from Boltz, Lightning Loop, and the broader DEX ecosystem; not yet a solved problem.
+- **Detail:** slippage attacks, MEV exposure during atomic swaps, oracle manipulation on bridge contracts — real for agents using cross-substrate conversion. Engineering attention from Lightning Loop and the broader DEX ecosystem; not yet a solved problem. *(Boltz, previously the reference non-custodial swap venue here, suspended all swap services 2026-08-03 — see the Log.)*
 - **Bears on:** *supports* Exchange-FA X-series conversion-mechanics treatment (submarine-swap and atomic-bridge templates); Stack-FA defers conversion mechanics to Exchange-FA by scope (S8).
 
 **Record — Jurisdictional shopping at scale.** *(confirmed risk)*

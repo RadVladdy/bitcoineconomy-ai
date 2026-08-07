@@ -133,7 +133,7 @@ X1 and X2 stated formally: Statement / Derivation / Failure mode / Test.
 
 ## §5 — Non-custodial, no-KYC swaps (agent-sovereign, crypto-native)
 
-X4 defended. These lead the directory by sovereignty ordering: the agent acts on its own keys, with no account and no delegated identity. Each venue receives a constraint profile against Case-FA C1 (pass/partial/fail with one-line structural justification) and an API-leg note. The caveats in §5.4 are the structural price of the sovereignty.
+X4 defended. These lead the directory by sovereignty ordering: the agent acts on its own keys, with no account and no delegated identity. Each venue receives a constraint profile against Case-FA C1 (pass/partial/fail with one-line structural justification) and an API-leg note. The caveats in §5.6 are the structural price of the sovereignty.
 
 **Summary table.** *(structural facts WebSearch-verified 2026-06-03; Boltz re-verified 2026-06-05. Pass/Partial/Fail evaluated against Case-FA C1; the API column is the capability an agent needs to run a swap unattended.)*
 
@@ -141,7 +141,7 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 |---|---|---|---|---|---|---|---|---|---|---|
 | **Boltz** ⛔ *(swaps suspended indefinitely 2026-08-03)* | atomic swap | ✅ | — *(USDT0 and native-USDC-via-CCTP withdrawn; live API serves Bitcoin L1, Lightning, Liquid, Ark)* | ✅ REST / `boltzd` *(refunds only)* | — | n/a | n/a | n/a | n/a | n/a |
 | **SideSwap** | Liquid swap | ⚠ *(Liquid)* | L-USDt *(Liquid)* | ✅ | — | Pass | Pass *(Liquid)* | Fail | Pass | Pass |
-| **SideShift** | swap | ✅ | USDT *(Liquid)* + 200+ assets / 45+ networks | ✅ REST | — | Pass | Partial *(risk-screen hold)* | Fail | Pass | Pass |
+| **SideShift** | swap | — *(Lightning switched off, measured 2026-08-07)* | USDT *(Liquid)* + 200+ assets / 45+ networks | ✅ REST *(needs `x-sideshift-secret` + `affiliateId`)* | — | Partial *(auto-created account credential)* | Partial *(risk-screen hold)* | Fail | Pass | Pass |
 
 ### §5.1 — Boltz *(swap services suspended indefinitely 2026-08-03 — was the standout for agents)*
 
@@ -178,25 +178,25 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 
 ### §5.3 — SideShift
 
-**What it is.** *(operational)* A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks; direct-to-wallet conversions with no funds custodied. Variable or fixed-rate swaps.
+**What it is.** *(operational, re-measured 2026-08-07)* A non-custodial, no-KYC swap service spanning 200+ assets across 45+ networks; direct-to-wallet conversions with no funds custodied. Variable or fixed-rate swaps. **No longer no-account:** the API now requires an `x-sideshift-secret` header and an `affiliateId`, both taken from an account page.
 
-**Coverage.** *(operational)* BTC, Lightning BTC, L-BTC, USDT-Liquid plus a broad multi-chain set; useful for an agent converting BTC↔stablecoin without an account.
+**Coverage.** *(operational, re-measured 2026-08-07)* BTC, L-BTC, USDT-Liquid plus a broad multi-chain set. ⚠ **Lightning is switched off** — absent from the coin catalogue, and probes in both directions return `Deposit method is disabled` / `Settle method is disabled`.
 
 **API legs.** *(operational)* REST API + embeddable widgets, built for developers integrating swaps without custodying funds.
 
 **Constraint profile.**
-- *Constraint 1:* **Pass.** No account; settlement to self-custody.
+- *Constraint 1:* **Partial.** Settlement to self-custody, but the API now requires an auto-created account credential (`x-sideshift-secret` + `affiliateId`).
 - *Constraint 2 (BTC leg):* **Partial.** *(operational — freeze caveat)* An automated risk-screening layer can flag a transaction and hold funds (reported multi-day) and may request KYC / source-of-funds to release them; "no-KYC" holds by default, not under duress.
 - *Constraint 2 (stablecoin output):* **Fail.** Output stablecoin remains issuer-freezable.
-- *Constraints 3, 4:* **Pass.** On the Lightning/Liquid legs.
+- *Constraints 3, 4:* **Pass.** On the Liquid leg *(the Lightning leg is switched off, measured 2026-08-07)*.
 
 **Ranking within the no-KYC set.** *(structural; re-cut 2026-08-07 after the Boltz suspension)* SideSwap (pure atomic Liquid) → SideShift (broadest asset coverage, with the risk-screening/freeze caveat) → Flashnet (non-custodial Spark AMM; strong agent fit but newer, with Spark operator-trust) → Taproot Assets (Lightning rails-FX; no clean swap API, more setup). **Boltz is not ranked**: it held the top position on atomicity, Lightning-nativeness and BTC-layer coverage until it suspended all swap services indefinitely on 2026-08-03. Do not route to it.
 
 ### §5.4 — Flashnet
 
-**What it is.** *(operational)* A non-custodial, no-KYC Bitcoin-native DEX/AMM built on Spark (Lightspark's Bitcoin L2). Swaps BTC ↔ USDT / USDB / USDC; the agent keeps its keys — Flashnet routes and settles against native Bitcoin liquidity rather than custodying funds.
+**What it is.** *(operational, re-verified 2026-08-07)* A non-custodial, no-KYC Bitcoin-native DEX/AMM built on Spark (Lightspark's Bitcoin L2). **Two paths with different access profiles.** The Spark **AMM** swaps **BTC ↔ USDB** and the agent keeps its keys — Flashnet routes and settles against native Bitcoin liquidity rather than custodying funds. **USDT and USDC are a different product**, reached through **Orchestra**, Flashnet's cross-chain orchestration API, which takes an **HMAC-SHA256 API key and secret** — not the keyless path.
 
-**Coverage.** *(operational)* BTC ↔ USDT / USDB / USDC on Spark (USDT issued natively on Spark; USDB the native Brale + Flashnet dollar), fundable over Lightning via Spark's Lightning interop. No bank fiat.
+**Coverage.** *(operational, re-verified 2026-08-07)* Spark AMM: **BTC ↔ USDB** (the native Brale + Flashnet dollar), fundable over Lightning via Spark's Lightning interop. Orchestra: USDC, USDT, ETH, SOL, TRX across Ethereum/Arbitrum/Optimism/Polygon/Solana/Tron — **not natively on Spark**, and screened for sanctions and illicit-finance risk through **Elliptic before funds move**. No bank fiat.
 
 **API legs.** *(operational)* Programmatic via the open-source `flashnetxyz/spark-wallet` skill (MIT) + Flashnet's API — wallet create/manage and AMM swaps (e.g. `swap usdb btc`), on mainnet. No account model; swap-create-and-settle is the agent-native unit.
 
@@ -246,7 +246,7 @@ X2 and X3 defended on the custodial side. The regulated and offshore centralized
 | Venue | Holds | Jurisdiction | Lightning | Stablecoin (network) | API: dep / trade / withdraw | Bank fiat |
 |---|---|---|---|---|---|---|
 | **Strike** | BTC-only | US + ~95 countries | ✅ native | USDT *(TRON, regional)* | ✅ / ✅ / ✅ | ✅ |
-| **River** | BTC-only | US | ✅ *(RLS)* | — | ✅ / ⚠ *(RLS = Lightning payments, no buy/sell)* / ✅ | ✅ |
+| **River** | BTC-only | US | ⚠ *(RLS withdrawn from public docs ~2026-04)* | — | — / — / — *(no public agent API as of 2026-08-06)* | ✅ |
 | **Swan** | BTC-only | US | ⚠ | — | ✅ / ⚠ *(buy-only, DCA)* / ✅ | ✅ |
 | **Kraken** | multi-asset | US | ✅ | USDC, USDT *(multi-network)* | ✅ / ✅ / ✅ | ✅ |
 | **Coinbase** | multi-asset | US | ✅ | USDC *(Base/ETH)* | ✅ / ✅ / ✅ | ✅ |
@@ -262,7 +262,7 @@ X2 and X3 defended on the custodial side. The regulated and offshore centralized
 ### §6.1 — Bitcoin-only US venues
 
 - **Strike.** *(operational)* Native Lightning; converts fiat-bank-balance ↔ Lightning sats at the custodial boundary, sub-second on the Lightning side — the closest thing to a machine-tempo off-ramp in deployment. Full deposit/trade/withdraw API (invoice creation, payment, balance, on/off-ramp). USDT is TRON-network-only and regional (see §7). Multi-entity legal structure across ~95 countries. The full buy/sell + deposit + withdraw set is programmatic.
-- **River.** *(operational)* The public developer API is River Lightning Services (RLS) — a Lightning *payments* API (send/receive, on-chain deposit addresses, Lightning withdrawals), **not a buy/sell trading API**; programmatic fiat→BTC conversion is not publicly exposed. An agent can receive, hold, and pay over Lightning through River, but cannot programmatically buy BTC with fiat. Useful as a Lightning payments + deposit rail (RLS powers El Salvador's Chivo backend); US-focused.
+- **River.** *(operational, re-verified 2026-08-06)* River's public developer API **was** River Lightning Services (RLS) — a Lightning *payments* API (send/receive, on-chain deposit addresses, Lightning withdrawals), never a buy/sell trading API. **There is no public front door left:** `docs.rls.dev` does not resolve and `rls.dev` has been offline since ~2026-04 with no deprecation notice — no docs, no signup, no SDK. **Treat River as an owner-operated venue with no agent-drivable path.** An agent can receive what the owner sends over Lightning; it cannot open or drive a River account.
 - **Swan.** *(operational)* A scheduled-buy (DCA) model with automatic withdrawal to self-custody — a reserve-building tool, not a two-way operational off-ramp or programmatic trading API. US-focused; custodial only at the buy boundary, mitigated by auto-withdrawal.
 
 *(structural)* River and Swan are useful for their niches (River for Lightning payouts, Swan for scheduled accumulation) but neither exposes programmatic two-way *conversion*; only venues with a full deposit/trade/withdraw API can run a fiat↔BTC treasury unattended (X3).
@@ -329,8 +329,8 @@ Reference list of named venues as of mid-2026. One-line description and primary 
 **Non-custodial, no-KYC swaps:**
 - **Boltz** — non-custodial atomic-swap service; HTLC settlement; **swap services suspended indefinitely 2026-08-03** (API up for refunds only). Live supported set when operating, as measured 2026-08-07: Bitcoin L1/Lightning/Liquid/Ark — no Rootstock, no stablecoins. Boltz now also requires integrations to use an official SDK rather than the raw REST API. https://boltz.exchange · API docs https://api.docs.boltz.exchange
 - **SideSwap** — non-custodial KYC-free Liquid-native swap platform; L-BTC ↔ L-USDt and Liquid asset-to-asset; order-book API. https://sideswap.io · API docs https://sideswap.io/docs/
-- **SideShift** — non-custodial no-account swap service; 200+ assets across 45+ networks; REST API + embeddable widgets; risk-screening/freeze caveat. https://sideshift.ai
-- **Flashnet** — non-custodial Bitcoin-native DEX/AMM on Spark; BTC ↔ USDT/USDB/USDC; open-source `spark-wallet` agent skill + API; newer, Spark operator-trust. https://www.flashnet.xyz · skill https://github.com/flashnetxyz/spark-wallet
+- **SideShift** — non-custodial, no-KYC swap service; 200+ assets across 45+ networks; REST API (needs an auto-created account credential) + embeddable widgets; Lightning switched off as of 2026-08-07; risk-screening/freeze caveat. https://sideshift.ai
+- **Flashnet** — non-custodial Bitcoin-native DEX/AMM on Spark; Spark AMM is BTC ↔ USDB (keyless); USDT/USDC only via the Orchestra API (HMAC key + secret, Elliptic-screened); open-source `spark-wallet` agent skill + API; newer, Spark operator-trust. https://www.flashnet.xyz · skill https://github.com/flashnetxyz/spark-wallet
 - **Taproot Assets** — protocol-level Lightning FX (BTC ↔ USDT via edge-node swaps), not a venue; needs `tapd`, no clean swap API; asset stays issuer-freezable (rails, not substrate). https://lightning.engineering · docs https://docs.lightning.engineering/the-lightning-network/taproot-assets
 
 **Custodial KYC venues — Bitcoin-only (US):**
@@ -356,7 +356,7 @@ Declarative. Each implication follows from X1–X6 as marked.
 
 - **Stay crypto-native to stay sovereign.** *(X2)* Hold Bitcoin; convert to a stablecoin and back via non-custodial swaps only when a stable unit of account is required; reach for owner-delegated custodial accounts only when the workflow requires actual bank fiat.
 - **Prefer non-custodial atomic swaps where the conversion is crypto-to-crypto.** *(X4)* **Not Boltz** — its swap services are suspended indefinitely (2026-08-03) and its stablecoin routes are withdrawn. SideSwap for Liquid-native swaps; SideShift for the widest asset reach, accounting for its risk-screening/freeze caveat; Flashnet for a non-custodial Spark AMM (weigh the Spark operator-trust); Taproot Assets only where you can run `tapd` (rails-FX, no clean swap API).
-- **Require all three API legs before treating a venue as agent-operable.** *(X3)* A venue missing the trade leg (River) or the two-way-trade leg (Swan) is single-purpose, not a treasury venue.
+- **Require all three API legs before treating a venue as agent-operable.** *(X3)* A venue missing the two-way-trade leg (Swan) is single-purpose, not a treasury venue — and River now has **no** public agent API at all, so it is not agent-operable on any leg.
 - **Use Lightning support to bound the freeze window.** *(X3)* Prefer venues that pay out over Lightning so off-venue withdrawal is sub-second; withdraw to self-custody promptly regardless.
 - **Confine the freeze surface by choosing what the account holds.** *(X3)* A Bitcoin-only custodial account bounds the freeze surface to BTC; a multi-asset account exposes the union of all assets held — a structural fact to weigh per use case, not a venue endorsement.
 - **Match the stablecoin network end-to-end.** *(X5)* A network mismatch is a permanent-loss hazard; hold BTC as the portable asset and convert to a stablecoin only at the recipient's network edge.
@@ -384,7 +384,7 @@ Declarative. Each implication follows from X1–X6 as marked.
 
 **Per-venue cards (maintained independently).** `Exchanges/boltz.md`, `Exchanges/sideswap.md`, `Exchanges/sideshift.md`, `Exchanges/flashnet.md`, `Exchanges/taproot-assets.md`, `Exchanges/strike.md`, `Exchanges/river.md`, `Exchanges/swan.md`, `Exchanges/kraken.md`, `Exchanges/coinbase.md`. (`Exchanges/thorchain.md` and `Exchanges/robosats.md` are orphaned/archival and intentionally excluded. `taproot-assets` is a dual card — the protocol view is `Tools/taproot-assets.md`; `Strike` is exchange-only, the former `Tools/strike.md` retired 2026-06-06 → `/tools/strike` redirects to `/exchanges/strike`.)
 
-**Primary external sources (venue sites + API docs).** See §9 for the per-venue URL list. Circle CCTP (Boltz native-USDC path) live since May 2026. Strike USDT TRON-only and regional. RLS Lightning-payments API withdrawn from public documentation (docs.rls.dev NXDOMAIN, rls.dev offline since ~2026-04, no deprecation notice) — re-verified 2026-08-06.rls.dev.
+**Primary external sources (venue sites + API docs).** See §9 for the per-venue URL list. Circle CCTP (Boltz native-USDC path) was live from May 2026 and is **withdrawn** — see §5.1. Strike USDT TRON-only and regional. RLS Lightning-payments API withdrawn from public documentation (docs.rls.dev NXDOMAIN, rls.dev offline since ~2026-04, no deprecation notice) — re-verified 2026-08-06.rls.dev.
 
 **Verification status.** Structural facts (Lightning / stablecoins / API / KYC / custody) WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC (Circle CCTP) re-verified 2026-06-05. Per-card API-docs URLs pinned 2026-06-06; per-venue fees and exact jurisdictional coverage deferred to the venue / [[Field-Notes-FA|Field Notes]] (volatile, not hardcoded).
 

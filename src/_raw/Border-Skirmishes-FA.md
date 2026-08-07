@@ -269,7 +269,7 @@ Bulleted declarative. Build-time specifications derived from BS1–BS6. Named in
 
 ## §11 — References and provenance
 
-**Canonical source.** `[[Border-Skirmishes]]` — the project-internal canonical narrative surface; this document is its For-Agents twin. The Border Skirmishes is an assembled surface: it pulls the dated combat out of the Independence Doctrine (the contemporary-instance beats, "automation not agency," regulatory-pressure-feeds-divergence, and the integration-scenario objection) and the live-contest material out of the now-dissolving Border Zone (the two-toolkit moment, the competing-substrate roster, the gas-free / permissioned-BFT critique, the honest case for stablecoins).
+**Canonical source.** [[Border-Skirmishes]] — the project-internal canonical narrative surface; this document is its For-Agents twin. The Border Skirmishes is an assembled surface: it pulls the dated combat out of the Independence Doctrine (the contemporary-instance beats, "automation not agency," regulatory-pressure-feeds-divergence, and the integration-scenario objection) and the live-contest material out of the now-dissolving Border Zone (the two-toolkit moment, the competing-substrate roster, the gas-free / permissioned-BFT critique, the honest case for stablecoins).
 
 **Provenance of assembled combat (For-Agents track).**
 - Inherited from the retired Border Zone For-Agents twin *(combat absorbed here)* — the integration-scenario / competing-substrate absorption argument (CP1) with the mid-2026 roster (cloud-platform stack on x402, card-network consortium, x402 at the Linux Foundation, issuer gas-free micropayments, card-rail router, Lightning-native hybrid); the rails-vs-substrate distinction (CP2, §5); the use-case bifurcation (BS6).

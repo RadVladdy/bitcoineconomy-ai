@@ -244,7 +244,7 @@ AA5. The position is structural; its one forward-looking element is the bound's 
 - [[Case-FA|The Case]] human twin and the other human surfaces are linked from their respective For-Agents pages.
 
 **Framing-discipline provenance.**
-- Locked decision (user, 2026-06-04, recorded in the canonical essay's Editor's Notes): the human-side adoption friction is framed as the natural, continuously-improving character of an open/decentralized, protocol-first system with no central UX/marketing organization — never as a failure of Bitcoin. The "bugs for humans are features for agents" formulation is retired; this twin carries the structural mapping (each human-acclimation property → its agent-native counterpart) without the "bug" language.
+- Locked framing constraint: the human-side adoption friction is framed as the natural, continuously-improving character of an open/decentralized, protocol-first system with no central UX/marketing organization — never as a failure of Bitcoin. The "bugs for humans are features for agents" formulation is retired; this twin carries the structural mapping (each human-acclimation property → its agent-native counterpart) without the "bug" language.
 
 **Date stamps.** Document created 2026-06-05; last verified 2026-06-05. This surface carries no empirical anchor of its own; the BPI substrate-preference signal and deployed-roster evidence are held by [[Case-FA|The Case]] and [[Field-Notes-FA|Field Notes]] respectively.
 

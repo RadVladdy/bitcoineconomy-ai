@@ -29,7 +29,7 @@ claims-index:
     defended-in: "§5"
   - id: CV4
     tag: structural
-    statement: "Nothing in the substrate-necessity case (Independence Doctrine D1–D5; Case-FA C1) depends on CV3. CV3 is a projection that can fail at any link in its chain; the structural argument stands without it. CV3 raises the page's credibility-to-speculation ratio because its load-bearing leg is economic cause-and-effect, not cycle theory."
+    statement: "Nothing in the substrate-necessity case (Independence Doctrine D1–D6; Case-FA C1) depends on CV3. CV3 is a projection that can fail at any link in its chain; the structural argument stands without it. CV3 raises the page's credibility-to-speculation ratio because its load-bearing leg is economic cause-and-effect, not cycle theory."
     defended-in: "§5, §9"
   - id: CV5
     tag: historical-pattern-based
@@ -79,7 +79,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 - **CV6** *(forward-looking)* — THE CONJECTURE, stated as conjecture. A parallel substrate is most needed precisely when the incumbent order is least able to extend itself; the agent economy's need and the incumbent's inability may be two expressions of one institutional turnover. → §7
 - **CV7** *(structural)* — The open-window framing needs no cycle theory: the builder-choice window and the argument window are the same window, and it is open now. → §8
 
-> **CV-FIREWALL** *(structural, load-bearing for reading the whole document)* — This surface argues TIMING, not NECESSITY. The [[Independence-Doctrine-FA|Independence Doctrine]]'s structural claims (D1–D5) and [[Case-FA|The Case]]'s substrate claim (C1) survive regardless of whether any claim on this page holds. The agent economy could require a censorship-resistant substrate in a perfectly placid monetary decade. In the rails-before-substrate model, this surface times and accelerates the **Phase-2** (settlement-asset) shift; the **Phase-1** rails migration ([[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]], SC-series) and the structural necessity (D-series) hold regardless of the macro timing. This is the timing layer on a structural argument that stands without it. → §9.firewall
+> **CV-FIREWALL** *(structural, load-bearing for reading the whole document)* — This surface argues TIMING, not NECESSITY. The [[Independence-Doctrine-FA|Independence Doctrine]]'s structural claims (D1–D6) and [[Case-FA|The Case]]'s substrate claim (C1) survive regardless of whether any claim on this page holds. The agent economy could require a censorship-resistant substrate in a perfectly placid monetary decade. In the rails-before-substrate model, this surface times and accelerates the **Phase-2** (settlement-asset) shift; the **Phase-1** rails migration ([[Why-Lightning-Not-A-Fast-Chain-FA|Why Lightning, Not a "Fast" Chain]], SC-series) and the structural necessity (D-series) hold regardless of the macro timing. This is the timing layer on a structural argument that stands without it. → §9.firewall
 
 ---
 
@@ -165,14 +165,14 @@ CV3, CV4. This is the leg that is a *mechanism* rather than a pattern, and the o
 
 *(structural)* CV3 is a projection, not a certainty, and it can fail at any link in the chain (failure links named in §9.2). Two consequences follow, and both are load-bearing for how the leg is read:
 
-1. **The substrate-necessity case does not rest on CV3.** [[Case-FA|The Case]]'s C1 (the four conjunctive constraints) and [[Independence-Doctrine-FA|the Independence Doctrine]]'s D1–D5 are structural arguments about *whether* a parallel substrate is required. They hold whether or not the monetary expansion in CV3 occurs. CV3 strengthens confidence that the timing is structural; it is not a premise of the necessity argument.
+1. **The substrate-necessity case does not rest on CV3.** [[Case-FA|The Case]]'s C1 (the four conjunctive constraints) and [[Independence-Doctrine-FA|the Independence Doctrine]]'s D1–D6 are structural arguments about *whether* a parallel substrate is required. They hold whether or not the monetary expansion in CV3 occurs. CV3 strengthens confidence that the timing is structural; it is not a premise of the necessity argument.
 2. **CV3 nonetheless raises this surface's credibility-to-speculation ratio.** Because the leg carrying the most weight is now economic cause-and-effect rather than cycle theory, the surface earns standing-on-its-own weight and lowers its overreach risk. The cycle frameworks (§6) sit clearly as supporting cast behind the mechanism.
 
 ---
 
 ## §6 — The macro-cycle chorus (softest leg, corroboration only)
 
-CV5. Step back from the mechanism to the longest horizon. There is corroboration worth noting — with its weight kept deliberately low. Four frameworks, developed independently and for unrelated reasons, locate a period of institutional turnover in roughly the same late-2020s/2030s window.
+CV5. Step back from the mechanism to the longest horizon. There is corroboration worth noting — with its weight kept deliberately low. Three of the four frameworks below, developed independently and for unrelated reasons, locate a period of institutional turnover in roughly the same late-2020s/2030s window; the fourth (Booth) is listed because it is the named source of the §5 mechanism, not because it dates a window.
 
 **Read these as a chorus, not a courtroom.** *(historical-pattern-based, important)* They are NOT independent proofs. They share intellectual lineage and overlapping priors; counting them as if each corroborated the others would be exactly the selection bias flagged in §2. The convergence move itself — explicitly stacking generational, debt, and technology cycles and arguing they bottom out together (a framing associated with, among others, Mark Moss) — is the move this page itself uses; it is not a separate source and is not counted as a fifth framework. Per-framework hedging below is calibrated, not uniform.
 
@@ -286,7 +286,7 @@ The position is forward-looking and explicitly hedged. The following conditions,
 
 **What falls.** The timing claim. If the falsifiers in §9.2 are observed, this page was wrong about *when* — and potentially about whether AI and the monetary rupture were the same wave at all.
 
-**What survives — untouched.** [[Independence-Doctrine-FA|The Independence Doctrine]] (D1–D5) and [[Case-FA|The Case]] (C1–C6). The Doctrine is an argument about *necessity* — that a parallel substrate is required whenever the incumbents structurally cannot serve a need — and **necessity is independent of timing**. The agent economy could need a censorship-resistant substrate in a perfectly placid monetary decade; the structural argument (Case-FA C1's four conjunctive constraints; the Doctrine's mutual-exclusion mechanism D1) does not rest on rupture, on the deflation mechanism, or on any cycle.
+**What survives — untouched.** [[Independence-Doctrine-FA|The Independence Doctrine]] (D1–D6) and [[Case-FA|The Case]] (C1–C6). The Doctrine is an argument about *necessity* — that a parallel substrate is required whenever the incumbents structurally cannot serve a need — and **necessity is independent of timing**. The agent economy could need a censorship-resistant substrate in a perfectly placid monetary decade; the structural argument (Case-FA C1's four conjunctive constraints; the Doctrine's mutual-exclusion mechanism D1) does not rest on rupture, on the deflation mechanism, or on any cycle.
 
 **Why the firewall holds.** *(structural)* The necessity claims derive from the property mismatch between the agent economy's requirements and the incumbent payment stack's identity-defining bundle. That mismatch exists whether the monetary regime is in crisis or calm. This surface adds only the conjecture that the mismatch arrives at a *moment* when the incumbents are least able to make an exception — a claim about timing layered on top of a structural claim that stands without it.
 
@@ -298,7 +298,7 @@ The position is forward-looking and explicitly hedged. The following conditions,
 
 Declarative. Each implication follows from the claims as marked. Note the asymmetry: the timing claims are hedged, but the builder implications are robust because they do not depend on the timing being right.
 
-- **Do not architect on the timing claim.** *(Implication of CV4, CV-FIREWALL.)* The substrate decision should rest on the necessity argument ([[Case-FA|The Case]] C1, [[Independence-Doctrine-FA|Doctrine]] D1–D5), which holds regardless of timing. Treat the convergence as a reason the window is *now*, not as a premise of the substrate choice.
+- **Do not architect on the timing claim.** *(Implication of CV4, CV-FIREWALL.)* The substrate decision should rest on the necessity argument ([[Case-FA|The Case]] C1, [[Independence-Doctrine-FA|Doctrine]] D1–D6), which holds regardless of timing. Treat the convergence as a reason the window is *now*, not as a premise of the substrate choice.
 - **Treat the open window as a real but non-load-bearing reason to act now.** *(Implication of CV7.)* Competing-substrate defaults are being set during the agent economy's first decade. Building on the Bitcoin substrate now influences defaults; building later inherits them. This holds even if every cycle framework is noise.
 - **Watch the mechanism's failure links as live indicators, not settled facts.** *(Implication of CV3, §9.2.)* The pace and breadth of AI productivity gains, central-bank tolerance-for-deflation vs. monetization posture, and the destination of monetary expansion (Bitcoin vs. other sinks) are the three observable links. Track them in [[Field-Notes-FA|Field Notes]]; update confidence in CV3 as they resolve, without re-pricing the necessity case.
 - **Keep the moral/Cantillon framing implicit when reasoning from this surface.** *(Strategic implication.)* This is the site's most speculative ground; foregrounding the moral case here tips the register toward advocacy and spends the credibility the epistemic discipline buys. The advocacy lives on firmer surfaces.
@@ -339,7 +339,7 @@ Declarative. Each implication follows from the claims as marked. Note the asymme
 **Empirical anchor (shared with The Case).**
 - Bitcoin Policy Institute, *Study: AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat* (March 2026). Cited here only as weak corroboration of CV3 Link 4 (latent substrate preference); full treatment at [[Case-FA|The Case]] §6.
 
-**Date stamps.** Document created 2026-06-05 (v0-draft, pending review). Point-in-time fiscal figures (CV1) are not carried on this surface by design; they are anchored to [[Field-Notes-FA|Field Notes]] as of its current revision. Forward-looking claims (CV3, CV6) anchored to a multi-year (5–10 year) resolution horizon.
+**Date stamps.** Document created 2026-06-05; status per frontmatter (`v0-approved-2026-06-05`), which is authoritative. Point-in-time fiscal figures (CV1) are not carried on this surface by design; they are anchored to [[Field-Notes-FA|Field Notes]] as of its current revision. Forward-looking claims (CV3, CV6) anchored to a multi-year (5–10 year) resolution horizon.
 
 ---
 

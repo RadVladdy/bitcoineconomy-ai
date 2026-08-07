@@ -76,10 +76,9 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor.
 - **D3** *(forward-looking)* — The AI economy on Bitcoin is the contemporary instance of this pattern. The incumbent payment stack cannot provide the four conjunctive constraints (Case-FA C1); Bitcoin + Lightning + Cashu/Fedimint can; the parallel agent economy will form around the Bitcoin payment stack rather than within incumbent rails. → §7
 - **D4** *(structural)* — Divergence does not entail separatism, zero-sum displacement of the incumbent, or certainty about timing or magnitude. The doctrine predicts structural shape, not contingent trajectory. Structural sub-claim about the parallel-infrastructure / incumbent relationship; prevents misreading of D1. → §7.4
 - **D5** *(forward-looking)* — Specific testable predictions follow from D3: substrate-selection-precedes-scale, bridges-proliferate-but-don't-unify-architectures, regulatory-accommodation-narrow-not-broad, parallel-governance-becomes-recognizable, competing-substrates-find-niches-not-dominance, regulatory-pressure-feeds-not-threatens. → §9
+- **D6** *(structural)* — The doctrine's mechanism applies to the naming (identity/addressing) layer, not only money: monetary sovereignty without naming sovereignty is incomplete. An agent settling in Bitcoin but addressable only at a rented name has relocated the chokepoint, not removed it; the naming layer is forking on the same property mismatch — keypair identity (ContextVM/CEP-6) vs. DNS/registry identity — as an existence proof, not an adoption claim. → §7.5
 
 ---
-
-- **D6** *(structural)* — The doctrine's mechanism applies to the naming (identity/addressing) layer, not only money: monetary sovereignty without naming sovereignty is incomplete. An agent settling in Bitcoin but addressable only at a rented name has relocated the chokepoint, not removed it; the naming layer is forking on the same property mismatch — keypair identity (ContextVM/CEP-6) vs. DNS/registry identity — as an existence proof, not an adoption claim. → §7.5
 
 ## §2 — Definitions
 

@@ -257,7 +257,7 @@ S5 defended. Three wallet architectures receive depth because they are the opera
 
 - **AI-Sats** — AI-native Lightning wallets; autonomous Bitcoin payments; MCP integrations; self-hosted agent infrastructure.
 - **Mintbot** — Lightning APIs and Cashu/ecash integration for bots and agents; API-created wallets; no manual channel management.
-- **AgenticBTC** — agent-oriented Bitcoin payment infrastructure with Lightning routing abstraction and payment-failover systems.
+- **AgenticBTC** — agent-oriented payment router with Lightning routing abstraction and payment-failover. *Rail-agnostic* — it blends Lightning with Coinbase/USDC rails rather than operating purely on the Bitcoin substrate, so it is counted for completeness, not as a pure-substrate project.
 - **Bitclawd** — sovereign-AI orientation; Bitcoin-native agents; open-source AI infrastructure; Nostr + Lightning ecosystem.
 - **BlueWallet, Phoenix** — mobile-first Lightning wallets with API potential for resource-constrained agent deployment.
 

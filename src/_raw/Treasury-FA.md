@@ -322,7 +322,7 @@ Declarative. Build-time specifications derived from M1–M7.
 
 ## §12 — References and provenance
 
-**Canonical source.** `[[Treasury]]` — project-internal canonical narrative surface in The Market section. Treasury synthesizes Case-FA C1 (four conjunctive constraints) and Doctrine-FA D1 (mutual-exclusion mechanism) into the operational interface specification (treasury, gateway compliance, boundary risk).
+**Canonical source.** [[Treasury]] — project-internal canonical narrative surface in The Market section. Treasury synthesizes Case-FA C1 (four conjunctive constraints) and Doctrine-FA D1 (mutual-exclusion mechanism) into the operational interface specification (treasury, gateway compliance, boundary risk).
 
 **Cross-references — Case-FA (C-series).**
 - C1 (four conjunctive constraints) — pervasive throughout §3, §4, §5, §6, §7

@@ -49,7 +49,7 @@ Subscribe (Pro+), create an API key, run the proxy (`docker run -p 8080:8080 -e 
 
 ## Gotchas
 
-- **The Bitcoin leg is not agent-automatable:** Bitcoin pays the *subscription* (yearly plans, dashboard checkout), not the API calls. An agent can't top up Maple in sats mid-run — for sats-native pay-per-call inference, see [Routstr](/services/routstr) or [PPQ.AI](/services/ppq-ai).
+- **The Bitcoin leg is not agent-automatable:** Bitcoin pays the *subscription* (yearly plans, dashboard checkout), not the API calls. An agent can't top up Maple in sats mid-run — for sats-native pay-per-call inference, see [Routstr](/services/routstr) — [PPQ.AI](/services/ppq-ai)'s accountless path covers images, video and data enrichment, not chat.
 - **Streaming-only API** — the proxy currently supports streaming responses only; non-streaming clients need adjustment.
 - Subscription + credits is a **commitment model**, not pay-per-use — wrong shape for sporadic workloads.
 - Privacy claim is strong but scoped: the TEE protects *content from the provider*; the account layer (login identity, billing) is ordinary account data.
