@@ -6,7 +6,7 @@ An independent verification layer an agent pays in sats — a neutral verdict be
 
 - Category: verification / attestation
 - Payment methods: l402, lightning, fiat
-- Payment detail: per-call sats — L402, or a free API key funded over Lightning (USDC/x402 and card also accepted)
+- Payment detail: per-call sats — L402, or a free API key funded over Lightning (USDC or XRP over x402, and card, also accepted)
 - KYC: none
 - Custody: prepaid sats balance held by the service (top-up model); card- and x402-funded sats are spendable on tools but not withdrawable over Lightning
 - Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
@@ -20,7 +20,7 @@ An independent verification layer an agent pays in sats — a neutral verdict be
 - Site: https://api.babyblueviper.com
 - Docs/API: https://api.babyblueviper.com/llms.txt
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/invinoveritas
-- Provenance: curated (last verified 2026-07-23)
+- Provenance: curated (last verified 2026-08-07)
 
 First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published). A verdict is a paid second opinion, not an SLA.
 

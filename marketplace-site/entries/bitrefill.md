@@ -6,7 +6,7 @@ The Lightning-native bridge to the rest of the digital economy — buy gift card
 
 - Category: commerce / gift-cards
 - Payment methods: lightning, onchain
-- Payment detail: Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Thor API
+- Payment detail: Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Bitrefill REST API
 - KYC: none
 - Custody: n/a (pay-and-receive)
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first
@@ -18,7 +18,7 @@ The Lightning-native bridge to the rest of the digital economy — buy gift card
 - Site: https://bitrefill.com
 - Docs/API: https://docs.bitrefill.com
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/bitrefill
-- Provenance: curated (last verified 2026-06-11)
+- Provenance: curated (last verified 2026-08-07)
 
 One of the few entries with a purpose-built agent interface (remote MCP + agents onboarding page).
 

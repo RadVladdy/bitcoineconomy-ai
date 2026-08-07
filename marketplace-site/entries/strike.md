@@ -15,7 +15,7 @@ A Bitcoin-only financial app whose defining feature for agents is native Lightni
 - Site: https://strike.me
 - Docs/API: https://docs.strike.me
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/strike
-- Provenance: curated (last verified 2026-06-06)
+- Provenance: curated (last verified 2026-08-07)
 
 ---
 

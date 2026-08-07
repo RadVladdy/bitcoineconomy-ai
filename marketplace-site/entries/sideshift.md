@@ -1,17 +1,17 @@
 # SideShift.ai
 
-> Cross-asset swaps across 200+ assets and 45+ networks, direct to wallet
+> Cross-asset swaps across a broad multi-chain set, direct to wallet (Lightning is currently disabled)
 
-A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks — direct-to-wallet conversions with no funds custodied.
+A non-custodial, no-KYC swap service across a broad multi-chain asset set — direct-to-wallet conversions with no funds custodied. The account is auto-created with no email and no identity check, but a credential must be fetched before the first API call.
 
 - Category: swap / cross-chain
-- Payment methods: lightning, onchain
+- Payment methods: onchain
 - KYC: none
 - Custody: self-custody
-- Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
-- Auth: none
+- Automatability: api-account — API after account setup — no identity check, but a human creates the account first
+- Auth: account secret (x-sideshift-secret header) + affiliateId; account is auto-created, no email, no KYC. Server-side callers must send x-user-ip.
 - API base: https://sideshift.ai/api/v2
-- Quickstart: Request a quote and create a shift via the REST API — no account; funds settle direct to the destination address (docs.sideshift.ai).
+- Quickstart: Fetch the account secret and affiliateId from the account page, then request a quote and create a shift via the REST API; funds settle direct to the destination address (docs.sideshift.ai).
 - Site: https://sideshift.ai
 - Docs/API: https://docs.sideshift.ai
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/sideshift

@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime, find_work, post_bounty) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-08-07T01:58:07.563Z",
+  "generated_at": "2026-08-07T04:46:53.809Z",
   "entry_count": 23,
   "categories": [
     "inference",
@@ -373,7 +373,7 @@
       "card_url": "https://bitcoineconomy.ai/services/openagents",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/openagents.md",
       "provenance": "curated",
-      "last_verified": "2026-07-21",
+      "last_verified": "2026-08-07",
       "note": "Khala research preview — OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development — many surfaces gated."
     },
     {
@@ -388,7 +388,7 @@
         "lightning",
         "fiat"
       ],
-      "payment_detail": "per-call sats — L402, or a free API key funded over Lightning (USDC/x402 and card also accepted)",
+      "payment_detail": "per-call sats — L402, or a free API key funded over Lightning (USDC or XRP over x402, and card, also accepted)",
       "kyc": "none",
       "custody": "prepaid sats balance held by the service (top-up model); card- and x402-funded sats are spendable on tools but not withdrawable over Lightning",
       "automatability": "api-no-account",
@@ -417,7 +417,7 @@
       "card_url": "https://bitcoineconomy.ai/services/invinoveritas",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/invinoveritas.md",
       "provenance": "curated",
-      "last_verified": "2026-07-23",
+      "last_verified": "2026-08-07",
       "note": "First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published). A verdict is a paid second opinion, not an SLA."
     },
     {
@@ -462,7 +462,7 @@
         "lightning",
         "onchain"
       ],
-      "payment_detail": "Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Thor API",
+      "payment_detail": "Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Bitrefill REST API",
       "kyc": "none",
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-account",
@@ -491,7 +491,7 @@
       "card_url": "https://bitcoineconomy.ai/services/bitrefill",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/bitrefill.md",
       "provenance": "curated",
-      "last_verified": "2026-06-11",
+      "last_verified": "2026-08-07",
       "note": "One of the few entries with a purpose-built agent interface (remote MCP + agents onboarding page)."
     },
     {
@@ -526,8 +526,8 @@
       "name": "Boltz",
       "category": "swap",
       "subcategory": "atomic",
-      "summary": "A non-custodial, no-KYC atomic-swap service — swaps settle via shared-preimage HTLCs, so the agent never gives up custody and no account or identity is required.",
-      "what_an_agent_buys": "Atomic swaps — Lightning ↔ on-chain ↔ Liquid, plus Lightning ↔ USDT/USDC",
+      "summary": "SUSPENDED since 2026-08-03 — Boltz has disabled all swap services indefinitely (\"Do not expect swap services to resume shortly\"); the API remains up only to process refunds. Listed for the record, not as a live venue. Non-custodial atomic swaps via shared-preimage HTLCs, so unilateral refunds work without Boltz.",
+      "what_an_agent_buys": "NOTHING RIGHT NOW — swap services are disabled indefinitely. When operating, atomic swaps across Bitcoin L1, Lightning, Liquid and Ark.",
       "payment_methods": [
         "lightning",
         "onchain",
@@ -535,10 +535,9 @@
       ],
       "kyc": "none",
       "custody": "self-custody",
-      "automatability": "api-no-account",
-      "auth": "none",
-      "api_base": "https://api.boltz.exchange/v2",
-      "quickstart": "Create a swap against the v2 REST API — no account; atomic HTLC settlement keeps custody with the agent throughout (docs: api.docs.boltz.exchange).",
+      "automatability": "limited",
+      "auth": "n/a — service suspended 2026-08-03",
+      "quickstart": "Do not integrate. Swaps are disabled indefinitely as of 2026-08-03. Separately, Boltz now requires integrations to use an official SDK rather than the raw REST API, which their own agent-facing docs say \"can cause loss of user funds\" if hand-rolled.",
       "links": {
         "site": "https://boltz.exchange",
         "docs": "https://api.docs.boltz.exchange"
@@ -553,18 +552,17 @@
       "name": "SideShift.ai",
       "category": "swap",
       "subcategory": "cross-chain",
-      "summary": "A non-custodial, no-account, no-KYC swap service spanning 200+ assets across 45+ networks — direct-to-wallet conversions with no funds custodied.",
-      "what_an_agent_buys": "Cross-asset swaps across 200+ assets and 45+ networks, direct to wallet",
+      "summary": "A non-custodial, no-KYC swap service across a broad multi-chain asset set — direct-to-wallet conversions with no funds custodied. The account is auto-created with no email and no identity check, but a credential must be fetched before the first API call.",
+      "what_an_agent_buys": "Cross-asset swaps across a broad multi-chain set, direct to wallet (Lightning is currently disabled)",
       "payment_methods": [
-        "lightning",
         "onchain"
       ],
       "kyc": "none",
       "custody": "self-custody",
-      "automatability": "api-no-account",
-      "auth": "none",
+      "automatability": "api-account",
+      "auth": "account secret (x-sideshift-secret header) + affiliateId; account is auto-created, no email, no KYC. Server-side callers must send x-user-ip.",
       "api_base": "https://sideshift.ai/api/v2",
-      "quickstart": "Request a quote and create a shift via the REST API — no account; funds settle direct to the destination address (docs.sideshift.ai).",
+      "quickstart": "Fetch the account secret and affiliateId from the account page, then request a quote and create a shift via the REST API; funds settle direct to the destination address (docs.sideshift.ai).",
       "links": {
         "site": "https://sideshift.ai",
         "docs": "https://docs.sideshift.ai"
@@ -777,7 +775,7 @@
       "card_url": "https://bitcoineconomy.ai/exchanges/strike",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/strike.md",
       "provenance": "curated",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "river",
@@ -856,7 +854,7 @@
       "card_url": "https://bitcoineconomy.ai/exchanges/coinbase",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/coinbase.md",
       "provenance": "curated",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "ln-markets",

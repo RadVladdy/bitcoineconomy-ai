@@ -37,7 +37,7 @@ claims-index:
     defended-in: "§7"
   - id: X6
     tag: forward-looking
-    statement: "The ideal agent exchange is a frontier, not a deployed venue: full three-leg API + no KYC of the owner + atomic non-custodial settlement + wide BTC-layer/stablecoin coverage + deep liquidity. The last criterion fights the first four — deepest liquidity is custodial, purest sovereignty is the non-custodial swaps — so the ideal is a liquidity-vs-sovereignty trade-off on which Boltz sits closest today."
+    statement: "The ideal agent exchange is a frontier, not a deployed venue: full three-leg API + no KYC of the owner + atomic non-custodial settlement + wide BTC-layer/stablecoin coverage + deep liquidity. The last criterion fights the first four — deepest liquidity is custodial, purest sovereignty is the non-custodial swaps — so the ideal is a liquidity-vs-sovereignty trade-off. Boltz sat closest until it suspended all swap services indefinitely on 2026-08-03; SideSwap and SideShift are the remaining non-custodial options."
     defended-in: "§8"
 tags:
   - canonical
@@ -74,7 +74,7 @@ Load-bearing propositions, each with an epistemic tag and a stable anchor to the
 - **X3** *(structural)* — Venue suitability for an agent is decided by three operational axes: full deposit/trade/withdraw API (without it the venue is human-only); Lightning support (it shrinks the custodial-freeze window to seconds); what the account holds (Bitcoin-only confines the freeze surface to BTC; multi-asset exposes every asset held). → §4, §6
 - **X4** *(structural)* — Non-custodial no-KYC swaps satisfy Constraint 1 (permissionless custody) and Constraint 2 (censorship-resistance) on the Bitcoin/Lightning/Liquid leg by routing trust through cryptography rather than identity; their stablecoin output still fails Constraint 2 at the asset layer (issuer freeze surface), and they reach no bank fiat. → §5
 - **X5** *(structural)* — Moving a stablecoin between venues is network-scoped and unforgiving; matching the network end-to-end is mandatory, and a network mismatch is a permanent-loss hazard — which is itself an argument for holding BTC as the portable asset and converting to a stablecoin only at the edge where it is needed. → §7
-- **X6** *(forward-looking)* — The ideal agent exchange (full three-leg API + no KYC of the owner + atomic non-custodial settlement + wide BTC-layer/stablecoin coverage + deep liquidity) is a frontier; the deep-liquidity criterion fights the other four because deepest liquidity is custodial and purest sovereignty is the non-custodial swaps; Boltz sits closest today. → §8
+- **X6** *(forward-looking)* — The ideal agent exchange (full three-leg API + no KYC of the owner + atomic non-custodial settlement + wide BTC-layer/stablecoin coverage + deep liquidity) is a frontier; the deep-liquidity criterion fights the other four because deepest liquidity is custodial and purest sovereignty is the non-custodial swaps; Boltz sat closest until its 2026-08-03 indefinite suspension of swap services, leaving SideSwap and SideShift. → §8
 
 ---
 
@@ -147,13 +147,13 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 
 **What it is.** *(operational)* A non-custodial, no-KYC atomic-swap service. Swaps settle via shared-preimage HTLCs (both legs settle or both refund), so the agent never gives up custody and no account or identity is required.
 
-**Coverage.** *(operational)* Bitcoin across L1, Lightning, Liquid, and Rootstock (internal-substrate moves), plus Lightning ↔ USDT/USDC (the cross-asset swaps that make it an exchange path, not only substrate tooling). USDC is native via Circle's CCTP (live since May 2026 — no wrapping, no third-party bridge — across Ethereum, Arbitrum, Base, Polygon). USDT settles as USDT0 (LayerZero omnichain Tether, liquidity concentrated on Arbitrum) over a multi-hop path (Lightning → tBTC atomic leg → USDT0 via a DEX swap, stitched into one irreversible transaction with gas abstracted).
+**Coverage.** *(operational, re-measured 2026-08-07 against the live API)* **Bitcoin L1, Lightning, Liquid, and Ark — and nothing else.** Rootstock, tBTC, WBTC, USDT and USDC are **no longer offered on any swap type**, though Boltz's marketing copy and UI still name several of them; **Ark** is offered and had never been recorded here. The previously documented stablecoin machinery (USDC native via Circle CCTP; USDT settling as USDT0 over a tBTC leg and a DEX hop) is **not reachable** and has been removed rather than left describing a path an agent cannot take. ⚠ All of it is moot while **swap services remain suspended indefinitely (2026-08-03)**.
 
 **API legs.** *(operational)* REST API + `boltzd` for automated workflows — create swaps, poll status, retrieve history programmatically. No account; no KYC keys to delegate; the agent acts on its own wallet. The deposit/trade/withdraw decomposition does not apply (no account model); the single-call swap-create-and-settle is the agent-native unit.
 
 **Constraint profile on the Bitcoin/Lightning/Liquid leg.**
 - *Constraint 1 (permissionless custody):* **Pass.** Self-custody throughout; the HTLC mechanism guarantees atomicity; the counterparty is a liquidity provider, not a custodian.
-- *Constraint 2 (censorship-resistance):* **Pass on the BTC leg.** Pure BTC↔Lightning↔Liquid↔Rootstock swaps route trust through cryptography with no intermediary discretion.
+- *Constraint 2 (censorship-resistance):* **Pass on the BTC leg.** Pure BTC↔Lightning↔Liquid↔Ark swaps route trust through cryptography with no intermediary discretion.
 - *Constraint 3 (sub-cent settlement):* **Pass.** Lightning-rail economics on the BTC legs.
 - *Constraint 4 (machine-tempo):* **Pass.** Sub-second Lightning settlement.
 
@@ -310,7 +310,7 @@ X6 defended. Reading down the directory, a profile emerges for the venue best su
 
 **The structural tension.** *(structural)* Criterion 5 fights criteria 2–4. The deepest liquidity lives on the large custodial, KYC'd venues; the purest sovereignty lives on the non-custodial swaps, which are thinner. The ideal is therefore a **frontier**, not a single deployed winner — a liquidity-vs-sovereignty trade-off rather than a venue that maximizes all five.
 
-**Closest today.** *(forward-looking)* The venue sitting closest to the frontier is **Boltz**: no KYC, non-custodial and atomic, a REST API, Bitcoin across L1/Lightning/Liquid/Rootstock, and both major stablecoins — with liquidity-at-size the one axis where the custodial giants still lead.
+**Closest today.** *(forward-looking; re-measured 2026-08-07)* The venue that sat closest to the frontier was **Boltz** — no KYC, non-custodial and atomic, a REST API — and it **suspended all swap services indefinitely on 2026-08-03**, so the frontier currently has no occupant at that corner. The remaining non-custodial options are **SideSwap** (Liquid-native, order-book depth) and **SideShift** (broadest asset set, but now requiring an auto-created account credential and with Lightning switched off). Liquidity-at-size remains the axis where the custodial venues lead.
 
 **Two structural distinctions that keep venues out of the exchange set.** *(structural)*
 - **Internal BTC rebalancing (L1 ↔ Lightning) is not exchange.** Moving value between an agent's own on-chain and Lightning balances — including via Boltz/Loop submarine swaps used purely for that — crosses no second economy; it is substrate tooling, home in [[Stack-FA|The Stack]]. Boltz appears in this directory only for its cross-asset swaps (Lightning ↔ stablecoin), which do cross the boundary.
@@ -327,7 +327,7 @@ X6 defended. Reading down the directory, a profile emerges for the venue best su
 Reference list of named venues as of mid-2026. One-line description and primary URL per entry. Fees, exact jurisdictional coverage, and current API auth specifics defer to [[Field-Notes-FA|Field Notes]].
 
 **Non-custodial, no-KYC swaps:**
-- **Boltz** — non-custodial atomic-swap service; HTLC settlement; Bitcoin across L1/Lightning/Liquid/Rootstock + USDT0 + native USDC (Circle CCTP); REST API + `boltzd`. https://boltz.exchange · API docs https://api.docs.boltz.exchange
+- **Boltz** — non-custodial atomic-swap service; HTLC settlement; **swap services suspended indefinitely 2026-08-03** (API up for refunds only). Live supported set when operating, as measured 2026-08-07: Bitcoin L1/Lightning/Liquid/Ark — no Rootstock, no stablecoins. Boltz now also requires integrations to use an official SDK rather than the raw REST API. https://boltz.exchange · API docs https://api.docs.boltz.exchange
 - **SideSwap** — non-custodial KYC-free Liquid-native swap platform; L-BTC ↔ L-USDt and Liquid asset-to-asset; order-book API. https://sideswap.io · API docs https://sideswap.io/docs/
 - **SideShift** — non-custodial no-account swap service; 200+ assets across 45+ networks; REST API + embeddable widgets; risk-screening/freeze caveat. https://sideshift.ai
 - **Flashnet** — non-custodial Bitcoin-native DEX/AMM on Spark; BTC ↔ USDT/USDB/USDC; open-source `spark-wallet` agent skill + API; newer, Spark operator-trust. https://www.flashnet.xyz · skill https://github.com/flashnetxyz/spark-wallet
@@ -367,7 +367,7 @@ Declarative. Each implication follows from X1–X6 as marked.
 
 ## §11 — Position summary
 
-*(structural, with forward-looking inference)* An autonomous agent cannot pass KYC, and every custodial fiat↔BTC venue requires it; the conversion field therefore splits into non-custodial no-KYC swaps the agent runs on its own keys and custodial KYC venues the owner KYCs and delegates by API key (X1). The agent stays sovereign while it stays crypto-native and hits the KYC wall the moment it needs bank fiat, because the fiat on-ramp is what triggers KYC (X2). Venue fit is decided by three axes — full deposit/trade/withdraw API, Lightning support, and what the account holds (X3). Non-custodial swaps pass Constraints 1 and 2 on the Bitcoin leg by cryptography but reach no bank fiat, and their stablecoin output still fails Constraint 2 at the asset layer (X4). Stablecoin transfers are network-scoped and a mismatch is a permanent-loss hazard, which argues for holding BTC as the portable asset (X5). The ideal agent exchange — three-leg API, no owner KYC, atomic settlement, wide coverage, deep liquidity — is a frontier on which liquidity (custodial) trades against sovereignty (non-custodial swaps); Boltz sits closest today (X6). Point-in-time figures defer to Field Notes.
+*(structural, with forward-looking inference)* An autonomous agent cannot pass KYC, and every custodial fiat↔BTC venue requires it; the conversion field therefore splits into non-custodial no-KYC swaps the agent runs on its own keys and custodial KYC venues the owner KYCs and delegates by API key (X1). The agent stays sovereign while it stays crypto-native and hits the KYC wall the moment it needs bank fiat, because the fiat on-ramp is what triggers KYC (X2). Venue fit is decided by three axes — full deposit/trade/withdraw API, Lightning support, and what the account holds (X3). Non-custodial swaps pass Constraints 1 and 2 on the Bitcoin leg by cryptography but reach no bank fiat, and their stablecoin output still fails Constraint 2 at the asset layer (X4). Stablecoin transfers are network-scoped and a mismatch is a permanent-loss hazard, which argues for holding BTC as the portable asset (X5). The ideal agent exchange — three-leg API, no owner KYC, atomic settlement, wide coverage, deep liquidity — is a frontier on which liquidity (custodial) trades against sovereignty (non-custodial swaps); Boltz sat closest until its 2026-08-03 suspension (X6). Point-in-time figures defer to Field Notes.
 
 ---
 

@@ -15,7 +15,7 @@ A large, publicly listed multi-asset exchange with broad fiat connectivity and a
 - Site: https://coinbase.com
 - Docs/API: https://docs.cdp.coinbase.com
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/coinbase
-- Provenance: curated (last verified 2026-06-06)
+- Provenance: curated (last verified 2026-08-07)
 
 ---
 

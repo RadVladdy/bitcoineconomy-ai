@@ -18,7 +18,7 @@ The machine-work economy in two live surfaces — Autopilot, a local-first deskt
 - Docs/API: https://docs.openagents.com
 - Repo: https://github.com/OpenAgentsInc/openagents
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/openagents
-- Provenance: curated (last verified 2026-07-21)
+- Provenance: curated (last verified 2026-08-07)
 
 Khala research preview — OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development — many surfaces gated.
 
