@@ -16,6 +16,8 @@ identity: account (business)
 custody: self-custodial option — "no mandatory custody transfer"; managed tiers may differ
 bitcoin-native: false
 agent-access: limited
+latest-release: 0.3.0
+release-date: "2026-08-06"
 status: published
 last-verified: 2026-08-06
 order: 54

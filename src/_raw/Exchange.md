@@ -10,7 +10,7 @@ status: v1-draft-2026-06-05 (pending review)
 audience: humans
 twin-page: exchange-for-agents
 created: 2026-06-03
-last-updated: 2026-06-09
+last-updated: 2026-08-07
 word-count-target: 2200
 voice: honest-middle-position
 scope: fiat-btc-exchange-directory
@@ -71,7 +71,7 @@ The agent swaps on its own keys — no account, no delegated identity. This is t
 
 | Service | Type | Lightning | Stablecoin (network) | API | Bank fiat |
 |---|---|---|---|---|---|
-| **Boltz** ⭐ | atomic swap | ✓ | USDT0 + USDC *(via Circle CCTP: ETH/Arbitrum/Base/Polygon)* | ✓ REST / `boltzd` | — |
+| **Boltz** ⛔ *(swaps disabled since 2026-08-03)* | atomic swap | ✓ | — *(the USDT0 / USDC routes are gone; the live API serves Bitcoin L1, Lightning, Liquid and Ark only)* | ✓ REST / `boltzd` *(refunds only)* | — |
 | **SideSwap** | Liquid swap | ⚠ *(Liquid)* | L-USDt *(Liquid)* | ✓ | — |
 | **SideShift** | swap | ✓ | USDT *(Liquid)* + 200+ assets | ✓ REST | — |
 | **Flashnet** | AMM *(Spark)* | ✓ *(via Spark)* | USDT / USDB / USDC *(Spark)* | ✓ skill / API | — |
@@ -108,7 +108,7 @@ The regulated, centralized venues. The owner completes KYC and delegates the acc
 Only the venues with a full deposit/trade/withdraw API — **Strike, Kraken, Coinbase**, and the offshore giants — can run a fiat↔BTC treasury unattended. **River**'s public API (RLS) is Lightning *payments*, not buy/sell; **Swan**'s automates *buying* (DCA) + withdrawal, not two-way trading — both stay useful for their niches (River for Lightning payouts, Swan for scheduled accumulation) but neither does programmatic *conversion*. The **large offshore exchanges** — Binance, OKX, Bybit, Bitget, MEXC, KuCoin — are the same animal as the US multi-asset venues under a different jurisdiction: offshore domicile adds regulatory and recourse uncertainty (several have faced enforcement or market exits) on top of the account-level freeze surface, but they hold the deepest stablecoin-and-BTC liquidity (the pools described in [[Stablecoin-Landscape|The Stablecoin Landscape]]). Across all of them, **bank fiat — the one thing the non-custodial swaps can't reach — appears only here**; withdraw to self-custody promptly and treat any on-venue balance as exposed. *(Volumes, jurisdictional availability, and listings shift constantly — see [[Field-Notes]].)*
 
 > [!warning] Moving a stablecoin? Match the network or lose the funds
-> The stablecoin column names the **network**, and it matters operationally. Strike's USDT is **TRON-only** (a deposit on any other network is *permanently lost*); Boltz settles **USDT0** and **native USDC via Circle's CCTP** across Ethereum/Arbitrum/Base/Polygon; SideShift and SideSwap use **Liquid USDt (L-USDt)**; Kraken supports **several networks** (chosen at withdrawal). An agent moving a stablecoin between venues must match the network end-to-end — which is itself an argument for holding **BTC** as the portable asset and converting to a stablecoin only at the edge where it's needed. (L-USDt lives on the **Liquid sidechain** — see [[Stack|The Stack]].)
+> The stablecoin column names the **network**, and it matters operationally. Strike's USDT is **TRON-only** (a deposit on any other network is *permanently lost*); SideShift and SideSwap use **Liquid USDt (L-USDt)**; Kraken supports **several networks** (chosen at withdrawal). *(Boltz used to settle USDT0 and native USDC via Circle's CCTP — that route is gone, along with the rest of its swap service, since 2026-08-03.)* An agent moving a stablecoin between venues must match the network end-to-end — which is itself an argument for holding **BTC** as the portable asset and converting to a stablecoin only at the edge where it's needed. (L-USDt lives on the **Liquid sidechain** — see [[Stack|The Stack]].)
 
 ---
 
@@ -148,7 +148,7 @@ Reading down the comparison, a profile emerges for the venue best suited to an *
 - **Wide Bitcoin-layer and stablecoin coverage** — L1, Lightning, Liquid, and the major dollar stablecoins — so the agent can source whatever a counterparty wants without leaving the venue.
 - **Deep liquidity**, so it can swap at size without slippage.
 
-The honest catch is that the last criterion fights the first four. The deepest liquidity lives on the large custodial, KYC'd venues; the purest sovereignty lives on the non-custodial swaps, which are thinner. So the "ideal" is a frontier, not a single winner — and today the venue sitting closest to it is **Boltz**, strong on every axis but liquidity-at-size, where the custodial giants still lead.
+The honest catch is that the last criterion fights the first four. The deepest liquidity lives on the large custodial, KYC'd venues; the purest sovereignty lives on the non-custodial swaps, which are thinner. So the "ideal" is a frontier, not a single winner — and right now **nothing occupies it**. **Boltz** sat closest, strong on every axis but liquidity-at-size, until it **suspended all swap services indefinitely on 2026-08-03**. That is worth sitting with rather than glossing: the venue that came nearest to the sovereign ideal was taken off the board by its own operator, and the thing that survived was the part that never depended on the operator at all — unilateral refunds. **SideSwap** and **SideShift** carry the non-custodial path today, each with a real trade-off named above.
 
 The standing build opportunity — scarcely filled — is a **regulated agent-payment gateway on Lightning-substrate rails**: the compliance assurances institutions need without compromising the Bitcoin leg. And the deeper open frontier, the one that would dismantle the KYC wall itself: **agent-native identity** — reputation systems, on-chain attestations, and zero-knowledge proofs that could one day satisfy a regulatory regime without a human's delegated KYC. Until that exists, the wall stands, and the delegation pattern is the practical reality.
 

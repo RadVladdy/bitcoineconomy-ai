@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-08-03
+last-updated: 2026-08-07
 voice: honest-middle-position
 tags:
   - canonical
@@ -29,6 +29,34 @@ agent-tldr: |
 > **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-08-03 — Boltz switched itself off, and the only thing that still worked was the part that never needed it
+
+**What's happening.** On **3 August 2026**, **Boltz** — the non-custodial, no-KYC atomic-swap service this site had called the standout venue for agents — **disabled all swap services indefinitely.** Its own notice, still the first thing on its site: *"Swap Services Disabled."* *"Boltz will stay disabled until further notice."* *"Do not expect swap services to resume shortly."*
+
+The stated reason is not an incident. It is a trend they say they cannot win: *"this is not a response to a single incident. Over the past months we have seen a steady rise in automated, AI-assisted probing of our infrastructure, and we have dealt with several exploits. Each was contained, but the pattern is clear: **attackers now iterate faster than a team our size can find and patch.** In the past few days alone we saw a drastic acceleration, and we do not believe this asymmetry will reverse."* They call it *"a major paradigm shift for Bitcoin services operating on an open source stack."*
+
+And then the sentence that makes this a Field Note rather than a card edit: *"Our API remains available to process refunds cooperatively. **In any case, unilateral refunds will work, as they do not depend on our infrastructure.**"* Followed by: *"To be explicit: **no user funds were ever at risk. Boltz is non-custodial by design.** And as a fully bootstrapped company, **the losses were ours alone**."*
+
+**Why it matters.** This site keeps making an architectural claim — that an agent should hold its own keys and settle on rails it does not need permission to use — and the usual objection is that the claim is theoretical, because in practice everything routes through some operator anyway. Here is the test, run in public, by an operator with no incentive to run it. **The operator went away, and the users' money did not go with it.** Not because Boltz behaved well under pressure, though it did, but because the design meant behaving well was not required: a refund path that depends on your counterparty's servers is a promise, and a refund path that depends only on the chain is a property. Boltz shipped the property, and on 3 August it was the only thing left standing.
+
+That is worth more than a hundred architecture diagrams, and it costs this site something to say — the venue that proved the point is the venue we can no longer send an agent to. Both facts are the same fact.
+
+**The honest read.** Four things, and two of them cut against us.
+
+**(1) "Nobody lost funds" is not what happened.** *Users* lost nothing. **Boltz lost money** — they say so themselves, and being self-funded meant there was nobody else to absorb it. A non-custodial design protects the user's custody; it does not protect the operator's balance sheet. An operator that absorbs enough losses stops operating, which is precisely what you are reading. The sovereign design saved the people it was built to save and did not save the business, and a site arguing for that design should be the first to say so rather than the last.
+
+**(2) The thing that killed it is the thing this site is about.** Boltz names *AI-assisted* probing as the cause. The agent economy is not only agents buying and selling — it is also automated adversaries iterating against small teams faster than small teams can respond. This site has argued that machine tempo changes what infrastructure has to look like. It does, in both directions, and the second direction just took a good service off the board. Whether the asymmetry is as permanent as Boltz believes is not yet knowable; that they believe it, after living it, is a data point on its own.
+
+**(3) It is one operator's account, unverified.** Nobody outside Boltz has confirmed the attack pattern, the exploit count, or the losses. It is specific, internally consistent and against their own interest to publish, which is about as credible as a self-report gets — and it is still a self-report.
+
+**(4) The service is off, not gone, and the difference matters operationally.** The API stays up to process refunds cooperatively, support is still reachable, and the live API today serves **Bitcoin L1, Lightning, Liquid and Ark** only — the stablecoin routes this site used to document (USDT0, and native USDC via Circle's CCTP) are withdrawn. So: do not route an agent to Boltz to swap. Do read its notice if you are building anything an agent will depend on.
+
+**Cross-references.** [[Exchange]] (the venue's card is kept, unfeatured, for the record; SideSwap and SideShift carry the non-custodial path now); [[Independence-Doctrine|Independence Doctrine]] (the argument that a dependency you cannot exit is the whole problem — here, exercised); [[Stack]] (§7 — the security patterns, read now from the operator's side of the table rather than the user's); [[Case]] (permissionless custody, demonstrated by its operator's absence rather than its presence); [[Field-Notes]] (State of Play).
+
+**Sources.** [boltz.exchange](https://boltz.exchange) — the suspension notice, dated *3 August 2026*, read directly from the site's production bundle 2026-08-07 (all quotations above are verbatim); [api.boltz.exchange/v2/swap/submarine](https://api.boltz.exchange/v2/swap/submarine) — the live pair census showing Bitcoin L1, Lightning, Liquid and Ark and no stablecoin routes (fetched 2026-08-07).
 
 ---
 

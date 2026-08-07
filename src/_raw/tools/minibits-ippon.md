@@ -12,7 +12,7 @@ site: https://minibits.cash
 x: "@MinibitsCash"
 stack-section: "§5"
 status: published
-last-verified: 2026-06-02
+last-verified: "2026-08-07 (live public instance ippon.minibits.cash probed: /v1/ Swagger, /v1/json OpenAPI 3.0, /mcp initialize OK; evaluation-only label read from the README)"
 order: 32
 prereq-tier: account
 prereqs:
@@ -46,7 +46,11 @@ A Cashu mint to back the wallet (it handles Lightning) and a single HTTP call or
 
 ## Quick start
 
-Run the Ippon API server (or use a hosted instance) and create a wallet with a single HTTP call or the CLI, per the repo README at `github.com/minibits-cash/minibits_ippon`; add `minibits_ippon_mcp` to expose it to MCP clients. The Minibits mobile wallet (Android) is a separate, human-facing product.
+**There is a live public instance, and the README leads with it:** `ippon.minibits.cash` — Swagger UI at `/v1/`, the OpenAPI 3.0 spec at `/v1/json`, service info at `/v1/info`, and an **MCP server at `/mcp` (POST)**. It is also reachable as a Tor hidden service at `eaqmg2oqhay5btz5v75bgknfb3x4q4vesfijjzvgkbgocn5fvhkntwad.onion`. All four HTTP routes verified live 2026-08-07.
+
+⚠ **That instance is for evaluation, not for money you mind losing.** Minibits labels it plainly: *"provided for research, development and testing and evaluation purposes only. It is an alpha software, use it at your own risk, with small amounts only."* For anything beyond a trial, run your own — the server is the same code either way.
+
+Otherwise: run the Ippon API server yourself and create a wallet with a single HTTP call or the CLI, per the repo README at `github.com/minibits-cash/minibits_ippon`; add `minibits_ippon_mcp` to expose it to MCP clients, or run Ippon in CLI mode (`INTERACTION_MODE=cli`) for an agent that would rather spawn a local process than call a host. The Minibits mobile wallet (Android) is a separate, human-facing product.
 
 ## Gotchas
 

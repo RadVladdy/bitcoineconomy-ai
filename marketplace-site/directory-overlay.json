@@ -32,6 +32,15 @@
    "repo": "https://github.com/moneydevkit",
    "note": "Money Dev Kit's hosted MCP - an agent uses it to scaffold and operate an MDK integration (create/connect the app, read docs, configure env, wire up L402/checkout). Build-and-ops tooling, not a runtime wallet; individual tool names are not publicly enumerated. The runtime agent wallet is the @moneydevkit/agent-wallet CLI (npx, self-custodial, no account/API key)."
   },
+  "minibits-ippon": {
+    "kind": "payment",
+    "transport": "http",
+    "url": "https://ippon.minibits.cash/mcp",
+    "package": "minibits_ippon_mcp",
+    "run": "claude mcp add minibits-ippon --transport http https://ippon.minibits.cash/mcp",
+    "repo": "https://github.com/minibits-cash/minibits_ippon",
+    "note": "EVALUATION ONLY - do not fund this endpoint with money you mind losing. It is the operator's own public instance of Ippon, an agent-native Cashu (ecash + Lightning) wallet, and the operator labels it 'provided for research, development and testing and evaluation purposes only. It is an alpha software, use it at your own risk, with small amounts only.' Registered anyway because it is the one live, agent-reachable ecash wallet endpoint in the catalog and an agent should be able to find it - but the endpoint is a trial surface, not a production wallet. For production, run your own Ippon server (same code) and point here for the shape. Verified live 2026-08-07: POST /mcp answers initialize as serverInfo minibits-ippon 1.0.0; the same host serves Swagger UI at /v1/ and an OpenAPI 3.0 spec at /v1/json, plus a Tor hidden service. Custodial by design: the backing Cashu mint holds the value, so standard mint-failure risk applies on top of the alpha label. Tool names are not enumerated here - read them from the server."
+  },
   "lightning-enable": {
    "kind": "payment",
    "transport": "stdio",

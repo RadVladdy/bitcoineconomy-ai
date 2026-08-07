@@ -2,7 +2,7 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-08-07T06:06:53.407Z",
+  "generated_at": "2026-08-07T07:36:16.985Z",
   "tool_count": 28,
   "toolbox_groups": [
     "node-toolkits",
@@ -185,7 +185,7 @@
         "repo": "https://github.com/shocknet"
       },
       "card_url": "https://bitcoineconomy.ai/tools/clink",
-      "last_verified": "2026-06-11"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "contextvm",
@@ -197,6 +197,7 @@
       "maintainer": "ContextVM project & community",
       "prereq_tier": "keys-only",
       "stack_section": "§4",
+      "latest_release": "0.13.10",
       "links": {
         "site": "https://www.contextvm.org",
         "docs": "https://docs.contextvm.org",
@@ -348,7 +349,16 @@
         "repo": "https://github.com/minibits-cash/minibits_ippon"
       },
       "card_url": "https://bitcoineconomy.ai/tools/minibits-ippon",
-      "last_verified": "2026-06-02"
+      "mcp_endpoint": {
+        "kind": "payment",
+        "transport": "http",
+        "url": "https://ippon.minibits.cash/mcp",
+        "package": "minibits_ippon_mcp",
+        "run": "claude mcp add minibits-ippon --transport http https://ippon.minibits.cash/mcp",
+        "repo": "https://github.com/minibits-cash/minibits_ippon",
+        "note": "EVALUATION ONLY - do not fund this endpoint with money you mind losing. It is the operator's own public instance of Ippon, an agent-native Cashu (ecash + Lightning) wallet, and the operator labels it 'provided for research, development and testing and evaluation purposes only. It is an alpha software, use it at your own risk, with small amounts only.' Registered anyway because it is the one live, agent-reachable ecash wallet endpoint in the catalog and an agent should be able to find it - but the endpoint is a trial surface, not a production wallet. For production, run your own Ippon server (same code) and point here for the shape. Verified live 2026-08-07: POST /mcp answers initialize as serverInfo minibits-ippon 1.0.0; the same host serves Swagger UI at /v1/ and an OpenAPI 3.0 spec at /v1/json, plus a Tor hidden service. Custodial by design: the backing Cashu mint holds the value, so standard mint-failure risk applies on top of the alpha label. Tool names are not enumerated here - read them from the server."
+      },
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "xverse-agent-wallet",
@@ -415,6 +425,7 @@
       "prereq_tier": "account",
       "stack_section": "§5",
       "license": "MIT",
+      "latest_release": "v0.5.1",
       "links": {
         "repo": "https://github.com/jan3dev/agentic-aqua"
       },
@@ -431,6 +442,7 @@
       "maintainer": "Money Dev Kit (Nick Slaney)",
       "prereq_tier": "wallet",
       "license": "Apache-2.0 (agent-wallet; some packages unstated)",
+      "latest_release": "0.21.0",
       "links": {
         "site": "https://moneydevkit.com",
         "docs": "https://docs.moneydevkit.com",
@@ -491,6 +503,7 @@
       "prereq_tier": "keys-only",
       "stack_section": "§2",
       "license": "Apache-2.0",
+      "latest_release": "v0.9.0",
       "links": {
         "site": "https://phoenix.acinq.co/server",
         "docs": "https://phoenix.acinq.co/server/api",

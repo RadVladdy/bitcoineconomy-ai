@@ -9,6 +9,8 @@ maintainer: Jan3
 repo: https://github.com/jan3dev/agentic-aqua
 license: MIT
 stack-section: "§5"
+latest-release: v0.5.1
+release-date: "2026-07-24"
 status: experimental
 last-verified: 2026-08-07 (PyPI re-checked; Boltz dependency flagged as suspended)
 order: 35

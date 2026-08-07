@@ -10,14 +10,17 @@ repo: https://github.com/contextvm
 docs: https://docs.contextvm.org
 site: https://www.contextvm.org
 stack-section: "§4"
+latest-release: 0.13.10
+release-date: "2026-07-22"
 status: published
-last-verified: 2026-08-07 (SDK payment surface re-read; gateway now runnable as cvmi serve)
+last-verified: "2026-08-07 (payment processors/handlers enumerated from the published @contextvm/sdk 0.13.10 package: zap/LNbits/NWC serving, LNbits/NWC paying — the NWC-only prereq was wrong; gateway runnable as cvmi serve)"
 order: 16
 prereq-tier: keys-only
 prereqs:
   - "a Nostr keypair — a CVM service is addressed by its public key, not a domain or IP"
   - "relay access — relays are the message bus CVM runs over"
-  - "to charge or pay: an NWC connection string on each side (server to receive and verify, client to pay)"
+  - "to charge: a Lightning address (LUD-16) plus relays, an LNbits instance, or an NWC connection string — the SDK ships a processor for each"
+  - "to pay: an LNbits admin key or an NWC connection string"
 tags:
   - contextvm
   - cvm
@@ -42,11 +45,11 @@ Its distinguishing addition is **CEP-8**, a capability-pricing and payment spec 
 
 ## Dependencies
 
-A Nostr keypair for the server's address, relay access for the transport, and — to charge or pay — an NWC connection string on each side (the server holds one to receive and verify settlement; the client holds one to pay). Built on MCP, so an MCP-capable client or SDK completes the picture.
+A Nostr keypair for the server's address and relay access for the transport. To charge or pay you need a Lightning backend, and **NWC is one option, not the requirement** — as of `@contextvm/sdk` 0.13.10 the **serving** side can use a plain **Lightning address (LUD-16) plus relays**, verifying settlement from NIP-57 zap receipts with no wallet connection at all; or an **LNbits** instance; or **NWC**. The **paying** side takes an LNbits admin key or an NWC string. Built on MCP, so an MCP-capable client or SDK completes the picture.
 
 ## Quick start
 
-Build with the ContextVM **TypeScript SDK** (`@contextvm/sdk`) or the **Rust SDK**; the **Gateway** bridges an existing MCP server onto Nostr without rewriting it — and the one-line way to run it is now `cvmi serve` (with `cvmi use` as the Proxy side); see [cvmi](/tools/cvmi). Pricing rides the SDK's payment API — the server declares its priced capabilities and wraps its transport with a payment processor; the client wraps its transport with the matching payment handler. Both sides take an NWC connection string. Discover live servers with the [cvmi](/tools/cvmi) CLI. The protocol and the CEP series are documented at `docs.contextvm.org`.
+Build with the ContextVM **TypeScript SDK** (`@contextvm/sdk`) or the **Rust SDK**; the **Gateway** bridges an existing MCP server onto Nostr without rewriting it — and the one-line way to run it is now `cvmi serve` (with `cvmi use` as the Proxy side); see [cvmi](/tools/cvmi). Pricing rides the SDK's payment API — the server declares its priced capabilities and wraps its transport with a payment processor; the client wraps its transport with the matching payment handler. **Pick the processor that matches what you already have:** `LnBolt11ZapPaymentProcessor` needs only a Lightning address and relays (settlement is confirmed from NIP-57 zap receipts), `LnBolt11LnbitsPaymentProcessor` needs an LNbits URL plus an invoice key, and `LnBolt11NwcPaymentProcessor` needs an NWC string. On the paying side there is an LNbits handler and an NWC handler. **The lowest-setup path — a Lightning address, no wallet connection — is the one the card used to say did not exist.** Discover live servers with the [cvmi](/tools/cvmi) CLI. The protocol and the CEP series are documented at `docs.contextvm.org`.
 
 ## Gotchas
 

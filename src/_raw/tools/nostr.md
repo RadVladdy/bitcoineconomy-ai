@@ -10,7 +10,7 @@ repo: https://github.com/nostr-protocol/nips
 docs: https://nostr.com/
 site: https://nostr.com/
 stack-section: "§4"
-status: v0-2026-06-06-pending-review
+status: published
 last-verified: 2026-08-07 (NIPs index re-read — NIP-90 is marked unrecommended)
 order: 15
 prereq-tier: keys-only

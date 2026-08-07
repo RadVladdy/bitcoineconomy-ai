@@ -24,6 +24,8 @@ custody: self-custodial Lightning wallets on the network (Pylon/Forum)
 kyc: none
 bitcoin-native: true
 stack-section: "§5"
+latest-release: "Omega — in active development"
+release-date: "2026-08-07"
 status: active
 status-note: |-
   2026-08 — openagents.com now fronts Omega ("your last agent IDE") + OpenForge; docs still document Autopilot; Khala API live

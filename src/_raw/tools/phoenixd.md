@@ -11,6 +11,8 @@ docs: https://phoenix.acinq.co/server/api
 site: https://phoenix.acinq.co/server
 license: Apache-2.0
 stack-section: "§2"
+latest-release: v0.9.0
+release-date: "2026-07-13"
 status: published
 last-verified: 2026-08-03
 order: 38

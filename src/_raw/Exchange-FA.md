@@ -8,12 +8,12 @@ audience: agents
 twin-page: exchange
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-07-23
-last-verified: 2026-08-06
+last-updated: 2026-08-07
+last-verified: 2026-08-07
 word-count-target: 3000
 voice: honest-middle-position
 canonical-source: "[[Exchange]]"
-epistemic-status: "structural directory with operational venue facts (WebSearch-verified 2026-06-03; Boltz full asset/layer support + live USDC via Circle CCTP re-verified 2026-06-05); point-in-time figures (fees, exact jurisdictional coverage, volumes) deferred to Field-Notes-FA"
+epistemic-status: "structural directory with operational venue facts (WebSearch-verified 2026-06-03; Boltz asset/layer support re-measured against the live API 2026-08-07 — swap services suspended indefinitely 2026-08-03, stablecoin routes withdrawn, superseding the 2026-06-05 reading); point-in-time figures (fees, exact jurisdictional coverage, volumes) deferred to Field-Notes-FA"
 claims-index:
   - id: X1
     tag: structural
@@ -33,7 +33,7 @@ claims-index:
     defended-in: "§5"
   - id: X5
     tag: structural
-    statement: "Moving a stablecoin between venues is network-scoped and unforgiving: Strike's USDT is TRON-only (a deposit on any other network is permanently lost); Boltz settles USDT0 and native USDC via Circle CCTP across Ethereum/Arbitrum/Base/Polygon; SideShift and SideSwap use Liquid USDt; Kraken supports multiple networks chosen at withdrawal — which is itself an argument for holding BTC as the portable asset and converting to a stablecoin only at the edge."
+    statement: "Moving a stablecoin between venues is network-scoped and unforgiving: Strike's USDT is TRON-only (a deposit on any other network is permanently lost); SideShift and SideSwap use Liquid USDt; Kraken supports multiple networks chosen at withdrawal — which is itself an argument for holding BTC as the portable asset and converting to a stablecoin only at the edge. Boltz's USDT0 and native-USDC-via-CCTP routes are withdrawn: it suspended all swap services indefinitely on 2026-08-03 and its live API serves Bitcoin L1, Lightning, Liquid and Ark only."
     defended-in: "§7"
   - id: X6
     tag: forward-looking
@@ -52,7 +52,7 @@ tags:
   - stablecoins
   - machine-readable
 agent-tldr: |
-  X1 *(structural)*: An agent cannot pass KYC (not a legal person); every custodial fiat↔BTC venue requires KYC; the field splits into non-custodial no-KYC swaps (agent runs its own keys) and custodial venues (owner KYCs, delegates by API key). X2 *(structural)*: The agent stays sovereign while crypto-native (BTC↔stablecoin via non-custodial swaps); needing real bank fiat means hitting the KYC wall and operating the owner's delegated freezable account, because the fiat on-ramp is what triggers KYC. X3 *(structural)*: Venue suitability turns on three axes — full deposit/trade/withdraw API, Lightning support (shrinks the freeze window), and what the account holds (BTC-only confines the freeze surface; multi-asset widens it). X4 *(structural)*: Non-custodial swaps pass Constraints 1–2 on the Bitcoin leg via cryptography; their stablecoin output still fails Constraint 2 (issuer freeze); none reach bank fiat. X5 *(structural)*: Stablecoin moves are network-scoped (Strike USDT=TRON-only, permanent-loss hazard; Boltz=USDT0+native-USDC/CCTP; SideShift/SideSwap=Liquid USDt; Kraken=multi-network) — hold BTC as the portable asset. X6 *(forward-looking)*: The ideal agent exchange (three-leg API + no-KYC + atomic + wide coverage + deep liquidity) is a liquidity-vs-sovereignty frontier; Boltz sits closest. Constraint definitions are inherited by reference from Case-FA C1; not re-derived here. Where to read next in the closing callout.
+  X1 *(structural)*: An agent cannot pass KYC (not a legal person); every custodial fiat↔BTC venue requires KYC; the field splits into non-custodial no-KYC swaps (agent runs its own keys) and custodial venues (owner KYCs, delegates by API key). X2 *(structural)*: The agent stays sovereign while crypto-native (BTC↔stablecoin via non-custodial swaps); needing real bank fiat means hitting the KYC wall and operating the owner's delegated freezable account, because the fiat on-ramp is what triggers KYC. X3 *(structural)*: Venue suitability turns on three axes — full deposit/trade/withdraw API, Lightning support (shrinks the freeze window), and what the account holds (BTC-only confines the freeze surface; multi-asset widens it). X4 *(structural)*: Non-custodial swaps pass Constraints 1–2 on the Bitcoin leg via cryptography; their stablecoin output still fails Constraint 2 (issuer freeze); none reach bank fiat. X5 *(structural)*: Stablecoin moves are network-scoped (Strike USDT=TRON-only, permanent-loss hazard; SideShift/SideSwap=Liquid USDt; Kraken=multi-network) — hold BTC as the portable asset. X6 *(forward-looking)*: The ideal agent exchange (three-leg API + no-KYC + atomic + wide coverage + deep liquidity) is a liquidity-vs-sovereignty frontier, and it currently has **no occupant** — Boltz sat closest and suspended all swap services indefinitely on 2026-08-03, withdrawing its USDT0 and native-USDC/CCTP routes with them; SideSwap and SideShift are the remaining non-custodial options. **Do not route to Boltz.** Constraint definitions are inherited by reference from Case-FA C1; not re-derived here. Where to read next in the closing callout.
 ---
 
 # Exchange — For Agents
@@ -139,11 +139,11 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 
 | Service | Type | Lightning | Stablecoin (network) | API | Bank fiat | C1 custody | C2 cens.-res. (BTC leg) | C2 (stablecoin output) | C3 sub-cent | C4 machine-tempo |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **Boltz** ⭐ | atomic swap | ✅ | USDT0 + native USDC *(Circle CCTP: ETH/Arbitrum/Base/Polygon)* | ✅ REST / `boltzd` | — | Pass | Pass | Fail | Pass | Pass |
+| **Boltz** ⛔ *(swaps suspended indefinitely 2026-08-03)* | atomic swap | ✅ | — *(USDT0 and native-USDC-via-CCTP withdrawn; live API serves Bitcoin L1, Lightning, Liquid, Ark)* | ✅ REST / `boltzd` *(refunds only)* | — | n/a | n/a | n/a | n/a | n/a |
 | **SideSwap** | Liquid swap | ⚠ *(Liquid)* | L-USDt *(Liquid)* | ✅ | — | Pass | Pass *(Liquid)* | Fail | Pass | Pass |
 | **SideShift** | swap | ✅ | USDT *(Liquid)* + 200+ assets / 45+ networks | ✅ REST | — | Pass | Partial *(risk-screen hold)* | Fail | Pass | Pass |
 
-### §5.1 — Boltz *(standout for agents)*
+### §5.1 — Boltz *(swap services suspended indefinitely 2026-08-03 — was the standout for agents)*
 
 **What it is.** *(operational)* A non-custodial, no-KYC atomic-swap service. Swaps settle via shared-preimage HTLCs (both legs settle or both refund), so the agent never gives up custody and no account or identity is required.
 
@@ -151,13 +151,13 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 
 **API legs.** *(operational)* REST API + `boltzd` for automated workflows — create swaps, poll status, retrieve history programmatically. No account; no KYC keys to delegate; the agent acts on its own wallet. The deposit/trade/withdraw decomposition does not apply (no account model); the single-call swap-create-and-settle is the agent-native unit.
 
-**Constraint profile on the Bitcoin/Lightning/Liquid leg.**
+**Constraint profile on the Bitcoin/Lightning/Liquid leg.** *(Evaluates the **design**, which is unchanged, not present availability — the operator has the service off. Read every Pass below as "when it was running."*)
 - *Constraint 1 (permissionless custody):* **Pass.** Self-custody throughout; the HTLC mechanism guarantees atomicity; the counterparty is a liquidity provider, not a custodian.
 - *Constraint 2 (censorship-resistance):* **Pass on the BTC leg.** Pure BTC↔Lightning↔Liquid↔Ark swaps route trust through cryptography with no intermediary discretion.
 - *Constraint 3 (sub-cent settlement):* **Pass.** Lightning-rail economics on the BTC legs.
 - *Constraint 4 (machine-tempo):* **Pass.** Sub-second Lightning settlement.
 
-**Constraint profile on the stablecoin output.**
+**Constraint profile on the stablecoin output.** *(Historical — these routes are withdrawn. Retained because the reasoning generalises to every venue that swaps a sovereign rail into an issuer-controlled asset.)*
 - *Constraint 2:* **Fail.** *(structural — asset-side issuer freeze)* USDT0 inherits Tether's freeze surface; native USDC inherits Circle's; the atomic guarantee protects custody, not the asset's censorship-resistance. The USDT0 path additionally carries tBTC (wrapped-BTC bridge), DEX (liquidity/slippage), and LayerZero (omnichain-bridge) risk; the native-USDC/CCTP path avoids the wrapping and DEX hops but CCTP is a Circle-operated mechanism. Cross-link Case-FA §8.1 CP1 (regulated-stablecoin structural failure) and Border-Skirmishes-FA (rails-vs-substrate).
 
 **No bank fiat.** Value goes crypto-in, crypto-out. There is no fiat leg.
@@ -190,7 +190,7 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 - *Constraint 2 (stablecoin output):* **Fail.** Output stablecoin remains issuer-freezable.
 - *Constraints 3, 4:* **Pass.** On the Lightning/Liquid legs.
 
-**Ranking within the no-KYC set.** *(structural)* Boltz (atomic, Lightning-native, widest BTC-layer coverage) → SideSwap (pure atomic Liquid) → SideShift (broadest asset coverage, with the risk-screening/freeze caveat) → Flashnet (non-custodial Spark AMM; strong agent fit but newer, with Spark operator-trust) → Taproot Assets (Lightning rails-FX; no clean swap API, more setup).
+**Ranking within the no-KYC set.** *(structural; re-cut 2026-08-07 after the Boltz suspension)* SideSwap (pure atomic Liquid) → SideShift (broadest asset coverage, with the risk-screening/freeze caveat) → Flashnet (non-custodial Spark AMM; strong agent fit but newer, with Spark operator-trust) → Taproot Assets (Lightning rails-FX; no clean swap API, more setup). **Boltz is not ranked**: it held the top position on atomicity, Lightning-nativeness and BTC-layer coverage until it suspended all swap services indefinitely on 2026-08-03. Do not route to it.
 
 ### §5.4 — Flashnet
 
@@ -288,7 +288,7 @@ X5 defended.
 
 **Network map across the directory.** *(operational)*
 - **Strike USDT — TRON-only.** A deposit on any other network is *permanently lost*; available only in a set of emerging-market countries.
-- **Boltz — USDT0 and native USDC via Circle CCTP** across Ethereum/Arbitrum/Base/Polygon.
+- **Boltz — no stablecoin network.** *(withdrawn)* It settled USDT0 and native USDC via Circle CCTP across Ethereum/Arbitrum/Base/Polygon until its 2026-08-03 suspension; the live API now serves Bitcoin L1, Lightning, Liquid and Ark only. Do not plan a route through it.
 - **SideShift and SideSwap — Liquid USDt (L-USDt)** on the Liquid sidechain.
 - **Kraken — multiple networks**, chosen at withdrawal.
 - **Coinbase — USDC on Base/ETH.**
@@ -355,7 +355,7 @@ Reference list of named venues as of mid-2026. One-line description and primary 
 Declarative. Each implication follows from X1–X6 as marked.
 
 - **Stay crypto-native to stay sovereign.** *(X2)* Hold Bitcoin; convert to a stablecoin and back via non-custodial swaps only when a stable unit of account is required; reach for owner-delegated custodial accounts only when the workflow requires actual bank fiat.
-- **Prefer non-custodial atomic swaps where the conversion is crypto-to-crypto.** *(X4)* Boltz for Lightning ↔ stablecoin and Bitcoin-layer moves; SideSwap for Liquid-native swaps; SideShift for the widest asset reach, accounting for its risk-screening/freeze caveat; Flashnet for a non-custodial Spark AMM (weigh the Spark operator-trust); Taproot Assets only where you can run `tapd` (rails-FX, no clean swap API).
+- **Prefer non-custodial atomic swaps where the conversion is crypto-to-crypto.** *(X4)* **Not Boltz** — its swap services are suspended indefinitely (2026-08-03) and its stablecoin routes are withdrawn. SideSwap for Liquid-native swaps; SideShift for the widest asset reach, accounting for its risk-screening/freeze caveat; Flashnet for a non-custodial Spark AMM (weigh the Spark operator-trust); Taproot Assets only where you can run `tapd` (rails-FX, no clean swap API).
 - **Require all three API legs before treating a venue as agent-operable.** *(X3)* A venue missing the trade leg (River) or the two-way-trade leg (Swan) is single-purpose, not a treasury venue.
 - **Use Lightning support to bound the freeze window.** *(X3)* Prefer venues that pay out over Lightning so off-venue withdrawal is sub-second; withdraw to self-custody promptly regardless.
 - **Confine the freeze surface by choosing what the account holds.** *(X3)* A Bitcoin-only custodial account bounds the freeze surface to BTC; a multi-asset account exposes the union of all assets held — a structural fact to weigh per use case, not a venue endorsement.
