@@ -97,9 +97,21 @@ Every step is a signed event, so the whole exchange is auditable by a third part
 
 ## Claims and deliveries (no new kind)
 
-Use [NIP-22](https://github.com/nostr-protocol/nips/blob/master/22.md) grammar exactly: uppercase `A`/`K`/`P` for
-the root scope (this request's address, kind, and the poster's pubkey), lowercase `a`/`k`/`p` when threading a
-reply to another comment. Add two tags:
+Use [NIP-22](https://github.com/nostr-protocol/nips/blob/master/22.md) grammar exactly. **Both scopes are always
+present** — uppercase is the ROOT, lowercase is the PARENT, and NIP-22 states that `K` and `k` MUST both appear:
+
+- **Root scope (uppercase):** `A` = this request's address, `K` = `38556`, `P` = the poster's pubkey.
+- **Parent scope (lowercase), claiming the request directly:** the parent *is* the root, so `a` and `k` repeat the
+  same values (`a` = the request address, `k` = `38556`), and `p` = the poster's pubkey.
+- **Parent scope, replying to somebody else's comment:** the parent is now a kind-1111 event, which is a regular
+  event and has no address — so the parent tag is **`e` = that comment's id**, with `k` = `1111`. Uppercase `A`/`K`
+  stay pointed at the original request.
+
+> **The board indexes claims by the `A` tag.** A comment without `A` (or lowercase `a`) is retrieved by the board's
+> filter and then dropped on the join, because there is nothing to attach it to — so it fails silently rather than
+> loudly. Include the full root scope.
+
+Then add two tags of ours:
 
 ```json
 [

@@ -54,6 +54,9 @@ const KV_L402SPACE = 'l402space';
 const KV_MASTER = 'master';
 const KV_UPTIME = 'uptime';
 const KV_UPTIME_HISTORY = 'uptime_history';
+// Per-tier fetch health for the two external tiers. Written by the 6-hourly pass,
+// read by buildMaster so a frozen tier says so in-band instead of behind a 200.
+const KV_TIER_HEALTH = 'tier_health';
 const SELF_BASE = 'https://marketplace.bitcoineconomy.ai';
 
 // Cloudflare client-WebSocket: fetch with an Upgrade header, then accept().
@@ -292,11 +295,11 @@ async function refreshFromRelays(env) {
   // rows too. Every non-relay tier comes from its last good KV copy — this pass
   // deliberately does not refetch them.
   try {
-    const [uptimeDoc, idx, space] = await Promise.all([
-      readKV(KV_UPTIME), readKV(KV_L402INDEX), readKV(KV_L402SPACE),
+    const [uptimeDoc, idx, space, tierHealth] = await Promise.all([
+      readKV(KV_UPTIME), readKV(KV_L402INDEX), readKV(KV_L402SPACE), readKV(KV_TIER_HEALTH),
     ]);
     const master = buildMaster(
-      { directory: DIRECTORY, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc },
+      { directory: DIRECTORY, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc, tierHealth },
       { generatedAt: new Date().toISOString(), base: SELF_BASE },
     );
     if (master.count > 0 && master.sources?.curated?.rows_contributed > 0) {
@@ -363,16 +366,45 @@ export default {
     // Plain HTTPS fetches — cheap and independent of the relay path, so an outage
     // at either never costs us the Nostr snapshot. Each is non-fatal and only
     // overwrites KV with a non-empty result (don't-overwrite-good-data).
+    //
+    // The guard is right and stays. What was missing is that it is SILENT: on
+    // 2026-08-06 the l402.space tier was found frozen for 82 hours — roughly a
+    // dozen consecutive failed runs against an upstream that was answering 200
+    // the whole time — and nothing anywhere said so. The route served its stale
+    // rows behind a confident 200, and master.json reported the tier
+    // `available: true`. Keeping the last good data is correct; not saying how
+    // old it is, and not counting how long it has been failing, is not.
+    //
+    // So each attempt now records its outcome. `tierHealth` is written to KV and
+    // read back by buildMaster, which publishes age and consecutive_failures per
+    // tier. A run that succeeds resets the counter; a run that fails increments
+    // it and leaves the good data in place, exactly as before.
+    const health = JSON.parse((await env.SNAPSHOT.get(KV_TIER_HEALTH)) || '{}');
+    const noteTier = (name, ok, err) => {
+      const prev = health[name] || {};
+      health[name] = ok
+        ? { last_success: new Date().toISOString(), consecutive_failures: 0 }
+        : {
+            last_success: prev.last_success || null,
+            consecutive_failures: (prev.consecutive_failures || 0) + 1,
+            last_error: String(err?.message || err || 'unknown').slice(0, 200),
+            last_failure: new Date().toISOString(),
+          };
+    };
+
     let doc402 = null;
     let docSpace = null;
     try {
       const d = buildL402Index(await fetch402index(fetch), { generatedAt: new Date().toISOString(), source: 'worker-cron (via 402index.io)' });
-      if (d.count > 0) { doc402 = d; await env.SNAPSHOT.put(KV_L402INDEX, JSON.stringify(d)); }
-    } catch {}
+      if (d.count > 0) { doc402 = d; await env.SNAPSHOT.put(KV_L402INDEX, JSON.stringify(d)); noteTier('external-index', true); }
+      else noteTier('external-index', false, 'upstream returned 0 rows');
+    } catch (err) { noteTier('external-index', false, err); }
     try {
       const d = buildL402SpaceDoc(await fetchL402Space(fetch), { generatedAt: new Date().toISOString(), source: 'worker-cron (via l402.space)' });
-      if (d.count > 0) { docSpace = d; await env.SNAPSHOT.put(KV_L402SPACE, JSON.stringify(d)); }
-    } catch {}
+      if (d.count > 0) { docSpace = d; await env.SNAPSHOT.put(KV_L402SPACE, JSON.stringify(d)); noteTier('gateway-observed', true); }
+      else noteTier('gateway-observed', false, 'upstream returned 0 rows');
+    } catch (err) { noteTier('gateway-observed', false, err); }
+    try { await env.SNAPSHOT.put(KV_TIER_HEALTH, JSON.stringify(health)); } catch {}
 
     // The mastered directory: all four sources merged into one row shape and one
     // category vocabulary. Built last, from whatever this run produced — and for
@@ -391,7 +423,7 @@ export default {
         lastGood(KV_L402SPACE, docSpace),
       ]);
       const master = buildMaster(
-        { directory: DIRECTORY, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc },
+        { directory: DIRECTORY, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc, tierHealth: health },
         { generatedAt: new Date().toISOString(), base: SELF_BASE },
       );
       // Belt and braces on top of the bundled import: a master that lost the

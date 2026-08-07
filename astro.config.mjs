@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { unified } from '@astrojs/markdown-remark';
 import remarkVisuals from './src/lib/remark-visuals.mjs';
 import remarkCallouts from './src/lib/remark-callouts.mjs';
 
@@ -78,7 +79,14 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    remarkPlugins: [remarkCallouts, remarkVisuals],
+    // `markdown.remarkPlugins` was deprecated in favour of passing the plugin
+    // list to `unified()` and handing the result to `markdown.processor`.
+    // Migrated 2026-08-06. This is NOT cosmetic: remarkCallouts renders every
+    // `> [!info]` block and remarkVisuals renders every diagram, so when the old
+    // option is removed in a future Astro major, both would silently stop
+    // rendering site-wide. Verified by diffing the built HTML of five
+    // callout- and diagram-heavy pages before and after — byte-identical.
+    processor: unified({ remarkPlugins: [remarkCallouts, remarkVisuals] }),
     shikiConfig: {
       theme: 'github-dark',
     },

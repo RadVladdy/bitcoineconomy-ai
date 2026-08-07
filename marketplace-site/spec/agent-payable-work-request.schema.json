@@ -46,7 +46,106 @@
           "type": "string"
         },
         "minItems": 1
-      }
+      },
+      "allOf": [
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "d"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ]
+          },
+          "$comment": "at least one `d` tag is required"
+        },
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "k"
+              },
+              {
+                "enum": [
+                  "inference",
+                  "compute",
+                  "data",
+                  "machine-work",
+                  "verification",
+                  "commerce",
+                  "privacy",
+                  "swap",
+                  "trading",
+                  "liquidity",
+                  "payments",
+                  "fiat-ramp"
+                ]
+              }
+            ]
+          },
+          "$comment": "at least one `k` tag is required"
+        },
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "amount"
+              },
+              {
+                "type": "string",
+                "pattern": "^[0-9]+$"
+              }
+            ]
+          },
+          "$comment": "at least one `amount` tag is required"
+        },
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "pay"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ]
+          },
+          "$comment": "at least one `pay` tag is required"
+        },
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "status"
+              },
+              {
+                "enum": [
+                  "open",
+                  "claimed",
+                  "delivered",
+                  "settled",
+                  "withdrawn"
+                ]
+              }
+            ]
+          },
+          "$comment": "at least one `status` tag is required"
+        }
+      ]
     }
   },
   "$comment": "Tag grammar: d=stable request id (replaceability key) · k=category (inference|compute|data|machine-work|verification|commerce|privacy|swap|trading|liquidity|payments|fiat-ramp) · amount=offered amount in MILLISATS, matching NIP-57 units exactly (50000000 = 50000 sats) · pay=settlement method (repeatable: zaps|lightning|cashu|l402) · status=open|claimed|delivered|settled|withdrawn · expiration=NIP-40 unix timestamp · a=address of a targeted listing (repeatable) · p=targeted pubkey · u=url the work concerns · t=freeform topic. The directory never escrows, arbitrates, or charges a fee."

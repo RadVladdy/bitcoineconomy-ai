@@ -309,7 +309,7 @@ function dedupe(rows) {
  * Every input is optional — a source that failed to refresh is simply absent,
  * and `sources[].available` says so rather than the table silently shrinking.
  */
-export function buildMaster({ directory, snapshot, l402index, l402space, uptime }, { generatedAt, base = 'https://marketplace.bitcoineconomy.ai' } = {}) {
+export function buildMaster({ directory, snapshot, l402index, l402space, uptime, tierHealth }, { generatedAt, base = 'https://marketplace.bitcoineconomy.ai' } = {}) {
   const parts = [
     ['curated', fromCurated(directory), directory],
     ['announced', fromAnnounced(snapshot, uptime), snapshot],
@@ -365,11 +365,34 @@ export function buildMaster({ directory, snapshot, l402index, l402space, uptime 
       rail_is_not_smoothed: 'A row payable only through a gateway is labelled via-gateway. Paying that way means trusting an intermediary with the sats leg; the directory states it rather than averaging it into "payable".',
       dedupe_is_additive: 'A service found in more than one source appears once, under its highest-authority row, with the corroborating observations kept in `also_in`.',
     },
+    // Per-tier freshness, published in-band. `available: true` on its own says a
+    // tier contributed rows; it does NOT say those rows are current, and on
+    // 2026-08-06 the gateway tier was 82 hours stale behind exactly that flag
+    // while its upstream answered 200 throughout. `age_hours` and `stale` make
+    // the difference legible without a reader having to diff timestamps, and
+    // `consecutive_failures` distinguishes "refreshed a moment ago" from "has
+    // been failing for a dozen runs and is serving the last good copy".
     sources: Object.fromEntries(parts.map(([key, rows, doc]) => [key, {
       ...SOURCES[key],
       available: Boolean(doc),
       rows_contributed: rows.length,
       generated_at: doc?.generated_at || null,
+      ...(() => {
+        const ts = Date.parse(doc?.generated_at || '');
+        const ageHours = Number.isFinite(ts) ? (Date.parse(generatedAt) - ts) / 3.6e6 : null;
+        // Relay-derived tiers refresh hourly; the external tiers ride the
+        // 6-hourly pass. Judge each against its own clock — a 6-hour-old probe
+        // tier is on time, and calling it stale would cry wolf every run.
+        const budget = (key === 'curated' || key === 'announced') ? 3 : 12;
+        const h = tierHealth?.[key] || null;
+        return {
+          age_hours: ageHours === null ? null : Math.round(ageHours * 10) / 10,
+          stale: ageHours === null ? null : ageHours > budget,
+          stale_after_hours: budget,
+          consecutive_failures: h ? (h.consecutive_failures ?? 0) : null,
+          last_fetch_error: h?.consecutive_failures ? (h.last_error ?? null) : null,
+        };
+      })(),
       attribution: doc?.attribution || null,
       document: {
         curated: base + '/directory.json',

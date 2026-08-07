@@ -28,6 +28,26 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
   const checks = [
     {
       key: 'self:directory.json',
+      // unprobeableOnFail added 2026-08-06, and it is honesty rather than a
+      // cover-up: under a Custom Domain there is NOTHING behind this hostname
+      // but the Worker itself, so a self-fetch of any path on it cannot
+      // succeed. Reporting `unreachable` was a false claim about a route that
+      // answers externally in ~0.17s.
+      //
+      // Why it worked for 53 runs and then stopped: until 2026-08-05 the
+      // hostname was a ZONE ROUTE, and a Worker's subrequest to its own zone
+      // route falls through to whatever sits behind it — here, the shadowed
+      // Pages project that was still building on every push. So the pre-08-05
+      // successes were a *different, stale copy* answering, which is its own
+      // warning: this probe was green while reading a document that was not
+      // the one we serve. The zone route became a Custom Domain and the Pages
+      // project was deleted on 2026-08-05 (~12:2x MDT); the first failure is
+      // 2026-08-05T18:18:57Z, inside that window.
+      //
+      // The real verification is EXTERNAL, from the box: marketplace-anchor's
+      // nightly external_probe now covers /directory.json too, so this row has
+      // a watcher that can actually see it rather than merely going quiet.
+      unprobeableOnFail: true,
       run: async (signal) => {
         const res = await fetchFn(base + '/directory.json', { signal, headers: { accept: 'application/json' } });
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -36,15 +56,23 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
         return res.status;
       },
     },
-    // Worker-served routes (/live/*, /mcp) cannot be probed from inside this
-    // Worker — Cloudflare's recursion guard blocks a Worker fetching routes it
-    // serves itself (observed on the first live run, 2026-07-23: false
-    // "unreachable"). Honesty rule: don't report a route as down when the
-    // prober simply cannot see it. We still attempt the fetch (self-healing if
-    // the platform ever allows it); failure maps to unprobeable-from-worker,
-    // excluded from uptime denominators. Their TRUE external verification runs
-    // nightly from the box (marketplace-anchor → anchors/index.json
-    // external_probe block).
+    // NOTHING on this hostname can be probed from inside this Worker.
+    //
+    // The explanation here used to say "Cloudflare's recursion guard blocks a
+    // Worker fetching routes it serves itself". That was a reasonable guess in
+    // 2026-07-23 and it is wrong, so it is corrected rather than left to be
+    // re-derived: the hostname is a Custom Domain, the Worker IS the only thing
+    // behind it, and a self-fetch has nowhere else to land. The reason /live/*
+    // and /mcp failed from the start while /directory.json appeared to work is
+    // not recursion — it is that the zone route then in place fell through to a
+    // shadow Pages copy, which held the static file and not the computed routes.
+    //
+    // Honesty rule, unchanged and now applied to all three: don't report a route
+    // as down when the prober cannot see it. We still attempt the fetch (self-
+    // healing if the platform ever allows it); failure maps to
+    // unprobeable-from-worker and is excluded from uptime denominators. TRUE
+    // external verification runs nightly from the box (marketplace-anchor →
+    // anchors/index.json external_probe block).
     {
       key: 'self:live/snapshot.json',
       unprobeableOnFail: true,
@@ -80,8 +108,17 @@ export async function probeSelf(fetchFn, base, { timeoutMs = 8000 } = {}) {
     try {
       const httpStatus = await c.run(ctrl.signal);
       out.push({ key: c.key, status: 'alive', latency_ms: Math.round(Date.now() - t0), http_status: httpStatus });
-    } catch {
-      out.push({ key: c.key, status: c.unprobeableOnFail ? 'unprobeable-from-worker' : 'unreachable' });
+    } catch (err) {
+      // Keep the reason. This was a bare `catch {}`, and discarding the error is
+      // the single thing that made the 2026-08-05 self-probe regression opaque
+      // enough to need three passes to diagnose: the row said "unreachable" and
+      // nothing anywhere recorded WHY. A probe that cannot say why it failed is
+      // a probe you have to reverse-engineer.
+      out.push({
+        key: c.key,
+        status: c.unprobeableOnFail ? 'unprobeable-from-worker' : 'unreachable',
+        error: String(err?.message || err || 'unknown').slice(0, 200),
+      });
     } finally {
       clearTimeout(timer);
     }
@@ -160,10 +197,14 @@ export function buildUptimeDoc(history, { generatedAt } = {}) {
       + 'status==="unreachable" across runs and apply the formula. The stats in targets{} carry no information '
       + 'beyond the runs.',
     self_probe_note:
-      'self:* rows are probed by the Worker via its own public hostname. Worker-served routes (self:live/*, '
-      + 'self:mcp) cannot be probed from inside the Worker (platform recursion guard) — they appear as '
-      + 'unprobeable-from-worker, never as down. Their genuinely external verification runs nightly and is '
-      + 'recorded in the anchor records at /anchors/index.json (external_probe).',
+      'self:* rows are attempted by the Worker against its own public hostname, and none of them can succeed: '
+      + 'marketplace.bitcoineconomy.ai is a Custom Domain, so this Worker is the only thing behind it and a '
+      + 'self-fetch has nowhere else to land. All self:* rows therefore report unprobeable-from-worker and are '
+      + 'excluded from every uptime denominator — never counted as down. (Before 2026-08-05 the hostname was a '
+      + 'zone route and self:directory.json appeared alive, because the fetch fell through to a shadowed Pages '
+      + 'copy holding the static file; that copy is gone, and its readings were of a stale document anyway.) '
+      + 'The genuinely external verification runs nightly from outside Cloudflare and is recorded in the anchor '
+      + 'records at /anchors/index.json (external_probe), which covers /directory.json as of 2026-08-06.',
     anchors:
       'Snapshot digests are signed to public Nostr relays and stamped into Bitcoin via OpenTimestamps on a nightly '
       + 'anchor run — the anchor records live at /anchors/ (and in the public site repo), so this history is '

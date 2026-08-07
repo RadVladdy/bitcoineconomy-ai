@@ -157,8 +157,17 @@
   /* Stale: the figures stop reading as current. They are still shown — greyed,
      dated and labelled — because hiding them would be its own dishonesty. */
   .sb-line.stale .f, .sb-line.stale .f b { color: var(--dim); font-weight: 400; }
-  .sb-stamp { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; color: #6b6b66; }
-  .sb-stamp a { color: #6b6b66; }
+  .sb-stamp { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; color: #8a8a84; }
+  /* At phone widths this bar clipped ~120px of its own text: .statusbar is
+     overflow:hidden (for the border radius) and the figures were nowrap, so
+     there was no scrollbar and no way to reach the tail. What got cut was the
+     self-probe warning and its "recompute it" link — the one thing a status bar
+     exists to surface. Let the figures wrap instead of hiding them. */
+  @media (max-width: 560px) {
+    .sb-line .f, .sb-line .f.q, .sb-stamp { white-space: normal; }
+    .sb-stamp { margin-left: 0; }
+  }
+  .sb-stamp a { color: #8a8a84; }
   .sb-stamp a:hover { color: var(--agent); }
   .pill {
     font: 500 0.66rem/1 "JetBrains Mono", monospace;
@@ -201,7 +210,7 @@
 
   .ok { color: var(--agent); font-weight: 500; }
   .mut { color: var(--dim); }
-  .backtop { display: inline-block; margin-top: 1rem; font: 500 0.78rem/1 "JetBrains Mono", monospace; color: #6b6b66; text-decoration: none; }
+  .backtop { display: inline-block; margin-top: 1rem; font: 500 0.78rem/1 "JetBrains Mono", monospace; color: #8a8a84; text-decoration: none; }
   .backtop:hover { color: var(--agent); }
 
   /* ---- section headings ---- */
@@ -265,7 +274,14 @@
     cursor: pointer;
     transition: border-color 0.12s ease, color 0.12s ease;
   }
+  /* The chips were <span>s until 2026-08-06 — clickable, and completely
+     unreachable by keyboard: tabIndex -1, no role, no aria-pressed, and Enter
+     and Space did nothing. They are <button>s now, which buys keyboard
+     operation and the pressed state for free; the click handler is delegated
+     on the container, so it kept working untouched. */
+  .chip { appearance: none; -webkit-appearance: none; text-align: left; }
   .chip:hover { border-color: rgba(139,124,255,0.5); color: var(--text); }
+  .chip:focus-visible { outline: 2px solid var(--agent); outline-offset: 2px; }
   .chip.on { color: #0a0a0b; background: linear-gradient(160deg, #a99dff, var(--agent)); border-color: transparent; }
   select, input[type="search"] {
     font: 500 0.8rem/1 "JetBrains Mono", monospace;
@@ -333,7 +349,7 @@
   }
   .card-foot a { color: var(--dim); }
   .card-foot a:hover { color: var(--agent); }
-  .prov { margin-left: auto; font: 400 0.68rem/1.4 "JetBrains Mono", monospace; color: #6b6b66; }
+  .prov { margin-left: auto; font: 400 0.68rem/1.4 "JetBrains Mono", monospace; color: #8a8a84; }
 
   /* ---- live section ---- */
   /* The stat-tile grid retired with the reorder — those five figures are now the
@@ -361,7 +377,7 @@
   .st-tor { color: var(--warm); }
   .st-unk { color: var(--dim); }
   .lat { font: 400 0.7rem/1.4 "JetBrains Mono", monospace; color: var(--dim); }
-  .fineprint { font-size: 0.8rem; color: #6b6b66; margin-top: 0.7rem; max-width: 50rem; }
+  .fineprint { font-size: 0.8rem; color: #8a8a84; margin-top: 0.7rem; max-width: 50rem; }
   .more-row { text-align: center; }
   .more-row button {
     font: 500 0.8rem/1 "JetBrains Mono", monospace;
@@ -429,7 +445,7 @@
   .bty-foot {
     display: flex; flex-wrap: wrap; gap: 0.5rem 0.8rem; align-items: center;
     margin-top: auto; padding-top: 0.6rem; border-top: 1px solid #1a1a1c;
-    font: 400 0.72rem/1.4 "JetBrains Mono", monospace; color: #6b6b66;
+    font: 400 0.72rem/1.4 "JetBrains Mono", monospace; color: #8a8a84;
   }
   .bty-foot a { color: var(--agent); text-decoration: none; }
   .bty-foot a:hover { text-decoration: underline; }
@@ -459,10 +475,10 @@
   .cm-n { font: 500 0.7rem/1 "JetBrains Mono", monospace; color: var(--agent); margin-left: auto; }
   .cm-subs { margin-top: 0.4rem; font: 400 0.72rem/1.65 "JetBrains Mono", monospace; color: var(--dim); word-break: break-word; }
   .cm-subs .s { white-space: nowrap; }
-  .cm-subs .c { color: #5f5f5b; }
+  .cm-subs .c { color: #8a8a84; }
   /* An unclassified remainder is stated, never folded into a subcategory that
      did not claim it — same rule as the trust denominators. */
-  .cm-rest { color: #6b6b66; font-style: italic; }
+  .cm-rest { color: #8a8a84; font-style: italic; }
 
   footer {
     text-align: center;
@@ -514,7 +530,7 @@
   </div>
   <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · agents: <a href="/llms.txt">llms.txt</a> + <a href="/live/master.json">master.json</a></p>
 
-  <div class="statusbar" id="statusbar" aria-label="Live status of the directory and the inventory underneath it">
+  <div class="statusbar" id="statusbar" role="status" aria-live="polite" aria-label="Live status of the directory and the inventory underneath it">
     <div class="sb-line" id="sb-dir"><span class="mut">loading the directory…</span></div>
     <div class="sb-line" id="sb-live"><span class="mut">reading the relays…</span></div>
   </div>
@@ -576,8 +592,8 @@
   <p class="sec-sub">The other direction. Above is what an agent can <strong>buy</strong>; this is what it can <strong>earn</strong> — signed offers to pay an agent in sats to do a specific job, with a public test for what counts as done. <strong>We never touch the money:</strong> no escrow, no account, no fee, no arbitration. Posters and workers pay each other directly; this board reads the receipts, it never issues them. <a href="#about">How a bounty works ↓</a></p>
 
   <div class="filters" id="board-filters" hidden>
-    <span class="chip on" data-bs="open">open now</span>
-    <span class="chip" data-bs="all">all requests</span>
+    <button type="button" class="chip on" aria-pressed="true" data-bs="open">open now</button>
+    <button type="button" class="chip" aria-pressed="false" data-bs="all">all requests</button>
     <span class="count" id="board-count"></span>
   </div>
 
@@ -603,8 +619,8 @@
 
   <h3 style="font: 700 1.02rem/1.3 'Space Grotesk', Inter, sans-serif; margin: 1.6rem 0 0.6rem;">Routstr inference providers <span class="mono" id="prov-count"></span></h3>
   <div class="filters" id="prov-filters">
-    <span class="chip on" data-reach="alive">alive now</span>
-    <span class="chip" data-reach="all">all announced</span>
+    <button type="button" class="chip on" aria-pressed="true" data-reach="alive">alive now</button>
+    <button type="button" class="chip" aria-pressed="false" data-reach="all">all announced</button>
     <select id="f-net" aria-label="Filter providers by network"><option value="">network: any</option><option value="clearnet">clearnet only</option><option value="both">clearnet + tor</option><option value="tor">tor-only</option></select>
   </div>
   <div class="tbl-scroll">
@@ -697,7 +713,7 @@
   //   6. qualifiers stay inline, not footnoted ("signed reviews (of mints)")
   const sbDir = $('#sb-dir'), sbLive = $('#sb-live');
   const fig = (n, label) => '<span class="f"><b>' + n + '</b> ' + label + '</span>';
-  const SEP = '<span class="sep">·</span>';
+  const SEP = '<span class="sep" aria-hidden="true">·</span>';
   const bar = (bits) => bits.filter(Boolean).join(SEP);
   const stamp = (inner) => '<span class="sb-stamp">' + inner + '</span>';
 
@@ -757,11 +773,11 @@
     // tier reads as "0 today" instead of an empty table with no explanation.
     function chipRow(rowEl, key, items) {
       rowEl.insertAdjacentHTML('beforeend',
-        '<span class="chip on" data-k="' + key + '" data-v="">all</span>' +
+        '<button type="button" class="chip on" aria-pressed="true" data-k="' + key + '" data-v="">all</button>' +
         items.map(([v, label, n, title]) =>
-          '<span class="chip" data-k="' + key + '" data-v="' + esc(v) + '"' +
+          '<button type="button" class="chip" aria-pressed="false" data-k="' + key + '" data-v="' + esc(v) + '"' +
           (title ? ' title="' + esc(title) + '"' : '') + '>' + esc(label) +
-          '<span class="n">' + n + '</span></span>').join(''));
+          '<span class="n">' + n + '</span></button>').join(''));
     }
 
     chipRow($('#f-source-row'), 'source',
@@ -809,7 +825,7 @@
       const k = chip.dataset.k;
       state[k] = chip.dataset.v;
       $('#dir-filters').querySelectorAll('.chip[data-k="' + k + '"]')
-        .forEach((c) => c.classList.toggle('on', c === chip));
+        .forEach((c) => { const on = c === chip; c.classList.toggle('on', on); c.setAttribute('aria-pressed', String(on)); });
       render();
     });
     catSel.addEventListener('change', () => { state.cat = catSel.value; state.sub = ''; fillSubs(); render(); });

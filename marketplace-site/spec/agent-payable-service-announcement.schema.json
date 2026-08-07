@@ -46,7 +46,85 @@
           "type": "string"
         },
         "minItems": 1
-      }
+      },
+      "allOf": [
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "d"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ]
+          },
+          "$comment": "at least one `d` tag is required"
+        },
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "k"
+              },
+              {
+                "enum": [
+                  "inference",
+                  "compute",
+                  "data",
+                  "machine-work",
+                  "verification",
+                  "commerce",
+                  "privacy",
+                  "swap",
+                  "trading",
+                  "liquidity",
+                  "payments",
+                  "fiat-ramp"
+                ]
+              }
+            ]
+          },
+          "$comment": "at least one `k` tag is required"
+        },
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "u"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ]
+          },
+          "$comment": "at least one `u` tag is required"
+        },
+        {
+          "contains": {
+            "type": "array",
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "const": "pay"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ]
+          },
+          "$comment": "at least one `pay` tag is required"
+        }
+      ]
     }
   },
   "$comment": "Tag grammar: d=stable service id (replaceability key) · k=category (inference|compute|data|machine-work|verification|commerce|privacy|swap|trading|liquidity|payments|fiat-ramp) · u=endpoint url (repeatable; clearnet https probed, .onion shown) · pay=payment method (repeatable: lightning|l402|cashu|nwc|onchain|liquid|spark|zaps) · mint=accepted Cashu mint url (repeatable) · auth=none|api-key|account · pricing=price-list url · version=string."

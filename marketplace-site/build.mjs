@@ -448,6 +448,41 @@ for (const cat of categories) {
 }
 writeFileSync(join(HERE, 'llms.txt'), llms.join('\n'));
 
+// --- the /live/ route table -----------------------------------------------------
+// ONE list, because agents.txt exists so the advertised routes cannot drift from
+// the real ones — and it drifted anyway. The block below used to be a hardcoded
+// array literal and was short by two: /live/l402index.json and /live/l402space.json,
+// which are the SOLE documents for the external-index and gateway-observed tiers,
+// 77 of the 100 rows in the merged directory. An agent discovering the marketplace
+// through agents.txt could not reach either. Found 2026-08-06.
+//
+// The assertion below is the part that matters: it reads the routes worker.js
+// actually serves and fails the build if this table disagrees, in either
+// direction. A doc list that is merely *correct today* goes stale; a doc list
+// that is *checked against the code* cannot.
+const LIVE_ROUTES = [
+  { path: '/live/master.json', blurb: 'the merged view across all four sources — start here.' },
+  { path: '/live/snapshot.json', blurb: 'relay reads + endpoint probes + the sats price index.' },
+  { path: '/live/models.json', blurb: 'model pricing across providers.' },
+  { path: '/live/l402index.json', blurb: "402index.io's indexed endpoints, attributed." },
+  { path: '/live/l402space.json', blurb: "the gateway-observed tier — hosts settling through Alby's l402.space." },
+  { path: '/live/uptime.json', blurb: 'rolling probe history, recomputable, with its denominator.' },
+  { path: '/live/announced.json', blurb: `kind-${KIND_ANNOUNCE} sell-side announcements.` },
+  { path: '/live/bounties.json', blurb: `kind-${KIND_REQUEST} buy-side work requests (the bounty board).` },
+];
+{
+  const workerSrc = readFileSync(join(HERE, 'worker.js'), 'utf8');
+  const served = [...workerSrc.matchAll(/url\.pathname === '(\/live\/[a-z0-9.]+)'/g)].map((m) => m[1]);
+  const documented = LIVE_ROUTES.map((r) => r.path);
+  const undocumented = served.filter((p) => !documented.includes(p));
+  const phantom = documented.filter((p) => !served.includes(p));
+  if (undocumented.length || phantom.length) {
+    if (undocumented.length) console.error(`  !! worker.js serves undocumented /live/ route(s): ${undocumented.join(', ')}`);
+    if (phantom.length) console.error(`  !! LIVE_ROUTES advertises route(s) worker.js does not serve: ${phantom.join(', ')}`);
+    throw new Error('LIVE_ROUTES is out of step with worker.js — fix the table or the worker, do not ship a lying manifest');
+  }
+}
+
 // --- robots.txt + agents.txt ----------------------------------------------------
 // The subdomain served llms.txt but 404'd both of these until 2026-08-05, while the
 // apex served all three. Nothing was blocked — a missing robots.txt is permissive by
@@ -486,12 +521,7 @@ const agents = [
   `- ${BASE}/.well-known/ai-plugin.json — plugin-era discovery manifest.`,
   '',
   '## Live data',
-  `- ${BASE}/live/snapshot.json — relay reads + endpoint probes + the sats price index.`,
-  `- ${BASE}/live/models.json — model pricing across providers.`,
-  `- ${BASE}/live/master.json — the merged view.`,
-  `- ${BASE}/live/uptime.json — rolling probe history.`,
-  `- ${BASE}/live/announced.json — kind-${KIND_ANNOUNCE} sell-side announcements.`,
-  `- ${BASE}/live/bounties.json — kind-${KIND_REQUEST} buy-side work requests (the bounty board).`,
+  ...LIVE_ROUTES.map((r) => `- ${BASE}${r.path} — ${r.blurb}`),
   '',
   '> A 200 on a /live/ route does not prove the refresh cron is healthy — these',
   '> fall back to a committed snapshot when KV is cold. Check the timestamp inside',
@@ -895,6 +925,26 @@ const specMd = [
 mkdirSync(join(HERE, 'spec'), { recursive: true });
 writeFileSync(join(HERE, 'spec', 'agent-payable-service-announcement.md'), specMd);
 
+// A Nostr `tags` value is a list of string arrays, and JSON Schema CAN say
+// "must contain a tag named X" — `contains` + `prefixItems`. Until 2026-08-06
+// these schemas did not, so a validator accepted an event with NO TAGS AT ALL
+// while the sibling `description` called five of them REQUIRED, and accepted
+// garbage values for `k`, `status` and `amount`.
+//
+// That is worse than shipping no schema. The board never validates with these —
+// `indexRequests` has its own malformed[] logic — so the only consumer is a
+// STRANGER implementing our microstandard, and we were handing them a green
+// light for an event this directory files as malformed. Requirements stated
+// only in prose are documentation; requirements in the schema are a contract.
+const mustHaveTag = (name, valueSchema) => ({
+  contains: {
+    type: 'array',
+    minItems: 2,
+    prefixItems: [{ const: name }, valueSchema ?? { type: 'string', minLength: 1 }],
+  },
+  $comment: `at least one \`${name}\` tag is required`,
+});
+
 const specSchema = {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
   $id: BASE + '/spec/agent-payable-service-announcement.schema.json',
@@ -916,6 +966,12 @@ const specSchema = {
       type: 'array',
       description: `Nostr tags (arrays of strings). Required: one d, one k, >=1 u, >=1 pay. Optional: sub, mint*, auth, pricing, version. Valid k values: ${CATEGORY_ORDER.join(', ')}.`,
       items: { type: 'array', items: { type: 'string' }, minItems: 1 },
+      allOf: [
+        mustHaveTag('d'),
+        mustHaveTag('k', { enum: [...CATEGORY_ORDER] }),
+        mustHaveTag('u'),
+        mustHaveTag('pay'),
+      ],
     },
   },
   $comment:
@@ -1062,9 +1118,21 @@ const requestSpecMd = [
   '',
   '## Claims and deliveries (no new kind)',
   '',
-  'Use [NIP-22](https://github.com/nostr-protocol/nips/blob/master/22.md) grammar exactly: uppercase `A`/`K`/`P` for',
-  'the root scope (this request\'s address, kind, and the poster\'s pubkey), lowercase `a`/`k`/`p` when threading a',
-  'reply to another comment. Add two tags:',
+  'Use [NIP-22](https://github.com/nostr-protocol/nips/blob/master/22.md) grammar exactly. **Both scopes are always',
+  'present** — uppercase is the ROOT, lowercase is the PARENT, and NIP-22 states that `K` and `k` MUST both appear:',
+  '',
+  '- **Root scope (uppercase):** `A` = this request\'s address, `K` = `' + KIND_REQUEST + '`, `P` = the poster\'s pubkey.',
+  '- **Parent scope (lowercase), claiming the request directly:** the parent *is* the root, so `a` and `k` repeat the',
+  '  same values (`a` = the request address, `k` = `' + KIND_REQUEST + '`), and `p` = the poster\'s pubkey.',
+  '- **Parent scope, replying to somebody else\'s comment:** the parent is now a kind-1111 event, which is a regular',
+  '  event and has no address — so the parent tag is **`e` = that comment\'s id**, with `k` = `1111`. Uppercase `A`/`K`',
+  '  stay pointed at the original request.',
+  '',
+  '> **The board indexes claims by the `A` tag.** A comment without `A` (or lowercase `a`) is retrieved by the board\'s',
+  '> filter and then dropped on the join, because there is nothing to attach it to — so it fails silently rather than',
+  '> loudly. Include the full root scope.',
+  '',
+  'Then add two tags of ours:',
   '',
   '```json',
   JSON.stringify([['status', 'delivered'], ['proof', 'https://example.com/the-work']], null, 2),
@@ -1143,6 +1211,15 @@ const requestSchema = {
       type: 'array',
       description: `Nostr tags (arrays of strings). Required: one d, one k, one amount, >=1 pay, one status. Optional: sub, expiration, a*, p*, u, t. Valid k values: ${CATEGORY_ORDER.join(', ')}. Valid status values: ${STATUSES.join(', ')}.`,
       items: { type: 'array', items: { type: 'string' }, minItems: 1 },
+      allOf: [
+        mustHaveTag('d'),
+        mustHaveTag('k', { enum: [...CATEGORY_ORDER] }),
+        // millisats, matching NIP-57 units — a decimal or a sats figure here is
+        // the difference between offering 50,000 sats and offering 50.
+        mustHaveTag('amount', { type: 'string', pattern: '^[0-9]+$' }),
+        mustHaveTag('pay'),
+        mustHaveTag('status', { enum: [...STATUSES] }),
+      ],
     },
   },
   $comment:

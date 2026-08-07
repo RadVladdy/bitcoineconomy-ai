@@ -136,8 +136,8 @@ function tileHtml(col, cards) {
 // Which essay headings receive which card group (matched by substring).
 const CARD_TILES = {
   'Exchange.md': [
-    { needle: 'Non-custodial, no-KYC swaps', col: 'exchanges', cats: ['noncustodial-swap'] },
-    { needle: 'Custodial venues', col: 'exchanges', cats: ['custodial-bitcoin-only', 'custodial-multi-asset'] },
+    { needle: 'Non-custodial, no-KYC swaps', col: 'exchanges', cats: ['noncustodial-swap', 'p2p-noncustodial'] },
+    { needle: 'Custodial venues', col: 'exchanges', cats: ['custodial-bitcoin-only', 'custodial-multi-asset', 'derivatives-venue'] },
   ],
   'Services.md': [
     { needle: 'Featured services', col: 'services', cats: ['machine-work-marketplace', 'inference-marketplace', 'inference-gateway'] },
@@ -348,6 +348,34 @@ for (const file of fs.readdirSync(RAW)) {
   surfCount++;
 }
 console.log(`Ported ${surfCount} surfaces -> src/content/surfaces/`);
+
+// ---- anti-orphan gate -------------------------------------------------------
+// A card can build, deploy, return 200 and be linked from NOWHERE. The Exchange
+// and Services indexes are hand-curated: their tile grids come from the category
+// allowlist above, and everything else is reached only because someone wrote a
+// sentence about it. So a card in a category nobody listed builds fine and is
+// invisible to every human browsing the section, while still appearing in
+// llms.txt, agents.txt, the sitemap and the directory — findable by agents and
+// not by people. That is exactly how `ln-markets` sat unlinked (found 2026-08-06).
+//
+// This checks the thing that actually matters — IS THE CARD REACHABLE — rather
+// than the proxy (does its category have a tile group). It therefore passes for a
+// card reached only by prose, which is a legitimate editorial choice on these two
+// pages, and fails only for a card reached by nothing at all.
+const INDEX_OF = { exchanges: 'Exchange.md', services: 'Services.md' };
+let orphans = 0;
+for (const [col, indexFile] of Object.entries(INDEX_OF)) {
+  const indexPath = path.join(SURF_OUT, indexFile);
+  if (!fs.existsSync(indexPath)) { console.warn(`  ! anti-orphan: ${indexFile} not ported`); continue; }
+  const indexBody = fs.readFileSync(indexPath, 'utf8');
+  for (const card of CARD_INDEX[col]) {
+    if (!indexBody.includes(`/${col}/${card.slug}`)) {
+      console.warn(`  ! ORPHAN: ${col}/${card.slug} (category: ${card.category}) is not linked from ${indexFile} — add its category to CARD_TILES above, or write prose linking it`);
+      orphans++;
+    }
+  }
+}
+if (orphans) console.warn(`  ! ${orphans} orphaned card(s) — they build and deploy but no human can browse to them`);
 
 // ---- port card collections (tools / exchanges / services) -------------------
 for (const col of CARD_DIRS) {

@@ -13,10 +13,12 @@ and is machine-payable, not that it is recommended.
 - https://marketplace.bitcoineconomy.ai/.well-known/ai-plugin.json — plugin-era discovery manifest.
 
 ## Live data
+- https://marketplace.bitcoineconomy.ai/live/master.json — the merged view across all four sources — start here.
 - https://marketplace.bitcoineconomy.ai/live/snapshot.json — relay reads + endpoint probes + the sats price index.
 - https://marketplace.bitcoineconomy.ai/live/models.json — model pricing across providers.
-- https://marketplace.bitcoineconomy.ai/live/master.json — the merged view.
-- https://marketplace.bitcoineconomy.ai/live/uptime.json — rolling probe history.
+- https://marketplace.bitcoineconomy.ai/live/l402index.json — 402index.io's indexed endpoints, attributed.
+- https://marketplace.bitcoineconomy.ai/live/l402space.json — the gateway-observed tier — hosts settling through Alby's l402.space.
+- https://marketplace.bitcoineconomy.ai/live/uptime.json — rolling probe history, recomputable, with its denominator.
 - https://marketplace.bitcoineconomy.ai/live/announced.json — kind-38555 sell-side announcements.
 - https://marketplace.bitcoineconomy.ai/live/bounties.json — kind-38556 buy-side work requests (the bounty board).
 
