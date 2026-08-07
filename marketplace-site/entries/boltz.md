@@ -14,7 +14,7 @@ SUSPENDED since 2026-08-03 — Boltz has disabled all swap services indefinitely
 - Site: https://boltz.exchange
 - Docs/API: https://api.docs.boltz.exchange
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/boltz
-- Provenance: curated (last verified 2026-06-03)
+- Provenance: curated (last verified 2026-08-07)
 
 ---
 

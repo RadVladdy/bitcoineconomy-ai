@@ -17,7 +17,7 @@ custody: custodial — IBEX runs the node cluster and holds funds; no self-custo
 bitcoin-native: false
 agent-access: limited
 status: published
-last-verified: 2026-07-03
+last-verified: 2026-08-07 (auth flow, 1h token expiry and 30 req/min limit read from the live docs)
 order: 58
 tags:
   - ibex
@@ -44,11 +44,11 @@ Because IBEX **holds the funds and runs the nodes**, this is a **custodial** ser
 
 ## Dependencies & payment
 
-A **business/organization account**, and onboarding is **human-gated, not self-serve**. Sandbox credentials are provisioned by emailing IBEX (`info@poweredbyibex.io`) with admin and organization details; **production access sits behind business-development contracts**. Auth is a **Bearer access token** (obtained from an email/password sign-in, with a 7-day refresh token) and the docs also describe an **OAuth machine-to-machine client-credentials flow** for authenticated machine requests. A **sandbox** exists (`ibexhub-api.sandbox.poweredbyibex.io`) but is throttled — e.g. a **10,000 sat/day sending cap** and slower responses. **Pricing is not published** on any primary IBEX page — no rate card, tiers, or free-tier statement; fees appear to be contract-negotiated (the API does expose send/withdrawal **fee-estimate** endpoints).
+A **business/organization account**, and onboarding is **human-gated, not self-serve**. Sandbox credentials are provisioned by emailing IBEX (`info@poweredbyibex.io`) with admin and organization details; **production access sits behind business-development contracts**. Auth is an **OAuth 2.0 client-credentials (machine-to-machine) flow** — the only one the live docs describe. You create a **Client ID and Client Secret** yourself in the Hub Console, exchange them for an access token, and **the token expires after 1 hour**. *(IBEX's own docs disagree with themselves on the lifetime: the prose says one hour while a response sample shows `expires_in: 86400`. The prose is the explicit statement; assume an hour and refresh.)* Requests are rate-limited to **30 per minute per client**, and a **Postman collection** is published. A **sandbox** exists (`ibexhub-api.sandbox.poweredbyibex.io`) but is throttled — e.g. a **10,000 sat/day sending cap** and slower responses. **Pricing is not published** on any primary IBEX page — no rate card, tiers, or free-tier statement; fees appear to be contract-negotiated (the API does expose send/withdrawal **fee-estimate** endpoints).
 
 ## Quick start
 
-The API is publicly documented at `docs.poweredbyibex.io/reference/welcome`, and the docs publish an **`llms.txt`** index for LLM/agent consumption. Authenticate for a Bearer `AccessToken` (or use the OAuth M2M client-credentials flow), then call the Hub endpoints for invoices, on-chain, LNURL, and sub-accounts; register **webhooks** for async events. There is **no official SDK and no MCP server** — integration is hand-rolled REST. Point at the **sandbox** base URL first (mind the 10k sat/day cap), and note that **credentials are not self-serve** — a human has to request sandbox access and sign contracts for production, so an agent cannot onboard itself today.
+The API is publicly documented at `docs.poweredbyibex.io/reference/welcome`, and the docs publish an **`llms.txt`** index for LLM/agent consumption. Authenticate with the OAuth M2M client-credentials flow (Client ID + Secret from the Hub Console), then call the Hub endpoints for invoices, on-chain, LNURL, and sub-accounts; register **webhooks** for async events. There is **no official SDK and no MCP server** — integration is hand-rolled REST. Point at the **sandbox** base URL first (mind the 10k sat/day cap), and note that **credentials are not self-serve** — a human has to request sandbox access and sign contracts for production, so an agent cannot onboard itself today.
 
 ## Gotchas
 
@@ -56,7 +56,7 @@ The API is publicly documented at `docs.poweredbyibex.io/reference/welcome`, and
 - **Stablecoin/fiat legs are issuer- and custodian-freezable.** Regulated stablecoins can be frozen or blacklisted by their issuers regardless of who holds them, and a custodian can freeze the account — self-custody of a freezable asset isn't the same as censorship-resistance. The plain **BTC/Lightning** leg carries none of that.
 - **Sales/contract-gated onboarding.** No self-serve API key: sandbox by email request, production behind contracts and business KYB.
 - **Sandbox is throttled** (≈10,000 sat/day, slower responses); no clear Bitcoin testnet — it's a limited replica, not a full test network.
-- **No SDK, no MCP.** REST only (though an `llms.txt` and an OAuth M2M flow make it more machine-friendly than most).
+- **No SDK, no MCP.** REST only (though an `llms.txt`, a Postman collection and an OAuth M2M flow make it more machine-friendly than most).
 - **Pricing opaque** — no public rate card; likely negotiated per contract.
 - **Brand in transition.** `ibexmercado.com` / `ibexpay` are legacy and redirect to `poweredbyibex.io`; don't confuse this IBEX with unrelated entities of the same name (energy exchange, DeFi, etc.).
 

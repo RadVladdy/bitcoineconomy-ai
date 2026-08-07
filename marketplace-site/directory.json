@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime, find_work, post_bounty) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "The Marketplace directory — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-08-07T04:46:53.809Z",
+  "generated_at": "2026-08-07T05:32:49.739Z",
   "entry_count": 23,
   "categories": [
     "inference",
@@ -302,12 +302,13 @@
         "lightning",
         "nwc"
       ],
-      "payment_detail": "Lightning (sats), fundable via NWC; no card",
+      "payment_detail": "Lightning (sats), fundable via NWC — no card required (card and on-chain are also accepted)",
       "kyc": "none",
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-no-account",
-      "auth": "Nostr key is the identity — no email, no KYC",
-      "quickstart": "Log in with a Nostr key, pick CPU/RAM/SSD, pay the Lightning invoice (or connect a wallet over NWC); automate the same flow via the LNVPS API (github.com/LNVPS/api).",
+      "auth": "Nostr key is the identity — NIP-98 HTTP auth on the API (NIP-07/NIP-46 for the web login). No email and no KYC on the Nostr path; a login provider is also offered.",
+      "api_base": "https://api.lnvps.net",
+      "quickstart": "Follow the vendor's own agent skill at lnvps.net/SKILL.md: POST an SSH key, pick an image and template, POST /api/v1/vm, then GET /api/v1/vm/{id}/renew?method=lightning, pay, and poll until the box is running. All requests are NIP-98 signed.",
       "two_sided": "consume",
       "maintainer": "LNVPS (Apex Strata Ltd, Ireland)",
       "links": {
@@ -317,20 +318,20 @@
       "card_url": "https://bitcoineconomy.ai/services/lnvps",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/lnvps.md",
       "provenance": "curated",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "bitlaunch",
       "name": "BitLaunch",
       "category": "compute",
       "subcategory": "vps",
-      "summary": "Bitcoin/Lightning VPS provisioning with a real API and SDKs — spin up DigitalOcean/Vultr/Linode servers and pay over Lightning, programmatically. \"Programmable servers with programmable money.\"",
+      "summary": "Bitcoin VPS provisioning with a real API and SDKs — spin up servers on BitLaunch's own metal or on DigitalOcean/Vultr/Linode, and pay in crypto programmatically. \"Programmable servers with programmable money.\"",
       "what_an_agent_buys": "VPS on DigitalOcean / Vultr / Linode capacity, provisioned end-to-end by API",
       "payment_methods": [
         "lightning",
         "onchain"
       ],
-      "payment_detail": "Lightning + on-chain BTC; programmatic via the BitLaunch API (blcli CLI; Go/Python/PHP SDKs)",
+      "payment_detail": "on-chain BTC/LTC/ETH selectable via the API; programmatic via the BitLaunch API (blcli CLI; Go/Python/PHP SDKs)",
       "kyc": "none",
       "custody": "n/a (pay-and-receive)",
       "automatability": "api-account",
@@ -340,12 +341,12 @@
       "maintainer": "BitLaunch",
       "links": {
         "site": "https://bitlaunch.io",
-        "docs": "https://bitlaunch.io/blog/introducing-the-bitlaunch-api/"
+        "docs": "https://developers.bitlaunch.io"
       },
       "card_url": "https://bitcoineconomy.ai/services/bitlaunch",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/bitlaunch.md",
       "provenance": "curated",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "openagents",
@@ -438,7 +439,7 @@
       "auth": "none pre-issued - on HTTP 402 the server returns an L402 macaroon + a Bolt11 invoice; pay the invoice, then send Authorization: L402 <macaroon>:<preimage>. No account, no card, no KYC (the payment is the credential).",
       "api_base": "https://unhuman.coffee",
       "pricing_url": "https://unhuman.coffee/api/catalog",
-      "quickstart": "GET https://unhuman.coffee/api/catalog -> POST https://unhuman.coffee/api/order (sku, quantity, shipping) -> receive 402 + Bolt11 + macaroon -> pay -> replay the POST with Authorization: L402 <macaroon>:<preimage> (Idempotency-Key supported). Agent-skill manifest at /.well-known/agent-skills/index.json; per-store llms.txt. Unhuman Domains uses the same shape and returns a 1-year management JWT.",
+      "quickstart": "GET https://unhuman.coffee/api/catalog -> POST https://unhuman.coffee/api/order (sku, quantity, shipping) -> receive 402 + Bolt11 + macaroon -> pay -> replay the POST with Authorization: L402 <macaroon>:<preimage> (Idempotency-Key supported). Agent-skill manifest at /.well-known/agent-skills/index.json; per-store llms.txt. Unhuman Domains uses the same shape and returns a 1-year management JWT. Ships to the USA and Canada ONLY (country must be US or CA); quantity 1-10 per order.",
       "two_sided": "consume",
       "maintainer": "Money Dev Kit (Nick Slaney)",
       "links": {
@@ -448,7 +449,7 @@
       "card_url": "https://bitcoineconomy.ai/services/unhuman",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/unhuman.md",
       "provenance": "curated",
-      "last_verified": "2026-06-30",
+      "last_verified": "2026-08-07",
       "note": "Real-world-goods commerce: physical coffee ships to an address, domains register live. Bitcoin-only, self-custodial, no account/KYC. The 402 challenge is on POST /api/order (a bare GET of api_base returns the storefront, not an invoice). Price is quoted per order, including shipping. Reference deployment of Money Dev Kit (tools/money-dev-kit)."
     },
     {
@@ -545,7 +546,7 @@
       "card_url": "https://bitcoineconomy.ai/exchanges/boltz",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/boltz.md",
       "provenance": "curated",
-      "last_verified": "2026-06-03"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "sideshift",
@@ -570,15 +571,15 @@
       "card_url": "https://bitcoineconomy.ai/exchanges/sideshift",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/sideshift.md",
       "provenance": "curated",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "flashnet",
       "name": "Flashnet",
       "category": "swap",
       "subcategory": "btc-stablecoin",
-      "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark — BTC ↔ USDT/USDB/USDC settling in seconds while the agent keeps its keys.",
-      "what_an_agent_buys": "BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM",
+      "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark — the AMM swaps BTC ↔ USDB while the agent keeps its keys; USDT and USDC arrive through Orchestra, a separate keyed cross-chain API whose orders are screened against Elliptic sanctions data.",
+      "what_an_agent_buys": "BTC ↔ USDB swaps on a Bitcoin-native AMM (keyless); BTC ↔ USDC/USDT/ETH/SOL/TRX cross-chain via Orchestra (HMAC key + secret, sanctions-screened)",
       "payment_methods": [
         "spark",
         "lightning"
@@ -586,15 +587,15 @@
       "kyc": "none",
       "custody": "self-custody",
       "automatability": "api-no-account",
-      "auth": "none — keys stay with the agent",
-      "quickstart": "Swap BTC ↔ USDT/USDB/USDC on the Spark-native AMM — non-custodial, settles in seconds.",
+      "auth": "AMM path: none — keys stay with the agent. Orchestra path: HMAC-SHA256 signed requests with an API key and secret, and orders are screened for sanctions/illicit-finance risk before funds move.",
+      "quickstart": "Swap BTC ↔ USDB on the Spark-native AMM via @flashnet/sdk — non-custodial, settles in seconds. For USDC/USDT and other chains use the Orchestra API, which needs an HMAC key pair.",
       "links": {
         "site": "https://www.flashnet.xyz"
       },
       "card_url": "https://bitcoineconomy.ai/exchanges/flashnet",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/flashnet.md",
       "provenance": "curated",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-07"
     },
     {
       "slug": "sideswap",

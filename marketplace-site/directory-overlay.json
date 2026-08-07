@@ -103,8 +103,9 @@
     "nwc"
    ],
    "automatability": "api-no-account",
-   "auth": "Nostr key is the identity — no email, no KYC",
-   "quickstart": "Log in with a Nostr key, pick CPU/RAM/SSD, pay the Lightning invoice (or connect a wallet over NWC); automate the same flow via the LNVPS API (github.com/LNVPS/api)."
+   "auth": "Nostr key is the identity — NIP-98 HTTP auth on the API (NIP-07/NIP-46 for the web login). No email and no KYC on the Nostr path; a login provider is also offered.",
+   "quickstart": "Follow the vendor's own agent skill at lnvps.net/SKILL.md: POST an SSH key, pick an image and template, POST /api/v1/vm, then GET /api/v1/vm/{id}/renew?method=lightning, pay, and poll until the box is running. All requests are NIP-98 signed.",
+   "api_base": "https://api.lnvps.net"
   },
   {
    "slug": "bitlaunch",
@@ -178,7 +179,7 @@
    "auth": "none pre-issued - on HTTP 402 the server returns an L402 macaroon + a Bolt11 invoice; pay the invoice, then send Authorization: L402 <macaroon>:<preimage>. No account, no card, no KYC (the payment is the credential).",
    "api_base": "https://unhuman.coffee",
    "pricing_url": "https://unhuman.coffee/api/catalog",
-   "quickstart": "GET https://unhuman.coffee/api/catalog -> POST https://unhuman.coffee/api/order (sku, quantity, shipping) -> receive 402 + Bolt11 + macaroon -> pay -> replay the POST with Authorization: L402 <macaroon>:<preimage> (Idempotency-Key supported). Agent-skill manifest at /.well-known/agent-skills/index.json; per-store llms.txt. Unhuman Domains uses the same shape and returns a 1-year management JWT.",
+   "quickstart": "GET https://unhuman.coffee/api/catalog -> POST https://unhuman.coffee/api/order (sku, quantity, shipping) -> receive 402 + Bolt11 + macaroon -> pay -> replay the POST with Authorization: L402 <macaroon>:<preimage> (Idempotency-Key supported). Agent-skill manifest at /.well-known/agent-skills/index.json; per-store llms.txt. Unhuman Domains uses the same shape and returns a 1-year management JWT. Ships to the USA and Canada ONLY (country must be US or CA); quantity 1-10 per order.",
    "note": "Real-world-goods commerce: physical coffee ships to an address, domains register live. Bitcoin-only, self-custodial, no account/KYC. The 402 challenge is on POST /api/order (a bare GET of api_base returns the storefront, not an invoice). Price is quoted per order, including shipping. Reference deployment of Money Dev Kit (tools/money-dev-kit)."
   },
   {
@@ -260,15 +261,15 @@
    "source": "exchanges/flashnet.md",
    "category": "swap",
    "subcategory": "btc-stablecoin",
-   "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark — BTC ↔ USDT/USDB/USDC settling in seconds while the agent keeps its keys.",
-   "what_an_agent_buys": "BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM",
+   "summary": "A non-custodial, Bitcoin-native DEX/AMM built on Spark — the AMM swaps BTC ↔ USDB while the agent keeps its keys; USDT and USDC arrive through Orchestra, a separate keyed cross-chain API whose orders are screened against Elliptic sanctions data.",
+   "what_an_agent_buys": "BTC ↔ USDB swaps on a Bitcoin-native AMM (keyless); BTC ↔ USDC/USDT/ETH/SOL/TRX cross-chain via Orchestra (HMAC key + secret, sanctions-screened)",
    "payment_methods": [
     "spark",
     "lightning"
    ],
    "automatability": "api-no-account",
-   "auth": "none — keys stay with the agent",
-   "quickstart": "Swap BTC ↔ USDT/USDB/USDC on the Spark-native AMM — non-custodial, settles in seconds."
+   "auth": "AMM path: none — keys stay with the agent. Orchestra path: HMAC-SHA256 signed requests with an API key and secret, and orders are screened for sanctions/illicit-finance risk before funds move.",
+   "quickstart": "Swap BTC ↔ USDB on the Spark-native AMM via @flashnet/sdk — non-custodial, settles in seconds. For USDC/USDT and other chains use the Orchestra API, which needs an HMAC key pair."
   },
   {
    "slug": "sideswap",

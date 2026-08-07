@@ -154,7 +154,7 @@ SV4 defended. Applying the filter (§5) partitions the in-layer services into th
 **Group (b) — Off-the-shelf services an agent can pay for.** Real-world services (privacy, compute, hosting, domains, storage) an agent needs but that are not themselves agent venues. Four qualify under the filter, and they qualify in different ways:
 - **Mullvad** — a privacy VPN paid over Lightning against a random account number, with no email and no KYC. The cleanest direct-merchant fit: it satisfies the filter via the invoice-against-account-number flow (admissible shape 2, §5), not a formal product API.
 - **LNVPS** — compute the agent-native way: a Lightning VPS with Nostr-key login (no email, no KYC), fundable over NWC, provisionable end-to-end by API (admissible shape 1). The first deployed instance of an agent buying its own infrastructure ran on LNVPS ([[Field-Notes-FA|Field Notes]]).
-- **BitLaunch** — mainstream compute (DigitalOcean/Vultr/Linode capacity) behind a real provisioning API + SDKs with Lightning-automated payment and no KYC (admissible shape 1) — big-cloud capacity paid in Bitcoin, request→invoice→pay→provision fully programmatic.
+- **BitLaunch** — compute on BitLaunch's own infrastructure and on DigitalOcean/Vultr/Linode capacity, behind a real provisioning API + SDKs with no KYC (admissible shape 1) — capacity paid in Bitcoin, request→invoice→pay→provision fully programmatic. *(The documented `cryptoSymbol` enum is BTC/LTC/ETH; Lightning is not an API-selectable method — unverified at the hosted invoice step.)*
 - **Bitrefill** — the *bridge* to the long tail. A Lightning gift-card/top-up service with a real payment API (Thor) and no KYC for ordinary purchases. For the long tail of brands that do not take Bitcoin directly — domains, cloud, storage, mainstream SaaS — the agent buys a Bitrefill credit with sats (admissible shape 1, a real payment API) and redeems it at the target service. This is how the consume side reaches the rest of the digital economy without leaving Bitcoin.
 
 - **Unhuman** — real-world *goods* end to end: roasted-to-order coffee and domain registration behind L402 paywalls (admissible shape 1). The agent discovers a product, pays a Lightning invoice, and the order is placed with no account, no card, and no human at checkout. Significance is categorical, not commercial — the first group-(b) member where the good delivered is physical, closing the purchase loop for atoms rather than bits.
@@ -233,11 +233,11 @@ SV4 defended at depth. Each deployed service profiled against the four conjuncti
 
 ### §7.7 — BitLaunch (Group b; mainstream compute)
 
-- **Payment mechanism.** Lightning (or on-chain) funding a per-account balance that provisioning draws down; API token after an email signup — no KYC.
+- **Payment mechanism.** *(operational, re-measured 2026-08-07)* On-chain **BTC, LTC or ETH** — the values the published `POST /transactions` schema accepts — funding a per-account balance that provisioning draws down; API token after an email signup, no KYC. A 2020 launch post announced Lightning automation and the current API does not expose it; whether the hosted invoice page offers Lightning was not testable read-only.
 - **Constraint profile (payment leg).** Pass 1 (email-only account, no identity check), 2 (Lightning leg permissionless), 3 (sub-cent Lightning fees), 4 (Lightning settlement).
-- **Automatability.** Real API + SDKs (blcli, Go/Python/PHP): request, invoice, pay, provision — end-to-end programmatic; admissible shape 1. The mainstream-capacity counterpart to LNVPS: DigitalOcean/Vultr/Linode hardware paid in Bitcoin.
+- **Automatability.** Real API + SDKs (blcli, Go/Python/PHP): request, invoice, pay, provision — end-to-end programmatic; admissible shape 1. The mainstream-capacity counterpart to LNVPS: BitLaunch's own hardware plus DigitalOcean/Vultr/Linode, paid in Bitcoin.
 - **Two-sided.** Consume only (infrastructure).
-- **Operational caveat.** *(operational)* A reseller layer over the big clouds — the account (and human email signup) precedes automation, and upstream terms flow through; the identity attachment is minimal but not zero, unlike LNVPS's pure-keypair model.
+- **Operational caveat.** *(operational)* **Partly** a reseller: BitLaunch's own footer splits "BitLaunch locations" from "Partner locations", and upstream terms and markup flow through only on the partner instances. The account (and human email signup) precedes automation either way, so the identity attachment is minimal but not zero, unlike LNVPS's pure-keypair model.
 
 ### §7.8 — Maple AI (Group a-adjacent; privacy-axis inference — payment-leg caveat)
 

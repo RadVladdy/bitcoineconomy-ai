@@ -15,7 +15,7 @@ A non-custodial, no-KYC swap service across a broad multi-chain asset set — di
 - Site: https://sideshift.ai
 - Docs/API: https://docs.sideshift.ai
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/sideshift
-- Provenance: curated (last verified 2026-06-06)
+- Provenance: curated (last verified 2026-08-07)
 
 ---
 

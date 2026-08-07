@@ -2,11 +2,11 @@
 
 > VPS on DigitalOcean / Vultr / Linode capacity, provisioned end-to-end by API
 
-Bitcoin/Lightning VPS provisioning with a real API and SDKs — spin up DigitalOcean/Vultr/Linode servers and pay over Lightning, programmatically. "Programmable servers with programmable money."
+Bitcoin VPS provisioning with a real API and SDKs — spin up servers on BitLaunch's own metal or on DigitalOcean/Vultr/Linode, and pay in crypto programmatically. "Programmable servers with programmable money."
 
 - Category: compute / vps
 - Payment methods: lightning, onchain
-- Payment detail: Lightning + on-chain BTC; programmatic via the BitLaunch API (blcli CLI; Go/Python/PHP SDKs)
+- Payment detail: on-chain BTC/LTC/ETH selectable via the API; programmatic via the BitLaunch API (blcli CLI; Go/Python/PHP SDKs)
 - KYC: none
 - Custody: n/a (pay-and-receive)
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first
@@ -15,9 +15,9 @@ Bitcoin/Lightning VPS provisioning with a real API and SDKs — spin up DigitalO
 - Direction: consume
 - Maintainer: BitLaunch
 - Site: https://bitlaunch.io
-- Docs/API: https://bitlaunch.io/blog/introducing-the-bitlaunch-api/
+- Docs/API: https://developers.bitlaunch.io
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/bitlaunch
-- Provenance: curated (last verified 2026-06-06)
+- Provenance: curated (last verified 2026-08-07)
 
 ---
 

@@ -17,7 +17,7 @@ custody: non-custodial — you pay from your own Lightning wallet; no custody of
 kyc: none
 bitcoin-native: true
 status: published
-last-verified: 2026-06-30
+last-verified: 2026-08-07 (vendor llms.txt re-read; US/CA shipping constraint disclosed)
 order: 56
 tags:
   - unhuman
@@ -50,6 +50,7 @@ For Unhuman Coffee: `GET https://unhuman.coffee/api/catalog` to list products, t
 
 ## Gotchas
 
+- **Ships to the USA and Canada ONLY.** Unhuman states it twice — in prose (*"Currently shipping to USA and Canada only"*) and as a hard API constraint (`country` must be `US` or `CA`, ISO 3166-1 alpha-2). An order from anywhere else is rejected rather than degraded, so on the one card here whose whole premise is an unattended real-world purchase, this is the eligibility gate to check before the flow starts. Quantity is bounded **1–10** per order.
 - **Real goods, real fulfilment.** Physical orders (coffee) ship to a street address — the agent must supply valid shipping details, and delivery is a real-world dependency, not instant digital settlement. (The live L402 purchase flow is verified; physical delivery is not independently confirmed here.)
 - **Price is per-order, not fixed.** The invoice amount includes shipping and is quoted at order time — don't assume a static sats price (a live coffee order settled at ~41,770 sats on a $24 / 12oz list item).
 - **The macaroon + preimage is a bearer credential.** It authorizes that one order within a ~15-minute expiry — treat it like cash and don't leak it.

@@ -152,7 +152,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 
 - [Boltz](https://marketplace.bitcoineconomy.ai/entries/boltz.md): NOTHING RIGHT NOW — swap services are disabled indefinitely. When operating, atomic swaps across Bitcoin L1, Lightning, Liquid and Ark.. Payment: lightning/onchain/liquid; KYC: none; automatability: limited.
 - [SideShift.ai](https://marketplace.bitcoineconomy.ai/entries/sideshift.md): Cross-asset swaps across a broad multi-chain set, direct to wallet (Lightning is currently disabled). Payment: onchain; KYC: none; automatability: api-account.
-- [Flashnet](https://marketplace.bitcoineconomy.ai/entries/flashnet.md): BTC ↔ stablecoin swaps (USDT, USDB, USDC) on a Bitcoin-native AMM. Payment: spark/lightning; KYC: none; automatability: api-no-account.
+- [Flashnet](https://marketplace.bitcoineconomy.ai/entries/flashnet.md): BTC ↔ USDB swaps on a Bitcoin-native AMM (keyless); BTC ↔ USDC/USDT/ETH/SOL/TRX cross-chain via Orchestra (HMAC key + secret, sanctions-screened). Payment: spark/lightning; KYC: none; automatability: api-no-account.
 - [SideSwap](https://marketplace.bitcoineconomy.ai/entries/sideswap.md): L-BTC ↔ L-USDt and direct asset-to-asset swaps on Liquid order books. Payment: liquid; KYC: none; automatability: api-no-account.
 
 ## Liquidity (Lightning channel/balance management)

@@ -11,13 +11,13 @@ two-sided: consume
 maintainer: LNVPS (Apex Strata Ltd, Ireland)
 site: https://lnvps.net
 docs: https://github.com/LNVPS/api
-payment: Lightning (sats), fundable via NWC; no card
-identity: Nostr (NIP-07 login) — no email, no KYC
+payment: Lightning (sats), fundable via NWC — no card required (card and on-chain are also accepted)
+identity: Nostr — NIP-98 for the API, NIP-07/NIP-46 for the web login; no email, no KYC
 custody: n/a (pay-and-receive)
 kyc: none
 bitcoin-native: true
 status: v0-2026-06-06-structural-verified
-last-verified: 2026-06-06
+last-verified: 2026-08-07 (homepage + sitemap crawled; SKILL.md and NIP-98 confirmed; pricing read from the templates API)
 order: 52
 tags:
   - lnvps
@@ -32,7 +32,7 @@ tags:
 
 ## What it is
 
-LNVPS is a **Lightning-powered VPS host** built for exactly the agent use case: **log in with Nostr** (NIP-07), **pay in satoshis** with no card, and fund the instance from a Lightning wallet via **Nostr Wallet Connect (NWC)** — "no captchas, no KYC, no 'prove you're human.'" Customize CPU/RAM/SSD independently; it runs an **API backend** (`github.com/LNVPS/api`, with fields for SSH key material and NWC connection strings) and explicitly markets **production-ready OpenClaw bot** instances. It is the cleanest example of a service an agent can stand up *and pay for* with no human and no identity trail.
+LNVPS is a **Lightning-powered VPS host** built for exactly the agent use case: **log in with Nostr**, **pay in satoshis** with no card required, and fund the instance from a Lightning wallet via **Nostr Wallet Connect (NWC)** — "no captchas, no KYC, no 'prove you're human.'" Customize CPU/RAM/SSD independently; it publishes a **first-party agent skill** at `lnvps.net/SKILL.md` documenting **NIP-98**-authenticated provisioning against `api.lnvps.net` — the full eight-step flow from SSH key to a running box — on top of its **API backend** (`github.com/LNVPS/api`). Its managed-app catalogue includes **Buzz Relay**, pitched as *"a workspace where humans and agents build together, on a relay you own."* It is the cleanest example of a service an agent can stand up *and pay for* with no human and no identity trail.
 
 ## When to use it
 
@@ -42,7 +42,7 @@ LNVPS is a **Lightning-powered VPS host** built for exactly the agent use case: 
 
 ## Dependencies & payment
 
-**Dependencies:** a Nostr key (the identity), a Lightning wallet — ideally NWC-connected so the agent can pay without holding raw keys — and the LNVPS API for programmatic provisioning. **Payment:** native **Lightning** (sats), fundable via **NWC**; no credit card, no email, no KYC. Demo instances start at cents/day; production instances at a few euros/month.
+**Dependencies:** a Nostr key (the identity), a Lightning wallet — ideally NWC-connected so the agent can pay without holding raw keys — and the LNVPS API for programmatic provisioning. **Payment:** native **Lightning** (sats), fundable via **NWC** — **no card required**, no email, no KYC (card and on-chain are accepted too, for humans). Measured from `api.lnvps.net/api/v1/vm/templates` on 2026-08-07: the **Demo** plan is **€1/day** and the discounted **Medium** is **€150/year**. A custom builder exists but cannot be priced without a write call, so no lower floor is quoted here.
 
 ## Quick start
 
