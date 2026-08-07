@@ -5,8 +5,8 @@ tagline: Give an agent a portable, censorship-resistant voice and identity on No
 skill-group: identity
 read-only: false
 mcp-servers:
-  - "@AbdelStark/nostr-mcp (post + zap)"
-  - "AustinKelsay/nostr-mcp-server (create/sign/publish + read)"
+  - "nostr-mcp (AbdelStark — post + zap)"
+  - "AustinKelsay/nostr-agent-interface (create/sign/publish + read)"
 env:
   - NOSTR_NSEC_KEY
   - NOSTR_RELAYS
@@ -19,7 +19,7 @@ repo: https://github.com/AbdelStark/nostr-mcp
 docs: https://nostr.com/
 site: https://nostr.com/
 status: published
-last-verified: 2026-08-06
+last-verified: 2026-08-07 (npm + Smithery registries probed; both install routes corrected; read-side server successor swapped)
 order: 4
 tags:
   - mcp
@@ -34,7 +34,7 @@ tags:
 
 Gives an agent a **voice and a portable identity** on the open Nostr network — the layer where an agent can announce itself, post results, read mentions, and be reached, without any platform able to deplatform it. Identity is a keypair the agent owns; reach is a set of relays it chooses. Nothing about it depends on a company's account system.
 
-Two reference MCP servers cover the ground: AbdelStark's `nostr-mcp` (`post_note`, plus a WIP `send_zap`) and AustinKelsay's `nostr-mcp-server` (create / sign / publish notes, and read mentions/replies). Pick whichever matches whether you need to mostly **write** or also **read** the agent's feed.
+Two reference MCP servers cover the ground: AbdelStark's `nostr-mcp` (`post_note`, plus a WIP `send_zap`) and AustinKelsay's `nostr-agent-interface` (create / sign / publish notes, and read mentions/replies). Pick whichever matches whether you need to mostly **write** or also **read** the agent's feed.
 
 ## When to use it
 
@@ -51,7 +51,7 @@ Two reference MCP servers cover the ground: AbdelStark's `nostr-mcp` (`post_note
   "mcpServers": {
     "nostr": {
       "command": "npx",
-      "args": ["-y", "@AbdelStark/nostr-mcp"],
+      "args": ["-y", "nostr-mcp"],
       "env": {
         "NOSTR_NSEC_KEY": "nsec1...DEDICATED-AGENT-KEY",
         "NOSTR_RELAYS": "wss://relay.damus.io,wss://nos.lol,wss://nostr.bitcoiner.social"
@@ -61,7 +61,7 @@ Two reference MCP servers cover the ground: AbdelStark's `nostr-mcp` (`post_note
 }
 ```
 
-- **MCP clients (Claude, Cursor, Hermes):** the block above (AbdelStark's server installs via Smithery or npx). For reading the feed too, add AustinKelsay's `nostr-mcp-server`.
+- **MCP clients (Claude, Cursor, Hermes):** the block above — AbdelStark's server publishes to npm as **`nostr-mcp`**, unscoped. *(The `@AbdelStark/nostr-mcp` form seen in the upstream README is a Smithery identifier, not an npm package; npm rejects an uppercase scope, so `npx` cannot resolve it.)* For reading the feed too, add AustinKelsay's `nostr-agent-interface` — the successor to his `nostr-mcp-server`, which he retired 2026-04-04. It installs from source rather than npm.
 - **OpenClaw / SKILL.md agents:** mirrors BitClawd's `nostr-post` skill (post / read / whoami / relays / profile) — same dedicated-key rule applies; theirs also takes `NOSTR_PRIVATE_KEY` directly.
 - **Any agent:** Nostr is an open protocol — `nostr-tools`, `NDK`, or `nostr-sdk` give the same capability without an MCP wrapper. See [Nostr](/tools/nostr) for the protocol layer.
 

@@ -12,13 +12,13 @@ maintainer: Bitrefill
 site: https://bitrefill.com
 docs: https://docs.bitrefill.com
 x: "@bitrefill"
-payment: Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Thor API
+payment: Lightning (native) + on-chain BTC; programmatic via the remote MCP server or the Bitrefill REST API
 identity: none
 custody: n/a (pay-and-receive)
 kyc: none
 bitcoin-native: true
 status: published
-last-verified: 2026-06-11
+last-verified: 2026-08-07 (docs + live /mcp read; Thor corrected to the REST API)
 order: 50
 tags:
   - bitrefill
@@ -30,7 +30,7 @@ tags:
 
 ## What it is
 
-Bitrefill is the Lightning-native bridge between an agent's Bitcoin and the rest of the digital economy. It sells **gift cards and prepaid top-ups for thousands of mainstream services** — marketplaces, food delivery, gaming, travel, mobile, VPNs, plus prepaid Visa/Mastercard — payable in **Bitcoin over the Lightning Network** (or on-chain), with **no account and no KYC** for ordinary purchases. Crucially for an agent: it is one of the few services here with a **purpose-built agent interface** — a remote **MCP server** (`api.bitrefill.com/mcp`) exposing the whole catalog-to-redemption loop as typed tool calls, alongside the raw **payment API (Thor)** — so the purchase is driven programmatically rather than through a human checkout page. Bitrefill maintains a dedicated agent-onboarding page (`bitrefill.com/agents`) with a machine-readable setup file.
+Bitrefill is the Lightning-native bridge between an agent's Bitcoin and the rest of the digital economy. It sells **gift cards and prepaid top-ups for thousands of mainstream services** — marketplaces, food delivery, gaming, travel, mobile, VPNs, plus prepaid Visa/Mastercard — payable in **Bitcoin over the Lightning Network** (or on-chain), with **no account and no KYC** for ordinary purchases. Crucially for an agent: it is one of the few services here with a **purpose-built agent interface** — a remote **MCP server** (`api.bitrefill.com/mcp`) exposing the whole catalog-to-redemption loop as typed tool calls, alongside the raw **Bitrefill REST API** — so the purchase is driven programmatically rather than through a human checkout page. Bitrefill maintains a dedicated agent-onboarding page (`bitrefill.com/agents`) with a machine-readable setup file.
 
 ## When to use it
 
@@ -47,11 +47,11 @@ The rest of the catalog is **A2P (agent-to-person) procurement** territory — a
 
 ## Dependencies & payment
 
-**Dependencies:** a Lightning-capable wallet with a funded balance and — for automation — either the **MCP server** (OAuth sign-in, or an API key from the account developers page; HTTP/SSE transport) or a **Thor API** key. Guest checkout needs only an email. **Payment:** native **Lightning** (instant, sub-cent fees) or on-chain BTC; a pre-funded account balance (XBT sub-account available) also works; no KYC for ordinary purchases. Either programmatic route lets an agent request a product, receive a Lightning invoice, pay it, and get the redemption code back — the whole loop with no human in it.
+**Dependencies:** a Lightning-capable wallet with a funded balance and — for automation — either the **MCP server** (OAuth sign-in, or an API key from the account developers page; Streamable HTTP transport) or a **Bitrefill API key** (a Personal API bearer token from the account developers page; the Business API uses an API ID + secret via the Partner Program). Guest checkout needs only an email. **Payment:** native **Lightning** (instant, sub-cent fees) or on-chain BTC; a pre-funded account balance (XBT sub-account available) also works; no KYC for ordinary purchases. Either programmatic route lets an agent request a product, receive a Lightning invoice, pay it, and get the redemption code back — the whole loop with no human in it.
 
 ## Quick start
 
-Pick a product (gift card / top-up / eSIM / bill), pay the Lightning invoice, redeem the code at the target service. **Agent-native route:** connect to the remote MCP server at `https://api.bitrefill.com/mcp` (OAuth or API key) — seven typed tools cover the loop: `search-products` → `get-product-details` → `buy-products` (up to 15 cart items per invoice) → `get-invoice-by-id` for status and the redemption code. Setup recipe at `bitrefill.com/agents`; MCP docs at `docs.bitrefill.com/docs/ecommerce-mcp`. The Thor API (`bitrefill.com/thor-api`) remains the raw-HTTP alternative.
+Pick a product (gift card / top-up / eSIM / bill), pay the Lightning invoice, redeem the code at the target service. **Agent-native route:** connect to the remote MCP server at `https://api.bitrefill.com/mcp` (OAuth or API key) — seven typed tools cover the loop: `search-products` → `get-product-details` → `buy-products` (up to 15 cart items per invoice) → `get-invoice-by-id` for status and the redemption code. Setup recipe at `bitrefill.com/agents`; MCP docs at `docs.bitrefill.com/docs/ecommerce-mcp`. The REST API (docs at `docs.bitrefill.com`, base `api.bitrefill.com`) remains the raw-HTTP alternative. *(Not to be confused with Bitrefill's **Thor API**, which is a separate Lightning channel-opening service — it sells inbound channel capacity, not products.)*
 
 ## Gotchas
 

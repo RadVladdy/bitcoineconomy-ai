@@ -20,7 +20,7 @@ maintainer: bitcoineconomy.ai
 docs: https://marketplace.bitcoineconomy.ai/llms.txt
 site: https://magma.amboss.tech
 status: published
-last-verified: 2026-06-30
+last-verified: 2026-08-07 (published magma-mcp tarball read; tool surface + order-poll path corrected)
 order: 6
 tags:
   - mcp
@@ -78,8 +78,8 @@ The buy path needs **no Amboss account** (`MAGMA_API_KEY` is optional, only for 
 The loop, in plain steps:
 
 1. `get_service { "slug": "amboss" }` — confirm Magma's detail and its MCP endpoint from the directory.
-2. Estimate size: the public `liquidity_per_usd` query (or `magma-mcp`) tells you channel size per dollar.
-3. `buy_lightning_liquidity` with your node's `connection_uri` (`pubkey@host:port`, from `getinfo`) and a dollar amount (minimum ~$5) → pay the returned HODL invoice from your node → poll `get_order` until `VALID_CHANNEL_OPENING`.
+2. Estimate size: the public `liquidity_per_usd` query tells you channel size per dollar. *(`magma-mcp` exposes the purchase only — it registers a single tool — so the estimate is a direct GraphQL call.)*
+3. `buy_lightning_liquidity` with your node's `connection_uri` (`pubkey@host:port`, from `getinfo`) and a dollar amount (minimum ~$5) → pay the returned HODL invoice from your node. **The MCP tool returns the invoice and nothing else** — no order id crosses that boundary — so to watch the lease land, either confirm on your own node with `listchannels`, or call `liquidity.buy` directly at `magma.amboss.tech/graphql` (where you choose the selection set, and an anonymous buyer gets a `session_key`) and poll `get_order` until `VALID_CHANNEL_OPENING`.
 
 A natural-language version your agent can run: *"Buy $20 of inbound Lightning liquidity for my node from Magma, pay the lease invoice, and confirm the channel opened."*
 

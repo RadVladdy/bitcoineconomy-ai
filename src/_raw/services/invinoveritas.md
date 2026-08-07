@@ -11,13 +11,13 @@ two-sided: consume + offer
 maintainer: Baby Blue Viper (pseudonymous)
 docs: https://api.babyblueviper.com/llms.txt
 site: https://api.babyblueviper.com
-payment: per-call sats — L402, or a free API key funded over Lightning (USDC/x402 and card also accepted)
+payment: per-call sats — L402, or a free API key funded over Lightning (USDC or XRP over x402, and card, also accepted)
 identity: none — POST /register returns an API key instantly, no email, no KYC; /verify-proof and /ledger need no auth at all
 custody: prepaid sats balance held by the service (top-up model); card- and x402-funded sats are spendable on tools but not withdrawable over Lightning
 kyc: none
 bitcoin-native: true
 status: published
-last-verified: 2026-07-23
+last-verified: 2026-08-07 (vendor llms.txt price table + funding rails re-read; XRP rail added)
 order: 59
 tags:
   - invinoveritas
@@ -44,7 +44,7 @@ The differentiating claim is the **public track record**. Every verdict is signe
 
 ## Dependencies & payment
 
-Nothing pre-issued: `POST /register` with an empty body returns an API key instantly — no email, no KYC, zero human onboarding. Paid calls run against a **sats balance** funded by Lightning top-up (`POST /topup` returns a Bolt11 invoice), or per-call over **L402** on endpoints that challenge with HTTP 402; USDC (x402 on Base) and card (Stripe) funding are also accepted, with the caveat that card- and x402-funded sats are spendable but not withdrawable (a chargeback guard). `/verify-proof`, `/ledger`, `/conformance`, and the `GET /signals` teaser are free with no auth. Prices are sats-denominated per call (`/review` ~200 sats, `/prove` 100 sats); the full price table lives in the service's own `llms.txt`.
+Nothing pre-issued: `POST /register` with an empty body returns an API key instantly — no email, no KYC, zero human onboarding. Paid calls run against a **sats balance** funded by Lightning top-up (`POST /topup` returns a Bolt11 invoice), or per-call over **L402** on endpoints that challenge with HTTP 402; x402 funding (USDC on Base, or XRP on the XRP Ledger) and card (Stripe) funding are also accepted, with the caveat that card- and x402-funded sats are spendable but not withdrawable (a chargeback guard). `/verify-proof`, `/ledger`, `/conformance`, and the `GET /signals` teaser are free with no auth. Prices are sats-denominated per call (`/review` ~200 sats, `/prove` 100 sats); the full price table lives in the service's own `llms.txt`.
 
 ## Quick start
 
@@ -53,7 +53,7 @@ Nothing pre-issued: `POST /register` with an empty body returns an API key insta
 ## Gotchas
 
 - **Young service, thin track record.** At verification (2026-07-23): 183 published verdicts, a 21-win / 20-loss settled record, and roughly 1,000 sats of daily flow. The losses are published — the honesty is real, but the history is short and the operation is small.
-- **Not Bitcoin-only.** Lightning is a first-class rail and billing is sats-denominated, but the service equally accepts USDC over x402 on Base and card funding, its trading outcomes settle on Hyperliquid, and its standards work targets Ethereum ERCs. The Bitcoin anchor is specific: verdict commit-times rest on OpenTimestamps into Bitcoin proof-of-work.
+- **Not Bitcoin-only.** Lightning is a first-class rail and billing is sats-denominated, but the service equally accepts USDC over x402 on Base, XRP on the XRP Ledger, and card funding, its trading outcomes settle on Hyperliquid, and its standards work targets Ethereum ERCs. The Bitcoin anchor is specific: verdict commit-times rest on OpenTimestamps into Bitcoin proof-of-work.
 - **The prepaid balance is custodial.** Top-up sats sit with the service until spent; keep balances small. Card/x402-funded sats can't be withdrawn over Lightning.
 - **Pseudonymous operator, closed-source service.** The design compensates by making the verdict trail recomputable from public data (Nostr signatures, OpenTimestamps, on-chain settlement) — verify the record, not the operator.
 - **A verdict is a paid second opinion, not insurance.** Approve/reject carries no SLA and no liability; the value is the independence and the auditable trail, not a guarantee.
