@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import { unified } from '@astrojs/markdown-remark';
 import remarkVisuals from './src/lib/remark-visuals.mjs';
 import remarkCallouts from './src/lib/remark-callouts.mjs';
+import { buildLastmod } from './scripts/lastmod.mjs';
 
 const SITE_URL = 'https://bitcoineconomy.ai';
 
@@ -76,7 +77,11 @@ export default defineConfig({
     '/exchanges': '/exchange',
     '/services/directory': '/services',
   },
-  integrations: [sitemap()],
+  // `serialize` stamps each entry with a <lastmod> read from git history over
+  // src/_raw/ (the authored source — src/content/** is generated and gitignored,
+  // so it has no history). See scripts/lastmod.mjs for why git and not mtime.
+  // The sitemap carried no lastmod at all until 2026-08-07.
+  integrations: [sitemap({ serialize: buildLastmod() })],
   markdown: {
     // `markdown.remarkPlugins` was deprecated in favour of passing the plugin
     // list to `unified()` and handing the result to `markdown.processor`.
