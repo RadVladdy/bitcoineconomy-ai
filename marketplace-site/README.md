@@ -68,7 +68,7 @@ which is also the noise filter: it's why there are no uncategorized rows here.
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
 | `worker.js` | Cloudflare Worker: cron → relays + probes + the two external sources → KV, then builds `master.json` from whatever that run produced (falling back per-tier to its last good KV copy, so one flaky upstream can't blank a tier); serves `/mcp` and every `/live/*` route; assets otherwise |
 | `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`, `find_work`, `post_bounty`) at `POST /mcp` |
-| `wrangler.jsonc` | worker config (two crons — hourly relay read, 6-hourly full probe pass — KV binding, static assets) |
+| `wrangler.jsonc` | worker config (three crons — hourly relay read `:47`, 6-hourly full probe pass `:17`, 6-hourly external-tier fetch `:37` — KV binding, static assets) |
 | `_headers` | CORS for the agent routes |
 
 **Never hand-edit the generated files.** Change a card in `src/_raw/` or
