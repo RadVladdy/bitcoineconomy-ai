@@ -68,6 +68,15 @@ export const GET: APIRoute = async () => {
   L.push(`No For-Agents twin by design: ${SITE.url}/the-story · MD: ${SITE.url}/the-story.md`);
   L.push('Agents: consume The Case — For Agents (above) for the machine-readable form of this argument.');
   L.push('');
+  // About is non-canonical, out of the nav and has no For-Agents twin — a recorded
+  // scope choice, not an oversight. It is named here anyway, the same way The Story
+  // is, because the marketplace's ai-plugin.json points at it as `legal_info_url`:
+  // an agent following that pointer arrived at a page no manifest would admit
+  // existed. Discharging it by name costs one line and does not make it canonical.
+  L.push('### About (non-canonical meta page)');
+  L.push(`Who publishes this and why: ${SITE.url}/about · MD: ${SITE.url}/about.md`);
+  L.push('No For-Agents twin by design. Referenced as legal_info_url by the marketplace agent manifest.');
+  L.push('');
 
   // Tools — the implementation reference. Agents building on the substrate can
   // consume these cards directly (each has a .md route + SoftwareApplication JSON-LD).
