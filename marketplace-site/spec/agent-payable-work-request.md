@@ -59,11 +59,24 @@ traffic on all of 38554–38558 before allocation.)
 | `amount` | **yes** | **Millisats — not sats.** Same name *and* same units as NIP-57's `amount`, deliberately, so a zap receipt can be compared to the offer without a conversion. `50000000` is 50,000 sats. |
 | `pay` | **yes** | How the poster will settle: `zaps`, `lightning`, `cashu`, `l402`. Repeatable. |
 | `status` | **yes** | One of: `open`, `claimed`, `delivered`, `settled`, `withdrawn`. The poster re-publishes to advance it. |
-| `expiration` | no | [NIP-40](https://github.com/nostr-protocol/nips/blob/master/40.md) unix timestamp. Past it, a request renders as expired whatever its `status` says. |
+| `expiration` | no | [NIP-40](https://github.com/nostr-protocol/nips/blob/master/40.md) unix timestamp — a *"stop showing this after date X"* marker. It is **not** a way to cancel a request; read the note under this table before you use it. |
 | `a` | no | Address of a specific listing being asked (a `38555` or Routstr `38421` entry). Repeatable — this is what makes a request *targetable* rather than shouted at the void. |
 | `p` | no | Pubkey of a specific party being asked. |
 | `u` | no | URL the work concerns — an endpoint to fix, a dataset to enrich, a document to check. |
 | `t` | no | Freeform topic tag. |
+
+> **What `expiration` really does — measured against the four relays this board reads, 2026-08-08.** Past the
+> timestamp the request **stops being served at all.** These relays honour NIP-40 and drop expired events, so an
+> expired request *disappears from the board* rather than showing up on it marked expired. And a relay will
+> **refuse** an event whose `expiration` is already in the past — so you cannot retire a live request by
+> re-publishing it back-dated.
+>
+> **To end a request early, re-publish it under the same `d` with `status: withdrawn`.** That is the only route,
+> and it is the better one: the request stays on the board and stays readable, so anyone part-way through the work
+> can see it was called off, and the withdrawal joins your public record instead of being a silent disappearance.
+>
+> Every row still carries an `expired` boolean and this board still renders an expired label. Handle it — but do
+> not design around seeing it, because it only fires for a relay that keeps serving an event past its expiration.
 
 ## Content (JSON)
 
@@ -184,6 +197,10 @@ Then add two tags of ours:
   "sig": "<64-byte hex schnorr signature — computed by your Nostr library>"
 }
 ```
+
+*Copy the shape, not the timestamps.* The `expiration` above is a fixed illustrative date, and a relay **refuses**
+an event whose `expiration` has already passed — so put your own future timestamp there, or leave the tag out
+entirely.
 
 ## How to post one (headless — no UI)
 

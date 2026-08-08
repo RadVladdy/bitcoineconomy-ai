@@ -1176,7 +1176,7 @@
     const days = (ts) => Math.round((ts - nowSec) / 86400);
 
     function statusCell(r) {
-      if (r.expired) return '<span class="st st-expired" title="Past its NIP-40 expiration, whatever its status tag says">◌ expired</span>';
+      if (r.expired) return '<span class="st st-expired" title="Past its NIP-40 expiration. Rarely seen: relays honouring NIP-40 stop serving an expired request, so it normally leaves the board instead of appearing here">◌ expired</span>';
       const label = { open: '● open', claimed: '◐ claimed', delivered: '◑ delivered', settled: '✓ settled', withdrawn: '✗ withdrawn' }[r.status] || r.status;
       return '<span class="st st-' + esc(r.status) + '" title="Status as published by the poster — we read it, we do not verify it">' + label + '</span>';
     }

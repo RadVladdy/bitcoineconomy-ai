@@ -253,8 +253,12 @@ function parseAnnounced(ev) {
 //
 // Two things this parser refuses to do, both load-bearing:
 //   - it never computes or infers a status. `status` is what the poster
-//     published, full stop; the only thing that overrides it is NIP-40 expiry,
-//     which is arithmetic on a published timestamp, not a judgement.
+//     published, full stop. `expired` rides alongside it as a separate axis —
+//     arithmetic on a published timestamp, not a judgement — and it is a
+//     DEFENSIVE path, not the normal one: relays honouring NIP-40 stop serving
+//     an expired event, so in practice an expired request never arrives here to
+//     be flagged, it just stops arriving. Measured on all four board relays
+//     2026-08-08. Keep the field: it is what catches a relay that ignores NIP-40.
 //   - it never treats a request without an `acceptance` string as complete.
 //     `acceptance` is what separates a bounty from a wish (spec § tags), so a
 //     request missing it is surfaced as malformed rather than quietly rendered.
