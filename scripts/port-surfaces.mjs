@@ -369,7 +369,13 @@ for (const [col, indexFile] of Object.entries(INDEX_OF)) {
   if (!fs.existsSync(indexPath)) { console.warn(`  ! anti-orphan: ${indexFile} not ported`); continue; }
   const indexBody = fs.readFileSync(indexPath, 'utf8');
   for (const card of CARD_INDEX[col]) {
-    if (!indexBody.includes(`/${col}/${card.slug}`)) {
+    // Delimiter-anchored, NOT a bare substring. `includes('/services/amboss')` also
+    // matches inside '/services/amboss-payments', so a card whose slug is a strict
+    // prefix of a sibling's passed this gate while nothing linked it — negative-
+    // controlled 2026-08-07: two cards, only the longer one linked, gate reported clean.
+    // The lookahead lets ), ", #, whitespace and end-of-line still count as a link.
+    const linked = new RegExp(`/${col}/${card.slug}(?![a-z0-9-])`).test(indexBody);
+    if (!linked) {
       console.warn(`  ! ORPHAN: ${col}/${card.slug} (category: ${card.category}) is not linked from ${indexFile} — add its category to CARD_TILES above, or write prose linking it`);
       orphans++;
     }

@@ -77,7 +77,7 @@ A keypair (`npub`/`nsec`), a set of relays to publish to and read from, and a cl
 
 **Libraries for wiring an agent in (not a human app):** the onboarding UX is mostly human-and-app today, but the *programmatic* primitives are solid — `nostr-sdk` ([Rust](https://docs.rs/nostr-sdk/) / [Python](https://pypi.org/project/nostr-sdk/), with a built-in **NWC client**), [`nostr-tools`](https://github.com/nbd-wtf/nostr-tools) (JS/TS, headless option), and [`NDK`](https://github.com/nostr-dev-kit/ndk) (TS, multi-relay coordination). An agent integrates Nostr through one of these rather than through a wallet app.
 
-The NIPs (Nostr Implementation Possibilities) at `github.com/nostr-protocol/nips` are the canonical specs. For agents the load-bearing ones are **NIP-47** (NWC, wallet control) and **NIP-57** (zaps) for *payment*, and **NIP-90** (Data Vending Machines) and **NIP-89** (handler announcements) for *service discovery*.
+The NIPs (Nostr Implementation Possibilities) at `github.com/nostr-protocol/nips` are the canonical specs. For agents the central ones are **NIP-47** (NWC, wallet control) and **NIP-57** (zaps) for *payment*, and **NIP-90** (Data Vending Machines) and **NIP-89** (handler announcements) for *service discovery*.
 
 ## Gotchas
 

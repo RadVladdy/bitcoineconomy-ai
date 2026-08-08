@@ -18,7 +18,7 @@ export const GET: APIRoute = async () => {
   lines.push(`Site: ${SITE.url}`);
   lines.push(`Handle: ${SITE.handle}`);
   lines.push(`Agent entry point: ${SITE.url}/for-agents — one page that ties together the pathways, the claims-indexed case, the live marketplace MCP, and this index.`);
-  lines.push('Every surface and card below has a clean Markdown route (append `.md`) and a JSON-LD block; section index pages (/tools, /skills, /exchanges, /for-agents) are HTML-only. Most canonical surfaces have a separately-authored, claims-indexed For-Agents twin.');
+  lines.push('Every surface and card below has a clean Markdown route (append `.md`) and a JSON-LD block; section index pages (/tools, /skills, /for-agents) are HTML-only. Most canonical surfaces have a separately-authored, claims-indexed For-Agents twin.');
   lines.push('');
 
   lines.push('## Canonical surfaces (human)');
@@ -69,7 +69,7 @@ export const GET: APIRoute = async () => {
   if (exchanges.length) {
     lines.push('## Exchanges (BTC↔fiat directory)');
     lines.push('');
-    lines.push(`On/off-ramp venues to move between Bitcoin and fiat. Directory: ${SITE.url}/exchanges`);
+    lines.push(`On/off-ramp venues to move between Bitcoin and fiat. Directory: ${SITE.url}/exchange`);
     lines.push('');
     for (const x of exchanges
       .map((e) => e.data)

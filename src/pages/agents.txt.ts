@@ -115,7 +115,7 @@ export const GET: APIRoute = async () => {
   const exchanges = await getCollection('exchanges');
   if (exchanges.length) {
     L.push('## Exchanges (BTC↔fiat directory)');
-    L.push(`On/off-ramp venues to move between Bitcoin and fiat. Directory: ${SITE.url}/exchanges · Each card: ${SITE.url}/exchanges/<slug> · MD: append .md`);
+    L.push(`On/off-ramp venues to move between Bitcoin and fiat. Directory: ${SITE.url}/exchange · Each card: ${SITE.url}/exchanges/<slug> · MD: append .md`);
     for (const x of exchanges
       .map((e) => e.data)
       .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title))) {

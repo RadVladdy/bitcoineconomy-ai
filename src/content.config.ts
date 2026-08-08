@@ -176,9 +176,13 @@ const skills = defineCollection({
     slug: z.string(),
     tagline: z.string(),
     // /skills index grouping (drives SKILL_GROUPS in site.ts).
-    'skill-group': z
-      .enum(['commerce', 'payments', 'data', 'identity', 'ops'])
-      .optional(),
+    // REQUIRED, deliberately — unlike tools' `toolbox-group`, which has `primitive`
+    // as a legal "not in the grid" value, every skill belongs to a group. When this
+    // was optional a card without it matched no group, was dropped by the index's
+    // length filter, and still shipped to the sitemap, llms.txt and agents.txt —
+    // findable by agents and invisible to people, with a green build and no warning.
+    // Fail loudly here instead.
+    'skill-group': z.enum(['commerce', 'payments', 'data', 'identity', 'ops']),
     // Read-only skills move no funds and need no keys — runnable as-is, the safe
     // on-ramp. Payment/identity skills compose a provider's own MCP (we custody
     // nothing); flag false so the UI can mark the trust surface.

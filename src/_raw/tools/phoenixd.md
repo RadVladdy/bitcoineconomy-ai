@@ -39,7 +39,7 @@ That combination is why it keeps turning up as the answer to *"how does a softwa
 ## When to use it
 
 - **Giving an autonomous agent a wallet of its own** on a VPS it already runs — the shortest path from "my agent has a server" to "my agent can pay and be paid."
-- **Machine-to-machine payments** where a human is never going to be around to babysit inbound liquidity.
+- **A2A (agent-to-agent) payments** where a human is never going to be around to babysit inbound liquidity.
 - **Key-based login** — the LNURL-auth endpoint means the agent's node key doubles as its credential at any service that accepts LNURL-auth, with no username or password anywhere.
 - Small services, tipping endpoints, and paywalled APIs where the operator wants self-custody without becoming a node operator.
 

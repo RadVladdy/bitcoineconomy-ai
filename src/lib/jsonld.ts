@@ -19,7 +19,12 @@ export function surfaceJsonLd(m: SurfaceMeta): object[] {
   const url = `${SITE.url}/${m.slug}`;
   const isTech =
     m.audience === 'agents' ||
-    ['stack', 'border-zone'].includes(m.slug.replace('-for-agents', ''));
+    // Only 'stack' qualifies by slug. 'border-zone' sat here until 2026-08-07 and had
+    // been unreachable since the surface was dissolved into Treasury — no content file
+    // carries that slug and the redirect stub emits no JSON-LD, so the branch was dead.
+    // Treasury is deliberately NOT added: it is the holding-decision narrative surface,
+    // and Article is the correct type for it.
+    ['stack'].includes(m.slug.replace('-for-agents', ''));
   const out: object[] = [
     {
       '@context': 'https://schema.org',
@@ -38,7 +43,10 @@ export function surfaceJsonLd(m: SurfaceMeta): object[] {
         'Bitcoin',
         'Lightning Network',
         'autonomous AI agents',
-        'machine-to-machine payments',
+        // A2A is canonical; 'machine-to-machine' is a retired synonym. This line
+        // predated that convention and shipped in the schema.org keyword array of
+        // every surface page, where no prose sweep over src/_raw could reach it.
+        'agent-to-agent payments',
         'monetary substrate',
       ],
       isAccessibleForFree: true,

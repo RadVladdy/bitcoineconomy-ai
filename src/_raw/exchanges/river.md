@@ -3,7 +3,7 @@ title: River
 slug: river
 type: exchange-card
 category: custodial-bitcoin-only
-featured: true
+featured: false
 kyc: required
 custody: custodial
 agent-path: owner-delegated

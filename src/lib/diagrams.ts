@@ -113,9 +113,9 @@ export function substrateMatrix(): string {
     body += `<tr class="${r.win ? 'win' : ''}"><th scope="row">${r.name}</th>` +
       r.cells.map((c) => `<td class="cell cell-${c}"><span class="glyph" aria-hidden="true">${glyph[c]}</span><span class="sr-only">${label[c]}</span></td>`).join('') + '</tr>';
   });
-  return `<figure class="diagram matrix"><figcaption class="matrix-title">Substrate evaluation — four constraints, conjunctive</figcaption>
+  return `<figure class="diagram matrix"><figcaption class="matrix-title">Substrate evaluation — four requirements that all have to hold at once</figcaption>
 <div class="matrix-scroll"><table><thead><tr><th scope="col">Substrate</th>${cols.map((c) => `<th scope="col">${c}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div>
-<p class="matrix-note">Only one row satisfies all four constraints conjunctively. <span class="legend"><span class="k cell-pass">✓ pass</span> <span class="k cell-partial">◐ partial</span> <span class="k cell-fail">✗ fail</span></span></p></figure>`;
+<p class="matrix-note">Only one row meets all four. <span class="legend"><span class="k cell-pass">✓ pass</span> <span class="k cell-partial">◐ partial</span> <span class="k cell-fail">✗ fail</span></span></p></figure>`;
 }
 
 /* 4 — Follow one payment down the stack */
