@@ -92,6 +92,17 @@ export const KIND_REQUEST = 38556;
 // holding, escrowing or attesting to anything.
 export const KIND_COMMENT = 1111;
 export const REQUEST_STATUSES = ['open', 'claimed', 'delivered', 'settled', 'withdrawn'];
+// The settlement vocabulary, beside the status vocabulary because they are the
+// same kind of thing: a published list that several surfaces restate. It lived
+// only as a local const in mcp-lib.mjs while build.mjs hand-typed the same four
+// values into the spec prose, so the two could drift silently.
+//
+// SHARING THE LIST IS NOT THE SAME AS CONSTRAINING THE SCHEMA. The generated
+// request schema deliberately does NOT enum-constrain `pay`: the merged
+// directory already carries x402 and mpp on curated rows, so an enum would put
+// the published schema at war with the published data. This constant is what the
+// TOOL offers and what the prose says; it is not a validator.
+export const PAY_METHODS = ['zaps', 'lightning', 'cashu', 'l402'];
 
 export function makeFilters(nowSec) {
   return {

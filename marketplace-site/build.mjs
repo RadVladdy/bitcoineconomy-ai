@@ -18,10 +18,11 @@
 // Run from marketplace-site/:  node build.mjs
 // Regenerate + commit whenever cards or the overlay change.
 
-import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { KIND_ANNOUNCE, KIND_REQUEST, RELAYS } from './snapshot-lib.mjs';
+import { KIND_ANNOUNCE, KIND_REQUEST, RELAYS, REQUEST_STATUSES, PAY_METHODS } from './snapshot-lib.mjs';
+import { rewriteCuratedRows } from './master-lib.mjs';
 import { CATEGORIES, CATEGORY_ORDER, isValidPair, vocabularyDoc } from './taxonomy.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -197,6 +198,33 @@ const directory = {
 };
 
 writeFileSync(join(HERE, 'directory.json'), JSON.stringify(directory, null, 2) + '\n');
+
+// The committed master.json is the fallback serveMaster drops to when the KV copy
+// is absent or was built by a superseded registry. Its CURATED rows come from the
+// same directory we just generated, so they are refreshed here — otherwise a
+// service removed from directory-overlay.json vanishes from directory.json and its
+// entries/<slug>.md is deleted while the fallback keeps serving the row, which is
+// precisely the state the removed-row guard rejects the KV copy for.
+//
+// Deliberately NOT a deploy.sh assertion: the only other writer is
+// `fetch-external.mjs --write`, which reaches 402index.io and l402.space, so
+// asserting the two agree would let a THIRD PARTY BEING DOWN fail an unrelated
+// deploy. Only the curated tier is rewritten; the announced and external tiers are
+// observations this build has nothing fresher to say about.
+{
+  const masterPath = join(HERE, 'master.json');
+  if (existsSync(masterPath)) {
+    const before = JSON.parse(readFileSync(masterPath, 'utf8'));
+    const after = rewriteCuratedRows(before, directory);
+    // MINIFIED, matching fetch-external.mjs — the only other writer. Pretty-printing
+    // here would make every alternation between the two writers a 5,000-line diff.
+    writeFileSync(masterPath, JSON.stringify(after) + '\n');
+    const wasCurated = (before.services || []).filter((s) => s.source === 'curated').length;
+    const nowCurated = (after.services || []).filter((s) => s.source === 'curated').length;
+    console.log(`master.json fallback: curated rows ${wasCurated} -> ${nowCurated}, `
+      + `total ${before.count} -> ${after.count} (other tiers untouched)`);
+  }
+}
 
 // --- per-entry markdown routes -------------------------------------------------
 rmSync(join(HERE, 'entries'), { recursive: true, force: true });
@@ -1093,7 +1121,12 @@ const exampleRequest = {
   sig: '<64-byte hex schnorr signature — computed by your Nostr library>',
 };
 
-const STATUSES = ['open', 'claimed', 'delivered', 'settled', 'withdrawn'];
+// The status vocabulary is DECLARED ONCE, in snapshot-lib.mjs, and imported.
+// It used to be retyped here, which meant the generated spec, the generated
+// schema enum this file ENFORCES, and the indexer that actually classifies a
+// live event were three independent copies of one list. post_bounty already
+// imported the shared constant; these did not.
+const STATUSES = REQUEST_STATUSES;
 
 const requestSpecMd = [
   '# Agent-payable work request — a microstandard',
@@ -1372,7 +1405,7 @@ const requestSchema = {
   $comment:
     'Tag grammar: d=stable request id (replaceability key) · k=category (' + CATEGORY_ORDER.join('|') + ') · '
     + 'amount=offered amount in MILLISATS, matching NIP-57 units exactly (50000000 = 50000 sats) · '
-    + 'pay=settlement method (repeatable: zaps|lightning|cashu|l402) · status=' + STATUSES.join('|') + ' · '
+    + 'pay=settlement method (repeatable: ' + PAY_METHODS.join('|') + ') · status=' + STATUSES.join('|') + ' · '
     + 'expiration=NIP-40 unix timestamp · a=address of a targeted listing (repeatable) · p=targeted pubkey · '
     + 'u=url the work concerns · t=freeform topic. The directory never escrows, arbitrates, or charges a fee.',
 };

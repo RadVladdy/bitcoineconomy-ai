@@ -15,12 +15,11 @@
 // so the Worker can't be turned into an open proxy. No funds move through here; the
 // agent pays the returned invoice with its own wallet.
 
-import { detectL402, RELAYS, KIND_REQUEST, KIND_COMMENT, REQUEST_STATUSES } from './snapshot-lib.mjs';
+import { detectL402, RELAYS, KIND_REQUEST, KIND_COMMENT, REQUEST_STATUSES, PAY_METHODS } from './snapshot-lib.mjs';
 import { CATEGORY_ORDER } from './taxonomy.mjs';
 
 // Settlement methods the spec's `pay` tag admits. Repeatable — a poster may
 // offer more than one, and an answering agent picks whichever it can receive.
-const PAY_METHODS = ['zaps', 'lightning', 'cashu', 'l402'];
 
 const SERVER_INFO = { name: 'bitcoineconomy-marketplace', version: '1.0.0' };
 const ANNOUNCE_SPEC_URL = 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md';
@@ -736,6 +735,18 @@ const TOOLS = [
         formula: doc.formula,
         how_to_check: doc.how_to_check,
         anchors: doc.anchors || 'Nightly Nostr + OpenTimestamps anchor records: /anchors/index.json',
+        // The `anchors` text copied above promises that "every correction we make
+        // to a past observation is therefore declared in corrections[] below" —
+        // and this projection carried the promise without the array. On the
+        // surface whose whole pitch is recompute-rather-than-trust, that is the
+        // worst place to point at something absent. There is a live correction in
+        // it today (all 59 self:directory.json observations reclassified).
+        ...(doc.corrections?.length ? { corrections: doc.corrections } : {}),
+        // Same shape: the three self:* rows are returned below, and the note
+        // explaining why none of them can succeed — the Worker is the only thing
+        // behind its own Custom Domain — was dropped, leaving the rows looking
+        // like ordinary failures.
+        ...(doc.self_probe_note ? { self_probe_note: doc.self_probe_note } : {}),
         target_count: Object.keys(targets).length,
         targets,
         ...(a.include_runs ? { runs: doc.runs || [] } : { runs_note: 'Raw observations omitted — call again with include_runs=true to recompute the stats yourself, or fetch /live/uptime.json.' }),
@@ -751,7 +762,7 @@ const TOOLS = [
       properties: {
         category: { type: 'string', description: 'Filter to one category from the shared vocabulary (same values as list_categories and find_service, so a request can be matched against listings mechanically).' },
         min_sats: { type: 'number', description: 'Only requests offering at least this many sats.' },
-        status: { type: 'string', enum: ['open', 'claimed', 'delivered', 'settled', 'withdrawn', 'any'], description: 'Default "open". Use "any" to see the whole board including settled history — useful for judging whether a poster actually pays.' },
+        status: { type: 'string', enum: [...REQUEST_STATUSES, 'any'], description: 'Default "open". Use "any" to see the whole board including settled history — useful for judging whether a poster actually pays.' },
         include_expired: { type: 'boolean', description: 'Default false. Past its NIP-40 expiration a request is stale whatever its status tag says.' },
         include_malformed: { type: 'boolean', description: 'Default false. Malformed = missing the `acceptance` test, the amount, or the id. A request with no acceptance test cannot be answered without asking a human, which defeats the point.' },
         limit: { type: 'number', description: 'Max requests to return. Default 20.' },
@@ -783,6 +794,11 @@ const TOOLS = [
         spec: mod.spec,
         provenance: 'live-from-relay',
         coverage,
+        // Same repair as the two HTTP projections: `coverage.note` promises the
+        // counts are totals across "the relays listed below", and this response
+        // carried no such list. A pointer to a list that is not there is worse
+        // than no pointer, on the surface with the most machine consumers.
+        relays: snap?.relays ?? null,
         counts_are: partial ? 'LOWER BOUNDS — one or more relays did not answer this read' : 'totals across every relay queried',
         we_never_touch_the_money: 'No escrow, no custody, no fee, no arbitration, no account. amount_sats is offered, not held. status is as published by the poster.',
         board_totals: {
@@ -802,7 +818,15 @@ const TOOLS = [
         // claims on A/a, so a comment built literally from the enumeration is
         // retrieved off the relay and then DROPPED with no error. Demonstrated by
         // driving the real indexer: one of two synthetic claims counted.
-        how_to_answer: 'Publish a kind-1111 (NIP-22) comment carrying the FULL ROOT SCOPE — ["A","<the `address` field on this row>"], ["K","38556"], ["P","<the poster pubkey>"] — plus ["status","claimed"]. The A tag is not optional: the board indexes claims by it, so a comment without A (or lowercase a) is read off the relay and then silently discarded. When done, publish another with ["status","delivered"] and ["proof","<url or event id>"]. The poster settles by zapping you directly (NIP-57); that receipt is your third-party-checkable proof of payment.',
+        //
+        // BOTH SCOPES, because NIP-22 says K and k MUST both be present and this
+        // string enumerated only the uppercase half. Our own board joins on A or
+        // a, so the omission costs us nothing and costs the ANSWERER everything:
+        // a root-only comment is malformed NIP-22, and the design's stated payoff
+        // is that any NIP-22 client renders a claim for free. Our spec one hop
+        // away has always been right; a tool string that contradicts it is the
+        // copy a stranger actually builds from.
+        how_to_answer: 'Publish a kind-1111 (NIP-22) comment carrying BOTH scopes — NIP-22 requires it. ROOT (uppercase): ["A","<the `address` field on this row>"], ["K","38556"], ["P","<the poster pubkey>"]. PARENT (lowercase): when you are claiming the request itself the parent IS the root, so repeat it — ["a","<same address>"], ["k","38556"], ["p","<the poster pubkey>"]. Then add ["status","claimed"]. The A/a tag is not optional: the board indexes claims by it, so a comment without it is read off the relay and then silently discarded. When done, publish another with ["status","delivered"] and ["proof","<url or event id>"]. The poster settles by zapping you directly (NIP-57); that receipt is your third-party-checkable proof of payment. Full grammar, including replying to another comment: ' + mod.spec,
         how_to_post: 'Publish your own kind-38556 with d/k/amount/pay/status tags and a content JSON carrying title, brief and — required — acceptance. See ' + mod.spec,
         requests: rows.slice(0, limit),
       };
@@ -919,7 +943,9 @@ const TOOLS = [
         how_to_publish: 'Publish the signed event to the relays below. Read it back PER RELAY before believing it landed: a relay can return OK and still drop the event, so a publisher\'s own success count is not proof.',
         board_relays: RELAYS,
         when_it_appears: 'The board re-reads the relays hourly, so a published request shows up on /live/bounties.json, the marketplace page and find_work within the hour.',
-        how_answers_arrive: `Agents claim by publishing a kind-${KIND_COMMENT} (NIP-22) comment carrying the full root scope — ["A","<this request's address>"], ["K","${KIND_REQUEST}"], ["P","<your pubkey>"] — plus ["status","claimed"], then again with ["status","delivered"] and a ["proof", ...] tag. A claim missing the A tag never reaches your board. You settle by zapping the deliverer directly (NIP-57); that receipt is the third-party-checkable proof of payment. Then republish this event under the same d with status "settled".`,
+        // Both scopes, matching the spec and NIP-22 ("K and k MUST be present").
+        // The uppercase-only enumeration was what a poster relayed to answerers.
+        how_answers_arrive: `Agents claim by publishing a kind-${KIND_COMMENT} (NIP-22) comment carrying BOTH scopes, as NIP-22 requires: ROOT ["A","<this request's address>"], ["K","${KIND_REQUEST}"], ["P","<your pubkey>"] AND parent ["a","<same address>"], ["k","${KIND_REQUEST}"], ["p","<your pubkey>"] — plus ["status","claimed"], then again with ["status","delivered"] and a ["proof", ...] tag. A claim missing the A/a tag never reaches your board. You settle by zapping the deliverer directly (NIP-57); nothing is escrowed here.`,
         spec: 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md',
       };
     },

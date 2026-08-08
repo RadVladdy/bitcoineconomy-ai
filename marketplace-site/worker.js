@@ -122,6 +122,13 @@ async function serveAnnounced(env, origin) {
     provenance: 'live-from-relay',
     live: !fromFallback,
     coverage: snap.coverage ?? null,
+    // `coverage.note` says the counts are "totals across the relays listed
+    // below". That is true on /live/snapshot.json, where the list really is
+    // below — but this route PROJECTS one module out of the snapshot and used to
+    // leave the list behind, so it pointed at something that was not there.
+    // Attached here rather than by rewording coverageOf(), which is correct
+    // where it lives.
+    relays: snap.relays ?? null,
     ...mod,
   }), { headers });
 }
@@ -187,6 +194,13 @@ async function serveBounties(env, origin) {
     provenance: 'live-from-relay',
     live: !fromFallback,
     coverage: snap.coverage ?? null,
+    // `coverage.note` says the counts are "totals across the relays listed
+    // below". That is true on /live/snapshot.json, where the list really is
+    // below — but this route PROJECTS one module out of the snapshot and used to
+    // leave the list behind, so it pointed at something that was not there.
+    // Attached here rather than by rewording coverageOf(), which is correct
+    // where it lives.
+    relays: snap.relays ?? null,
     ...mod,
   }), { headers });
 }

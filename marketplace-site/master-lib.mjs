@@ -62,6 +62,19 @@ export const SOURCES = {
 
 export const SOURCE_ORDER = ['curated', 'announced', 'gateway-observed', 'external-index'];
 
+// The curated tier's freshness, declared once so the live document and the
+// committed fallback cannot disagree about it. Curated rows are bundled at deploy
+// time rather than fetched, so the tier has no refresh clock to be late against;
+// judging it on one flipped `stale` true a few hours after every deploy.
+export const CURATED_FRESHNESS = {
+  stale: null,
+  stale_after_hours: null,
+  freshness_basis: 'bundled at deploy time and editor-verified row by row, so this tier '
+    + 'has no refresh clock and no document-level staleness. Freshness for a curated row is '
+    + 'the `last-verified` (or `links-verified`) stamp on that row\'s own card, not the age '
+    + 'of this file.',
+};
+
 // Payment methods that mean an agent pays in Bitcoin without an intermediary
 // holding the sats leg.
 const BITCOIN_NATIVE_METHODS = new Set(['lightning', 'l402', 'cashu', 'nwc', 'zaps', 'onchain', 'liquid', 'spark']);
@@ -309,6 +322,58 @@ function dedupe(rows) {
  * Every input is optional — a source that failed to refresh is simply absent,
  * and `sources[].available` says so rather than the table silently shrinking.
  */
+// Display order: curated first, then Bitcoin-native before gateway-only, then by
+// category order, then by name. The sovereignty-first rule the curated registry
+// has always used, extended across the merged table. Named rather than inlined so
+// the fallback rewrite below sorts by exactly the same rule instead of a copy.
+const srcRank = Object.fromEntries(SOURCE_ORDER.map((s, i) => [s, i]));
+const railRank = { 'bitcoin-native': 0, 'via-gateway': 1, 'fiat-only': 2 };
+export function displayOrder(a, b) {
+  const catRank = Object.fromEntries(CATEGORY_ORDER.map((c, i) => [c, i]));
+  return srcRank[a.source] - srcRank[b.source]
+    || (railRank[a.rail] ?? 3) - (railRank[b.rail] ?? 3)
+    || (catRank[a.category] ?? 99) - (catRank[b.category] ?? 99)
+    || String(a.name).localeCompare(String(b.name));
+}
+
+/**
+ * Refresh the CURATED rows of a committed master.json from the bundled
+ * directory.json, leaving the other three tiers exactly as they are.
+ *
+ * WHY THIS EXISTS. `master.json` is the committed fallback serveMaster drops to
+ * when the KV copy is missing or was built by a superseded registry — and only
+ * `node fetch-external.mjs --write` ever wrote it, which reaches two third-party
+ * APIs. `node build.mjs` never did. So removing a service from
+ * directory-overlay.json took it out of directory.json and deleted its
+ * entries/<slug>.md while master.json kept serving the row: proven in scratch,
+ * and 21 commits changed directory.json without touching master.json.
+ *
+ * The removed-row guard was working correctly and then falling back to a document
+ * carrying the very row it had just rejected.
+ *
+ * Only the curated tier is touched. The announced and external tiers are
+ * observations of the outside world; this build has nothing fresher to say about
+ * them, and rewriting them here would be inventing data.
+ */
+export function rewriteCuratedRows(master, directory) {
+  const fresh = fromCurated(directory);
+  const others = (master.services || []).filter((s) => s.source !== 'curated');
+  const services = [...fresh, ...others].sort(displayOrder);
+  const sources = { ...(master.sources || {}) };
+  if (sources.curated) {
+    sources.curated = {
+      ...sources.curated,
+      rows_contributed: fresh.length,
+      generated_at: directory.generated_at || sources.curated.generated_at || null,
+      ...CURATED_FRESHNESS,
+    };
+  }
+  // `count` is the total across ALL four tiers, so it must be recomputed from the
+  // merged array. An assertion comparing it to the curated registry's size would
+  // be comparing 107 against 22.
+  return { ...master, count: services.length, services, sources };
+}
+
 export function buildMaster({ directory, snapshot, l402index, l402space, uptime, tierHealth }, { generatedAt, base = 'https://marketplace.bitcoineconomy.ai' } = {}) {
   const parts = [
     ['curated', fromCurated(directory), directory],
@@ -322,15 +387,7 @@ export function buildMaster({ directory, snapshot, l402index, l402space, uptime,
   // Display order: curated first, then Bitcoin-native before gateway-only, then
   // by category order, then by name. The sovereignty-first rule the curated
   // registry has always used, extended across the merged table.
-  const srcRank = Object.fromEntries(SOURCE_ORDER.map((s, i) => [s, i]));
-  const catRank = Object.fromEntries(CATEGORY_ORDER.map((c, i) => [c, i]));
-  const railRank = { 'bitcoin-native': 0, 'via-gateway': 1, 'fiat-only': 2 };
-  all.sort((a, b) =>
-    srcRank[a.source] - srcRank[b.source] ||
-    (railRank[a.rail] ?? 3) - (railRank[b.rail] ?? 3) ||
-    (catRank[a.category] ?? 99) - (catRank[b.category] ?? 99) ||
-    String(a.name).localeCompare(String(b.name)),
-  );
+  all.sort(displayOrder);
 
   const tally = (key) => {
     const t = {};
@@ -380,17 +437,31 @@ export function buildMaster({ directory, snapshot, l402index, l402space, uptime,
       ...(() => {
         const ts = Date.parse(doc?.generated_at || '');
         const ageHours = Number.isFinite(ts) ? (Date.parse(generatedAt) - ts) / 3.6e6 : null;
+        const h = tierHealth?.[key] || null;
+        const common = {
+          age_hours: ageHours === null ? null : Math.round(ageHours * 10) / 10,
+          consecutive_failures: h ? (h.consecutive_failures ?? 0) : null,
+          last_fetch_error: h?.consecutive_failures ? (h.last_error ?? null) : null,
+        };
+        // The curated tier is a BUNDLED, deploy-time artifact rather than a fetch,
+        // so it has no refresh clock to be late against. Judging it on one made
+        // `stale` flip true about three hours after every deploy and `age_hours`
+        // grow without bound — on the one tier this document calls the only
+        // editor-verified one, and it says so in-band here and through
+        // list_categories.
+        //
+        // THE REPAIR IS AN EXPLICIT BRANCH, NOT `budget = null`: `ageHours > null`
+        // coerces null to 0, so every row would report stale:true — the exact
+        // inversion of the intent.
+        if (key === 'curated') return { ...common, ...CURATED_FRESHNESS };
         // Relay-derived tiers refresh hourly; the external tiers ride the
         // 6-hourly pass. Judge each against its own clock — a 6-hour-old probe
         // tier is on time, and calling it stale would cry wolf every run.
-        const budget = (key === 'curated' || key === 'announced') ? 3 : 12;
-        const h = tierHealth?.[key] || null;
+        const budget = key === 'announced' ? 3 : 12;
         return {
-          age_hours: ageHours === null ? null : Math.round(ageHours * 10) / 10,
+          ...common,
           stale: ageHours === null ? null : ageHours > budget,
           stale_after_hours: budget,
-          consecutive_failures: h ? (h.consecutive_failures ?? 0) : null,
-          last_fetch_error: h?.consecutive_failures ? (h.last_error ?? null) : null,
         };
       })(),
       attribution: doc?.attribution || null,
