@@ -482,9 +482,22 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
     const c = r.address ? claimIndex.get(r.address) : null;
     r.claims = c ? { comments: c.comments, claimed: c.claimed, delivered: c.delivered, proofs: c.proofs, latest_at: c.latest_at } : { comments: 0, claimed: 0, delivered: 0, proofs: [] };
   }
-  // Open and unexpired first — that is the only cohort an agent can act on —
-  // then by size, then by recency.
-  const actionable = (r) => r.status === 'open' && !r.expired && !r.malformed;
+  // "Actionable" has to mean an agent can start this and expect to be the one
+  // paid for it, not merely that the poster has not got round to advancing the
+  // status yet. `status` lives on the POSTER's replaceable event and only the
+  // poster's key can move it, while a delivery is published instantly by anyone
+  // — so there is always a window where work is finished and the request still
+  // reads `open`. Counting that window as actionable is how a board sends a
+  // second worker at a job that is already done. (Measured 2026-08-08: two
+  // requests carried a delivery for hours while `open_actionable` said 5.)
+  //
+  // A DELIVERY disqualifies a request; a bare CLAIM does not, and the asymmetry
+  // is deliberate. Claiming is free and unilateral, so if a claim removed a row
+  // from the board then anyone could freeze the entire board by commenting
+  // "claimed" on every request and never delivering. Delivering costs real work.
+  // Only the expensive signal is allowed to close anything.
+  const hasDelivery = (r) => (r.claims?.delivered ?? 0) > 0;
+  const actionable = (r) => r.status === 'open' && !r.expired && !r.malformed && !hasDelivery(r);
   requests.sort((a, b) =>
     (actionable(b) ? 1 : 0) - (actionable(a) ? 1 : 0) ||
     (b.amount_sats ?? 0) - (a.amount_sats ?? 0) ||
@@ -505,6 +518,13 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
   }
   const openActionable = requests.filter(actionable);
   const satsOfferedOpen = openActionable.reduce((t, r) => t + (r.amount_sats ?? 0), 0);
+  // Dropping these from `open_actionable` must not make them vanish from the
+  // document — that would swap one false number for a quieter one. They are
+  // published as their own cohort: work that exists and is owed for, with the
+  // sats it is owed. It is also the honest measure of how fast a poster settles,
+  // which is the reputation this board says it runs on.
+  const awaitingSettlement = requests.filter((r) => r.status === 'open' && !r.malformed && hasDelivery(r));
+  const satsAwaitingSettlement = awaitingSettlement.reduce((t, r) => t + (r.amount_sats ?? 0), 0);
 
   const reviewsByTargetKind = {};
   for (const ev of reviews) {
@@ -597,7 +617,9 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
         // was summed over.
         sats_offered_open: satsOfferedOpen,
         sats_offered_denominator: openActionable.length,
-        note: 'Signed work requests published with our "agent-payable work request" microstandard (kind ' + KIND_REQUEST + '): an offer to pay an agent in sats to do a job. Status is as published by the poster — this directory reads the events, it does not escrow, arbitrate, verify delivery, or take a fee. Claims and deliveries are NIP-22 comments (kind ' + KIND_COMMENT + '); payment proof is a NIP-57 zap receipt, checkable by any third party. `sats_offered_open` is offered, not held.',
+        awaiting_settlement: awaitingSettlement.length,
+        sats_awaiting_settlement: satsAwaitingSettlement,
+        note: 'Signed work requests published with our "agent-payable work request" microstandard (kind ' + KIND_REQUEST + '): an offer to pay an agent in sats to do a job. Status is as published by the poster — this directory reads the events, it does not escrow, arbitrate, verify delivery, or take a fee. Claims and deliveries are NIP-22 comments (kind ' + KIND_COMMENT + '); payment proof is a NIP-57 zap receipt, checkable by any third party. `sats_offered_open` is offered, not held. `open_actionable` EXCLUDES requests somebody has already delivered on, even while the poster still publishes them as open — starting one of those means doing work a second time. Those are counted in `awaiting_settlement` instead. A bare claim does NOT exclude a request: claiming is free, so treating it as a lock would let anyone freeze the board.',
         requests,
       },
       reviews: { kind: 38000, count: reviews.length, by_target_kind: reviewsByTargetKind },

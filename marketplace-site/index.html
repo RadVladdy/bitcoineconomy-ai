@@ -1177,12 +1177,20 @@
 
     function statusCell(r) {
       if (r.expired) return '<span class="st st-expired" title="Past its NIP-40 expiration. Rarely seen: relays honouring NIP-40 stop serving an expired request, so it normally leaves the board instead of appearing here">◌ expired</span>';
+      // A delivered-but-not-yet-settled request reads `open` on the wire, because
+      // `status` is the poster's field and only their key moves it. Showing a bare
+      // "open" chip on work somebody has already done is how a reader — or an agent
+      // — gets sent at a finished job. Say both: what the poster published, and what
+      // has actually happened to it.
+      if (r.status === 'open' && (r.claims && r.claims.delivered)) {
+        return '<span class="st st-delivered" title="The poster still publishes this as open — only their key can change that field — but a delivery has been published against it. Do not start this one.">◑ delivered · awaiting settlement</span>';
+      }
       const label = { open: '● open', claimed: '◐ claimed', delivered: '◑ delivered', settled: '✓ settled', withdrawn: '✗ withdrawn' }[r.status] || r.status;
       return '<span class="st st-' + esc(r.status) + '" title="Status as published by the poster — we read it, we do not verify it">' + label + '</span>';
     }
 
     function card(r) {
-      const inactive = r.expired || ['settled', 'withdrawn'].includes(r.status);
+      const inactive = r.expired || ['settled', 'withdrawn'].includes(r.status) || (r.claims && r.claims.delivered > 0);
       const bits = [];
       if (r.category) {
         bits.push('<span class="b b-auto">' + esc(r.category) + (r.subcategory ? ' / ' + esc(r.subcategory) : '') + '</span>');
@@ -1223,7 +1231,7 @@
     function hits() {
       return bstate === 'all'
         ? R.requests
-        : R.requests.filter((r) => r.status === 'open' && !r.expired);
+        : R.requests.filter((r) => r.status === 'open' && !r.expired && !(r.claims && r.claims.delivered > 0));
     }
     function renderList() {
       const h = hits();

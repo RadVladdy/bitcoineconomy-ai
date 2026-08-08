@@ -414,7 +414,9 @@ const llms = [
   '   no arbitration, no account. `sats_offered_open` is OFFERED, not held; `status` is what the poster published,',
   '   not something we verified. Claims/deliveries are NIP-22 comments (kind 1111) scoped to the request address;',
   '   payment proof is a NIP-57 zap receipt, checkable by any third party without us. Filter to the cohort you can',
-  '   act on: status === "open" && !expired && !malformed. Also projected out of /live/snapshot.json#modules.requests,',
+  '   act on: status === "open" && !expired && !malformed && claims.delivered === 0 — that last clause matters, because',
+  '   only the poster can move `status` and anyone can publish a delivery, so a finished job reads open until the poster',
+  '   catches up. Also projected out of /live/snapshot.json#modules.requests,',
   '   which is the same data — fetch the dedicated route unless you want the whole snapshot anyway. MCP: find_work to',
   '   read the board, post_bounty to compose one (it returns an UNSIGNED event — we hold no keys and no funds, so you',
   '   sign and publish it yourself). To answer one, see',
@@ -776,7 +778,7 @@ const openapi = {
           + 'arbitration, no account. `sats_offered_open` is OFFERED, not held, and `status` is what the poster '
           + 'published, not something this directory verified. Claims and deliveries are NIP-22 comments (kind 1111) '
           + 'scoped to the request address; proof of payment is a NIP-57 zap receipt any third party can check. Act on '
-          + 'the cohort you can actually answer: status === "open" && !expired && !malformed. Projected out of '
+          + 'the cohort you can actually answer: status === "open" && !expired && !malformed && claims.delivered === 0. That last clause is load-bearing: only the poster can move `status`, anyone can publish a delivery, so a finished job reads as open until the poster catches up — and starting one means doing the work twice for one payment. Projected out of '
           + '/live/snapshot.json#modules.requests — the same data, without the rest of the snapshot. Refreshed hourly '
           + 'from the relays; static fallback at /snapshot.json. To post one, call post_bounty on /mcp (it returns an '
           + 'UNSIGNED event — this server holds no keys and no funds). Spec: /spec/agent-payable-work-request.md',

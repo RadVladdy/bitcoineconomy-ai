@@ -764,6 +764,7 @@ const TOOLS = [
         min_sats: { type: 'number', description: 'Only requests offering at least this many sats.' },
         status: { type: 'string', enum: [...REQUEST_STATUSES, 'any'], description: 'Default "open". Use "any" to see the whole board including settled history — useful for judging whether a poster actually pays.' },
         include_expired: { type: 'boolean', description: 'Default false, and it rarely changes anything: the relays this board reads honour NIP-40 and stop serving expired events, so an expired request usually leaves the board rather than sitting on it flagged. Set true only to also see rows that a NIP-40-ignoring relay is still handing out.' },
+        include_delivered: { type: 'boolean', description: 'Default false. Somebody has already published a delivery against these, so the work exists and is owed for — starting one means doing it a second time for one payment. They still read status "open" because only the poster can move that field. Set true only to audit the board, never to pick work.' },
         include_malformed: { type: 'boolean', description: 'Default false. Malformed = missing the `acceptance` test, the amount, or the id. A request with no acceptance test cannot be answered without asking a human, which defeats the point.' },
         limit: { type: 'number', description: 'Max requests to return. Default 20.' },
       },
@@ -786,6 +787,13 @@ const TOOLS = [
       if (wantStatus !== 'any') rows = rows.filter((r) => r.status === wantStatus);
       if (!a.include_expired) rows = rows.filter((r) => !r.expired);
       if (!a.include_malformed) rows = rows.filter((r) => !r.malformed);
+      // Somebody has already delivered on this one. `status` is the POSTER's field
+      // and only their key can move it, so a finished job keeps reading `open`
+      // until they get round to it — and the default here used to hand exactly
+      // those rows to the next agent that asked for work. A bare claim is NOT
+      // filtered: claiming is free, so honouring it as a lock would let anyone
+      // empty the board by commenting.
+      if (!a.include_delivered) rows = rows.filter((r) => ((r.claims?.delivered ?? 0) === 0));
       if (a.category) rows = rows.filter((r) => r.category === String(a.category).toLowerCase());
       if (a.min_sats != null) rows = rows.filter((r) => (r.amount_sats ?? 0) >= Number(a.min_sats));
 
@@ -809,8 +817,10 @@ const TOOLS = [
           malformed: mod.malformed,
           sats_offered_open: mod.sats_offered_open,
           sats_offered_denominator: mod.sats_offered_denominator,
+          awaiting_settlement: mod.awaiting_settlement,
+          sats_awaiting_settlement: mod.sats_awaiting_settlement,
         },
-        filters_applied: { status: wantStatus, category: a.category || null, min_sats: a.min_sats ?? null, include_expired: !!a.include_expired, include_malformed: !!a.include_malformed },
+        filters_applied: { status: wantStatus, category: a.category || null, min_sats: a.min_sats ?? null, include_expired: !!a.include_expired, include_malformed: !!a.include_malformed, include_delivered: !!a.include_delivered },
         match_count: rows.length,
         returned: Math.min(rows.length, limit),
         // Spell out the A tag. This used to say "scoped to `address`" and then
