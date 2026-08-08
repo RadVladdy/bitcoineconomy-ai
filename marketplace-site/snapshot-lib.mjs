@@ -16,36 +16,19 @@
 // protocol, different job: that set optimizes OUR reach, this one optimizes
 // whether we can SEE what other people published.
 //
-// Membership is earned on evidence, re-checkable by anyone:
-//   * up on repeated sampling, not once;
-//   * serves unregistered 38xxx kinds (a relay that whitelists kinds is useless
-//     to a microstandard — verified with kind 38383, which has real traffic, so
-//     an empty result means "no data" rather than "relay refuses the range");
-//   * FREE TO WRITE. This list is an instruction to strangers, so payment or
-//     auth on it is a paywall between someone and our own board.
+// GENERATED from nostr-publisher/nostr-registry.json (purpose: "board"), the
+// single source of truth for every relay list in the portfolio. The membership
+// rules — up on repeated sampling, serves unregistered 38xxx kinds, free to
+// write — and the full 2026-08-06 nostr.band → bitcoiner.social swap record now
+// live in the registry beside the data they govern, because a rationale kept in
+// a different file from the list it explains is the same drift in prose form.
 //
-// That last rule is why no paid relay is here and it is not a cost decision.
-// nostr.wine wants 18,888 sats admission AND restricts writes; filter.nostr.wine
-// adds NIP-42 auth on top. Paying would not even buy the thing that is broken:
-// payment does not stop downtime, and downtime is the entire problem.
-//
-// 2026-08-06 — `relay.nostr.band` REPLACED by `nostr.bitcoiner.social`. Nostr.band
-// answered 0 of 3 sampling rounds, timed out on NIP-11, and returned 522 to both
-// this box and the Cloudflare Worker for days. Independent corroboration rather
-// than just our own probe: NIP-66 monitors have effectively stopped reporting on
-// it — its newest kind-30166 report is ~5,700 HOURS old from a single monitor,
-// against 0-hour-old reports from 16–38 monitors for the other three.
-// bitcoiner.social replaces it on measurement: up 3/3, strfry, free, a different
-// operator, and it was ALREADY carrying all five live bounties, so the swap
-// needed no re-broadcast. (`relay.damus.io` stays despite sampling 2/3 — it
-// serves the whole board when up, 37 monitors still report on it hourly, and the
-// `coverage` block now makes its flapping visible instead of silent.)
-export const RELAYS = [
-  'wss://nos.lol',
-  'wss://relay.primal.net',
-  'wss://relay.damus.io',
-  'wss://nostr.bitcoiner.social',
-];
+// Do not hand-edit nostr-relays.generated.mjs. Regenerate it and let the
+// pre-push check prove the copy still matches. It is a generated copy rather
+// than a shared import because this file runs in a Cloudflare Worker: no
+// filesystem at runtime, no cross-repo imports, so the set must be in the
+// bundle — the exact constraint that produced the drift the registry stops.
+export { RELAYS } from './nostr-relays.generated.mjs';
 
 import { CATEGORY_ORDER, CATEGORIES } from './taxonomy.mjs';
 

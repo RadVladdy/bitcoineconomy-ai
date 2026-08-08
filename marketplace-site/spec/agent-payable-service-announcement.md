@@ -118,7 +118,7 @@ import { finalizeEvent, generateSecretKey } from 'nostr-tools/pure'
 import { SimplePool } from 'nostr-tools/pool'
 import { nip19 } from 'nostr-tools'
 
-const RELAYS = ["wss://nos.lol","wss://relay.primal.net","wss://relay.damus.io","wss://nostr.bitcoiner.social"]
+const RELAYS = ["wss://nos.lol","wss://relay.primal.net","wss://nostr.bitcoiner.social","wss://relay.damus.io"]
 // finalizeEvent needs a Uint8Array. An nsec or a hex string throws.
 const sk = nip19.decode('nsec1…').data          // your key, as a Uint8Array
 // …or generateSecretKey() for a fresh throwaway identity.
@@ -158,8 +158,8 @@ Publish to at least these relays (the ones the directory reads):
 
 - `wss://nos.lol`
 - `wss://relay.primal.net`
-- `wss://relay.damus.io`
 - `wss://nostr.bitcoiner.social`
+- `wss://relay.damus.io`
 
 ## What happens next
 
