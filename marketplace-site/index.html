@@ -1237,7 +1237,7 @@
     filtEl.addEventListener('click', (ev) => {
       const chip = ev.target.closest('.chip'); if (!chip) return;
       bstate = chip.dataset.bs;
-      filtEl.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c === chip));
+      filtEl.querySelectorAll('.chip').forEach((c) => { const on = c === chip; c.classList.toggle('on', on); c.setAttribute('aria-pressed', String(on)); });
       renderList();
     });
     renderList();
@@ -1277,11 +1277,11 @@
   const pstate = { reach: probe ? 'alive' : 'all', net: '' };
   const provFilters = $('#prov-filters');
   if (!probe) provFilters.style.display = 'none';
-  provFilters.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c.dataset.reach === pstate.reach));
+  provFilters.querySelectorAll('.chip').forEach((c) => { const on = c.dataset.reach === pstate.reach; c.classList.toggle('on', on); c.setAttribute('aria-pressed', String(on)); });
   provFilters.addEventListener('click', (ev) => {
     const chip = ev.target.closest('.chip'); if (!chip) return;
     pstate.reach = chip.dataset.reach;
-    provFilters.querySelectorAll('.chip').forEach((c) => c.classList.toggle('on', c === chip));
+    provFilters.querySelectorAll('.chip').forEach((c) => { const on = c === chip; c.classList.toggle('on', on); c.setAttribute('aria-pressed', String(on)); });
     renderProviders(SHOW);
   });
   $('#f-net').addEventListener('change', (ev) => { pstate.net = ev.target.value; renderProviders(SHOW); });

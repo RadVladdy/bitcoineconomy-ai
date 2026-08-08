@@ -814,8 +814,21 @@ figure.matrix .matrix-title {
 
 /* two-column: reading column + right rail */
 .surface-layout { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 2.4rem; align-items: start; }
-/* prose never widens the page over an unbreakable token (domains, hashes) */
-.surface-layout p, .prose p { overflow-wrap: break-word; }
+/* prose never widens the page over an unbreakable token (domains, hashes).
+   Covered `p` only until 2026-08-08, while every real offender lived in an `li`
+   or an inline `code`: at 375px /for-agents clipped its own MCP endpoint to
+   "marketplace.bitcoineconomy.ai/mc", un-copyable. `body`/`main` use overflow-x:
+   clip, which trims without creating a scroll container — so documentElement
+   .scrollWidth stayed exactly 375 and every scrollWidth-based mobile check passed
+   while the text was being destroyed. Verify this per element with
+   getBoundingClientRect().right, never with scrollWidth.
+   Headings are deliberately NOT included: breaking an h2 mid-word is a design
+   change, not a bug fix. Table cells are excluded too — they live in a deliberate
+   overflow-x:auto box and scroll on purpose. */
+.surface-layout p, .prose p,
+.surface-layout li, .prose li,
+.surface-layout dd, .prose dd { overflow-wrap: anywhere; }
+:not(pre) > code { overflow-wrap: anywhere; }
 .page-rail { font-size: 0.84rem; }
 .rail-sticky { position: sticky; top: 5.5rem; display: flex; flex-direction: column; gap: 1.7rem; }
 .rail-h { font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; color: var(--fg-soft); margin: 0 0 0.6rem; }
