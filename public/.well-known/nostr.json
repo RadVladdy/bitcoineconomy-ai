@@ -7,14 +7,15 @@
   "relays": {
     "7b6f7ec6c77f5328fbf8667fb86c17ccb99b2824c9c91924449292094df1fe05": [
       "wss://nos.lol",
-      "wss://nostr.mom",
-      "wss://nostr.bitcoiner.social"
+      "wss://relay.primal.net",
+      "wss://nostr.bitcoiner.social",
+      "wss://relay.damus.io"
     ],
     "37b6e3a6882294ff19e5a47357069a2023b98e59513cf2a61109e706ef9453e6": [
-      "wss://relay.damus.io",
       "wss://nos.lol",
       "wss://relay.primal.net",
-      "wss://nostr.bitcoiner.social"
+      "wss://nostr.bitcoiner.social",
+      "wss://relay.damus.io"
     ]
   }
 }
