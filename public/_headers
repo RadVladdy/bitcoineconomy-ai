@@ -18,12 +18,29 @@
 # Until 2026-08-07 the ONLY CORS rule here was the NIP-05 one below, so every .md
 # twin, llms.txt, agents.txt and llms-full.txt were unreadable from a browser-
 # resident agent while their marketplace equivalents were fine.
+#
+# ⚠️ `X-Robots-Tag: noindex` ADDED 2026-08-07 — and it does NOT reduce agent access.
+# noindex is a directive to SEARCH INDEXERS only; it is not a crawl block, the file
+# still serves 200 with its full body to anyone who asks, robots.txt still allows
+# every bot, and the HTML twin still advertises it via `rel=alternate`. What it
+# stops is Google keeping a SECOND copy of every page in its index.
+#
+# Why it was needed: every HTML page links its own .md twin, so Google was fetching
+# the whole site twice and nothing told it the two were the same thing — a .md file
+# physically cannot carry an HTML <link rel=canonical>, so the header is the only
+# place the signal can live. Search Console showed the result directly: 55 "Alternate
+# page with proper canonical tag" + 36 "Crawled - currently not indexed" against 134
+# real pages, i.e. Google was already declining to index the twins but was still
+# paying to crawl them on every pass.
 /llms.txt
   Access-Control-Allow-Origin: *
+  X-Robots-Tag: noindex
 /llms-full.txt
   Access-Control-Allow-Origin: *
+  X-Robots-Tag: noindex
 /agents.txt
   Access-Control-Allow-Origin: *
+  X-Robots-Tag: noindex
 /sitemap-0.xml
   Access-Control-Allow-Origin: *
 # sitemap-index.xml is the one llms.txt actually advertises; sitemap-0.xml is the
@@ -40,5 +57,11 @@
 # cross-origin fetch with a hard TypeError, i.e. worse than the missing header this
 # block was added to fix, while the root-level .md twins were fine. Removed
 # 2026-08-08; they set no header `/*.md` does not already set.
+#
+# The same cumulative-rule rule governs the noindex below: `/*` matches these paths
+# too but sets no X-Robots-Tag, so there is nothing here for this value to
+# concatenate with. Do NOT add a second block for any path already listed above —
+# that is exactly what produced `*, *` and broke all 64 card routes.
 /*.md
   Access-Control-Allow-Origin: *
+  X-Robots-Tag: noindex

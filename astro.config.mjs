@@ -7,17 +7,20 @@ import remarkCallouts from './src/lib/remark-callouts.mjs';
 
 const SITE_URL = 'https://bitcoineconomy.ai';
 
-// Surface slugs whose clean .md routes are added to the sitemap (the HTML routes
-// are auto-discovered; the .md routes are not). Human surfaces + For-Agents twins.
-const SURFACE_SLUGS = [
-  'case', 'the-story', 'agent-economy', 'adoption-asymmetry', 'independence-doctrine',
-  'border-skirmishes', 'convergence', 'why-bitcoin-not-a-new-coin', 'why-lightning-not-a-fast-chain',
-  'stack', 'marketplace', 'exchange', 'services', 'treasury', 'stablecoin-landscape', 'field-notes', 'field-notes-log', 'about',
-  'case-for-agents', 'agent-economy-for-agents', 'adoption-asymmetry-for-agents',
-  'independence-doctrine-for-agents', 'border-skirmishes-for-agents', 'convergence-for-agents',
-  'why-bitcoin-not-a-new-coin-for-agents', 'why-lightning-not-a-fast-chain-for-agents', 'stack-for-agents',
-  'treasury-for-agents', 'exchange-for-agents', 'services-for-agents', 'field-notes-for-agents', 'field-notes-log-for-agents',
-];
+// ⚠️ THE `.md` TWINS ARE DELIBERATELY *NOT* IN THE SITEMAP ANY MORE (2026-08-07).
+// A `SURFACE_SLUGS` list used to add 32 clean `.md` routes here as `customPages`, on
+// the reasoning that the HTML routes are auto-discovered and the .md ones are not.
+// That was the right instinct aimed at the wrong index: a sitemap is a request to a
+// SEARCH ENGINE, and `public/_headers` now serves `X-Robots-Tag: noindex` on `/*.md`,
+// so keeping them here would advertise to Google exactly the URLs we just asked it
+// not to index — a contradiction Google reports as a sitemap error rather than
+// splitting the difference. Removing them is the coherent half of that change; do
+// not restore this list without also removing the noindex.
+//
+// AGENT DISCOVERY IS UNAFFECTED, and that is the whole reason this is safe: agents
+// reach the .md twins through `/llms.txt` (which indexes every one), through the
+// `rel=alternate` link on each HTML page, and by the documented `<url>.md` convention.
+// None of those paths is Google's index. See public/_headers for the measurement.
 
 // https://astro.build/config
 export default defineConfig({
@@ -73,11 +76,7 @@ export default defineConfig({
     '/exchanges': '/exchange',
     '/services/directory': '/services',
   },
-  integrations: [
-    sitemap({
-      customPages: SURFACE_SLUGS.map((s) => `${SITE_URL}/${s}.md`),
-    }),
-  ],
+  integrations: [sitemap()],
   markdown: {
     // `markdown.remarkPlugins` was deprecated in favour of passing the plugin
     // list to `unified()` and handing the result to `markdown.processor`.
