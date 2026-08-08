@@ -38,7 +38,7 @@
       "description": "JSON string: { title, brief, acceptance, deliverable, links{context,spec} }. `acceptance` is REQUIRED and must be checkable — it is the test the deliverable has to pass.",
       "allOf": [
         {
-          "pattern": "\"acceptance\"\\s*:\\s*\"[^\"]"
+          "pattern": "\"acceptance\"\\s*:\\s*\"\\s*[^\\s\"]"
         },
         {
           "pattern": "^\\s*\\{"

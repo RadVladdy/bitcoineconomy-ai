@@ -373,7 +373,6 @@ Reference list of operational tooling. One line per entry. Verification URLs inc
 **Notable deployed agent-payment projects** (architectural scope in §6; adoption record at [[Field-Notes-FA|Field Notes]]):
 
 - **Minibits Ippon** — AI-agent-native Cashu wallet. https://minibits.cash/
-- **AI-Sats** — agent-native Lightning wallet. https://ai-sats.com/
 - **Mintbot** — Cashu-based agent payment surface. https://mintbot.cash/
 - **AgenticBTC** — agent-treasury management. https://agenticbtc.io/
 - **Bitclawd** — Lightning-native agent infrastructure. https://bitclawd.com/

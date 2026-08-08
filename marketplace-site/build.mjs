@@ -677,7 +677,7 @@ const openapi = {
         summary: 'The sell side — services that listed themselves, permissionlessly (kind 38555)',
         description:
           'Services announced by their own operators as signed Nostr events, with no account, form or fee — the '
-          + 'buy-side sibling of /live/bounties.json. ANNOUNCED IS NOT CURATED: these are taken as published, not '
+          + 'sell-side sibling of /live/bounties.json. ANNOUNCED IS NOT CURATED: these are taken as published, not '
           + 'verified and not endorsed; they graduate into /directory.json only after the editors check them against '
           + 'the API inclusion bar. Judge them on the cold-start signals carried per row: probe status (alive | '
           + 'unreachable | unverified-tor-only | unroutable), announcement_age_days, and mint_health (how many claimed '
@@ -1324,7 +1324,13 @@ const requestSchema = {
       //     "(untitled request)"). So the fix is to stop requiring it here — the prose
       //     spec never called it required either, and only `acceptance` ever gated a row.
       allOf: [
-        { pattern: '"acceptance"\\s*:\\s*"[^"]' },
+        // `[^"]` alone accepts a whitespace-only acceptance, which the board then
+        // trims to '' and files malformed — the exact validates-clean-then-invisible
+        // divergence this block exists to prevent. `\\s*[^\\s"]` requires one real
+        // character while still allowing leading whitespace the board trims off.
+        // HONEST RESIDUE: a JSON-escaped "\\t" still passes, because the raw content
+        // string carries a literal backslash. Common case closed, class is not.
+        { pattern: '"acceptance"\\s*:\\s*"\\s*[^\\s"]' },
         { pattern: '^\\s*\\{' },
         { pattern: '\\}\\s*$' },
       ],

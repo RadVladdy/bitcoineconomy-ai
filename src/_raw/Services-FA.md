@@ -270,7 +270,7 @@ SV4 defended at depth. Each deployed service profiled against the four conjuncti
 - **Automatability.** Admissible shape 1; also ships its own MCP server (`review`, `prove`, `verify_proof`, `ledger`).
 - **Two-sided.** Consume + offer.
 - **Structural significance.** *(structural)* Supplies the independence property an agent cannot self-generate, and does so under a **recomputable-not-asserted** discipline: verdicts signed and published to Nostr *before* outcomes, event ids anchored into Bitcoin proof-of-work via OpenTimestamps, outcomes settling on a public account. Bears on §8 — it prices the delivery-risk gap without closing it.
-- **Operational caveat.** *(operational)* Young and small (183 verdicts, 21W/20L settled at verification, losses published); pseudonymous operator, closed-source service; multichain entanglement (Hyperliquid settlement, ERC standards work). A verdict carries no SLA and no liability — a paid second opinion, not insurance.
+- **Operational caveat.** *(operational)* Young and small (at verification 2026-08-08: 214 published pre-action verdicts, 22W/20L settled, losses published); pseudonymous operator, closed-source service; multichain entanglement (Hyperliquid settlement, ERC standards work). A verdict carries no SLA and no liability — a paid second opinion, not insurance.
 
 ### §7.12 — Voltage Payments (Group e; sell-side, own-node option)
 

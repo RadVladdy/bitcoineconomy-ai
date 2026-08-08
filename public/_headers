@@ -26,13 +26,19 @@
   Access-Control-Allow-Origin: *
 /sitemap-0.xml
   Access-Control-Allow-Origin: *
+# sitemap-index.xml is the one llms.txt actually advertises; sitemap-0.xml is the
+# shard nothing points at. Both listed so the advertised route is the working one.
+/sitemap-index.xml
+  Access-Control-Allow-Origin: *
+/robots.txt
+  Access-Control-Allow-Origin: *
+# `/*.md` already matches NESTED paths — /tools/lnbits.md, /services/routstr.md and
+# the rest. Cloudflare applies EVERY matching rule cumulatively, so the per-section
+# blocks that used to sit here (/tools/*.md, /services/*.md, /exchanges/*.md,
+# /skills/*.md) each added a SECOND `Access-Control-Allow-Origin: *`, and the two
+# concatenated to `*, *` — not a valid origin. All 64 card .md routes failed
+# cross-origin fetch with a hard TypeError, i.e. worse than the missing header this
+# block was added to fix, while the root-level .md twins were fine. Removed
+# 2026-08-08; they set no header `/*.md` does not already set.
 /*.md
-  Access-Control-Allow-Origin: *
-/tools/*.md
-  Access-Control-Allow-Origin: *
-/services/*.md
-  Access-Control-Allow-Origin: *
-/exchanges/*.md
-  Access-Control-Allow-Origin: *
-/skills/*.md
   Access-Control-Allow-Origin: *

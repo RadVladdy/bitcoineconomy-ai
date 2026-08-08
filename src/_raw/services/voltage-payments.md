@@ -17,7 +17,7 @@ custody: node-backed (self-custodial, your own node) or credit-backed (Voltage r
 bitcoin-native: true
 agent-access: limited
 status: published
-last-verified: 2026-07-03
+last-verified: 2026-08-08
 order: 57
 tags:
   - voltage
@@ -33,7 +33,7 @@ Voltage Payments is a **"Stripe for Lightning"**: a REST API (`https://voltageap
 
 It ships in two shapes. **Node-backed** points the API at **your own Lightning node** — you keep complete control of your infrastructure and funds. **Credit-backed** lets Voltage run the infrastructure and gives you a **business line of credit** (no pre-funding, monthly settlement), secured by collateral — BTC or USD held in a multi-sig vault, or bank-account verification.
 
-The transacting asset today is **bitcoin**. Voltage's marketing pairs "BTC & USD," but the developer docs are explicit that **bitcoin is currently the only supported asset**, with **USDT "coming soon" and USD lines of credit "offered soon."** Credit-backed accounts can denominate and settle their activity in USD against the BTC rail, but the value that actually moves is Bitcoin over Lightning.
+The transacting asset today is **bitcoin**. Voltage's marketing pairs "BTC & USD," but the developer docs are explicit that **bitcoin is currently the only supported asset**, with **USDT still "coming soon."** **USD lines of credit have shipped** — the docs carry dedicated Sending and Receiving (USD Line of Credit) guides in which a USD wallet converts USD to BTC at payment time, and the API exposes `/lines_of_credit/*` and `/quotes`. What remains "coming soon" is **USD *invoice* payments** — settling Voltage's own billing invoice by ACH, which is a different thing. Credit-backed accounts denominate and settle their activity in USD against the BTC rail, but the value that actually moves is Bitcoin over Lightning.
 
 ## When to use it
 
@@ -51,7 +51,7 @@ The API is public and documented at `docs.voltageapi.com` (interactive spec at `
 
 ## Gotchas
 
-- **Bitcoin-only today, despite "BTC & USD" marketing.** USDT and USD lines of credit are both roadmap ("soon"). Lead with the docs, not the homepage: the transacting asset is BTC over Lightning.
+- **Bitcoin is still the only transacting asset, despite "BTC & USD" marketing.** USDT remains roadmap ("soon"); **USD lines of credit are live**, but a USD wallet converts to BTC at payment time — so USD is a denomination and a credit line, never the thing that settles. Lead with the docs, not the homepage.
 - **Credit-backed is a secured loan, not just a payments account.** Collateral sits in a multi-sig vault; it's a lending relationship with Voltage. Node-backed is the self-custodial path — you keep the funds.
 - **Business-only, U.S.-states-only, heavy KYB.** Beneficial-ownership disclosure and SSN/TIN are required. No individual, non-US, or anonymous access.
 - **Mainnet onboarding is closed.** Staging is open; live money movement is gated and sales-approved.

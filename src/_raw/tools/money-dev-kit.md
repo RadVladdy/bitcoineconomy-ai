@@ -13,7 +13,7 @@ license: Apache-2.0 (agent-wallet; some packages unstated)
 latest-release: 0.21.0
 release-date: "2026-07-31"
 status: published
-last-verified: 2026-06-30
+last-verified: 2026-08-07
 order: 36
 prereq-tier: wallet
 prereqs:

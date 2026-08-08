@@ -435,15 +435,22 @@ export function exchangeSwap(): string {
   return terminalScene({
     id: 'xch-swap', outcome: 'pass', title: 'agent · non-custodial swap',
     lines: [
-      { t: 'agent@btc ~ $ swap 50000 sat → USDC (boltz)', kind: 'cmd' },
-      { t: '→ POST /swap  {from: BTC-LN, to: USDC}', kind: 'send' },
+      { t: 'agent@btc ~ $ swap 50000 sat → L-BTC (boltz)', kind: 'cmd' },
+      { t: '→ POST /swap  {from: BTC-LN, to: L-BTC}', kind: 'send' },
       { t: '← quote + claim/refund keys  [no account]', kind: 'recv' },
       { t: '→ pay Lightning invoice', kind: 'send' },
       { t: '← atomic swap · both legs settle or refund', kind: 'recv' },
-      { t: '← RECEIVED 21.40 USDC (Base)', kind: 'pass' },
+      { t: '← RECEIVED 49,860 sat (Liquid)', kind: 'pass' },
       { t: '✓ swap complete · self-custody throughout', kind: 'pass' },
     ],
-    caption: 'A non-custodial, no-KYC swap on Boltz: the agent swaps sats for USDC on its own keys — no account, no identity — and the atomic design guarantees both legs settle or both refund. (The value now sits on an issuer-freezable stablecoin; the rail is sovereign, the asset is not.)',
+    // Was a BTC-LN → USDC swap until 2026-08-08. Boltz withdrew every stablecoin
+    // route on 2026-08-03 and suspended swaps entirely, so this diagram was a
+    // present-tense worked transcript of a call that no longer resolves — on the
+    // flagship /exchange page, invisible to a prose sweep because it lives in a
+    // template and only exists in the built HTML. Re-cut to a cross-layer route the
+    // API actually served. The caption's old sovereignty point (sovereign rail,
+    // issuer-freezable asset) needed a stablecoin leg and is not made here.
+    caption: 'A non-custodial, no-KYC swap: the agent moves value between Bitcoin layers on its own keys — no account, no identity — and the atomic design guarantees both legs settle or both refund. The rail and the asset are both sovereign; a cross-asset swap into a stablecoin buys reach at the cost of an issuer who can freeze it.',
   });
 }
 

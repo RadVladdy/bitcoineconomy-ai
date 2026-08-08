@@ -16,8 +16,8 @@ identity: account (business)
 custody: self-custodial option — "no mandatory custody transfer"; managed tiers may differ
 bitcoin-native: false
 agent-access: limited
-latest-release: 0.3.0
-release-date: "2026-08-06"
+latest-release: 1.0.0
+release-date: "2026-08-07"
 status: published
 last-verified: 2026-08-06
 order: 54
@@ -58,7 +58,7 @@ Install the official TypeScript SDK — `@ambosstech/payments` on npm (MIT, Node
 - **Self-custody is described as an option, not a guarantee.** "No mandatory custody transfer" implies custody is configurable; managed convenience tiers may hold more trust.
 - **Compliance screening is part of the stack.** OFAC channel screening and IP node screening are integrated underneath, and Amboss sells that layer as its own product — see [Reflex](/services/reflex).
 - **The SDK is public, but the account is not optional.** Authentication is a service API key issued against a **business account**, so there is no account-free machine path: an agent cannot go from "found it" to "paid it" without a human opening an account first.
-- **Early version.** `@ambosstech/payments` is pre-1.0 (0.3.0 as of 2026-08-06, first published weeks earlier). Expect the surface to move, and pin the version.
+- **Fast-moving surface.** `@ambosstech/payments` reached **1.0.0 on 2026-08-07**, seven weeks after its first publish and one day after 0.3.0. Expect it to keep moving, and pin the version.
 
 ## Editor's Notes
 

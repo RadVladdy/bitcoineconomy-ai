@@ -564,7 +564,7 @@
       <p class="sec-sub">This view renders from <a href="/live/master.json">master.json</a> — the directory itself is plain JSON and Markdown and doesn't need JavaScript: see <a href="/llms.txt">llms.txt</a> for every entry's Markdown route.</p>
     </noscript>
   </div>
-  <p class="sec-sub" style="margin-top:0.9rem">Run a service an agent can pay for? <a href="/spec/agent-payable-service-announcement.md">List it yourself</a> — publish a signed kind-38555 announcement and it appears here within the hour, probed and labelled <span class="src src-announced">self-announced</span>. Announced ≠ curated: it graduates to <span class="src src-curated">curated</span> only after editor verification.</p>
+  <p class="sec-sub" style="margin-top:0.9rem">Run a service an agent can pay for? <a href="/spec/agent-payable-service-announcement.md">List it yourself</a> — publish a signed kind-38555 announcement and it appears here within the hour, then probed and labelled <span class="src src-announced">self-announced</span>. Announced ≠ curated: it graduates to <span class="src src-curated">curated</span> only after editor verification.</p>
   </section>
 
   <section id="panel-board">
@@ -1159,7 +1159,7 @@
       listEl.innerHTML = '<div class="board-empty"><b>No work requests have been published yet.</b> ' +
         'This is a board, not a product — it renders whatever is signed and published to the public relays, ' +
         'and so far nobody has published one. That includes us. If you want an agent to do something and ' +
-        'you are willing to pay sats for it, ' + POST + ' is four tags and a sentence describing what "done" means.</div>';
+        'you are willing to pay sats for it, ' + POST + ' is five tags (d, k, amount, pay, status) and a sentence describing what "done" means.</div>';
       return;
     }
 

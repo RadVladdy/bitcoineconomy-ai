@@ -32,7 +32,7 @@ agent-tldr: |
 
 ## The claim
 
-The Thesis articulates the substrate question — what kind of money does an autonomous AI agent use — and the answer, Bitcoin on Lightning. This essay carries the structural argument that sits underneath that answer.
+[[Case|The Case]] articulates the substrate question — what kind of money does an autonomous AI agent use — and the answer, Bitcoin on Lightning. This essay carries the structural argument that sits underneath that answer.
 
 The claim is sharper than the Thesis required: **emergent parallel economies must structurally diverge from incumbents to succeed.** The dominant economy cannot offer what the emerging one needs *without ceasing to be the dominant economy*. The result is not a softer, more accommodative version of the incumbent system. The result is a parallel system with different properties, different participants, and different governance — operating alongside the incumbent, interacting through narrow bridge points, but architecturally distinct.
 
@@ -132,7 +132,7 @@ The AI economy on Bitcoin is the contemporary instance of this pattern. Each ele
 
 **The dominant system.** The incumbent payment stack — banks, card networks, regulated stablecoin issuers, central-bank payment rails — has a property bundle defined by regulatory accommodation, identity intermediation, freeze capability, and central-authority coordination. The bundle is what makes the stack dominant for human payments; it is also what regulators require the stack to maintain in exchange for institutional recognition.
 
-**The emerging activity.** Autonomous AI agents transacting at machine tempo require properties the incumbent stack cannot provide: KYC-free access, censorship-resistance against intermediary freeze, sub-cent micropayment settlement, and machine-tempo speed. The Thesis articulates these as four requirements that all have to hold at once; each one is structurally absent from at least part of the incumbent stack.
+**The emerging activity.** Autonomous AI agents transacting at machine tempo require properties the incumbent stack cannot provide: KYC-free access, censorship-resistance against intermediary freeze, sub-cent micropayment settlement, and machine-tempo speed. [[Case|The Case]] articulates these as four requirements that all have to hold at once; each one is structurally absent from at least part of the incumbent stack.
 
 Those four split into two forcing functions, and they arrive in order. **Sub-cent settlement and machine tempo are scaling demands** — satisfied at the rails layer, and the reason agents land on off-chain Lightning rather than a faster chain is its own argument: [[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]. **KYC-free access and censorship-resistance are trust demands** — and they are *this doctrine's* engine: the freeze, the KYC gate, and the sanctions screen are exactly the incumbent properties that force the settlement asset to diverge onto a neutral substrate. Scaling forces the rails first (Phase 1); censorship forces the asset second (Phase 2), and this page is the Phase-2 argument — a staircase to the substrate, not a fork.
 
@@ -216,7 +216,7 @@ The response: this is real, and the doctrine should be articulated with awarenes
 
 ## What this means for builders
 
-The Thesis answers the substrate question; the doctrine answers the architecture question. Together they make a specific recommendation: agent-payment infrastructure should be built on the Bitcoin payment stack, with explicit awareness that the resulting system will be parallel to, not integrated with, the legacy payment stack.
+[[Case|The Case]] answers the substrate question; the doctrine answers the architecture question. Together they make a specific recommendation: agent-payment infrastructure should be built on the Bitcoin payment stack, with explicit awareness that the resulting system will be parallel to, not integrated with, the legacy payment stack.
 
 Practical implications:
 
@@ -253,7 +253,7 @@ The doctrine does not say the legacy stack is doomed. It says the legacy stack i
 
 **Contemporary instance — the AI economy on Bitcoin**
 
-- The Thesis (this site) — the substrate-selection argument.
+- [[Case|The Case]] (this site) — the substrate-selection argument.
 - Bitcoin Policy Institute, *Study: AI Models Overwhelmingly Prefer Bitcoin and Digital-Native Money Over Traditional Fiat* (March 2026) — empirical anchor for substrate preference. https://www.btcpolicy.org/articles/study-ai-models-overwhelmingly-prefer-bitcoin-and-digital-native-money-over-traditional-fiat — canonical study site: https://moneyforai.org/ *(study site dates the paper February 2026; BPI announcement March 3, 2026).* ([[BPI ai models prefer bitcoin research]])
 - The Stack (this site) — technical architecture of the parallel substrate.
 - Field Notes (this site, ongoing) — empirical updates and deployment-challenge engagement.

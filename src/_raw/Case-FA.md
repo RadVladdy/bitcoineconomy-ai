@@ -335,7 +335,6 @@ Reference list of operational tooling. One line per entry. Verification URLs inc
 
 **Notable deployed agent-payment projects:**
 
-- **AI-Sats** — agent-native Lightning wallet. https://ai-sats.com/
 - **Mintbot** — Cashu-based agent payment surface. https://mintbot.cash/
 - **Minibits** — Cashu mobile wallet. https://minibits.cash/
 - **AgenticBTC** — Agent-treasury management. https://agenticbtc.io/

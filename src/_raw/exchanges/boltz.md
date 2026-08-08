@@ -29,11 +29,11 @@ links-verified: 2026-08-07 (live API pair census + suspension notice read from t
 
 **Agent access.** **REST API + `boltzd`** built for automated workflows — create swaps, poll status, retrieve history programmatically. No account, no KYC keys to delegate; the agent acts on its own wallet.
 
-**How an agent uses it.** From its own wallet, call the API to create a swap (e.g. Lightning sats → USDT), pay the swap invoice, receive the output to a self-custody address. No onboarding step.
+**How an agent uses it.** From its own wallet, call the API to create a swap (e.g. Lightning sats → on-chain BTC, or Lightning → L-BTC), pay the swap invoice, receive the output to a self-custody address. No onboarding step.
 
 **The stablecoin path is gone.** This card previously described a USDC route via Circle's CCTP and a USDT route settling as USDT0 over tBTC and a DEX. **Neither is offered by the live API today**, so the description — and the bridge-risk reasoning that went with it — has been removed rather than left describing machinery an agent cannot reach.
 
-**Dependencies.** A self-custody wallet on the rails you're swapping between (Lightning, on-chain BTC, Liquid, or the stablecoin chains) and the REST API / `boltzd`; no account, no KYC. No fiat path — value goes crypto-in, crypto-out — and the supported set is Bitcoin L1, Lightning, Liquid and Ark only.
+**Dependencies.** A self-custody wallet on the rails you're swapping between (Lightning, on-chain BTC, Liquid, or Ark) and the REST API / `boltzd`; no account, no KYC. No fiat path — value goes crypto-in, crypto-out — and the supported set is Bitcoin L1, Lightning, Liquid and Ark only.
 
 **Gotchas.** The service is **off** (see the callout above) — that is the only gotcha that matters right now. Structurally: *non-custodial* is not *dependency-free*, and the atomic guarantee protects **custody** (you do not lose funds to Boltz) rather than any counterparty's soundness. The suspension is itself the strongest evidence for the design: Boltz stopped operating and users could still refund unilaterally, because refunds do not depend on Boltz's infrastructure. No fiat; no support line; non-custodial means no recourse if you misconfigure.
 
