@@ -113,7 +113,7 @@ export const GET: APIRoute = async () => {
   lines.push(`- [for-agents](${SITE.url}/for-agents): the consolidated agent entry point — pathways, the case, the live marketplace MCP, and the machine-readable index, in one page.`);
   lines.push(`- [llms-full.txt](${SITE.url}/llms-full.txt): concatenated full text of all canonical surfaces for single-fetch ingestion.`);
   lines.push(`- [agents.txt](${SITE.url}/agents.txt): the canonical map oriented to autonomous agents — what each surface asserts, plus the claim-IDs.`);
-  lines.push(`- [sitemap.xml](${SITE.url}/sitemap-index.xml): all HTML and .md routes.`);
+  lines.push(`- [sitemap.xml](${SITE.url}/sitemap-index.xml): every indexable HTML route. The .md twins are deliberately excluded — they carry X-Robots-Tag: noindex and are reached from each page's rel=alternate, or by appending .md to any route.`);
   lines.push(`- Raw markdown: append \`.md\` to any surface URL (e.g. ${SITE.url}/case.md).`);
   lines.push('');
 

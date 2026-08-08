@@ -133,7 +133,7 @@ The defenses are a small, unexotic set: **hot/cold separation** (operational bal
 
 ## Two things that are *not* exchange
 
-- **Internal BTC rebalancing (L1 ↔ Lightning) is not exchange.** Moving value between an agent's *own* on-chain and Lightning balances — including via Boltz/Loop submarine swaps used purely for that — crosses no second economy; it is substrate tooling, and its home is **[[Stack|The Stack]]**. (Boltz appears here only for its *cross-asset* swaps — Lightning↔stablecoin — which do cross the boundary.)
+- **Internal BTC rebalancing (L1 ↔ Lightning) is not exchange.** Moving value between an agent's *own* on-chain and Lightning balances — including via Boltz/Loop submarine swaps used purely for that — crosses no second economy; it is substrate tooling, and its home is **[[Stack|The Stack]]**. (Boltz *appeared* here for its cross-asset swaps, which did cross the boundary; those routes are withdrawn and the card is retained unfeatured for the record.)
 - **Paying for services is not exchange.** L402 — converting Lightning value into access to a paid resource — is how an agent *buys things*, not how it converts fiat↔BTC. It belongs to the **Services** child, as the payment mechanism of the services layer.
 
 ---

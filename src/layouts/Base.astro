@@ -32,9 +32,18 @@ const mdHref = mdAlternate && mdPathname !== '' ? canonicalUrl.replace(/\/$/, ''
 const fullTitle = title === SITE.name ? title : `${title} — ${SITE.shortName}`;
 const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
-// The Cloudflare Web Analytics beacon in <head> is hard-wired rather than left to
-// the zone's auto-install, which does not reach Pages-served responses — the beacon
-// never actually landed that way. It is cookieless and collects no personal data.
+// The Cloudflare Web Analytics beacon is NOT hard-wired here any more. It was,
+// from 2026-07-28, on the reasoning that the zone's auto-install "does not reach
+// Pages-served responses" — but this site is a WORKER, and the zone injects into
+// Worker responses fine. Measured 2026-08-08 in a real browser: the hard-wired tag
+// claimed the beacon.min.js singleton and POSTed to cloudflareinsights.com
+// cross-origin, where it was CORS-blocked (net::ERR_FAILED), while the zone's
+// injected copy loaded 200 and never fired. Net effect: this site collected NO
+// analytics at all. The marketplace Worker carries zero beacon references in its
+// source and gets a working same-origin 204 from the zone's injection, with the
+// SAME token — that is the control, and it is what this page now looks like.
+// ⚠ Verify in a BROWSER: curl cannot see the injected tag, so a curl check reads
+// as "no injection" and will tempt the next person to hard-wire it again.
 ---
 <!doctype html>
 <html lang="en">
@@ -64,8 +73,6 @@ const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     {ld.map((obj) => (
       <script type="application/ld+json" set:html={JSON.stringify(obj)} />
     ))}
-    <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon='{"token": "ddc6f7e3a204485b955eff70b8485dcb"}'></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
