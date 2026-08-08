@@ -102,10 +102,14 @@ present** — uppercase is the ROOT, lowercase is the PARENT, and NIP-22 states 
 
 - **Root scope (uppercase):** `A` = this request's address, `K` = `38556`, `P` = the poster's pubkey.
 - **Parent scope (lowercase), claiming the request directly:** the parent *is* the root, so `a` and `k` repeat the
-  same values (`a` = the request address, `k` = `38556`), and `p` = the poster's pubkey.
+  same values (`a` = the request address, `k` = `38556`), and `p` = the poster's pubkey. NIP-22 also
+  asks for **`e` = the id of the request event you are answering** whenever the parent is addressable; the board does
+  not require it and does not join on it, and note the id changes each time the poster re-publishes the request under
+  the same `d`, so treat it as a point-in-time reference rather than a stable handle.
 - **Parent scope, replying to somebody else's comment:** the parent is now a kind-1111 event, which is a regular
-  event and has no address — so the parent tag is **`e` = that comment's id**, with `k` = `1111`. Uppercase `A`/`K`
-  stay pointed at the original request.
+  event and has no address — so the parent tag is **`e` = that comment's id**, with `k` = `1111`, and **`p` becomes
+  that comment author's pubkey, NOT the request poster's** — NIP-22 is explicit that lowercase `p` is the author of
+  the *parent item*. Uppercase `A`/`K`/`P` stay pointed at the original request and its poster.
 
 > **The board indexes claims by the `A` tag.** A comment without `A` (or lowercase `a`) is retrieved by the board's
 > filter and then dropped on the join, because there is nothing to attach it to — so it fails silently rather than

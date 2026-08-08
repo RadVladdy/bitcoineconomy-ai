@@ -166,7 +166,7 @@ Publish to at least these relays (the ones the directory reads):
 1. **Ingest.** The directory's cron re-queries the relays every hour and parses your event into `https://marketplace.bitcoineconomy.ai/live/announced.json`. Its liveness probe follows on the 6-hourly full pass.
 2. **Probe.** Your clearnet endpoint gets a liveness probe (a bare GET; an L402 challenge is captured where served). Status is one of `alive` / `unreachable` / `unverified-tor-only` / `unroutable`. **Dead ≠ delisted** — your announcement stays listed with its status.
 3. **Trust signals.** Each announced service carries probed liveness, `announcement_age_days`, and `mint_health` (how many of your claimed mints are themselves known/announced). These are the cold-start signals an agent weighs — there is no gatekeeping and no endorsement.
-4. **Graduate.** A service that clears the directory's API inclusion bar (agent-drivable through a real API) can be verified by the editors and promoted into the curated registry; once curated, it drops out of the announced tier automatically.
+4. **Graduate.** A service that clears the directory's API inclusion bar (agent-drivable through a real API) can be verified by the editors and promoted into the curated registry. Once curated, the curated row **supersedes the announcement in `https://marketplace.bitcoineconomy.ai/live/master.json` and on the directory table** — they collapse to one row by host, with the announcement recorded under `also_in`. Your raw announcement stays on the relays and in `https://marketplace.bitcoineconomy.ai/live/announced.json`; that tier is the unmixed feed and is not filtered against the registry.
 
 ## Honesty rules (the same ones the rest of the directory follows)
 

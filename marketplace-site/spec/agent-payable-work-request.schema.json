@@ -36,12 +36,21 @@
     "content": {
       "type": "string",
       "description": "JSON string: { title, brief, acceptance, deliverable, links{context,spec} }. `acceptance` is REQUIRED and must be checkable — it is the test the deliverable has to pass.",
-      "pattern": "\"acceptance\"\\s*:\\s*\"[^\"]",
+      "allOf": [
+        {
+          "pattern": "\"acceptance\"\\s*:\\s*\"[^\"]"
+        },
+        {
+          "pattern": "^\\s*\\{"
+        },
+        {
+          "pattern": "\\}\\s*$"
+        }
+      ],
       "contentMediaType": "application/json",
       "contentSchema": {
         "type": "object",
         "required": [
-          "title",
           "acceptance"
         ],
         "properties": {
@@ -172,6 +181,26 @@
             ]
           },
           "$comment": "at least one `status` tag is required"
+        },
+        {
+          "not": {
+            "contains": {
+              "type": "array",
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "const": "expiration"
+                },
+                {
+                  "not": {
+                    "type": "string",
+                    "pattern": "^[0-9]+$"
+                  }
+                }
+              ]
+            }
+          },
+          "$comment": "if a `expiration` tag is present its value must match {\"type\":\"string\",\"pattern\":\"^[0-9]+$\"}"
         }
       ]
     }

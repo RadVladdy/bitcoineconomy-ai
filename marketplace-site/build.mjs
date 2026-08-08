@@ -178,6 +178,20 @@ const directory = {
     liquid: 'Liquid Network (L-BTC)',
     spark: 'Spark (Bitcoin L2)',
     fiat: 'Bank/fiat leg (custodial venue)',
+    // x402 and mpp were in use on a curated row and defined NOWHERE until 2026-08-07,
+    // so list_categories offered them as filter values with counts (x402 at 17, the
+    // second-largest method on the merged directory) inside the same object that is
+    // supposed to define them. Same shape as the automatability `human-only` bug; it
+    // did not render the literal string "undefined" only because entries/*.md JOINS
+    // this array instead of looking each value up — which is exactly why every
+    // count-based and rendering-based check stayed green.
+    x402: 'x402 — HTTP 402 payment protocol settling in stablecoins on Base/Solana; NOT a Bitcoin rail, sats-payable only through a gateway',
+    mpp: 'MPP (Machine Payment Protocol) — Stripe-originated agent payment protocol; runs over Tempo or Lightning depending on the provider',
+    // `zaps` is DEFINED-BUT-UNUSED on purpose — do not retire it. The published
+    // kind-38555 and kind-38556 `pay` tables both admit it, post_bounty defaults to
+    // it, and all five live bounties carry it. The announced tier is permissionless
+    // and currently empty; the first stranger to announce with pay=zaps must land on
+    // a defined value. Only the UNDEFINED-IN-USE direction is ever an error here.
   },
   entries,
 };
@@ -425,7 +439,10 @@ const llms = [
   'getGatewayObserved, getUptimeHistory, getBounties, getEntry), with the OpenAI-plugin-era',
   `manifest at ${BASE}/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.`,
   '',
-  `Static fallbacks (work without the worker): ${BASE}/snapshot.json + ${BASE}/models.json + ${BASE}/l402index.json`,
+  // All SIX committed fallbacks, not three. This roster named half the set while the
+  // same file named /master.json (line ~21) and /l402space.json (~46) as fallbacks
+  // elsewhere, so it contradicted itself for anyone scanning for the outage path.
+  `Static fallbacks (work without the worker): ${BASE}/master.json + ${BASE}/snapshot.json + ${BASE}/models.json + ${BASE}/l402index.json + ${BASE}/l402space.json + ${BASE}/uptime.json`,
   `Part of: ${MAIN} — the case for a Bitcoin-centric AI agent economy (manifest: ${MAIN}/llms.txt)`,
   '',
   'Every entry below has a clean Markdown route. provenance: curated = editor-verified against primary',
@@ -945,7 +962,12 @@ const specMd = [
   `1. **Ingest.** The directory's cron re-queries the relays every hour and parses your event into \`${BASE}/live/announced.json\`. Its liveness probe follows on the 6-hourly full pass.`,
   '2. **Probe.** Your clearnet endpoint gets a liveness probe (a bare GET; an L402 challenge is captured where served). Status is one of `alive` / `unreachable` / `unverified-tor-only` / `unroutable`. **Dead ≠ delisted** — your announcement stays listed with its status.',
   '3. **Trust signals.** Each announced service carries probed liveness, `announcement_age_days`, and `mint_health` (how many of your claimed mints are themselves known/announced). These are the cold-start signals an agent weighs — there is no gatekeeping and no endorsement.',
-  '4. **Graduate.** A service that clears the directory\'s API inclusion bar (agent-drivable through a real API) can be verified by the editors and promoted into the curated registry; once curated, it drops out of the announced tier automatically.',
+  // "drops out of the announced tier automatically" promised a mechanism that does
+  // not exist: /live/announced.json projects the announced module verbatim with no
+  // cross-reference to the curated registry. What DOES happen automatically is the
+  // host-collapse in master.json, which is what the table and every agent reading
+  // the merged document actually see. Say the true thing.
+  '4. **Graduate.** A service that clears the directory\'s API inclusion bar (agent-drivable through a real API) can be verified by the editors and promoted into the curated registry. Once curated, the curated row **supersedes the announcement in `' + BASE + '/live/master.json` and on the directory table** — they collapse to one row by host, with the announcement recorded under `also_in`. Your raw announcement stays on the relays and in `' + BASE + '/live/announced.json`; that tier is the unmixed feed and is not filtered against the registry.',
   '',
   '## Honesty rules (the same ones the rest of the directory follows)',
   '',
@@ -980,6 +1002,21 @@ const mustHaveTag = (name, valueSchema) => ({
     prefixItems: [{ const: name }, valueSchema ?? { type: 'string', minLength: 1 }],
   },
   $comment: `at least one \`${name}\` tag is required`,
+});
+
+// For a tag that is OPTIONAL but typed when present. `mustHaveTag` uses `contains`,
+// which asserts presence — using it for an optional tag makes the tag mandatory.
+// This instead forbids any tag of that name whose value fails the schema, and says
+// nothing at all when the tag is absent.
+const tagTypedIfPresent = (name, valueSchema) => ({
+  not: {
+    contains: {
+      type: 'array',
+      minItems: 2,
+      prefixItems: [{ const: name }, { not: valueSchema }],
+    },
+  },
+  $comment: `if a \`${name}\` tag is present its value must match ${JSON.stringify(valueSchema)}`,
 });
 
 const specSchema = {
@@ -1160,10 +1197,14 @@ const requestSpecMd = [
   '',
   '- **Root scope (uppercase):** `A` = this request\'s address, `K` = `' + KIND_REQUEST + '`, `P` = the poster\'s pubkey.',
   '- **Parent scope (lowercase), claiming the request directly:** the parent *is* the root, so `a` and `k` repeat the',
-  '  same values (`a` = the request address, `k` = `' + KIND_REQUEST + '`), and `p` = the poster\'s pubkey.',
+  '  same values (`a` = the request address, `k` = `' + KIND_REQUEST + '`), and `p` = the poster\'s pubkey. NIP-22 also',
+  '  asks for **`e` = the id of the request event you are answering** whenever the parent is addressable; the board does',
+  '  not require it and does not join on it, and note the id changes each time the poster re-publishes the request under',
+  '  the same `d`, so treat it as a point-in-time reference rather than a stable handle.',
   '- **Parent scope, replying to somebody else\'s comment:** the parent is now a kind-1111 event, which is a regular',
-  '  event and has no address — so the parent tag is **`e` = that comment\'s id**, with `k` = `1111`. Uppercase `A`/`K`',
-  '  stay pointed at the original request.',
+  '  event and has no address — so the parent tag is **`e` = that comment\'s id**, with `k` = `1111`, and **`p` becomes',
+  '  that comment author\'s pubkey, NOT the request poster\'s** — NIP-22 is explicit that lowercase `p` is the author of',
+  '  the *parent item*. Uppercase `A`/`K`/`P` stay pointed at the original request and its poster.',
   '',
   '> **The board indexes claims by the `A` tag.** A comment without `A` (or lowercase `a`) is retrieved by the board\'s',
   '> filter and then dropped on the join, because there is nothing to attach it to — so it fails silently rather than',
@@ -1271,11 +1312,26 @@ const requestSchema = {
       // `contentSchema` are ANNOTATIONS — a conforming validator does not assert on them,
       // so on their own they document the rule without checking it. Verified: with only
       // contentSchema present, a content of "not json at all" validated clean.
-      pattern: '"acceptance"\\s*:\\s*"[^"]',
+      //
+      // TWO MORE HOLES CLOSED 2026-08-07, both found by validating rather than reading:
+      // (1) a substring `pattern` alone does not assert the content is JSON at all —
+      //     the literal string `nonsense "acceptance": "x" trailing` validated clean.
+      //     The added `^\s*\{` / `\}\s*$` anchors make a non-object content fail.
+      // (2) `title` was listed in contentSchema.required with no enforcing half, so a
+      //     titleless content validated clean. It is NOT given a pattern: the rule this
+      //     block follows is "match the board", and the board deliberately ACCEPTS a
+      //     titleless request (parseRequest leaves title undefined, the UI renders
+      //     "(untitled request)"). So the fix is to stop requiring it here — the prose
+      //     spec never called it required either, and only `acceptance` ever gated a row.
+      allOf: [
+        { pattern: '"acceptance"\\s*:\\s*"[^"]' },
+        { pattern: '^\\s*\\{' },
+        { pattern: '\\}\\s*$' },
+      ],
       contentMediaType: 'application/json',
       contentSchema: {
         type: 'object',
-        required: ['title', 'acceptance'],
+        required: ['acceptance'],
         properties: {
           title: { type: 'string', minLength: 1 },
           acceptance: { type: 'string', minLength: 1 },
@@ -1295,8 +1351,15 @@ const requestSchema = {
         // millisats, matching NIP-57 units — a decimal or a sats figure here is
         // the difference between offering 50,000 sats and offering 50.
         mustHaveTag('amount', { type: 'string', pattern: '^[0-9]+$' }),
+        // `pay` is deliberately NOT enum-constrained. The merged directory already
+        // carries x402 and mpp on a curated row and indexes three protocols, so an
+        // enum here would put the published schema at war with the published data.
         mustHaveTag('pay'),
         mustHaveTag('status', { enum: [...STATUSES] }),
+        // NIP-40 specifies unix seconds. Optional tag, but when present it must be
+        // a number — "next tuesday" validated clean and then landed on the board as
+        // expiration:null / expired:false, i.e. treated as never expiring.
+        tagTypedIfPresent('expiration', { type: 'string', pattern: '^[0-9]+$' }),
       ],
     },
   },

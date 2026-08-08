@@ -259,8 +259,18 @@ function parseRequest(ev, nowSec) {
   const msatRaw = tag(ev, 'amount')[0];
   const msats = /^\d+$/.test(msatRaw || '') ? Number(msatRaw) : null;
 
+  // `status` is what the poster published — see the two refusals at the top of this
+  // parser. Until 2026-08-07 the line below read `: 'open'`, which manufactured a
+  // status for an event that published none and OVERWROTE one that published something
+  // unrecognised: a request declaring `cancelled` was served as `open`, counted in
+  // by_status.open and open_actionable, and its sats added to sats_offered_open. That
+  // contradicted the comment above it and the promise published in llms.txt and the
+  // /live/bounties.json header. The announce side's recorded posture for an unknown
+  // value is "pass through labeled", never substitute — so keep the declared string,
+  // and let the malformed list below carry the fact that it is not in the vocabulary.
   const declared = (tag(ev, 'status')[0] || '').toLowerCase();
-  const status = REQUEST_STATUSES.includes(declared) ? declared : 'open';
+  const statusKnown = REQUEST_STATUSES.includes(declared);
+  const status = statusKnown ? declared : (declared || null);
   const expRaw = tag(ev, 'expiration')[0];
   const expiration = /^\d+$/.test(expRaw || '') ? Number(expRaw) : null;
   const expired = expiration != null && nowSec > 0 && expiration < nowSec;
@@ -296,9 +306,27 @@ function parseRequest(ev, nowSec) {
     topics: tag(ev, 't'),
     context_urls: tag(ev, 'u'),
     links,
-    malformed: !acceptance || msats == null || !d
-      ? [!d && 'missing d', msats == null && 'missing or non-numeric amount', !acceptance && 'missing acceptance'].filter(Boolean)
-      : undefined,
+    // The published spec declares FIVE required tags (d, k, amount, pay, status); this
+    // list tested three until 2026-08-07, so a request missing `k`, missing `pay`, or
+    // carrying an unrecognised status passed as well-formed and joined the actionable
+    // cohort. Test what the spec requires.
+    malformed: (() => {
+      const problems = [
+        !d && 'missing d',
+        msats == null && 'missing or non-numeric amount',
+        !acceptance && 'missing acceptance',
+        !k && 'missing k (category)',
+        k && !CATEGORY_ORDER.includes(k) && `unrecognised category "${k}"`,
+        tag(ev, 'pay').length === 0 && 'missing pay',
+        !declared && 'missing status',
+        declared && !statusKnown && `unrecognised status "${declared}"`,
+        // NIP-40 says unix seconds. An unparseable expiration silently became
+        // "never expires", which is the most flattering possible reading of a
+        // request whose poster may well have meant it to lapse.
+        expRaw && expiration == null && `unparseable expiration "${expRaw}" (NIP-40 wants unix seconds)`,
+      ].filter(Boolean);
+      return problems.length ? problems : undefined;
+    })(),
     pubkey: ev.pubkey,
     updated_at: ev.created_at,
   };
@@ -449,9 +477,14 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
 
   const byStatus = {};
   for (const s of REQUEST_STATUSES) byStatus[s] = 0;
+  // A request whose status is missing or outside the vocabulary is counted HERE, not
+  // folded into `open`. Indexing byStatus by a null/unknown value would publish a
+  // literal "null" key (or invent a sixth status) — both worse than saying so.
+  let statusUnrecognised = 0;
   let expiredCount = 0, malformedCount = 0;
   for (const r of requests) {
-    byStatus[r.status] = (byStatus[r.status] ?? 0) + 1;
+    if (r.status && REQUEST_STATUSES.includes(r.status)) byStatus[r.status] += 1;
+    else statusUnrecognised += 1;
     if (r.expired) expiredCount += 1;
     if (r.malformed) malformedCount += 1;
   }
@@ -536,6 +569,10 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
         count: requests.length,
         open_actionable: openActionable.length,
         by_status: byStatus,
+        // Requests whose published `status` tag is missing or outside the five-word
+        // vocabulary. They are NOT silently counted as open — they are malformed and
+        // not actionable. `by_status` + this number sum to `count`.
+        status_unrecognised: statusUnrecognised,
         expired: expiredCount,
         malformed: malformedCount,
         // OFFERED, never held. There is no escrow here and no account: a poster

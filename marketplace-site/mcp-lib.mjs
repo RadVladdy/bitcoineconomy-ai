@@ -158,13 +158,19 @@ function compactTool(t) {
   };
 }
 
-function priceModel(models, query, limit) {
+// Returns { total, models } — the PRE-slice total, so the caller can report a
+// truncation instead of publishing a lower bound as if it were the answer. The 25
+// here used to be applied before match_count was read, so price_model{model:'gpt'}
+// answered 25 against 148 real matches with no way for a caller to find out: its
+// documented `limit` caps providers PER MODEL, a different axis entirely.
+function priceModel(models, query, limit, modelLimit) {
   const q = lc(query).trim();
-  if (!q) return [];
+  if (!q) return { total: 0, models: [] };
   const lim = Math.max(1, Math.min(limit || 5, 20));
-  return models
-    .filter((m) => lc(m.id).includes(q) || lc(m.name).includes(q))
-    .slice(0, 25)
+  const matched = models.filter((m) => lc(m.id).includes(q) || lc(m.name).includes(q));
+  const mLim = Math.max(1, Math.min(modelLimit || 25, 200));
+  const out = matched
+    .slice(0, mLim)
     .map((m) => {
       // The source index can list the same endpoint twice (two announcements of
       // one node); dedupe by endpoint, keeping the cheapest (providers are sorted).
@@ -184,6 +190,7 @@ function priceModel(models, query, limit) {
       }
       return { id: m.id, name: m.name, context_length: m.context_length, cheapest_providers };
     });
+  return { total: matched.length, models: out };
 }
 
 // detectL402 is shared with snapshot-lib's announced-service probe (one detector).
@@ -301,9 +308,13 @@ const TOOLS = [
       type: 'object',
       properties: {
         query: { type: 'string', description: 'Free-text over name, description, category and subcategory.' },
-        category: { type: 'string', description: 'One of: inference, compute, data, machine-work, verification, commerce, privacy, swap, liquidity, payments, fiat-ramp. Call list_categories for the full two-level vocabulary with counts.' },
+        // Generated from CATEGORY_ORDER, never hand-typed. This string listed ELEVEN
+        // values until 2026-08-07, omitting `trading` — the one category with a row in
+        // it — while listing `data`, which has none. An agent filtering by the
+        // documented vocabulary could not reach ln-markets by category at all.
+        category: { type: 'string', description: `One of: ${CATEGORY_ORDER.join(', ')}. Call list_categories for the full two-level vocabulary with counts.` },
         subcategory: { type: 'string', description: 'A second-level category, e.g. "llm", "search", "gift-cards". Valid values depend on `category` — see list_categories.' },
-        payment_method: { type: 'string', description: 'One of: lightning, onchain, cashu, l402, nwc, liquid, spark, fiat, x402, mpp.' },
+        payment_method: { type: 'string', description: 'One of: lightning, onchain, cashu, l402, nwc, zaps, liquid, spark, fiat, x402, mpp. (`zaps` is admitted by the kind-38555 `pay` table and counts as bitcoin-native; no row carries it yet because the announced tier is empty.)' },
         rail: { type: 'string', description: '"bitcoin-native" = payable directly in sats · "via-gateway" = reachable only by paying an intermediary (l402.space) that settles upstream · "fiat-only" = no Bitcoin payment path at all. Use "bitcoin-native" when the agent must not depend on a custodial hop.' },
         source: { type: 'string', description: 'Restrict to one source: "curated", "announced", "external-index" or "gateway-observed".' },
         no_kyc: { type: 'boolean', description: 'If true, return only services that need no KYC. Curated rows only — no other source carries a verified KYC field, so this necessarily narrows to curated.' },
@@ -469,17 +480,23 @@ const TOOLS = [
       type: 'object',
       properties: {
         model: { type: 'string', description: 'Model id or partial name, e.g. "gpt-5", "claude", "gemini-3-flash".' },
-        limit: { type: 'integer', description: 'Max providers per model (default 5, max 20).' },
+        limit: { type: 'integer', description: 'Max providers per model (default 5, max 20). This caps PROVIDERS, not models — use `model_limit` for that.' },
+        model_limit: { type: 'integer', description: 'Max models returned (default 25, max 200). `match_count` always reports the true total, so you can tell when this cut the list.' },
       },
       required: ['model'],
       additionalProperties: false,
     },
     async handler(a, ctx) {
-      const matches = priceModel(await ctx.models(), a.model, a.limit);
+      const { total, models: matches } = priceModel(await ctx.models(), a.model, a.limit, a.model_limit);
+      const shown = matches.length;
       return {
         model_query: a.model,
-        match_count: matches.length,
-        note: matches.length
+        // match_count is the TRUE total, pre-truncation — mirroring find_service,
+        // which has always reported count + total_matched + a truncation string.
+        match_count: total,
+        returned: shown,
+        ...(total > shown ? { truncated: `Showing ${shown} of ${total}. Narrow the query, or raise \`model_limit\` (max 200).` } : {}),
+        note: total
           ? "Providers are cheapest-first, in sats. Prices are providers' own published numbers, rebuilt every 6 hours — announcements, not endorsements."
           : 'No alive provider matches that model id right now. Try a broader query (e.g. just the family name).',
         models: matches,
@@ -511,9 +528,21 @@ const TOOLS = [
       return {
         total_services: rows.length || entries.length,
         curated_services: entries.length,
+        // Carry the tier-health fields through. This kept `available` and dropped
+        // `stale` / `age_hours` / `consecutive_failures` / `last_fetch_error` — so it
+        // reported the gateway tier as available while that tier had been frozen for
+        // 105 hours. master-lib says it in a comment: "`available: true` on its own
+        // says a tier contributed rows; it does NOT say those rows are current."
         sources: Object.fromEntries(Object.entries(master?.sources || {}).map(([k, v]) => [k, {
-          label: v.label, means: v.blurb, count: master?.facets?.source?.[k] ?? 0, available: v.available, document: v.document,
+          label: v.label, means: v.blurb, count: master?.facets?.source?.[k] ?? 0,
+          available: v.available, document: v.document,
+          generated_at: v.generated_at ?? null,
+          age_hours: v.age_hours ?? null,
+          stale: v.stale ?? null,
+          consecutive_failures: v.consecutive_failures ?? null,
+          last_fetch_error: v.last_fetch_error ?? null,
         }])),
+        sources_note: 'Read `stale` and `age_hours` per source, not just `available`. A tier can be available (it contributed rows) and stale (those rows are old) at the same time — that is exactly what a frozen upstream looks like.',
         rails: {
           ...(master?.rails || {}),
           counts: master?.facets?.rail || {},
@@ -646,7 +675,12 @@ const TOOLS = [
         (!cat || lc(pair(s)).startsWith(cat)) &&
         (!a.rail || s.rail === lc(a.rail).trim()) &&
         (a.max_price_sats == null || (typeof s.price_sats === 'number' && s.price_sats <= a.max_price_sats))
-      ).slice(0, lim);
+      );
+      // Pre-slice total. `of_indexed` is the size of the whole index, so it can never
+      // reveal that the MATCH set was cut — count and of_indexed were identical whether
+      // the caller got 25 of 34 or all 34.
+      const matchedTotal = hits.length;
+      const shown = hits.slice(0, lim);
       return {
         source: 'external-index',
         provenance: 'external-index',
@@ -655,9 +689,11 @@ const TOOLS = [
         note: "Third-party-indexed + verified by 402index.io, passed through with attribution — NOT endorsements. Each result's source_page links to its 402index.io record; verify before trusting. To search this source alongside the curated, announced and gateway-observed ones in one call, use find_service.",
         rails_note: 'rail="bitcoin-native" is payable directly in sats. rail="via-gateway" settles in USDC/Tempo upstream — pay the gateway_url in sats and l402.space pays the upstream on your behalf, which means an intermediary holds the sats leg.',
         generated_at: doc.generated_at,
-        count: hits.length,
+        count: shown.length,
+        total_matched: matchedTotal,
+        ...(matchedTotal > shown.length ? { truncated: `Showing ${shown.length} of ${matchedTotal}. Narrow with query/category/rail, or raise \`limit\` (max 60).` } : {}),
         of_indexed: doc.count,
-        services: hits.map((s) => ({
+        services: shown.map((s) => ({
           name: s.name, provider: s.provider, description: s.description,
           category: s.category, subcategory: s.subcategory,
           source_category: s.source_category, classification_confidence: s.classification_confidence,
@@ -761,7 +797,12 @@ const TOOLS = [
         filters_applied: { status: wantStatus, category: a.category || null, min_sats: a.min_sats ?? null, include_expired: !!a.include_expired, include_malformed: !!a.include_malformed },
         match_count: rows.length,
         returned: Math.min(rows.length, limit),
-        how_to_answer: 'Publish a kind-1111 (NIP-22) comment scoped to `address` with tags ["K","38556"] and ["status","claimed"]. When done, publish another with ["status","delivered"] and ["proof","<url or event id>"]. The poster settles by zapping you directly (NIP-57); that receipt is your third-party-checkable proof of payment.',
+        // Spell out the A tag. This used to say "scoped to `address`" and then
+        // enumerate only ["K","38556"] and ["status","claimed"] — and the board joins
+        // claims on A/a, so a comment built literally from the enumeration is
+        // retrieved off the relay and then DROPPED with no error. Demonstrated by
+        // driving the real indexer: one of two synthetic claims counted.
+        how_to_answer: 'Publish a kind-1111 (NIP-22) comment carrying the FULL ROOT SCOPE — ["A","<the `address` field on this row>"], ["K","38556"], ["P","<the poster pubkey>"] — plus ["status","claimed"]. The A tag is not optional: the board indexes claims by it, so a comment without A (or lowercase a) is read off the relay and then silently discarded. When done, publish another with ["status","delivered"] and ["proof","<url or event id>"]. The poster settles by zapping you directly (NIP-57); that receipt is your third-party-checkable proof of payment.',
         how_to_post: 'Publish your own kind-38556 with d/k/amount/pay/status tags and a content JSON carrying title, brief and — required — acceptance. See ' + mod.spec,
         requests: rows.slice(0, limit),
       };
@@ -878,7 +919,7 @@ const TOOLS = [
         how_to_publish: 'Publish the signed event to the relays below. Read it back PER RELAY before believing it landed: a relay can return OK and still drop the event, so a publisher\'s own success count is not proof.',
         board_relays: RELAYS,
         when_it_appears: 'The board re-reads the relays hourly, so a published request shows up on /live/bounties.json, the marketplace page and find_work within the hour.',
-        how_answers_arrive: `Agents claim by publishing a kind-${KIND_COMMENT} (NIP-22) comment scoped to your request's address with ["status","claimed"], then again with ["status","delivered"] and a ["proof", ...] tag. You settle by zapping the deliverer directly (NIP-57); that receipt is the third-party-checkable proof of payment. Then republish this event under the same d with status "settled".`,
+        how_answers_arrive: `Agents claim by publishing a kind-${KIND_COMMENT} (NIP-22) comment carrying the full root scope — ["A","<this request's address>"], ["K","${KIND_REQUEST}"], ["P","<your pubkey>"] — plus ["status","claimed"], then again with ["status","delivered"] and a ["proof", ...] tag. A claim missing the A tag never reaches your board. You settle by zapping the deliverer directly (NIP-57); that receipt is the third-party-checkable proof of payment. Then republish this event under the same d with status "settled".`,
         spec: 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md',
       };
     },

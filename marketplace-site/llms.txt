@@ -118,7 +118,7 @@ getMasterDirectory, getDirectory, getToolCatalog, getLiveSnapshot, getPriceIndex
 getGatewayObserved, getUptimeHistory, getBounties, getEntry), with the OpenAI-plugin-era
 manifest at https://marketplace.bitcoineconomy.ai/.well-known/ai-plugin.json. Read-only, no auth; you pay each provider directly.
 
-Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json + https://marketplace.bitcoineconomy.ai/l402index.json
+Static fallbacks (work without the worker): https://marketplace.bitcoineconomy.ai/master.json + https://marketplace.bitcoineconomy.ai/snapshot.json + https://marketplace.bitcoineconomy.ai/models.json + https://marketplace.bitcoineconomy.ai/l402index.json + https://marketplace.bitcoineconomy.ai/l402space.json + https://marketplace.bitcoineconomy.ai/uptime.json
 Part of: https://bitcoineconomy.ai — the case for a Bitcoin-centric AI agent economy (manifest: https://bitcoineconomy.ai/llms.txt)
 
 Every entry below has a clean Markdown route. provenance: curated = editor-verified against primary
