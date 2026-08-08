@@ -1,8 +1,13 @@
 # bitcoineconomy.ai — build & design conventions
 
 Astro static site on a Cloudflare Worker (root `wrangler.jsonc`: `src/worker.js` +
-`dist/` assets). Content is authored as markdown surfaces + card collections and
-ported into `src/_raw/` at build time.
+`dist/` assets). Content is **authored in `src/_raw/`** as markdown surfaces + card
+collections and ported into the generated content collection `src/content/**` at
+build time.
+
+**`src/content/**` and `dist/` are GENERATED and gitignored** — `npm run port`
+(`scripts/port-surfaces.mjs`) wipes `src/content/` on every run, so a hand-edit there
+is silently reverted. Never edit them; edit `src/_raw/`.
 
 ## Build & verify
 - `npm run build` runs the port (`scripts/port-surfaces.mjs`) then `astro build` → `dist/`.

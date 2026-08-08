@@ -30,19 +30,25 @@ The agent economy on Bitcoin is the contemporary instance.
 
 This repository is the source for the static site at **https://bitcoineconomy.ai**.
 
-## The eleven surfaces
+## The surfaces
 
-Six human-facing surfaces, each with a separately-authored, claims-indexed
-**For-Agents** twin (The Story is the human-only exception):
+**19 human-facing surfaces**, organised by argument into three sections — **The
+Case / The Stack / The Market** — with **15** separately-authored, claims-indexed
+**For-Agents** twins. Four surfaces are human-only by design (The Story, About,
+Stablecoin Landscape, Marketplace).
 
-| Surface | Human | For Agents |
-| --- | --- | --- |
-| The Story | `/the-story` | — (dual-track exception) |
-| Thesis | `/thesis` | `/thesis-for-agents` |
-| Independence Doctrine | `/independence-doctrine` | `/independence-doctrine-for-agents` |
-| Border Zone | `/border-zone` | `/border-zone-for-agents` |
-| The Stack | `/stack` | `/stack-for-agents` |
-| Field Notes | `/field-notes` | `/field-notes-for-agents` |
+Alongside them, four card collections: **28 Tools · 13 Exchanges · 17 Services ·
+6 Skills**. (`/tools` grids the 21 function-first tools; the 7 protocol
+primitives keep cards and are explained on the Stack.)
+
+**This list is deliberately not enumerated here** — it is a derived fact, and a
+hand-typed copy rots. The generated `/llms.txt` and `/agents.txt` enumerate every
+route on every build and are the source to read.
+
+A second Worker serves **`marketplace.bitcoineconomy.ai`** — a directory of
+agent-payable services (22 curated entries merged with three live tiers), a
+12-tool **`/mcp`** server, a **bounty board** on the kind-38556 microstandard,
+and `/live/*` JSON refreshed by cron.
 
 ## Agent-first infrastructure
 
@@ -73,7 +79,7 @@ first-class readers:
   near-black `#0E0E0E`, off-white `#F5F1E8`, Bitcoin-orange `#F7931A`
   (Bitcoin/sovereign), slate-grey `#7A8290` (incumbent/legacy). Data-bearing
   diagrams also ship the data as a table so agents are never excluded.
-- **Images:** three finished raster pieces in `public/images/`, wired into the
+- **Images:** finished raster pieces in `public/images/`, wired into the
   human surfaces only (never the For-Agents twins).
 
 ## Commands
@@ -85,12 +91,32 @@ first-class readers:
 | `npm run dev` | Local dev server at `localhost:4321` (ports first) |
 | `npm run build` | Production build to `./dist/` (ports first) |
 | `npm run preview` | Preview the production build locally |
+| `npm run deploy` | **Ship it** — builds, then deploys BOTH Workers |
+| `npm run deploy main` / `npm run deploy marketplace` | Deploy one surface only |
 
 ## Deploy
 
-Static output (`dist/`). Recommended host: **Cloudflare Pages** (free tier,
-Git-push deploys, custom domain + HTTPS). Point `bitcoineconomy.ai` DNS
-(registered at Bluehost) at the host and enforce HTTPS.
+**Both surfaces are Cloudflare Workers on Custom Domains, and deploying is a
+manual act from the box: `npm run deploy`.**
+
+> **A push deploys nothing, anywhere.** No repo in this portfolio is
+> git-connected to Cloudflare. GitHub is history and backup. *(This section used
+> to recommend Cloudflare Pages with Git-push deploys; both git connections were
+> removed 2026-08-05 after a push believed inert was found shipping to
+> production for weeks.)*
+
+`npm run deploy` is one command for **both** Workers — the main site and
+`marketplace-site/`. Two things are load-bearing:
+
+- **Run `node build.mjs` inside `marketplace-site/` first** whenever a card or
+  `directory-overlay.json` changed — the per-card "For agents — connect" blocks
+  read the *generated* `directory.json`.
+- **Verify by measuring the rendered result**, not the source. The edge cache
+  serves mixed old/new for minutes after a deploy; cache-bust and poll to three
+  consecutive consistent reads.
+
+The full deploy / credential / pseudonymity standard is portfolio-wide and is
+not restated here.
 
 ---
 
