@@ -4,7 +4,15 @@
   "main": "src/worker.js",
   "assets": {
     "directory": "./dist",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    // Astro emits every URL WITHOUT a trailing slash (astro.config.mjs
+    // `trailingSlash: 'never'`), and Cloudflare's default asset handling
+    // ("auto-trailing-slash") 307-redirected every bare HTML route to the slash
+    // form. So each page's own canonical tag, its sitemap entry, every internal
+    // href and both machine manifests all named a URL that redirected away from
+    // the page being served — and a fetcher that does not follow redirects got a
+    // ZERO-BYTE body on all 101 HTML routes. Serve the shape we advertise.
+    "html_handling": "drop-trailing-slash"
   },
   // Custom Domain — the hostname binding lives HERE as well as in Cloudflare, so
   // the repo describes the whole deployed thing rather than half of it. All three

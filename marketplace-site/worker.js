@@ -52,6 +52,10 @@ const KV_MODELS = 'models';
 const KV_L402INDEX = 'l402index';
 const KV_L402SPACE = 'l402space';
 const KV_MASTER = 'master';
+// The curated-registry stamp of the bundle that WROTE the KV master. serveMaster
+// compares it against the bundle it is running as, which is the only way to tell
+// that a KV copy predates the current deploy. See serveMaster.
+const KV_MASTER_CURATED = 'master_curated_stamp';
 const KV_UPTIME = 'uptime';
 const KV_UPTIME_HISTORY = 'uptime_history';
 // Per-tier fetch health for the two external tiers. Written by the 6-hourly pass,
@@ -228,6 +232,20 @@ async function serveMaster(env, origin) {
   const kv = await env.SNAPSHOT?.get(KV_MASTER).catch(() => null);
   if (!kv) return serveLive(env, origin, KV_MASTER, '/master.json');
 
+  // A timestamp comparison alone cannot see a deploy that REMOVED a curated row.
+  // On 2026-08-07 a deploy landed 12s before the hourly cron; the cron (running the
+  // pre-deploy bundle) wrote a KV master that was NEWER by the clock and still listed
+  // a venue the deploy had removed — so /live/master.json, find_service and the public
+  // table served it, labelled "Curated — editor-verified", with an entry_md link that
+  // 404'd, until the next cron. The fix is not a bigger timestamp check: it is asking
+  // WHICH curated registry produced the KV copy. DIRECTORY is bundled, so it is always
+  // this deploy's; the stamp beside the KV master is whichever deploy wrote it.
+  const kvCurated = await env.SNAPSHOT?.get(KV_MASTER_CURATED).catch(() => null);
+  if (DIRECTORY.generated_at && kvCurated !== null && DIRECTORY.generated_at > kvCurated) {
+    const asset = await assetJson(env, '/master.json', origin);
+    if (asset) return new Response(JSON.stringify(asset), { headers });
+  }
+
   const assetStamp = (await assetJson(env, '/master-version.json', origin))?.generated_at || null;
   if (assetStamp) {
     // Only the KV copy's timestamp is needed; pull it without parsing the body.
@@ -274,6 +292,68 @@ async function serveLive(env, origin, kvKey, fallbackPath) {
 // :17) so they never fire in the same minute and race each other's KV writes.
 const CRON_FULL = '17 */6 * * *';
 
+// The external tiers get their OWN invocation, and therefore their own subrequest
+// budget. Cloudflare caps subrequests per Worker invocation, and the full pass above
+// spends nearly all of them before it reaches these two fetches — 4 relay reads + 27
+// provider probes + 3 self-checks + 15 index queries. The gateway tier consequently
+// failed with the literal error "Too many subrequests by single Worker invocation" on
+// EVERY run for 105 hours while l402.space answered 200 the whole time. That is not a
+// flaky upstream, it is deterministic starvation: the budget is gone before the call
+// is made, so it can never recover on its own no matter how healthy the upstream is.
+// Offset :37 so it collides with neither :47 nor :17.
+const CRON_EXTERNAL = '37 */6 * * *';
+
+// Fetch the two external tiers and rebuild the merged directory around them. Reads
+// the snapshot and uptime docs from KV rather than re-probing — this pass exists to
+// spend its whole budget on the two upstream fetches and nothing else.
+async function refreshExternalTiers(env) {
+  const readKV = async (key) => {
+    try { return JSON.parse((await env.SNAPSHOT.get(key)) || 'null'); } catch { return null; }
+  };
+  const health = (await readKV(KV_TIER_HEALTH)) || {};
+  const noteTier = (name, ok, err) => {
+    const prev = health[name] || {};
+    health[name] = ok
+      ? { last_success: new Date().toISOString(), consecutive_failures: 0 }
+      : {
+          last_success: prev.last_success || null,
+          consecutive_failures: (prev.consecutive_failures || 0) + 1,
+          last_error: String(err?.message || err || 'unknown').slice(0, 200),
+          last_failure: new Date().toISOString(),
+        };
+  };
+
+  let doc402 = null, docSpace = null;
+  try {
+    const d = buildL402Index(await fetch402index(fetch), { generatedAt: new Date().toISOString(), source: 'worker-cron (via 402index.io)' });
+    if (d.count > 0) { doc402 = d; await env.SNAPSHOT.put(KV_L402INDEX, JSON.stringify(d)); noteTier('external-index', true); }
+    else noteTier('external-index', false, 'upstream returned 0 rows');
+  } catch (err) { noteTier('external-index', false, err); }
+  try {
+    const d = buildL402SpaceDoc(await fetchL402Space(fetch), { generatedAt: new Date().toISOString(), source: 'worker-cron (via l402.space)' });
+    if (d.count > 0) { docSpace = d; await env.SNAPSHOT.put(KV_L402SPACE, JSON.stringify(d)); noteTier('gateway-observed', true); }
+    else noteTier('gateway-observed', false, 'upstream returned 0 rows');
+  } catch (err) { noteTier('gateway-observed', false, err); }
+  try { await env.SNAPSHOT.put(KV_TIER_HEALTH, JSON.stringify(health)); } catch {}
+
+  try {
+    const [snapshot, uptimeDoc, idx, space] = await Promise.all([
+      readKV(KV_SNAPSHOT), readKV(KV_UPTIME),
+      doc402 ? Promise.resolve(doc402) : readKV(KV_L402INDEX),
+      docSpace ? Promise.resolve(docSpace) : readKV(KV_L402SPACE),
+    ]);
+    if (!snapshot) return;
+    const master = buildMaster(
+      { directory: DIRECTORY, snapshot, l402index: idx, l402space: space, uptime: uptimeDoc, tierHealth: health },
+      { generatedAt: new Date().toISOString(), base: SELF_BASE },
+    );
+    if (master.count > 0 && master.sources?.curated?.rows_contributed > 0) {
+      await env.SNAPSHOT.put(KV_MASTER, JSON.stringify(master));
+      await env.SNAPSHOT.put(KV_MASTER_CURATED, DIRECTORY.generated_at || '');
+    }
+  } catch {}
+}
+
 // The hourly pass. Everything it publishes is either freshly read from the
 // relays or explicitly carried forward and labelled as such — it never computes
 // a probe-derived number, because it never probed.
@@ -304,6 +384,7 @@ async function refreshFromRelays(env) {
     );
     if (master.count > 0 && master.sources?.curated?.rows_contributed > 0) {
       await env.SNAPSHOT.put(KV_MASTER, JSON.stringify(master));
+      await env.SNAPSHOT.put(KV_MASTER_CURATED, DIRECTORY.generated_at || '');
     }
   } catch {}
 }
@@ -315,6 +396,7 @@ export default {
     // probe-derived — no uptime history append, no models index rebuild, no
     // external-tier refetch. Those all belong to the full pass and stay on their
     // own six-hourly clock.
+    if (controller.cron === CRON_EXTERNAL) return refreshExternalTiers(env);
     if (controller.cron && controller.cron !== CRON_FULL) return refreshFromRelays(env);
 
     const snapshot = await takeSnapshot();
@@ -392,18 +474,12 @@ export default {
           };
     };
 
-    let doc402 = null;
-    let docSpace = null;
-    try {
-      const d = buildL402Index(await fetch402index(fetch), { generatedAt: new Date().toISOString(), source: 'worker-cron (via 402index.io)' });
-      if (d.count > 0) { doc402 = d; await env.SNAPSHOT.put(KV_L402INDEX, JSON.stringify(d)); noteTier('external-index', true); }
-      else noteTier('external-index', false, 'upstream returned 0 rows');
-    } catch (err) { noteTier('external-index', false, err); }
-    try {
-      const d = buildL402SpaceDoc(await fetchL402Space(fetch), { generatedAt: new Date().toISOString(), source: 'worker-cron (via l402.space)' });
-      if (d.count > 0) { docSpace = d; await env.SNAPSHOT.put(KV_L402SPACE, JSON.stringify(d)); noteTier('gateway-observed', true); }
-      else noteTier('gateway-observed', false, 'upstream returned 0 rows');
-    } catch (err) { noteTier('gateway-observed', false, err); }
+    // The two external-tier fetches used to live HERE and were starved of
+    // subrequests by everything above them. They now have their own cron
+    // (CRON_EXTERNAL, :37) and their own budget. This pass reads their last good
+    // KV copies below, exactly as it already did for a tier that failed.
+    const doc402 = null;
+    const docSpace = null;
     try { await env.SNAPSHOT.put(KV_TIER_HEALTH, JSON.stringify(health)); } catch {}
 
     // The mastered directory: all four sources merged into one row shape and one
@@ -432,6 +508,7 @@ export default {
       const keptCurated = master.sources?.curated?.rows_contributed > 0;
       if (master.count > 0 && keptCurated) {
         await env.SNAPSHOT.put(KV_MASTER, JSON.stringify(master));
+        await env.SNAPSHOT.put(KV_MASTER_CURATED, DIRECTORY.generated_at || '');
       }
     } catch {}
   },

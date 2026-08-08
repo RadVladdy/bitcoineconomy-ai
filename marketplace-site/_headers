@@ -9,6 +9,22 @@
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://bitcoineconomy.ai https://cloudflareinsights.com wss://nos.lol wss://relay.primal.net wss://relay.damus.io wss://nostr.bitcoiner.social; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'
 
 # Agent-readable routes are fetched cross-origin by tools and crawlers.
+# Four routes were missing from this list until 2026-08-07 and served no CORS header
+# while every sibling did: /master.json, /agents.txt, /l402index.json, /l402space.json.
+# They are not obscure — llms.txt names /master.json as the static fallback for the
+# route it heads "Start here: one fetch", and the two l402 files as the tier fallbacks.
+# So a browser-resident agent following the documented cold-KV path was blocked by
+# CORS, which is the exact failure the fallbacks exist to prevent.
+/master.json
+  Access-Control-Allow-Origin: *
+/master-version.json
+  Access-Control-Allow-Origin: *
+/agents.txt
+  Access-Control-Allow-Origin: *
+/l402index.json
+  Access-Control-Allow-Origin: *
+/l402space.json
+  Access-Control-Allow-Origin: *
 /directory.json
   Access-Control-Allow-Origin: *
 /tools.json

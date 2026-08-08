@@ -26,9 +26,15 @@ const LNURLP_UPSTREAM = {
   beef: 'https://ln.bitcoineconomy.ai/.well-known/lnurlp/beef',
 };
 
+// public/_headers only applies to responses served through env.ASSETS.fetch(), so a
+// Response this Worker constructs gets none of it. The marketplace Worker sets these
+// by hand on every JSON response it builds; this one set nothing until 2026-08-07.
 const JSON_HEADERS = {
   'content-type': 'application/json',
   'access-control-allow-origin': '*',
+  'x-content-type-options': 'nosniff',
+  'referrer-policy': 'strict-origin-when-cross-origin',
+  'strict-transport-security': 'max-age=31536000; includeSubDomains',
 };
 
 export default {

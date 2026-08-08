@@ -48,7 +48,7 @@ which is also the noise filter: it's why there are no uncategorized rows here.
 | file | role |
 |---|---|
 | `index.html` | the directory UI — renders `master.json` as one filterable table, plus the supporting live inventory below it; client-side, no framework |
-| `taxonomy.mjs` | **the shared category vocabulary** — 11 top-level categories + subcategories, the 402index crosswalk, and the keyword classifier for sources that publish no category at all (l402.space). Imported by the build, the ingest libs, and the announcement spec |
+| `taxonomy.mjs` | **the shared category vocabulary** — top-level categories + subcategories, the 402index crosswalk, and the keyword classifier for sources that publish no category at all (l402.space). Imported by the build, the ingest libs, and the announcement spec |
 | `master-lib.mjs` | the merge — normalizes all four sources into ONE row shape, dedupes across sources (never within one), sorts curated-then-Bitcoin-native, and emits the `facets` block the UI and MCP filter on |
 | `master.json` | **generated** — committed fallback of the mastered directory |
 | `l402space-lib.mjs` / `l402space.json` | the gateway-observed source: l402.space's `/api/services` + `/api/stats`, merged per host |

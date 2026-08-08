@@ -12,3 +12,27 @@
 # cross-origin from web apps), and the endpoint must never redirect.
 /.well-known/nostr.json
   Access-Control-Allow-Origin: *
+
+# Agent-readable routes are fetched cross-origin by tools and crawlers — the same
+# rationale the marketplace Worker's _headers states for its own machine routes.
+# Until 2026-08-07 the ONLY CORS rule here was the NIP-05 one below, so every .md
+# twin, llms.txt, agents.txt and llms-full.txt were unreadable from a browser-
+# resident agent while their marketplace equivalents were fine.
+/llms.txt
+  Access-Control-Allow-Origin: *
+/llms-full.txt
+  Access-Control-Allow-Origin: *
+/agents.txt
+  Access-Control-Allow-Origin: *
+/sitemap-0.xml
+  Access-Control-Allow-Origin: *
+/*.md
+  Access-Control-Allow-Origin: *
+/tools/*.md
+  Access-Control-Allow-Origin: *
+/services/*.md
+  Access-Control-Allow-Origin: *
+/exchanges/*.md
+  Access-Control-Allow-Origin: *
+/skills/*.md
+  Access-Control-Allow-Origin: *

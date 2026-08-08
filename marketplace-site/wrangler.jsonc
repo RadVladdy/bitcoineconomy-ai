@@ -19,7 +19,22 @@
     //                  external tiers.
     // The offset is load-bearing: same-minute schedules would fire together and
     // race each other's KV writes. Do not align them.
-    "crons": ["47 * * * *", "17 */6 * * *"]
+    // THREE schedules, all offset so no two fire in the same minute and race each
+    // other's KV writes.
+    //   :47 hourly    — relay read (board + announced tier)
+    //   :17 6-hourly  — full pass: endpoint probes, price index, uptime append
+    //   :37 6-hourly  — the two EXTERNAL tiers (402index, l402.space)
+    //
+    // The third was split out 2026-08-07. Cloudflare caps subrequests per Worker
+    // invocation, and the full pass was spending essentially all of them before it
+    // reached the l402.space fetch: 4 relay reads + 27 provider probes + 3 self
+    // checks + 15 index queries. The gateway tier failed with the literal error
+    // "Too many subrequests by single Worker invocation" on every single run for
+    // 105 hours while l402.space itself answered 200 throughout — deterministic
+    // starvation that could never self-heal, because the budget is spent before
+    // the call is made. Giving the external fetches their own invocation gives
+    // them a fresh budget.
+    "crons": ["47 * * * *", "17 */6 * * *", "37 */6 * * *"]
   },
   // Custom Domain — the same wiring bitcoineconomy.ai and radvladdy.com use, so
   // all three Workers are configured identically (converted 2026-08-05).

@@ -412,7 +412,14 @@ export function buildMaster({ directory, snapshot, l402index, l402space, uptime,
       rail: tally('rail'),
       category: tally('category'),
       subcategory: tally((r) => (r.category && r.subcategory ? r.category + '/' + r.subcategory : null)),
-      payment_network: tally('payment_network'),
+      // payment_network is DELIBERATELY not a facet. _Decisions 2026-08-05 suppressed
+    // it from the human filter for reasons that apply identically to a machine one:
+    // it is third-party data in a third-party vocabulary, unnormalised — "Lightning"
+    // and "lightning" are separate values, "Base" and "Base (mainnet)" likewise, so
+    // six options describe four networks and any agent filtering on one silently
+    // misses the rows spelled the other way. `rail` is this site's own answer to the
+    // question and IS a controlled vocabulary. The per-row value still ships, exactly
+    // as that decision requires — only the aggregate filter target is withdrawn.
       classification_confidence: tally('classification_confidence'),
     },
     category_titles: Object.fromEntries(CATEGORY_ORDER.map((c) => [c, CATEGORIES[c].title])),
