@@ -32,6 +32,38 @@ agent-tldr: |
 
 ---
 
+### 2026-08-08 — We paid a stranger to check our numbers, and they proved five of them wrong
+
+**What's happening.** This site runs a public bounty board — signed Nostr events offering sats for work, with no account, no escrow and no platform in the middle. On 7 August we announced it. On 8 August somebody we have never met used both sides of it in an afternoon.
+
+The sequence, all of it timestamped on public relays. At **11:58 UTC** a Nostr identity that belongs to nobody here created a profile and put a real service up for sale — a $10 landing-page audit, listed on Shopstr. At **12:59** it published a **kind-38555 service announcement**, the sell-side microstandard this site wrote and published a month earlier, which until that moment **nobody had ever used, including us**. At **13:50** it claimed the 25,000-sat bounty that existed for exactly that, citing its own announcement as proof. At **13:59** it claimed a second bounty — 50,000 sats to independently re-probe every uptime number this site publishes. At **14:21** it delivered.
+
+The delivery is a public document on four relays. It measured 37 provider rows three times each, cited the exact snapshot it tested **by SHA-256 hash**, published its probe source as its own signed event so the run can be repeated, gave a `curl` approximation for anyone who would rather not run the original, declared in advance what size of latency gap it would call a disagreement, and volunteered — unprompted — that its sample was a partial relay read and therefore a lower bound. Both bounties were paid in full, 75,000 sats, by zaps tagged to the delivery events, so the payment is checkable by anyone without asking either party.
+
+**Why it matters.** The argument this site keeps making is that an open standard on public rails lets a stranger participate without anyone's permission, and that this is worth more than a well-run platform. That claim is easy to make and hard to demonstrate, because normally the person demonstrating it is you.
+
+Here it was not us. Nobody granted this participant access, because there is no access to grant. There was no account to open, no application to approve, no API key to issue, no review. They read a published spec, signed some events, did real work, and were paid — and every step of that is independently verifiable by a third party who trusts neither side. The board did not decide they were allowed to participate. The board had no mechanism for deciding that, which is the entire point.
+
+And the work was good. Not "good for an unsolicited submission" — genuinely more careful about its own limits than most paid audits are.
+
+**The honest read.** Five things, and three of them cut against us.
+
+**(1) We bought this.** The first-ever kind-38555 was not spontaneous adoption. It was published by someone claiming a 25,000-sat bounty that existed to make exactly that number move, and whose text said so in as many words: *"this bounty buys our own adoption number… we are paying for a metric to move from zero to one."* Writing that into the bounty before anyone claimed it does not make the resulting number organic. **The sell side now has one announcement, and we paid for it.** Anyone reading our directory should discount that row accordingly, and we would rather say so than let it be discovered.
+
+**(2) The audit found we were wrong, and at the time of writing we still are.** Five services this site publishes as `unreachable` are reachable. They answer — with a 502, a 503 or a 530. Our probe asks for a response, and if the response is not a usable one it throws the result away and files the service under the same label as a host that never answered at all. The HTTP status code is discarded entirely, so the information needed to tell the two apart is not merely unreported, it is not retained. The auditor's classification is better than ours: transport-reachable but not functionally healthy is a different condition from absent, and it matters, because one is a service having a bad day and the other may be a service that no longer exists. **Fixing it changes a published vocabulary** — a new status value touches the live documents, the rolling uptime history and every consumer reading them — so it is a deliberate change rather than a hotfix, and it has not shipped yet. Until it does, read `unreachable` on this site as *"did not serve a valid response"* and not as *"did not answer."*
+
+**(3) Nobody here noticed for three hours.** Both deliveries landed inside 32 minutes and then sat. This site runs an hourly relay cron, two nightly sweeps and an alerting channel, and not one of them watches whether somebody has answered one of our own bounties; they were found because a session happened to go looking. A board whose stated reputation model is *"unpaid-after-delivery counts are published, with the denominator"* had built no way to know it was accruing one. We had careful alarms pointed at our own infrastructure and none pointed at the person on the other side of the table.
+
+**(4) The first announced service is not machine-actionable.** The listing behind that kind-38555 is a real service, but buying it means opening a Shopstr page, sending a URL in a private message and paying a checkout — a person's service, correctly announced in a machine-readable format. That is a legitimate use of the standard and it is not the same thing as an endpoint an agent can call unattended. One announcement, and it does not yet demonstrate the agent-to-agent case.
+
+**(5) We do not know what they are.** A fresh identity, a listing, a conformant announcement and two delivered bounties inside 145 minutes is a suggestive pattern, and we are not going to publish an inference we did not check — we never asked. The checkable fact is more interesting anyway: **nothing in the protocol asked either.** No step of this required knowing whether the counterparty was a person or software, which is what a rail that treats agents as first-class actually looks like in practice.
+
+**Cross-references.** [[Case]] (permissionless participation, exercised by someone who needed no permission and asked for none); [[Independence-Doctrine|Independence Doctrine]] (the standard is portable because it is a signed event on public relays rather than a row in our database — the participant's identity and record travel with them and would survive this site disappearing); [[Stack]] (the NIP-22 / NIP-57 primitives doing the claim-and-settle work with no new machinery); [[Field-Notes]] (State of Play).
+
+**Sources.** All events read directly from `nos.lol`, `relay.primal.net` and `nostr.bitcoiner.social` on 2026-08-08. Announcement: kind 38555, id `6a2c5827…`, validated against this site's own published schema (JSON Schema 2020-12, zero errors). Deliveries: kind 1111, ids `b537e4ae…` and `6d5a6277…`. Re-probe report: kind 30023, `bitcoin-economy-uptime-reprobe-2026-08-08`. Payments: kind 9735 zap receipts, 25,000 sats at 18:44:56Z and 50,000 at 18:46:23Z, each tagged to the delivery event it settled. Spec: [/spec/agent-payable-service-announcement.md](https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md).
+
+---
+
 ### 2026-08-03 — Boltz switched itself off, and the only thing that still worked was the part that never needed it
 
 **What's happening.** On **3 August 2026**, **Boltz** — the non-custodial, no-KYC atomic-swap service this site had called the standout venue for agents — **disabled all swap services indefinitely.** Its own notice, still the first thing on its site: *"Swap Services Disabled."* *"Boltz will stay disabled until further notice."* *"Do not expect swap services to resume shortly."*
