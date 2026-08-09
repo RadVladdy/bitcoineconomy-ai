@@ -625,6 +625,15 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
 // Tor): they get "unverified-tor-only" — honestly distinct from both "alive"
 // and "unreachable". Dead ≠ delisted: the announcement layer stays the source
 // of record; consumers filter on `status`.
+//
+// "unreachable" means NO HTTP RESPONSE (connect/DNS/TLS failure or timeout).
+// An endpoint that answers HTTP but does not serve a valid /v1/models response
+// — a 502/503/530, or a 2xx without a parseable model list — is "http-error",
+// with the HTTP status retained in `http_status`. The two used to share one
+// label through one `catch`, discarding the status code entirely; the paid
+// 2026-08-08 outside re-probe measured five "unreachable" rows answering
+// 502/503/530 and the split is its finding. A host having a bad day and a
+// host that no longer exists are different facts for a buying agent.
 
 function isPublicHttp(u) {
   if (!/^https?:\/\//i.test(u) || /\.onion/i.test(u)) return false;
@@ -673,17 +682,27 @@ export async function probeProviders(providers, { timeoutMs = 10000, concurrency
       const ctrl = new AbortController();
       const timer = setTimeout(() => ctrl.abort('timeout'), timeoutMs);
       const t0 = Date.now();
+      let res = null;
       try {
-        const res = await fetchFn(base + '/v1/models', { signal: ctrl.signal, headers: { accept: 'application/json' } });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const body = await res.json();
-        const models = Array.isArray(body?.data) ? body.data : Array.isArray(body?.models) ? body.models : [];
-        results.set(p.d, { status: 'alive', latency_ms: Math.round(Date.now() - t0), model_count: models.length, endpoint: base, models });
+        res = await fetchFn(base + '/v1/models', { signal: ctrl.signal, headers: { accept: 'application/json' } });
       } catch {
         results.set(p.d, { status: 'unreachable', endpoint: base });
-      } finally {
-        clearTimeout(timer);
       }
+      if (res) {
+        try {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const body = await res.json();
+          const models = Array.isArray(body?.data) ? body.data : Array.isArray(body?.models) ? body.models : [];
+          results.set(p.d, { status: 'alive', latency_ms: Math.round(Date.now() - t0), model_count: models.length, endpoint: base, models });
+        } catch {
+          // An HTTP response arrived — the host is transport-reachable — but it
+          // is not a valid /v1/models answer (non-2xx, or 2xx with no parseable
+          // model list). Keep the status code: it is the datum that tells a bad
+          // day from a dead host, and it used to be discarded here.
+          results.set(p.d, { status: 'http-error', http_status: res.status, latency_ms: Math.round(Date.now() - t0), endpoint: base });
+        }
+      }
+      clearTimeout(timer);
     }
   }
   await Promise.all(Array.from({ length: Math.min(concurrency, Math.max(queue.length, 1)) }, lane));
@@ -695,19 +714,22 @@ export async function probeProviders(providers, { timeoutMs = 10000, concurrency
 export function applyProbes(snapshot, probeResults, { probedAt }) {
   const mod = snapshot.modules?.routstr;
   if (!mod) return snapshot;
-  const counts = { alive: 0, unreachable: 0, 'unverified-tor-only': 0, unroutable: 0 };
+  const counts = { alive: 0, 'http-error': 0, unreachable: 0, 'unverified-tor-only': 0, unroutable: 0 };
   for (const p of mod.providers) {
     const r = probeResults.get(p.d);
     if (!r) continue;
     p.status = r.status;
     if (r.latency_ms !== undefined) p.latency_ms = r.latency_ms;
     if (r.model_count !== undefined) p.model_count = r.model_count;
+    if (r.http_status !== undefined) p.http_status = r.http_status;
+    else delete p.http_status;
     counts[r.status] = (counts[r.status] ?? 0) + 1;
   }
   mod.probe = {
     probed_at: probedAt,
-    method: 'GET {clearnet endpoint}/v1/models, 10s timeout; onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint (e.g. localhost)',
+    method: 'GET {clearnet endpoint}/v1/models, 10s timeout; unreachable = no HTTP response (connect/DNS/TLS failure or timeout); http-error = an HTTP response arrived but was not a valid /v1/models answer (non-2xx, or 2xx with no parseable model list — the code is in http_status); onion-only endpoints are not probeable from this infrastructure; unroutable = announced with no publicly routable endpoint (e.g. localhost)',
     alive: counts.alive,
+    http_error: counts['http-error'],
     unreachable: counts.unreachable,
     unverified_tor_only: counts['unverified-tor-only'],
     unroutable: counts.unroutable,
@@ -728,7 +750,7 @@ export function applyProbes(snapshot, probeResults, { probedAt }) {
 // matches the rows beneath it even when the announced set changed underneath.
 export function carryProbes(fresh, previous) {
   const pairs = [
-    ['routstr', 'providers', 'd', ['status', 'latency_ms', 'model_count']],
+    ['routstr', 'providers', 'd', ['status', 'latency_ms', 'model_count', 'http_status']],
     ['announced', 'services', 'slug', ['status', 'latency_ms', 'http_status', 'l402']],
   ];
   for (const [modName, listName, key, fields] of pairs) {
@@ -736,7 +758,7 @@ export function carryProbes(fresh, previous) {
     const prevMod = previous?.modules?.[modName];
     if (!mod || !prevMod?.probe) continue;
     const byKey = new Map((prevMod[listName] ?? []).map((row) => [row[key], row]));
-    const counts = { alive: 0, unreachable: 0, 'unverified-tor-only': 0, unroutable: 0 };
+    const counts = { alive: 0, 'http-error': 0, unreachable: 0, 'unverified-tor-only': 0, unroutable: 0 };
     for (const row of mod[listName] ?? []) {
       const prev = byKey.get(row[key]);
       if (!prev?.status) continue;
@@ -746,6 +768,10 @@ export function carryProbes(fresh, previous) {
     mod.probe = {
       ...prevMod.probe,
       alive: counts.alive,
+      // announced never emits http-error (its bare-GET probe records any HTTP
+      // answer as alive + http_status); the spread above only keeps the field
+      // where the module's own probe wrote one, so 0 here never invents it.
+      ...(prevMod.probe.http_error !== undefined ? { http_error: counts['http-error'] } : {}),
       unreachable: counts.unreachable,
       unverified_tor_only: counts['unverified-tor-only'],
       unroutable: counts.unroutable,

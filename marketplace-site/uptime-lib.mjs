@@ -19,7 +19,11 @@ export const UPTIME_WINDOW_RUNS = 120; // ≈30 days at the 6-hourly PROBE cron
 // pass appends one. The hourly relay refresh deliberately does not — if it did,
 // 120 runs would silently mean 5 days while this doc kept publishing 30.
 
-const PROBEABLE = new Set(['alive', 'unreachable']);
+// (A `PROBEABLE` set used to sit here, read by nothing — a vocabulary list that
+// must agree with buildUptimeDoc's counters and is maintained by hand is one
+// edit away from disagreeing, which is this file's own recorded lesson. The
+// counters below are the one executable form of which statuses enter the
+// denominator.)
 
 // The self-probe definitions live at module scope so the history-sanitation
 // list below can be DERIVED from them rather than retyped. Retyping is what
@@ -237,9 +241,15 @@ export function buildUptimeDoc(history, { generatedAt } = {}) {
   const targets = {};
   for (const run of runs) {
     for (const [key, status] of Object.entries(run.targets ?? {})) {
-      const t = (targets[key] ??= { observations: 0, alive: 0, unreachable: 0, unprobeable: 0 });
+      const t = (targets[key] ??= { observations: 0, alive: 0, http_error: 0, unreachable: 0, unprobeable: 0 });
       t.observations += 1;
       if (status === 'alive') { t.alive += 1; t.last_alive_at = run.at; }
+      // http-error (2026-08-08 vocabulary split): the host answered HTTP but did
+      // not serve a valid response. It is a probed observation of a service not
+      // serving — DOWNTIME, in the denominator. Landing it in the unprobeable
+      // else-branch would silently exclude those observations and inflate
+      // uptime, the flattering direction of wrong.
+      else if (status === 'http-error') t.http_error += 1;
       else if (status === 'unreachable') t.unreachable += 1;
       else t.unprobeable += 1;
       t.last_status = status;
@@ -247,7 +257,7 @@ export function buildUptimeDoc(history, { generatedAt } = {}) {
     }
   }
   for (const t of Object.values(targets)) {
-    const denom = t.alive + t.unreachable;
+    const denom = t.alive + t.http_error + t.unreachable;
     t.uptime_pct = denom > 0 ? Math.round((t.alive / denom) * 1000) / 10 : null;
     t.uptime_denominator = denom;
   }
@@ -263,14 +273,18 @@ export function buildUptimeDoc(history, { generatedAt } = {}) {
     cadence: 'Probes run on the 6-hourly Worker cron (17 */6 * * * UTC); each run probes every target once. The directory itself re-reads the relays hourly (47 * * * * UTC), but that pass does not probe and appends no run here — so this window is 120 probe runs, ≈30 days.',
     window: { max_runs: UPTIME_WINDOW_RUNS, runs_held: runs.length, approx_days_at_capacity: 30 },
     formula:
-      'uptime_pct = alive / (alive + unreachable), rounded to 0.1%. Unprobeable observations '
+      'uptime_pct = alive / (alive + http-error + unreachable), rounded to 0.1%. unreachable = no HTTP response; '
+      + 'http-error = an HTTP response that was not a valid answer (status code retained in the snapshot) — both are '
+      + 'observations of a service not serving, so both count as downtime. (Before 2026-08-08 the probe stored both '
+      + 'conditions under "unreachable", so older runs[] carry no http-error observations; the percentage is '
+      + 'unaffected because the two labels always counted the same way.) Unprobeable observations '
       + '(unverified-tor-only, unroutable) say nothing about the service being up — they are excluded from the '
       + 'denominator and counted separately as unprobeable. uptime_denominator states each target’s denominator; '
       + 'do not compare percentages across very different denominators.',
     how_to_check:
-      'Recompute from runs[]: each run is {at, targets: {key: status}}. For a target, count status==="alive" and '
-      + 'status==="unreachable" across runs and apply the formula. The stats in targets{} carry no information '
-      + 'beyond the runs.',
+      'Recompute from runs[]: each run is {at, targets: {key: status}}. For a target, count status==="alive", '
+      + 'status==="http-error" and status==="unreachable" across runs and apply the formula. The stats in targets{} '
+      + 'carry no information beyond the runs.',
     self_probe_note:
       'self:* rows are attempted by the Worker against its own public hostname, and none of them can succeed: '
       + 'marketplace.bitcoineconomy.ai is a Custom Domain, so this Worker is the only thing behind it and a '

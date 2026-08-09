@@ -82,7 +82,7 @@ sources + `master.json`). Read the warnings the latter prints before committing.
 Announcements are replaceable Nostr events that outlive their nodes (first probe,
 2026-06-10: 13 of 37 announced providers alive). So every snapshot refresh probes
 each announced **clearnet** endpoint's unauthenticated `/v1/models` and records
-per provider: `status` (`alive | unreachable | unverified-tor-only | unroutable`),
+per provider: `status` (`alive | http-error | unreachable | unverified-tor-only | unroutable`),
 `latency_ms`, `model_count`, `network` (`clearnet | tor | both | unroutable`).
 Honesty rules: dead ≠ delisted (announcements stay listed with status); onion-only
 endpoints can't be probed from this infrastructure and are labeled unverified, not

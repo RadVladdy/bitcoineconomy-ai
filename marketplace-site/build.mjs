@@ -128,7 +128,7 @@ const directory = {
     'Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. ' +
     'provenance "curated" = maintained by the editors and verified against primary sources on last_verified; ' +
     'live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json ' +
-    '(providers carry probe status: alive | unreachable | unverified-tor-only | unroutable, plus network: clearnet | tor | both | unroutable) ' +
+    '(providers carry probe status: alive | http-error | unreachable | unverified-tor-only | unroutable — http-error = answered HTTP but not a valid response, code in http_status; unreachable = no HTTP response — plus network: clearnet | tor | both | unroutable) ' +
     'and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at ' +
     '/snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), ' +
     'api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). ' +
@@ -401,7 +401,8 @@ const llms = [
   '',
   `${BASE}/live/snapshot.json — what announces itself on Nostr right now (Routstr kind-38421 inference`,
   '   providers, NIP-87 ecash mints, kind-38000 reviews). Each provider carries probe status',
-  '   (alive | unreachable | unverified-tor-only | unroutable — announcements outlive nodes; filter status === "alive"',
+  '   (alive | http-error | unreachable | unverified-tor-only | unroutable — announcements outlive nodes; filter',
+  '   status === "alive" — http-error answered HTTP without a valid response (code in http_status), unreachable never answered —',
   '   unless you can reach Tor, where network: tor | both endpoints are yours to verify) plus latency_ms,',
   '   model_count, and accepted mints.',
   // The buy side. Deliberately placed in "supporting live data" next to the
@@ -679,8 +680,9 @@ const openapi = {
         summary: 'Live Nostr-announced inventory (Routstr providers, ecash mints)',
         description:
           'What announces itself on Nostr right now: Routstr kind-38421 inference providers, NIP-87 ecash mints, '
-          + 'kind-38000 reviews. Each provider carries a probe status (alive | unreachable | unverified-tor-only | '
-          + 'unroutable — filter status === "alive" unless you can reach Tor), latency_ms, model_count, and accepted mints. '
+          + 'kind-38000 reviews. Each provider carries a probe status (alive | http-error | unreachable | '
+          + 'unverified-tor-only | unroutable — filter status === "alive" unless you can reach Tor; http-error answered '
+          + 'HTTP without a valid response, code in http_status; unreachable never answered), latency_ms, model_count, and accepted mints. '
           + 'KV-backed; relay data refreshed hourly, liveness probes every 6h; static fallback at /snapshot.json.',
         responses: { 200: jsonResp('The live snapshot document.') },
       },

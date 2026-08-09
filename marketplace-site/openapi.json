@@ -76,7 +76,7 @@
       "get": {
         "operationId": "getLiveSnapshot",
         "summary": "Live Nostr-announced inventory (Routstr providers, ecash mints)",
-        "description": "What announces itself on Nostr right now: Routstr kind-38421 inference providers, NIP-87 ecash mints, kind-38000 reviews. Each provider carries a probe status (alive | unreachable | unverified-tor-only | unroutable — filter status === \"alive\" unless you can reach Tor), latency_ms, model_count, and accepted mints. KV-backed; relay data refreshed hourly, liveness probes every 6h; static fallback at /snapshot.json.",
+        "description": "What announces itself on Nostr right now: Routstr kind-38421 inference providers, NIP-87 ecash mints, kind-38000 reviews. Each provider carries a probe status (alive | http-error | unreachable | unverified-tor-only | unroutable — filter status === \"alive\" unless you can reach Tor; http-error answered HTTP without a valid response, code in http_status; unreachable never answered), latency_ms, model_count, and accepted mints. KV-backed; relay data refreshed hourly, liveness probes every 6h; static fallback at /snapshot.json.",
         "responses": {
           "200": {
             "description": "The live snapshot document.",
