@@ -1,0 +1,260 @@
+/* Shared styling for the two publish pages (/list and /post).
+   Tokens copied from index.html deliberately rather than imported: the
+   directory page keeps its CSS inline so it renders in one round trip, and a
+   second copy of ~20 custom properties is a cheaper problem than making the
+   front page wait on a stylesheet. If the palette moves, it moves in both. */
+:root {
+  --bg: #0a0a0b;
+  --panel: #101012;
+  --rule: #262626;
+  --text: #d7d7d2;
+  --dim: #8a8a85;
+  --agent: #8b7cff;   /* Marketplace violet */
+  --orange: #f7931a;
+  --warm: #c9c4b8;
+  --good: #7dd3a0;
+  --bad: #d37d7d;
+  --warn: #d3a87d;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1rem/1.65 Inter, system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+.aura {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(60rem 30rem at 50% -8rem, rgba(139,124,255,0.10), transparent 60%),
+    radial-gradient(40rem 24rem at 85% 110%, rgba(247,147,26,0.05), transparent 60%);
+}
+main { width: min(58rem, 100% - 2.5rem); margin: 0 auto; padding: 3.4rem 0 3rem; }
+a { color: var(--text); text-underline-offset: 3px; }
+a:hover { color: var(--agent); }
+
+.eyebrow {
+  display: inline-block;
+  font: 500 0.78rem/1 "JetBrains Mono", monospace;
+  letter-spacing: 0.08em;
+  color: var(--agent);
+  border: 1px solid rgba(139,124,255,0.35);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  background: rgba(139,124,255,0.07);
+  text-decoration: none;
+}
+h1 {
+  font: 700 clamp(1.75rem, 4.5vw, 2.4rem)/1.15 "Space Grotesk", Inter, sans-serif;
+  letter-spacing: -0.015em;
+  margin: 1.1rem 0 0.55rem;
+}
+h1 .v { color: var(--agent); }
+.lede { color: var(--dim); max-width: 44rem; }
+.lede strong { color: var(--text); font-weight: 500; }
+.header-links { margin-top: 0.75rem; font-size: 0.84rem; color: var(--dim); }
+.header-links a { color: var(--dim); }
+.header-links a:hover { color: var(--agent); }
+
+h2 {
+  font: 700 1.25rem/1.3 "Space Grotesk", Inter, sans-serif;
+  margin: 2.2rem 0 0.5rem;
+}
+h2 .hash { color: var(--agent); margin-right: 0.4rem; }
+.sec-sub { color: var(--dim); font-size: 0.9rem; margin-bottom: 1rem; }
+.mono { font-family: "JetBrains Mono", monospace; }
+.mut { color: var(--dim); }
+
+/* ---- the standing notice about keys ----
+   Top of both pages, before the form, and it stays visible after signing.
+   A page that asks for a Nostr identity has to say what it does with it in
+   the place where the worry actually occurs, not in a footer nobody reads. */
+.keynote {
+  border: 1px solid rgba(125,211,160,0.3);
+  background: rgba(125,211,160,0.06);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  margin: 1.4rem 0 0;
+  font-size: 0.86rem;
+  color: var(--dim);
+}
+.keynote b { color: var(--good); font-weight: 500; }
+
+.warnbox {
+  border: 1px solid rgba(211,168,125,0.32);
+  background: rgba(211,168,125,0.06);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  margin: 1rem 0;
+  font-size: 0.86rem;
+  color: var(--dim);
+}
+.warnbox b { color: var(--warn); font-weight: 500; }
+
+/* ---- form ---- */
+fieldset { border: none; margin: 0 0 1.6rem; }
+legend {
+  font: 500 0.72rem/1 "JetBrains Mono", monospace;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #6f6f6a;
+  padding: 0 0 0.6rem;
+}
+.field { margin-bottom: 1rem; }
+.field > label, .glabel {
+  display: block;
+  font: 500 0.8rem/1.3 "JetBrains Mono", monospace;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.req { color: var(--agent); }
+.opt { color: #6f6f6a; font-weight: 400; }
+.hint { display: block; font-size: 0.78rem; line-height: 1.45; color: var(--dim); margin: 0.15rem 0 0.4rem; }
+.hint code { font-family: "JetBrains Mono", monospace; color: var(--warm); }
+
+input[type="text"], input[type="url"], input[type="number"], textarea, select {
+  width: 100%;
+  background: #0d0d0f;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  color: var(--text);
+  font: 400 0.88rem/1.5 Inter, system-ui, sans-serif;
+  padding: 0.55rem 0.7rem;
+}
+input.mono, textarea.mono { font-family: "JetBrains Mono", monospace; font-size: 0.83rem; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: rgba(139,124,255,0.6); }
+input[aria-invalid="true"], textarea[aria-invalid="true"], select[aria-invalid="true"] { border-color: rgba(211,125,125,0.7); }
+textarea { resize: vertical; min-height: 4.5rem; }
+select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--dim) 50%), linear-gradient(135deg, var(--dim) 50%, transparent 50%); background-position: calc(100% - 18px) 1.05em, calc(100% - 13px) 1.05em; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 2rem; }
+
+/* repeatable rows (u, mint) */
+.rep-row { display: flex; gap: 0.4rem; margin-bottom: 0.4rem; }
+.rep-row input { flex: 1; }
+.xbtn {
+  flex: 0 0 auto;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 8px;
+  color: var(--dim); cursor: pointer; padding: 0 0.7rem;
+  font: 500 0.9rem/1 "JetBrains Mono", monospace;
+}
+.xbtn:hover { border-color: rgba(211,125,125,0.6); color: var(--bad); }
+.addbtn {
+  background: none; border: 1px dashed var(--rule); border-radius: 8px;
+  color: var(--dim); cursor: pointer; padding: 0.4rem 0.7rem;
+  font: 500 0.76rem/1 "JetBrains Mono", monospace;
+}
+.addbtn:hover { border-color: rgba(139,124,255,0.5); color: var(--agent); }
+
+/* checkbox grid (pay, mint-ish multi-selects) */
+.checks { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.checks label {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  border: 1px solid var(--rule); border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font: 500 0.78rem/1 "JetBrains Mono", monospace;
+  color: var(--dim); cursor: pointer;
+  background: var(--panel);
+}
+.checks label:hover { border-color: rgba(139,124,255,0.4); }
+.checks input { accent-color: var(--agent); margin: 0; }
+.checks input:checked + span { color: var(--agent); }
+
+.errline { font-size: 0.78rem; color: var(--bad); margin-top: 0.3rem; }
+
+/* ---- the event preview ---- */
+.preview {
+  border: 1px solid rgba(139,124,255,0.28);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 0.6rem;
+}
+.preview-h {
+  padding: 0.5rem 0.9rem;
+  background: linear-gradient(180deg, rgba(139,124,255,0.16), rgba(139,124,255,0.09));
+  border-bottom: 1px solid rgba(139,124,255,0.2);
+  font: 400 0.76rem/1.5 "JetBrains Mono", monospace;
+  color: var(--dim);
+}
+.preview-h b { color: var(--agent); font-weight: 500; }
+pre.ev {
+  margin: 0; padding: 0.9rem;
+  background: #0d0d0f;
+  font: 400 0.76rem/1.55 "JetBrains Mono", monospace;
+  color: var(--warm);
+  overflow-x: auto;
+  max-height: 26rem;
+}
+
+/* ---- actions ---- */
+.actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 1.2rem; }
+.btn {
+  display: inline-block;
+  font: 500 0.85rem/1 "JetBrains Mono", monospace;
+  border-radius: 8px;
+  padding: 0.72rem 1.1rem;
+  border: 1px solid var(--rule);
+  color: var(--text);
+  background: var(--panel);
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn:hover:not(:disabled) { border-color: rgba(139,124,255,0.5); color: var(--agent); }
+.btn-primary { color: #0a0a0b; background: linear-gradient(160deg, #a99dff, var(--agent)); border-color: transparent; }
+.btn-primary:hover:not(:disabled) { color: #0a0a0b; filter: brightness(1.08); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ---- per-relay result table ----
+   Two columns because they are two different facts and the project has been
+   burned by conflating them: a relay can answer OK and still not serve the
+   event back. "Accepted" is what it said; "landed" is what it did. */
+table.relays { width: 100%; border-collapse: collapse; margin-top: 0.8rem; font: 400 0.8rem/1.5 "JetBrains Mono", monospace; }
+table.relays th, table.relays td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid #1c1c1c; vertical-align: top; }
+table.relays th { color: #6f6f6a; font-weight: 500; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.ok { color: var(--good); }
+.no { color: var(--bad); }
+.pend { color: var(--dim); }
+.wait { color: var(--warn); }
+
+.result {
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  margin-top: 1.4rem;
+  background: var(--panel);
+}
+.result.good { border-color: rgba(125,211,160,0.4); }
+.result.bad { border-color: rgba(211,125,125,0.45); }
+.result h3 { font: 700 1rem/1.3 "Space Grotesk", Inter, sans-serif; margin-bottom: 0.4rem; }
+.result p { font-size: 0.87rem; color: var(--dim); margin-bottom: 0.5rem; }
+.result p strong { color: var(--text); font-weight: 500; }
+
+.nokey {
+  border: 1px solid rgba(211,168,125,0.32);
+  background: rgba(211,168,125,0.05);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  margin-top: 1rem;
+}
+.nokey h3 { font: 700 0.98rem/1.3 "Space Grotesk", Inter, sans-serif; margin-bottom: 0.4rem; color: var(--warn); }
+.nokey p, .nokey li { font-size: 0.86rem; color: var(--dim); }
+.nokey ul { margin: 0.5rem 0 0 1.1rem; }
+.nokey code { font-family: "JetBrains Mono", monospace; color: var(--warm); }
+
+footer {
+  text-align: center;
+  padding: 2.2rem 1rem 2rem;
+  margin-top: 2.6rem;
+  font-size: 0.82rem;
+  color: var(--dim);
+  border-top: 1px solid #161616;
+}
+footer a { color: var(--dim); text-decoration: underline; text-underline-offset: 3px; }
+footer a:hover { color: var(--agent); }
+
+@media (max-width: 600px) {
+  main { padding: 2.4rem 0 2rem; }
+  .checks label { font-size: 0.74rem; padding: 0.32rem 0.6rem; }
+  pre.ev { font-size: 0.7rem; }
+  table.relays { font-size: 0.72rem; }
+  table.relays th, table.relays td { padding: 0.4rem 0.35rem; }
+}

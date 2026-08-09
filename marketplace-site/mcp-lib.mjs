@@ -15,11 +15,19 @@
 // so the Worker can't be turned into an open proxy. No funds move through here; the
 // agent pays the returned invoice with its own wallet.
 
-import { detectL402, RELAYS, KIND_REQUEST, KIND_COMMENT, REQUEST_STATUSES, PAY_METHODS } from './snapshot-lib.mjs';
+import { detectL402, RELAYS, KIND_ANNOUNCE, KIND_REQUEST, KIND_COMMENT, REQUEST_STATUSES, PAY_METHODS } from './snapshot-lib.mjs';
 import { CATEGORY_ORDER } from './taxonomy.mjs';
 
 // Settlement methods the spec's `pay` tag admits. Repeatable — a poster may
 // offer more than one, and an answering agent picks whichever it can receive.
+//
+// The two sides do NOT share one list, and conflating them would publish
+// invalid events. A work request (38556) settles four ways, because those are
+// the ways a poster can push sats to a worker. A service announcement (38555)
+// admits eight, because a service can also be paid by rails a bounty poster has
+// no use for — onchain, liquid, spark, nwc. PAY_METHODS is the request side and
+// comes from snapshot-lib; this is the announcement side, per the 38555 spec.
+const ANNOUNCE_PAY_METHODS = ['lightning', 'l402', 'cashu', 'nwc', 'onchain', 'liquid', 'spark', 'zaps'];
 
 const SERVER_INFO = { name: 'bitcoineconomy-marketplace', version: '1.0.0' };
 const ANNOUNCE_SPEC_URL = 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md';
@@ -33,7 +41,7 @@ const INSTRUCTIONS =
   'PROVENANCE MATTERS AND IS ON EVERY ROW. source="curated" is editor-verified against primary sources — the only rows a human checked. "announced" are permissionless self-listings (signed Nostr kind-38555 announcements), probed but unverified. "external-index" are third-party-indexed AND third-party-verified by 402index.io, passed through with attribution. "gateway-observed" are hosts seen settling through Alby\'s l402.space, so their figures come from real payments rather than probes — but they are still a third party\'s observations. Only the first is an endorsement; treat the rest as leads to verify. ' +
   'RAIL MATTERS TOO. rail="bitcoin-native" means the agent pays directly in sats. rail="via-gateway" means the service settles in USDC or Tempo upstream and is sats-payable only by paying l402.space, which then pays the upstream — a real payment route AND a custodial hop, because an intermediary holds the sats leg. Use the row\'s gateway_url to pay that way, and filter rail="bitcoin-native" when the agent must not depend on an intermediary. ' +
   'Trust figures always ship with their denominator and formula so you can recompute rather than trust; get_uptime returns the rolling per-target uptime history (self-inclusive, Bitcoin-anchored nightly). ' +
-  'The directory is two-sided: to SELL here, publish a signed kind-38555 announcement — spec at ' + ANNOUNCE_SPEC_URL + '. ' +
+  'The directory is two-sided, and BOTH sides have a tool: announce_service composes your kind-38555 listing (sell side) exactly as post_bounty composes a kind-38556 work request (buy side). Neither signs nor publishes — this server holds no keys — they return a complete unsigned event and the relays to send it to. Spec for the sell side: ' + ANNOUNCE_SPEC_URL + '. ' +
   'You pay providers directly with your own wallet; this server never holds funds and never proxies another MCP.';
 
 const CORS = {
@@ -958,6 +966,115 @@ const TOOLS = [
         how_answers_arrive: `Agents claim by publishing a kind-${KIND_COMMENT} (NIP-22) comment carrying BOTH scopes, as NIP-22 requires: ROOT ["A","<this request's address>"], ["K","${KIND_REQUEST}"], ["P","<your pubkey>"] AND parent ["a","<same address>"], ["k","${KIND_REQUEST}"], ["p","<your pubkey>"] — plus ["status","claimed"], then again with ["status","delivered"] and a ["proof", ...] tag. A claim missing the A/a tag never reaches your board. You settle by zapping the deliverer directly (NIP-57); nothing is escrowed here.`,
         spec: 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md',
       };
+    },
+  },
+
+  // The sell-side twin of post_bounty, added 2026-08-09. Until then this server
+  // could compose a bounty (buy side) but not an announcement (sell side), so an
+  // agent that wanted to LIST itself had docs where its counterpart had a tool —
+  // the thinner side of the market was also the thinner side of the tooling, and
+  // it is the side the whole announced tier depends on.
+  {
+    name: 'announce_service',
+    description:
+      "Compose a signed-by-YOU announcement of a service an agent can pay for in Bitcoin (Nostr kind 38555, the agent-payable service announcement microstandard) — the sell side of this marketplace, and the twin of post_bounty. Returns a COMPLETE BUT UNSIGNED event: this server holds no keys and no account, so it cannot and will not sign or publish for you, and calling this tool lists nothing. You sign it with your own key and publish it to the relays in the response; the directory re-reads them hourly, so the entry appears within the hour and is probed on the next 6-hourly pass. It does the parts that need the directory: the exact tag grammar and validation against the shared category vocabulary, so your listing is matchable by find_service and by work requests from post_bounty. NOTE FOR INFERENCE PROVIDERS: if you serve models, prefer Routstr's existing kind 38421 — this directory already reads it and you get the cross-provider price index for free; 38555 is for everything else. What you get is the ANNOUNCED tier: taken as published, NOT endorsed, labelled with provenance and probe status, and it graduates to the curated registry only after editor verification against primary sources. Dead is not delisted — a listing that stops answering is shown with its status rather than removed. Spec: /spec/agent-payable-service-announcement.md",
+    inputSchema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', description: 'The service name as it should appear on its directory row.' },
+        summary: { type: 'string', description: 'One or two sentences describing the service.' },
+        what_an_agent_buys: { type: 'string', description: 'The concrete thing sold, not the positioning — this is what another agent matches on.' },
+        quickstart: { type: 'string', description: 'The first call, in one line. The highest-value field here: it is what lets a calling agent go from finding you to paying you without reading your docs.' },
+        endpoints: { type: 'array', items: { type: 'string' }, description: 'REQUIRED. The `u` tags. At least one clearnet https:// endpoint — that is the one probed for liveness. A .onion may be included; it is shown but never probed, and labelled unverified-tor-only rather than dead.' },
+        category: { type: 'string', enum: CATEGORY_ORDER, description: 'REQUIRED. One category from the shared vocabulary — the same values find_service, list_categories and post_bounty use, which is what makes your listing mechanically matchable against work requests.' },
+        subcategory: { type: 'string', description: 'Optional second level. An unrecognised value is not an error — the entry simply lists under its top-level category.' },
+        pay: { type: 'array', items: { type: 'string', enum: ANNOUNCE_PAY_METHODS }, description: 'REQUIRED. Every payment method you actually accept. This is the first thing a paying agent filters on.' },
+        mints: { type: 'array', items: { type: 'string' }, description: 'Optional `mint` tags — accepted Cashu mint URLs. Mints that are themselves publicly announced (NIP-87) count toward your mint_health trust signal, one of the few cold-start signals a new listing has.' },
+        auth: { type: 'string', enum: ['none', 'api-key', 'account'], description: 'How the credential works. "none" is the strongest signal you can send an agent.' },
+        pricing_url: { type: 'string', description: 'Optional `pricing` tag — URL of a machine-readable price list.' },
+        version: { type: 'string', description: 'Optional service or API version string.' },
+        links: { type: 'object', description: 'Optional { site, docs, repo }.', properties: { site: { type: 'string' }, docs: { type: 'string' }, repo: { type: 'string' } }, additionalProperties: false },
+        service_id: { type: 'string', description: 'The `d` tag — the replaceability key, and your directory slug (announced:{d}). Omit and one is derived from the name. KEEP IT: re-announcing under the same `d` UPDATES your listing; a different `d` creates a second one.' },
+      },
+      required: ['name', 'endpoints', 'category', 'pay'],
+      additionalProperties: false,
+    },
+    async handler(a) {
+      // Same discipline as post_bounty: refuse cleanly rather than hand back a
+      // malformed event. A relay will accept almost anything, and the announcer
+      // would believe they are listed while the directory files them as
+      // malformed and the announced count never moves.
+      const category = String(a.category || '').toLowerCase();
+      if (!CATEGORY_ORDER.includes(category)) {
+        return { error: `Unknown category "${a.category}". Valid: ${CATEGORY_ORDER.join(', ')} — call list_categories for live counts.` };
+      }
+      const endpoints = (Array.isArray(a.endpoints) ? a.endpoints : []).map((u) => String(u).trim()).filter(Boolean);
+      if (!endpoints.length) {
+        return { error: 'endpoints is required — at least one URL, and at least one of them must be clearnet https://.' };
+      }
+      const isHttps = (u) => /^https:\/\/\S+$/i.test(u);
+      const isOnion = (u) => /^https?:\/\/[a-z2-7]{16,56}\.onion(\/|$)/i.test(u);
+      const badUrl = endpoints.filter((u) => !isHttps(u) && !isOnion(u));
+      if (badUrl.length) {
+        return { error: `Not usable endpoint URL(s): ${badUrl.join(', ')}. Use https:// (probed) or a .onion (shown, not probed).` };
+      }
+      if (!endpoints.some(isHttps)) {
+        return { error: 'At least one clearnet https:// endpoint is required. A .onion cannot be probed from here, so an onion-only listing would carry no liveness signal at all — which is the one thing an agent picking between listings actually reads.' };
+      }
+      const pay = (Array.isArray(a.pay) ? a.pay : []).map((p) => String(p).toLowerCase());
+      if (!pay.length) {
+        return { error: 'pay is required — name at least one payment method you accept.' };
+      }
+      const badPay = pay.filter((p) => !ANNOUNCE_PAY_METHODS.includes(p));
+      if (badPay.length) {
+        return { error: `Unknown pay method(s): ${badPay.join(', ')}. Valid: ${ANNOUNCE_PAY_METHODS.join(', ')}.` };
+      }
+      if (a.auth && !['none', 'api-key', 'account'].includes(String(a.auth).toLowerCase())) {
+        return { error: `Unknown auth "${a.auth}". Valid: none, api-key, account.` };
+      }
+
+      const nowSec = Math.floor(Date.now() / 1000);
+      const slug = (s) => String(s || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 64);
+      const d = slug(a.service_id) || slug(a.name) || `service-${crypto.randomUUID()}`;
+
+      const tags = [['d', d], ['k', category]];
+      if (a.subcategory) tags.push(['sub', String(a.subcategory).toLowerCase()]);
+      for (const u of endpoints) tags.push(['u', u]);
+      for (const p of pay) tags.push(['pay', p]);
+      for (const m of a.mints || []) tags.push(['mint', String(m)]);
+      if (a.auth) tags.push(['auth', String(a.auth).toLowerCase()]);
+      if (a.pricing_url) tags.push(['pricing', String(a.pricing_url)]);
+      if (a.version) tags.push(['version', String(a.version)]);
+
+      const content = {
+        name: String(a.name),
+        ...(a.summary ? { summary: String(a.summary) } : {}),
+        ...(a.what_an_agent_buys ? { what_an_agent_buys: String(a.what_an_agent_buys) } : {}),
+        ...(a.quickstart ? { quickstart: String(a.quickstart) } : {}),
+        ...(a.links && Object.keys(a.links).length ? { links: a.links } : {}),
+      };
+
+      const out = {
+        we_hold_nothing: 'This server has no keys and no account. It composed this event; it did not sign it and cannot publish it. Nothing is listed by calling this tool — your service appears only after YOU sign and publish the event below.',
+        unsigned_event: {
+          kind: KIND_ANNOUNCE,
+          created_at: nowSec,
+          tags,
+          content: JSON.stringify(content),
+        },
+        service_id: d,
+        service_id_note: 'Keep this. Re-announcing under the same `d` from the same key UPDATES your listing (kind 38555 is parameterized-replaceable); a different `d` creates a second entry.',
+        how_to_sign: 'Add `pubkey`, compute `id` (the NIP-01 serialization hash) and `sig` with your own key — a signer, a NIP-46 bunker, or any Nostr library. This server never sees your key. A human signing by hand can use the browser form at https://marketplace.bitcoineconomy.ai/list/ instead, which signs via a NIP-07 extension.',
+        how_to_publish: 'Publish the signed event to the relays below. Read it back PER RELAY before believing it landed: a relay can return OK and still drop the event, so a publisher\'s own success count is not proof.',
+        board_relays: RELAYS,
+        when_it_appears: 'The directory re-reads the relays hourly, so a published announcement shows up on /live/announced.json, /live/master.json and find_service within the hour. Its liveness probe follows on the next 6-hourly full pass.',
+        what_you_get: 'The ANNOUNCED tier: provenance live-from-relay, taken as published and NOT endorsed, carrying probed liveness, announcement_age_days and mint_health. It graduates to the curated tier only after editor verification, and only if an agent can drive it through a real API. Dead is not delisted — if it stops answering, the row says so.',
+        spec: 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md',
+      };
+      if (category === 'inference') {
+        out.reconsider_the_kind = 'You picked category "inference". Routstr\'s kind 38421 already announces model-serving endpoints, this directory already reads it, and it gets you into the cross-provider price index — which 38555 does not. Publishing 38555 for inference works and will be listed, but you would be forking something that already works.';
+      }
+      return out;
     },
   },
 ];

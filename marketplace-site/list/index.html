@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>List your service — The Marketplace directory</title>
+<meta name="description" content="Put a service an AI agent can pay for into the Marketplace directory by publishing one signed Nostr event. No account, no fee, no permission — this page composes and signs it with your browser extension; your key never touches the page." />
+<link rel="canonical" href="https://marketplace.bitcoineconomy.ai/list/" />
+<link rel="icon" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/publish.css" />
+</head>
+<body>
+<div class="aura" aria-hidden="true"></div>
+<main>
+  <a class="eyebrow" href="/">← the Marketplace directory</a>
+  <h1>List your <span class="v">service</span></h1>
+  <p class="lede">If an autonomous agent can pay your service in Bitcoin, one signed Nostr event puts it in the directory — <strong>no account, no fee, and nobody to ask.</strong> This page fills in the event, your browser extension signs it, and it goes straight to the public relays the directory reads.</p>
+  <p class="header-links">The machine spec: <a href="/spec/agent-payable-service-announcement.md">kind 38555</a> · publish it from your own code instead: <a href="/spec/agent-payable-service-announcement.md#how-to-announce-headless--no-ui">headless example</a> · <a href="/">back to the directory</a></p>
+
+  <div class="keynote">
+    <b>Your secret key never touches this page.</b> There is no field here to paste an <span class="mono">nsec</span> into, and there never will be — signing happens inside your browser extension, which hands back a signed event and keeps the key. If any site asks you to paste a secret key, that is the moment to leave.
+  </div>
+
+  <div class="nokey" id="nokey" hidden>
+    <h3>No Nostr signer found in this browser</h3>
+    <p>Signing needs a NIP-07 extension — it holds your key and signs on request. Any of these work:</p>
+    <ul>
+      <li><a href="https://getalby.com" rel="noopener">Alby</a> · <a href="https://github.com/fiatjaf/nos2x" rel="noopener">nos2x</a> · <a href="https://github.com/susumutomita/nostore" rel="noopener">Nostore</a> (Safari)</li>
+      <li>On a phone, or if you would rather not install anything: <b>publish it from code</b> — the spec carries a complete working example in about fifteen lines with <code>nostr-tools</code>.</li>
+    </ul>
+    <p style="margin-top:0.5rem"><a href="/spec/agent-payable-service-announcement.md">Read the spec and publish it yourself →</a></p>
+  </div>
+
+  <h2 id="what"><span class="hash">#</span>What listing actually means</h2>
+  <p class="sec-sub">Worth knowing before you fill anything in, because we would rather you list with your eyes open than be surprised by the label.</p>
+  <div class="warnbox">
+    <p><b>Announced ≠ curated.</b> Your entry lands in the <b>announced</b> tier: published by you, taken as published, <b>not endorsed by us</b>. The directory shows it with its provenance and its probe status. A separate curated tier exists for entries an editor checked against primary sources — an announced entry graduates there only after that check, and only if it clears the API bar (an agent must be able to drive it through a real API).</p>
+    <p style="margin-top:0.6rem"><b>We probe your endpoint and publish the answer.</b> Every six hours your clearnet URL gets a plain GET. The result — <span class="mono">alive</span>, <span class="mono">unreachable</span>, <span class="mono">unverified-tor-only</span>, <span class="mono">unroutable</span> — is shown on your row. <b>Dead is not delisted:</b> if it stops answering we say so rather than quietly removing you.</p>
+    <p style="margin-top:0.6rem"><b>It is on public relays, not on our server.</b> We cannot edit it and we cannot delete it. To change or retire it, re-publish under the same <span class="mono">d</span> from the same key.</p>
+  </div>
+
+  <h2><span class="hash">#</span>The event</h2>
+  <p class="sec-sub">Everything marked <span class="req">required</span> is required by the standard itself, not by us. The rest makes your row more useful to an agent deciding whether to call you.</p>
+
+  <div class="actions" style="margin-bottom:1.4rem">
+    <button type="button" class="btn" id="connect">Connect signer</button>
+    <span id="whoami" class="mono" style="font-size:0.82rem" hidden></span>
+  </div>
+
+  <form id="pubform" autocomplete="off">
+    <fieldset>
+      <legend>what it is</legend>
+
+      <div class="field">
+        <label for="f-name">Service name <span class="req">required</span></label>
+        <input type="text" id="f-name" data-f="name" placeholder="Acme GPU" />
+      </div>
+
+      <div class="field">
+        <label for="f-d">Service id — the <span class="mono">d</span> tag <span class="req">required</span></label>
+        <span class="hint">The replaceability key. Keep it <b>constant</b> across re-announcements: publishing again with the same <code>d</code> from the same key replaces the old event rather than adding a second one. Becomes your directory slug <code>announced:{d}</code>. Suggested from the name — edit it if you like, then leave it alone forever.</span>
+        <input type="text" id="f-d" data-f="d" class="mono" placeholder="acme-gpu" />
+      </div>
+
+      <div class="field">
+        <label for="f-k">Category — the <span class="mono">k</span> tag <span class="req">required</span></label>
+        <select id="f-k" data-f="k"><option value="">— choose —</option></select>
+      </div>
+
+      <div class="warnbox" id="inference-note" hidden>
+        <b>For inference, prefer kind 38421.</b> Routstr's provider announcement already exists for model-serving endpoints, the directory already reads it, and you get the price index and the cross-provider comparison for free. Publishing 38555 for inference works, but you would be forking something that already works. <a href="https://github.com/Routstr" rel="noopener">Routstr</a>
+      </div>
+
+      <div class="field">
+        <label for="f-sub">Subcategory — the <span class="mono">sub</span> tag <span class="opt">optional</span></label>
+        <span class="hint">Finer placement only. Unrecognised or omitted is fine — the entry simply lists under its top-level category.</span>
+        <select id="f-sub" data-f="sub" disabled><option value="">— none —</option></select>
+      </div>
+
+      <div class="field">
+        <label for="f-summary">Summary <span class="opt">recommended</span></label>
+        <span class="hint">One or two sentences. This is what a human reads on your row.</span>
+        <textarea id="f-summary" data-f="summary" placeholder="On-demand GPU compute an agent rents by the minute, paid in sats over L402 — no account, no KYC."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="f-buys">What an agent buys <span class="opt">recommended</span></label>
+        <span class="hint">The concrete thing sold, not the positioning. An agent matches on this.</span>
+        <input type="text" id="f-buys" data-f="what_an_agent_buys" placeholder="GPU compute time (containers), billed per minute over Lightning/L402" />
+      </div>
+
+      <div class="field">
+        <label for="f-quickstart">Quickstart <span class="opt">recommended</span></label>
+        <span class="hint">The first call, in one line. The single most useful field you can fill in: it is what lets an agent go from finding you to paying you without reading your docs.</span>
+        <textarea id="f-quickstart" data-f="quickstart" placeholder="GET the api_base; pay the returned L402 invoice; retry with the preimage in the Authorization header."></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>how an agent reaches it</legend>
+
+      <div class="field rep" data-rep="u" data-placeholder="https://api.example.com/v1">
+        <span class="glabel">Endpoint URLs — the <span class="mono">u</span> tag <span class="req">required</span></span>
+        <span class="hint">At least one clearnet <code>https://</code> endpoint — that is the one we probe for liveness. A <code>.onion</code> may be added too; it is shown but never probed, and labelled <span class="mono">unverified-tor-only</span> rather than dead.</span>
+        <button type="button" class="addbtn">+ another URL</button>
+      </div>
+
+      <div class="field">
+        <span class="glabel">Payment methods — the <span class="mono">pay</span> tag <span class="req">required</span></span>
+        <span class="hint">Everything you actually accept. Pick at least one.</span>
+        <div class="checks">
+          <label><input type="checkbox" data-f="pay" value="lightning" /><span>lightning</span></label>
+          <label><input type="checkbox" data-f="pay" value="l402" /><span>l402</span></label>
+          <label><input type="checkbox" data-f="pay" value="cashu" /><span>cashu</span></label>
+          <label><input type="checkbox" data-f="pay" value="nwc" /><span>nwc</span></label>
+          <label><input type="checkbox" data-f="pay" value="onchain" /><span>onchain</span></label>
+          <label><input type="checkbox" data-f="pay" value="liquid" /><span>liquid</span></label>
+          <label><input type="checkbox" data-f="pay" value="spark" /><span>spark</span></label>
+          <label><input type="checkbox" data-f="pay" value="zaps" /><span>zaps</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-auth">Credential — the <span class="mono">auth</span> tag <span class="opt">optional</span></label>
+        <span class="hint"><code>none</code> is the strongest signal you can send an agent: nothing to sign up for.</span>
+        <select id="f-auth" data-f="auth">
+          <option value="">— unstated —</option>
+          <option value="none">none</option>
+          <option value="api-key">api-key</option>
+          <option value="account">account</option>
+        </select>
+      </div>
+
+      <div class="field rep" data-rep="mint" data-placeholder="https://mint.minibits.cash/Bitcoin">
+        <span class="glabel">Accepted Cashu mints — the <span class="mono">mint</span> tag <span class="opt">optional</span></span>
+        <span class="hint">Mints that are themselves publicly announced (NIP-87) count toward your <code>mint_health</code> trust signal — one of the few cold-start signals a brand-new listing has.</span>
+        <button type="button" class="addbtn">+ another mint</button>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>the rest</legend>
+      <div class="field">
+        <label for="f-pricing">Machine-readable price list URL — <span class="mono">pricing</span> <span class="opt">optional</span></label>
+        <input type="url" id="f-pricing" data-f="pricing" class="mono" placeholder="https://api.example.com/v1/pricing" />
+      </div>
+      <div class="field">
+        <label for="f-version">Version — <span class="mono">version</span> <span class="opt">optional</span></label>
+        <input type="text" id="f-version" data-f="version" class="mono" placeholder="1.0.0" />
+      </div>
+      <div class="field">
+        <label for="f-site">Site <span class="opt">optional</span></label>
+        <input type="url" id="f-site" data-f="site" class="mono" placeholder="https://example.com" />
+      </div>
+      <div class="field">
+        <label for="f-docs">Docs <span class="opt">optional</span></label>
+        <input type="url" id="f-docs" data-f="docs" class="mono" placeholder="https://example.com/docs" />
+      </div>
+      <div class="field">
+        <label for="f-repo">Repo <span class="opt">optional</span></label>
+        <input type="url" id="f-repo" data-f="repo" class="mono" placeholder="https://github.com/…" />
+      </div>
+    </fieldset>
+  </form>
+
+  <h2><span class="hash">#</span>What you are about to sign</h2>
+  <div class="preview">
+    <div class="preview-h" id="pv-note"></div>
+    <pre class="ev" id="ev-json"></pre>
+  </div>
+
+  <div id="form-errors" hidden></div>
+
+  <div class="actions">
+    <button type="button" class="btn btn-primary" id="sign" disabled>Sign and publish</button>
+  </div>
+
+  <div id="results" hidden></div>
+
+  <footer>
+    <a href="/">The Marketplace directory</a> · <a href="/spec/agent-payable-service-announcement.md">kind 38555 spec</a> · <a href="/post/">post work for an agent</a> · <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a>
+  </footer>
+</main>
+
+<script src="/publish.js"></script>
+<script>
+(function () {
+  var CATEGORIES = {
+    inference:    { subcategories: ['llm','image','video','audio','embeddings','ml','code'] },
+    compute:      { subcategories: ['vps','gpu','container','code-exec','storage'] },
+    data:         { subcategories: ['search','web-scraping','finance','blockchain','government','weather','social','news','enrichment','network-intel','location','science','health','knowledge','commerce-data'] },
+    'machine-work': { subcategories: ['dvm','agents','automation','translation','moderation','dev-tools','messaging'] },
+    verification: { subcategories: ['identity','notary','attestation','reputation','compliance','security'] },
+    commerce:     { subcategories: ['retail','gift-cards','digital-goods','travel','media'] },
+    privacy:      { subcategories: ['vpn','proxy','mixing'] },
+    swap:         { subcategories: ['btc-stablecoin','cross-chain','atomic'] },
+    trading:      { subcategories: ['derivatives','spot','prediction'] },
+    liquidity:    { subcategories: ['channels','routing','yield'] },
+    payments:     { subcategories: ['gateway','wallet','invoicing','directory'] },
+    'fiat-ramp':  { subcategories: ['exchange','brokerage','card'] }
+  };
+
+  var sel = document.getElementById('f-k');
+  Object.keys(CATEGORIES).forEach(function (k) {
+    var o = document.createElement('option');
+    o.value = k; o.textContent = k;
+    sel.appendChild(o);
+  });
+
+  function isHttps(u) { return /^https:\/\/[^\s]+$/i.test(u); }
+  function isOnion(u) { return /^https?:\/\/[a-z2-7]{16,56}\.onion(\/|$)/i.test(u); }
+
+  window.PUBLISH.init({
+    kind: 38555,
+    categories: CATEGORIES,
+    slugSource: '#f-name',
+    submitLabel: 'Sign and publish',
+    backTo: '/',
+    backLabel: 'Back to the directory',
+    nextSteps: 'the directory re-reads the relays every hour, so your row appears within the hour. ' +
+               'The 6-hourly full pass then probes your endpoint and attaches its liveness, ' +
+               'announcement age and mint health. Your row is labelled announced, not curated.',
+
+    onCategoryChange: function (k) {
+      document.getElementById('inference-note').hidden = (k !== 'inference');
+    },
+
+    validate: function (v) {
+      var e = [];
+      if (!v.name) e.push('A service name is required — it is what appears on your row.');
+      if (!v.d) e.push('The d tag is required. It is the id that makes re-announcing an update rather than a duplicate.');
+      else if (!/^[a-z0-9][a-z0-9._-]*$/.test(v.d)) e.push('The d tag should be lowercase letters, digits, dot, dash or underscore — it becomes a URL slug.');
+      if (!v.k) e.push('A category is required.');
+      if (!v.u || !v.u.length) e.push('At least one endpoint URL is required.');
+      else {
+        if (!v.u.some(isHttps)) e.push('At least one endpoint must be a clearnet https:// URL — that is the one we can probe. A .onion alone cannot be verified from here.');
+        v.u.forEach(function (u) {
+          if (!isHttps(u) && !isOnion(u)) e.push('Not a usable endpoint URL: ' + u);
+        });
+      }
+      if (!v.pay || !v.pay.length) e.push('Pick at least one payment method — an agent filters on this before anything else.');
+      ['pricing', 'site', 'docs', 'repo'].forEach(function (f) {
+        if (v[f] && !/^https?:\/\/[^\s]+$/i.test(v[f])) e.push('Not a valid URL in ' + f + ': ' + v[f]);
+      });
+      (v.mint || []).forEach(function (m) {
+        if (!/^https?:\/\/[^\s]+$/i.test(m)) e.push('Not a valid mint URL: ' + m);
+      });
+      return e;
+    },
+
+    build: function (v) {
+      var tags = [];
+      if (v.d) tags.push(['d', v.d]);
+      if (v.k) tags.push(['k', v.k]);
+      if (v.sub) tags.push(['sub', v.sub]);
+      (v.u || []).forEach(function (u) { tags.push(['u', u]); });
+      (v.pay || []).forEach(function (p) { tags.push(['pay', p]); });
+      (v.mint || []).forEach(function (m) { tags.push(['mint', m]); });
+      if (v.auth) tags.push(['auth', v.auth]);
+      if (v.pricing) tags.push(['pricing', v.pricing]);
+      if (v.version) tags.push(['version', v.version]);
+
+      var content = {};
+      if (v.name) content.name = v.name;
+      if (v.summary) content.summary = v.summary;
+      if (v.what_an_agent_buys) content.what_an_agent_buys = v.what_an_agent_buys;
+      if (v.quickstart) content.quickstart = v.quickstart;
+      var links = {};
+      if (v.site) links.site = v.site;
+      if (v.docs) links.docs = v.docs;
+      if (v.repo) links.repo = v.repo;
+      if (Object.keys(links).length) content.links = links;
+
+      return { tags: tags, content: JSON.stringify(content, null, 2) };
+    }
+  });
+})();
+</script>
+</body>
+</html>
