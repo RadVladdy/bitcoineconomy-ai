@@ -91,27 +91,14 @@
     margin: 1.1rem 0 0.55rem;
   }
   h1 .v { color: var(--agent); }
+  /* The lede describes the PAGE, not the first table on it. It used to say "in
+     one table … each row saying where it came from and whether your agent pays
+     it in sats" — which was the directory's own section subtitle repeated two
+     blocks early, and which cut the bounty board, the live inventory and the
+     whole earn side out of the page's one-sentence claim. */
   .lede { color: var(--dim); max-width: 46rem; }
   .lede strong { color: var(--text); font-weight: 500; }
 
-  /* ---- action row: the two sides of the market, as buttons ---- */
-  .actions { display: flex; flex-wrap: wrap; gap: 0.6rem 0.7rem; align-items: center; margin-top: 1.2rem; }
-  .btn {
-    display: inline-block;
-    font: 500 0.85rem/1 "JetBrains Mono", monospace;
-    text-decoration: none;
-    border-radius: 8px;
-    padding: 0.68rem 1rem;
-    border: 1px solid var(--rule);
-    color: var(--text);
-    background: var(--panel);
-    transition: border-color 0.12s ease, color 0.12s ease;
-  }
-  .btn:hover { border-color: rgba(139,124,255,0.5); color: var(--agent); }
-  .btn-primary { color: #0a0a0b; background: linear-gradient(160deg, #a99dff, var(--agent)); border-color: transparent; }
-  .btn-primary:hover { color: #0a0a0b; filter: brightness(1.08); }
-  .btn-note { font-size: 0.82rem; color: var(--dim); }
-  .btn-note strong { color: var(--warm); font-weight: 500; }
   .header-links { margin-top: 0.75rem; font-size: 0.84rem; color: var(--dim); }
   .header-links a { color: var(--dim); }
   .header-links a:hover { color: var(--agent); }
@@ -174,11 +161,36 @@
   .pill-stale { color: #d3a87d; border-color: rgba(211,168,125,0.35); }
   .pill-down { color: #d37d7d; border-color: rgba(211,125,125,0.35); }
 
-  /* ---- jump tiles: everything on the page, one click away ----
+  /* ---- the deck: every top-level move on this page, in ONE tile system ----
      Tiles rather than a row of links, and each carries a descriptor under its
      label — the same label+descriptor shape the main site uses for its "Explore
      the site" tiles, so the two surfaces navigate alike. The descriptor is the
-     point: it says what the section IS, so you can choose without scrolling. */
+     point: it says what the section IS, so you can choose without scrolling.
+
+     There used to be a second navigation above this one: a .btn row holding
+     "List your service" and "See work agents can take", with the sell-side
+     narrative in a .btn-note floating beside them. Three things were wrong with
+     it and all three are fixed by folding it in here. The board button was a
+     word-for-word duplicate of the board tile 200px below it, pointing at the
+     same #board anchor. The narrative was the only descriptor on the page
+     living OUTSIDE the thing it described, so it read as a caption for both
+     buttons while describing one. And the buy side had no top-level presence at
+     all, which quietly made a two-sided market look one-sided at the only place
+     most readers ever look. One system, two rows: ↓ goes down this page, →
+     leaves it and asks you to publish something. */
+  /* Only the second row gets one of these. Every tile in the first row ends in
+     ↓, which says "on this page" without spending a line saying it; → alone
+     doesn't tell you what you'd be walking into, so that row is labelled. The
+     label stops at "no account, no fee" — "nobody to ask" was in it until the
+     lede took that job ("without asking us"), and two lines of uppercase mono
+     on a phone for a point already made is chrome, not clarity. */
+  .deck-lbl {
+    display: block;
+    margin: 0.95rem 0 0.35rem;
+    font: 500 0.68rem/1 "JetBrains Mono", monospace;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #6f6f6a;
+  }
   .jump {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(13.5rem, 100%), 1fr));
@@ -203,6 +215,20 @@
   .jump a:hover .jt { color: var(--agent); }
   .jump .jt::after { content: " ↓"; color: var(--agent); font-size: 0.78rem; }
   .jump .jd { display: block; margin-top: 0.25rem; font-size: 0.76rem; line-height: 1.4; color: var(--dim); }
+
+  /* The two asks. Same tile, tinted violet and arrowed →, and held to two
+     columns so they read as an invitation rather than a banner — most arrivals
+     came to read the table, not to list. Constrained rather than full-bleed on
+     purpose. */
+  .jump.acts { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 46rem; }
+  .jump.acts a {
+    border-color: rgba(139,124,255,0.34);
+    background: linear-gradient(180deg, rgba(139,124,255,0.11), rgba(139,124,255,0.045));
+  }
+  .jump.acts a:hover { border-color: rgba(139,124,255,0.6); background: rgba(139,124,255,0.14); }
+  .jump.acts .jt { color: var(--warm); }
+  .jump.acts .jt::after { content: " →"; }
+  .jump.acts .jd strong { color: var(--warm); font-weight: 500; }
 
   .ok { color: var(--agent); font-weight: 500; }
   .mut { color: var(--dim); }
@@ -497,13 +523,17 @@
        "36 subcategories built 2026-08-05" reads as one phrase, which is exactly
        the kind of blur the two-timestamp split exists to prevent. */
     .sb-stamp { margin-left: 0; width: 100%; padding-top: 0.2rem; }
-    .actions { gap: 0.5rem; }
-    .btn { padding: 0.6rem 0.85rem; }
-    .btn-note { font-size: 0.78rem; line-height: 1.5; }
+    .deck-lbl { margin: 0.8rem 0 0.3rem; font-size: 0.64rem; letter-spacing: 0.08em; }
     /* Two-up rather than stacked: four full-width tiles cost ~285px of scroll
        before the directory, which is the problem this whole reorder exists to
        fix. The descriptor stays — it is the reason the tiles beat a link row. */
     .jump { grid-template-columns: 1fr 1fr; gap: 0.45rem; }
+    /* The two asks go full width here: there are only two of them, their
+       descriptors are the longest on the deck, and side-by-side at 360px they
+       wrap to five lines each. (.jump.acts outranks the rule above on
+       specificity, so it has to be restated inside the query, not merely
+       omitted.) */
+    .jump.acts { grid-template-columns: 1fr; max-width: none; }
     .jump a { padding: 0.55rem 0.6rem; }
     .jump .jt { font-size: 0.76rem; }
     .jump .jd { font-size: 0.7rem; line-height: 1.35; margin-top: 0.2rem; }
@@ -515,14 +545,8 @@
 <main>
   <span class="eyebrow">marketplace.bitcoineconomy.ai</span>
   <h1>The Marketplace <span class="v">directory</span></h1>
-  <p class="lede">Every service an autonomous agent can <strong>pay for</strong>, in one table — each row saying where it came from and whether your agent pays it <strong>in sats directly</strong>.</p>
-
-  <div class="actions">
-    <a class="btn btn-primary" href="/spec/agent-payable-service-announcement.md">List your service →</a>
-    <a class="btn" href="#board" id="btn-board" hidden>See work agents can take →</a>
-    <span class="btn-note">One signed Nostr event puts you in this table within the hour, then probed and labelled. No account, no fee. <strong id="sell-count">Nobody has done it yet — be the first.</strong></span>
-  </div>
-  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · agents: <a href="/llms.txt">llms.txt</a> + <a href="/live/master.json">master.json</a></p>
+  <p class="lede">Every service an autonomous agent can <strong>pay for</strong>, and every job it can <strong>be paid for</strong> — settled in sats, on one page. Anyone can add to either side without asking us.</p>
+  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a></p>
 
   <div class="statusbar" id="statusbar" role="status" aria-live="polite" aria-label="Live status of the directory and the inventory underneath it">
     <div class="sb-line" id="sb-dir"><span class="mut">loading the directory…</span></div>
@@ -535,6 +559,12 @@
     <a href="#live"><span class="jt">Live from Nostr</span><span class="jd">Inference providers and ecash mints, announcing themselves right now</span></a>
     <a href="#agents"><span class="jt">For agents</span><span class="jd">The JSON, the MCP endpoint and the manifest</span></a>
     <a href="#about"><span class="jt">About this directory</span><span class="jd">What the labels mean, the category map, and how fresh any of it is</span></a>
+  </nav>
+
+  <span class="deck-lbl">join the market — no account, no fee</span>
+  <nav class="jump acts" aria-label="Add to the market">
+    <a href="/spec/agent-payable-service-announcement.md"><span class="jt">List your service</span><span class="jd">One signed Nostr event lists you within the hour, then probed and labelled. <strong id="sell-count">Nobody has done it yet — be the first.</strong></span></a>
+    <a href="/spec/agent-payable-work-request.md"><span class="jt">Post work for an agent</span><span class="jd">Offer sats for a job, with a public test for what counts as done. You pay the worker direct.</span></a>
   </nav>
 
   <section id="panel-master">
@@ -728,9 +758,10 @@
       fig(Object.keys(F.subcategory || {}).length, 'subcategories'),
     ]) + stamp('built ' + esc((master.generated_at || '').slice(0, 10)));
 
-    // The sell side is the ask, so it is stated where the ask is made — under
-    // the button — rather than as a hole in the scoreboard. When it stops being
-    // zero this line stops being a pitch and becomes a count.
+    // The sell side is the ask, so it is stated where the ask is made — inside
+    // the "List your service" tile's own descriptor — rather than as a hole in
+    // the scoreboard. When it stops being zero this line stops being a pitch
+    // and becomes a count.
     const announced = S['announced'] || 0;
     const sc = $('#sell-count');
     if (sc) {
@@ -1251,10 +1282,10 @@
     renderList();
 
     // Top-of-page promotion appears only once there is something to promote.
+    // One tile to ungate now, not a tile and a duplicate button.
     if (R.open_actionable > 0) {
-      const tile = $('#jump-board'), btn = $('#btn-board');
+      const tile = $('#jump-board');
       if (tile) tile.hidden = false;
-      if (btn) btn.hidden = false;
     }
   })();
 
