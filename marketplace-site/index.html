@@ -44,10 +44,11 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   /* [hidden] is only `display:none` in the UA sheet, so ANY author rule setting
-     display (.btn is inline-block, .jump a is block) silently beats it. That is
-     how the gated bounty-board button and tile rendered while "hidden" — and a
-     visible button promoting an empty board is precisely what the gate exists to
-     prevent. Make the attribute mean what it says. */
+     display silently beats it — which is how a "hidden" bounty-board promotion
+     once rendered anyway, over an empty board. That particular gate is gone (the
+     board card now states its own count instead of hiding), but everything else
+     that ships hidden — the board filters, the live fallback line — depends on
+     this. Make the attribute mean what it says. */
   [hidden] { display: none !important; }
   body {
     background: var(--bg);
@@ -161,74 +162,74 @@
   .pill-stale { color: #d3a87d; border-color: rgba(211,168,125,0.35); }
   .pill-down { color: #d37d7d; border-color: rgba(211,125,125,0.35); }
 
-  /* ---- the deck: every top-level move on this page, in ONE tile system ----
-     Tiles rather than a row of links, and each carries a descriptor under its
-     label — the same label+descriptor shape the main site uses for its "Explore
-     the site" tiles, so the two surfaces navigate alike. The descriptor is the
-     point: it says what the section IS, so you can choose without scrolling.
+  /* ---- the deck: the marketplace itself, one card per thing that exists ----
+     There are exactly TWO market artifacts here and they are different
+     instruments, not different degrees of market-ness: the directory is a
+     CATALOGUE of standing services, the board is BID/ASK on specific jobs.
+     Each has two sides, and the second side is not a separate errand —
+     "list your service" IS the directory seen from the seller, "post work" IS
+     the board seen from the buyer. So each card carries both: the ↓ half reads
+     the artifact, the → half joins it.
 
-     There used to be a second navigation above this one: a .btn row holding
-     "List your service" and "See work agents can take", with the sell-side
-     narrative in a .btn-note floating beside them. Three things were wrong with
-     it and all three are fixed by folding it in here. The board button was a
-     word-for-word duplicate of the board tile 200px below it, pointing at the
-     same #board anchor. The narrative was the only descriptor on the page
-     living OUTSIDE the thing it described, so it read as a caption for both
-     buttons while describing one. And the buy side had no top-level presence at
-     all, which quietly made a two-sided market look one-sided at the only place
-     most readers ever look. One system, two rows: ↓ goes down this page, →
-     leaves it and asks you to publish something. */
-  /* Only the second row gets one of these. Every tile in the first row ends in
-     ↓, which says "on this page" without spending a line saying it; → alone
-     doesn't tell you what you'd be walking into, so that row is labelled. The
-     label stops at "no account, no fee" — "nobody to ask" was in it until the
-     lede took that job ("without asking us"), and two lines of uppercase mono
-     on a phone for a point already made is chrome, not clarity. */
-  .deck-lbl {
-    display: block;
-    margin: 0.95rem 0 0.35rem;
-    font: 500 0.68rem/1 "JetBrains Mono", monospace;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: #6f6f6a;
-  }
-  .jump {
+     This replaced a split by MECHANISM (does the link go down the page or off
+     it?) labelled as if it were a split by MEANING ("join the market"), which
+     claimed the directory, the board and the live feed were somehow not the
+     market. They are the market. Only two things on the old deck were not
+     market activity — "About" (method) and "For agents" (this whole page as
+     JSON, a different axis entirely, not a sixth peer) — and both went to the
+     header link line, where they cost no vertical space.
+
+     A card is a container, not a link: two anchors nested inside one <a> is
+     invalid and unreachable by keyboard. */
+  .deck {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(13.5rem, 100%), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
     gap: 0.6rem;
-    margin: 0.85rem 0 0;
+    margin: 0.9rem 0 0;
   }
-  .jump a {
-    display: block;
+  .jcard {
+    display: flex; flex-direction: column;
     background: var(--panel);
     border: 1px solid var(--rule);
     border-radius: 10px;
-    padding: 0.7rem 0.85rem;
-    text-decoration: none;
     transition: border-color 0.12s ease, background 0.12s ease, transform 0.12s ease;
   }
-  .jump a:hover { border-color: rgba(139,124,255,0.55); background: rgba(139,124,255,0.06); transform: translateY(-1px); }
-  .jump .jt {
+  .jcard:hover { border-color: rgba(139,124,255,0.55); transform: translateY(-1px); }
+  .jmain { display: block; padding: 0.7rem 0.85rem 0.75rem; text-decoration: none; }
+  .jt {
     display: block;
     font: 500 0.84rem/1.25 "JetBrains Mono", monospace;
     color: var(--text);
   }
-  .jump a:hover .jt { color: var(--agent); }
-  .jump .jt::after { content: " ↓"; color: var(--agent); font-size: 0.78rem; }
-  .jump .jd { display: block; margin-top: 0.25rem; font-size: 0.76rem; line-height: 1.4; color: var(--dim); }
+  .jmain:hover .jt { color: var(--agent); }
+  .jt::after { content: " ↓"; color: var(--agent); font-size: 0.78rem; }
+  .jd { display: block; margin-top: 0.25rem; font-size: 0.76rem; line-height: 1.4; color: var(--dim); }
+  .jd strong { color: var(--warm); font-weight: 500; }
 
-  /* The two asks. Same tile, tinted violet and arrowed →, and held to two
-     columns so they read as an invitation rather than a banner — most arrivals
-     came to read the table, not to list. Constrained rather than full-bleed on
-     purpose. */
-  .jump.acts { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 46rem; }
-  .jump.acts a {
-    border-color: rgba(139,124,255,0.34);
-    background: linear-gradient(180deg, rgba(139,124,255,0.11), rgba(139,124,255,0.045));
+  /* margin-top:auto pins the join half to the bottom, so the two cards that
+     have one line up across the row however the descriptors wrap. The live
+     feed has no join half on purpose — nothing here is ours to be listed in;
+     providers announce themselves upstream — and the missing bar says that
+     more honestly than a disabled button would. */
+  .jact {
+    margin-top: auto;
+    display: block;
+    padding: 0.5rem 0.85rem 0.55rem;
+    border-top: 1px solid rgba(139,124,255,0.2);
+    background: rgba(139,124,255,0.08);
+    border-radius: 0 0 9px 9px;
+    text-decoration: none;
   }
-  .jump.acts a:hover { border-color: rgba(139,124,255,0.6); background: rgba(139,124,255,0.14); }
-  .jump.acts .jt { color: var(--warm); }
-  .jump.acts .jt::after { content: " →"; }
-  .jump.acts .jd strong { color: var(--warm); font-weight: 500; }
+  .jact:hover { background: rgba(139,124,255,0.17); }
+  .jal {
+    display: block;
+    font: 500 0.79rem/1.3 "JetBrains Mono", monospace;
+    color: var(--warm);
+  }
+  .jal::after { content: " →"; color: var(--agent); }
+  .jact:hover .jal { color: var(--agent); }
+  .jnote { display: block; margin-top: 0.15rem; font-size: 0.72rem; line-height: 1.4; color: var(--dim); }
+  .jnote strong { color: var(--warm); font-weight: 500; }
 
   .ok { color: var(--agent); font-weight: 500; }
   .mut { color: var(--dim); }
@@ -523,20 +524,16 @@
        "36 subcategories built 2026-08-05" reads as one phrase, which is exactly
        the kind of blur the two-timestamp split exists to prevent. */
     .sb-stamp { margin-left: 0; width: 100%; padding-top: 0.2rem; }
-    .deck-lbl { margin: 0.8rem 0 0.3rem; font-size: 0.64rem; letter-spacing: 0.08em; }
-    /* Two-up rather than stacked: four full-width tiles cost ~285px of scroll
-       before the directory, which is the problem this whole reorder exists to
-       fix. The descriptor stays — it is the reason the tiles beat a link row. */
-    .jump { grid-template-columns: 1fr 1fr; gap: 0.45rem; }
-    /* The two asks go full width here: there are only two of them, their
-       descriptors are the longest on the deck, and side-by-side at 360px they
-       wrap to five lines each. (.jump.acts outranks the rule above on
-       specificity, so it has to be restated inside the query, not merely
-       omitted.) */
-    .jump.acts { grid-template-columns: 1fr; max-width: none; }
-    .jump a { padding: 0.55rem 0.6rem; }
-    .jump .jt { font-size: 0.76rem; }
-    .jump .jd { font-size: 0.7rem; line-height: 1.35; margin-top: 0.2rem; }
+    /* Stacked, not two-up. These cards are taller than the old tiles — each
+       carries a join half — and side by side at 360px both halves wrap to
+       shreds. Three full-width cards read in one thumb-flick; the directory
+       still arrives fast because the deck lost two tiles to the link line. */
+    .deck { grid-template-columns: 1fr; gap: 0.45rem; }
+    .jmain { padding: 0.6rem 0.7rem 0.65rem; }
+    .jact { padding: 0.45rem 0.7rem 0.5rem; }
+    .jt { font-size: 0.78rem; }
+    .jd, .jnote { font-size: 0.72rem; line-height: 1.4; }
+    .jal { font-size: 0.76rem; }
   }
 </style>
 </head>
@@ -546,25 +543,25 @@
   <span class="eyebrow">marketplace.bitcoineconomy.ai</span>
   <h1>The Marketplace <span class="v">directory</span></h1>
   <p class="lede">Every service an autonomous agent can <strong>pay for</strong>, and every job it can <strong>be paid for</strong> — settled in sats, on one page. Anyone can add to either side without asking us.</p>
-  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a></p>
+  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · <a href="#about">what the labels mean</a> · <a href="#agents">for agents</a>: <a href="/llms.txt">llms.txt</a> · <a href="/live/master.json">master.json</a> · <a href="/mcp">/mcp</a></p>
 
   <div class="statusbar" id="statusbar" role="status" aria-live="polite" aria-label="Live status of the directory and the inventory underneath it">
     <div class="sb-line" id="sb-dir"><span class="mut">loading the directory…</span></div>
     <div class="sb-line" id="sb-live"><span class="mut">reading the relays…</span></div>
   </div>
 
-  <nav class="jump" aria-label="Jump to a section">
-    <a href="#registry"><span class="jt">The directory</span><span class="jd">Every service an agent can pay for, in one filterable table</span></a>
-    <a href="#board" id="jump-board" hidden><span class="jt">Work agents can take</span><span class="jd">Signed offers to pay an agent in sats to do a job</span></a>
-    <a href="#live"><span class="jt">Live from Nostr</span><span class="jd">Inference providers and ecash mints, announcing themselves right now</span></a>
-    <a href="#agents"><span class="jt">For agents</span><span class="jd">The JSON, the MCP endpoint and the manifest</span></a>
-    <a href="#about"><span class="jt">About this directory</span><span class="jd">What the labels mean, the category map, and how fresh any of it is</span></a>
-  </nav>
-
-  <span class="deck-lbl">join the market — no account, no fee</span>
-  <nav class="jump acts" aria-label="Add to the market">
-    <a href="/spec/agent-payable-service-announcement.md"><span class="jt">List your service</span><span class="jd">One signed Nostr event lists you within the hour, then probed and labelled. <strong id="sell-count">Nobody has done it yet — be the first.</strong></span></a>
-    <a href="/spec/agent-payable-work-request.md"><span class="jt">Post work for an agent</span><span class="jd">Offer sats for a job, with a public test for what counts as done. You pay the worker direct.</span></a>
+  <nav class="deck" aria-label="The marketplace">
+    <div class="jcard">
+      <a class="jmain" href="#registry"><span class="jt">The directory</span><span class="jd">Every service an agent can pay for, in one filterable table — what it buys, how it pays, and who vouched for the row.</span></a>
+      <a class="jact" href="/spec/agent-payable-service-announcement.md"><span class="jal">List your service</span><span class="jnote">One signed Nostr event, no account, no fee. <strong id="sell-count">Nobody has done it yet — be the first.</strong></span></a>
+    </div>
+    <div class="jcard">
+      <a class="jmain" href="#board"><span class="jt">Work agents can take</span><span class="jd">Signed offers to pay an agent in sats to do a specific job, each with a public test for what counts as done. <strong id="board-open-note"></strong></span></a>
+      <a class="jact" href="/spec/agent-payable-work-request.md"><span class="jal">Post work for an agent</span><span class="jnote">Name the job, the sats and the test. You pay the worker direct — we never hold it.</span></a>
+    </div>
+    <div class="jcard">
+      <a class="jmain" href="#live"><span class="jt">Live from Nostr</span><span class="jd">Inference providers and ecash mints announcing themselves right now, probed for whether they answer — and the cross-provider price index in sats.</span></a>
+    </div>
   </nav>
 
   <section id="panel-master">
@@ -1187,6 +1184,11 @@
         return;
       }
       $('#board-when').textContent = 'nothing posted yet';
+      // Only in this branch — relays read, coverage complete, genuinely zero.
+      // The branch above returns without touching it, so an unreadable board
+      // never renders as an empty one.
+      const bn0 = $('#board-open-note');
+      if (bn0) bn0.textContent = 'Nothing posted yet — post the first one.';
       listEl.innerHTML = '<div class="board-empty"><b>No work requests have been published yet.</b> ' +
         'This is a board, not a product — it renders whatever is signed and published to the public relays, ' +
         'and so far nobody has published one. That includes us. If you want an agent to do something and ' +
@@ -1281,11 +1283,18 @@
     });
     renderList();
 
-    // Top-of-page promotion appears only once there is something to promote.
-    // One tile to ungate now, not a tile and a duplicate button.
-    if (R.open_actionable > 0) {
-      const tile = $('#jump-board');
-      if (tile) tile.hidden = false;
+    // The board card no longer hides itself when the board is empty. Hiding it
+    // took "post work for an agent" down with it — and an empty board is
+    // precisely when posting is the thing worth asking for. What the old gate
+    // was actually protecting against is promoting work that isn't there, so
+    // that is what gets gated now: the count, not the card. Left unset in the
+    // cannot-read case (those branches return before here), because "0 open"
+    // and "we couldn't reach the relays" must never render as the same claim.
+    const bn = $('#board-open-note');
+    if (bn) {
+      bn.textContent = partial
+        ? 'At least ' + R.open_actionable + ' open right now.'
+        : R.open_actionable + ' open right now.';
     }
   })();
 
