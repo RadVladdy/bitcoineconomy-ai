@@ -8,6 +8,25 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://bitcoineconomy.ai https://cloudflareinsights.com wss://nos.lol wss://relay.primal.net wss://relay.damus.io wss://nostr.bitcoiner.social; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'
 
+# Every text route served its bytes as UTF-8 and declared no charset, until
+# 2026-08-09. With no charset a browser falls back to the locale default, so the
+# spec pages rendered "â€"" for every em dash and "â‰ " for the ≠ in
+# "announced ≠ curated" — on the one page we ask a stranger to read before
+# listing a service. The files were never wrong; only the header was. It matters
+# more on the agent surfaces than the human one: llms.txt and agents.txt are
+# fetched by parsers that do not all guess, and a mojibake manifest is a
+# mojibake instruction. Declared explicitly rather than left to the client.
+/spec/*
+  Content-Type: text/markdown; charset=utf-8
+/entries/*
+  Content-Type: text/markdown; charset=utf-8
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+/agents.txt
+  Content-Type: text/plain; charset=utf-8
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+
 # Agent-readable routes are fetched cross-origin by tools and crawlers.
 # Four routes were missing from this list until 2026-08-07 and served no CORS header
 # while every sibling did: /master.json, /agents.txt, /l402index.json, /l402space.json.
