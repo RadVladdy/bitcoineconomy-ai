@@ -561,7 +561,7 @@
   <nav class="deck" aria-label="The marketplace">
     <div class="jcard">
       <a class="jmain" href="#registry"><span class="jt">The directory</span><span class="jd">Every service an agent can pay for, in one filterable table — what it buys, how it pays, and who vouched for the row.</span></a>
-      <a class="jact" href="/list/"><span class="jal">List your service</span><span class="jnote">One signed Nostr event, no account, no fee. <strong id="sell-count">Nobody has done it yet — be the first.</strong></span></a>
+      <a class="jact" href="/list/"><span class="jal">List your service</span><span class="jnote">One signed Nostr event, no account, no fee. <strong id="sell-count">Publish yours and it appears in the directory within the hour.</strong></span></a>
     </div>
     <div class="jcard">
       <a class="jmain" href="#board"><span class="jt">Work agents can take</span><span class="jd">Signed offers to pay an agent in sats to do a specific job, each with a public test for what counts as done. <strong id="board-open-note"></strong></span></a>
@@ -781,6 +781,17 @@
     // the "List your service" tile's own descriptor — rather than as a hole in
     // the scoreboard. When it stops being zero this line stops being a pitch
     // and becomes a count.
+    //
+    // THE DEFAULT IN THE MARKUP MUST NOT CLAIM A COUNT. It used to read
+    // "Nobody has done it yet — be the first.", which this line corrected the
+    // moment master.json loaded — in a browser. Everything that does not run JS
+    // got the hardcoded sentence as a flat statement of fact: curl, feed
+    // readers, and the agents this site is built for. A service HAD listed, so
+    // the shipped body asserted something false while /live/announced.json on
+    // the same origin said count: 1. An outside reader proved it against the
+    // kind-38556 factual-error bounty. The markup default is now count-neutral;
+    // only this line, which has read the data, is allowed to state a number —
+    // including the genuine zero.
     const announced = S['announced'] || 0;
     const sc = $('#sell-count');
     if (sc) {
