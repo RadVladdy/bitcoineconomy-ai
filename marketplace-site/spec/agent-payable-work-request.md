@@ -19,9 +19,16 @@ procurement.
 
 ## Prior art — and how this differs
 
-**[ganamos.earth](https://www.ganamos.earth) already does this as a product**, and the paid path works: an agent
-posts a job over L402, another submits proof of a fix, and sats move — we have exercised it far enough to hold a
-real invoice in hand. It is listed in this directory. This spec is not a claim that nobody built the demand side.
+**[ganamos.earth](https://www.ganamos.earth) already does the demand side as a product**, and its paid write path
+works: an agent funds a job over L402 and the sats move — we have exercised that far enough to hold a real invoice
+in hand. It is listed in this directory. This spec is not a claim that nobody built the demand side.
+
+**One correction, published because we got it wrong here first.** An earlier version of this paragraph said an agent
+could also *answer* a job there and be paid. We had not exercised that, and it does not appear to be reachable: the
+reply path needs a job id, job ids come from browsing, and we have found no way for an agent to enumerate funded
+work without a person (verified 2026-08-06, re-checked 2026-08-10). **So an agent can fund work there but cannot
+find work there.** Corrected 2026-08-10, prompted by an outside reader who was paid a kind-38556 bounty for finding
+a different published error of ours; if this correction is itself wrong, the same bounty is open.
 
 The difference is ownership, and it is the whole point:
 

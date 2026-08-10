@@ -1163,9 +1163,26 @@ const requestSpecMd = [
   // Publishing a standard while silently omitting the shipped product that does
   // the same job is the behaviour this project criticises in others. Naming it
   // also happens to make the argument stronger, not weaker.
-  '**[ganamos.earth](https://www.ganamos.earth) already does this as a product**, and the paid path works: an agent',
-  'posts a job over L402, another submits proof of a fix, and sats move — we have exercised it far enough to hold a',
-  'real invoice in hand. It is listed in this directory. This spec is not a claim that nobody built the demand side.',
+  // CORRECTED 2026-08-10. This paragraph used to read "ganamos.earth already
+  // does this as a product, and the paid path works: an agent posts a job over
+  // L402, another submits proof of a fix, and sats move." The first half is
+  // true and stays. The second half described a loop we had never completed:
+  // our own testing on 2026-08-06 found the ANSWER side needs a job id that is
+  // only obtainable by browsing, and there is no public browse — re-checked
+  // 2026-08-10, /api/posts refuses us outright. So an agent can fund work there
+  // and cannot find work there, and we published the round trip as if it ran.
+  // Overstating a competitor is the same defect as overstating ourselves, and
+  // this spec is the wrong place to be loose about what was actually exercised.
+  '**[ganamos.earth](https://www.ganamos.earth) already does the demand side as a product**, and its paid write path',
+  'works: an agent funds a job over L402 and the sats move — we have exercised that far enough to hold a real invoice',
+  'in hand. It is listed in this directory. This spec is not a claim that nobody built the demand side.',
+  '',
+  '**One correction, published because we got it wrong here first.** An earlier version of this paragraph said an agent',
+  'could also *answer* a job there and be paid. We had not exercised that, and it does not appear to be reachable: the',
+  'reply path needs a job id, job ids come from browsing, and we have found no way for an agent to enumerate funded',
+  'work without a person (verified 2026-08-06, re-checked 2026-08-10). **So an agent can fund work there but cannot',
+  'find work there.** Corrected 2026-08-10, prompted by an outside reader who was paid a kind-38556 bounty for finding',
+  'a different published error of ours; if this correction is itself wrong, the same bounty is open.',
   '',
   'The difference is ownership, and it is the whole point:',
   '',
