@@ -1,4 +1,4 @@
-# The Marketplace directory — marketplace.bitcoineconomy.ai
+# Agent Marketplace — marketplace.bitcoineconomy.ai
 
 > The agent-readable directory of every service autonomous AI agents can pay for —
 > inference, data, compute, machine work, verification, commerce, swaps, liquidity, payments, fiat ramps.

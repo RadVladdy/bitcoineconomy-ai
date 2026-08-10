@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Marketplace directory — services agents buy for Bitcoin</title>
+<title>Agent Marketplace — what agents buy and earn in Bitcoin</title>
 <meta name="description" content="The agent-readable directory of services autonomous AI agents can pay for — inference, data, compute, machine work, swaps — merged from four sources into one filterable table, with every row stating its provenance and whether an agent pays it in sats directly." />
 <link rel="canonical" href="https://marketplace.bitcoineconomy.ai/" />
 <link rel="icon" href="/favicon.svg" />
@@ -14,7 +14,7 @@
 {
   "@context": "https://schema.org",
   "@type": "DataCatalog",
-  "name": "The Marketplace directory — bitcoineconomy.ai",
+  "name": "Agent Marketplace — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
   "description": "Curated, agent-readable registry of services autonomous AI agents buy and sell for Bitcoin, plus a live snapshot of Nostr-announced inventory (Routstr inference providers, NIP-87 ecash mints).",
   "isPartOf": { "@type": "WebSite", "name": "The Bitcoin Economy for AI", "url": "https://bitcoineconomy.ai/" },
@@ -133,6 +133,13 @@
     border-left-color: rgba(159,184,196,0.45);
   }
   .sb-line + .sb-line { border-top: 1px solid rgba(139,124,255,0.16); }
+  /* A figure and the separator that follows it are ONE flex item. Joining them
+     as siblings let a wrap put the "·" at the START of the next row, which read
+     as an accidental indent on the bounty figures. */
+  .sb-line .bit { white-space: nowrap; }
+  /* The flex gap only falls BETWEEN items, so the separator now needs its own
+     leading space — it is inside the item it follows, not beside it. */
+  .sb-line .bit .sep { margin-left: 0.45rem; }
   .sb-line .f { color: var(--text); white-space: nowrap; }
   .sb-line .f b { color: var(--agent); font-weight: 500; }
   .sb-line .f.q, .sb-line .f.q b { color: var(--dim); font-weight: 400; }  /* supporting figure */
@@ -149,6 +156,7 @@
      exists to surface. Let the figures wrap instead of hiding them. */
   @media (max-width: 560px) {
     .sb-line .f, .sb-line .f.q, .sb-stamp { white-space: normal; }
+    .sb-line .bit { white-space: nowrap; }  /* the sep still never leads a row */
     .sb-stamp { margin-left: 0; }
   }
   .sb-stamp a { color: #8a8a84; }
@@ -541,9 +549,9 @@
 <div class="aura" aria-hidden="true"></div>
 <main>
   <span class="eyebrow">marketplace.bitcoineconomy.ai</span>
-  <h1>The Marketplace <span class="v">directory</span></h1>
+  <h1>Agent <span class="v">Marketplace</span></h1>
   <p class="lede">Every service an autonomous agent can <strong>pay for</strong>, and every job it can <strong>be paid for</strong> — settled in sats, on one page. Anyone can add to either side without asking us.</p>
-  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/marketplace">what the Marketplace is</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · <a href="#about">what the labels mean</a> · <a href="#agents">for agents</a>: <a href="/llms.txt">llms.txt</a> · <a href="/live/master.json">master.json</a> · <a href="/mcp">/mcp</a></p>
+  <p class="header-links">Part of <a href="https://bitcoineconomy.ai">bitcoineconomy.ai</a> · <a href="https://bitcoineconomy.ai/stack">equip your agent</a> · <a href="#about">what the labels mean</a> · <a href="#agents">for agents</a>: <a href="/llms.txt">llms.txt</a> · <a href="/live/master.json">master.json</a> · <a href="/mcp">/mcp</a></p>
 
   <div class="statusbar" id="statusbar" role="status" aria-live="polite" aria-label="Live status of the directory and the inventory underneath it">
     <div class="sb-line" id="sb-dir"><span class="mut">loading the directory…</span></div>
@@ -648,7 +656,7 @@
   </section>
 
   <section id="panel-about" class="about">
-  <h2 id="about"><span class="hash">#</span>About this directory</h2>
+  <h2 id="about"><span class="hash">#</span>About this marketplace</h2>
   <p class="sec-sub">What's on this page is four different things. Keeping them apart is most of what makes the numbers mean anything.</p>
 
   <h3>The four things</h3>
@@ -685,7 +693,7 @@
 
   <h3>How fresh any of this is</h3>
   <ul>
-    <li><b>The directory table</b> is rebuilt when the sources are re-merged; the build date is in the status bar at the top of this page.</li>
+    <li><b>The directory table</b> is rebuilt when the sources are re-merged — last built <b class="fig" id="ab-built">…</b>.</li>
     <li><b>The live inventory</b> re-reads the relays every hour, and re-probes every clearnet endpoint every six. So a new listing or bounty shows up within the hour, while its liveness figure is the last probe carried forward — the snapshot labels it as carried rather than passing it off as fresh. If that snapshot ever goes stale, the status bar greys out and says so rather than showing old numbers as current.</li>
     <li><b>Probed figures always carry their denominator</b> — "12 of 38 answered", never a bare "12 alive". Onion-only endpoints can't be probed from here and show as unverified, not dead.</li>
     <li><b>Every trust number can be recomputed</b> from the raw runs we publish: <a href="/live/uptime.json">/live/uptime.json</a>. Don't trust the percentage — check it.</li>
@@ -717,11 +725,19 @@
   //   3. stale says stale — grey the figures, date them, label them
   //   4. a zero prints as zero, named — never dropped for being empty
   //   5. no hero total — never sum across clusters, the denominators differ
-  //   6. qualifiers stay inline, not footnoted ("signed reviews (of mints)")
+  //   6. a qualifier belongs in the noun, not in a parenthesis after it
+  //      ("signed mint reviews", not "signed reviews (of mints)") — this is a
+  //      splash line, and every aside it carries costs it a figure's worth of
+  //      attention. What the figure does NOT cover gets said in About, below.
   const sbDir = $('#sb-dir'), sbLive = $('#sb-live');
   const fig = (n, label) => '<span class="f"><b>' + n + '</b> ' + label + '</span>';
   const SEP = '<span class="sep" aria-hidden="true">·</span>';
-  const bar = (bits) => bits.filter(Boolean).join(SEP);
+  // Each figure carries its own trailing separator inside one flex item, so a
+  // wrapped row can never begin with a stray "·" — which is what made the
+  // bounty figures look indented.
+  const bar = (bits) => bits.filter(Boolean)
+    .map((b, i, a) => '<span class="bit">' + b + (i < a.length - 1 ? SEP : '') + '</span>')
+    .join('');
   const stamp = (inner) => '<span class="sb-stamp">' + inner + '</span>';
 
   // ---------- the mastered directory ----------
@@ -745,15 +761,21 @@
     const srcMeta = master.sources || {};
 
     const R = F.rail || {}, S = F.source || {};
-    // Status bar, line 1 — the product. Zeroes print (rule 4): a rail tier or a
-    // source that is empty today is a fact about the market, not a blank.
+    // Status bar, line 1 — the product: how much is here and how it is cut up.
+    // The rail split (sats directly / via gateway) used to sit here and no
+    // longer does. Not because it stopped mattering — it is the whole point of
+    // the `pay` filter and of the About section — but because this page opens
+    // by saying everything settles in sats, so spending two of five splash
+    // figures re-litigating that buys nothing. It is one click away on the
+    // chips below, per row in the table, and a facet in master.json.
+    // The build date moved out for the same reason: it is provenance, not a
+    // headline. It now sits in About → "How fresh any of this is", which is
+    // where a reader goes when the question actually occurs to them.
     sbDir.innerHTML = bar([
       fig(master.count, 'services'),
-      fig(R['bitcoin-native'] || 0, 'pay in sats directly'),
-      fig(R['via-gateway'] || 0, 'in sats via gateway'),
       fig(Object.keys(F.category || {}).length, 'categories'),
       fig(Object.keys(F.subcategory || {}).length, 'subcategories'),
-    ]) + stamp('built ' + esc((master.generated_at || '').slice(0, 10)));
+    ]);
 
     // The sell side is the ask, so it is stated where the ask is made — inside
     // the "List your service" tile's own descriptor — rather than as a hole in
@@ -770,6 +792,8 @@
     // About-section figures, filled from the same data rather than typed in, so
     // the prose cannot drift from the table.
     const abCur = $('#ab-curated'), abAnn = $('#ab-announced');
+    const abBuilt = $('#ab-built');
+    if (abBuilt) abBuilt.textContent = (master.generated_at || '').slice(0, 10) || 'unknown';
     if (abCur) abCur.textContent = (S['curated'] || 0) + ' services today.';
     if (abAnn) abAnn.textContent = announced === 0
       ? '0 published so far — including by us.'
@@ -1037,8 +1061,15 @@
       '▮ ' + t.uptime_pct + '% up · n=' + t.uptime_denominator + '</span>';
   }
 
-  // The trust history rides on the live line as a quieter figure — the point of
-  // publishing it is that you can recompute it, so the link goes with the number.
+  // The trust history rides on the live line as a quieter figure.
+  //
+  // It used to carry a "recompute it" link straight to /live/uptime.json. That
+  // is not a broken link and not an agent-only route — it is the raw history
+  // document, and a human who clicks it lands in a wall of JSON. The invitation
+  // to recompute is real and stays, but it belongs where a reader is already
+  // reading prose about trust: it is stated in About → "How fresh any of this
+  // is" and in the For-agents block, both of which link the same file. A splash
+  // figure states the number; the page below it says what to do about it.
   const uptBit = (function () {
     if (!upt) return '<span class="f q">uptime history <b>accumulating</b> — begins with the next probe run</span>';
     const selfKeys = ['self:directory.json', 'self:live/snapshot.json', 'self:mcp'];
@@ -1048,20 +1079,25 @@
     // externally by the nightly anchor run instead.
     const selfBad = self.some((t) => t.last_status === 'unreachable');
     return '<span class="f q">uptime history <b>' + upt.window.runs_held + '</b> runs held' +
-      (self.length && selfBad ? ' · self-probe degraded' : '') +
-      ' · <a href="/live/uptime.json">recompute it</a></span>';
+      (self.length && selfBad ? ' · self-probe degraded' : '') + '</span>';
   })();
 
-  // The bounty board's figure, tail of the live line. Renders NOTHING while the
+  // The bounty board's figures, tail of the live line. Renders NOTHING while the
   // board is empty rather than printing "0 open" at the top of the page — the
   // section below still says so honestly, but the masthead does not advertise an
-  // empty room. "offered" is never "held": there is no escrow here, and a total
-  // that reads like a pot would imply one.
-  function bountyFig(R) {
-    if (!R || !R.open_actionable) return '';
-    return fig(R.open_actionable, 'bounties open') + SEP +
-      fig(R.sats_offered_open.toLocaleString('en-US'), 'sats offered') +
-      ' <span class="mut">(not held — no escrow)</span>';
+  // empty room.
+  //
+  // "offered" is never "held" — there is no escrow here, and a total that reads
+  // like a pot would imply one. That correction used to ride along as an inline
+  // "(not held — no escrow)". It now rides in the WORD: "sats offered" is the
+  // claim, and the board section, the deck tile and About all say the rest in
+  // sentences. Returns an array so each figure is its own separated item.
+  function bountyFigs(R) {
+    if (!R || !R.open_actionable) return [];
+    return [
+      fig(R.open_actionable, 'bounties open'),
+      fig(R.sats_offered_open.toLocaleString('en-US'), 'sats offered'),
+    ];
   }
 
   let snap = null, live = false;
@@ -1136,17 +1172,19 @@
 
   // Status bar, line 2 — the live inventory. A probed count never appears
   // without its denominator: "12 of 38 answered" is a probe result, "12 alive"
-  // reads as inventory. The reviews qualifier stays inline, not footnoted.
+  // reads as inventory. The reviews figure carries its scope in the noun —
+  // "signed mint reviews" — because the reviews are of mints, not of the
+  // inference providers sitting next to them in this same line.
   sbLive.innerHTML = bar([
     probe
       ? fig(probe.alive + ' of ' + m.routstr.count, 'inference providers answered')
       : fig(m.routstr.count, 'inference providers announcing'),
     fig(m.mints.cashu_count, 'Cashu mints'),
     fig(m.mints.fedimint_count, 'Fedimint federations'),
-    fig(m.reviews.count, 'signed reviews') + ' <span class="mut">(of mints, not providers)</span>',
+    fig(m.reviews.count, 'signed mint reviews'),
     mx ? fig(mx.model_count, 'models priced') : '',
     uptBit,
-    bountyFig(m.requests),
+    ...bountyFigs(m.requests),
   ]) + stamp(stampText + pill);
 
   // ---------- the bounty board (kind 38556) ----------

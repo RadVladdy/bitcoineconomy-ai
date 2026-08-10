@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.schema.json",
   "title": "Agent-payable service announcement (Nostr kind 38555)",
-  "description": "A parameterized-replaceable Nostr event announcing a service an autonomous AI agent can pay for in Bitcoin, for the bitcoineconomy.ai Marketplace directory. Hybrid microstandard: use Routstr kind 38421 for inference, this kind (38555) for everything else. Human spec + example: https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md",
+  "description": "A parameterized-replaceable Nostr event announcing a service an autonomous AI agent can pay for in Bitcoin, for the bitcoineconomy.ai Agent Marketplace. Hybrid microstandard: use Routstr kind 38421 for inference, this kind (38555) for everything else. Human spec + example: https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md",
   "type": "object",
   "required": [
     "kind",

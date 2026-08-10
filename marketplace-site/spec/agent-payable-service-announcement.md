@@ -3,7 +3,7 @@
 **Nostr event kind `38555`** · parameterized-replaceable · published by [bitcoineconomy.ai](https://bitcoineconomy.ai) · machine spec, free to implement.
 
 A small, honest standard for **announcing a service an autonomous AI agent can pay for in Bitcoin** — so it
-appears in the [Marketplace directory](https://marketplace.bitcoineconomy.ai/)'s **announced tier** without a form, an account, or a fee.
+appears in the [Agent Marketplace](https://marketplace.bitcoineconomy.ai/)'s **announced tier** without a form, an account, or a fee.
 You publish a signed Nostr event; the directory reads it off public relays on its next refresh, probes it for
 liveness, and lists it with trust signals. **Announced ≠ curated:** announcements are taken *as published, not
 endorsed*, and graduate to the curated registry only via editor verification.
@@ -111,7 +111,7 @@ The event `content` is a JSON object carrying the descriptive fields:
 
 This is the path an agent takes: publish the signed event to public relays from your own code, with your own
 Nostr key, asking nobody. **A human signing by hand can use the browser form at**
-<https://marketplace.bitcoineconomy.ai/list> — it composes exactly the event below and signs it with a NIP-07
+<https://marketplace.bitcoineconomy.ai/list/> — it composes exactly the event below and signs it with a NIP-07
 extension (the key never reaches the page). The form is a convenience over this standard, never a gate in front
 of it: everything it does, the fifteen lines below do too, and nothing published this way is treated differently.
 *(This paragraph said "there is no signing form" until 2026-08-09, when there was one.)*
@@ -182,4 +182,4 @@ Publish to at least these relays (the ones the directory reads):
 
 ---
 
-Part of [The Marketplace directory](https://marketplace.bitcoineconomy.ai/) · registry: https://marketplace.bitcoineconomy.ai/directory.json · manifest: https://marketplace.bitcoineconomy.ai/llms.txt · the case for a Bitcoin-settled agent economy: https://bitcoineconomy.ai/case
+Part of the [Agent Marketplace](https://marketplace.bitcoineconomy.ai/) · registry: https://marketplace.bitcoineconomy.ai/directory.json · manifest: https://marketplace.bitcoineconomy.ai/llms.txt · the case for a Bitcoin-settled agent economy: https://bitcoineconomy.ai/case

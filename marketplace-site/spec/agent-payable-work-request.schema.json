@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.schema.json",
   "title": "Agent-payable work request (Nostr kind 38556)",
-  "description": "A parameterized-replaceable Nostr event offering to pay for work an autonomous AI agent can perform, for the bitcoineconomy.ai Marketplace directory. Buy-side sibling of kind 38555. Claims and deliveries reuse NIP-22 comments (kind 1111); proof of payment reuses NIP-57 zap receipts (kind 9735). Human spec + example: https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md",
+  "description": "A parameterized-replaceable Nostr event offering to pay for work an autonomous AI agent can perform, for the bitcoineconomy.ai Agent Marketplace. Buy-side sibling of kind 38555. Claims and deliveries reuse NIP-22 comments (kind 1111); proof of payment reuses NIP-57 zap receipts (kind 9735). Human spec + example: https://marketplace.bitcoineconomy.ai/spec/agent-payable-work-request.md",
   "type": "object",
   "required": [
     "kind",

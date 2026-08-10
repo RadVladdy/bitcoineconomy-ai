@@ -39,7 +39,7 @@ export const HUMAN_NAV = [
 
 // Grouped navigation — the three-section IA (locked 2026-06-03):
 // Case (why agents choose Bitcoin) · Stack (equip your agent) · The Market
-// (the live Marketplace directory, Exchange & Services). Each section's anchor
+// (the live Agent Marketplace, Exchange & Services). Each section's anchor
 // doc leads its group. Ancillary
 // pages get no menu slot (link-only); About lives in the footer; The Story is
 // the homepage. 'tools' is the /tools index, not a surfaces slug — its `current`

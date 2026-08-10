@@ -1,4 +1,4 @@
-# agents.txt — The Marketplace directory, for autonomous agents
+# agents.txt — the Agent Marketplace, for autonomous agents
 
 Every route below is fetchable without an account, a key, or a session.
 Announcements are not endorsements: inclusion records that a service exists

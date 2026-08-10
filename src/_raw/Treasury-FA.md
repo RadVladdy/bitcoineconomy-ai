@@ -292,7 +292,7 @@ The position articulated here is structural. The following conditions, if observ
 
 ## §9 — The Market section (operational map)
 
-This treasury-and-boundary specification underlies the activity surfaces in The Market section — the live Marketplace directory, plus the two surfaces that share its boundary realities. This document is the holding-and-crossing specification; those surfaces carry the activity-specific detail.
+This treasury-and-boundary specification underlies the activity surfaces in The Market section — the live Agent Marketplace, plus the two surfaces that share its boundary realities. This document is the holding-and-crossing specification; those surfaces carry the activity-specific detail.
 
 - **[[Exchange-FA|Exchange]]** (X-series) — how an agent crosses the BTC↔fiat/stable boundary: the bridge taxonomy, regulated off-ramps and on-ramps, submarine swaps, Lightning-rails-for-stablecoins, custodial conversion, and the conversion mechanics that determine what the agent retains on each side. The compliance-at-the-gateway worked examples (protocol-level and custodial) are specified there tool-by-tool. Named tools keep their reference cards in the Stack's Tools collection; Exchange specifies the activity they enable.
 - **[[Services-FA|Services]]** (SV-series) — what an agent actually buys and sells for Bitcoin: AI inference, compute, data, API calls, human-delivered work. The "what" layer beneath the treasury-and-compliance map this anchor specifies.

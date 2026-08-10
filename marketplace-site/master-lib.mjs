@@ -411,7 +411,7 @@ export function buildMaster({ directory, snapshot, l402index, l402space, uptime,
       'DIRECTLY (bitcoin-native) or only by handing sats to an intermediary (via-gateway) — the tier-source ' +
       'documents remain at /directory.json, /live/announced.json, /live/l402index.json and /live/l402space.json ' +
       'for anyone who wants one source unmixed.',
-    name: 'The Marketplace directory — mastered',
+    name: 'Agent Marketplace — mastered',
     url: base + '/live/master.json',
     generated_at: generatedAt,
     count: all.length,

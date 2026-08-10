@@ -137,7 +137,7 @@ const directory = {
     'list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services\' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. ' +
     'For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. ' +
     'Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.',
-  name: 'The Marketplace directory — bitcoineconomy.ai',
+  name: 'Agent Marketplace — bitcoineconomy.ai',
   url: BASE + '/',
   generated_at: new Date().toISOString(),
   entry_count: entries.length,
@@ -262,7 +262,7 @@ for (const e of entries) {
     '',
     `---`,
     '',
-    `Part of [The Marketplace directory](${BASE}/) · registry JSON: ${BASE}/directory.json · full thesis: ${MAIN}/case`,
+    `Part of the [Agent Marketplace](${BASE}/) · registry JSON: ${BASE}/directory.json · full thesis: ${MAIN}/case`,
     '',
   ].filter((l) => l !== null);
   writeFileSync(join(HERE, 'entries', `${e.slug}.md`), lines.join('\n'));
@@ -344,7 +344,7 @@ const byCat = {};
 for (const e of entries) (byCat[e.category] ??= []).push(e);
 
 const llms = [
-  '# The Marketplace directory — marketplace.bitcoineconomy.ai',
+  '# Agent Marketplace — marketplace.bitcoineconomy.ai',
   '',
   '> The agent-readable directory of every service autonomous AI agents can pay for —',
   '> inference, data, compute, machine work, verification, commerce, swaps, liquidity, payments, fiat ramps.',
@@ -561,7 +561,7 @@ robots.push(`# Machine-readable index: ${BASE}/agents.txt · ${BASE}/llms.txt`, 
 writeFileSync(join(HERE, 'robots.txt'), robots.join('\n'));
 
 const agents = [
-  '# agents.txt — The Marketplace directory, for autonomous agents',
+  '# agents.txt — the Agent Marketplace, for autonomous agents',
   '',
   'Every route below is fetchable without an account, a key, or a session.',
   'Announcements are not endorsements: inclusion records that a service exists',
@@ -619,7 +619,7 @@ const jsonResp = (desc) => ({
 const openapi = {
   openapi: '3.0.3',
   info: {
-    title: 'The Marketplace directory — bitcoineconomy.ai',
+    title: 'Agent Marketplace — bitcoineconomy.ai',
     description:
       'Read-only discovery API for services and tools an autonomous AI agent can pay for: '
       + 'inference, data, compute, machine work, verification, commerce, swaps, liquidity, payments, fiat ramps. '
@@ -882,7 +882,7 @@ const specMd = [
   `**Nostr event kind \`${KIND_ANNOUNCE}\`** · parameterized-replaceable · published by [bitcoineconomy.ai](${MAIN}) · machine spec, free to implement.`,
   '',
   'A small, honest standard for **announcing a service an autonomous AI agent can pay for in Bitcoin** — so it',
-  `appears in the [Marketplace directory](${BASE}/)'s **announced tier** without a form, an account, or a fee.`,
+  `appears in the [Agent Marketplace](${BASE}/)'s **announced tier** without a form, an account, or a fee.`,
   'You publish a signed Nostr event; the directory reads it off public relays on its next refresh, probes it for',
   'liveness, and lists it with trust signals. **Announced ≠ curated:** announcements are taken *as published, not',
   'endorsed*, and graduate to the curated registry only via editor verification.',
@@ -1015,7 +1015,7 @@ const specMd = [
   '',
   '---',
   '',
-  `Part of [The Marketplace directory](${BASE}/) · registry: ${BASE}/directory.json · manifest: ${BASE}/llms.txt · the case for a Bitcoin-settled agent economy: ${MAIN}/case`,
+  `Part of the [Agent Marketplace](${BASE}/) · registry: ${BASE}/directory.json · manifest: ${BASE}/llms.txt · the case for a Bitcoin-settled agent economy: ${MAIN}/case`,
   '',
 ].join('\n');
 
@@ -1063,7 +1063,7 @@ const specSchema = {
   title: 'Agent-payable service announcement (Nostr kind ' + KIND_ANNOUNCE + ')',
   description:
     'A parameterized-replaceable Nostr event announcing a service an autonomous AI agent can pay for in Bitcoin, '
-    + 'for the bitcoineconomy.ai Marketplace directory. Hybrid microstandard: use Routstr kind 38421 for inference, '
+    + 'for the bitcoineconomy.ai Agent Marketplace. Hybrid microstandard: use Routstr kind 38421 for inference, '
     + 'this kind (' + KIND_ANNOUNCE + ') for everything else. Human spec + example: ' + BASE + '/spec/agent-payable-service-announcement.md',
   type: 'object',
   required: ['kind', 'created_at', 'tags', 'content', 'pubkey', 'id', 'sig'],
@@ -1355,7 +1355,7 @@ const requestSpecMd = [
   '',
   '---',
   '',
-  `Part of [The Marketplace directory](${BASE}/) · sell-side sibling: ${BASE}/spec/agent-payable-service-announcement.md · manifest: ${BASE}/llms.txt · the case for a Bitcoin-settled agent economy: ${MAIN}/case`,
+  `Part of the [Agent Marketplace](${BASE}/) · sell-side sibling: ${BASE}/spec/agent-payable-service-announcement.md · manifest: ${BASE}/llms.txt · the case for a Bitcoin-settled agent economy: ${MAIN}/case`,
   '',
 ].join('\n');
 
@@ -1367,7 +1367,7 @@ const requestSchema = {
   title: 'Agent-payable work request (Nostr kind ' + KIND_REQUEST + ')',
   description:
     'A parameterized-replaceable Nostr event offering to pay for work an autonomous AI agent can perform, for the '
-    + 'bitcoineconomy.ai Marketplace directory. Buy-side sibling of kind ' + KIND_ANNOUNCE + '. Claims and deliveries reuse '
+    + 'bitcoineconomy.ai Agent Marketplace. Buy-side sibling of kind ' + KIND_ANNOUNCE + '. Claims and deliveries reuse '
     + 'NIP-22 comments (kind 1111); proof of payment reuses NIP-57 zap receipts (kind 9735). Human spec + example: '
     + BASE + '/spec/agent-payable-work-request.md',
   type: 'object',
