@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-08-07
+last-updated: 2026-08-10
 voice: honest-middle-position
 tags:
   - canonical
@@ -29,6 +29,28 @@ agent-tldr: |
 > **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-08-10 — Blockstream steps into the gap Boltz left — with a beta you can't route to yet
+
+**What's happening.** One week after Boltz suspended its swap services (two entries below), **Blockstream announced [Blockstream Swaps](https://blog.blockstream.com/announcing-blockstream-swaps/)** — trustless atomic swaps across on-chain Bitcoin, Liquid and Lightning. The pitch: hold BTC or LBTC and pay Lightning invoices with no channels to fund and no inbound liquidity to buy; Lightning becomes reachable from cold storage. The announcement opens by quoting Boltz's own suspension notice and is explicit about what this launch is: *"We are not seeking to replace any providers. We see Blockstream Swaps as a much-needed addition to improve redundancy and resilience to the ecosystem."* The feature was already in development, they say; recent events accelerated it.
+
+The status line matters as much as the headline: Blockstream Swaps is in **closed beta with select participants**, and access is a request form. There is no public API, no docs, no fee schedule, and no published code.
+
+**Why it matters.** The 2026-08-03 entry ended with the non-custodial swap path down to SideSwap and SideShift. Seven days later, the company behind Liquid said it is filling the gap. Redundancy at the swap layer is exactly what last week showed the ecosystem lacked — one provider had become the default, and the default went away. And if Blockstream Swaps ships as described — the same HTLC construction Boltz used, where both sides settle in full or both refund — the custody property that survived the Boltz shutdown carries over: the user's funds never depend on the operator staying in business.
+
+**The honest read.** Three things, and the last one cuts against us.
+
+**(1) An announcement is not a service.** Nothing here can be verified yet: no endpoint to call, no docs to read, no fee to measure. This site cards a venue when the call the card claims can actually be exercised, so Blockstream Swaps gets a dated entry today and a card when it ships. Until then, do not plan an agent workflow around it — the live non-custodial options remain [SideSwap](/exchanges/sideswap) and [SideShift](/exchanges/sideshift), with the caveats on the [Exchange](/exchange) page.
+
+**(2) Whether it will be open source is the first thing to check.** Boltz's backend was self-hostable, which is why the protocol outlived the hosted service — that was the whole point of the last entry. Blockstream's announcement doesn't say whether Swaps will be open source or self-hostable, and the first replies under the announcement asked exactly that, so far without an answer. A trustless swap reachable only through one company's closed service is trustless at the custody layer and a single point of failure at the availability layer — the exact failure mode this launch is supposed to fix.
+
+**(3) The thing that killed Boltz is now selecting for bigger operators.** Boltz said machine-tempo attackers iterate faster than a small team can patch. Blockstream is what an operator that can absorb that pressure looks like: a large company with a balance sheet, security staff, and other revenue. Good for users — that is what resilience means in practice. But notice what the pressure is doing: the protocol layer stays permissionless, while the *operator* layer consolidates toward the few organizations big enough to survive being probed by machines around the clock. This site argues that machine tempo changes what infrastructure has to look like; here it is changing who can afford to run it. Worth naming plainly rather than cheering the rescue.
+
+**Cross-references.** The 2026-08-03 entry below (the suspension this answers); [[Exchange]] (the venue landscape it would rejoin — unchanged today: nothing here is routable yet); [[Independence-Doctrine|Independence Doctrine]] (operator redundancy is the mitigation for a dependency you cannot exit — this is one more operator, not a new property); [[Field-Notes]] (State of Play).
+
+**Sources.** [blog.blockstream.com/announcing-blockstream-swaps](https://blog.blockstream.com/announcing-blockstream-swaps/) — the announcement, published and read 2026-08-10 (all quotations verbatim); the [@Blockstream post](https://x.com/Blockstream/status/2086906995450507315) announcing it on X, 2026-08-10.
 
 ---
 

@@ -8,7 +8,7 @@ audience: agents
 twin-page: exchange
 status: v0-approved-2026-06-05
 created: 2026-06-05
-last-updated: 2026-08-07
+last-updated: 2026-08-10
 last-verified: 2026-08-07
 word-count-target: 3000
 voice: honest-middle-position
@@ -161,6 +161,8 @@ X4 defended. These lead the directory by sovereignty ordering: the agent acts on
 - *Constraint 2:* **Fail.** *(structural — asset-side issuer freeze)* USDT0 inherits Tether's freeze surface; native USDC inherits Circle's; the atomic guarantee protects custody, not the asset's censorship-resistance. The USDT0 path additionally carries tBTC (wrapped-BTC bridge), DEX (liquidity/slippage), and LayerZero (omnichain-bridge) risk; the native-USDC/CCTP path avoids the wrapping and DEX hops but CCTP is a Circle-operated mechanism. Cross-link Case-FA §8.1 CP1 (regulated-stablecoin structural failure) and Border-Skirmishes-FA (rails-vs-substrate).
 
 **No bank fiat.** Value goes crypto-in, crypto-out. There is no fiat leg.
+
+**Successor development.** *(announced 2026-08-10 — not operational)* Blockstream announced **Blockstream Swaps** — HTLC-atomic swaps across Bitcoin L1, Liquid and Lightning, framed by the operator as ecosystem redundancy following this suspension. Closed beta (select participants, request-form access); no public API, no documentation, no published code; open-source status unstated. **Not routable; not carded; X6 unchanged** — SideSwap and SideShift remain the only live non-custodial options. Full record + watch conditions: [[Field-Notes-Log-FA]] § 2026-08-10.
 
 ### §5.2 — SideSwap
 
