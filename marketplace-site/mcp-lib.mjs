@@ -54,6 +54,10 @@ const CORS = {
   'access-control-allow-origin': '*',
   'x-content-type-options': 'nosniff',
   'access-control-allow-methods': 'POST, OPTIONS',
+  // Matches the /live/* routes in worker.js. `_headers` never reaches a
+  // Worker-authored Response, so without this the MCP endpoint was the last
+  // surface on the host that never pinned HTTPS. No `preload` — see worker.js.
+  'strict-transport-security': 'max-age=31536000; includeSubDomains',
   'access-control-allow-headers': 'content-type, mcp-protocol-version, mcp-session-id, authorization',
   'access-control-max-age': '86400',
 };
