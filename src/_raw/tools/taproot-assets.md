@@ -36,7 +36,7 @@ Taproot Assets (the `tapd` daemon) is a Lightning Labs protocol for issuing asse
 
 This card is the *protocol/integration* lens. For using Taproot Assets to swap BTC↔USDT over Lightning (the venue lens), see its [exchange card](/exchanges/taproot-assets).
 
-The crucial framing, held explicitly at [The Marketplace](/marketplace): Taproot Assets provides Lightning *rails* for non-Bitcoin assets — it is **not** Bitcoin *substrate*. An agent might use a stablecoin over Taproot Assets at the boundary for unit-of-account stability, but the settlement substrate underneath is still Bitcoin. Keeping rails and substrate distinct is the whole point of putting this in Bridges, not the Stack.
+The crucial framing, held explicitly at [Treasury](/treasury): Taproot Assets provides Lightning *rails* for non-Bitcoin assets — it is **not** Bitcoin *substrate*. An agent might use a stablecoin over Taproot Assets at the boundary for unit-of-account stability, but the settlement substrate underneath is still Bitcoin. Keeping rails and substrate distinct is the whole point of putting this in Bridges, not the Stack.
 
 ## When to use it
 

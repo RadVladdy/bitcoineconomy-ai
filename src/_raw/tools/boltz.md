@@ -37,7 +37,7 @@ tags:
 
 Boltz is a non-custodial bridge that performs atomic (submarine) swaps across on-chain Bitcoin, Lightning, Liquid and **Ark**, exposed via a RESTful API. Because the swaps are atomic, neither side can take the funds and run — it's the trust-minimized way to move value across those rails without a custodian. For agent treasuries, Boltz is a building block for rebalancing and converting between layers at the boundary.
 
-A **bridge** tool — it crosses between rails. This card is the *infrastructure* view of Boltz; its *venue* role — cross-asset swaps, which it offered until 2026-08-03 — has a separate [exchange card](/exchanges/boltz), retained unfeatured for the record. See [The Marketplace](/marketplace) for where conversion mechanics fit relative to the pure substrate.
+A **bridge** tool — it crosses between rails. This card is the *infrastructure* view of Boltz; its *venue* role — cross-asset swaps, which it offered until 2026-08-03 — has a separate [exchange card](/exchanges/boltz), retained unfeatured for the record. See [Exchange](/exchange) for where conversion mechanics fit relative to the pure substrate.
 
 ## When to use it
 
