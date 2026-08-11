@@ -165,6 +165,13 @@ FAIL_RE = re.compile('|'.join(p for p, _ in NARRATIVE_FAIL), re.I)
 # repos produce ZERO hits today. This is not the §4 markdown case, which catches
 # nothing true and fires on correct published prose — this fires on nothing at all
 # and closes a surface that was simply unread.
+# `.ots` is DELIBERATELY absent, and the reasoning belongs here so the next audit
+# does not rediscover it as a hole: marketplace-site/anchors/ serves 19 .ots files
+# and none is read by either pass. They are OpenTimestamps proofs — binary Merkle
+# paths emitted by the ots client from an event hash, 19/19 carrying a NUL byte in
+# the first 4KB, with no author-written text in them. Adding the extension would
+# make is_text() read binary with errors='replace', which is the exact thing it
+# exists to prevent. The gap cannot carry the payload it is a gap for.
 TEXT_EXT = {'.html', '.js', '.mjs', '.cjs', '.css', '.xml', '.txt', '.json',
             '.jsonc', '.md', '.svg', '.evt', ''}
 SRC_EXT = {'.astro', '.js', '.mjs', '.cjs', '.jsx', '.tsx', '.ts', '.mts', '.cts',
