@@ -19,7 +19,7 @@ A decentralized AI-inference marketplace where a Cashu token is the API key — 
 - Docs/API: https://docs.routstr.com
 - Repo: https://github.com/Routstr
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/routstr
-- Provenance: curated (last verified 2026-06-02)
+- Provenance: curated (last verified 2026-08-11)
 
 ---
 

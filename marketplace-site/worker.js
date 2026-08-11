@@ -89,6 +89,14 @@ async function serveAnnounced(env, origin) {
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-origin': '*',
     'x-content-type-options': 'nosniff',
+    // _headers reaches ASSETS only, never a Worker-authored Response, so these
+    // routes were the one surface on the host that never pinned HTTPS. Cosmetic
+    // rather than load-bearing — HSTS is scoped to the HOST, so any visit to the
+    // apex (which sends includeSubDomains) already covers this subdomain, and the
+    // actual consumers here are curl and MCP clients that ignore it entirely.
+    // Deliberately NOT adding `preload`: that is a permanent commitment binding
+    // every current and future subdomain, and it is not this file's to make.
+    'strict-transport-security': 'max-age=31536000; includeSubDomains',
     'cache-control': 'public, max-age=300',
   };
   let snap = null, fromFallback = false;
@@ -150,6 +158,14 @@ async function serveBounties(env, origin) {
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-origin': '*',
     'x-content-type-options': 'nosniff',
+    // _headers reaches ASSETS only, never a Worker-authored Response, so these
+    // routes were the one surface on the host that never pinned HTTPS. Cosmetic
+    // rather than load-bearing — HSTS is scoped to the HOST, so any visit to the
+    // apex (which sends includeSubDomains) already covers this subdomain, and the
+    // actual consumers here are curl and MCP clients that ignore it entirely.
+    // Deliberately NOT adding `preload`: that is a permanent commitment binding
+    // every current and future subdomain, and it is not this file's to make.
+    'strict-transport-security': 'max-age=31536000; includeSubDomains',
     'cache-control': 'public, max-age=300',
   };
   let snap = null, fromFallback = false;
@@ -259,6 +275,14 @@ async function serveMaster(env, origin) {
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-origin': '*',
     'x-content-type-options': 'nosniff',
+    // _headers reaches ASSETS only, never a Worker-authored Response, so these
+    // routes were the one surface on the host that never pinned HTTPS. Cosmetic
+    // rather than load-bearing — HSTS is scoped to the HOST, so any visit to the
+    // apex (which sends includeSubDomains) already covers this subdomain, and the
+    // actual consumers here are curl and MCP clients that ignore it entirely.
+    // Deliberately NOT adding `preload`: that is a permanent commitment binding
+    // every current and future subdomain, and it is not this file's to make.
+    'strict-transport-security': 'max-age=31536000; includeSubDomains',
     'cache-control': 'public, max-age=300',
   };
   const kv = await env.SNAPSHOT?.get(KV_MASTER).catch(() => null);
@@ -296,6 +320,14 @@ async function serveLive(env, origin, kvKey, fallbackPath) {
     'content-type': 'application/json; charset=utf-8',
     'access-control-allow-origin': '*',
     'x-content-type-options': 'nosniff',
+    // _headers reaches ASSETS only, never a Worker-authored Response, so these
+    // routes were the one surface on the host that never pinned HTTPS. Cosmetic
+    // rather than load-bearing — HSTS is scoped to the HOST, so any visit to the
+    // apex (which sends includeSubDomains) already covers this subdomain, and the
+    // actual consumers here are curl and MCP clients that ignore it entirely.
+    // Deliberately NOT adding `preload`: that is a permanent commitment binding
+    // every current and future subdomain, and it is not this file's to make.
+    'strict-transport-security': 'max-age=31536000; includeSubDomains',
     'cache-control': 'public, max-age=300',
   };
   const kv = await env.SNAPSHOT?.get(kvKey);

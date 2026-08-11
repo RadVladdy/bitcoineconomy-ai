@@ -21,7 +21,7 @@ kyc: none
 bitcoin-native: true
 stack-section: "§5"
 status: published
-last-verified: 2026-06-02
+last-verified: "2026-08-11 (the card's own three claims exercised unauthenticated, not pinged: api.routstr.com/ and /v1/models both 404 exactly as the quickstart warns; discovery via a live node, routstr.otrta.me/v1/providers/, returns 200 with 42 providers; routstr.com/models 200. No account anywhere in the path.)"
 order: 40
 tags:
   - routstr

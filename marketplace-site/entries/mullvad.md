@@ -16,7 +16,7 @@ A privacy VPN that takes Lightning with no email and no account profile — just
 - Maintainer: Mullvad VPN
 - Site: https://mullvad.net
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/mullvad
-- Provenance: curated (last verified 2026-06-05)
+- Provenance: curated (last verified 2026-08-11)
 
 ---
 

@@ -92,6 +92,24 @@ export const REQUEST_STATUSES = ['open', 'claimed', 'delivered', 'settled', 'wit
 // TOOL offers and what the prose says; it is not a validator.
 export const PAY_METHODS = ['zaps', 'lightning', 'cashu', 'l402'];
 
+// Our own test fixtures, excluded from the published totals BY `d` — the only
+// lever left, and the reason it has to be this one is worth stating.
+//
+// `lifecycle-selftest-2026-08-08` is a self-test we drove to `withdrawn` behind a
+// 2-hour NIP-40 expiry, on the reasoning that it would age off the relays. It did,
+// and the relays then went back to serving the PREVIOUS version under the same `d`
+// — expiring the newest version of a replaceable event resurrects the one before
+// it. So the board carries it reading `settled`, 21 sats: a state it merely passed
+// through. It cannot be republished: the key was generated in memory and destroyed
+// the same session, so nobody alive can sign under that `d`. Withdrawal — the route
+// our own spec calls the only one — is unavailable to us here.
+//
+// Excluding it silently would be its own dishonesty on a directory whose pitch is
+// "recompute our numbers yourself", so the totals drop it AND the document says
+// which ids were dropped and why. The row itself stays visible: it is on public
+// relays either way, and hiding it would be a second lie on top of the first.
+export const FIXTURE_IDS = new Set(['lifecycle-selftest-2026-08-08']);
+
 export function makeFilters(nowSec) {
   return {
     routstr: { kinds: [38421], limit: 500 },
@@ -468,7 +486,7 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
   const dvmByKind = {};
   for (const ev of dvmjobs) dvmByKind[ev.kind] = (dvmByKind[ev.kind] ?? 0) + 1;
 
-  const requests = requestEvents.map((ev) => parseRequest(ev, nowSec));
+  let requests = requestEvents.map((ev) => parseRequest(ev, nowSec));
   for (const r of requests) {
     const c = r.address ? claimIndex.get(r.address) : null;
     r.claims = c ? { comments: c.comments, claimed: c.claimed, delivered: c.delivered, proofs: c.proofs, latest_at: c.latest_at } : { comments: 0, claimed: 0, delivered: 0, proofs: [] };
@@ -493,6 +511,11 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
     (actionable(b) ? 1 : 0) - (actionable(a) ? 1 : 0) ||
     (b.amount_sats ?? 0) - (a.amount_sats ?? 0) ||
     (b.updated_at ?? 0) - (a.updated_at ?? 0));
+
+  // Split BEFORE any count is taken. `requests` below is the honest cohort;
+  // fixtures are published separately so the exclusion is auditable.
+  const fixtures = requests.filter((r) => FIXTURE_IDS.has(r.d));
+  requests = requests.filter((r) => !FIXTURE_IDS.has(r.d));
 
   const byStatus = {};
   for (const s of REQUEST_STATUSES) byStatus[s] = 0;
@@ -610,6 +633,19 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
         sats_offered_denominator: openActionable.length,
         awaiting_settlement: awaitingSettlement.length,
         sats_awaiting_settlement: satsAwaitingSettlement,
+        // Say what was left out, so a skeptic recomputing from the relays and
+        // getting a different number can see exactly where the difference is.
+        excluded_fixtures: fixtures.map((r) => ({
+          d: r.d,
+          status: r.status,
+          amount_sats: r.amount_sats ?? null,
+          why: 'Our own board self-test, not a real job. Excluded from every count '
+            + 'above. It cannot be withdrawn the way our spec prescribes: the key that '
+            + 'signed it was generated in memory and destroyed, so no one can publish a '
+            + 'newer version under this `d`. Listed here rather than hidden — it is on '
+            + 'public relays either way, and a directory that says recompute our numbers '
+            + 'yourself owes you the delta.',
+        })),
         note: 'Signed work requests published with our "agent-payable work request" microstandard (kind ' + KIND_REQUEST + '): an offer to pay an agent in sats to do a job. Status is as published by the poster — this directory reads the events, it does not escrow, arbitrate, verify delivery, or take a fee. Claims and deliveries are NIP-22 comments (kind ' + KIND_COMMENT + '); settlement is signalled by a NIP-57 zap receipt (kind 9735), which anyone can fetch — but NIP-57 is explicit that a receipt is not proof of payment: it attests that the payee\'s LNURL provider reports it paid. `sats_offered_open` is offered, not held. `open_actionable` EXCLUDES requests somebody has already delivered on, even while the poster still publishes them as open — starting one of those means doing work a second time. Those are counted in `awaiting_settlement` instead. A bare claim does NOT exclude a request: claiming is free, so treating it as a lock would let anyone freeze the board.',
         requests,
       },

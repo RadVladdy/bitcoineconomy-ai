@@ -17,7 +17,7 @@ custody: n/a (pay-and-receive)
 kyc: none
 bitcoin-native: true
 status: published
-last-verified: 2026-06-05
+last-verified: "2026-08-11 (account/create 200 and still offering 'Generate account number' with ZERO occurrences of 'email' on the page — the no-identity claim holds; payment methods re-read on the live pricing page, which names Bitcoin, Lightning, Monero and cash. NB /help/payment-information now 404s: an earlier check grepped that error page and would have 'confirmed' the claim from nothing.)"
 order: 51
 tags:
   - mullvad

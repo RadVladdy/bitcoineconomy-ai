@@ -6,7 +6,7 @@
 // a file at runtime and cannot import across a repo boundary, so the relay set
 // must be inside its own bundle.
 //
-// Registry version 1, generated from data updated 2026-08-08.
+// Registry version 2, generated from data updated 2026-08-10.
 export const RELAYS = [
   "wss://nos.lol",
   "wss://relay.primal.net",
