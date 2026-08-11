@@ -1,6 +1,6 @@
 # OpenAgents
 
-> Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala) and pay per call over Lightning; or buy and sell labor, compute, and data across five markets, settled in Bitcoin with verifiable evidence
+> Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala), or sell verified work and compute on the network, settled in Bitcoin with verifiable evidence
 
 The machine-work economy in two live surfaces — Autopilot, a local-first desktop agent IDE that verifies its own work, and Khala, an OpenAI-compatible inference API an agent can call, with metered, auditable receipts — built in public on Bitcoin/Nostr rails.
 

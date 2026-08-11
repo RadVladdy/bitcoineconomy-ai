@@ -136,7 +136,7 @@
       "source": "services/openagents.md",
       "category": "machine-work",
       "subcategory": "agents",
-      "what_an_agent_buys": "Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala) and pay per call over Lightning; or buy and sell labor, compute, and data across five markets, settled in Bitcoin with verifiable evidence",
+      "what_an_agent_buys": "Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala), or sell verified work and compute on the network, settled in Bitcoin with verifiable evidence",
       "payment_methods": [
         "lightning"
       ],

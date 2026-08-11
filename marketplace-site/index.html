@@ -714,6 +714,13 @@
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
+  // esc() holds the attribute quote but does NOT neutralise a `javascript:` scheme,
+  // and most link values here come off public relays where anyone may publish. The
+  // parser drops non-http schemes now, but a KV snapshot written before that fix can
+  // still be served for up to an hour, so gate at render too. Same test provRow()
+  // has always applied to provider URLs; this extends it to every relay-sourced href.
+  const httpOnly = (u) => (/^https?:\/\//i.test(String(u ?? '').trim()) ? String(u).trim() : '');
+
   // ---------- the status bar ----------
   // Two lines because there are two pipelines with two refresh rates: the merged
   // directory (rebuilt when the sources are re-merged) and the live inventory
@@ -935,8 +942,8 @@
         : (s.payment_network || s.protocol || '');
       return '<span class="rail rail-' + esc(s.rail) + '" title="' + esc((master.rails || {})[s.rail] || '') + '">' + label + '</span>' +
         (detail ? '<span class="rail-note">' + esc(detail) + '</span>' : '') +
-        (s.rail === 'via-gateway' && s.links && s.links.gateway_url
-          ? '<a class="pay-btn" href="' + esc(s.links.gateway_url) + '" rel="nofollow noopener noreferrer" title="Pay this in sats through l402.space, which settles upstream on your behalf — a real route and a custodial hop.">pay in sats →</a>'
+        (s.rail === 'via-gateway' && s.links && httpOnly(s.links.gateway_url)
+          ? '<a class="pay-btn" href="' + esc(httpOnly(s.links.gateway_url)) + '" rel="nofollow noopener noreferrer" title="Pay this in sats through l402.space, which settles upstream on your behalf — a real route and a custodial hop.">pay in sats →</a>'
           : '');
     }
 
@@ -957,11 +964,11 @@
       const L = s.links || {};
       const out = [];
       if (L.card) out.push('<a href="' + esc(L.card) + '">full card →</a>');
-      if (L.site) out.push('<a href="' + esc(L.site) + '" rel="noopener">site</a>');
-      if (L.docs) out.push('<a href="' + esc(L.docs) + '" rel="nofollow noopener noreferrer">docs</a>');
-      if (!L.card && L.endpoint) out.push('<a href="' + esc(L.endpoint) + '" rel="nofollow noopener noreferrer">endpoint</a>');
-      if (L.source_page) {
-        out.push('<a href="' + esc(L.source_page) + '" rel="nofollow noopener noreferrer">' +
+      if (httpOnly(L.site)) out.push('<a href="' + esc(httpOnly(L.site)) + '" rel="noopener">site</a>');
+      if (httpOnly(L.docs)) out.push('<a href="' + esc(httpOnly(L.docs)) + '" rel="nofollow noopener noreferrer">docs</a>');
+      if (!L.card && httpOnly(L.endpoint)) out.push('<a href="' + esc(httpOnly(L.endpoint)) + '" rel="nofollow noopener noreferrer">endpoint</a>');
+      if (httpOnly(L.source_page)) {
+        out.push('<a href="' + esc(httpOnly(L.source_page)) + '" rel="nofollow noopener noreferrer">' +
           (s.source === 'external-index' ? '402index' : 'l402.space') + ' →</a>');
       }
       if (L.spec) out.push('<a href="' + esc(L.spec) + '">announcement</a>');
@@ -1305,9 +1312,9 @@
           (claimBits.length ? '<span>' + esc(claimBits.join(' · ')) + '</span>' : '') +
           (r.expiration && !r.expired ? '<span>expires in ' + days(r.expiration) + 'd</span>' : '') +
           '<span title="The poster\'s Nostr public key — their identity and their reputation">by ' + esc(npub(r.pubkey)) + '</span>' +
-          (r.links && r.links.context ? '<a href="' + esc(r.links.context) + '" rel="nofollow noopener noreferrer">context →</a>' : '') +
-          ((r.claims && r.claims.proofs && r.claims.proofs.length)
-            ? '<a href="' + esc(r.claims.proofs[0]) + '" rel="nofollow noopener noreferrer" title="Supplied by whoever claimed it — check it yourself">proof →</a>' : '') +
+          (r.links && httpOnly(r.links.context) ? '<a href="' + esc(httpOnly(r.links.context)) + '" rel="nofollow noopener noreferrer">context →</a>' : '') +
+          ((r.claims && r.claims.proofs && httpOnly(r.claims.proofs[0]))
+            ? '<a href="' + esc(httpOnly(r.claims.proofs[0])) + '" rel="nofollow noopener noreferrer" title="Supplied by whoever claimed it — check it yourself">proof →</a>' : '') +
         '</div></div>';
     }
 
@@ -1367,7 +1374,7 @@
   const provs = m.routstr.providers || [];
   $('#prov-count').textContent = '· ' + provs.length + ' announcing · provenance: live-from-relay';
 
-  const STATUS_ORDER = { alive: 0, 'unverified-tor-only': 1, unreachable: 2, unroutable: 3 };
+  const STATUS_ORDER = { alive: 0, 'unverified-tor-only': 1, 'http-error': 2, unreachable: 3, unroutable: 4 };
   const sorted = [...provs].sort((a, b) =>
     (STATUS_ORDER[a.status] ?? 3) - (STATUS_ORDER[b.status] ?? 3) ||
     (a.latency_ms ?? Infinity) - (b.latency_ms ?? Infinity) ||
@@ -1391,7 +1398,13 @@
     if (p.status === 'unreachable') return '<span class="st st-dead">✗ unreachable</span>' + up;
     if (p.status === 'unverified-tor-only') return '<span class="st st-tor" title="Announced with only an onion endpoint — not probeable from this infrastructure">◌ tor-only, unverified</span>';
     if (p.status === 'unroutable') return '<span class="st st-dead" title="Announced with no publicly routable endpoint (e.g. localhost)">✗ unroutable</span>';
-    return '<span class="st st-unk">unprobed</span>';
+    // `http-error` was split out of `unreachable` on 2026-08-08 because "no HTTP
+    // response" and "an HTTP error response" were sharing a label — the defect an
+    // outside party was paid a bounty to find. Without an arm here it fell through
+    // to `unprobed` below, so 12 providers we DID probe read as never looked at,
+    // indistinguishable from the 10 that genuinely carry no status.
+    if (p.status === 'http-error') return '<span class="st st-dead" title="Answered over HTTP, but not with a valid response">✗ http ' + esc(p.http_status) + '</span>' + up;
+    return '<span class="st st-unk" title="No probe result recorded for this provider">unprobed</span>';
   }
   function provRow(p) {
     const urls = (p.urls || []).map((u) =>

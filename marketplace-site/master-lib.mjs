@@ -69,6 +69,12 @@ export const SOURCE_ORDER = ['curated', 'announced', 'gateway-observed', 'extern
 export const CURATED_FRESHNESS = {
   stale: null,
   stale_after_hours: null,
+  // Also null, and for the same reason `stale` is. rewriteCuratedRows() refreshes
+  // this tier's generated_at from the freshly built directory but has no document
+  // clock to measure against, so a carried-over age_hours went arithmetically
+  // impossible — the committed master.json shipped a curated stamp 11.8h AFTER its
+  // own generated_at while claiming age_hours 0.9.
+  age_hours: null,
   freshness_basis: 'bundled at deploy time and editor-verified row by row, so this tier '
     + 'has no refresh clock and no document-level staleness. Freshness for a curated row is '
     + 'the `last-verified` (or `links-verified`) stamp on that row\'s own card, not the age '

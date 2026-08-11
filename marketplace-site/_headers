@@ -16,7 +16,11 @@
 # more on the agent surfaces than the human one: llms.txt and agents.txt are
 # fetched by parsers that do not all guess, and a mojibake manifest is a
 # mojibake instruction. Declared explicitly rather than left to the client.
-/spec/*
+# Scoped to *.md deliberately: a bare /spec/* also caught the two .schema.json
+# files and served JSON Schema as text/markdown, at the very URL each schema
+# names as its own $id. Keep the glob (not two hardcoded paths) so a future
+# spec .md still gets its charset.
+/spec/*.md
   Content-Type: text/markdown; charset=utf-8
 /entries/*
   Content-Type: text/markdown; charset=utf-8

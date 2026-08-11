@@ -321,7 +321,7 @@ const TOOLS = [
         // documented vocabulary could not reach ln-markets by category at all.
         category: { type: 'string', description: `One of: ${CATEGORY_ORDER.join(', ')}. Call list_categories for the full two-level vocabulary with counts.` },
         subcategory: { type: 'string', description: 'A second-level category, e.g. "llm", "search", "gift-cards". Valid values depend on `category` — see list_categories.' },
-        payment_method: { type: 'string', description: 'One of: lightning, onchain, cashu, l402, nwc, zaps, liquid, spark, fiat, x402, mpp. (`zaps` is admitted by the kind-38555 `pay` table and counts as bitcoin-native; no row carries it yet because the announced tier is empty.)' },
+        payment_method: { type: 'string', description: 'One of: lightning, onchain, cashu, l402, nwc, zaps, liquid, spark, fiat, x402, mpp. (`zaps` is admitted by the kind-38555 `pay` table and counts as bitcoin-native; no row currently carries it.)' },
         rail: { type: 'string', description: '"bitcoin-native" = payable directly in sats · "via-gateway" = reachable only by paying an intermediary (l402.space) that settles upstream · "fiat-only" = no Bitcoin payment path at all. Use "bitcoin-native" when the agent must not depend on a custodial hop.' },
         source: { type: 'string', description: 'Restrict to one source: "curated", "announced", "external-index" or "gateway-observed".' },
         no_kyc: { type: 'boolean', description: 'If true, return only services that need no KYC. Curated rows only — no other source carries a verified KYC field, so this necessarily narrows to curated.' },
@@ -1078,6 +1078,14 @@ const TOOLS = [
     },
   },
 ];
+
+// The one list. build.mjs imports this to write the tool roster into llms.txt,
+// directory.json's $schema_note and openapi.json's description — all three used to
+// hand-type it, and all three still said 12 the day after announce_service shipped,
+// so the sell side's own tool was absent from every document an agent discovers this
+// server through. Same treatment find_service's category enum already gets from
+// CATEGORY_ORDER: declare once, interpolate everywhere.
+export const TOOL_NAMES = TOOLS.map((t) => t.name);
 
 // ---------- JSON-RPC ----------
 

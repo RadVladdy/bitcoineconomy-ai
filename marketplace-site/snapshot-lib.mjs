@@ -200,9 +200,9 @@ function parseAnnounced(ev) {
   const sub = subRaw && CATEGORIES[k]?.subcategories.includes(subRaw) ? subRaw : undefined;
   const links = {};
   if (c.links && typeof c.links === 'object') {
-    if (c.links.site) links.site = String(c.links.site);
-    if (c.links.docs) links.docs = String(c.links.docs);
-    if (c.links.repo) links.repo = String(c.links.repo);
+    if (isLinkUrl(c.links.site)) links.site = String(c.links.site).trim();
+    if (isLinkUrl(c.links.docs)) links.docs = String(c.links.docs).trim();
+    if (isLinkUrl(c.links.repo)) links.repo = String(c.links.repo).trim();
   }
   const d = tag(ev, 'd')[0];
   return {
@@ -276,7 +276,7 @@ function parseRequest(ev, nowSec) {
   const links = {};
   if (c.links && typeof c.links === 'object') {
     for (const key of ['context', 'spec', 'repo', 'site']) {
-      if (c.links[key]) links[key] = String(c.links[key]);
+      if (isLinkUrl(c.links[key])) links[key] = String(c.links[key]).trim();
     }
   }
 
@@ -345,8 +345,11 @@ function indexClaims(events) {
     if (st === 'claimed') entry.claimed += 1;
     if (st === 'delivered') {
       entry.delivered += 1;
+      // A `proof` is whatever the deliverer typed. Keep only a real http(s) URL:
+      // it is rendered as an href, and a bare event id (which we shipped for
+      // bea-first-38555-announcement-2026-08) renders as a relative link that 404s.
       const proof = tag(ev, 'proof')[0];
-      if (proof) entry.proofs.push(proof);
+      if (isLinkUrl(proof)) entry.proofs.push(String(proof).trim());
     }
     entry.latest_at = Math.max(entry.latest_at, ev.created_at || 0);
     by.set(addr, entry);
@@ -634,6 +637,18 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
 // 2026-08-08 outside re-probe measured five "unreachable" rows answering
 // 502/503/530 and the split is its finding. A host having a bad day and a
 // host that no longer exists are different facts for a buying agent.
+
+// Every value below reaches an `href` on the public board, and the claims filter
+// carries no `authors` — anyone with a key can publish a kind-1111 against any
+// request address, or a kind-38556 of their own. `esc()` in index.html holds the
+// attribute quote but does NOT neutralise a `javascript:` scheme, so the scheme is
+// a security boundary and it has to be enforced HERE, at parse time: /live/*.json
+// and /mcp serve these same values to clients that have no esc() at all.
+// Deliberately narrower than isPublicHttp() below — a .onion or LAN docs link is a
+// legitimate thing to publish; a non-http scheme is not.
+function isLinkUrl(u) {
+  return typeof u === 'string' && /^https?:\/\//i.test(u.trim());
+}
 
 function isPublicHttp(u) {
   if (!/^https?:\/\//i.test(u) || /\.onion/i.test(u)) return false;

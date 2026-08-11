@@ -24,6 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { KIND_ANNOUNCE, KIND_REQUEST, RELAYS, REQUEST_STATUSES, PAY_METHODS } from './snapshot-lib.mjs';
 import { rewriteCuratedRows } from './master-lib.mjs';
 import { CATEGORIES, CATEGORY_ORDER, isValidPair, vocabularyDoc } from './taxonomy.mjs';
+import { TOOL_NAMES } from './mcp-lib.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const RAW = join(HERE, '..', 'src', '_raw');
@@ -132,7 +133,7 @@ const directory = {
     'and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at ' +
     '/snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), ' +
     'api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). ' +
-    'An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, price_model, list_categories, get_quote, find_tool, get_tool, list_mcp_servers, find_l402_endpoints, get_uptime, find_work, post_bounty) for agents that call rather than fetch. ' +
+    `An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (${TOOL_NAMES.join(', ')}) for agents that call rather than fetch. ` +
     'The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. ' +
     'list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services\' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. ' +
     'For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. ' +
@@ -422,6 +423,7 @@ const llms = [
   '   read the board, post_bounty to compose one (it returns an UNSIGNED event — we hold no keys and no funds, so you',
   '   sign and publish it yourself). To answer one, see',
   `   ${BASE}/spec/agent-payable-work-request.md`,
+  `   (JSON schema: ${BASE}/spec/agent-payable-work-request.schema.json).`,
   `${BASE}/live/models.json — the cross-provider inference price index: model id → every alive provider`,
   '   serving it, cheapest first, in sats per token (+ max_cost per request, the budgeting ceiling).',
   '   One fetch answers "who serves model X cheapest right now".',
@@ -449,13 +451,18 @@ const llms = [
   'job, each with a checkable acceptance test. post_bounty is its mirror, for buying work rather than selling it:',
   'it composes a conformant kind-38556 event and returns it UNSIGNED, because this server holds no keys and no funds',
   'and a directory that could sign as its posters could also forge or withdraw their bounties. You sign and publish.',
+  'announce_service is the sell-side mirror of post_bounty: it composes your kind-38555 listing, also unsigned, so',
+  'both sides of this market have a tool and neither has a custodian.',
   'list_mcp_servers lists the providers here that run their',
   'OWN MCP server (Amboss, Bitrefill, Alby NWC) — discover here, connect there to act. Stateless Streamable HTTP:',
   'POST one JSON-RPC request, get one JSON response. No funds move through it; you pay providers directly.',
   '',
   '## List your service (the directory is two-sided)',
   '',
-  `Run a service an agent can pay for in Bitcoin? List it yourself — no account, no UI, no fee. Publish a`,
+  `Run a service an agent can pay for in Bitcoin? List it yourself — no account, no fee, no gatekeeper. Two ways:`,
+  `sign the event in your browser at ${BASE}/list/ (NIP-07 extension, no backend, per-relay readback), or have`,
+  `announce_service on ${BASE}/mcp compose it for you — it returns the event UNSIGNED, exactly as post_bounty does`,
+  `on the buy side, because this server holds no keys. Either way you are publishing a`,
   `signed Nostr "agent-payable service announcement" (kind ${KIND_ANNOUNCE}, our microstandard; reuse Routstr`,
   `kind 38421 if the service is inference). It appears in the announced tier at ${BASE}/live/announced.json on`,
   'the next hourly refresh — with trust signals (announcement age, accepted-mint health), and a liveness probe on the 6-hourly pass —',
@@ -493,7 +500,15 @@ const CAT_TITLES = {
   swap: 'Swaps (non-custodial, no-KYC asset conversion)',
   liquidity: 'Liquidity (Lightning channel/balance management)',
   'fiat-ramp': 'Fiat ramps (custodial venues at the border; KYC noted per entry)',
+  payments: 'Payments (gateways an agent pays in sats to reach non-Bitcoin endpoints)',
+  trading: 'Trading (Bitcoin-denominated positions an agent funds over Lightning)',
 };
+// A category in use with no title here silently published its raw slug as an llms.txt
+// heading — `## payments` and `## trading` shipped that way. Fail the build instead:
+// the `?? cat` fallback below is now unreachable for in-use categories, by assertion.
+for (const cat of categories) {
+  if (!CAT_TITLES[cat]) throw new Error(`CAT_TITLES has no title for in-use category "${cat}" — add one in build.mjs`);
+}
 for (const cat of categories) {
   llms.push(`## ${CAT_TITLES[cat] ?? cat}`, '');
   for (const e of byCat[cat]) {
@@ -627,7 +642,7 @@ const openapi = {
       + 'vocabulary, each row stating its provenance and its payment rail. Fetch and filter locally — no auth, and '
       + 'no funds move through this API; the agent pays each provider directly over Lightning / L402 / Cashu, or '
       + 'through the l402.space gateway where a row says rail="via-gateway". MCP-capable agents should use the '
-      + `richer Model Context Protocol server at ${BASE}/mcp instead (find_service, get_service, find_tool, get_tool, price_model, list_categories, list_mcp_servers, get_quote, find_l402_endpoints, get_uptime, find_work, post_bounty).`,
+      + `richer Model Context Protocol server at ${BASE}/mcp instead (${TOOL_NAMES.join(', ')}).`,
     version: '2.0.0',
     contact: { email: 'hello@bitcoineconomy.ai', url: MAIN },
   },
