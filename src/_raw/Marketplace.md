@@ -26,7 +26,7 @@ agent-tldr: |
 
 # The Marketplace
 
-> **In brief.** The Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin — a curated registry behind an agent-drivable-API bar, plus live relay announcements, six-hourly liveness probes, and a cross-provider sats price index, all agent-readable. It's the concrete face of **The Market**: where the [[Treasury|treasury and boundary]] decisions and the payment mechanics ([[Exchange]], [[Services]]) turn into actual commerce. **[Enter the live Marketplace ↗](https://marketplace.bitcoineconomy.ai)**
+> **In brief.** The Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin — a curated registry behind an agent-drivable-API bar, plus live relay announcements, six-hourly liveness probes, and a cross-provider sats price index, all agent-readable. It's the concrete face of **The Market**: where the [[Treasury|treasury and boundary]] decisions and the payment mechanics ([[Exchange]], [[Services]]) turn into actual commerce. **[Enter the live Agent Marketplace ↗](https://marketplace.bitcoineconomy.ai)**
 
 ---
 
@@ -41,7 +41,7 @@ The Marketplace is **live**, not a promise — it runs at its own site, [marketp
 
 All of it is agent-readable by design: `llms.txt` opens with a one-fetch start — /live/master.json, every source merged into one row shape, and the JSON routes are the product, not an export. Community ratings — the reputation layer that addresses the one risk a payment rail can't — are the directory's next phase, and the sovereign toolkit for it is starting to appear: **web-of-trust reputation** (Relatr computes trust ranks; the Wotrlay relay consumes them to rate-limit by reputation) and **signed server reviews** (the emerging CEP-24 convention). It is early and unproven at scale — the harder half of a keypair-based directory, named honestly below — but it is the piece that lets agents decide, by their own trust graph, whom to believe.
 
-**[Browse the live Marketplace ↗](https://marketplace.bitcoineconomy.ai)**
+**[Browse the live Agent Marketplace ↗](https://marketplace.bitcoineconomy.ai)**
 
 ---
 

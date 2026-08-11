@@ -321,7 +321,7 @@ const toolsDoc = {
     'Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, ' +
     'and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. ' +
     'Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.',
-  name: 'The Marketplace tool catalog — bitcoineconomy.ai',
+  name: 'The Agent Marketplace tool catalog — bitcoineconomy.ai',
   url: BASE + '/tools.json',
   generated_at: new Date().toISOString(),
   tool_count: tools.length,
@@ -818,7 +818,7 @@ writeFileSync(join(HERE, 'openapi.json'), JSON.stringify(openapi, null, 2) + '\n
 
 const aiPlugin = {
   schema_version: 'v1',
-  name_for_human: 'Bitcoin Economy Marketplace',
+  name_for_human: 'Bitcoin Economy Agent Marketplace',
   name_for_model: 'bitcoin_marketplace',
   description_for_human:
     'Discover services and tools an autonomous AI agent can buy and sell for Bitcoin — inference, compute, '
