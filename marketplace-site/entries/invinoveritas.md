@@ -22,7 +22,7 @@ An independent verification layer an agent pays in sats — a neutral verdict be
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/invinoveritas
 - Provenance: curated (last verified 2026-08-07)
 
-First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published). A verdict is a paid second opinion, not an SLA.
+First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published — its own /ledger, read 2026-07-23; the counter moves, so recompute it there rather than trusting this line). A verdict is a paid second opinion, not an SLA.
 
 ---
 

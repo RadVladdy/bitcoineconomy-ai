@@ -64,15 +64,20 @@ export const KIND_ANNOUNCE = 38555;
 // make it find something first.
 //
 // Exactly ONE new kind is allocated for the whole buy side. Claims and deliveries
-// reuse NIP-22 comments (kind 1111); proof of payment reuses NIP-57 zap receipts
-// (kind 9735), so "this bounty was paid" is verifiable by a third party without
-// this project ever holding, escrowing, or attesting to anything.
+// reuse NIP-22 comments (kind 1111); settlement is signalled with NIP-57 zap receipts
+// (kind 9735), so the settlement record is public without this project ever
+// holding, escrowing, or attesting to anything. Say "signalled", not "proved":
+// NIP-57 states that a zap receipt "is not a proof of payment... it could be a lie
+// given a rogue implementation", and it is signed by the RECIPIENT's LNURL
+// provider — so a reader audits it against that provider, not against nobody.
 export const KIND_REQUEST = 38556;
 
-// Borrowed, not allocated: claims and deliveries are NIP-22 comments and proof
-// of payment is a NIP-57 zap receipt. Both already render in every client that
-// speaks those NIPs, and both are checkable by a third party without this site
-// holding, escrowing or attesting to anything.
+// Borrowed, not allocated: claims and deliveries are NIP-22 comments and
+// settlement is signalled by a NIP-57 zap receipt. Both already render in every
+// client that speaks those NIPs, and both are fetchable by a third party without
+// this site holding, escrowing or attesting to anything — with the NIP-57 caveat
+// noted above: a receipt attests what the payee's LNURL provider reports, and the
+// board does not read kind 9735 at all today, so `settled` is the poster's word.
 export const KIND_COMMENT = 1111;
 export const REQUEST_STATUSES = ['open', 'claimed', 'delivered', 'settled', 'withdrawn'];
 // The settlement vocabulary, beside the status vocabulary because they are the
@@ -605,7 +610,7 @@ export function buildSnapshot(perRelayResults, { source, generatedAt }) {
         sats_offered_denominator: openActionable.length,
         awaiting_settlement: awaitingSettlement.length,
         sats_awaiting_settlement: satsAwaitingSettlement,
-        note: 'Signed work requests published with our "agent-payable work request" microstandard (kind ' + KIND_REQUEST + '): an offer to pay an agent in sats to do a job. Status is as published by the poster — this directory reads the events, it does not escrow, arbitrate, verify delivery, or take a fee. Claims and deliveries are NIP-22 comments (kind ' + KIND_COMMENT + '); payment proof is a NIP-57 zap receipt, checkable by any third party. `sats_offered_open` is offered, not held. `open_actionable` EXCLUDES requests somebody has already delivered on, even while the poster still publishes them as open — starting one of those means doing work a second time. Those are counted in `awaiting_settlement` instead. A bare claim does NOT exclude a request: claiming is free, so treating it as a lock would let anyone freeze the board.',
+        note: 'Signed work requests published with our "agent-payable work request" microstandard (kind ' + KIND_REQUEST + '): an offer to pay an agent in sats to do a job. Status is as published by the poster — this directory reads the events, it does not escrow, arbitrate, verify delivery, or take a fee. Claims and deliveries are NIP-22 comments (kind ' + KIND_COMMENT + '); settlement is signalled by a NIP-57 zap receipt (kind 9735), which anyone can fetch — but NIP-57 is explicit that a receipt is not proof of payment: it attests that the payee\'s LNURL provider reports it paid. `sats_offered_open` is offered, not held. `open_actionable` EXCLUDES requests somebody has already delivered on, even while the poster still publishes them as open — starting one of those means doing work a second time. Those are counted in `awaiting_settlement` instead. A bare claim does NOT exclude a request: claiming is free, so treating it as a lock would let anyone freeze the board.',
         requests,
       },
       reviews: { kind: 38000, count: reviews.length, by_target_kind: reviewsByTargetKind },

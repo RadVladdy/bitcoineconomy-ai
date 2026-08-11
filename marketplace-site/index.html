@@ -1112,11 +1112,11 @@
   // "(not held — no escrow)". It now rides in the WORD: "sats offered" is the
   // claim, and the board section, the deck tile and About all say the rest in
   // sentences. Returns an array so each figure is its own separated item.
-  function bountyFigs(R) {
+  function bountyFigs(R, lb = String) {
     if (!R || !R.open_actionable) return [];
     return [
-      fig(R.open_actionable, 'bounties open'),
-      fig(R.sats_offered_open.toLocaleString('en-US'), 'sats offered'),
+      fig(lb(R.open_actionable), 'bounties open'),
+      fig(lb(R.sats_offered_open.toLocaleString('en-US')), 'sats offered'),
     ];
   }
 
@@ -1173,6 +1173,12 @@
   const snapMs = Date.parse(snap.generated_at || '') || 0;
   const ageHours = snapMs ? (Date.now() - snapMs) / 3600000 : Infinity;
   const isStale = !live || !snapMs || ageHours > 6;
+  // A partial relay read makes every count built from it a LOWER BOUND, per the
+  // three-states rule stated at the top of this file. renderBoard has always
+  // honoured it ("\u22652 open"); this bar published the same numbers as flat
+  // totals, so one page said both things at once.
+  const partial = !!(snap.coverage && snap.coverage.complete === false);
+  const lb = (v) => (partial ? '\u2265' + v : String(v));
   const nowIso = new Date().toISOString().slice(0, 10);
   const probedIso = ((probe && probe.probed_at) || snap.generated_at || '');
   let pill, stampText;
@@ -1183,7 +1189,8 @@
     pill = '<span class="pill pill-stale">STALE</span>';
     stampText = 'last probe ' + esc(probedIso.slice(0, 10)) + ' — stale';
   } else {
-    pill = '<span class="pill pill-live">LIVE</span>';
+    pill = '<span class="pill pill-live">LIVE</span>'
+      + (partial ? ' <span class="pill pill-stale" title="' + esc(snap.coverage.relays_complete + ' of ' + snap.coverage.relays_queried + ' relays answered this read — every relay-derived figure here is a lower bound') + '">PARTIAL</span>' : '');
     stampText = probedIso.slice(0, 10) === nowIso
       ? 'probed ' + esc(probedIso.slice(11, 16)) + ' UTC today'
       : 'probed ' + esc(probedIso.slice(0, 10));
@@ -1197,14 +1204,14 @@
   // inference providers sitting next to them in this same line.
   sbLive.innerHTML = bar([
     probe
-      ? fig(probe.alive + ' of ' + m.routstr.count, 'inference providers answered')
-      : fig(m.routstr.count, 'inference providers announcing'),
-    fig(m.mints.cashu_count, 'Cashu mints'),
-    fig(m.mints.fedimint_count, 'Fedimint federations'),
-    fig(m.reviews.count, 'signed mint reviews'),
+      ? fig(probe.alive + ' of ' + lb(m.routstr.count), 'inference providers answered')
+      : fig(lb(m.routstr.count), 'inference providers announcing'),
+    fig(lb(m.mints.cashu_count), 'Cashu mints'),
+    fig(lb(m.mints.fedimint_count), 'Fedimint federations'),
+    fig(lb(m.reviews.count), 'signed mint reviews'),
     mx ? fig(mx.model_count, 'models priced') : '',
     uptBit,
-    ...bountyFigs(m.requests),
+    ...bountyFigs(m.requests, lb),
   ]) + stamp(stampText + pill);
 
   // ---------- the bounty board (kind 38556) ----------

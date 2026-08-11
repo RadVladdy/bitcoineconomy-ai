@@ -121,7 +121,7 @@ async function serveAnnounced(env, origin) {
     source: snap.source,
     provenance: 'live-from-relay',
     live: !fromFallback,
-    coverage: snap.coverage ?? null,
+    coverage: coverageOrFallback(snap, fromFallback),
     // `coverage.note` says the counts are "totals across the relays listed
     // below". That is true on /live/snapshot.json, where the list really is
     // below — but this route PROJECTS one module out of the snapshot and used to
@@ -188,12 +188,12 @@ async function serveBounties(env, origin) {
     }), { status: 503, headers });
   }
   return new Response(JSON.stringify({
-    $schema_note: 'Signed offers to pay an agent in sats to do a job, published with the bitcoineconomy.ai "agent-payable work request" microstandard (Nostr kind ' + mod.kind + '). Buy-side sibling of the kind-38555 service announcement. This directory READS these events: it does not escrow, hold, arbitrate, verify delivery, take a fee, or run an account. `sats_offered_open` is offered, not held; `status` is as published by the poster, not verified by us. Claims and deliveries are NIP-22 comments (kind ' + mod.comment_kind + '); proof of payment is a NIP-57 zap receipt anyone can check. Act on: status === "open" && !expired && !malformed && claims.delivered === 0 — the last clause matters, because only the poster can move `status` and anyone can deliver, so a finished job reads as open until the poster catches up. Spec: ' + mod.spec + '. Part of https://marketplace.bitcoineconomy.ai.',
+    $schema_note: 'Signed offers to pay an agent in sats to do a job, published with the bitcoineconomy.ai "agent-payable work request" microstandard (Nostr kind ' + mod.kind + '). Buy-side sibling of the kind-38555 service announcement. This directory READS these events: it does not escrow, hold, arbitrate, verify delivery, take a fee, or run an account. `sats_offered_open` is offered, not held; `status` is as published by the poster, not verified by us. Claims and deliveries are NIP-22 comments (kind ' + mod.comment_kind + '); settlement is signalled by a NIP-57 zap receipt (kind 9735) anyone can fetch — though NIP-57 itself says a receipt is not proof of payment, only that the payee\'s LNURL provider reports the invoice paid. Act on: status === "open" && !expired && !malformed && claims.delivered === 0 — the last clause matters, because only the poster can move `status` and anyone can deliver, so a finished job reads as open until the poster catches up. Spec: ' + mod.spec + '. Part of https://marketplace.bitcoineconomy.ai.',
     generated_at: snap.generated_at,
     source: snap.source,
     provenance: 'live-from-relay',
     live: !fromFallback,
-    coverage: snap.coverage ?? null,
+    coverage: coverageOrFallback(snap, fromFallback),
     // `coverage.note` says the counts are "totals across the relays listed
     // below". That is true on /live/snapshot.json, where the list really is
     // below — but this route PROJECTS one module out of the snapshot and used to
@@ -203,6 +203,24 @@ async function serveBounties(env, origin) {
     relays: snap.relays ?? null,
     ...mod,
   }), { headers });
+}
+
+// A committed fallback cannot assert what a live read found. The empty-board guard
+// above catches `count === 0`, but a NON-empty stale fallback sailed past it and
+// re-served the snapshot's own `coverage.complete: true` — a completeness claim
+// about a relay read that did not happen on this request. Keep the block (it still
+// says which relays the frozen figures came from) and overwrite the assertion.
+function coverageOrFallback(snap, fromFallback) {
+  const cov = snap.coverage ?? null;
+  if (!fromFallback || !cov) return cov;
+  return {
+    ...cov,
+    complete: false,
+    note: 'SERVED FROM THE COMMITTED FALLBACK — the live relay read failed, so this is a '
+      + 'frozen copy taken at ' + (snap.generated_at || 'an unrecorded time') + '. Its counts were '
+      + 'whatever was true then, not now, and no relay was queried for this response. Treat every '
+      + 'figure as a lower bound of unknown age; `live` is false.',
+  };
 }
 
 // Read a committed asset — **fetch() handler only.**

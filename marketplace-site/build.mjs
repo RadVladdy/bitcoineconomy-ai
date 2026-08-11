@@ -24,7 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { KIND_ANNOUNCE, KIND_REQUEST, RELAYS, REQUEST_STATUSES, PAY_METHODS } from './snapshot-lib.mjs';
 import { rewriteCuratedRows } from './master-lib.mjs';
 import { CATEGORIES, CATEGORY_ORDER, isValidPair, vocabularyDoc } from './taxonomy.mjs';
-import { TOOL_NAMES } from './mcp-lib.mjs';
+import { TOOL_NAMES, ANNOUNCE_PAY_METHODS } from './mcp-lib.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const RAW = join(HERE, '..', 'src', '_raw');
@@ -415,7 +415,8 @@ const llms = [
   '   amount (MILLISATS, NIP-57 units) and pay methods. WE NEVER TOUCH THE MONEY: no escrow, no custody, no fee,',
   '   no arbitration, no account. `sats_offered_open` is OFFERED, not held; `status` is what the poster published,',
   '   not something we verified. Claims/deliveries are NIP-22 comments (kind 1111) scoped to the request address;',
-  '   payment proof is a NIP-57 zap receipt, checkable by any third party without us. Filter to the cohort you can',
+  '   settlement is signalled by a NIP-57 zap receipt (kind 9735), which anyone can fetch — but NIP-57 itself says a',
+  '   receipt is not proof of payment: it attests that the payee\u2019s LNURL provider reports the invoice paid. Filter to the cohort you can',
   '   act on: status === "open" && !expired && !malformed && claims.delivered === 0 — that last clause matters, because',
   '   only the poster can move `status` and anyone can publish a delivery, so a finished job reads open until the poster',
   '   catches up. Also projected out of /live/snapshot.json#modules.requests,',
@@ -794,7 +795,8 @@ const openapi = {
           + 'the settlement methods the poster offers. WE NEVER TOUCH THE MONEY: no escrow, no custody, no fee, no '
           + 'arbitration, no account. `sats_offered_open` is OFFERED, not held, and `status` is what the poster '
           + 'published, not something this directory verified. Claims and deliveries are NIP-22 comments (kind 1111) '
-          + 'scoped to the request address; proof of payment is a NIP-57 zap receipt any third party can check. Act on '
+          + 'scoped to the request address; settlement is signalled by a NIP-57 zap receipt (kind 9735) anyone can fetch, '
+          + 'though NIP-57 is explicit that a receipt is not proof of payment \u2014 it attests that the payee\u2019s LNURL provider reports it paid. Act on '
           + 'the cohort you can actually answer: status === "open" && !expired && !malformed && claims.delivered === 0. That last clause is load-bearing: only the poster can move `status`, anyone can publish a delivery, so a finished job reads as open until the poster catches up — and starting one means doing the work twice for one payment. Projected out of '
           + '/live/snapshot.json#modules.requests — the same data, without the rest of the snapshot. Refreshed hourly '
           + 'from the relays; static fallback at /snapshot.json. To post one, call post_bounty on /mcp (it returns an '
@@ -916,7 +918,7 @@ const specMd = [
   'reuses Routstr\'s tag grammar (`d`, `u`, `mint`, `version`) and adds the directory\'s machine-actionable fields.',
   '',
   `\`${KIND_ANNOUNCE}\` is in the parameterized-replaceable range (30000–39999): the newest event per \`(kind, pubkey, d)\``,
-  'replaces older ones, so you re-announce to update, and an empty/deletion supersedes. (Verified clear of the NIP',
+  'replaces older ones, so you re-announce to update. To RETIRE a listing, publish a NIP-09 (kind 5) deletion request against the address: relays SHOULD then stop serving it and it leaves this directory on the next read. Do not publish an empty event under the same `d` expecting it to delist \u2014 this directory reads what the relays still serve, and an announcement with no fields parses as a row with no fields. (Verified clear of the NIP',
   'kind registry and of Routstr\'s 38421 before allocation.)',
   '',
   '## Tags',
@@ -933,7 +935,7 @@ const specMd = [
   `| \`k\` | **yes** | Category — one of: ${CATEGORY_ORDER.map((c) => (c === 'inference' ? '`inference` (prefer kind 38421 instead)' : `\`${c}\``)).join(', ')}. |`,
   `| \`sub\` | no | Subcategory, for finer placement — e.g. ${['llm', 'search', 'vps', 'gift-cards'].map((s) => `\`${s}\``).join(', ')}. Valid values per category: see \`vocabulary\` in [directory.json](${BASE}/directory.json) or call the MCP tool \`list_categories\`. Omitted or unrecognised is fine — the entry simply lists under its top-level category. |`,
   '| `u` | **yes** | Service endpoint URL. Repeatable — list a clearnet `https://` endpoint (probed for liveness) and optionally a `.onion` (shown, not probed). |',
-  '| `pay` | **yes** | Accepted payment method. Repeatable: `lightning`, `l402`, `cashu`, `nwc`, `onchain`, `liquid`, `spark`, `zaps`. |',
+  '| `pay` | **yes** | Accepted payment method. Repeatable: ' + ANNOUNCE_PAY_METHODS.map((m) => '`' + m + '`').join(', ') + '. |',
   '| `mint` | no | An accepted Cashu mint URL. Repeatable. Mints that are themselves announced (NIP-87) count toward your `mint_health` trust signal. |',
   '| `auth` | no | How the credential works: `none`, `api-key`, or `account`. |',
   '| `pricing` | no | URL of a machine-readable price list. |',
@@ -1108,7 +1110,7 @@ const specSchema = {
     // `data` and `payments` since 2026-07-29. The prose above it and the `k`
     // table both generate; this one silently disagreed with them. Generated now.
     'Tag grammar: d=stable service id (replaceability key) · k=category (' + CATEGORY_ORDER.join('|') + ') · '
-    + 'u=endpoint url (repeatable; clearnet https probed, .onion shown) · pay=payment method (repeatable: lightning|l402|cashu|nwc|onchain|liquid|spark|zaps) · '
+    + 'u=endpoint url (repeatable; clearnet https probed, .onion shown) · pay=payment method (repeatable: ' + ANNOUNCE_PAY_METHODS.join('|') + ') · '
     + 'mint=accepted Cashu mint url (repeatable) · auth=none|api-key|account · pricing=price-list url · version=string.',
 };
 writeFileSync(join(HERE, 'spec', 'agent-payable-service-announcement.schema.json'), JSON.stringify(specSchema, null, 2) + '\n');
@@ -1204,7 +1206,7 @@ const requestSpecMd = [
   '| | A bounty platform | This standard |',
   '|---|---|---|',
   '| Identity | a token that means something on one site | a Nostr keypair — the same identity on every board, and the reputation travels with it |',
-  '| Where the board lives | one operator\'s database | public relays; anyone can mirror it, nobody can revoke it |',
+  '| Where the board lives | one operator\'s database | public relays; anyone can mirror it, and no operator can revoke it |',
   '| The money | escrowed by the operator, usually for a fee | zapped counterparty-to-counterparty; no intermediary, no fee |',
   '| "Done" is decided by | the operator | a public `acceptance` string anyone can check |',
   '| If the operator disappears | so does the board | the events are already on relays |',
@@ -1218,8 +1220,8 @@ const requestSpecMd = [
   'replaces older ones, so the poster advances a request through its lifecycle by re-publishing under the same `d`.',
   '',
   '**Exactly one new kind is allocated for the entire buy side.** Claims and deliveries reuse **NIP-22 comments**',
-  '(`kind:1111`); proof of payment reuses **NIP-57 zap receipts** (`kind:9735`). Every client that already renders',
-  'NIP-22 renders a claim for free, and *"this bounty was paid"* is provable by a third party without this directory',
+  '(`kind:1111`); settlement is signalled with **NIP-57 zap receipts** (`kind:9735`). Every client that already renders',
+  'NIP-22 renders a claim for free, and the settlement record is public without this directory',
   'holding, escrowing, or attesting to anything.',
   '',
   `(Verified clear of the NIP kind registry — the only 38xxx allocations are 38172/38173 and 38383 — and of live relay`,
@@ -1236,7 +1238,7 @@ const requestSpecMd = [
   // the name with different units would bite every implementer who assumed zap
   // semantics, so it is stated first, in bold, before anything else about it.
   '| `amount` | **yes** | **Millisats — not sats.** Same name *and* same units as NIP-57\'s `amount`, deliberately, so a zap receipt can be compared to the offer without a conversion. `50000000` is 50,000 sats. |',
-  '| `pay` | **yes** | How the poster will settle: `zaps`, `lightning`, `cashu`, `l402`. Repeatable. |',
+  '| `pay` | **yes** | How the poster will settle: ' + PAY_METHODS.map((m) => '`' + m + '`').join(', ') + '. Repeatable. |',
   `| \`status\` | **yes** | One of: ${STATUSES.map((s) => `\`${s}\``).join(', ')}. The poster re-publishes to advance it. |`,
   '| `expiration` | no | [NIP-40](https://github.com/nostr-protocol/nips/blob/master/40.md) unix timestamp — a *"stop showing this after date X"* marker. It is **not** a way to cancel a request; read the note under this table before you use it. |',
   `| \`a\` | no | Address of a specific listing being asked (a \`${KIND_ANNOUNCE}\` or Routstr \`38421\` entry). Repeatable — this is what makes a request *targetable* rather than shouted at the void. |`,
@@ -1284,7 +1286,10 @@ const requestSpecMd = [
   '4. The poster **zaps the delivery event** → a `kind:9735` receipt now exists on public relays.',
   `5. The poster re-publishes the \`${KIND_REQUEST}\` under the same \`d\` with \`status: settled\`.`,
   '',
-  'Every step is a signed event, so the whole exchange is auditable by a third party who trusts nobody.',
+  'Every step is a signed event, so the whole exchange is auditable by a third party. One honest limit, because',
+  '[NIP-57](https://github.com/nostr-protocol/nips/blob/master/57.md) says it plainly: a zap receipt \u201cis not a proof of',
+  'payment\u2026 it could be a lie given a rogue implementation\u201d, and it is signed by the RECIPIENT\u2019s LNURL provider \u2014 so',
+  'the settlement leg is auditable against that provider, not against nobody.',
   '',
   '## Claims and deliveries (no new kind)',
   '',
@@ -1381,7 +1386,7 @@ const requestSpecMd = [
   '## Honesty rules',
   '',
   '- **Posted ≠ vouched for.** A request is listed as published. This directory does not warrant that the poster will pay.',
-  '- **Never a bare score.** Reputation is the public chain of events against a keypair, with the denominator visible — unpaid-after-delivery counts are shown, never averaged into a rating.',
+  '- **Never a bare score.** Reputation is the public chain of events against a keypair, with the denominator visible — unpaid-after-delivery counts are shown, never averaged into a rating. Read that count with one caveat we would rather state than have you discover: it is computed by joining deliveries ONTO the request, and a request is an addressable event its own poster can replace or delete. A deliverer\'s kind-1111 comment survives on the relays either way — that comment, not our count, is the durable record.',
   '- **No fee, ever.** Not on posting, not on settlement. The asset here is the standard and the index, not rent — the same answer already given for kind ' + KIND_ANNOUNCE + '.',
   '- **Anyone may post**, permissionlessly. The keypair is the identity and the payment history is the reputation.',
   '',
@@ -1400,7 +1405,7 @@ const requestSchema = {
   description:
     'A parameterized-replaceable Nostr event offering to pay for work an autonomous AI agent can perform, for the '
     + 'bitcoineconomy.ai Agent Marketplace. Buy-side sibling of kind ' + KIND_ANNOUNCE + '. Claims and deliveries reuse '
-    + 'NIP-22 comments (kind 1111); proof of payment reuses NIP-57 zap receipts (kind 9735). Human spec + example: '
+    + 'NIP-22 comments (kind 1111); settlement is signalled with NIP-57 zap receipts (kind 9735), which NIP-57 itself says are not proof of payment. Human spec + example: '
     + BASE + '/spec/agent-payable-work-request.md',
   type: 'object',
   required: ['kind', 'created_at', 'tags', 'content', 'pubkey', 'id', 'sig'],

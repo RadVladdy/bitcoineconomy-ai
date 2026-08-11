@@ -481,7 +481,7 @@ export function buildMaster({ directory, snapshot, l402index, l402space, uptime,
     vocabulary: vocabularyDoc(),
     rails: {
       'bitcoin-native': 'An agent pays this in Bitcoin directly — Lightning, L402, Cashu, on-chain or another Bitcoin rail. No intermediary holds the sats leg.',
-      'via-gateway': 'This settles in USDC or another non-Bitcoin asset upstream. A sats-holding agent can still buy it by paying l402.space, which pays the upstream on its behalf — a real payment route AND a custodial hop. `links.gateway_url` is the pre-built URL.',
+      'via-gateway': 'This settles in USDC or another non-Bitcoin asset upstream. A sats-holding agent can still buy it by paying l402.space, which pays the upstream on its behalf — a real payment route AND a custodial hop. `links.gateway_url` is the pre-built gateway PREFIX for this host \u2014 append the upstream path (see the row\u2019s `docs`); the bare prefix resolves to the upstream root, not to a payment challenge.',
       'fiat-only': 'No Bitcoin payment path at all: this takes a bank/card leg and no gateway route reaches it. An agent holding only sats cannot buy this. Listed because it is otherwise agent-drivable, not because it is payable in Bitcoin.',
     },
     facets: {

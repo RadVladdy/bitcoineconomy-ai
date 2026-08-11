@@ -17,7 +17,7 @@ compute, data, machine work, verification, commerce, privacy, swap, trading, liq
 reuses Routstr's tag grammar (`d`, `u`, `mint`, `version`) and adds the directory's machine-actionable fields.
 
 `38555` is in the parameterized-replaceable range (30000–39999): the newest event per `(kind, pubkey, d)`
-replaces older ones, so you re-announce to update, and an empty/deletion supersedes. (Verified clear of the NIP
+replaces older ones, so you re-announce to update. To RETIRE a listing, publish a NIP-09 (kind 5) deletion request against the address: relays SHOULD then stop serving it and it leaves this directory on the next read. Do not publish an empty event under the same `d` expecting it to delist — this directory reads what the relays still serve, and an announcement with no fields parses as a row with no fields. (Verified clear of the NIP
 kind registry and of Routstr's 38421 before allocation.)
 
 ## Tags

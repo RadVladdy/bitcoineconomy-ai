@@ -107,7 +107,7 @@
 
       <div class="field">
         <label for="f-sats">Amount offered, in <b>sats</b> <span class="req">required</span></label>
-        <span class="hint">Enter <b>sats</b>. The event carries <code>amount</code> in <b>millisats</b>, because NIP-57 zap receipts use millisats and the two must be comparable without a conversion — this form does that multiplication for you, so a zap receipt can be checked against your offer directly. The preview below shows exactly what goes on the wire.</span>
+        <span class="hint">Enter <b>sats</b>. The event carries <code>amount</code> in <b>millisats</b>, because NIP-57 denominates zaps in millisats and the two must be comparable without a unit conversion — this form does that multiplication for you. (A zap receipt carries no <code>amount</code> tag of its own: the figure lives in its <code>bolt11</code> invoice, or in the zap request embedded in its <code>description</code> tag.) The preview below shows exactly what goes on the wire.</span>
         <input type="number" id="f-sats" data-f="sats" class="mono" min="1" step="1" placeholder="50000" />
         <div class="hint" id="msat-echo" style="color:var(--warm)"></div>
       </div>

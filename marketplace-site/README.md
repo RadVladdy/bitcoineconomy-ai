@@ -56,20 +56,23 @@ which is also the noise filter: it's why there are no uncategorized rows here.
 | `tools.json` | **generated** — the tool catalog (what an agent EQUIPS: every `src/_raw/tools/` card, with toolbox_group/tool_type/prereq_tier + `mcp_endpoint` where present) |
 | `entries/*.md` | **generated** — one clean Markdown route per entry |
 | `llms.txt` | **generated** — the agent manifest for the subdomain (opens with the one-fetch `master.json` recipe, then the per-source documents) |
-| `openapi.json` | **generated** — OpenAPI 3.0 description of the GET routes for agents that don't speak MCP (operationIds getMasterDirectory/getDirectory/getToolCatalog/getLiveSnapshot/getPriceIndex/getExternalIndex/getGatewayObserved/getUptimeHistory/getEntry) |
+| `openapi.json` | **generated** — OpenAPI 3.0 description of the GET routes for agents that don't speak MCP (operationIds getMasterDirectory/getDirectory/getToolCatalog/getLiveSnapshot/getPriceIndex/getAnnounced/getExternalIndex/getGatewayObserved/getBounties/getUptimeHistory/getEntry) |
 | `.well-known/ai-plugin.json` | **generated** — the OpenAI-plugin-era discovery manifest; points legacy/non-MCP agents at `openapi.json` |
 | `snapshot.json` | **generated** — committed fallback of the live Nostr snapshot (Routstr 38421 providers **with probe status**, NIP-87 38172/38173 mints, 38000 reviews) |
 | `models.json` | **generated, minified** — committed fallback of the cross-provider inference price index (model → alive providers, cheapest first, sats pricing) |
 | `directory-overlay.json` | hand-authored directory fields (category **+ subcategory** — validated against `taxonomy.mjs` at build time, so a typo fails the build rather than silently splitting a filter; what-an-agent-buys, payment methods, automatability tier, auth/quickstart + verified api_base/pricing_url + per-entry `mcp_endpoint`; plus the top-level `_tool_mcp_endpoints` map for tool cards that ship an MCP) merged over card frontmatter |
 | `build.mjs` | generator: cards (`../src/_raw/`) + overlay → `directory.json`, `tools.json`, `entries/`, `llms.txt`, `openapi.json`, `.well-known/ai-plugin.json` |
 | `fetch-external.mjs` | local CLI for the two OUTSIDE sources + the merge: `--write` regenerates `l402index.json`, `l402space.json` and `master.json`. Both upstreams flake (402index 502s intermittently), so each query retries and **a tier that comes back empty keeps its previous committed document and warns** — an empty tier reads as "nothing to sell here", which would be a lie. (Replaced `fetch-402index.mjs`, which only did a third of this.) |
-| `l402index-lib.mjs` | the external-index source: 402index.io's feed, all three protocols. Reliability-sorted queries are host-dominated (their top 400 verified L402 rows come from **six** hosts, 375 of them `llm402.ai`), so it also queries per-category for breadth, then applies a per-host cap and a per-category cap. Dropped counts are published, never silently truncated |
+| `l402index-lib.mjs` | the external-index source: 402index.io's feed, all three protocols. Reliability-sorted queries are host-dominated (the verified-L402 feed caps at 200 rows and is host-dominated — 2026-08-11: 197 of 200 were `llm402.ai`, across 3 hosts), so it also queries per-category for breadth, then applies a per-host cap and a per-category cap. Dropped counts are published, never silently truncated |
 | `sample-relays.mjs` | local CLI: query relays + **probe announced clearnet endpoints**, print inventory, `--write` regenerates `snapshot.json` + `models.json` |
 | `snapshot-lib.mjs` | shared relay-query + endpoint-probe + snapshot/index-shape logic (used by the CLI **and** the worker — one schema) |
 | `worker.js` | Cloudflare Worker: cron → relays + probes + the two external sources → KV, then builds `master.json` from whatever that run produced (falling back per-tier to its last good KV copy, so one flaky upstream can't blank a tier); serves `/mcp` and every `/live/*` route; assets otherwise |
-| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`, `find_work`, `post_bounty`) at `POST /mcp` |
+| `mcp-lib.mjs` | the MCP server — exposes the directory + tool catalog + price index as Model Context Protocol tools (`find_service`, `get_service`, `find_tool`, `get_tool`, `price_model`, `list_categories`, `list_mcp_servers`, `get_quote`, `find_l402_endpoints`, `get_uptime`, `find_work`, `announce_service`, `post_bounty`) at `POST /mcp` |
 | `wrangler.jsonc` | worker config (three crons — hourly relay read `:47`, 6-hourly full probe pass `:17`, 6-hourly external-tier fetch `:37` — KV binding, static assets) |
-| `_headers` | CORS for the agent routes |
+| `_headers` | CORS **and** content types for the agent routes. Cloudflare applies matching rules cumulatively and CONCATENATES repeated values — that is how two CORS rules once became `*, *`. Merge into an existing block, or add a genuinely non-overlapping glob. |
+| `list/index.html` · `post/index.html` | the human on-ramp, sell side and buy side (shipped 2026-08-09). NIP-07 signing in the browser, no backend, per-relay readback. |
+| `publish.js` · `publish.css` | the shared signing/readback client behind both. The key never touches the page — `window.nostr` signs, we publish and read back per relay. |
+| `.assetsignore` | **load-bearing, and not for bundle size.** It is what keeps `worker.js`, `wrangler.jsonc`, `directory-overlay.json`, this README and every `*.mjs` off the public web. A file added here that no pattern covers is published on the next deploy. |
 
 **Never hand-edit the generated files.** Change a card in `src/_raw/` or
 `directory-overlay.json`, then run `node build.mjs` from this folder.
@@ -219,9 +222,13 @@ path with no asset should 404, and anything answering 200 to that is not this Wo
 ## Phase 2+ (per the build plan)
 
 Reviews via the proven NIP-87 kind-38000 pattern rendered per entry; the
-DVM/handler module with honest-activity framing; zap-weighted ranking; then the
-submission flow (publish a signed announcement — possibly our own agent-payable
-service announcement microstandard, with Routstr's 38421 as the template).
+DVM/handler module with honest-activity framing; zap-weighted ranking.
+
+The submission flow that used to sit at the end of that list **shipped**: our own
+agent-payable service announcement microstandard went live 2026-06-29 as kind 38555
+(spec + JSON Schema under `/spec/`), and the human on-ramp followed on 2026-08-09 —
+`list/` and `post/` sign in the browser over NIP-07, with `announce_service` on
+`/mcp` as the headless equivalent.
 
 **Reputation-layer mechanisms to draw on (scoped 2026-07-16, `_Decisions` 2026-07-16).**
 The sovereign toolkit for this phase: **Relatr** (decentralized trust-rank computation

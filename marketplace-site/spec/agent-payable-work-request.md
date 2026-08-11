@@ -35,7 +35,7 @@ The difference is ownership, and it is the whole point:
 | | A bounty platform | This standard |
 |---|---|---|
 | Identity | a token that means something on one site | a Nostr keypair — the same identity on every board, and the reputation travels with it |
-| Where the board lives | one operator's database | public relays; anyone can mirror it, nobody can revoke it |
+| Where the board lives | one operator's database | public relays; anyone can mirror it, and no operator can revoke it |
 | The money | escrowed by the operator, usually for a fee | zapped counterparty-to-counterparty; no intermediary, no fee |
 | "Done" is decided by | the operator | a public `acceptance` string anyone can check |
 | If the operator disappears | so does the board | the events are already on relays |
@@ -49,8 +49,8 @@ including that one.
 replaces older ones, so the poster advances a request through its lifecycle by re-publishing under the same `d`.
 
 **Exactly one new kind is allocated for the entire buy side.** Claims and deliveries reuse **NIP-22 comments**
-(`kind:1111`); proof of payment reuses **NIP-57 zap receipts** (`kind:9735`). Every client that already renders
-NIP-22 renders a claim for free, and *"this bounty was paid"* is provable by a third party without this directory
+(`kind:1111`); settlement is signalled with **NIP-57 zap receipts** (`kind:9735`). Every client that already renders
+NIP-22 renders a claim for free, and the settlement record is public without this directory
 holding, escrowing, or attesting to anything.
 
 (Verified clear of the NIP kind registry — the only 38xxx allocations are 38172/38173 and 38383 — and of live relay
@@ -113,7 +113,10 @@ traffic on all of 38554–38558 before allocation.)
 4. The poster **zaps the delivery event** → a `kind:9735` receipt now exists on public relays.
 5. The poster re-publishes the `38556` under the same `d` with `status: settled`.
 
-Every step is a signed event, so the whole exchange is auditable by a third party who trusts nobody.
+Every step is a signed event, so the whole exchange is auditable by a third party. One honest limit, because
+[NIP-57](https://github.com/nostr-protocol/nips/blob/master/57.md) says it plainly: a zap receipt “is not a proof of
+payment… it could be a lie given a rogue implementation”, and it is signed by the RECIPIENT’s LNURL provider — so
+the settlement leg is auditable against that provider, not against nobody.
 
 ## Claims and deliveries (no new kind)
 
@@ -266,7 +269,7 @@ Publish to at least these relays (the ones this directory reads):
 ## Honesty rules
 
 - **Posted ≠ vouched for.** A request is listed as published. This directory does not warrant that the poster will pay.
-- **Never a bare score.** Reputation is the public chain of events against a keypair, with the denominator visible — unpaid-after-delivery counts are shown, never averaged into a rating.
+- **Never a bare score.** Reputation is the public chain of events against a keypair, with the denominator visible — unpaid-after-delivery counts are shown, never averaged into a rating. Read that count with one caveat we would rather state than have you discover: it is computed by joining deliveries ONTO the request, and a request is an addressable event its own poster can replace or delete. A deliverer's kind-1111 comment survives on the relays either way — that comment, not our count, is the durable record.
 - **No fee, ever.** Not on posting, not on settlement. The asset here is the standard and the index, not rent — the same answer already given for kind 38555.
 - **Anyone may post**, permissionlessly. The keypair is the identity and the payment history is the reputation.
 

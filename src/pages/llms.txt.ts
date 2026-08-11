@@ -94,7 +94,7 @@ export const GET: APIRoute = async () => {
     lines.push('');
   }
 
-  lines.push('## The Marketplace — live directory (separate site)');
+  lines.push('## The Agent Marketplace — live directory (separate site)');
   lines.push('');
   lines.push('The live, self-refreshing directory of agent-payable services at https://marketplace.bitcoineconomy.ai — a curated registry (agent-drivable-API bar) + live Nostr announcements + six-hourly liveness probes + a cross-provider sats price index. Agent-readable by design.');
   lines.push('- Directory manifest: https://marketplace.bitcoineconomy.ai/llms.txt (opens with a one-fetch start — /live/master.json, every source merged into one row shape)');

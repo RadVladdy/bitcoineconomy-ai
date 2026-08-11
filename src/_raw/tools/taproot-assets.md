@@ -10,7 +10,7 @@ repo: https://github.com/lightninglabs/taproot-assets
 docs: https://docs.lightning.engineering/the-lightning-network/taproot-assets
 site: https://lightning.engineering
 x: "@lightning"
-latest-release: v0.8
+latest-release: v0.8.1
 release-date: "2026-06-08"
 stack-section: "Marketplace"
 status: published

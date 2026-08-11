@@ -54,7 +54,7 @@ Two reference MCP servers cover the ground: AbdelStark's `nostr-mcp` (`post_note
       "args": ["-y", "nostr-mcp"],
       "env": {
         "NOSTR_NSEC_KEY": "nsec1...DEDICATED-AGENT-KEY",
-        "NOSTR_RELAYS": "wss://relay.damus.io,wss://nos.lol,wss://nostr.bitcoiner.social"
+        "NOSTR_RELAYS": "wss://nos.lol,wss://relay.primal.net,wss://nostr.bitcoiner.social,wss://relay.damus.io"
       }
     }
   }

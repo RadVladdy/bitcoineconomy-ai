@@ -70,3 +70,12 @@
   Access-Control-Allow-Origin: *
 /anchors/*
   Access-Control-Allow-Origin: *
+
+# The trust surface: OpenTimestamps proofs and the canonical event serializations a
+# skeptic downloads to re-verify an anchor. Cloudflare's extension map guessed .ots
+# as an OpenDocument spreadsheet template. Distinct globs, and Content-Type does not
+# concatenate the way the CORS rules here once did.
+/anchors/*.evt.ots
+  Content-Type: application/vnd.opentimestamps.ots
+/anchors/*.evt
+  Content-Type: application/octet-stream

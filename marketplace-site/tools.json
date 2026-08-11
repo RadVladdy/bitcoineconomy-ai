@@ -2,7 +2,7 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Agent Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-08-11T05:08:15.987Z",
+  "generated_at": "2026-08-11T05:38:49.409Z",
   "tool_count": 28,
   "toolbox_groups": [
     "node-toolkits",
@@ -442,7 +442,7 @@
       "maintainer": "Money Dev Kit (Nick Slaney)",
       "prereq_tier": "wallet",
       "license": "Apache-2.0 (agent-wallet; some packages unstated)",
-      "latest_release": "0.21.0",
+      "latest_release": "0.22.0",
       "links": {
         "site": "https://moneydevkit.com",
         "docs": "https://docs.moneydevkit.com",
@@ -579,7 +579,7 @@
       "maintainer": "Lightning Labs",
       "prereq_tier": "lightning-node",
       "stack_section": "Marketplace",
-      "latest_release": "v0.8",
+      "latest_release": "v0.8.1",
       "links": {
         "site": "https://lightning.engineering",
         "docs": "https://docs.lightning.engineering/the-lightning-network/taproot-assets",

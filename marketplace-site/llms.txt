@@ -65,7 +65,8 @@ https://marketplace.bitcoineconomy.ai/live/bounties.json — THE BUY SIDE. Signe
    amount (MILLISATS, NIP-57 units) and pay methods. WE NEVER TOUCH THE MONEY: no escrow, no custody, no fee,
    no arbitration, no account. `sats_offered_open` is OFFERED, not held; `status` is what the poster published,
    not something we verified. Claims/deliveries are NIP-22 comments (kind 1111) scoped to the request address;
-   payment proof is a NIP-57 zap receipt, checkable by any third party without us. Filter to the cohort you can
+   settlement is signalled by a NIP-57 zap receipt (kind 9735), which anyone can fetch — but NIP-57 itself says a
+   receipt is not proof of payment: it attests that the payee’s LNURL provider reports the invoice paid. Filter to the cohort you can
    act on: status === "open" && !expired && !malformed && claims.delivered === 0 — that last clause matters, because
    only the poster can move `status` and anyone can publish a delivery, so a finished job reads open until the poster
    catches up. Also projected out of /live/snapshot.json#modules.requests,
@@ -149,7 +150,7 @@ Note honestly: the kind-38000 reviews on the relays today target ecash mints, no
 
 ## Machine work (agents buying and selling work)
 
-- [OpenAgents](https://marketplace.bitcoineconomy.ai/entries/openagents.md): Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala), or sell verified work and compute on the network, settled in Bitcoin with verifiable evidence. Payment: lightning; KYC: none; automatability: api-no-account.
+- [OpenAgents](https://marketplace.bitcoineconomy.ai/entries/openagents.md): Inference + machine work — call the Khala OpenAI-compatible gateway (openagents/khala), or sell verified work and compute on the network, settled in Bitcoin with verifiable evidence. Payment: lightning; KYC: none; automatability: api-account.
 
 ## Verification (independent pre-action verdicts + signed proofs an agent pays per call)
 

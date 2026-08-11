@@ -10,7 +10,7 @@ repo: https://github.com/moneydevkit
 docs: https://docs.moneydevkit.com
 site: https://moneydevkit.com
 license: Apache-2.0 (agent-wallet; some packages unstated)
-latest-release: 0.21.0
+latest-release: 0.22.0
 release-date: "2026-07-31"
 status: published
 last-verified: 2026-08-07

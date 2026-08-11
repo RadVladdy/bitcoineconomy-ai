@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | http-error | unreachable | unverified-tor-only | unroutable — http-error = answered HTTP but not a valid response, code in http_status; unreachable = no HTTP response — plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, find_tool, get_tool, price_model, list_categories, list_mcp_servers, get_quote, find_l402_endpoints, get_uptime, find_work, post_bounty, announce_service) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "Agent Marketplace — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-08-11T05:08:15.974Z",
+  "generated_at": "2026-08-11T05:38:49.397Z",
   "entry_count": 22,
   "categories": [
     "inference",
@@ -364,9 +364,9 @@
       "payment_detail": "Khala billed per call — metered credits/USD with auditable receipts; the broader network settles verified work + Forum payments in Bitcoin/Lightning (BOLT12)",
       "kyc": "none",
       "custody": "self-custodial Lightning wallets on the network (Pylon/Forum)",
-      "automatability": "api-no-account",
+      "automatability": "api-account",
       "auth": "Khala API key (the key/payment is the credential; a free research-preview tier is reported); Nostr identity + a self-custodial Lightning wallet for the network rails",
-      "quickstart": "Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala, paying per call over Lightning. Offer: run a Pylon node or Autopilot to sell compute for sats.",
+      "quickstart": "Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala and an Authorization Bearer token — unauthenticated calls return 401, not a 402 invoice. The token comes from an account (email-code sign-in, then a personal access token), and Khala meters in credits priced in USD. Offer: run a Pylon node or Autopilot to sell compute for sats.",
       "two_sided": "consume + offer",
       "maintainer": "OpenAgents, Inc.",
       "links": {
@@ -422,7 +422,7 @@
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/invinoveritas.md",
       "provenance": "curated",
       "last_verified": "2026-08-07",
-      "note": "First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published). A verdict is a paid second opinion, not an SLA."
+      "note": "First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published — its own /ledger, read 2026-07-23; the counter moves, so recompute it there rather than trusting this line). A verdict is a paid second opinion, not an SLA."
     },
     {
       "slug": "unhuman",

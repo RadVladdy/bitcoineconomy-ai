@@ -9,9 +9,9 @@ The machine-work economy in two live surfaces — Autopilot, a local-first deskt
 - Payment detail: Khala billed per call — metered credits/USD with auditable receipts; the broader network settles verified work + Forum payments in Bitcoin/Lightning (BOLT12)
 - KYC: none
 - Custody: self-custodial Lightning wallets on the network (Pylon/Forum)
-- Automatability: api-no-account — API with no account — payment or a key is the credential; zero human onboarding
+- Automatability: api-account — API after account setup — no identity check, but a human creates the account first
 - Auth: Khala API key (the key/payment is the credential; a free research-preview tier is reported); Nostr identity + a self-custodial Lightning wallet for the network rails
-- Quickstart: Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala, paying per call over Lightning. Offer: run a Pylon node or Autopilot to sell compute for sats.
+- Quickstart: Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala and an Authorization Bearer token — unauthenticated calls return 401, not a 402 invoice. The token comes from an account (email-code sign-in, then a personal access token), and Khala meters in credits priced in USD. Offer: run a Pylon node or Autopilot to sell compute for sats.
 - Direction: consume + offer
 - Maintainer: OpenAgents, Inc.
 - Site: https://openagents.com

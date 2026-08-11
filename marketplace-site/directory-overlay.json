@@ -140,9 +140,9 @@
       "payment_methods": [
         "lightning"
       ],
-      "automatability": "api-no-account",
+      "automatability": "api-account",
       "auth": "Khala API key (the key/payment is the credential; a free research-preview tier is reported); Nostr identity + a self-custodial Lightning wallet for the network rails",
-      "quickstart": "Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala, paying per call over Lightning. Offer: run a Pylon node or Autopilot to sell compute for sats.",
+      "quickstart": "Consume: POST to https://openagents.com/api/v1/chat/completions with model openagents/khala and an Authorization Bearer token \u2014 unauthenticated calls return 401, not a 402 invoice. The token comes from an account (email-code sign-in, then a personal access token), and Khala meters in credits priced in USD. Offer: run a Pylon node or Autopilot to sell compute for sats.",
       "note": "Khala research preview — OpenAI-compatible, Lightning-billed inference gateway; the orchestrator's Blueprint/GEPA/specialist-marketplace is roadmap. Early and in active development — many surfaces gated."
     },
     {
@@ -173,7 +173,7 @@
         ],
         "note": "The provider's own MCP server (Streamable HTTP; discovery open, auth only on paid tool calls; Lightning payment handling built in) — connect here so an agent can gate its own output before acting. Copy-paste client configs at /install."
       },
-      "note": "First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published). A verdict is a paid second opinion, not an SLA."
+      "note": "First verification-category entry (probed live 2026-07-23: 402 challenges on /review + /validate, /ledger JSON, /mcp initialize). Sats-denominated per-call billing; USDC (x402 on Base) and card funding also accepted — card/x402-funded sats are spendable but not withdrawable. Verdicts are published to Nostr before their outcomes and anchored to Bitcoin PoW via OpenTimestamps; outcomes settle on a public Hyperliquid account. Young track record (183 verdicts, 21W/20L settled, losses published \u2014 its own /ledger, read 2026-07-23; the counter moves, so recompute it there rather than trusting this line). A verdict is a paid second opinion, not an SLA."
     },
     {
       "slug": "unhuman",

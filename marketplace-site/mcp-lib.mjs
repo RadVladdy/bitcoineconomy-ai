@@ -27,7 +27,13 @@ import { CATEGORY_ORDER } from './taxonomy.mjs';
 // admits eight, because a service can also be paid by rails a bounty poster has
 // no use for — onchain, liquid, spark, nwc. PAY_METHODS is the request side and
 // comes from snapshot-lib; this is the announcement side, per the 38555 spec.
-const ANNOUNCE_PAY_METHODS = ['lightning', 'l402', 'cashu', 'nwc', 'onchain', 'liquid', 'spark', 'zaps'];
+// Exported so build.mjs generates the kind-38555 pay table and schema $comment
+// from it instead of hand-typing the eight values a third and fourth time.
+// DELIBERATELY a different list from snapshot-lib's PAY_METHODS (four): a work
+// request settles four ways, a service announcement admits eight. Generate each
+// table from ITS OWN constant; sharing one would publish invalid events on one
+// side or silently narrow the other.
+export const ANNOUNCE_PAY_METHODS = ['lightning', 'l402', 'cashu', 'nwc', 'onchain', 'liquid', 'spark', 'zaps'];
 
 const SERVER_INFO = { name: 'bitcoineconomy-marketplace', version: '1.0.0' };
 const ANNOUNCE_SPEC_URL = 'https://marketplace.bitcoineconomy.ai/spec/agent-payable-service-announcement.md';
@@ -62,6 +68,24 @@ async function loadJsonAsset(env, origin, path) {
   return null;
 }
 
+// serveMaster's superseded-registry guard, mirrored. Its own comment names
+// find_service as a victim of the 2026-08-07 incident — a cron running the
+// pre-deploy bundle wrote a KV master that was NEWER by the clock and still
+// listed a venue the deploy had removed — and then the fix was applied only to
+// /live/master.json. Until now the MCP tools read the unguarded copy, so the two
+// surfaces could disagree about which curated registry produced the rows.
+async function loadMasterGuarded(env, origin) {
+  try {
+    const dir = await loadJsonAsset(env, origin, '/directory.json');
+    const kvCurated = await env.SNAPSHOT?.get('master_curated_stamp');
+    if (dir?.generated_at && kvCurated != null && dir.generated_at > kvCurated) {
+      const asset = await loadJsonAsset(env, origin, '/master.json');
+      if (asset) return asset;
+    }
+  } catch {}
+  return loadKvOrAsset(env, origin, 'master', '/master.json');
+}
+
 async function loadKvOrAsset(env, origin, kvKey, assetPath) {
   try {
     const kv = await env.SNAPSHOT?.get(kvKey);
@@ -89,7 +113,7 @@ function makeCtx(env, origin) {
     // The MASTERED directory: all four sources in one row shape and one category
     // vocabulary. This is what find_service reads — the per-tier documents above
     // remain for callers that want one source unmixed.
-    master: () => (masterP ||= loadKvOrAsset(env, origin, 'master', '/master.json')),
+    master: () => (masterP ||= loadMasterGuarded(env, origin)),
     async masterServices() { return (await this.master())?.services || []; },
   };
 }
@@ -807,6 +831,15 @@ const TOOLS = [
 
       return {
         kind: mod.kind,
+        // An agent acting on this board has to be able to age it. The HTTP twin
+        // has carried generated_at + live since it shipped; this one carried
+        // neither, so on the fallback path it handed back a board days old with
+        // nothing in the payload to say so — the same figures /live/bounties.json
+        // labels `live: false`. `source` names the writer (worker-cron, or the
+        // committed sample-relays.mjs snapshot).
+        generated_at: snap?.generated_at ?? null,
+        source: snap?.source ?? null,
+        live: snap?.source ? !/static snapshot/i.test(String(snap.source)) : null,
         spec: mod.spec,
         provenance: 'live-from-relay',
         coverage,

@@ -47,7 +47,7 @@ route on every build and are the source to read.
 
 A second Worker serves **`marketplace.bitcoineconomy.ai`** — a directory of
 agent-payable services (22 curated entries merged with three live tiers), a
-12-tool **`/mcp`** server, a **bounty board** on the kind-38556 microstandard,
+13-tool **`/mcp`** server, a **bounty board** on the kind-38556 microstandard,
 and `/live/*` JSON refreshed by cron.
 
 ## Agent-first infrastructure
