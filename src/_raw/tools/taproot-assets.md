@@ -51,7 +51,7 @@ A Lightning node running the `tapd` daemon — backed by a [Bitcoin node](/tools
 
 ## Quick start
 
-Run `tapd` from `github.com/lightninglabs/taproot-assets` (v0.8 latest); developers can build on the new SDK. Docs at `docs.lightning.engineering/the-lightning-network/taproot-assets`. **Read the Operational Safety Guidelines before any mainnet use.**
+Run `tapd` from `github.com/lightninglabs/taproot-assets` (v0.8.1 latest); developers can build on the new SDK. Docs at `docs.lightning.engineering/the-lightning-network/taproot-assets`. **Read the Operational Safety Guidelines before any mainnet use.**
 
 ## Gotchas
 

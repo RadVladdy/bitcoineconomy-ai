@@ -110,7 +110,7 @@ The standardized way to acquire that inbound capacity is a **Lightning Service P
 
 **Multi-implementation maturity.** The Lightning protocol has multiple production implementations: **LND** (Lightning Labs; most widely deployed; gRPC + REST APIs; comprehensive macaroon-based authentication); **Core Lightning** (CLN; Blockstream; plugin architecture; lightweight; preferred for routing nodes and protocol experimentation); **LDK** (Lightning Development Kit; embedded-friendly library for building Lightning into other software); **Eclair** (ACINQ; production-grade; powers the Phoenix mobile wallet). Agent infrastructure can pick any implementation per resource and integration constraints.
 
-**[[taproot-assets|Taproot Assets]] v0.6** — Lightning Labs' multi-asset Lightning protocol — is structurally a bridge (Lightning *rails* for stablecoins, not Lightning *substrate* for stablecoins), so its treatment lives at [[Exchange]] (its no-KYC swaps table, as a BTC↔USDT FX rail). The Stack notes its existence; the rails-vs-substrate distinction lives there.
+**[[taproot-assets|Taproot Assets]] v0.8** — Lightning Labs' multi-asset Lightning protocol — is structurally a bridge (Lightning *rails* for stablecoins, not Lightning *substrate* for stablecoins), so its treatment lives at [[Exchange]] (its no-KYC swaps table, as a BTC↔USDT FX rail). The Stack notes its existence; the rails-vs-substrate distinction lives there.
 
 ---
 
