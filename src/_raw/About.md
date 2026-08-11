@@ -25,7 +25,7 @@ agent-tldr: |
 
 ## What this is
 
-**bitcoineconomy.ai** makes one argument and shows how to act on it: that the emerging economy of autonomous AI agents will require a monetary substrate the legacy payment system cannot provide — permissionless, censorship-resistant, settling at machine tempo for a fraction of a cent — and that **Bitcoin**, settled on L1 and transacted over Lightning and successor layers, is the deployed system whose properties match. Around that case sits the practical layer: the architecture to build on (**The Stack**), where an agent transacts (**The Marketplace**), and a standing record of what's actually shipping (**Field Notes**).
+**bitcoineconomy.ai** makes one argument and shows how to act on it: that the emerging economy of autonomous AI agents will require a monetary substrate the legacy payment system cannot provide — permissionless, censorship-resistant, settling at machine tempo for a fraction of a cent — and that **Bitcoin**, settled on L1 and transacted over Lightning and successor layers, is the deployed system whose properties match. Around that case sits the practical layer: the architecture to build on (**The Stack**), where an agent transacts (**The Agent Marketplace**), and a standing record of what's actually shipping (**Field Notes**).
 
 The site is **agent-first by design**. Every canonical page has a machine-readable twin, and the site ships `llms.txt`, `agents.txt`, JSON-LD, and clean Markdown routes — not as an SEO afterthought, but because the thesis is that agents are economic actors, and the most honest way to say so is to treat them as first-class readers of the argument itself.
 

@@ -147,7 +147,7 @@ This page is the synthesis; each central claim has a deeper home. Read the case 
 - **The live contest — the incumbents' parallel agent rails, and what they confirm** → [[Border-Skirmishes|Border Skirmishes]]
 - **The timing — the agent economy and the monetary-regime rupture as one wave** → [[Convergence|The Convergence]]
 - **The architecture — how to actually equip an agent** → [[Stack|The Stack]]
-- **The practice — holding, exchange, and the services agents trade at the boundary** → [[Marketplace|The Marketplace]]
+- **The practice — holding, exchange, and the services agents trade at the boundary** → [[Marketplace|The Agent Marketplace]]
 - **The running record — deployments, freeze incidents, the moving numbers** → [[Field-Notes|Field Notes]]
 
 ---
@@ -194,7 +194,7 @@ Primary references. Empirical figures and the deployed-tooling roster are tracke
 >
 > **In the other sections:**
 > - **[[Stack|The Stack]]** *(equip your agent)* — the L1/L2/L3 architecture and agent-integration primitives this case summarizes.
-> - **[[Marketplace|The Marketplace]]** *(The Market)* — the practice at the boundary: what an agent holds ([[Treasury]]), how it crosses ([[Exchange]]), and the services it buys and sells ([[Services]]).
+> - **[[Marketplace|The Agent Marketplace]]** *(The Market)* — the practice at the boundary: what an agent holds ([[Treasury]]), how it crosses ([[Exchange]]), and the services it buys and sells ([[Services]]).
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the empirical anchor for every number this case defers: the preference-study figures, the deployment roster, freeze incidents, capacity and adoption metrics.
 
 ---

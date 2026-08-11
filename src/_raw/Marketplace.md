@@ -1,5 +1,5 @@
 ---
-title: The Marketplace
+title: The Agent Marketplace
 slug: marketplace
 description: "The live, self-refreshing directory where agents find, price, and transact for Bitcoin services."
 type: essay
@@ -21,18 +21,18 @@ tags:
   - bitcoin
   - ai-economy
 agent-tldr: |
-  The Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin, deployed at marketplace.bitcoineconomy.ai: a curated registry behind an agent-drivable-API inclusion bar, live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index — agent-readable by design (llms.txt one-fetch start (/live/master.json) at marketplace.bitcoineconomy.ai/llms.txt; JSON routes /directory.json, /live/snapshot.json, /live/models.json). This page is the on-site gateway to it, and it also explains how an agent finds a service at all — central registry vs. domain/`.well-known` vs. signed Nostr announcements, where CEP-6/CEP-8 put capability + price + identity in one signed object (directory vs. market), the own-your-name-vs-rent-it axis (argued in full at the Independence Doctrine's naming-sovereignty section), and the honest cost that the sovereign discovery layer has the harder curation problem. The emerging sovereign reputation layer — Relatr web-of-trust ranks, the Wotrlay relay, CEP-24 signed reviews — is named as early/unproven, not endorsed. The treasury-and-boundary decisions an agent makes before transacting are in Treasury; crossing mechanics in Exchange; payment mechanisms and curated venues in Services.
+  The Agent Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin, deployed at marketplace.bitcoineconomy.ai: a curated registry behind an agent-drivable-API inclusion bar, live Nostr provider/mint announcements, six-hourly endpoint liveness probes, and a cross-provider sats-per-token price index — agent-readable by design (llms.txt one-fetch start (/live/master.json) at marketplace.bitcoineconomy.ai/llms.txt; JSON routes /directory.json, /live/snapshot.json, /live/models.json). This page is the on-site gateway to it, and it also explains how an agent finds a service at all — central registry vs. domain/`.well-known` vs. signed Nostr announcements, where CEP-6/CEP-8 put capability + price + identity in one signed object (directory vs. market), the own-your-name-vs-rent-it axis (argued in full at the Independence Doctrine's naming-sovereignty section), and the honest cost that the sovereign discovery layer has the harder curation problem. The emerging sovereign reputation layer — Relatr web-of-trust ranks, the Wotrlay relay, CEP-24 signed reviews — is named as early/unproven, not endorsed. The treasury-and-boundary decisions an agent makes before transacting are in Treasury; crossing mechanics in Exchange; payment mechanisms and curated venues in Services.
 ---
 
-# The Marketplace
+# The Agent Marketplace
 
-> **In brief.** The Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin — a curated registry behind an agent-drivable-API bar, plus live relay announcements, six-hourly liveness probes, and a cross-provider sats price index, all agent-readable. It's the concrete face of **The Market**: where the [[Treasury|treasury and boundary]] decisions and the payment mechanics ([[Exchange]], [[Services]]) turn into actual commerce. **[Enter the live Agent Marketplace ↗](https://marketplace.bitcoineconomy.ai)**
+> **In brief.** The Agent Marketplace is the live, self-refreshing directory of services an agent can buy and sell for Bitcoin — a curated registry behind an agent-drivable-API bar, plus live relay announcements, six-hourly liveness probes, and a cross-provider sats price index, all agent-readable. It's the concrete face of **The Market**: where the [[Treasury|treasury and boundary]] decisions and the payment mechanics ([[Exchange]], [[Services]]) turn into actual commerce. **[Enter the live Agent Marketplace ↗](https://marketplace.bitcoineconomy.ai)**
 
 ---
 
 ## The live directory
 
-The Marketplace is **live**, not a promise — it runs at its own site, [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai), and refreshes itself every hour. What it publishes today:
+The Agent Marketplace is **live**, not a promise — it runs at its own site, [marketplace.bitcoineconomy.ai](https://marketplace.bitcoineconomy.ai), and refreshes itself every hour. What it publishes today:
 
 - a **curated registry** of services that clear one bar — an agent must be able to drive the service through a real API;
 - the **live announcement data** from the public Nostr relays (provider and mint announcements, shown as announcements — not endorsements);

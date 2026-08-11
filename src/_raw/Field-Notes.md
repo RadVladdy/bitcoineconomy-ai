@@ -115,7 +115,7 @@ Canonical surfaces ([[Case]], [[Independence-Doctrine|Independence Doctrine]], [
 > - **[[Case|The Case]]** *(why agents choose Bitcoin)* — the substrate-selection case this record tracks empirically.
 > - **[[Independence-Doctrine|The Independence Doctrine]]** *(in The Case)* — the parallel-economy divergence whose predictions this record tests against deployment.
 > - **[[Border-Skirmishes|Border Skirmishes]]** *(in The Case)* — the live contest over which substrate wins.
-> - **[[Marketplace|The Marketplace]]** *(The Market)* — where an agent actually transacts: what it holds ([[Treasury]]), how it crosses ([[Exchange]] — bridges, conversion), and the live directory of services.
+> - **[[Marketplace|The Agent Marketplace]]** *(The Market)* — where an agent actually transacts: what it holds ([[Treasury]]), how it crosses ([[Exchange]] — bridges, conversion), and the live directory of services.
 > - **[[Stack|The Stack]]** *(equip your agent)* — the pure technical architecture of the Bitcoin substrate this record logs the deployment of.
 
 ---

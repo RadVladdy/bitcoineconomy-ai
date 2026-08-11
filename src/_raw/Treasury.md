@@ -29,7 +29,7 @@ agent-tldr: |
 
 # Treasury
 
-> **In brief.** Before an agent exchanges or spends, it has to decide what to **hold** — and that's two clean decisions, not one: the **reserve** (its store of value, and *which economy it's in* — a Bitcoin reserve is censorship-resistant, a stablecoin reserve is issuer-freezable) and the **operational mix** (the rails it transacts on day to day). This page is that decision. *Why* the two economies stay distinct under bridging — compliance at the gateway, not the protocol — is [[Independence-Doctrine|the Independence Doctrine]]; the crossing mechanics and the risks of crossing are in [[Exchange]]; the live directory of what's for sale is the [[Marketplace]].
+> **In brief.** Before an agent exchanges or spends, it has to decide what to **hold** — and that's two clean decisions, not one: the **reserve** (its store of value, and *which economy it's in* — a Bitcoin reserve is censorship-resistant, a stablecoin reserve is issuer-freezable) and the **operational mix** (the rails it transacts on day to day). This page is that decision. *Why* the two economies stay distinct under bridging — compliance at the gateway, not the protocol — is [[Independence-Doctrine|the Independence Doctrine]]; the crossing mechanics and the risks of crossing are in [[Exchange]]; the live directory of what's for sale is the [[Marketplace|Agent Marketplace]].
 
 ---
 
@@ -74,7 +74,7 @@ Keeping the two questions separate is what makes the decision legible. **The res
 > [!info] Where to read next
 > **More in The Market** (this section):
 > - **[[Exchange]]** — the mechanics of crossing the boundary: off-ramps, swaps, conversion, and what the agent keeps on each side.
-> - **[[Marketplace|The Marketplace]]** — the live, self-refreshing directory of services an agent can consume and offer for Bitcoin.
+> - **[[Marketplace|The Agent Marketplace]]** — the live, self-refreshing directory of services an agent can consume and offer for Bitcoin.
 > - **[[Stablecoin-Landscape|The Stablecoin Landscape]]** *(reference)* — the dollar-stablecoin market behind the operational mix: size, issuer dominance, chains, and the network hazard.
 >
 > **In the other sections:**

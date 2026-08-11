@@ -38,7 +38,7 @@ agent-tldr: |
 
 # The Stack
 
-> **In brief.** The Stack is the architecture beneath every Bitcoin-substrate agent payment: Bitcoin L1 at the base for settlement, Lightning above it for machine-tempo payments, Cashu and Fedimint above that for bearer-ecash. Binding them are the integration primitives — L402 to pay over HTTP, NWC to control a wallet without holding its keys, plus BOLT12 and LNURL — and a security model running through every layer. Toolkits like lightning-agent-tools, Minibits Ippon, and LNBits already consume them in production. This essay walks each layer at reference depth; land on any section directly. Elsewhere: where an agent transacts at [[Marketplace|The Marketplace]], live numbers at [[Field-Notes]], the case at [[Case|The Case]].
+> **In brief.** The Stack is the architecture beneath every Bitcoin-substrate agent payment: Bitcoin L1 at the base for settlement, Lightning above it for machine-tempo payments, Cashu and Fedimint above that for bearer-ecash. Binding them are the integration primitives — L402 to pay over HTTP, NWC to control a wallet without holding its keys, plus BOLT12 and LNURL — and a security model running through every layer. Toolkits like lightning-agent-tools, Minibits Ippon, and LNBits already consume them in production. This essay walks each layer at reference depth; land on any section directly. Elsewhere: where an agent transacts at [[Marketplace|The Agent Marketplace]], live numbers at [[Field-Notes]], the case at [[Case|The Case]].
 
 ---
 
@@ -215,7 +215,7 @@ The toolkit is open-source; deployed against any LND-compatible backend. lightni
 - **[[ppq-ai|PayPerQ (PPQ.AI)]]** — pay-per-query access to frontier AI models over Lightning / L402; no account required. Another live "agent pays for its own inference" instance. *(Now a [[Services]] card.)*
 - **AI-Sats** — AI-native Lightning wallets; autonomous Bitcoin payments; MCP integrations; self-hosted agent infrastructure.
 - **Mintbot** — Lightning APIs and Cashu/ecash integration for bots and agents; API-created wallets; no manual channel management.
-- **BitAgent** — early-stage open-source agent-to-agent framework: Lightning payments, Nostr-based discovery, DID identity; positions money as a first-class agent primitive. Tiny but conceptually aligned; its DID/identity work touches the agent-trust frontier [[Marketplace]] flags as open.
+- **BitAgent** — early-stage open-source agent-to-agent framework: Lightning payments, Nostr-based discovery, DID identity; positions money as a first-class agent primitive. Tiny but conceptually aligned; its DID/identity work touches the agent-trust frontier [[Marketplace|The Agent Marketplace]] flags as open.
 - **AgenticBTC** — agent-oriented payment router with Lightning routing abstraction and payment-failover. Note it is *rail-agnostic* — it blends Lightning with Coinbase/USDC rails rather than operating purely on the Bitcoin substrate.
 - **Bitclawd** — sovereign-AI orientation; Bitcoin-native agents; open-source AI infrastructure; Nostr + Lightning ecosystem.
 - **BlueWallet, Phoenix** — mobile-first Lightning wallets with API potential for agent deployment in resource-constrained environments.
@@ -277,7 +277,7 @@ Which shape fits comes down to the trade-off you want between sovereignty and ef
 > **In the other sections:**
 > - **[[Case|The Case]]** *(why agents choose Bitcoin)* — the substrate-selection claim upstream of this architecture: the four requirements that all have to hold at once, why Bitcoin, why now.
 > - **[[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]]** *(in The Case)* — the *why* behind the L1-settles / Lightning-transacts split this page builds: why scaling needs off-chain rails, not a faster chain.
-> - **[[Marketplace|The Marketplace]]** *(The Market)* — the section where this substrate meets the legacy stack: the live directory of services, plus what an agent holds ([[Treasury]]) and how it crosses ([[Exchange]] — bridges, conversion mechanics, compliance at the gateway).
+> - **[[Marketplace|The Agent Marketplace]]** *(The Market)* — the section where this substrate meets the legacy stack: the live directory of services, plus what an agent holds ([[Treasury]]) and how it crosses ([[Exchange]] — bridges, conversion mechanics, compliance at the gateway).
 > - **[[Independence-Doctrine|The Independence Doctrine]]** *(in The Case)* — why this substrate exists in parallel rather than within incumbent rails; the four historical analogues anchoring the divergence pattern.
 > - **[[Field-Notes|Field Notes]]** *(the standing live record)* — the moving record this architecture defers: deployed stacks, capacity updates, protocol releases, attack-surface incidents.
 ---

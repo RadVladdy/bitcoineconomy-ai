@@ -28,7 +28,7 @@ export const HUMAN_NAV = [
   { slug: 'convergence', label: 'The Convergence' },
   { slug: 'stack', label: 'The Stack' },
   { slug: 'quickstart', label: 'Quickstart' },
-  { slug: 'marketplace', label: 'The Marketplace' },
+  { slug: 'marketplace', label: 'The Agent Marketplace' },
   { slug: 'exchange', label: 'Exchange' },
   { slug: 'services', label: 'Services' },
   { slug: 'treasury', label: 'Treasury' },
@@ -70,7 +70,7 @@ export const NAV_GROUPS = [
   {
     label: 'Market',
     items: [
-      { slug: 'marketplace', label: 'Marketplace' },
+      { slug: 'marketplace', label: 'Agent Marketplace' },
       { slug: 'exchange', label: 'Exchange' },
       { slug: 'services', label: 'Services' },
     ],
