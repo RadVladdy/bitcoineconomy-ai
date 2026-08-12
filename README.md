@@ -121,3 +121,14 @@ not restated here.
 ---
 
 @BitcoinEconAI
+
+## Licence
+
+**Code: [MIT](LICENSE). Content: [CC BY 4.0](LICENSE-CONTENT).
+Live data (`/live/*.json`): [CC0](LICENSE-CONTENT) — public domain, no
+attribution required.**
+
+The essays and surfaces are yours to reuse with credit. The machine-readable
+endpoints are dedicated outright, because this site's standing invitation is
+that you should recompute its numbers rather than trust them, and an
+attribution condition on a set of facts would sit against that.
