@@ -769,6 +769,39 @@
     "wss://relay.damus.io"
    ],
    "relay_publish_ok": true,
+   "ots": "bitcoin",
+   "external_probe": {
+    "probed_from": "external (nightly anchor host)",
+    "/directory.json": "ok",
+    "/live/snapshot.json": "ok",
+    "/live/models.json": "ok",
+    "/live/uptime.json": "ok",
+    "/mcp": "ok (13 tools)"
+   },
+   "ots_bitcoin_blocks": [
+    962876,
+    962877,
+    962893,
+    962912
+   ]
+  },
+  {
+   "date": "2026-08-18",
+   "event_id": "df6b00f05f0792c5c2bb1dcfe6d2f6c118bc9786769faab5b5d4588bb1df6b49",
+   "created_at": 1787049902,
+   "digests": {
+    "/directory.json": "590e69d5a6d99aaee37f1c52e0bf454cb0dade486085499d006d8e2b57f29a6e",
+    "/live/snapshot.json": "6f15da901ad4b73bdc2faf73a8e95aa9823b2f6d881d73c2702aae641ccd9017",
+    "/live/models.json": "005e22a6cf1322069b493087dd44f07c293b06f2a245f1cde54ad67ab8cebd77",
+    "/live/uptime.json": "f019dccd9b9d7bfac5a27d3f98a4a0b04d2ad2fcff2bb1b7e7a08620c8dbcde1"
+   },
+   "relays": [
+    "wss://nos.lol",
+    "wss://relay.primal.net",
+    "wss://nostr.bitcoiner.social",
+    "wss://relay.damus.io"
+   ],
+   "relay_publish_ok": true,
    "ots": "pending",
    "external_probe": {
     "probed_from": "external (nightly anchor host)",
