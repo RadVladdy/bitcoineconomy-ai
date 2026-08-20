@@ -60,6 +60,36 @@ fi
 echo "── deployed. Verify on the live domain before calling it done: the first read
    after a deploy has served the previous build on these projects before."
 
+# ── Drop the edge cache, then PROVE the edge matches origin ───────────────────
+# The line directly above has said "the first read after a deploy has served the
+# previous build on these projects before" for weeks, and nothing acted on it.
+# radvladdy.com then hit exactly that twice (2026-08-15, 2026-08-20), serving the
+# OLD HTML under `cf-cache-status: HIT` while the origin was already correct.
+# Three separate places in this portfolio documented the trap; none automated it.
+# This is the wiring, and it is the same line in all four repos.
+#
+# 🔀 BOTH SURFACES SIT IN THE ONE ZONE, so a single zone purge covers the Worker
+# and the marketplace Worker together. The VERIFY is what has to be target-aware
+# — proving bitcoineconomy.ai is fresh says nothing about a marketplace-only
+# deploy, and a check aimed at the wrong surface is a check that reads nothing.
+#
+# ⚠️ IT RUNS BEFORE INDEXNOW ON PURPOSE. Telling six search engines to come and
+# index right now, while the edge still hands out the previous version, is worse
+# than not telling them — it banks the stale page.
+#
+# A failure here must NOT fail the deploy (the site is already live), but it must
+# not be silent either. `cf-purge verify` is the half that can go red: it compares
+# a cache-busted fetch against an ordinary one, because a plain check can be
+# answered by the very cache it is meant to catch.
+"$HOME/bin/cf-purge" purge bitcoineconomy.ai || echo "── ⚠️ CACHE PURGE FAILED — the deploy itself was fine. Retry: cf-purge purge bitcoineconomy.ai"
+
+if [ "$target" = "main" ] || [ "$target" = "both" ]; then
+  "$HOME/bin/cf-purge" verify https://bitcoineconomy.ai/ || echo "── ⚠️ EDGE STILL STALE on bitcoineconomy.ai — do not call it live yet"
+fi
+if [ "$target" = "marketplace" ] || [ "$target" = "both" ]; then
+  "$HOME/bin/cf-purge" verify https://marketplace.bitcoineconomy.ai/ || echo "── ⚠️ EDGE STILL STALE on marketplace.bitcoineconomy.ai — do not call it live yet"
+fi
+
 # ── Tell the non-Google engines, immediately ──────────────────────────────────
 # IndexNow reaches Bing, Yandex, Naver, Seznam.cz, Yep and DuckDuckGo in one
 # call. NOT Google, which declined to adopt it — Google discovers this deploy on
