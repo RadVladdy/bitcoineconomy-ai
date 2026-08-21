@@ -2,7 +2,7 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Agent Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-08-11T06:05:30.223Z",
+  "generated_at": "2026-08-21T00:28:03.577Z",
   "tool_count": 28,
   "toolbox_groups": [
     "node-toolkits",
@@ -56,14 +56,13 @@
       "maintainer": "Lightning Labs",
       "prereq_tier": "wallet",
       "stack_section": "§4",
-      "license": "MIT",
       "links": {
         "site": "https://github.com/lightninglabs/aperture",
         "docs": "https://docs.lightning.engineering/the-lightning-network/l402",
         "repo": "https://github.com/lightninglabs/L402"
       },
       "card_url": "https://bitcoineconomy.ai/tools/l402",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-08-20"
     },
     {
       "slug": "alby-nwc",
@@ -96,7 +95,7 @@
         "repo": "https://github.com/getAlby/mcp",
         "note": "The payment MCP that complements the directory's discovery MCP — wraps a scoped, budgeted NWC (NIP-47) connection string (NWC_CONNECTION_STRING env) as Lightning payment tools for an MCP-capable agent; the keys stay in the wallet. This is Alby's current successor package (@getalby/mcp): the earlier @getalby/nwc-mcp-server is now marked deprecated on npm (2026-07 audit) — don't use it for new integrations. Tool names above are the NWC core set; verify against the repo before relying on them in production."
       },
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-08-20"
     },
     {
       "slug": "bolt12",
@@ -114,7 +113,7 @@
         "repo": "https://github.com/lightning/bolts"
       },
       "card_url": "https://bitcoineconomy.ai/tools/bolt12",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-08-20"
     },
     {
       "slug": "lnurl",
@@ -240,7 +239,7 @@
         "repo": "https://github.com/cashubtc"
       },
       "card_url": "https://bitcoineconomy.ai/tools/cashu",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-08-20"
     },
     {
       "slug": "fedimint",
@@ -393,7 +392,7 @@
         "repo": "https://github.com/intrinsicinvestment91/bitagent"
       },
       "card_url": "https://bitcoineconomy.ai/tools/bitagent",
-      "last_verified": "2026-06-02"
+      "last_verified": "2026-08-20"
     },
     {
       "slug": "thunderhub",

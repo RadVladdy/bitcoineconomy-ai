@@ -14,7 +14,7 @@ A non-custodial, KYC-free swap platform native to the Liquid Network — L-BTC, 
 - Site: https://sideswap.io
 - Docs/API: https://sideswap.io/docs/
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/sideswap
-- Provenance: curated (last verified 2026-06-03)
+- Provenance: curated (last verified 2026-08-20)
 
 ---
 

@@ -11,7 +11,7 @@ docs: https://bolt12.org
 site: https://bolt12.org
 stack-section: "§4"
 status: published
-last-verified: 2026-06-02
+last-verified: "2026-08-20 (the LND claim re-checked at the source rather than assumed: LND is at v0.21.2-beta and its lnrpc still exposes NO offers subserver, so offers still need LNDK — but 0.21.0 DID land native onion-message forwarding and pathfinding, which is the substrate offers ride on, so the claim holds while the reason behind it is moving. LNDK itself is quiet: last release v0.3.0 in September 2025.)"
 order: 12
 prereq-tier: lightning-node
 prereqs:
@@ -48,6 +48,6 @@ Use a BOLT12-capable implementation — **Core Lightning**, **LDK**, or **Eclair
 
 ## Gotchas
 
-- **LND does not natively support BOLT12** — you must run LNDK alongside it. Confirm your stack supports offers before relying on them.
-- Depends on onion-message relaying across the route; relay support is not yet universal across the network.
+- **LND still does not natively support BOLT12** — you must run LNDK alongside it, and LNDK's own release cadence is slow, so confirm your stack supports offers before relying on them. This is worth re-checking rather than treating as permanent: LND v0.21.0 (June 2026) added native onion-message forwarding and pathfinding, which is the layer offers travel over, so the groundwork is landing even though no offers API has appeared.
+- Depends on onion-message relaying across the route; relay support is not yet universal across the network, though LND shipping forwarding in v0.21.0 moves the largest single population of nodes toward being able to relay.
 - Newer than BOLT11 — some wallets and services remain BOLT11-only, so keep a BOLT11 fallback for now.

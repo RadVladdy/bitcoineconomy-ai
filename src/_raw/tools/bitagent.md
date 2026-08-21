@@ -10,7 +10,7 @@ repo: https://github.com/intrinsicinvestment91/bitagent
 license: MIT
 stack-section: "§5"
 status: experimental
-last-verified: 2026-06-02
+last-verified: "2026-08-20 (every cautionary claim re-checked at the source and ALL still hold: still zero tagged releases, still effectively one human maintainer, still MIT, still no audit. The repo is alive — pushed 2026-08-14 — and the README now documents DID methods did:key/did:nostr/did:bitcoin, Nostr discovery, LNbits settlement that fails closed, and an MCP server. Language census confirms it is genuinely Python AND JavaScript, so that description was checked, not assumed.)"
 order: 34
 prereq-tier: lightning-node
 prereqs:
@@ -44,7 +44,7 @@ A Lightning wallet for settlement (LNbits by default — self-host it, on your o
 
 ## Quick start
 
-Clone `github.com/intrinsicinvestment91/bitagent` (MIT, Python + JS; FastAPI, MCP-server support, LNbits wallet integration) and follow the README. Point it at a Lightning wallet (LNbits) — self-host the wallet for anything beyond throwaway amounts.
+Clone `github.com/intrinsicinvestment91/bitagent` (MIT, Python + JS; FastAPI, MCP-server support, LNbits wallet integration) and follow the README. The design worth studying is the auth model: there are no API keys and no accounts — a Lightning invoice *is* the authentication layer, and a node started without either LNbits credentials or an explicit `PAYMENTS_ENABLED=false` refuses to start rather than quietly serving for free. Point it at a Lightning wallet (LNbits) — self-host the wallet for anything beyond throwaway amounts.
 
 ## Gotchas
 

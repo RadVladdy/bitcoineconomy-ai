@@ -15,7 +15,7 @@ A large, long-established multi-asset exchange with broad fiat pairs and a matur
 - Site: https://kraken.com
 - Docs/API: https://docs.kraken.com
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/kraken
-- Provenance: curated (last verified 2026-06-06)
+- Provenance: curated (last verified 2026-08-20)
 
 ---
 

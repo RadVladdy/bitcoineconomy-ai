@@ -6,7 +6,7 @@ End-to-end-encrypted AI inference an agent can drive through an OpenAI-compatibl
 
 - Category: inference / llm
 - Payment methods: fiat
-- Payment detail: subscription (card, or Bitcoin on yearly plans at a 10% discount) + usage credits
+- Payment detail: subscription (card, or Bitcoin — see the card on what could not be re-confirmed) + usage credits
 - KYC: none
 - Custody: n/a (TEE-attested, end-to-end-encrypted inference)
 - Automatability: api-account — API after account setup — no identity check, but a human creates the account first
@@ -17,7 +17,7 @@ End-to-end-encrypted AI inference an agent can drive through an OpenAI-compatibl
 - Site: https://trymaple.ai
 - Docs/API: https://blog.trymaple.ai/maple-proxy-documentation/
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/maple
-- Provenance: curated (last verified 2026-06-11)
+- Provenance: curated (last verified 2026-08-20)
 
 Privacy-axis inference: TEE-attested end-to-end encryption, open-source server code, 7 open-weight models. Subscription, not pay-per-use — for sats-native pay-per-call see routstr/ppq-ai.
 

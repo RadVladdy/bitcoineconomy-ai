@@ -2,7 +2,7 @@
   "$schema_note": "Curated registry of agentic + Bitcoin-payable services an autonomous agent can consume. provenance \"curated\" = maintained by the editors and verified against primary sources on last_verified; live Nostr-announced inventory (Routstr providers, NIP-87 mints) is served separately at /live/snapshot.json (providers carry probe status: alive | http-error | unreachable | unverified-tor-only | unroutable — http-error = answered HTTP but not a valid response, code in http_status; unreachable = no HTTP response — plus network: clearnet | tor | both | unroutable) and the cross-provider inference price index at /live/models.json — both with committed static fallbacks at /snapshot.json and /models.json. Per-entry machine fields where verified: auth (how the credential works), api_base, pricing_url, quickstart (the first call, one line), and mcp_endpoint where the provider runs its own MCP server (connect there to act). An MCP server at /mcp exposes both the service registry and the tool catalog as Model Context Protocol tools (find_service, get_service, find_tool, get_tool, price_model, list_categories, list_mcp_servers, get_quote, find_l402_endpoints, get_uptime, find_work, post_bounty, announce_service) for agents that call rather than fetch. The tool catalog (equipment an agent installs/runs to transact: wallets, node toolkits, ecash, bridges, protocol primitives) is at /tools.json. list_mcp_servers / the mcp_endpoint field make this directory a registry of OTHER services' MCP servers (Amboss, Bitrefill, Alby NWC): discover here, connect there to act — no funds and no provider calls run through this server. For agents that do not speak MCP: an OpenAPI 3.0 description of the GET routes is at /openapi.json, with the OpenAI-plugin-era manifest at /.well-known/ai-plugin.json. Part of https://bitcoineconomy.ai — thesis at /case, methodology at /services-for-agents.",
   "name": "Agent Marketplace — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/",
-  "generated_at": "2026-08-11T06:05:30.210Z",
+  "generated_at": "2026-08-21T00:28:03.563Z",
   "entry_count": 22,
   "categories": [
     "inference",
@@ -276,7 +276,7 @@
       "payment_methods": [
         "fiat"
       ],
-      "payment_detail": "subscription (card, or Bitcoin on yearly plans at a 10% discount) + usage credits",
+      "payment_detail": "subscription (card, or Bitcoin — see the card on what could not be re-confirmed) + usage credits",
       "kyc": "none",
       "custody": "n/a (TEE-attested, end-to-end-encrypted inference)",
       "automatability": "api-account",
@@ -291,7 +291,7 @@
       "card_url": "https://bitcoineconomy.ai/services/maple",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/maple.md",
       "provenance": "curated",
-      "last_verified": "2026-06-11",
+      "last_verified": "2026-08-20",
       "note": "Privacy-axis inference: TEE-attested end-to-end encryption, open-source server code, 7 open-weight models. Subscription, not pay-per-use — for sats-native pay-per-call see routstr/ppq-ai."
     },
     {
@@ -622,7 +622,7 @@
       "card_url": "https://bitcoineconomy.ai/exchanges/sideswap",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/sideswap.md",
       "provenance": "curated",
-      "last_verified": "2026-06-03"
+      "last_verified": "2026-08-20"
     },
     {
       "slug": "loop",
@@ -806,7 +806,7 @@
       "card_url": "https://bitcoineconomy.ai/exchanges/kraken",
       "entry_md": "https://marketplace.bitcoineconomy.ai/entries/kraken.md",
       "provenance": "curated",
-      "last_verified": "2026-06-06"
+      "last_verified": "2026-08-20"
     },
     {
       "slug": "coinbase",

@@ -12,7 +12,7 @@ site: https://cashu.space
 x: "@cashubtc"
 stack-section: "§3"
 status: published
-last-verified: 2026-06-02
+last-verified: "2026-08-20 (protocol EXERCISED against live mints, not pinged: NUT-06 GET /v1/info answered unauthenticated on two independent public mints, one running Nutshell/0.20.3 and one running cdk-mintd/0.17.5 — both reference implementations this card names, both at their current released versions — each advertising the NUT set including 4, 5, 7-12, 14, 15, 17 and 20. Spec site and both repos 200.)"
 order: 20
 prereq-tier: wallet
 prereqs:
@@ -47,7 +47,7 @@ A Cashu wallet, a mint to issue and redeem tokens (whose solvency you trust), an
 
 ## Quick start
 
-Run or connect to a mint with the reference implementation, **Nutshell** (`github.com/cashubtc/nutshell`), or build on a client SDK such as **CDK** (Rust, `github.com/cashubtc/cdk`). The NUTs spec at `cashubtc.github.io/nuts` defines token format and mint operations. Check the repo's releases page for the current version before deploying.
+Run or connect to a mint with the reference implementation, **Nutshell** (`github.com/cashubtc/nutshell`), or build on a client SDK such as **CDK** (Rust, `github.com/cashubtc/cdk`) — both are what public mints actually run today, and a mint will tell you which, along with the exact NUTs it supports, from an unauthenticated `GET /v1/info` (NUT-06). That single call is the cheapest way for an agent to decide whether a mint speaks the features it needs before touching it with funds. The NUTs spec at `cashubtc.github.io/nuts` defines token format and mint operations. Check the repo's releases page for the current version before deploying.
 
 ## Gotchas
 

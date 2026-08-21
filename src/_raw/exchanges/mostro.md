@@ -17,7 +17,7 @@ links:
   site: https://mostro.network
   repo: https://github.com/MostroP2P
 status: v0-2026-06-11-structural-verified
-links-verified: 2026-06-11 (site + org repo verified; protocol spec + clients confirmed; fees/dispute mechanics deferred to the venue)
+links-verified: "2026-08-20 (site re-read, not pinged: the no-KYC claim is stated outright by the venue — no registration, email or phone, identity generated client-side behind a 12-word recovery phrase — and the hold-invoice escrow description matches this card. Org repos all pushed within days: mostro v0.18.5, mobile, mostrix, mostro-cli. Fees/dispute mechanics still deferred to the venue.)"
 ---
 
 **What it is.** A peer-to-peer, non-custodial protocol for exchanging **Bitcoin against bank fiat or cash** over **Nostr**, with **no registration, no identity checks, no KYC**. Free and open-source software, supported by OpenSats and the Human Rights Foundation.
@@ -28,6 +28,6 @@ links-verified: 2026-06-11 (site + org repo verified; protocol spec + clients co
 
 **Privacy.** Identities are client-generated keys with **per-trade ephemeral keys**, preventing trade linking; communications are end-to-end encrypted over Nostr.
 
-**Agent access.** A published **protocol specification** (Nostr event formats) plus clients (Android app, the Mostrix terminal UI, CLI) — an agent can programmatically post and take orders and manage the escrow leg, but **cannot complete a trade end-to-end alone**: the fiat side needs the human (or the counterparty's human). For agents this is operator-assisted, not autonomous.
+**Agent access.** A published **protocol specification** (Nostr event formats, now on its own documentation site) plus clients (mobile app, a web client, the Mostrix terminal UI, CLI) — an agent can programmatically post and take orders and manage the escrow leg, but **cannot complete a trade end-to-end alone**: the fiat side needs the human (or the counterparty's human). For agents this is operator-assisted, not autonomous.
 
-**Caveats.** P2P counterparty risk is the structural trade-off the hold-invoice escrow only partially bounds; liquidity is whatever the order book holds in your currency and region; dispute mechanics and fees are the venue's — verify current details there.
+**Caveats.** P2P counterparty risk is the structural trade-off the hold-invoice escrow only partially bounds; liquidity is whatever the order book holds in your currency and region; dispute mechanics and fees are the venue's — verify current details there. Note that "Mostro" is a role, not a single operator: several Mostro nodes compete, users rate them, and the project now ships reputation tooling of its own — so counterparty diligence covers the *node* you route through as well as the person on the other side of the trade.
