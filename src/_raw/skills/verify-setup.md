@@ -19,7 +19,7 @@ maintainer: bitcoineconomy.ai
 docs: https://bitcoineconomy.ai/skills
 site: https://bitcoineconomy.ai
 status: published
-last-verified: 2026-06-29
+last-verified: "2026-08-28 (two of the four rails EXERCISED live: mempool.space tip height returned 964506, and list_categories on the marketplace MCP returned the category set with all four source tiers; the payment and identity rails need the agent's own credentials, so verified structurally — @getalby/mcp still on npm at v1.1.1. The recipe is unchanged.)"
 order: 5
 tags:
   - verify

@@ -19,7 +19,7 @@ maintainer: bitcoineconomy.ai
 docs: https://marketplace.bitcoineconomy.ai/llms.txt
 site: https://marketplace.bitcoineconomy.ai
 status: published
-last-verified: 2026-06-29
+last-verified: "2026-08-28 (marketplace MCP EXERCISED — tools/list served find_service, get_service, get_quote and list_categories, and list_categories returned the live four-source directory; llms.txt 200. CEP-8 re-read at the ContextVM source: Status still Draft, so the Where-this-is-heading paragraph stands as written.)"
 order: 1
 tags:
   - mcp

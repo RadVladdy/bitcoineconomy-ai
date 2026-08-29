@@ -16,7 +16,7 @@ identity: account (Amboss account + API key)
 custody: self-custodial — your bitcoin stays under your own keys/node
 bitcoin-native: true
 status: published
-last-verified: 2026-06-27
+last-verified: "2026-08-28 (API EXERCISED unauthenticated — POST rails.amboss.tech/graphql answered a live GraphQL query with no key; docs.amboss.tech/developer re-read: Rails still a named Amboss product alongside Magma/Reflex/Payments, nav still files it under Yield. Nothing in the card moved.)"
 order: 55
 tags:
   - amboss

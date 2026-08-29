@@ -17,7 +17,7 @@ A self-custodial Lightning liquidity-provision service — put idle bitcoin to w
 - Site: https://amboss.tech
 - Docs/API: https://docs.amboss.tech/developer
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/services/rails
-- Provenance: curated (last verified 2026-06-27)
+- Provenance: curated (last verified 2026-08-28)
 
 The provide/sell-side complement to Magma's buy-side; part of the Amboss + Voltage enterprise stack. Self-custodial yield on bitcoin used as Lightning routing liquidity — no asset swap, no custody handover. Amboss does not license free-API access for commercial use — confirm terms for production.
 

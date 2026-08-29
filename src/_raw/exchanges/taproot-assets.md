@@ -17,7 +17,7 @@ links:
   site: https://lightning.engineering
   docs: https://docs.lightning.engineering/the-lightning-network/taproot-assets
 status: v0-2026-06-06-structural-verified
-links-verified: 2026-06-28
+links-verified: "2026-08-28 (releases re-read at the source: still the v0.8 line, patched to v0.8.2 2026-08-26 — DB-migration/bugfix releases, no API-shape change, so agent-access holds at limited; the Lightning Labs operational-safety docs still call mainnet tapd alpha-stage, quoted; docs URL and lightning.engineering live.)"
 ---
 
 > [!info] This is the *exchange* lens of Taproot Assets. For the protocol/integration view — issuing and moving assets, running `tapd` — see its [tools card](/tools/taproot-assets).
@@ -28,7 +28,7 @@ links-verified: 2026-06-28
 
 **How the swap works.** Conversion happens at the **routing layer via edge nodes** — any Taproot-Assets-aware Lightning node can act as one. Before an invoice is generated, the parties agree an exchange rate (each edge peer sets its own, competing on rate/fees); the payment then routes through asset channels, and the receiver validates it got the expected asset amount. It's a swap embedded in a Lightning payment, not a trip to an exchange.
 
-**Agent access *(limited)*.** There is still **no clean hosted REST swap API** like Boltz's. An agent needs `tapd` (or a Taproot-Assets-capable wallet) and Taproot Assets channels with edge nodes that quote the pair. The **v0.8 release (2026-06) + its SDK and RFQ (request-for-quote) improvements** make developer integration easier and the quote/liquidity flow more automatable — real movement — but the path is still node-plus-integration, not a turnkey API call, so the rating holds at *limited*. Weigh it against Boltz/Flashnet for autonomous use.
+**Agent access *(limited)*.** There is still **no clean hosted REST swap API** like Boltz's. An agent needs `tapd` (or a Taproot-Assets-capable wallet) and Taproot Assets channels with edge nodes that quote the pair. The **v0.8 line (2026-06, patched through v0.8.2, 2026-08-26) + its SDK and RFQ (request-for-quote) improvements** make developer integration easier and the quote/liquidity flow more automatable — real movement — but the path is still node-plus-integration, not a turnkey API call, so the rating holds at *limited*. Weigh it against Boltz/Flashnet for autonomous use.
 
 **Dependencies.** A Taproot-Assets-capable Lightning stack (`tapd` + compatible Lightning Terminal; v0.8 SDK for builders) and a channel/peer that provides asset liquidity for the pair. Self-custodial; no account, no KYC at the protocol layer.
 

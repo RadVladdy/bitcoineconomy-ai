@@ -19,7 +19,7 @@ docs: https://nwc.dev
 site: https://getalby.com
 x: "@getAlby"
 status: published
-last-verified: 2026-06-29
+last-verified: "2026-08-28 (npm re-read: @getalby/mcp v1.1.1, unchanged since 2025-07 — no release to absorb; github.com/getAlby/mcp and nwc.dev both live. Nothing in the card moved.)"
 order: 2
 tags:
   - mcp

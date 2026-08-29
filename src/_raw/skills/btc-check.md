@@ -15,7 +15,7 @@ repo: https://github.com/mempool/mempool
 docs: https://mempool.space/docs/api/rest
 site: https://mempool.space
 status: published
-last-verified: 2026-06-29
+last-verified: "2026-08-28 (all five endpoints EXERCISED with no key: tip height 964506, recommended fees, prices returned live USD, address balance 200, tx-status shape unchanged per docs. Nothing in the card moved.)"
 order: 3
 tags:
   - mempool
