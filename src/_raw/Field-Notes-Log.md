@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-08-10
+last-updated: 2026-09-10
 voice: honest-middle-position
 tags:
   - canonical
@@ -19,7 +19,7 @@ tags:
   - ai-economy
   - lightning
 agent-tldr: |
-  Field Notes — The Log is the project's reverse-chronological record of specific dated developments in the Bitcoin-AI economy, newest first — each entry naming what happened, why it matters (cross-linked to the canonical surface whose argument it bears on), and primary sources. Its companion page, Field Notes — State of Play (/field-notes), carries the periodically-refreshed snapshot of where things stand. As of mid-2026 the log runs from the February 2026 Lightning Labs lightning-agent-tools release through the May 2026 AWS Bedrock AgentCore launch and the mid-2026 consolidation of the competing stablecoin/card stack (Google AP2, the Linux Foundation x402 Foundation, Circle Nanopayments, Skyfire), with the Bitcoin-side autonomous liquidity-management toolkit becoming assemblable (Amboss / ThunderHub / Rails) by June 2026. Both substrates' production milestones, the issuer-freeze record, and the BPI substrate-preference study are logged here with primary sources.
+  Field Notes — The Log is the project's reverse-chronological record of specific dated developments in the Bitcoin-AI economy, newest first — each entry naming what happened, why it matters (cross-linked to the canonical surface whose argument it bears on), and primary sources. Its companion page, Field Notes — State of Play (/field-notes), carries the periodically-refreshed snapshot of where things stand. As of mid-2026 the log runs from the February 2026 Lightning Labs lightning-agent-tools release through the May 2026 AWS Bedrock AgentCore launch and the mid-2026 consolidation of the competing stablecoin/card stack (Google AP2, the Linux Foundation x402 Foundation, Circle Nanopayments, Skyfire), with the Bitcoin-side autonomous liquidity-management toolkit becoming assemblable (Amboss / ThunderHub / Rails) by June 2026, and on to the September 2026 record that an independent evaluator (Artificial Analysis) now publishes cost per completed agent task — single-digit cents for capable open-weight models, roughly 100x below frontier — which places the unit of agent work beneath the card networks' fixed-fee floor while selecting no settlement asset. Both substrates' production milestones, the issuer-freeze record, and the BPI substrate-preference study are logged here with primary sources.
 ---
 
 # Field Notes — The Log
@@ -29,6 +29,40 @@ agent-tldr: |
 > **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-09-10 — Somebody with nothing to sell is now measuring what one finished agent task costs, and the cheap answer is three cents
+
+**Read this caveat first.** Everything below is about the *size* of a payment, not about which money makes it. A three-cent unit of work rules the card networks out by arithmetic. It does not rule Bitcoin in — a sub-cent stablecoin rail clears three cents just as easily. This entry is evidence for the scaling half of the argument (the rails), not the trust half (the asset). Read it as Phase 1, and no further.
+
+**What's happening.** For three years the public number for AI cost has been the price of a million tokens. That is a wholesale input price. It is not the price of anything anyone actually wants, because what an agent buys is a *finished task* — and a finished task means repeated context, tool calls, retries, reasoning, and a deliverable at the end.
+
+**[Artificial Analysis](https://artificialanalysis.ai/)** — an independent benchmarking firm that sells analysis and builds no models — now publishes **cost per completed task** as a measured column next to the capability score, across its agentic evaluations. On **7 July 2026**, launching six industry-specific indices built from real occupational task data, they reported the shape of the market in one post: DeepSeek V4 Flash (max) finishes tasks for **under $0.04** across all six indices while scoring mid-pack; GLM-5.2 (max) leads the open-weight field at **$0.26 to $0.58** per task. And the comparison that matters: on their Strategy & Ops index, Claude Fable 5 scores **twelve points higher** than DeepSeek V4 Pro (max) — at **more than a hundred times the cost per task**, $3.48 against $0.03.
+
+The same metric anchors their Coding Agent Index (v1.5), where thirteen model-and-harness combinations are run against DeepSWE v1.1, Terminal-Bench 4.0 and SWE-Atlas-QnA and charted directly against average API cost per task.
+
+**Why it matters.** The unit of work now has a published price, measured by someone with no horse in the race, and for a capable open-weight model that price is a few cents.
+
+A few cents is under the floor of the card networks — and not marginally. Stripe's published US card rate is 2.9% **plus a fixed $0.30** per successful transaction. On a three-cent task the fixed fee alone is ten times the thing being bought. No volume gets you under it, because the fixed part is fixed by design: the card rails were built for a person buying a sandwich, not a machine buying a paragraph.
+
+That is the argument this site has been making about agent payments leaving the card rails, stated as arithmetic instead of assertion. Not "cards are expensive." Cards have a floor, and the work has fallen underneath it.
+
+**The honest read.** Five things, and three of them cut against us.
+
+**(1) We sat on a better-looking number for a day, and we were right to.** On 9 September a design-AI company published its own arena scoring a cheap open model at 98% of the top score for 1.4% of the cost — 2.3 cents a finished artifact. It is a good-looking number and we did not publish it, because the firm running the benchmark sells the thing being benchmarked, the result is un-replicated, and it covers one task family. What changed is not that number. It is that an independent evaluator, on entirely different tasks, lands in the same place — three to four cents. Treat the vendor arena as a hint that pointed us somewhere; the measurement is Artificial Analysis's.
+
+**(2) This corroborates a level, not a collapse.** The tempting story is a seventy-fold fall in a single model generation. That story is not what two sources support. What they support is a *level* — one completed task from a capable non-frontier model now costs single-digit cents — and a *spread* — roughly a hundred to one for about twelve points of capability. The level is the load-bearing fact for a payments argument. The rate of change is not established here and we are not going to claim it.
+
+**(3) The frontier is getting more expensive, not less.** The most careful academic work on this — [Gundlach et al., MIT FutureTech](https://arxiv.org/abs/2511.23455), revised March 2026, built on Artificial Analysis and Epoch AI data — finds that the price of a *given level* of benchmark performance falls about 5–10× per year, with algorithmic efficiency contributing roughly 3× of it. In the same paper: the price of running *frontier* models is **rising** 3–18× per year, as models get bigger and reasoning budgets get longer. There is no general collapse in AI cost. There is a fast-falling floor underneath a fast-rising ceiling, and the cheap tier is the only part of this that is cheap.
+
+**(4) These are bills, not payments.** Not one of these tasks was paid for per-task over any rail. Every number here is postpaid API billing against a corporate account with a card on file, settled monthly. The claim we can make is about what unit size the card rails can carry. The claim we cannot make — and this log will not make it — is that agents are already paying this way. They are not. When they do, that will be its own dated entry.
+
+**(5) Cost per task measures the model's bill, not the job's cost.** Artificial Analysis says this plainly on its own methodology: the figure is pay-per-token API cost, excluding infrastructure, engineering and supervision, and prompt-cache hit rates vary enough by provider routing to move the effective cost materially. And the routing lesson runs against naive cheapness — cheap failure is still failure, and a model that finishes in one attempt can beat a cheaper one that needs three. The three-cent number is a floor that exists, not a price everyone will pay.
+
+**Cross-references.** [[Agent-Economy|The Agent Economy]] (the high-frequency, sub-cent, continuous pattern this is the first independent measurement of); [[Why-Lightning-Not-A-Fast-Chain|Why Lightning, Not a "Fast" Chain]] (the Phase 1 scaling constraint this bears on — and only that); [[Border-Skirmishes]] (the Phase 1 contest is not settled by a cost floor that competing rails also clear); [[Field-Notes]] (State of Play).
+
+**Sources.** [artificialanalysis.ai/agents/coding-agents](https://artificialanalysis.ai/agents/coding-agents) — the Coding Agent Index v1.5 and its cost-per-task methodology, read 2026-09-10. [@ArtificialAnlys, 2026-07-07](https://x.com/ArtificialAnlys/status/2074299918358041079) — the six-index cost figures quoted above, with the [launch post](https://x.com/ArtificialAnlys/status/2074299714699469221) of the same date. [arxiv.org/abs/2511.23455](https://arxiv.org/abs/2511.23455) — Gundlach et al., *The Price of Progress*, v2 dated 2026-03-23 (price-at-fixed-performance and frontier-price trends). [epoch.ai/data-insights/llm-inference-price-trends](https://epoch.ai/data-insights/llm-inference-price-trends) — Epoch AI on how unevenly these declines land across tasks (9× to 900× per year), dataset updated November 2025. [stripe.com/pricing](https://stripe.com/pricing) — 2.9% + $0.30 per domestic card transaction, read 2026-09-10.
 
 ---
 
