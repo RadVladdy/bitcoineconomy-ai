@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-09-10
+last-updated: 2026-09-23
 voice: honest-middle-position
 tags:
   - canonical
@@ -19,7 +19,7 @@ tags:
   - ai-economy
   - lightning
 agent-tldr: |
-  Field Notes — The Log is the project's reverse-chronological record of specific dated developments in the Bitcoin-AI economy, newest first — each entry naming what happened, why it matters (cross-linked to the canonical surface whose argument it bears on), and primary sources. Its companion page, Field Notes — State of Play (/field-notes), carries the periodically-refreshed snapshot of where things stand. As of mid-2026 the log runs from the February 2026 Lightning Labs lightning-agent-tools release through the May 2026 AWS Bedrock AgentCore launch and the mid-2026 consolidation of the competing stablecoin/card stack (Google AP2, the Linux Foundation x402 Foundation, Circle Nanopayments, Skyfire), with the Bitcoin-side autonomous liquidity-management toolkit becoming assemblable (Amboss / ThunderHub / Rails) by June 2026, and on to the September 2026 record that an independent evaluator (Artificial Analysis) now publishes cost per completed agent task — single-digit cents for capable open-weight models, roughly 100x below frontier — which places the unit of agent work beneath the card networks' fixed-fee floor while selecting no settlement asset. Both substrates' production milestones, the issuer-freeze record, and the BPI substrate-preference study are logged here with primary sources.
+  Field Notes — The Log is the project's reverse-chronological record of specific dated developments in the Bitcoin-AI economy, newest first — each entry naming what happened, why it matters (cross-linked to the canonical surface whose argument it bears on), and primary sources. Its companion page, Field Notes — State of Play (/field-notes), carries the periodically-refreshed snapshot of where things stand. As of mid-2026 the log runs from the February 2026 Lightning Labs lightning-agent-tools release through the May 2026 AWS Bedrock AgentCore launch and the mid-2026 consolidation of the competing stablecoin/card stack (Google AP2, the Linux Foundation x402 Foundation, Circle Nanopayments, Skyfire), with the Bitcoin-side autonomous liquidity-management toolkit becoming assemblable (Amboss / ThunderHub / Rails) by June 2026, and on to the September 2026 record that an independent evaluator (Artificial Analysis) now publishes cost per completed agent task — single-digit cents for capable open-weight models, roughly 100x below frontier — which places the unit of agent work beneath the card networks' fixed-fee floor while selecting no settlement asset, and the 2026-09-23 merge of a normative Bitcoin-Lightning settlement scheme into x402 itself — native BTC as the settled asset, a facilitator that holds no funds and is forbidden to name the payer, and nothing yet implemented or routable. Both substrates' production milestones, the issuer-freeze record, and the BPI substrate-preference study are logged here with primary sources.
 ---
 
 # Field Notes — The Log
@@ -29,6 +29,54 @@ agent-tldr: |
 > **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-09-23 — The rival standard now speaks Bitcoin: x402 merges a Lightning scheme in which the facilitator never touches the money
+
+**Read this first.** What merged is a *specification*, not a product. Nothing below is running anywhere you can point an agent at today, and no facilitator implements it. What makes it worth an entry is what the document says, whose document it is, and which house it was merged into.
+
+**What's happening.** **x402** is the agent-payment standard this log has tracked as the other side of the contest: created at Coinbase, contributed to a dedicated **x402 Foundation under the Linux Foundation**, past 119M transactions on Base, and carrying a neutral index operator's one-line label — *"centralized facilitator required"* (see the 2026-05 landscape entry and the 2026-07-21 402index entry below). On **23 September 2026** x402 merged a specification for settling x402 payments in **bitcoin, over Lightning**.
+
+The change is two files: 760 new lines in `scheme_exact_lnbtc.md`, and **one line** edited in the parent spec to add *"Bitcoin Lightning"* to the list of networks the `exact` scheme runs on — where it now sits beside Solana, Stellar, EVM, SUI, TON and Starknet. It was authored by **benthecarman**, a Bitcoin developer whose GitHub profile lists **Spiral**, Block's Bitcoin-only open-source unit.
+
+What it specifies, in plain terms:
+
+- The asset is **`"BTC"`**. Not a wrapper, not a bridged token, not a stablecoin riding Taproot Assets. The thing itself.
+- The seller hands you a **fresh BOLT11 invoice for every request**, and that invoice cryptographically commits to *the exact request you are buying* — the invoice's description hash is a digest of the request itself, so a proof of payment for one request cannot be spent on another.
+- You pay the invoice over Lightning, node to node, and hand back the **preimage** — the 32-byte secret Lightning releases to the payer when a payment settles.
+- The facilitator checks that the preimage hashes to the invoice's payment hash, that the invoice was signed by the seller's own node key, and writes that payment hash down so it cannot be used twice.
+- There is a profile for plain HTTP requests and a profile for **MCP tool calls** — so "pay for one tool call in sats" is written into the standard, not bolted on.
+
+And then the sentence that does the real work, verbatim from the spec: **"Settlement does not move funds."** The money already moved, directly between two Lightning nodes, before the facilitator saw anything at all.
+
+**Why it matters.** Three things, and the third is the one that counts.
+
+**It is the exact mirror image of the entry below it.** In June this log recorded Stripe's Machine Payments Protocol under the heading *"Bitcoin is a guest, not the house"* — a 402 standard whose centre of gravity is cards and Tempo stablecoins, with Lightning available as one selectable method. This is the same shape pointed the other way: bitcoin is a guest in x402's house too. What changed is not the house. It is what the guest room is made of.
+
+**The "centralized facilitator required" label is now only half true of x402.** On the EVM networks, the facilitator is the party that pushes the transfer on-chain — it is in the path of the money. Under the Lightning scheme it cannot be, because there is no money left to be in the path of. The spec says the facilitator **must verify the preimage locally** and **must not require access to the seller's node**; it holds no funds, needs no credentials from either side, and cannot reverse, seize or freeze a payment that completed before it was consulted. What it *can* still do is refuse to write the payment hash down — and the seller must not serve the request until that write succeeds. So the facilitator keeps a gate on **the service**, and loses its grip on **the money**. Those are different powers, and this site's whole argument is about the second one.
+
+**The spec forbids the facilitator from naming the payer.** This is the sharpest line in the document. Lightning routing gives no stable payer identity, so facilitators **must omit** the payer field from the settlement response and **must not infer** one from the invoice. Set that against the same standard's other six networks, where the payer is a blockchain address — permanent, clusterable, and sanctionable by anyone who can reach the issuer. The property this site keeps insisting is the one that really matters — that the money and the person spending it cannot be switched off by a third party — is now written in normative language *inside the incumbent standard's own specification*.
+
+One smaller detail worth having on the record, because it is about the unit of account rather than the rail. Prices in this scheme are quoted in **millisatoshis** — a thousandth of a satoshi — and the spec requires SDKs to price explicitly in that unit (`{"asset": "BTC", "amount": "21000"}` for 21 sats). A bare number **must be rejected** rather than assumed, and so must `$1` or `1 USD`, unless an application deliberately registers a currency converter. In a standard whose other networks are denominated in dollars by default, the Bitcoin scheme's default unit is the satoshi and the dollar is an opt-in extension.
+
+**The honest read.** Six things, and four of them cut against us.
+
+**(1) A merged document is not a deployed rail.** This was a docs-only change — no SDK, no facilitator implementation, no live endpoint, and by the project's own convention it needed no changelog entry because nothing user-facing shipped. By the standard this log applied to the Blockstream Swaps announcement six weeks ago, that makes it a dated fact and not an available venue. There is no `lnbtc` facilitator to route an agent to. When one exists and can be exercised, that is its own entry.
+
+**(2) It changes nothing about the counts.** 402index's tally of roughly 81,000 x402 endpoints against 1,237 on Lightning is untouched by a specification. Bitcoin is now *an option* in the standard that dominates by endpoint count; being an option is not adoption, and this entry claims nothing about flow.
+
+**(3) The agent pays first, and the spec promises it nothing back.** The scheme supports only the upfront flow — a Lightning payment has to settle before its preimage exists, so there is no version of this where the buyer holds anything in reserve. The document is blunt about the consequence: it *"provides no refund path,"* any refund is a private arrangement with the seller, and clients *"MUST NOT assume a refund is available."* An agent buying from a stranger under this scheme is trusting the seller to deliver, with no protocol-level recourse. That is a real cost of removing the intermediary, and it is the intermediary's one genuine service.
+
+**(4) It rules out the easy on-ramp.** Because the proof of payment is tied to the seller's node key, a shared custodial node does not work: another tenant on the same node could issue an invoice, pay it themselves, and present the preimage against your payment requirement. The spec therefore requires the seller to have exclusive invoice-issuance authority for that key. That pushes toward self-custody, which this site thinks is the right direction — and it also means the simplest custodial starting point, the one most operators would actually begin from, is not available here.
+
+**(5) On granularity this is a draw, not a win.** One millisatoshi is a very small unit, but Circle Nanopayments advertises USDC payments down to $0.000001, and at any bitcoin price of the last several years those two floors sit in the same neighbourhood. Nobody wins the micropayment argument on the size of the smallest unit any more. The argument moved to the asset some time ago, which is exactly why point three above is the interesting one.
+
+**(6) Being written into a standard is not the same as being chosen by it.** Seven networks are specified for the `exact` scheme and six of them settle in someone's dollar. A reader who wants this entry to mean the tide turned should notice that the same merge is entirely consistent with bitcoin remaining a rounding error inside x402 forever. What it establishes is narrower and still real: an agent that will only hold the unfreezable asset is no longer locked out of the standard by the standard's own design.
+
+**Cross-references.** The **2026-06-30 Stripe/Tempo MPP** entry below (*"Bitcoin is a guest, not the house"* — this is that entry's mirror image); the **2026-07-21 402index** entry (whose *"centralized facilitator required"* label this qualifies, for one scheme of one standard); the **2026-07-29 Alby l402.space** entry (a paid proxy that let a sats-only agent buy from the x402 economy — native settlement is the version of that which needs no proxy); the **2026-05 competing-substrate landscape** entry (the x402 Foundation). On the arguments: [[Border-Skirmishes]] (the rail-versus-asset contest — this is a datapoint on the *asset* side, inside the rival rail); [[Why-Bitcoin-Not-A-New-Coin|Why Bitcoin, Not a New Coin]] and [[Independence-Doctrine|Independence Doctrine]] (the freeze surface, which the payer-anonymity rule speaks to directly); [[Stack]] (L402 and the payment primitives this sits beside); [[Field-Notes]] (State of Play).
+
+**Sources.** [x402-foundation/x402 PR #2861](https://github.com/x402-foundation/x402/pull/2861) — *"docs: Specify exact Lightning on BIP-122"*, opened by benthecarman, merged **2026-09-23 06:01:22Z**, 2 files changed, +761/−1 (PR metadata read from the GitHub API 2026-09-25). [`specs/schemes/exact/scheme_exact_lnbtc.md`](https://github.com/x402-foundation/x402/blob/main/specs/schemes/exact/scheme_exact_lnbtc.md) — the scheme document; every quoted phrase and every rule above read from it 2026-09-25. [`specs/schemes/exact/scheme_exact.md`](https://github.com/x402-foundation/x402/blob/main/specs/schemes/exact/scheme_exact.md) — the parent spec's per-network list. Announcement: [@benthecarman](https://x.com/benthecarman/status/2102777863607050456) (2026-09-23). Author affiliation: [github.com/benthecarman](https://github.com/benthecarman) profile (Spiral), read 2026-09-25. Comparison figures are this log's own prior records: [402index.io](https://402index.io/) counts (2026-07-21 entry) and [Circle Nanopayments](https://www.circle.com/nanopayments) (2026-05 entry).
 
 ---
 
