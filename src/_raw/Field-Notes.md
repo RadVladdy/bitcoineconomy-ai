@@ -8,7 +8,7 @@ status: v0-approved-2026-05-26
 audience: humans
 twin-page: field-notes-for-agents
 created: 2026-05-26
-last-updated: 2026-06-29
+last-updated: 2026-09-28
 section-A-last-refreshed: 2026-06-01
 voice: honest-middle-position
 tags:
