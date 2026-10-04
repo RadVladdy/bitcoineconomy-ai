@@ -8,7 +8,7 @@ status: v0-approved-2026-06-29
 audience: humans
 twin-page: field-notes-log-for-agents
 created: 2026-06-29
-last-updated: 2026-09-23
+last-updated: 2026-10-04
 voice: honest-middle-position
 tags:
   - canonical
@@ -19,7 +19,7 @@ tags:
   - ai-economy
   - lightning
 agent-tldr: |
-  Field Notes — The Log is the project's reverse-chronological record of specific dated developments in the Bitcoin-AI economy, newest first — each entry naming what happened, why it matters (cross-linked to the canonical surface whose argument it bears on), and primary sources. Its companion page, Field Notes — State of Play (/field-notes), carries the periodically-refreshed snapshot of where things stand. As of mid-2026 the log runs from the February 2026 Lightning Labs lightning-agent-tools release through the May 2026 AWS Bedrock AgentCore launch and the mid-2026 consolidation of the competing stablecoin/card stack (Google AP2, the Linux Foundation x402 Foundation, Circle Nanopayments, Skyfire), with the Bitcoin-side autonomous liquidity-management toolkit becoming assemblable (Amboss / ThunderHub / Rails) by June 2026, and on to the September 2026 record that an independent evaluator (Artificial Analysis) now publishes cost per completed agent task — single-digit cents for capable open-weight models, roughly 100x below frontier — which places the unit of agent work beneath the card networks' fixed-fee floor while selecting no settlement asset, and the 2026-09-23 merge of a normative Bitcoin-Lightning settlement scheme into x402 itself — native BTC as the settled asset, a facilitator that holds no funds and is forbidden to name the payer, and nothing yet implemented or routable. Both substrates' production milestones, the issuer-freeze record, and the BPI substrate-preference study are logged here with primary sources.
+  Field Notes — The Log is the project's reverse-chronological record of specific dated developments in the Bitcoin-AI economy, newest first — each entry naming what happened, why it matters (cross-linked to the canonical surface whose argument it bears on), and primary sources. Its companion page, Field Notes — State of Play (/field-notes), carries the periodically-refreshed snapshot of where things stand. As of mid-2026 the log runs from the February 2026 Lightning Labs lightning-agent-tools release through the May 2026 AWS Bedrock AgentCore launch and the mid-2026 consolidation of the competing stablecoin/card stack (Google AP2, the Linux Foundation x402 Foundation, Circle Nanopayments, Skyfire), with the Bitcoin-side autonomous liquidity-management toolkit becoming assemblable (Amboss / ThunderHub / Rails) by June 2026, and on to the September 2026 record that an independent evaluator (Artificial Analysis) now publishes cost per completed agent task — single-digit cents for capable open-weight models, roughly 100x below frontier — which places the unit of agent work beneath the card networks' fixed-fee floor while selecting no settlement asset, and the 2026-09-23 merge of a normative Bitcoin-Lightning settlement scheme into x402 itself — native BTC as the settled asset, a facilitator that holds no funds and is forbidden to name the payer, and nothing yet implemented or routable — and the 2026-10-03 on-the-record read of its author: agent payments still near zero, the agent worth having is one that can be paid (constraint one, argued from the receiving side), and Block's MeshLLM shared-compute pool is adding sats payments, with the stranger-delivery problem unsolved. Both substrates' production milestones, the issuer-freeze record, and the BPI substrate-preference study are logged here with primary sources.
 ---
 
 # Field Notes — The Log
@@ -29,6 +29,40 @@ agent-tldr: |
 > **Where the snapshot lives.** This page tells you *how we got here and what changed when*; its companion **[[Field-Notes|Field Notes — State of Play]]** is the periodically-refreshed snapshot of *where things stand right now*. New here? Start with the **[State of Play →](/field-notes)**, then come back for the timeline.
 >
 > **Voice.** Honest middle-position, same as the canonical surfaces — engaging deployment challenges on both substrates directly, not curated marketing.
+
+---
+
+### 2026-10-03 — The author of x402's Lightning scheme, on the record: agent payments are near zero, the agent worth having is one that can get paid, and sats are being wired into shared compute
+
+**Read this first.** This entry is a long-form interview, not a release or a measurement. Everything below is one well-placed developer's testimony, paraphrased from the episode (the quotations are short and checked against the audio's captions). Treat the numbers in it as an insider's estimate, not data.
+
+**What's happening.** On **3 October 2026** the Stephan Livera Podcast published **SLP779, *"Lightning in x402 and Agent Payments"*** with **Ben Carman** of **Spiral** — the developer who wrote the Lightning settlement scheme merged into x402 ten days earlier (the 2026-09-23 entry below). Three things he said bear directly on this site's argument.
+
+- **On where agent payments stand today:** regardless of Bitcoin, *"practically zero."* Most x402 volume is stablecoins on Ethereum and Solana, and even that he puts at something like ten purchases a day. His case for doing the work anyway is readiness — if agent payments take off, the Bitcoin tools should already be there.
+- **On which agent is worth having:** today's consumer agent integrations can **spend but not receive** — he named Meta's agent and its Stripe hookup as send-only. Given the choice, he'd take the agent that can receive money, because he wants it to earn. Getting paid on conventional rails means KYC and merchant onboarding; with Bitcoin an agent can simply be paid. He names **stablecoins as the main competitor** — they can receive without permission too — and draws the line at censorship-resistance.
+- **On Block's shared-compute project:** **MeshLLM**, which pools people's idle GPUs so a model too big for one machine can run across several, already ships inside [[buzz|Buzz]] (Block's Nostr-native workspace) as free, best-effort sharing. Spiral is **adding Bitcoin payments**, so a GPU owner could rent out spare capacity overnight and be paid in sats for it.
+
+He also restated the [[Adoption-Asymmetry|Adoption Asymmetry]] argument unprompted, in a single anecdote: getting his mother onto Bitcoin meant explaining sats, QR codes, invoices and self-custody one term at a time, while a model trained on the internet already knows all of it and can act the moment it is handed a wallet.
+
+**Why it matters.** The receive side is the half of the agent-payment argument this site has made least. Most of our pages argue from the paying agent — the one buying an API call or a slice of compute. Carman's point turns it around: an agent that can only spend is an expense line; an agent that can **earn** is a participant, and earning is exactly where the KYC wall sits. A business can hand an agent a card to spend from. It cannot give that agent a merchant account in its own name. That is **constraint one** — software-manageable without KYC or a human account in the middle — argued from the side where it binds hardest.
+
+MeshLLM is the same point made concrete. Paying strangers for compute by the second is the use case the third constraint (sub-cent settlement) was written for, and here the strangers are people — a GPU owner selling idle capacity to whoever needs it, with no account between them. That is a two-sided market of anonymous counterparties, and it is the shape of commerce this site argues only a permissionless asset can clear.
+
+**The honest read.** Four things, two of which cut against us.
+
+**(1) It's testimony, not data.** "Ten purchases a day" is an offhand estimate in conversation, not a count. It agrees with this log's own earlier caution — the 402index endpoint tally measures listings, not flow — but it should not be cited as a volume figure.
+
+**(2) The paid version of MeshLLM does not exist yet.** Block's own engineering post on the Buzz integration (27 July 2026) describes compute sharing as free and trust-based — *"share compute with people you trust"* — and its public mesh as *"strictly best-effort."* Bitcoin payments are, on Carman's own account, in progress. Nothing here is routable.
+
+**(3) Paying a stranger for compute has an unsolved delivery problem.** Carman named it plainly: if you pay someone to run a large model, you cannot easily check that you got that model, rather than a smaller one or a heavily compressed copy. Spiral's current mitigation is partial trust plus encrypting the answer against the payment, so at least the payer does not get garbage. That is the same gap the 2026-09-23 entry flagged in the x402 Lightning scheme — no refund path, no protocol-level recourse for non-delivery — and it is now showing up on the compute side too. Removing the intermediary removes the referee.
+
+**(4) On receiving, stablecoins match Bitcoin.** Carman concedes this himself: a stablecoin address can be paid without a merchant account too. So the receive-side argument does not separate Bitcoin from stablecoins on its own. It separates permissionless money from the card-and-bank stack, and the remaining contest with stablecoins runs, as it always has on this site, through the issuer's ability to freeze — the [[Independence-Doctrine|Independence Doctrine]] argument, not this one.
+
+**One parallel worth noting.** Asked about open versus closed models, Carman said he uses frontier closed models for production code but has to fall back on open-weight models for security work, because the closed labs block exploit research unless you pass an identity check — and even then access is partial. The gate this site describes at the money layer exists at the intelligence layer too, and the way around it is the same: tools nobody can switch off. That is an observation, not a claim this log tests; it bears on [[Convergence|The Convergence]].
+
+**Cross-references.** The **2026-09-23 x402 Lightning scheme** entry below (same author; this entry is his own read of where it stands); the **2026-07-21 402index** entry (listings, not flow); the **2026-08-01** entry (which logged Lightning payments for [[buzz|Buzz]] as *inference about a roadmap* — this interview moves that, for MeshLLM compute specifically, to *stated as in progress* by a Spiral developer; still not shipped, and the Buzz card's *no payment layer yet* remains true). On the arguments: [[Case]] (constraint one, argued from the receiving side); [[Adoption-Asymmetry|The Adoption Asymmetry]] (the mother-versus-model anecdote); [[Border-Skirmishes]] (stablecoins named as the main competitor); [[Independence-Doctrine|Independence Doctrine]] (where the stablecoin contest is decided).
+
+**Sources.** [Stephan Livera Podcast SLP779, *"Lightning in x402 and Agent Payments"*](https://stephanlivera.com/episode/779/) with Ben Carman, published 3 October 2026, 45:28 ([YouTube](https://youtu.be/EuRGSf4mItU)) — all statements attributed to Carman are paraphrased from the episode's auto-generated captions, read 2026-10-04. [*"Buzz: Sharing compute powered by MeshLLM"*](https://engineering.block.xyz/blog/buzz-sharing-compute-powered-by-meshllm), Block Engineering, 27 July 2026 — the free/best-effort status and the trust caveat quoted above. [MeshLLM on GitHub](https://github.com/Mesh-LLM/mesh-llm/).
 
 ---
 
