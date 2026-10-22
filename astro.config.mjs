@@ -82,6 +82,9 @@ export default defineConfig({
   // so it has no history). See scripts/lastmod.mjs for why git and not mtime.
   // The sitemap carried no lastmod at all until 2026-08-07.
   integrations: [sitemap({ serialize: buildLastmod() })],
+  // Astro 7 changed the default whitespace handling ('jsx'); pinned back to the
+  // v6 behaviour so the 2026-10 security upgrade changes no rendered output.
+  compressHTML: true,
   markdown: {
     // `markdown.remarkPlugins` was deprecated in favour of passing the plugin
     // list to `unified()` and handing the result to `markdown.processor`.

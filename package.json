@@ -17,7 +17,8 @@
     "deploy": "npm run build && bash scripts/deploy.sh"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
-    "astro": "^6.4.2"
+    "@astrojs/markdown-remark": "^7.3.4",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.1"
   }
 }
