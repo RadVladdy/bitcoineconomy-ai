@@ -2,7 +2,7 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Agent Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-08-29T01:19:29.663Z",
+  "generated_at": "2026-10-24T19:57:53.690Z",
   "tool_count": 28,
   "toolbox_groups": [
     "node-toolkits",
@@ -323,14 +323,14 @@
       "prereq_tier": "lightning-node",
       "stack_section": "§5",
       "license": "MIT",
-      "latest_release": "v1.5.6",
+      "latest_release": "v1.6.2",
       "links": {
         "site": "https://lnbits.com",
         "docs": "https://docs.lnbits.com",
         "repo": "https://github.com/lnbits/lnbits"
       },
       "card_url": "https://bitcoineconomy.ai/tools/lnbits",
-      "last_verified": "2026-07-19"
+      "last_verified": "2026-10-24"
     },
     {
       "slug": "minibits-ippon",
@@ -424,12 +424,12 @@
       "prereq_tier": "account",
       "stack_section": "§5",
       "license": "MIT",
-      "latest_release": "v0.5.1",
+      "latest_release": "v0.5.2",
       "links": {
         "repo": "https://github.com/jan3dev/agentic-aqua"
       },
       "card_url": "https://bitcoineconomy.ai/tools/agentic-aqua",
-      "last_verified": "2026-08-07"
+      "last_verified": "2026-10-24"
     },
     {
       "slug": "money-dev-kit",
@@ -502,14 +502,14 @@
       "prereq_tier": "keys-only",
       "stack_section": "§2",
       "license": "Apache-2.0",
-      "latest_release": "v0.9.0",
+      "latest_release": "v0.9.3",
       "links": {
         "site": "https://phoenix.acinq.co/server",
         "docs": "https://phoenix.acinq.co/server/api",
         "repo": "https://github.com/ACINQ/phoenixd"
       },
       "card_url": "https://bitcoineconomy.ai/tools/phoenixd",
-      "last_verified": "2026-08-03"
+      "last_verified": "2026-10-24"
     },
     {
       "slug": "buzz",
@@ -578,14 +578,14 @@
       "maintainer": "Lightning Labs",
       "prereq_tier": "lightning-node",
       "stack_section": "Marketplace",
-      "latest_release": "v0.8.1",
+      "latest_release": "v0.8.8",
       "links": {
         "site": "https://lightning.engineering",
         "docs": "https://docs.lightning.engineering/the-lightning-network/taproot-assets",
         "repo": "https://github.com/lightninglabs/taproot-assets"
       },
       "card_url": "https://bitcoineconomy.ai/tools/taproot-assets",
-      "last_verified": "2026-07-19"
+      "last_verified": "2026-10-24"
     }
   ]
 }
