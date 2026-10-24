@@ -35,7 +35,7 @@
 //     sats to an intermediary — a real difference, kept visible at the point of
 //     decision rather than averaged into "payable"
 
-import { CATEGORY_ORDER, CATEGORIES, vocabularyDoc } from './taxonomy.mjs';
+import { CATEGORY_ORDER, CATEGORIES, isValidPair, vocabularyDoc } from './taxonomy.mjs';
 
 export const SOURCES = {
   curated: {
@@ -165,9 +165,30 @@ function fromCurated(dir) {
   }));
 }
 
+// The announced tier is the one source whose category is the publisher's own
+// string, so it is the one that needs a gate here: the curated path hard-fails
+// the build on an off-vocabulary pair and both external tiers crosswalk. Until
+// 2026-10-24 this tier copied any non-empty `category` through as 'exact', and a
+// stranger's `category: "service"` became a 13th category against 12 defined.
+// A row that won't classify isn't ingested — but it is NAMED in
+// sources.announced.rejected_off_vocabulary, because it is on public relays
+// either way and dropping it silently would hide the rule from the publisher.
+function offVocabulary(s) {
+  return Boolean(s.category) && !isValidPair(s.category, s.subcategory);
+}
+
+function announcedRejected(snapshot) {
+  return (snapshot?.modules?.announced?.services || []).filter(offVocabulary).map((s) => ({
+    id: 'announced:' + (s.d || s.pubkey?.slice(0, 12)),
+    category: s.category,
+    subcategory: s.subcategory || null,
+    why: 'category/subcategory pair is not in the controlled vocabulary (see `vocabulary`)',
+  }));
+}
+
 function fromAnnounced(snapshot, uptime) {
   const mod = snapshot?.modules?.announced;
-  return (mod?.services || []).map((s) => {
+  return (mod?.services || []).filter((s) => !offVocabulary(s)).map((s) => {
     const up = uptime?.targets?.[`announced:${s.d}`] || null;
     return row({
       id: 'announced:' + (s.d || s.pubkey?.slice(0, 12)),
@@ -470,6 +491,7 @@ export function buildMaster({ directory, snapshot, l402index, l402space, uptime,
           stale_after_hours: budget,
         };
       })(),
+      ...(key === 'announced' ? { rejected_off_vocabulary: announcedRejected(doc) } : {}),
       attribution: doc?.attribution || null,
       document: {
         curated: base + '/directory.json',
