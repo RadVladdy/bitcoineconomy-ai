@@ -11,10 +11,10 @@ docs: https://phoenix.acinq.co/server/api
 site: https://phoenix.acinq.co/server
 license: Apache-2.0
 stack-section: "§2"
-latest-release: v0.9.0
-release-date: "2026-07-13"
+latest-release: v0.9.3
+release-date: "2026-10-13"
 status: published
-last-verified: 2026-08-03
+last-verified: 2026-10-24
 order: 38
 prereq-tier: keys-only
 prereqs:
@@ -49,7 +49,7 @@ A server you control and some bitcoin to get started. No account, no KYC, no ext
 
 ## Quick start
 
-Download the binary from `github.com/ACINQ/phoenixd` (or build with `./gradlew linuxX64DistZip`), run it, and read the generated passwords out of `~/.phoenix/phoenix.conf`. Then it is plain HTTP with Basic auth — `POST /createinvoice` to get paid, `POST /payinvoice` to pay, `POST /lnurlauth` to sign a login challenge. Full endpoint reference at `phoenix.acinq.co/server/api` (documented for v0.9.0).
+Download the binary from `github.com/ACINQ/phoenixd` (or build with `./gradlew linuxX64DistZip`), run it, and read the generated passwords out of `~/.phoenix/phoenix.conf`. Then it is plain HTTP with Basic auth — `POST /createinvoice` to get paid, `POST /payinvoice` to pay, `POST /lnurlauth` to sign a login challenge. Full endpoint reference at `phoenix.acinq.co/server/api` (endpoints re-checked against the v0.9.3 source).
 
 ## Gotchas
 

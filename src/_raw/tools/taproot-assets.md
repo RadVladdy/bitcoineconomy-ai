@@ -10,11 +10,11 @@ repo: https://github.com/lightninglabs/taproot-assets
 docs: https://docs.lightning.engineering/the-lightning-network/taproot-assets
 site: https://lightning.engineering
 x: "@lightning"
-latest-release: v0.8.1
-release-date: "2026-06-08"
+latest-release: v0.8.8
+release-date: "2026-10-22"
 stack-section: "Marketplace"
 status: published
-last-verified: 2026-07-19
+last-verified: 2026-10-24
 order: 53
 prereq-tier: lightning-node
 prereqs:
@@ -51,7 +51,7 @@ A Lightning node running the `tapd` daemon — backed by a [Bitcoin node](/tools
 
 ## Quick start
 
-Run `tapd` from `github.com/lightninglabs/taproot-assets` (v0.8.1 latest); developers can build on the new SDK. Docs at `docs.lightning.engineering/the-lightning-network/taproot-assets`. **Read the Operational Safety Guidelines before any mainnet use.**
+Run `tapd` from `github.com/lightninglabs/taproot-assets` (v0.8.8 latest); developers can build on the new SDK. Docs at `docs.lightning.engineering/the-lightning-network/taproot-assets`. **Read the Operational Safety Guidelines before any mainnet use.**
 
 ## Gotchas
 

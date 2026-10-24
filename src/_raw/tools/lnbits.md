@@ -10,12 +10,12 @@ repo: https://github.com/lnbits/lnbits
 docs: https://docs.lnbits.com
 site: https://lnbits.com
 x: "@lnbits"
-latest-release: v1.5.6
-release-date: "2026-07-15"
+latest-release: v1.6.2
+release-date: "2026-09-18"
 license: MIT
 stack-section: "§5"
 status: published
-last-verified: 2026-07-19
+last-verified: 2026-10-24
 order: 31
 prereq-tier: lightning-node
 prereqs:
