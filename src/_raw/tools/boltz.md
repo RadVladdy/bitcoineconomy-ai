@@ -7,14 +7,14 @@ tagline: Non-custodial atomic swaps across on-chain Bitcoin, Lightning, Liquid a
 tool-type: software
 maintainer: Boltz Exchange
 repo: https://github.com/BoltzExchange/boltz-backend
-docs: https://docs.boltz.exchange
-site: https://boltz.exchange
+docs: https://github.com/BoltzExchange/docs
+site: https://github.com/BoltzExchange
 nostr: npub1psm37hke2pmxzdzraqe3cjmqs28dv77da74pdx8mtn5a0vegtlas9q8970
 latest-release: v3.13.0 "Dark Horse"
 release-date: "2026-05-08"
 stack-section: "Marketplace"
 status: published
-last-verified: 2026-08-07 (live pair census + suspension notice read from the vendor bundle; SDK-only policy read)
+last-verified: 2026-11-09 (boltz.exchange / docs / api.docs domains NXDOMAIN on 1.1.1.1 + 8.8.8.8 — links moved to Boltz's GitHub; earlier 2026-08-07 — live pair census + suspension notice read from the vendor bundle; SDK-only policy read)
 order: 51
 prereq-tier: wallet
 prereqs:
@@ -51,7 +51,7 @@ Non-custodial wallets on the rails you're swapping between (on-chain Bitcoin, Li
 
 ## Quick start
 
-**Do not integrate against the hosted service — swaps are suspended (see above).** When it is running, Boltz's own agent-facing docs are explicit that you must **use an official SDK** and must **not** implement the REST API directly: *"Hand-rolling the swap protocol is error-prone and can cause loss of user funds… The REST API reference is for SDK/library authors only."* Start from the SDK list at `api.docs.boltz.exchange/libraries.md`. The service is powered by `boltz-backend` (`github.com/BoltzExchange/boltz-backend`), which you can **self-host** — that path is unaffected by the suspension and is the one to reach for today.
+**Do not integrate against the hosted service — swaps are suspended (see above).** When it is running, Boltz's own agent-facing docs are explicit that you must **use an official SDK** and must **not** implement the REST API directly: *"Hand-rolling the swap protocol is error-prone and can cause loss of user funds… The REST API reference is for SDK/library authors only."* Start from the SDK list in Boltz's docs repo (`github.com/BoltzExchange/docs`) — the `boltz.exchange` domains stopped resolving by late September 2026. The service is powered by `boltz-backend` (`github.com/BoltzExchange/boltz-backend`), which you can **self-host** — that path is unaffected by the suspension and is the one to reach for today.
 
 ## Gotchas
 

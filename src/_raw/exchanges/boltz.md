@@ -14,8 +14,8 @@ bridges:
   - Lightning↔Liquid
 trust-model: cryptographic-atomic
 links:
-  site: https://boltz.exchange
-  api-docs: https://api.docs.boltz.exchange
+  site: https://github.com/BoltzExchange
+  api-docs: https://github.com/BoltzExchange/docs
 status: v0-2026-06-03-structural-verified
 links-verified: 2026-08-07 (live API pair census + suspension notice read from the vendor bundle; swaps disabled 2026-08-03)
 ---
@@ -37,4 +37,4 @@ links-verified: 2026-08-07 (live API pair census + suspension notice read from t
 
 **Gotchas.** The service is **off** (see the callout above) — that is the only gotcha that matters right now. Structurally: *non-custodial* is not *dependency-free*, and the atomic guarantee protects **custody** (you do not lose funds to Boltz) rather than any counterparty's soundness. The suspension is itself the strongest evidence for the design: Boltz stopped operating and users could still refund unilaterally, because refunds do not depend on Boltz's infrastructure. No fiat; no support line; non-custodial means no recourse if you misconfigure.
 
-**Links.** [boltz.exchange](https://boltz.exchange) · API docs `api.docs.boltz.exchange`.
+**Links.** [Boltz on GitHub](https://github.com/BoltzExchange) · docs [github.com/BoltzExchange/docs](https://github.com/BoltzExchange/docs) · self-host [boltz-backend](https://github.com/BoltzExchange/boltz-backend). *(The `boltz.exchange` domains stopped resolving by late September 2026.)*

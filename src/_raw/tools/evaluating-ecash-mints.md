@@ -6,10 +6,10 @@ toolbox-group: ecash
 tagline: How to judge whether a Cashu or Fedimint mint is trustworthy — the hard solvency signals, the reputation layer, and the one rule that beats all of them.
 tool-type: guide
 maintainer: "reference page (this project)"
-docs: https://bitcoinmints.com
+docs: https://cashumints.space
 stack-section: "§3"
 status: published
-last-verified: 2026-08-07 (ZEUS source read at HEAD; cashu.live and the auditor repo re-probed; NUT expansion sourced)
+last-verified: 2026-11-09 (bitcoinmints.com 404 + expired www cert, repo idle since 2026-04 → cashumints.space promoted, live 200; earlier 2026-08-07 — ZEUS source read at HEAD; cashu.live and the auditor repo re-probed; NUT expansion sourced)
 order: 22
 tags:
   - ecash
@@ -41,7 +41,7 @@ These are the closest thing to proof, and the strongest filter — though, hones
 
 Since mints work like local "banks," reputation does a lot of the work. Three kinds of signal exist today:
 
-- **Mint registries / review directories.** **[bitcoinmints.com](https://bitcoinmints.com)** is the primary directory for both Cashu and Fedimint mints — it tracks each mint, its supported NUTs, and **user reviews + vouch counts** signed from Nostr identities. **cashumints.space** is a Cashu-focused sister index with per-mint pages and reliability history.
+- **Mint registries / review directories.** **[cashumints.space](https://cashumints.space)** is the live Cashu index, with per-mint pages and reliability history. *bitcoinmints.com — the Nostr-review directory that also covered Fedimint mints — has been offline since October 2026, so there is no live cross-protocol directory to point to; for Fedimint, lean on the in-wallet discovery below.*
 - **Nostr web-of-trust.** Because reviews are signed by Nostr keys, vetting can run through *your own* social graph: modern wallets surface a mint as higher-reputation when accounts you already follow vouch for it. Trusted operators broadcasting a mint list (or a warning) is a real signal — with the honest caveat that Nostr identities are free to create, so reviews are **sybil-able** and a mint can farm a reputation before exit-scamming.
 - **Objective status boards.** Beyond subjective reviews, automated monitors give an empirical read: **calle's Mint Auditor (`audit.8333.space`)** continuously circulates ecash between mints over Lightning and flags any that fail to pay. *(The former `cashu.live` status board is gone — it has served nothing since 2026-05-18 and its backing repo has been unpushed since 2025-12; `github.com/callebtc/cashu-auditor` is now a 404, so use the running service rather than the repo path.)* Uptime and pay-out behavior are harder to fake than star ratings.
 - **In-wallet discovery + warnings.** You don't have to chase this down manually: wallets like **ZEUS** ship a **Discover Mints** view — which reads **NIP-87 mint-recommendation events (kind 38000) off Nostr**, filtered to the npubs ZEUS follows, to everyone, or to accounts you name, and points you to bitcoinmints.com to read the reviews yourself. Note what that means for sybil-resistance: the filter is **your own follow graph**, not a registry's moderation. Separately, the Bitcoin Design Guide *recommends* warning a user who pastes a mint with zero vouches or a history of dropping offline.
@@ -58,7 +58,7 @@ Even a well-vetted mint can fail, and no proof is perfect. The only fully reliab
 
 ## Links
 
-- **[bitcoinmints.com](https://bitcoinmints.com)** — primary Cashu + Fedimint mint registry (reviews / vouches / NUTs). · **cashumints.space** — Cashu-focused index. · **[audit.8333.space](https://audit.8333.space)** — calle's Mint Auditor (live). *(`cashu.live` is dead — no response since 2026-05-18.)*
+- **[cashumints.space](https://cashumints.space)** — Cashu mint index (per-mint pages, reliability history). *(`bitcoinmints.com` offline since October 2026.)* · **[audit.8333.space](https://audit.8333.space)** — calle's Mint Auditor (live). *(`cashu.live` is dead — no response since 2026-05-18.)*
 - Proof-of-liabilities scheme: `callebtc`'s gist "A Proof of Liabilities Scheme for Ecash Mints" (May 2023). For the **reserves** half — a separate work by different authors — see Grunspan & Perez-Marco, "Proof of reserves and non-double spends for Chaumian Mints", arXiv 2306.12783 (note the authors' own published erratum on §3.1). · **[audit.8333.space](https://audit.8333.space)** — autonomous mint auditor *(the old `callebtc/cashu-auditor` repo is a 404)*.
 - Protocol context: [Cashu](/tools/cashu) · [Fedimint](/tools/fedimint) · the NUTs specs at `cashubtc.github.io/nuts`.
 
