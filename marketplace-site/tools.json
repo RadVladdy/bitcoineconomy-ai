@@ -2,7 +2,7 @@
   "$schema_note": "The tool catalog for the bitcoineconomy.ai marketplace: equipment an autonomous agent installs or runs to transact in Bitcoin — wallets & treasuries, node toolkits, ecash software, bridges & swaps, and the protocol primitives (L402, NWC, BOLT12, LNURL, MCP). Distinct from the service registry at /directory.json (what an agent BUYS); this is what it EQUIPS. Each tool: toolbox_group, tool_type, layer (where it sits in the stack), prereq_tier (what must be in place first), maintainer, repo/docs/site links, and mcp_endpoint where the tool ships its own MCP server (connect there to act). Full per-tool detail (gotchas, dependencies, verified specs) at card_url. Reference facts, not endorsements. Queryable via the /mcp server: find_tool, get_tool, list_mcp_servers.",
   "name": "The Agent Marketplace tool catalog — bitcoineconomy.ai",
   "url": "https://marketplace.bitcoineconomy.ai/tools.json",
-  "generated_at": "2026-10-24T19:57:53.690Z",
+  "generated_at": "2026-11-09T23:35:11.771Z",
   "tool_count": 28,
   "toolbox_groups": [
     "node-toolkits",
@@ -269,10 +269,10 @@
       "maintainer": "reference page (this project)",
       "stack_section": "§3",
       "links": {
-        "docs": "https://bitcoinmints.com"
+        "docs": "https://cashumints.space"
       },
       "card_url": "https://bitcoineconomy.ai/tools/evaluating-ecash-mints",
-      "last_verified": "2026-08-07"
+      "last_verified": "2026-11-09"
     },
     {
       "slug": "spark",
@@ -542,12 +542,12 @@
       "stack_section": "Marketplace",
       "latest_release": "v3.13.0 \"Dark Horse\"",
       "links": {
-        "site": "https://boltz.exchange",
-        "docs": "https://docs.boltz.exchange",
+        "site": "https://github.com/BoltzExchange",
+        "docs": "https://github.com/BoltzExchange/docs",
         "repo": "https://github.com/BoltzExchange/boltz-backend"
       },
       "card_url": "https://bitcoineconomy.ai/tools/boltz",
-      "last_verified": "2026-08-07"
+      "last_verified": "2026-11-09"
     },
     {
       "slug": "loop",

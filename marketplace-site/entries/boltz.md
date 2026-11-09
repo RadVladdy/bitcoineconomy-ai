@@ -11,8 +11,8 @@ SUSPENDED since 2026-08-03 — Boltz has disabled all swap services indefinitely
 - Automatability: limited — No public trading/provisioning API — scheduled or app-driven flows only
 - Auth: n/a — service suspended 2026-08-03
 - Quickstart: Do not integrate. Swaps are disabled indefinitely as of 2026-08-03. Separately, Boltz now requires integrations to use an official SDK rather than the raw REST API, which their own agent-facing docs say "can cause loss of user funds" if hand-rolled.
-- Site: https://boltz.exchange
-- Docs/API: https://api.docs.boltz.exchange
+- Site: https://github.com/BoltzExchange
+- Docs/API: https://github.com/BoltzExchange/docs
 - Full card (verified detail, gotchas): https://bitcoineconomy.ai/exchanges/boltz
 - Provenance: curated (last verified 2026-08-07)
 
