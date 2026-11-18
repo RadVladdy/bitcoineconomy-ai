@@ -230,7 +230,7 @@ That is worth more than a hundred architecture diagrams, and it costs this site 
 
 **Cross-references.** [[Exchange]] (the venue's card is kept, unfeatured, for the record; SideSwap and SideShift carry the non-custodial path now); [[Independence-Doctrine|Independence Doctrine]] (the argument that a dependency you cannot exit is the whole problem — here, exercised); [[Stack]] (§6 — the security patterns, read now from the operator's side of the table rather than the user's); [[Case]] (permissionless custody, demonstrated by its operator's absence rather than its presence); [[Field-Notes]] (State of Play).
 
-**Sources.** [boltz.exchange](https://boltz.exchange) — the suspension notice, dated *3 August 2026*, read directly from the site's production bundle 2026-08-07 (all quotations above are verbatim); [api.boltz.exchange/v2/swap/submarine](https://api.boltz.exchange/v2/swap/submarine) — the live pair census showing Bitcoin L1, Lightning, Liquid and Ark and no stablecoin routes (fetched 2026-08-07).
+**Sources.** [boltz.exchange (archived 2026-08-08)](https://web.archive.org/web/20260808063602/https://boltz.exchange/) — the suspension notice, dated *3 August 2026*, read directly from the site's production bundle 2026-08-07 (all quotations above are verbatim); api.boltz.exchange/v2/swap/submarine — the live pair census showing Bitcoin L1, Lightning, Liquid and Ark and no stablecoin routes (fetched 2026-08-07). *The boltz.exchange domains have since stopped resolving, so the first link goes to the Internet Archive's copy and the API address is left unlinked.*
 
 ---
 
